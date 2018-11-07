@@ -1,6 +1,8 @@
-import firebase from 'firebase'
+import firebaseClient from 'firebase'
 import config from 'config'
 
-let app = firebase.initializeApp(config)
+let firebase = firebaseClient.initializeApp(config)
+let database = firebase.database()
 
-export default app
+export default firebase
+export { database }
