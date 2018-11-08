@@ -5,24 +5,3 @@
 	font-size: 1.2rem;
 	/* background-color: #212329; */
 }
-
-.nav-bar {
-	display: flex;
-	align-items: flex-end;
-
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-
-	color: white;
-	font-weight: 600;
-
-	padding-top: 3rem;
-}
-
-.nav-bar > .nav-right {
-	display: flex;
-	justify-content: flex-end;
-
-	width: 100%;
-}
