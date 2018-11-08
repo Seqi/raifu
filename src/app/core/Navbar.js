@@ -9,9 +9,7 @@ class Navbar extends Component {
 					<span className='title'>Raifu</span>
 				</div>
 				<div className='nav-right'>
-					<button type='button' onClick={ login() }>
-						Login
-					</button>
+					<button type='button'>Login</button>
 				</div>
 			</div>
 		)
