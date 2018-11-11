@@ -1,7 +1,19 @@
 .app {
 	height: 100vh;
-	background-color: #282b35;
 
+	color: white;
 	font-size: 1.2rem;
+	overflow: auto;
 	/* background-color: #212329; */
+}
+
+.ignore-default {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	text-decoration: inherit;
 }

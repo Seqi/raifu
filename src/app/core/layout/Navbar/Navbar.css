@@ -1,0 +1,10 @@
+.navbar {
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	margin: 40px 40px 10px 40px;
+}
+
+.user-menu {
+	float: right;
+}

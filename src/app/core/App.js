@@ -1,12 +1,21 @@
-import React, { Component } from 'react'
 import './App.css'
-import Navbar from './Navbar'
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+
+import AuthPage from './auth/AuthPage'
+import Main from './layout/Main'
 
 class App extends Component {
 	render() {
 		return (
 			<div className='app'>
-				<Navbar />
+				<Router>
+					<Switch>
+						<Route path='/login' component={ AuthPage } />
+						<Route path='/app' component={ Main } />
+						<Redirect from='/' to='/login' />
+					</Switch>
+				</Router>
 			</div>
 		)
 	}

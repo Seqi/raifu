@@ -1,4 +1,4 @@
-export default {
+module.exports =  {
 	firebase: {
 		apiKey: process.env.FIREBASE_APIKEY,
 		authDomain: process.env.FIREBASE_AUTH_DOMAIN,

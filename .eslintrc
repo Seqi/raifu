@@ -30,7 +30,7 @@
 		"jsx-quotes": ["error", "prefer-single"],
 		"comma-spacing": ["error", { "before": false, "after": true }],
 		"keyword-spacing": ["warn", { "before": true, "after": true }],
-		"newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
+		"newline-per-chained-call": ["error", { "ignoreChainWithDepth": 1 }],
 		"react/button-has-type": "warn",
 		"react/no-access-state-in-setstate": "error",
 		"react/no-deprecated": "error",
@@ -47,7 +47,7 @@
 		"react/no-unsafe": "error",
 		"react/no-unknown-property": "error",
 		"react/react-in-jsx-scope": "error",
-		"react/prop-types": "error",
+		"react/prop-types": ["error", { "ignore": ["children", "theme", "history"] }],
 		"react/require-default-props": "error",
 		"react/require-render-return": "error",
 		"react/self-closing-comp": [

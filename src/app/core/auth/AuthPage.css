@@ -1,0 +1,17 @@
+.auth-container {
+	margin: 10% auto;
+	max-width: 600px;
+}
+
+.logo-box {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+.title {
+	font-size: 3rem;
+	padding-right: 20px;
+	padding-top: 10px;
+	letter-spacing: 2px;
+}
