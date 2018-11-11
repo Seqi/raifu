@@ -1,3 +1,4 @@
+import './Main.css'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
@@ -46,8 +47,10 @@ class Main extends Component {
 						<Tab label='Loadouts' />
 					</Tabs>
 
-					{tabIndex === 0 && <Armory />}
-					{tabIndex === 1 && <Loadouts />}
+					<div className='app-window'>
+						{tabIndex === 0 && <Armory />}
+						{tabIndex === 1 && <Loadouts />}
+					</div>
 				</div>
 			)
 		)
