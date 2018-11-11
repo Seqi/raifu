@@ -1,6 +1,6 @@
 import './SignupPage.css'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -40,6 +40,10 @@ class LoginPage extends Component {
 				<CardContent>
 					{this.state.error && <AuthError message={ this.state.errorMessage } />}
 					<SignupForm onSubmit={ (email, pass) => this.signupWithEmail(email, pass) } />
+
+					<div className='login-signup'>
+						<Link to='../'>Already have an account? Log in</Link>
+					</div>
 				</CardContent>
 			</Card>
 		)
