@@ -1,5 +1,5 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import SignupForm from './SignupForm'
 import { Button } from '@material-ui/core'
 
@@ -12,11 +12,11 @@ beforeEach(() => {
 })
 
 it('renders without crashing', () => {
-	mount(signupForm)
+	shallow(signupForm)
 })
 
 it('disables the sign up button with an empty form', () => {
-	let component = mount(signupForm)
+	let component = shallow(signupForm)
 
 	expect(component.find(Button)
 		.prop('disabled'))
@@ -24,7 +24,7 @@ it('disables the sign up button with an empty form', () => {
 })
 
 it('disables the sign up button with mismatched passwords', () => {
-	let component = mount(signupForm)
+	let component = shallow(signupForm)
 	component.setState({
 		email: 'test',
 		password: 'password',
@@ -37,7 +37,7 @@ it('disables the sign up button with mismatched passwords', () => {
 })
 
 it('enables the sign up button with a valid form', () => {
-	let component = mount(signupForm)
+	let component = shallow(signupForm)
 	component.setState({
 		email: 'test',
 		password: 'password',
@@ -50,7 +50,7 @@ it('enables the sign up button with a valid form', () => {
 })
 
 it('displays an error with mismatched passwords', () => {
-	let component = mount(signupForm)
+	let component = shallow(signupForm)
 	component.setState({
 		email: 'test',
 		password: 'password',
@@ -61,4 +61,27 @@ it('displays an error with mismatched passwords', () => {
 
 	expect(passwordEl.prop('error'))
 		.toBe(true)
+})
+
+it('should call the onSubmit prop with email and password when form is submitted', () => {
+	let preventDefaultMock = jest.fn()
+
+	let component = shallow(signupForm)
+	component.setState({
+		email: 'test',
+		password: 'password',
+		confirmPassword: 'password'
+	})
+
+	component.find('form')
+		.simulate('submit', { preventDefault: preventDefaultMock })
+
+	expect(preventDefaultMock.mock.calls.length)
+		.toBe(1)
+	expect(onSubmitMock.mock.calls.length)
+		.toBe(1)
+	expect(onSubmitMock.mock.calls[0][0])
+		.toBe('test')
+	expect(onSubmitMock.mock.calls[0][1])
+		.toBe('password')
 })
