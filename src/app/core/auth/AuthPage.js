@@ -7,7 +7,7 @@ import LoginPage from './Login/LoginPage'
 import SignupPage from './Signup/SignupPage'
 import authClient from '../../../firebase/auth'
 
-class Auth extends Component {
+class AuthPage extends Component {
 	constructor(props) {
 		super(props)
 		// Listen out for successful login to redirect back
@@ -38,4 +38,4 @@ class Auth extends Component {
 	}
 }
 
-export default Auth
+export default AuthPage

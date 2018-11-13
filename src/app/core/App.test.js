@@ -1,9 +1,16 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
+import { mount } from 'enzyme'
 
-it('renders without crashing', () => {
-	const div = document.createElement('div')
-	ReactDOM.render(<App />, div)
-	ReactDOM.unmountComponentAtNode(div)
+import App from './App'
+import Main from './layout/Main'
+import AuthPage from './auth/AuthPage'
+
+it('renders and defaults to login page', () => {
+	let component = mount(<App />)
+
+	expect(component.find(Main).length)
+		.toBe(0)
+
+	expect(component.find(AuthPage).length)
+		.toBe(1)
 })
