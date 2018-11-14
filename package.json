@@ -4,7 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"@material-ui/core": "^3.4.0",
-		"eslint": "^5.6.0",
+		"firebase": "^5.5.7",
 		"react": "^16.6.0",
 		"react-dom": "^16.6.0",
 		"react-router-dom": "^4.3.1",
@@ -28,8 +28,8 @@
 	"devDependencies": {
 		"enzyme": "^3.7.0",
 		"enzyme-adapter-react-16": "^1.7.0",
+		"eslint": "^5.6.0",
 		"eslint-plugin-react": "^7.11.1",
-		"firebase": "^5.5.7",
 		"prettier": "^1.14.3"
 	}
 }

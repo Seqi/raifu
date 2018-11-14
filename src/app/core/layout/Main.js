@@ -30,7 +30,6 @@ class Main extends Component {
 	}
 
 	tabChange(evt, tabIndex) {
-		console.log(evt)
 		this.setState({ tabIndex })
 	}
 

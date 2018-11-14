@@ -1,12 +1,14 @@
-import './User.css'
+import './UserMenu.css'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Avatar from '@material-ui/core/Avatar'
 
 import auth from '../../../../firebase/auth'
 
-class User extends Component {
+class UserMenu extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -29,16 +31,17 @@ class User extends Component {
 
 	render() {
 		let { anchor } = this.state
+		let { user } = this.props
 		let isOpen = !!anchor
 
 		return (
 			<div className='user-profile'>
-				<span className='user-name'>{auth.user.displayName || auth.user.email}</span>
+				<span className='user-name'>{user.displayName || user.email}</span>
 				<button type='button' className='avatar-button' onClick={ this.handleMenu }>
-					{auth.user.photoURL ? (
+					{user.photoURL ? (
 						<Avatar
-							alt={ auth.user.displayName || auth.user.email }
-							src={ auth.user.photoURL }
+							alt={ user.displayName || user.email }
+							src={ user.photoURL }
 							aria-owns={ isOpen ? 'auth-menu' : undefined }
 							aria-haspopup='true'
 						/>
@@ -67,4 +70,8 @@ class User extends Component {
 	}
 }
 
-export default User
+UserMenu.propTypes = {
+	user: PropTypes.object.isRequired
+}
+
+export default UserMenu
