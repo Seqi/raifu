@@ -1,11 +1,13 @@
-let __authChangedHandler = () => {}
+let __authChangedHandlers = []
 let __triggerErrorOnLogin = false
 export default {
 	__changeAuth: (user) => {
-		__authChangedHandler(user)
+		__authChangedHandlers.forEach((func) => {
+			func(user)
+		})
 	},
 	onAuthChanged: (fun) => {
-		__authChangedHandler = fun
+		__authChangedHandlers.push(fun)
 	},
 	__triggerErrorOnLogin: (triggerError) => (__triggerErrorOnLogin = triggerError),
 	user: {},

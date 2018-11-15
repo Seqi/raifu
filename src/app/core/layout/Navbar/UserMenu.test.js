@@ -45,11 +45,9 @@ it('shows menu items when avatar clicked', () => {
 	btn.props()
 		.onClick({ currentTarget: btn.getDOMNode() })
 
-	process.nextTick(() => {
-		expect(wrapper.update()
-			.find(MenuItem).length)
-			.toBeGreaterThan(0)
-	})
+	expect(wrapper.update()
+		.find(MenuItem).length)
+		.toBeGreaterThan(0)
 })
 
 it('has a logout button which logs the user out when clicked', () => {
@@ -60,8 +58,6 @@ it('has a logout button which logs the user out when clicked', () => {
 
 	btn.props()
 		.onClick({ currentTarget: btn.getDOMNode() })
-
-	// Wait for the menu to open before continuing
 
 	wrapper
 		.update()
