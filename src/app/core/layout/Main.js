@@ -5,10 +5,10 @@ import { withRouter } from 'react-router-dom'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 
-import auth from '../../../firebase/auth'
 import Navbar from './Navbar/Navbar'
 import Armory from '../../features/Armory/Armory'
 import Loadouts from '../../features/Loadouts/Loadouts'
+import auth from '../../../firebase/auth'
 
 class Main extends Component {
 	constructor(props) {
@@ -36,22 +36,22 @@ class Main extends Component {
 	render() {
 		let { tabIndex } = this.state
 
-		return (
-			auth.user && (
-				<div>
-					<Navbar />
+		return auth.user ? (
+			<div>
+				<Navbar />
 
-					<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
-						<Tab label='Armory' />
-						<Tab label='Loadouts' />
-					</Tabs>
+				<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
+					<Tab label='Armory' />
+					<Tab label='Loadouts' />
+				</Tabs>
 
-					<div className='app-window'>
-						{tabIndex === 0 && <Armory />}
-						{tabIndex === 1 && <Loadouts />}
-					</div>
+				<div className='app-window'>
+					{tabIndex === 0 && <Armory />}
+					{tabIndex === 1 && <Loadouts />}
 				</div>
-			)
+			</div>
+		) : (
+			<div />
 		)
 	}
 }

@@ -59,8 +59,6 @@ it('has a logout button which logs the user out when clicked', () => {
 	btn.props()
 		.onClick({ currentTarget: btn.getDOMNode() })
 
-	// Wait for the menu to open before continuing
-
 	wrapper
 		.update()
 		.findWhere((node) => node.name() === 'MenuItem' && node.contains('Logout'))
