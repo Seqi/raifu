@@ -32,15 +32,13 @@ it('should have a disabled login button if just the email is populated', () => {
 	emailEl.props()
 		.onChange({ target: { id: 'email', value: 'email@email' } })
 
-	process.nextTick(() => {
-		expect(
-			wrapper
-				.update()
-				.find(Button)
-				.prop('disabled')
-		)
-			.toBe(true)
-	})
+	expect(
+		wrapper
+			.update()
+			.find(Button)
+			.prop('disabled')
+	)
+		.toBe(true)
 })
 
 it('should enable the login button if both fields are populated', () => {
@@ -56,15 +54,13 @@ it('should enable the login button if both fields are populated', () => {
 		.props()
 		.onChange({ target: { id: 'password', value: 'password' } })
 
-	process.nextTick(() => {
-		expect(
-			wrapper
-				.update()
-				.find(Button)
-				.prop('disabled')
-		)
-			.toBe(false)
-	})
+	expect(
+		wrapper
+			.update()
+			.find(Button)
+			.prop('disabled')
+	)
+		.toBe(false)
 })
 
 it('should call onsubmit prop when form is submitted', () => {
