@@ -1,0 +1,21 @@
+.add-card {
+	display: inline-block;
+}
+
+.add-card > * {
+	padding: 80px 40px;
+}
+
+.add-card .add-card-btn {
+	background-color: inherit;
+	cursor: pointer;
+	border: 0;
+	padding: 40px;
+	border-radius: 50%;
+	background-color: #4f5463b0;
+}
+
+.add-card .add-card-btn > i {
+	color: white;
+	font-size: 4rem;
+}
