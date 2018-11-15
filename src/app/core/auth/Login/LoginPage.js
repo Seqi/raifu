@@ -60,10 +60,10 @@ class LoginPage extends Component {
 					<div className='login-providers-container'>
 						<div>Or sign in with..</div>
 						<div className='login-providers'>
-							<IconButton onClick={ () => this.loginWithProvider('twitter') }>
+							<IconButton id='twitter-icon' onClick={ () => this.loginWithProvider('twitter') }>
 								<Icon color='primary' className='fab fa-twitter' />
 							</IconButton>
-							<IconButton onClick={ () => this.loginWithProvider('google') }>
+							<IconButton id='google-icon' onClick={ () => this.loginWithProvider('google') }>
 								<Icon color='primary' className='fab fa-google' />
 							</IconButton>
 						</div>

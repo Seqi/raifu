@@ -1,10 +1,22 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { mount } from 'enzyme'
+
 import App from './App'
+import Main from './layout/Main'
+import AuthPage from './auth/AuthPage'
+
+jest.mock('../../firebase/auth')
 
 it('renders without crashing', () => {
-	console.log('Running in ', process.env.NODE_ENV)
-	const div = document.createElement('div')
-	ReactDOM.render(<App />, div)
-	ReactDOM.unmountComponentAtNode(div)
+	mount(<App />)
+})
+
+it('defaults to auth page', () => {
+	let component = mount(<App />)
+
+	expect(component.find(AuthPage).length)
+		.toBe(1)
+
+	expect(component.find(Main).length)
+		.toBe(0)
 })
