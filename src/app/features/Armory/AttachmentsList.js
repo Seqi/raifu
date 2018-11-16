@@ -7,7 +7,9 @@ class AttachmentsList extends Component {
 		return (
 			<div>
 				<h2>Attachments</h2>
-				<AddCard />
+				<div className='card-list'>
+					<AddCard />
+				</div>
 			</div>
 		)
 	}

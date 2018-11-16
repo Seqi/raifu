@@ -9,3 +9,18 @@
 .section-title {
 	font-size: 2rem;
 }
+
+.card-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.card-list .card {
+	min-height: 300px;
+	min-width: 220px;
+	margin-top: 10px;
+}
+
+.card-list .card:not(:last-child) {
+	margin-right: 20px;
+}

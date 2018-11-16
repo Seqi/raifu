@@ -7,7 +7,9 @@ class TacGearList extends Component {
 		return (
 			<div>
 				<h2>Tactical Gear</h2>
-				<AddCard />
+				<div className='card-list'>
+					<AddCard />
+				</div>
 			</div>
 		)
 	}

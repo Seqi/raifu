@@ -9,15 +9,13 @@ class AddCard extends PureComponent {
 	render() {
 		let { theme } = this.props
 		return (
-			<div>
-				<div className='add-card'>
-					<Card>
-						<button type='button' className='add-card-btn'>
-							<i style={ { color: theme.palette.primary.main } } className='fa fa-plus' />
-						</button>
-					</Card>
+			<Card className='card add-card'>
+				<div className='add-card-btn-wrapper'>
+					<button type='button' className='add-card-btn'>
+						<i style={ { color: theme.palette.primary.main } } className='fa fa-plus' />
+					</button>
 				</div>
-			</div>
+			</Card>
 		)
 	}
 }
