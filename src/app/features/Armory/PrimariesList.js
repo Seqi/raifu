@@ -19,27 +19,31 @@ class PrimariesList extends Component {
 		database.primaries
 			.get()
 			.then((weapons) => {
-				console.log('got', weapons[0])
-				this.setState({ weapons: weapons || [] })
+				this.setState({ weapons })
 			})
 			.catch((err) => this.setState({ error: err.message }))
 	}
+
+	add() {}
 
 	render() {
 		let { weapons, error } = this.state
 		return (
 			<div>
 				<h2>Primaries</h2>
-				{error && <div>Error: {error}</div>}
-				<div className='card-list'>
-					{weapons.map((weapon, idx) => (
-						<Card className='card' key={ idx }>
-							<CardHeader title={ weapon.name }>{JSON.stringify(weapon)}</CardHeader>
-							<CardContent />
-						</Card>
-					))}
-					<AddCard />
-				</div>
+				{error ? (
+					<div className='error-alert'>Error: {error}</div>
+				) : (
+					<div className='card-list'>
+						{weapons.map((weapon, idx) => (
+							<Card className='card' key={ idx }>
+								<CardHeader title={ weapon.name } />
+								<CardContent>{JSON.stringify(weapon)}</CardContent>
+							</Card>
+						))}
+						<AddCard onClick={ () => this.add() } />
+					</div>
+				)}
 			</div>
 		)
 	}

@@ -7,11 +7,11 @@ import { withTheme } from '@material-ui/core'
 
 class AddCard extends PureComponent {
 	render() {
-		let { theme } = this.props
+		let { theme, onClick } = this.props
 		return (
 			<Card className='card add-card'>
 				<div className='add-card-btn-wrapper'>
-					<button type='button' className='add-card-btn'>
+					<button onClick={ onClick } type='button' className='add-card-btn'>
 						<i style={ { color: theme.palette.primary.main } } className='fa fa-plus' />
 					</button>
 				</div>
@@ -21,7 +21,7 @@ class AddCard extends PureComponent {
 }
 
 AddCard.propTypes = {
-	onAdd: PropTypes.func.isRequired
+	onClick: PropTypes.func.isRequired
 }
 
 export default withTheme()(AddCard)

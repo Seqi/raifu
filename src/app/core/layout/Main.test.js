@@ -6,6 +6,7 @@ import Main from './Main'
 
 import auth from '../../../firebase/auth'
 jest.mock('../../../firebase/auth')
+jest.mock('../../../firebase/database')
 
 let component
 

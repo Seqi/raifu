@@ -6,6 +6,7 @@ import Main from './layout/Main'
 import AuthPage from './auth/AuthPage'
 
 jest.mock('../../firebase/auth')
+jest.mock('../../firebase/database')
 
 it('renders without crashing', () => {
 	mount(<App />)
