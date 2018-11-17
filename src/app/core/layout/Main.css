@@ -21,6 +21,14 @@
 	margin-top: 10px;
 }
 
+.card-list .card:hover {
+	min-height: 300px;
+	min-width: 220px;
+	margin-top: 10px;
+	transform: scale(1.05);
+	transition: transform ease-in 0.15s;
+}
+
 .card-list .card:not(:last-child) {
 	margin-right: 20px;
 }
