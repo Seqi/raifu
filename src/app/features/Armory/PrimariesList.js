@@ -25,7 +25,7 @@ class PrimariesList extends Component {
 			.then((weapons) => {
 				this.setState({ weapons, loading: false })
 			})
-			.catch((err) => this.setState({ error: err.message }))
+			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
 	add() {
