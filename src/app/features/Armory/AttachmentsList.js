@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import AddCard from '../../shared/components/AddCard'
+import AddCard from '../../shared/components/Cards/AddCard'
 
 class AttachmentsList extends Component {
 	add() {}

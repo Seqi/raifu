@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 
-import AddCard from '../../shared/components/AddCard'
+import { Card, CardContent, CardHeader } from '@material-ui/core'
 import AddPrimaryDialog from './AddPrimaryDialog'
+import AddCard from '../../shared/components/Cards/AddCard'
 
 import database from '../../../firebase/database'
-import { Card, CardContent, CardHeader } from '@material-ui/core'
+import Loader from '../../shared/components/Loader'
 
 class PrimariesList extends Component {
 	constructor(props) {
@@ -12,6 +13,7 @@ class PrimariesList extends Component {
 
 		this.state = {
 			weapons: [],
+			loading: true,
 			isAddDialogOpen: false,
 			error: null
 		}
@@ -21,7 +23,7 @@ class PrimariesList extends Component {
 		database.primaries
 			.get()
 			.then((weapons) => {
-				this.setState({ weapons })
+				this.setState({ weapons, loading: false })
 			})
 			.catch((err) => this.setState({ error: err.message }))
 	}
@@ -48,11 +50,13 @@ class PrimariesList extends Component {
 	}
 
 	render() {
-		let { weapons, error } = this.state
+		let { weapons, error, loading } = this.state
 		return (
 			<div>
 				<h2>Primaries</h2>
-				{error ? (
+				{loading ? (
+					<Loader />
+				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
 					<div className='card-list'>

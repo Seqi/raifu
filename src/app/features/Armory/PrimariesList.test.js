@@ -2,7 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 
 import PrimariesList from './PrimariesList'
-import AddCard from '../../shared/components/AddCard'
+import AddCard from '../../shared/components/Cards/AddCard'
 
 import auth from '../../../firebase/auth'
 import database from '../../../firebase/database'
