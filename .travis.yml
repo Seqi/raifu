@@ -4,7 +4,10 @@ node_js:
 cache:
     directories:
         - node_modules
+before_script:
+    - npm i firebase
 script:
     - npm run lint
     - npm test
     - npm run build
+    - firebase database:update / database.seed.json
