@@ -11,9 +11,13 @@ class Navbar extends Component {
 			user: auth.user
 		}
 
-		auth.onAuthChanged((user) => {
+		this.authUnsubscribe = auth.onAuthChanged((user) => {
 			this.setState({ user })
 		})
+	}
+
+	componentWillUnmount() {
+		this.authUnsubscribe()
 	}
 
 	render() {

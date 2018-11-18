@@ -1,6 +1,6 @@
-import PrimariesList from './PrimariesList'
-import SecondariesList from './SecondariesList'
-import AttachmentsList from './AttachmentsList'
-import TacGearList from './TacGearList'
+import PrimariesList from './Primaries/PrimariesList'
+import SecondariesList from './Secondaries/SecondariesList'
+import AttachmentsList from './Attachments/AttachmentsList'
+import GearList from './Gear/GearList'
 
-export { PrimariesList, SecondariesList, AttachmentsList, TacGearList }
+export { PrimariesList, SecondariesList, AttachmentsList, GearList }

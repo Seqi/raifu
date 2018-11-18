@@ -12,11 +12,15 @@ class AuthPage extends Component {
 		super(props)
 		// Listen out for successful login to redirect back
 		// also handles if they're already authenticated
-		authClient.onAuthChanged((user) => {
+		this.authUnsubscribe = authClient.onAuthChanged((user) => {
 			if (user) {
 				this.props.history.push('/app')
 			}
 		})
+	}
+
+	componentWillUnmount() {
+		this.authUnsubscribe()
 	}
 
 	render() {

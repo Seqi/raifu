@@ -2,11 +2,18 @@
 	display: inline-block;
 }
 
-.add-card > * {
-	padding: 80px 40px;
+.add-card-btn-wrapper {
+	position: relative;
+	height: 100%;
 }
 
 .add-card .add-card-btn {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translateX(-50%) translateY(-50%);
+
 	background-color: inherit;
 	cursor: pointer;
 	border: 0;

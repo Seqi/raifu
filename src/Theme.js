@@ -25,5 +25,16 @@ export default createMuiTheme({
 			'"Segoe UI Emoji"',
 			'"Segoe UI Symbol"'
 		].join(',')
+	},
+	overrides: {
+		MuiCardHeader: {
+			title: {
+				textTransform: 'uppercase',
+				fontSize: '1.1rem',
+				fontWeight: '700',
+				paddingBottom: '5px',
+				borderBottom: '2px solid #CA054D'
+			}
+		}
 	}
 })

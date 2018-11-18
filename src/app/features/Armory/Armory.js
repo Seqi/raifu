@@ -1,6 +1,6 @@
 import './Armory.css'
 import React, { Component } from 'react'
-import { PrimariesList, SecondariesList, AttachmentsList, TacGearList } from './'
+import { PrimariesList, SecondariesList, AttachmentsList, GearList } from './'
 
 class Armory extends Component {
 	render() {
@@ -18,7 +18,7 @@ class Armory extends Component {
 					<AttachmentsList />
 				</div>
 				<div className='section-container'>
-					<TacGearList />
+					<GearList />
 				</div>
 			</div>
 		)
