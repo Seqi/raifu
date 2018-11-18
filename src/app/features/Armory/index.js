@@ -1,5 +1,5 @@
 import PrimariesList from './Primaries/PrimariesList'
-import SecondariesList from './SecondariesList'
+import SecondariesList from './Secondaries/SecondariesList'
 import AttachmentsList from './AttachmentsList'
 import TacGearList from './TacGearList'
 

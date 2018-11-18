@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
-import AddPrimaryDialog from './AddPrimaryDialog'
+import AddSecondaryDialog from './AddSecondaryDialog'
 
 import database from '../../../../firebase/database'
 import Loader from '../../../shared/components/Loader'
 import CardList from '../../../shared/components/Cards/CardList'
 
-class PrimariesList extends Component {
+class SecondariesList extends Component {
 	constructor(props) {
 		super(props)
 
@@ -19,7 +19,7 @@ class PrimariesList extends Component {
 	}
 
 	componentDidMount() {
-		database.primaries
+		database.secondaries
 			.get()
 			.then((weapons) => {
 				this.setState({ weapons, loading: false })
@@ -36,9 +36,9 @@ class PrimariesList extends Component {
 	}
 
 	save(value) {
-		database.primaries
+		database.secondaries
 			.add(value)
-			.then((ref) => database.primaries.getById(ref.key))
+			.then((ref) => database.secondaries.getById(ref.key))
 			.then((newVal) =>
 				this.setState((prevState) => ({
 					weapons: [...prevState.weapons, newVal]
@@ -51,7 +51,7 @@ class PrimariesList extends Component {
 		let { weapons, error, loading } = this.state
 		return (
 			<div>
-				<h2>PRIMARIES</h2>
+				<h2>SECONDARIES</h2>
 				{loading ? (
 					<Loader />
 				) : error ? (
@@ -60,7 +60,7 @@ class PrimariesList extends Component {
 					<CardList items={ weapons } onAdd={ () => this.add() } />
 				)}
 
-				<AddPrimaryDialog
+				<AddSecondaryDialog
 					isOpen={ this.state.isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
 					onClose={ () => this.handleDialogClose() }
@@ -70,4 +70,4 @@ class PrimariesList extends Component {
 	}
 }
 
-export default PrimariesList
+export default SecondariesList
