@@ -4,8 +4,8 @@
 }
 
 .card-list .card {
-	min-height: 300px;
-	min-width: 220px;
+	height: 300px;
+	width: 220px;
 	margin-top: 10px;
 	opacity: 0;
 	animation-fill-mode: forwards;
@@ -25,9 +25,6 @@
 }
 
 .card-list .card:hover {
-	min-height: 300px;
-	min-width: 220px;
-	margin-top: 10px;
 	transform: scale(1.05);
 	transition: transform ease-in 0.15s;
 }
