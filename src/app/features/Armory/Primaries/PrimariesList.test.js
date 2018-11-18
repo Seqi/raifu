@@ -1,12 +1,12 @@
 import React from 'react'
 import { mount } from 'enzyme'
+import { Card } from '@material-ui/core/Card'
 
 import PrimariesList from './PrimariesList'
-import AddCard from '../../shared/components/Cards/AddCard'
+import AddCard from '../../../../shared/components/Cards/AddCard'
 
-import auth from '../../../firebase/auth'
-import database from '../../../firebase/database'
-import { Card } from '@material-ui/core'
+import auth from '../../../../firebase/auth'
+import database from '../../../../firebase/database'
 jest.mock('../../../firebase/auth')
 jest.mock('../../../firebase/database')
 

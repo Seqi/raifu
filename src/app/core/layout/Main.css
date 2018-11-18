@@ -9,39 +9,3 @@
 .section-title {
 	font-size: 2rem;
 }
-
-.card-list {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.card-list .card {
-	min-height: 300px;
-	min-width: 220px;
-	margin-top: 10px;
-	animation-duration: 1s;
-	animation-iteration-count: 1;
-	animation-name: fadein;
-}
-
-@keyframes fadein {
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
-	}
-}
-
-.card-list .card:hover {
-	min-height: 300px;
-	min-width: 220px;
-	margin-top: 10px;
-	transform: scale(1.05);
-	transition: transform ease-in 0.15s;
-}
-
-.card-list .card:not(:last-child) {
-	margin-right: 20px;
-}

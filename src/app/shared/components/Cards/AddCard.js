@@ -9,7 +9,7 @@ class AddCard extends PureComponent {
 	render() {
 		let { theme, onClick } = this.props
 		return (
-			<Card className='card add-card'>
+			<Card style={ this.props.style } className='card add-card'>
 				<div className='add-card-btn-wrapper'>
 					<button onClick={ onClick } type='button' className='add-card-btn'>
 						<i style={ { color: theme.palette.primary.main } } className='fa fa-plus' />
@@ -21,7 +21,12 @@ class AddCard extends PureComponent {
 }
 
 AddCard.propTypes = {
-	onClick: PropTypes.func.isRequired
+	onClick: PropTypes.func.isRequired,
+	style: PropTypes.object
+}
+
+AddCard.defaultProps = {
+	style: {}
 }
 
 export default withTheme()(AddCard)

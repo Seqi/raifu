@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 
-import { Card, CardContent, CardHeader } from '@material-ui/core'
 import AddPrimaryDialog from './AddPrimaryDialog'
-import AddCard from '../../shared/components/Cards/AddCard'
 
-import database from '../../../firebase/database'
-import Loader from '../../shared/components/Loader'
+import database from '../../../../firebase/database'
+import Loader from '../../../shared/components/Loader'
+import CardList from '../../../shared/components/Cards/CardList'
 
 class PrimariesList extends Component {
 	constructor(props) {
@@ -28,12 +27,12 @@ class PrimariesList extends Component {
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
-	add() {
-		this.setState({ isAddDialogOpen: true })
-	}
-
 	handleDialogClose() {
 		this.setState({ isAddDialogOpen: false })
+	}
+
+	add() {
+		this.setState({ isAddDialogOpen: true })
 	}
 
 	save(value) {
@@ -41,10 +40,9 @@ class PrimariesList extends Component {
 			.add(value)
 			.then((ref) => database.primaries.getById(ref.key))
 			.then((newVal) =>
-				this.setState((prevState) => {
-					prevState.weapons.push(newVal)
-					return { weapons: prevState.weapons }
-				})
+				this.setState((prevState) => ({
+					weapons: [...prevState.weapons, newVal]
+				}))
 			)
 			.then(() => this.handleDialogClose())
 	}
@@ -59,15 +57,7 @@ class PrimariesList extends Component {
 				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
-					<div className='card-list'>
-						{weapons.map((weapon, idx) => (
-							<Card className='card' key={ idx }>
-								<CardHeader title={ weapon.title } />
-								<CardContent>{JSON.stringify(weapon)}</CardContent>
-							</Card>
-						))}
-						<AddCard onClick={ () => this.add() } />
-					</div>
+					<CardList items={ weapons } onAdd={ () => this.add() } />
 				)}
 
 				<AddPrimaryDialog
