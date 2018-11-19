@@ -13,5 +13,6 @@ export default {
 	primaries: mockEntity(),
 	secondaries: mockEntity(),
 	attachments: mockEntity(),
-	gear: mockEntity()
+	gear: mockEntity(),
+	brands: mockEntity()
 }
