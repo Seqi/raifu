@@ -22,7 +22,7 @@ class CardList extends Component {
 	renderItem = (item, idx) => {
 		return (
 			<Card style={ { animationDelay: this.getAnimationDelay(idx) } } className='card' key={ idx }>
-				<CardHeader title={ item.title } />
+				<CardHeader title={ item.title } subheader={ item.brand || '' } />
 				<CardContent>{JSON.stringify(item)}</CardContent>
 			</Card>
 		)

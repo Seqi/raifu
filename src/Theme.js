@@ -32,6 +32,11 @@ export default createMuiTheme({
 				textTransform: 'uppercase',
 				fontSize: '1.1rem',
 				fontWeight: '700',
+			},
+			subheader: {
+				textTransform: 'uppercase',
+				fontSize: '0.8rem',
+				paddingTop: '-5px',
 				paddingBottom: '5px',
 				borderBottom: '2px solid #CA054D'
 			}
