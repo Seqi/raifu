@@ -10,4 +10,4 @@ script:
     - npm run lint
     - npm test
     - npm run build
-    - firebase database:update / database.seed.json
+    # - firebase database:update / database.seed.json
