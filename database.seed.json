@@ -64,7 +64,7 @@
 		"WinGun"
 	],
 	"platforms": {
-		"assault-rifles": [
+		"assaultRifles": [
 			"M4",
 			"SCAR",
 			"AK47",

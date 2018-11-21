@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import ResourceSelect from '../../../shared/components/Selects/ResourceSelect';
+import { ResourceSelect, WeaponSelect } from '../../../shared/components/Selects'
 
 import database from '../../../../firebase/database'
 
@@ -17,12 +17,14 @@ class AddPrimaryDialog extends Component {
 		super(props)
 		this.state = {
 			title: '',
-			brand: ''
-		}		
+			brand: '',
+			type: '',
+			platform: ''
+		}
 	}
 
 	handleInputChange(e) {
-		this.setState({[e.target.id || e.target.name]: e.target.value})
+		this.setState({ [e.target.id || e.target.name]: e.target.value })
 	}
 
 	handleSave() {
@@ -52,11 +54,14 @@ class AddPrimaryDialog extends Component {
 					/>
 
 					<ResourceSelect
-						label='brand'
-						name='brand' 
-						dataGetter={database.brands.get}
-						onChange={e => this.handleInputChange(e)} 
-						value={brand} />
+						label='Brand'
+						name='brand'
+						dataGetter={ database.brands.get }
+						onChange={ (e) => this.handleInputChange(e) }
+						value={ brand }
+					/>
+
+					<WeaponSelect onChange={ (e) => this.handleInputChange(e) } />
 				</DialogContent>
 
 				<DialogActions>

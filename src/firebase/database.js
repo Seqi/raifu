@@ -4,15 +4,17 @@ import auth from './auth'
 
 let database = client.database(config.firebase.databaseURL)
 
+function useGet(route) {
+	return new Promise((resolve, reject) => {
+		database
+			.ref(route)
+			.once('value', (snap) => resolve(snap.val() ? Object.values(snap.val()) : []), reject)
+	})	
+}
+
 function useCrud(route) {
 	return {
-		get: () => {
-			return new Promise((resolve, reject) => {
-				database
-					.ref(`${route}/${auth.user.uid}`)
-					.once('value', (snap) => resolve(snap.val() ? Object.values(snap.val()) : []), reject)
-			})
-		},
+		get: () => useGet(`${route}/${auth.user.uid}`),
 		getById: (id) => {
 			return new Promise((resolve, reject) => {
 				database.ref(`${route}/${auth.user.uid}/${id}`)
@@ -27,17 +29,18 @@ function useCrud(route) {
 }
 
 export default {
-	primaries: useCrud('primaries'),
-	secondaries: useCrud('secondaries'),
-	attachments: useCrud('attachments'),
-	gear: useCrud('gear'),
+	primaries: useCrud('armory/primaries'),
+	secondaries: useCrud('armory/secondaries'),
+	attachments: useCrud('armory/attachments'),
+	gear: useCrud('armory/gear'),
 	brands: {
-		get: () => {
-			return new Promise((resolve, reject) => {
-				database
-					.ref('brands')
-					.once('value', (snap) => resolve(snap.val() ? Object.values(snap.val()) : []), reject)
-			})
-		}
+		get: () => useGet('brands'),
+	},
+	platforms: {
+		getTypes: () => new Promise((resolve, reject) => { database.ref('platforms')
+			.once('value', (snap) => resolve(snap.val() ? Object.keys(snap.val()) : []), reject)
+		}),
+		get: (platform) => useGet(`platforms/${platform}`)
 	}
 }
+
