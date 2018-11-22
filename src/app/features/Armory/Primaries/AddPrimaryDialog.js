@@ -16,10 +16,11 @@ class AddPrimaryDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			title: '',
 			brand: '',
 			type: '',
-			platform: ''
+			platform: '',
+			model: '',
+			nickname: ''
 		}
 	}
 
@@ -28,28 +29,23 @@ class AddPrimaryDialog extends Component {
 	}
 
 	handleSave() {
-		this.resetForm()
 		this.props.onSave(this.state)
 	}
 
 	formValid() {
-		return !!this.state.title
+		let { platform, nickname } = this.state
+
+		return platform || nickname
 	}
 
 	render() {
-		let { brand } = this.state
-
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ this.props.onClose }>
 				<DialogTitle>Add primary</DialogTitle>
 
 				<DialogContent>
-					<TextField
-						autoFocus={ true }
-						id='title'
-						label='Weapon name'
-						type='text'
-						fullWidth={ true }
+					<WeaponSelect
+						allowedTypes={ ['assaultRifles', 'smgs', 'snipers', 'shotguns', 'support'] }
 						onChange={ (e) => this.handleInputChange(e) }
 					/>
 
@@ -58,13 +54,26 @@ class AddPrimaryDialog extends Component {
 						name='brand'
 						dataGetter={ database.brands.get }
 						onChange={ (e) => this.handleInputChange(e) }
-						value={ brand }
+						value={ this.state.brand }
 					/>
 
-					<WeaponSelect
-						allowedTypes={ ['assaultRifles', 'smgs', 'snipers', 'shotguns', 'support'] }
+					<TextField
+						id='model'
+						label='Model'
+						type='text'
+						fullWidth={ true }
+						onChange={ (e) => this.handleInputChange(e) }
+						helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
+					/>
+
+					<TextField
+						id='nickname'
+						label='Nickname'
+						type='text'
+						fullWidth={ true }
 						onChange={ (e) => this.handleInputChange(e) }
 					/>
+
 				</DialogContent>
 
 				<DialogActions>

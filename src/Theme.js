@@ -40,6 +40,11 @@ export default createMuiTheme({
 				paddingBottom: '5px',
 				borderBottom: '2px solid #CA054D'
 			}
+		},
+		MuiCardContent: {
+			root: {
+				wordBreak: "break-all"
+			}
 		}
 	}
 })
