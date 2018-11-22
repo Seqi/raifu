@@ -61,7 +61,10 @@ class AddPrimaryDialog extends Component {
 						value={ brand }
 					/>
 
-					<WeaponSelect onChange={ (e) => this.handleInputChange(e) } />
+					<WeaponSelect
+						allowedTypes={ ['assaultRifles', 'smgs', 'snipers', 'shotguns', 'support'] }
+						onChange={ (e) => this.handleInputChange(e) }
+					/>
 				</DialogContent>
 
 				<DialogActions>

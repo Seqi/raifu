@@ -7,9 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import MenuItem from '@material-ui/core/MenuItem'
 
-import Loader from '../../../shared/components/Loader'
+import { ResourceSelect, WeaponSelect } from '../../../shared/components/Selects'
 
 import database from '../../../../firebase/database'
 
@@ -17,93 +16,55 @@ class AddSecondaryDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			form: {
-				title: '',
-				brand: ''
-			},
-			brands: [],
-			loading: true,
-			error: null
+			title: '',
+			brand: '',
+			type: '',
+			platform: ''
 		}
-	}
-
-	resetForm() {
-		this.setState({
-			form: {
-				title: '',
-				brand: ''
-			}
-		})
-	}
-
-	componentDidMount() {
-		database.brands
-			.get()
-			.then((brands) => this.setState({ brands, loading: false }))
-			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
 	handleInputChange(e) {
-		let prev = { ...this.state.form }
-		let form = {
-			...prev,
-			[e.target.id || e.target.name]: e.target.value
-		}
-
-		this.setState({ form })
+		this.setState({ [e.target.id || e.target.name]: e.target.value })
 	}
 
 	handleSave() {
 		this.resetForm()
-		this.props.onSave(this.state.form)
+		this.props.onSave(this.state)
 	}
 
 	formValid() {
-		let form = this.state.form
-
-		return !!form.title
+		return !!this.state.title
 	}
 
 	render() {
-		let { brands, loading, error } = this.state
+		let { brand } = this.state
+
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ this.props.onClose }>
-				<DialogTitle color='primary'>Add secondary</DialogTitle>
+				<DialogTitle>Add secondary</DialogTitle>
 
 				<DialogContent>
-					{loading ? (
-						<Loader />
-					) : error ? (
-						<div className='error-alert'>{error}</div>
-					) : (
-						<React.Fragment>
-							<TextField
-								autoFocus={ true }
-								id='title'
-								label='Weapon name'
-								type='text'
-								fullWidth={ true }
-								onChange={ (e) => this.handleInputChange(e) }
-							/>
+					<TextField
+						autoFocus={ true }
+						id='title'
+						label='Weapon name'
+						type='text'
+						fullWidth={ true }
+						onChange={ (e) => this.handleInputChange(e) }
+					/>
 
-							<TextField
-								label='Brand'
-								fullWidth={ true }
-								value={ this.state.form.brand }
-								onChange={ (e) => this.handleInputChange(e) }
-								select={ true }
-								SelectProps={ {
-									name: 'brand'
-								} }
-							>
-								{brands.map((brand, idx) => (
-									<MenuItem key={ brand } value={ brand }>
-										{brand}
-									</MenuItem>
-								))}
-							</TextField>
-						</React.Fragment>
-					)}
+					<ResourceSelect
+						label='Brand'
+						name='brand'
+						dataGetter={ database.brands.get }
+						onChange={ (e) => this.handleInputChange(e) }
+						value={ brand }
+					/>
+
+					<WeaponSelect
+						allowedTypes={ ['pistols', 'smgs', 'shotguns'] }
+						onChange={ (e) => this.handleInputChange(e) }
+					/>
 				</DialogContent>
 
 				<DialogActions>

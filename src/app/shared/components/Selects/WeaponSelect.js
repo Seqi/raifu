@@ -20,6 +20,13 @@ class WeaponSelect extends Component {
 	componentDidMount() {
 		database.platforms
 			.getTypes()
+			.then((types) => {
+				if (this.props.allowedTypes.length > 0) {
+					return types.filter((type) => this.props.allowedTypes.find((t) => t === type))
+				} else {
+					return types
+				}
+			})
 			.then((types) =>
 				types.map((type) => ({ key: type, value: this.convertToSingular(this.convertCamelCaseToLabel(type)) }))
 			)
@@ -99,7 +106,12 @@ class WeaponSelect extends Component {
 }
 
 WeaponSelect.propTypes = {
-	onChange: PropType.func.isRequired
+	onChange: PropType.func.isRequired,
+	allowedTypes: PropType.array
+}
+
+WeaponSelect.defaultProps = {
+	allowedTypes: []
 }
 
 export default WeaponSelect
