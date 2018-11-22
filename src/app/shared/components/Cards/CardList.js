@@ -8,8 +8,6 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
 class CardList extends Component {
-	loaded = false
-
 	componentDidMount() {
 		// Ensure we don't delay the animations once the component loaded
 		this.loaded = true
@@ -22,7 +20,7 @@ class CardList extends Component {
 	renderItem = (item, idx) => {
 		return (
 			<Card style={ { animationDelay: this.getAnimationDelay(idx) } } className='card' key={ idx }>
-				<CardHeader title={ item.title } subheader={ item.brand || '' } />
+				<CardHeader title={ this.props.buildTitle(item) } subheader={ item.brand || '' } />
 				<CardContent>{JSON.stringify(item)}</CardContent>
 			</Card>
 		)
@@ -47,7 +45,12 @@ class CardList extends Component {
 
 CardList.propTypes = {
 	items: PropTypes.array.isRequired,
-	onAdd: PropTypes.func.isRequired
+	onAdd: PropTypes.func.isRequired,
+	buildTitle: PropTypes.func
+}
+
+CardList.defaultProps = {
+	buildTitle: (item) => item.title
 }
 
 export default CardList

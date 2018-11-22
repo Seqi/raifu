@@ -47,6 +47,10 @@ class PrimariesList extends Component {
 			.then(() => this.handleDialogClose())
 	}
 
+	buildTitle(weapon) {
+		return weapon.nickname || `${weapon.platform} ${weapon.model}`
+	}
+
 	render() {
 		let { weapons, error, loading } = this.state
 		return (
@@ -57,7 +61,7 @@ class PrimariesList extends Component {
 				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
-					<CardList items={ weapons } onAdd={ () => this.add() } />
+					<CardList buildTitle={ this.buildTitle } items={ weapons } onAdd={ () => this.add() } />
 				)}
 
 				<AddPrimaryDialog

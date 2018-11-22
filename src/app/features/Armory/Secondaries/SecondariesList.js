@@ -35,6 +35,10 @@ class SecondariesList extends Component {
 		this.setState({ isAddDialogOpen: true })
 	}
 
+	buildTitle(weapon) {
+		return weapon.nickname || `${weapon.platform} ${weapon.model}`
+	}
+
 	save(value) {
 		database.secondaries
 			.add(value)
@@ -57,7 +61,7 @@ class SecondariesList extends Component {
 				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
-					<CardList items={ weapons } onAdd={ () => this.add() } />
+					<CardList buildTitle={ this.buildTitle } items={ weapons } onAdd={ () => this.add() } />
 				)}
 
 				<AddSecondaryDialog
