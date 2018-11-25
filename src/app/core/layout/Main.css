@@ -1,0 +1,11 @@
+.app-window {
+	padding: 40px 60px;
+}
+
+.section-container {
+	display: flex;
+}
+
+.section-title {
+	font-size: 2rem;
+}

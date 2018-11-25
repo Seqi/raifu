@@ -1,0 +1,34 @@
+.card-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.card-list .card {
+	height: 300px;
+	width: 220px;
+	margin-top: 10px;
+	opacity: 0;
+	animation-fill-mode: forwards;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-name: fadein;
+}
+
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.card-list .card:hover {
+	transform: scale(1.05);
+	transition: transform ease-in 0.15s;
+}
+
+.card-list .card:not(:last-child) {
+	margin-right: 20px;
+}
