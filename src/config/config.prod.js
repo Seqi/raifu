@@ -1,4 +1,4 @@
-export default {
+module.exports =  {
 	firebase: {
 		apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
 		authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
