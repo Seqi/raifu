@@ -33,6 +33,7 @@ export default {
 	secondaries: useCrud('armory', 'secondaries'),
 	attachments: useCrud('armory', 'attachments'),
 	gear: useCrud('armory', 'gear'),
+	loadouts: useCrud('loadouts'),
 	brands: {
 		get: () => useGet('brands')
 	},
