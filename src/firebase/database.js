@@ -6,10 +6,9 @@ let database = client.database(config.firebase.databaseURL)
 
 function useGet(route) {
 	return new Promise((resolve, reject) => {
-		database
-			.ref(route)
+		database.ref(route)
 			.once('value', (snap) => resolve(snap.val() ? Object.values(snap.val()) : []), reject)
-	})	
+	})
 }
 
 function useCrud(route) {
@@ -33,14 +32,17 @@ export default {
 	secondaries: useCrud('armory/secondaries'),
 	attachments: useCrud('armory/attachments'),
 	gear: useCrud('armory/gear'),
+	loadouts: useCrud('loadouts'),
 	brands: {
-		get: () => useGet('brands'),
+		get: () => useGet('brands')
 	},
 	platforms: {
-		getTypes: () => new Promise((resolve, reject) => { database.ref('platforms')
-			.once('value', (snap) => resolve(snap.val() ? Object.keys(snap.val()) : []), reject)
-		}),
+		getTypes: () =>
+			new Promise((resolve, reject) => {
+				database
+					.ref('platforms')
+					.once('value', (snap) => resolve(snap.val() ? Object.keys(snap.val()) : []), reject)
+			}),
 		get: (platform) => useGet(`platforms/${platform}`)
 	}
 }
-
