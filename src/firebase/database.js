@@ -29,11 +29,11 @@ function useCrud(route, userRoute) {
 }
 
 export default {
-	primaries: useCrud('armory', 'primaries'),
-	secondaries: useCrud('armory', 'secondaries'),
-	attachments: useCrud('armory', 'attachments'),
-	gear: useCrud('armory', 'gear'),
-	loadouts: useCrud('loadouts', ''),
+	primaries: useCrud('armory/primaries'),
+	secondaries: useCrud('armory/secondaries'),
+	attachments: useCrud('armory/attachments'),
+	gear: useCrud('armory/gear'),
+	loadouts: useCrud('loadouts'),
 	brands: {
 		get: () => useGet('brands')
 	},
