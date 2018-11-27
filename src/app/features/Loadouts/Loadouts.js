@@ -1,8 +1,6 @@
-import './Loadouts.css'
-
 import React, { Component } from 'react'
 
-import AddCard from '../../shared/components/Cards/AddCard'
+import CardList from '../../shared/components/Cards/CardList'
 import AddLoadoutDialog from './AddLoadoutDialog'
 
 import database from '../../../firebase/database'
@@ -59,8 +57,7 @@ class Loadouts extends Component {
 			<div className='error-alert'>Error: {error}</div>
 		) : (
 			<div>
-				{this.renderLoadouts(loadouts)}
-				<AddCard onClick={ () => this.add() } />
+				<CardList buildTitle={ (item) => item.name } items={ loadouts } onAdd={ () => this.add() } cardType="loadout" />
 
 				<AddLoadoutDialog
 					isOpen={ this.state.isDialogOpen }

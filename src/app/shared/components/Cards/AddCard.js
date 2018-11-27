@@ -7,9 +7,9 @@ import { withTheme } from '@material-ui/core'
 
 class AddCard extends PureComponent {
 	render() {
-		let { theme, onClick } = this.props
+		let { theme, onClick, cardType, style } = this.props
 		return (
-			<Card style={ this.props.style } className='card add-card'>
+			<Card style={ style } className={`card add-card ${cardType}-card`}>
 				<div className='add-card-btn-wrapper'>
 					<button onClick={ onClick } type='button' className='add-card-btn'>
 						<i style={ { color: theme.palette.primary.main } } className='fa fa-plus' />
