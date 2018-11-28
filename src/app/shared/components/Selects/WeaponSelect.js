@@ -20,6 +20,7 @@ class WeaponSelect extends Component {
 	componentDidMount() {
 		database.platforms
 			.getTypes()
+			.then(snap => Object.keys(snap.val()))
 			.then((types) => {
 				if (this.props.allowedTypes.length > 0) {
 					return types.filter((type) => this.props.allowedTypes.find((t) => t === type))
@@ -57,6 +58,7 @@ class WeaponSelect extends Component {
 		this.setState({ type: e.target.value, platform: '' })
 
 		database.platforms.get(e.target.value)
+			.then(snap => snap.val() || [])
 			.then((platforms) => this.setState({ platforms }))
 	}
 

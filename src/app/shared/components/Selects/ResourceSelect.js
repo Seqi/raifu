@@ -18,6 +18,7 @@ class ResourceSelect extends Component {
 	componentDidMount() {
 		this.props
 			.dataGetter()
+			.then(snap => snap.val() || [])
 			.then((items) => this.setState({ items, loading: false }))
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}

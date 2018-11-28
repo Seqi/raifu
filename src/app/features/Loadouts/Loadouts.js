@@ -20,6 +20,7 @@ class Loadouts extends Component {
 	componentDidMount() {
 		database.loadouts
 			.get()
+			.then(snap => Object.values(snap.val() || {}))
 			.then((loadouts) => this.setState({ loadouts, loading: false }))
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
@@ -51,12 +52,13 @@ class Loadouts extends Component {
 		) : error ? (
 			<div className='error-alert'>Error: {error}</div>
 		) : (
-			<div>
+			<React.Fragment>
 				<CardList
 					buildTitle={ (item) => item.name }
 					items={ loadouts }
 					cardType='loadout'
 					onAdd={ () => this.add() }
+					onCardClick={ loadout => { console.log(loadout) }}
 				/>
 
 				<AddLoadoutDialog
@@ -64,7 +66,7 @@ class Loadouts extends Component {
 					onSave={ (value) => this.save(value) }
 					onClose={ () => this.handleDialogClose() }
 				/>
-			</div>
+			</React.Fragment>
 		)
 	}
 }
