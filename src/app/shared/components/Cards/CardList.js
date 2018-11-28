@@ -64,7 +64,7 @@ CardList.propTypes = {
 CardList.defaultProps = {
 	buildTitle: (item) => item.title,
 	buildSubtitle: (item) => item.brand,
-	onCardClick: () => { },
+	onCardClick: () => {},
 	cardType: 'weapon'
 }
 

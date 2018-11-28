@@ -1,72 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import AddLoadoutDialog from './AddLoadoutDialog'
-import Loader from '../../shared/components/Loader'
-import CardList from '../../shared/components/Cards/CardList'
+import LoadoutList from './LoadoutList'
+import EditLoadout from './EditLoadout'
 
-import database from '../../../firebase/database'
-
-class Loadouts extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			loadouts: [],
-			loading: true,
-			isDialogOpen: false,
-			error: null
-		}
-	}
-
-	componentDidMount() {
-		database.loadouts
-			.get()
-			.then(snap => Object.values(snap.val() || {}))
-			.then((loadouts) => this.setState({ loadouts, loading: false }))
-			.catch((err) => this.setState({ error: err.message, loading: false }))
-	}
-
-	handleDialogClose() {
-		this.setState({ isDialogOpen: false })
-	}
-
-	add() {
-		this.setState({ isDialogOpen: true })
-	}
-
-	save(value) {
-		database.loadouts
-			.add(value)
-			.then((ref) => database.loadouts.getById(ref.key))
-			.then((newVal) =>
-				this.setState((prevState) => ({
-					loadouts: [...prevState.loadouts, newVal]
-				}))
-			)
-			.then(() => this.handleDialogClose())
-	}
-
+class Loadouts extends React.Component {
 	render() {
-		let { loadouts, error, loading } = this.state
-		return loading ? (
-			<Loader />
-		) : error ? (
-			<div className='error-alert'>Error: {error}</div>
-		) : (
-			<React.Fragment>
-				<CardList
-					buildTitle={ (item) => item.name }
-					items={ loadouts }
-					cardType='loadout'
-					onAdd={ () => this.add() }
-					onCardClick={ loadout => { console.log(loadout) }}
-				/>
-
-				<AddLoadoutDialog
-					isOpen={ this.state.isDialogOpen }
-					onSave={ (value) => this.save(value) }
-					onClose={ () => this.handleDialogClose() }
-				/>
-			</React.Fragment>
+		return (
+			<Router basename='/app'>
+				<Switch>
+					<Route path='/:id' component={ EditLoadout } />
+					<Route path='/' component={ LoadoutList } />
+				</Switch>
+			</Router>
 		)
 	}
 }
