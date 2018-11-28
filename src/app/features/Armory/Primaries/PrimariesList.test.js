@@ -12,7 +12,7 @@ jest.mock('../../../../firebase/database')
 
 beforeEach(() => {
 	auth.user = { uid: '1' }
-	database.primaries.__setData([])
+	database.primaries.__setData({ val: () => ({}) })
 	database.primaries.__setError(null)
 	database.primaries.get.mockClear()
 })
@@ -35,7 +35,7 @@ it('renders with a single add card if no items returned', () => {
 })
 
 it('renders a card for each item, plus one for add card', () => {
-	database.primaries.__setData([{ name: '1' }, { name: '2' }, { name: '3' }])
+	database.primaries.__setData({ val: () => ({ 1: { name: '1' }, 2: { name: '2' }, 3: { name: '3' } }) })
 
 	let wrapper = mount(<PrimariesList />)
 

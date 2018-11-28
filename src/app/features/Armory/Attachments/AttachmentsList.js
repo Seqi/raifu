@@ -21,7 +21,7 @@ class AttachmentsList extends Component {
 	componentDidMount() {
 		database.attachments
 			.get()
-			.then(snap => Object.values(snap.val() || {}))
+			.then((snap) => Object.values(snap.val() || {}))
 			.then((attachments) => {
 				this.setState({ attachments, loading: false })
 			})
