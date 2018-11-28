@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 
-import CardList from '../../shared/components/Cards/CardList'
 import AddLoadoutDialog from './AddLoadoutDialog'
+import Loader from '../../shared/components/Loader'
+import CardList from '../../shared/components/Cards/CardList'
 
 import database from '../../../firebase/database'
-import Loader from '../../shared/components/Loader'
-import Loadout from './Loadout'
 
 class Loadouts extends Component {
 	constructor(props) {
@@ -45,10 +44,6 @@ class Loadouts extends Component {
 			.then(() => this.handleDialogClose())
 	}
 
-	renderLoadouts(loadouts) {
-		return loadouts.map((loadout, idx) => <Loadout loadout={ loadout } key={ idx } />)
-	}
-
 	render() {
 		let { loadouts, error, loading } = this.state
 		return loading ? (
@@ -57,7 +52,12 @@ class Loadouts extends Component {
 			<div className='error-alert'>Error: {error}</div>
 		) : (
 			<div>
-				<CardList buildTitle={ (item) => item.name } items={ loadouts } onAdd={ () => this.add() } cardType="loadout" />
+				<CardList
+					buildTitle={ (item) => item.name }
+					items={ loadouts }
+					cardType='loadout'
+					onAdd={ () => this.add() }
+				/>
 
 				<AddLoadoutDialog
 					isOpen={ this.state.isDialogOpen }

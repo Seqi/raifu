@@ -18,9 +18,15 @@ class CardList extends Component {
 	}
 
 	renderItem = (item, idx) => {
+		let { buildTitle, buildSubtitle } = this.props
+
 		return (
-			<Card style={ { animationDelay: this.getAnimationDelay(idx) } } className={`card ${this.props.cardType}-card`} key={ idx }>
-				<CardHeader title={ this.props.buildTitle(item) } subheader={ item.brand || '' } />
+			<Card
+				style={ { animationDelay: this.getAnimationDelay(idx) } }
+				className={ `card ${this.props.cardType}-card` }
+				key={ idx }
+			>
+				<CardHeader title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
 				<CardContent>{JSON.stringify(item)}</CardContent>
 			</Card>
 		)
@@ -36,7 +42,11 @@ class CardList extends Component {
 			<div>
 				<div className='card-list'>
 					{this.renderItems(items)}
-					<AddCard style={ { animationDelay: this.getAnimationDelay(items.length) } } onClick={ onAdd } cardType={cardType} />
+					<AddCard
+						style={ { animationDelay: this.getAnimationDelay(items.length) } }
+						onClick={ onAdd }
+						cardType={ cardType }
+					/>
 				</div>
 			</div>
 		)
@@ -47,11 +57,13 @@ CardList.propTypes = {
 	items: PropTypes.array.isRequired,
 	onAdd: PropTypes.func.isRequired,
 	buildTitle: PropTypes.func,
+	buildSubtitle: PropTypes.func,
 	cardType: PropTypes.string
 }
 
 CardList.defaultProps = {
 	buildTitle: (item) => item.title,
+	buildSubtitle: (item) => item.brand,
 	cardType: 'weapon'
 }
 
