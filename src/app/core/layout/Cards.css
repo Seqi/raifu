@@ -21,31 +21,31 @@
 	}
 }
 
-.card-list .weapon-card {
+.weapon-card {
 	height: 300px;
 	width: 220px;
 	margin-top: 10px;
 }
 
-.card-list .loadout-card {
+.loadout-card {
 	width: 100%;
 	height: 175px;
 }
 
-.card-list .weapon-card:hover {
+.weapon-card:hover {
 	transform: scale(1.05);
 	transition: transform ease-in 0.15s;
 }
 
-.card-list .loadout-card:hover {
+.loadout-card:hover {
 	transform: scale(1.015);
 	transition: transform ease-in 0.15s;
 }
 
-.card-list .weapon-card:not(:last-child) {
+.weapon-card:not(:last-child) {
 	margin-right: 20px;
 }
 
-.card-list .loadout-card:not(:first-child) {
+.loadout-card:not(:first-child) {
 	margin-top: 20px;
 }
