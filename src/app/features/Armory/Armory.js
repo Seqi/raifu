@@ -5,7 +5,7 @@ import { PrimariesList, SecondariesList, AttachmentsList, GearList } from './'
 class Armory extends Component {
 	render() {
 		return (
-			<div>
+			<React.Fragment>
 				<div className='section-container'>
 					<div className='weapons-list-container'>
 						<PrimariesList />
@@ -20,7 +20,7 @@ class Armory extends Component {
 				<div className='section-container'>
 					<GearList />
 				</div>
-			</div>
+			</React.Fragment>
 		)
 	}
 }

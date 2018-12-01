@@ -21,7 +21,7 @@ class GearList extends Component {
 	componentDidMount() {
 		database.gear
 			.get()
-			.then(snap => Object.values(snap.val() || {}))
+			.then((snap) => Object.values(snap.val() || {}))
 			.then((gear) => {
 				this.setState({ gear, loading: false })
 			})

@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom' 
+import { withRouter } from 'react-router-dom'
 
 import AddCard from '../../shared/components/Cards/AddCard'
 import Loader from '../../shared/components/Loader'
@@ -17,9 +17,10 @@ class EditLoadout extends React.Component {
 	}
 
 	componentDidMount() {
-		database.loadouts.getById(this.props.match.params.id)
-			.then(loadout => this.setState({loadout, loading: false}))
-			.catch(err => this.setState({ error: err.message, loading: false}))
+		database.loadouts
+			.getById(this.props.match.params.id)
+			.then((loadout) => this.setState({ loadout, loading: false }))
+			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
 	componentWillUnmount() {
@@ -31,22 +32,22 @@ class EditLoadout extends React.Component {
 		let { loading, error, loadout } = this.state
 
 		return loading ? (
-				<Loader />
-			) : error ? (
-				<div className='error-alert'>Error: {error}</div>
-			) : (
-			<div>
-				<h2>{ loadout.name }</h2>
+			<Loader />
+		) : error ? (
+			<div className='error-alert'>Error: {error}</div>
+		) : (
+			<React.Fragment>
+				<h2>{loadout.name}</h2>
 				<div>
 					<h3>ADD A PRIMARY</h3>
-					<AddCard onClick={() => {}}/>
+					<AddCard onClick={ () => {} } />
 				</div>
 
 				<div>
 					<h3>ADD A SECONDARY</h3>
-					<AddCard onClick={() => {}}/>
+					<AddCard onClick={ () => {} } />
 				</div>
-			</div>
+			</React.Fragment>
 		)
 	}
 }

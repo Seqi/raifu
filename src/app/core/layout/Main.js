@@ -39,7 +39,7 @@ class Main extends Component {
 		let { tabIndex } = this.state
 
 		return auth.user ? (
-			<div>
+			<React.Fragment>
 				<Navbar />
 
 				<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
@@ -51,7 +51,7 @@ class Main extends Component {
 					{tabIndex === 0 && <Armory />}
 					{tabIndex === 1 && <Loadouts />}
 				</div>
-			</div>
+			</React.Fragment>
 		) : (
 			<div />
 		)

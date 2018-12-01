@@ -21,7 +21,7 @@ class PrimariesList extends Component {
 	componentDidMount() {
 		database.primaries
 			.get()
-			.then(snap => Object.values(snap.val() || {}))
+			.then((snap) => Object.values(snap.val() || {}))
 			.then((weapons) => {
 				this.setState({ weapons, loading: false })
 			})

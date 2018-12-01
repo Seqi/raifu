@@ -21,7 +21,7 @@ class SecondariesList extends Component {
 	componentDidMount() {
 		database.secondaries
 			.get()
-			.then(snap => Object.values(snap.val() || {}))
+			.then((snap) => Object.values(snap.val() || {}))
 			.then((weapons) => {
 				this.setState({ weapons, loading: false })
 			})
