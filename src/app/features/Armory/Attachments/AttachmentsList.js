@@ -11,7 +11,7 @@ class AttachmentsList extends Component {
 		super(props)
 
 		this.state = {
-			attachments: [],
+			attachments: {},
 			loading: true,
 			isAddDialogOpen: false,
 			error: null
@@ -21,9 +21,8 @@ class AttachmentsList extends Component {
 	componentDidMount() {
 		database.attachments
 			.get()
-			.then((snap) => Object.values(snap.val() || {}))
-			.then((attachments) => {
-				this.setState({ attachments, loading: false })
+			.then((snap) => {
+				this.setState({ attachments: snap.val(), loading: false })
 			})
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
@@ -40,12 +39,15 @@ class AttachmentsList extends Component {
 		database.attachments
 			.add(value)
 			.then((ref) => database.attachments.getById(ref.key))
-			.then((snap) => snap.val())
-			.then((newVal) =>
-				this.setState((prevState) => ({
-					attachments: [...prevState.attachments, newVal]
-				}))
-			)
+			.then((snap) => {
+				this.setState((prevState) => {
+					let attachments = {
+						...prevState.attachments,
+						[snap.key]: snap.val()
+					}
+					return { attachments }
+				})
+			})
 			.then(() => this.handleDialogClose())
 	}
 

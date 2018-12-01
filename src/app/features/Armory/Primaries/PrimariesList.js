@@ -21,9 +21,8 @@ class PrimariesList extends Component {
 	componentDidMount() {
 		database.primaries
 			.get()
-			.then((snap) => Object.values(snap.val() || {}))
-			.then((weapons) => {
-				this.setState({ weapons, loading: false })
+			.then((snap) => {
+				this.setState({ weapons: snap.val(), loading: false })
 			})
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
@@ -40,12 +39,15 @@ class PrimariesList extends Component {
 		database.primaries
 			.add(value)
 			.then((ref) => database.primaries.getById(ref.key))
-			.then((snap) => snap.val())
-			.then((newVal) =>
-				this.setState((prevState) => ({
-					weapons: [...prevState.weapons, newVal]
-				}))
-			)
+			.then((snap) => {
+				this.setState((prevState) => {
+					let weapons = {
+						...prevState.weapons,
+						[snap.key]: snap.val()
+					}
+					return { weapons }
+				})
+			})
 			.then(() => this.handleDialogClose())
 	}
 

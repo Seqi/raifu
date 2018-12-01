@@ -12,15 +12,18 @@ class CardList extends Component {
 	}
 
 	renderItems(items) {
-		return items.map(this.renderItem)
+		return Object.keys(items || {})
+			.map((key, idx) => {
+				return this.renderItem(key, items[key], idx)
+			})
 	}
 
-	renderItem = (item, idx) => {
+	renderItem = (key, item, idx) => {
 		let { buildTitle, buildSubtitle, onCardClick } = this.props
 
 		return (
 			<Card
-				onClick={ () => onCardClick(item) }
+				onClick={ () => onCardClick(key) }
 				style={ { animationDelay: this.getAnimationDelay(idx) } }
 				className={ `card ${this.props.cardType}-card` }
 				key={ idx }
@@ -41,7 +44,7 @@ class CardList extends Component {
 			<div className='card-list'>
 				{this.renderItems(items)}
 				<AddCard
-					style={ { animationDelay: this.getAnimationDelay(items.length) } }
+					style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length) } }
 					onClick={ onAdd }
 					cardType={ cardType }
 				/>
@@ -51,7 +54,7 @@ class CardList extends Component {
 }
 
 CardList.propTypes = {
-	items: PropTypes.array.isRequired,
+	items: PropTypes.object,
 	onAdd: PropTypes.func.isRequired,
 	onCardClick: PropTypes.func,
 	buildTitle: PropTypes.func,
@@ -60,6 +63,7 @@ CardList.propTypes = {
 }
 
 CardList.defaultProps = {
+	items: {},
 	buildTitle: (item) => item.title,
 	buildSubtitle: (item) => item.brand,
 	onCardClick: () => {},

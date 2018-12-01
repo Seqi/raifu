@@ -11,7 +11,7 @@ class LoadoutList extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			loadouts: [],
+			loadouts: {},
 			loading: true,
 			isDialogOpen: false,
 			error: null
@@ -22,15 +22,8 @@ class LoadoutList extends Component {
 		database.loadouts
 			.get()
 			.then((snap) => {
-				// Place the key onto each object
-				let val = snap.val() || {}
-
-				return Object.keys(val)
-					.map((key) => {
-						return { id: key, ...val[key] }
-					})
+				this.setState({ loadouts: snap.val(), loading: false })
 			})
-			.then((loadouts) => this.setState({ loadouts, loading: false }))
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
@@ -42,18 +35,22 @@ class LoadoutList extends Component {
 		this.setState({ isDialogOpen: true })
 	}
 
-	view(loadout) {
-		this.props.history.push(loadout.id)
+	view(id) {
+		this.props.history.push(id)
 	}
 
 	save(value) {
 		database.loadouts
 			.add(value)
 			.then((ref) => database.loadouts.getById(ref.key))
-			.then((newVal) =>
-				this.setState((prevState) => ({
-					loadouts: [...prevState.loadouts, newVal]
-				}))
+			.then((snap) =>
+				this.setState((prevState) => {
+					let loadouts = {
+						...prevState.loadouts,
+						[snap.key]: snap.val()
+					}
+					return { loadouts }
+				})
 			)
 			.then(() => this.handleDialogClose())
 	}
