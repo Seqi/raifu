@@ -23,7 +23,7 @@ class EditLoadout extends React.Component {
 	componentDidMount() {
 		database.loadouts
 			.getById(this.props.match.params.id)
-			.then((loadout) => this.setState({ loadout, loading: false }))
+			.then((snap) => this.setState({ loadout: snap.val(), loading: false }))
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
