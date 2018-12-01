@@ -44,6 +44,7 @@ class SecondariesList extends Component {
 		database.secondaries
 			.add(value)
 			.then((ref) => database.secondaries.getById(ref.key))
+			.then((snap) => snap.val())
 			.then((newVal) =>
 				this.setState((prevState) => ({
 					weapons: [...prevState.weapons, newVal]

@@ -11,7 +11,7 @@ class PrimariesList extends Component {
 		super(props)
 
 		this.state = {
-			weapons: [],
+			weapons: {},
 			loading: true,
 			isAddDialogOpen: false,
 			error: null
@@ -40,6 +40,7 @@ class PrimariesList extends Component {
 		database.primaries
 			.add(value)
 			.then((ref) => database.primaries.getById(ref.key))
+			.then((snap) => snap.val())
 			.then((newVal) =>
 				this.setState((prevState) => ({
 					weapons: [...prevState.weapons, newVal]

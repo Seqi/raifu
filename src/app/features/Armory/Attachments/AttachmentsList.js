@@ -40,6 +40,7 @@ class AttachmentsList extends Component {
 		database.attachments
 			.add(value)
 			.then((ref) => database.attachments.getById(ref.key))
+			.then((snap) => snap.val())
 			.then((newVal) =>
 				this.setState((prevState) => ({
 					attachments: [...prevState.attachments, newVal]

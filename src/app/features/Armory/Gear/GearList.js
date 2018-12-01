@@ -40,6 +40,7 @@ class GearList extends Component {
 		database.gear
 			.add(value)
 			.then((ref) => database.gear.getById(ref.key))
+			.then((snap) => snap.val())
 			.then((newVal) =>
 				this.setState((prevState) => ({
 					gear: [...prevState.gear, newVal]
