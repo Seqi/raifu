@@ -56,7 +56,7 @@ class PrimariesList extends Component {
 	}
 
 	render() {
-		let { weapons, error, loading } = this.state
+		let { weapons, error, loading, isAddDialogOpen } = this.state
 		return (
 			<div>
 				<h2>PRIMARIES</h2>
@@ -69,7 +69,7 @@ class PrimariesList extends Component {
 				)}
 
 				<AddPrimaryDialog
-					isOpen={ this.state.isAddDialogOpen }
+					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
 					onClose={ () => this.handleDialogClose() }
 				/>

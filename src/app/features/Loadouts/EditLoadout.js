@@ -1,6 +1,8 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 
+import AddWeaponDialog from './AddWeaponDialog'
+
 import AddCard from '../../shared/components/Cards/AddCard'
 import Loader from '../../shared/components/Loader'
 
@@ -11,6 +13,8 @@ class EditLoadout extends React.Component {
 		super(props)
 		this.state = {
 			loadout: null,
+			isAddPrimaryDialogOpen: false,
+			isAddSecondaryDialogOpen: false,
 			loading: true,
 			error: null
 		}
@@ -28,8 +32,32 @@ class EditLoadout extends React.Component {
 		this.props.history.push('../')
 	}
 
+	openAddPrimaryDialog() {
+		this.setState({ isAddPrimaryDialogOpen: true })
+	}
+
+	closeAddPrimaryDialog() {
+		this.setState({ isAddPrimaryDialogOpen: false })
+	}
+
+	onPrimarySelected(e) {
+		this.closeAddPrimaryDialog()
+	}
+
+	openAddSecondaryDialog() {
+		this.setState({ isAddSecondaryDialogOpen: true })
+	}
+
+	closeAddSecondaryDialog() {
+		this.setState({ isAddSecondaryDialogOpen: false })
+	}
+
+	onSecondarySelected(e) {
+		this.closeAddPrimaryDialog()
+	}
+
 	render() {
-		let { loading, error, loadout } = this.state
+		let { loading, error, loadout, isAddPrimaryDialogOpen, isAddSecondaryDialogOpen } = this.state
 
 		return loading ? (
 			<Loader />
@@ -40,13 +68,27 @@ class EditLoadout extends React.Component {
 				<h2>{loadout.name}</h2>
 				<div>
 					<h3>ADD A PRIMARY</h3>
-					<AddCard onClick={ () => {} } />
+					<AddCard onClick={ () => this.openAddPrimaryDialog() } />
 				</div>
 
 				<div>
 					<h3>ADD A SECONDARY</h3>
-					<AddCard onClick={ () => {} } />
+					<AddCard onClick={ () => this.openAddSecondaryDialog() } />
 				</div>
+
+				<AddWeaponDialog
+					weaponType='primaries'
+					isOpen={ isAddPrimaryDialogOpen }
+					onSave={ (value) => this.onPrimarySelected(value) }
+					onClose={ () => this.closeAddPrimaryDialog() }
+				/>
+
+				<AddWeaponDialog
+					weaponType='secondaries'
+					isOpen={ isAddSecondaryDialogOpen }
+					onSave={ (value) => this.onSecondarySelected(value) }
+					onClose={ () => this.closeAddSecondaryDialog() }
+				/>
 			</React.Fragment>
 		)
 	}
