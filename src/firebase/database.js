@@ -20,7 +20,17 @@ export default {
 	secondaries: useCrud('armory', 'secondaries'),
 	attachments: useCrud('armory', 'attachments'),
 	gear: useCrud('armory', 'gear'),
-	loadouts: useCrud('loadouts', ''),
+	loadouts: {
+		...useCrud('loadouts', ''),
+		addPrimary: (loadoutId, primaryId) => {
+			database.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries`)
+				.update({ [primaryId]: true })
+		},
+		addSecondary: (loadoutId, primaryId) => {
+			database.ref(`loadouts/${auth.user.uid}/${loadoutId}/secondaries`)
+				.update({ [primaryId]: true })
+		}
+	},
 	brands: {
 		get: () => database.ref('brands')
 			.once('value')

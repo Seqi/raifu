@@ -26,8 +26,22 @@ class AddWeaponDialog extends Component {
 		return this.state.weaponId
 	}
 
+	filterWeapons() {
+		return database[this.props.weaponType].get()
+			.then((snap) => {
+				let weapons = snap.val()
+
+				this.props.filterIds.forEach((id) => {
+					delete weapons[id]
+				})
+
+				// Hacky
+				return { val: () => weapons }
+			})
+	}
+
 	render() {
-		let { isOpen, onClose, onSave, weaponType } = this.props
+		let { isOpen, onClose, onSave } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
@@ -37,7 +51,7 @@ class AddWeaponDialog extends Component {
 					<ResourceSelect
 						label='Select weapon'
 						name='weapon'
-						dataGetter={ database[weaponType].get }
+						dataGetter={ () => this.filterWeapons() }
 						buildValue={ (weapon) => weapon.nickname || `${weapon.platform} ${weapon.model}` }
 						value={ this.state.weaponId }
 						onChange={ (e) => this.handleChange(e) }
@@ -62,9 +76,14 @@ class AddWeaponDialog extends Component {
 
 AddWeaponDialog.propTypes = {
 	weaponType: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
+	filterIds: PropTypes.array,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired
+}
+
+AddWeaponDialog.defaultProps = {
+	filterIds: []
 }
 
 export default AddWeaponDialog

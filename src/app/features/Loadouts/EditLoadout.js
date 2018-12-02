@@ -12,6 +12,7 @@ class EditLoadout extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			loadoutId: '',
 			loadout: null,
 			isAddPrimaryDialogOpen: false,
 			isAddSecondaryDialogOpen: false,
@@ -23,7 +24,7 @@ class EditLoadout extends React.Component {
 	componentDidMount() {
 		database.loadouts
 			.getById(this.props.match.params.id)
-			.then((snap) => this.setState({ loadout: snap.val(), loading: false }))
+			.then((snap) => this.setState({ loadoutId: snap.key, loadout: snap.val(), loading: false }))
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
@@ -40,7 +41,8 @@ class EditLoadout extends React.Component {
 		this.setState({ isAddPrimaryDialogOpen: false })
 	}
 
-	onPrimarySelected(e) {
+	onPrimarySelected(primaryId) {
+		database.loadouts.addPrimary(this.state.loadoutId, primaryId)
 		this.closeAddPrimaryDialog()
 	}
 
@@ -52,8 +54,9 @@ class EditLoadout extends React.Component {
 		this.setState({ isAddSecondaryDialogOpen: false })
 	}
 
-	onSecondarySelected(e) {
-		this.closeAddPrimaryDialog()
+	onSecondarySelected(secondaryId) {
+		database.loadouts.addSecondary(this.state.loadoutId, secondaryId)
+		this.closeAddSecondaryDialog()
 	}
 
 	render() {
@@ -78,6 +81,7 @@ class EditLoadout extends React.Component {
 
 				<AddWeaponDialog
 					weaponType='primaries'
+					filterIds={ Object.keys(loadout.primaries) }
 					isOpen={ isAddPrimaryDialogOpen }
 					onSave={ (value) => this.onPrimarySelected(value) }
 					onClose={ () => this.closeAddPrimaryDialog() }
@@ -85,6 +89,7 @@ class EditLoadout extends React.Component {
 
 				<AddWeaponDialog
 					weaponType='secondaries'
+					filterIds={ Object.keys(loadout.secondaries) }
 					isOpen={ isAddSecondaryDialogOpen }
 					onSave={ (value) => this.onSecondarySelected(value) }
 					onClose={ () => this.closeAddSecondaryDialog() }
