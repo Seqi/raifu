@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import AddWeaponDialog from './AddWeaponDialog'
+import ModifyWeapon from './ModifyWeapon'
 
 import AddCard from '../../shared/components/Cards/AddCard'
 import Loader from '../../shared/components/Loader'
@@ -59,6 +60,15 @@ class EditLoadout extends React.Component {
 		this.closeAddSecondaryDialog()
 	}
 
+	renderWeapons(weapons) {
+		if (!weapons) {
+			return null
+		}
+
+		return Object.keys(weapons)
+			.map((key) => <ModifyWeapon key={ key } weapon={ weapons[key] } />)
+	}
+
 	render() {
 		let { loading, error, loadout, isAddPrimaryDialogOpen, isAddSecondaryDialogOpen } = this.state
 
@@ -71,12 +81,18 @@ class EditLoadout extends React.Component {
 				<h2>{loadout.name}</h2>
 				<div>
 					<h3>ADD A PRIMARY</h3>
-					<AddCard onClick={ () => this.openAddPrimaryDialog() } />
+					<div className='card-list'>
+						{this.renderWeapons(loadout.primaries)}
+						<AddCard onClick={ () => this.openAddPrimaryDialog() } />
+					</div>
 				</div>
 
 				<div>
 					<h3>ADD A SECONDARY</h3>
-					<AddCard onClick={ () => this.openAddSecondaryDialog() } />
+					<div className='card-list'>
+						{this.renderWeapons(loadout.secondaries)}
+						<AddCard onClick={ () => this.openAddSecondaryDialog() } />
+					</div>
 				</div>
 
 				<AddWeaponDialog
