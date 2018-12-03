@@ -1,0 +1,7 @@
+.weapon-mod {
+	display: flex;
+}
+
+.weapon-mod:not(:last-child) {
+	margin-right: 50px;
+}

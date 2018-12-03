@@ -66,7 +66,9 @@ class EditLoadout extends React.Component {
 		}
 
 		return Object.keys(weapons)
-			.map((key) => <ModifyWeapon key={ key } weapon={ weapons[key] } />)
+			.map((key) => (
+				<ModifyWeapon key={ key } loadoutId={ this.props.match.params.id } weaponId={ key } weapon={ weapons[key] } />
+			))
 	}
 
 	render() {

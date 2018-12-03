@@ -54,6 +54,10 @@ let loadouts = {
 				.then((snap) => {
 					let val = snap.val()
 
+					if (!val.primaries) {
+						val.primaries = {}
+					}
+
 					let promises = Object.keys(val.primaries)
 						.map((key) => primaries.getById(key))
 
@@ -64,6 +68,10 @@ let loadouts = {
 				.then((snap) => {
 					let val = snap.val()
 
+					if (!val.secondaries) {
+						val.secondaries = {}
+					}
+
 					let promises = Object.keys(val.secondaries)
 						.map((key) => secondaries.getById(key))
 
@@ -72,12 +80,17 @@ let loadouts = {
 		)
 	},
 	addPrimary: (loadoutId, primaryId) => {
-		database.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries`)
+		return database.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries`)
 			.update({ [primaryId]: true })
 	},
-	addSecondary: (loadoutId, primaryId) => {
-		database.ref(`loadouts/${auth.user.uid}/${loadoutId}/secondaries`)
-			.update({ [primaryId]: true })
+	addSecondary: (loadoutId, secondaryId) => {
+		return database.ref(`loadouts/${auth.user.uid}/${loadoutId}/secondaries`)
+			.update({ [secondaryId]: true })
+	},
+	addAttachmentToPrimary: (loadoutId, primaryId, attachmentId) => {
+		return database
+			.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries/${primaryId}/attachments`)
+			.update({ [attachmentId]: true })
 	}
 }
 
