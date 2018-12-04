@@ -23,74 +23,29 @@ let gear = useCrud('armory', 'gear')
 let loadouts = {
 	...useCrud('loadouts', ''),
 	getById: (id) => {
-		// Override get to load all the components of the loadout too
-		let populateChildren = (promises, slot, snap) => {
-			let val = snap.val()
-
-			return Promise.all(promises)
-				.then((result) => {
-					let populatedWeapons = {}
-
-					result.forEach((result) => {
-						populatedWeapons[result.key] = result.val()
-					})
-
-					return populatedWeapons
-				})
-				.then((populatedWeapons) => {
-					// Lil hacky to rearrange the firebase object with the new vals
-					val[slot] = populatedWeapons
-					snap.val = () => val
-
-					return snap
-				})
-		}
 		return (
 			database
 				.ref(`loadouts/${auth.user.uid}/${id}`)
 				.once('value')
-
-				// Load primaries
-				.then((snap) => {
-					let val = snap.val()
-
-					if (!val.primaries) {
-						val.primaries = {}
-					}
-
-					let promises = Object.keys(val.primaries)
-						.map((key) => primaries.getById(key))
-
-					return populateChildren(promises, 'primaries', snap)
-				})
-
-				// Load secondaries
-				.then((snap) => {
-					let val = snap.val()
-
-					if (!val.secondaries) {
-						val.secondaries = {}
-					}
-
-					let promises = Object.keys(val.secondaries)
-						.map((key) => secondaries.getById(key))
-
-					return populateChildren(promises, 'secondaries', snap)
-				})
 		)
 	},
 	addPrimary: (loadoutId, primaryId) => {
-		return database.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries`)
-			.update({ [primaryId]: true })
+		return primaries.getById(primaryId)
+			.then(snap => database
+				.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries`)
+				.update({ [snap.key]: snap.val() }))
 	},
 	addSecondary: (loadoutId, secondaryId) => {
-		return database.ref(`loadouts/${auth.user.uid}/${loadoutId}/secondaries`)
-			.update({ [secondaryId]: true })
+		return secondaries.getById(secondaryId)
+		.then(snap => database
+			.ref(`loadouts/${auth.user.uid}/${loadoutId}/secondaries`)
+			.update({ [snap.key]: snap.val() }))
 	},
 	addAttachmentToPrimary: (loadoutId, primaryId, attachmentId) => {
-		return database
+		return attachments.getById(attachmentId)
+		.then((snap) => database
 			.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries/${primaryId}/attachments`)
-			.update({ [attachmentId]: true })
+			.update({ [snap.key]: snap.val() }))
 	}
 }
 

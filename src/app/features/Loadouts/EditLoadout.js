@@ -119,7 +119,7 @@ class EditLoadout extends React.Component {
 
 				<AddWeaponDialog
 					weaponType='primaries'
-					filterIds={ Object.keys(loadout.primaries) }
+					filterIds={ loadout.primaries && Object.keys(loadout.primaries) }
 					isOpen={ isAddPrimaryDialogOpen }
 					onSave={ (value) => this.onPrimarySelected(value) }
 					onClose={ () => this.closeAddPrimaryDialog() }
@@ -127,7 +127,7 @@ class EditLoadout extends React.Component {
 
 				<AddWeaponDialog
 					weaponType='secondaries'
-					filterIds={ Object.keys(loadout.secondaries) }
+					filterIds={ loadout.secondaries && Object.keys(loadout.secondaries) }
 					isOpen={ isAddSecondaryDialogOpen }
 					onSave={ (value) => this.onSecondarySelected(value) }
 					onClose={ () => this.closeAddSecondaryDialog() }
