@@ -43,8 +43,9 @@ class EditLoadout extends React.Component {
 	}
 
 	onPrimarySelected(primaryId) {
-		database.loadouts.addPrimary(this.state.loadoutId, primaryId)
-		this.closeAddPrimaryDialog()
+		database.loadouts.addPrimary(this.state.loadoutId, primaryId)		
+			.then(() => this.pushNewWeapon('primaries', primaryId))
+			.then(() => this.closeAddPrimaryDialog())
 	}
 
 	openAddSecondaryDialog() {
@@ -57,7 +58,26 @@ class EditLoadout extends React.Component {
 
 	onSecondarySelected(secondaryId) {
 		database.loadouts.addSecondary(this.state.loadoutId, secondaryId)
-		this.closeAddSecondaryDialog()
+		.then(() => this.pushNewWeapon('secondaries', secondaryId))
+		.then(() => this.closeAddSecondaryDialog())
+	}
+
+	pushNewWeapon(slot, id) {
+		return database[slot].getById(id)
+		.then((snap) => this.setState((prevState) => {
+			// Add the new weapon onto the primaries
+				let weapons = {
+					...prevState.loadout[slot],
+					[snap.key]: snap.val()
+				}
+
+				let loadout = {
+					...prevState.loadout,
+					[slot]: weapons
+				}
+
+				return { loadout }
+		}))
 	}
 
 	renderWeapons(weapons) {
