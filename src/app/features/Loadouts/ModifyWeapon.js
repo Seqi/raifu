@@ -57,7 +57,7 @@ class ModifyWeapon extends Component {
 				</Card>
 
 				<div className='weapon-attachments'>
-					<CardList items={ weapon.attachments } onAdd={ () => this.handleDialogOpen() } />
+					<CardList cardType='attachment' buildSubtitle={() => ''} items={ weapon.attachments } onAdd={ () => this.handleDialogOpen() } />
 				</div>
 
 				<AddAttachmentDialog
