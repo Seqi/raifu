@@ -44,7 +44,8 @@ class EditLoadout extends React.Component {
 	}
 
 	onPrimarySelected(primaryId) {
-		database.loadouts.addPrimary(this.state.loadoutId, primaryId)		
+		database.loadouts
+			.addPrimary(this.state.loadoutId, primaryId)
 			.then(() => this.pushNewWeapon('primaries', primaryId))
 			.then(() => this.closeAddPrimaryDialog())
 	}
@@ -58,37 +59,46 @@ class EditLoadout extends React.Component {
 	}
 
 	onSecondarySelected(secondaryId) {
-		database.loadouts.addSecondary(this.state.loadoutId, secondaryId)
+		database.loadouts
+			.addSecondary(this.state.loadoutId, secondaryId)
 			.then(() => this.pushNewWeapon('secondaries', secondaryId))
 			.then(() => this.closeAddSecondaryDialog())
 	}
 
 	pushNewWeapon(slot, id) {
 		return database[slot].getById(id)
-			.then((snap) => this.setState((prevState) => {
-			// Add the new weapon onto the primaries
-				let weapons = {
-					...prevState.loadout[slot],
-					[snap.key]: snap.val()
-				}
+			.then((snap) =>
+				this.setState((prevState) => {
+				// Add the new weapon onto the primaries
+					let weapons = {
+						...prevState.loadout[slot],
+						[snap.key]: snap.val()
+					}
 
-				let loadout = {
-					...prevState.loadout,
-					[slot]: weapons
-				}
+					let loadout = {
+						...prevState.loadout,
+						[slot]: weapons
+					}
 
-				return { loadout }
-			}))
+					return { loadout }
+				})
+			)
 	}
 
-	renderWeapons(weapons) {
+	renderWeapons(weapons, slot) {
 		if (!weapons) {
 			return null
 		}
 
 		return Object.keys(weapons)
 			.map((key) => (
-				<ModifyWeapon key={ key } loadoutId={ this.props.match.params.id } weaponId={ key } weapon={ weapons[key] } />
+				<ModifyWeapon
+					key={ key }
+					loadoutId={ this.props.match.params.id }
+					weaponId={ key }
+					weapon={ weapons[key] }
+					slot={ slot }
+				/>
 			))
 	}
 
@@ -105,15 +115,15 @@ class EditLoadout extends React.Component {
 				<div>
 					<h3>ADD A PRIMARY</h3>
 					<div className='loadout-slot-list'>
-						{this.renderWeapons(loadout.primaries)}
+						{this.renderWeapons(loadout.primaries, 'primaries')}
 						<AddCard onClick={ () => this.openAddPrimaryDialog() } />
 					</div>
 				</div>
 
 				<div>
 					<h3>ADD A SECONDARY</h3>
-					<div className='card-list'>
-						{this.renderWeapons(loadout.secondaries)}
+					<div className='loadout-slot-list'>
+						{this.renderWeapons(loadout.secondaries, 'secondaries')}
 						<AddCard onClick={ () => this.openAddSecondaryDialog() } />
 					</div>
 				</div>

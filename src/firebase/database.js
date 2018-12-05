@@ -21,31 +21,56 @@ let attachments = useCrud('armory', 'attachments')
 let gear = useCrud('armory', 'gear')
 
 let loadouts = {
-	...useCrud('loadouts', ''),
-	getById: (id) => {
-		return (
-			database
-				.ref(`loadouts/${auth.user.uid}/${id}`)
-				.once('value')
-		)
-	},
+	...useCrud('loadouts', 'loadouts'),
 	addPrimary: (loadoutId, primaryId) => {
-		return primaries.getById(primaryId)
-			.then(snap => database
-				.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries`)
-				.update({ [snap.key]: snap.val() }))
+		return primaries
+			.getById(primaryId)
+			.then((snap) => {
+				database
+					.ref(`loadouts/${auth.user.uid}/weaponLookup/primaries/${primaryId}`)
+					.update({ [loadoutId]: true })
+
+				return snap
+			})
+			.then((snap) =>
+				database
+					.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/primaries`)
+					.update({ [snap.key]: snap.val() })
+			)
 	},
 	addSecondary: (loadoutId, secondaryId) => {
-		return secondaries.getById(secondaryId)
-			.then(snap => database
-				.ref(`loadouts/${auth.user.uid}/${loadoutId}/secondaries`)
-				.update({ [snap.key]: snap.val() }))
+		return secondaries
+			.getById(secondaryId)
+			.then((snap) => {
+				database
+					.ref(`loadouts/${auth.user.uid}/weaponLookup/secondaries/${secondaryId}`)
+					.update({ [loadoutId]: true })
+
+				return snap
+			})
+			.then((snap) =>
+				database
+					.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/secondaries`)
+					.update({ [snap.key]: snap.val() })
+			)
 	},
 	addAttachmentToPrimary: (loadoutId, primaryId, attachmentId) => {
-		return attachments.getById(attachmentId)
-			.then((snap) => database
-				.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries/${primaryId}/attachments`)
-				.update({ [snap.key]: snap.val() }))
+		return attachments
+			.getById(attachmentId)
+			.then((snap) =>
+				database
+					.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/primaries/${primaryId}/attachments`)
+					.update({ [snap.key]: snap.val() })
+			)
+	},
+	addAttachmentToSecondary: (loadoutId, secondaryId, attachmentId) => {
+		return attachments
+			.getById(attachmentId)
+			.then((snap) =>
+				database
+					.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/secondaries/${secondaryId}/attachments`)
+					.update({ [snap.key]: snap.val() })
+			)
 	}
 }
 
