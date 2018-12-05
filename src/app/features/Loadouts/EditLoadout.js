@@ -1,3 +1,4 @@
+import './EditLoadout.css'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 
@@ -103,7 +104,7 @@ class EditLoadout extends React.Component {
 				<h2>{loadout.name}</h2>
 				<div>
 					<h3>ADD A PRIMARY</h3>
-					<div className='card-list'>
+					<div className='loadout-slot-list'>
 						{this.renderWeapons(loadout.primaries)}
 						<AddCard onClick={ () => this.openAddPrimaryDialog() } />
 					</div>
