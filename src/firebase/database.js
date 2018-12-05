@@ -37,15 +37,15 @@ let loadouts = {
 	},
 	addSecondary: (loadoutId, secondaryId) => {
 		return secondaries.getById(secondaryId)
-		.then(snap => database
-			.ref(`loadouts/${auth.user.uid}/${loadoutId}/secondaries`)
-			.update({ [snap.key]: snap.val() }))
+			.then(snap => database
+				.ref(`loadouts/${auth.user.uid}/${loadoutId}/secondaries`)
+				.update({ [snap.key]: snap.val() }))
 	},
 	addAttachmentToPrimary: (loadoutId, primaryId, attachmentId) => {
 		return attachments.getById(attachmentId)
-		.then((snap) => database
-			.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries/${primaryId}/attachments`)
-			.update({ [snap.key]: snap.val() }))
+			.then((snap) => database
+				.ref(`loadouts/${auth.user.uid}/${loadoutId}/primaries/${primaryId}/attachments`)
+				.update({ [snap.key]: snap.val() }))
 	}
 }
 

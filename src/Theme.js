@@ -43,7 +43,7 @@ export default createMuiTheme({
 		},
 		MuiCardContent: {
 			root: {
-				wordBreak: "break-all"
+				wordBreak: 'break-all'
 			}
 		}
 	}

@@ -61,7 +61,7 @@ class AttachmentsList extends Component {
 				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
-					<CardList buildSubtitle={ () => '' } cardType="attachment" items={ attachments } onAdd={ () => this.add() } />
+					<CardList buildSubtitle={ () => '' } cardType='attachment' items={ attachments } onAdd={ () => this.add() } />
 				)}
 
 				<AddAttachmentDialog
