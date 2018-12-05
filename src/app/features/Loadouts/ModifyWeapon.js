@@ -38,7 +38,7 @@ class ModifyWeapon extends Component {
 	}
 
 	handleSave(attachmentId) {
-		let { loadoutId, weaponId, slot } = this.props
+		let { loadoutId, weaponId, slot, onAttachmentAdded } = this.props
 
 		let promise =
 			slot === 'primaries'
@@ -46,6 +46,7 @@ class ModifyWeapon extends Component {
 				: database.loadouts.addAttachmentToSecondary(loadoutId, weaponId, attachmentId)
 
 		promise.then(() => this.handleDialogClose())
+			.then(() => onAttachmentAdded(attachmentId))
 	}
 
 	render() {
@@ -84,7 +85,12 @@ ModifyWeapon.propTypes = {
 	loadoutId: PropTypes.string.isRequired,
 	weaponId: PropTypes.string.isRequired,
 	weapon: PropTypes.object.isRequired,
-	slot: PropTypes.oneOf(['primaries', 'secondaries']).isRequired
+	slot: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
+	onAttachmentAdded: PropTypes.func
+}
+
+ModifyWeapon.defaultProps = {
+	onAttachmentAdded: (attachment) => {}
 }
 
 export default ModifyWeapon

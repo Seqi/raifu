@@ -85,6 +85,23 @@ class EditLoadout extends React.Component {
 			)
 	}
 
+	pushNewAttachment(slot, weaponId, attachmentId) {
+		database.attachments.getById(attachmentId)
+			.then((snap) => {
+				this.setState((prevState) => {
+					let editedWeapon = prevState.loadout[slot][weaponId]
+
+					if (!editedWeapon.attachments) {
+						editedWeapon.attachments = {}
+					}
+
+					editedWeapon.attachments[attachmentId] = snap.val()
+
+					return prevState
+				})
+			})
+	}
+
 	renderWeapons(weapons, slot) {
 		if (!weapons) {
 			return null
@@ -98,6 +115,7 @@ class EditLoadout extends React.Component {
 					weaponId={ key }
 					weapon={ weapons[key] }
 					slot={ slot }
+					onAttachmentAdded={ (attachment) => this.pushNewAttachment(slot, key, attachment) }
 				/>
 			))
 	}
