@@ -3,6 +3,6 @@
 	max-width: 50%;
 }
 
-.weapon-mod:not(:first-child) {
-	margin-left: 50px;
+.weapon-mod:not(:last-child) {
+	padding-right: 50px;
 }
