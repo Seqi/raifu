@@ -4,43 +4,90 @@ import auth from './auth'
 
 let database = client.database(config.firebase.databaseURL)
 
-function useGet(route) {
-	return new Promise((resolve, reject) => {
-		database
-			.ref(route)
-			.once('value', (snap) => resolve(snap.val() ? Object.values(snap.val()) : []), reject)
-	})	
+function useCrud(route, userRoute) {
+	return {
+		get: () => database.ref(`${route}/${auth.user.uid}/${userRoute}`)
+			.once('value'),
+		getById: (id) => database.ref(`${route}/${auth.user.uid}/${userRoute}/${id}`)
+			.once('value'),
+		add: (props) => database.ref(`${route}/${auth.user.uid}/${userRoute}`)
+			.push(props)
+	}
 }
 
-function useCrud(route) {
-	return {
-		get: () => useGet(`${route}/${auth.user.uid}`),
-		getById: (id) => {
-			return new Promise((resolve, reject) => {
-				database.ref(`${route}/${auth.user.uid}/${id}`)
-					.once('value', (snap) => resolve(snap.val()), reject)
+let primaries = useCrud('armory', 'primaries')
+let secondaries = useCrud('armory', 'secondaries')
+let attachments = useCrud('armory', 'attachments')
+let gear = useCrud('armory', 'gear')
+
+let loadouts = {
+	...useCrud('loadouts', 'loadouts'),
+	addPrimary: (loadoutId, primaryId) => {
+		return primaries
+			.getById(primaryId)
+			.then((snap) => {
+				database
+					.ref(`loadouts/${auth.user.uid}/weaponLookup/primaries/${primaryId}`)
+					.update({ [loadoutId]: true })
+
+				return snap
 			})
-		},
-		add: (props) => {
-			return database.ref(`${route}/${auth.user.uid}`)
-				.push(props)
-		}
+			.then((snap) =>
+				database
+					.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/primaries`)
+					.update({ [snap.key]: snap.val() })
+			)
+	},
+	addSecondary: (loadoutId, secondaryId) => {
+		return secondaries
+			.getById(secondaryId)
+			.then((snap) => {
+				database
+					.ref(`loadouts/${auth.user.uid}/weaponLookup/secondaries/${secondaryId}`)
+					.update({ [loadoutId]: true })
+
+				return snap
+			})
+			.then((snap) =>
+				database
+					.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/secondaries`)
+					.update({ [snap.key]: snap.val() })
+			)
+	},
+	addAttachmentToPrimary: (loadoutId, primaryId, attachmentId) => {
+		return attachments
+			.getById(attachmentId)
+			.then((snap) =>
+				database
+					.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/primaries/${primaryId}/attachments`)
+					.update({ [snap.key]: snap.val() })
+			)
+	},
+	addAttachmentToSecondary: (loadoutId, secondaryId, attachmentId) => {
+		return attachments
+			.getById(attachmentId)
+			.then((snap) =>
+				database
+					.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/secondaries/${secondaryId}/attachments`)
+					.update({ [snap.key]: snap.val() })
+			)
 	}
 }
 
 export default {
-	primaries: useCrud('armory/primaries'),
-	secondaries: useCrud('armory/secondaries'),
-	attachments: useCrud('armory/attachments'),
-	gear: useCrud('armory/gear'),
+	primaries: primaries,
+	secondaries: secondaries,
+	attachments: attachments,
+	gear: gear,
+	loadouts: loadouts,
 	brands: {
-		get: () => useGet('brands'),
+		get: () => database.ref('brands')
+			.once('value')
 	},
 	platforms: {
-		getTypes: () => new Promise((resolve, reject) => { database.ref('platforms')
-			.once('value', (snap) => resolve(snap.val() ? Object.keys(snap.val()) : []), reject)
-		}),
-		get: (platform) => useGet(`platforms/${platform}`)
+		getTypes: () => database.ref('platforms')
+			.once('value'),
+		get: (platform) => database.ref(`platforms/${platform}`)
+			.once('value')
 	}
 }
-

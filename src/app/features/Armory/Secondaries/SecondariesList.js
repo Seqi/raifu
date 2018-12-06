@@ -11,7 +11,7 @@ class SecondariesList extends Component {
 		super(props)
 
 		this.state = {
-			weapons: [],
+			weapons: {},
 			loading: true,
 			isAddDialogOpen: false,
 			error: null
@@ -21,8 +21,8 @@ class SecondariesList extends Component {
 	componentDidMount() {
 		database.secondaries
 			.get()
-			.then((weapons) => {
-				this.setState({ weapons, loading: false })
+			.then((snap) => {
+				this.setState({ weapons: snap.val(), loading: false })
 			})
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
@@ -43,11 +43,15 @@ class SecondariesList extends Component {
 		database.secondaries
 			.add(value)
 			.then((ref) => database.secondaries.getById(ref.key))
-			.then((newVal) =>
-				this.setState((prevState) => ({
-					weapons: [...prevState.weapons, newVal]
-				}))
-			)
+			.then((snap) => {
+				this.setState((prevState) => {
+					let weapons = {
+						...prevState.weapons,
+						[snap.key]: snap.val()
+					}
+					return { weapons }
+				})
+			})
 			.then(() => this.handleDialogClose())
 	}
 

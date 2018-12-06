@@ -1,0 +1,8 @@
+.weapon-mod {
+	display: flex;
+	max-width: 50%;
+}
+
+.weapon-mod:not(:last-child) {
+	padding-right: 50px;
+}

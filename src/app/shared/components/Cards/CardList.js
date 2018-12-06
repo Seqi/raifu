@@ -1,5 +1,3 @@
-import './CardList.css'
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AddCard from './AddCard'
@@ -14,13 +12,23 @@ class CardList extends Component {
 	}
 
 	renderItems(items) {
-		return items.map(this.renderItem)
+		return Object.keys(items || {})
+			.map((key, idx) => {
+				return this.renderItem(key, items[key], idx)
+			})
 	}
 
-	renderItem = (item, idx) => {
+	renderItem = (key, item, idx) => {
+		let { buildTitle, buildSubtitle, onCardClick } = this.props
+
 		return (
-			<Card style={ { animationDelay: this.getAnimationDelay(idx) } } className='card' key={ idx }>
-				<CardHeader title={ this.props.buildTitle(item) } subheader={ item.brand || '' } />
+			<Card
+				onClick={ () => onCardClick(key) }
+				style={ { animationDelay: this.getAnimationDelay(idx) } }
+				className={ `card ${this.props.cardType}-card` }
+				key={ idx }
+			>
+				<CardHeader title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
 				<CardContent>{JSON.stringify(item)}</CardContent>
 			</Card>
 		)
@@ -31,26 +39,35 @@ class CardList extends Component {
 	}
 
 	render() {
-		let { items, onAdd } = this.props
+		let { items, onAdd, cardType } = this.props
 		return (
-			<div>
-				<div className='card-list'>
-					{this.renderItems(items)}
-					<AddCard style={ { animationDelay: this.getAnimationDelay(items.length) } } onClick={ onAdd } />
-				</div>
+			<div className='card-list'>
+				{this.renderItems(items)}
+				<AddCard
+					style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length) } }
+					onClick={ onAdd }
+					cardType={ cardType }
+				/>
 			</div>
 		)
 	}
 }
 
 CardList.propTypes = {
-	items: PropTypes.array.isRequired,
+	items: PropTypes.object,
 	onAdd: PropTypes.func.isRequired,
-	buildTitle: PropTypes.func
+	onCardClick: PropTypes.func,
+	buildTitle: PropTypes.func,
+	buildSubtitle: PropTypes.func,
+	cardType: PropTypes.string
 }
 
 CardList.defaultProps = {
-	buildTitle: (item) => item.title
+	items: {},
+	buildTitle: (item) => item.title,
+	buildSubtitle: (item) => item.brand,
+	onCardClick: () => {},
+	cardType: 'weapon'
 }
 
 export default CardList

@@ -47,7 +47,7 @@
 		"react/no-unsafe": "error",
 		"react/no-unknown-property": "error",
 		"react/react-in-jsx-scope": "error",
-		"react/prop-types": ["error", { "ignore": ["children", "theme", "history"] }],
+		"react/prop-types": ["error", { "ignore": ["children", "theme", "history", "match"] }],
 		"react/require-default-props": "error",
 		"react/require-render-return": "error",
 		"react/self-closing-comp": [

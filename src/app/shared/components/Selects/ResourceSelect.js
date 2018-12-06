@@ -18,8 +18,30 @@ class ResourceSelect extends Component {
 	componentDidMount() {
 		this.props
 			.dataGetter()
+			.then((snap) => snap.val() || [])
 			.then((items) => this.setState({ items, loading: false }))
-			.catch((err) => this.setState({ error: err.message, loading: false }))
+			.catch((err) => {
+				console.log('err', err)
+				this.setState({ error: err.message, loading: false })
+			})
+	}
+
+	renderItems(items) {
+		// Handle if the items are objects instead of properties
+		if (items.length) {
+			return items.map((item) => (
+				<MenuItem key={ item } value={ item }>
+					{item}
+				</MenuItem>
+			))
+		} else {
+			return Object.keys(items)
+				.map((key) => (
+					<MenuItem key={ key } value={ key }>
+						{this.props.buildValue(items[key])}
+					</MenuItem>
+				))
+		}
 	}
 
 	render() {
@@ -39,11 +61,7 @@ class ResourceSelect extends Component {
 				select={ true }
 				SelectProps={ { name } }
 			>
-				{items.map((item) => (
-					<MenuItem key={ item } value={ item }>
-						{item}
-					</MenuItem>
-				))}
+				{this.renderItems(items)}
 			</TextField>
 		)
 	}
@@ -53,12 +71,14 @@ ResourceSelect.propTypes = {
 	label: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	dataGetter: PropTypes.func.isRequired,
+	buildValue: PropTypes.func,
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired
 }
 
 ResourceSelect.defaultProps = {
-	value: ''
+	value: '',
+	buildValue: (item) => item
 }
 
 export default ResourceSelect

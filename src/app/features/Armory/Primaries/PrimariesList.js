@@ -11,7 +11,7 @@ class PrimariesList extends Component {
 		super(props)
 
 		this.state = {
-			weapons: [],
+			weapons: {},
 			loading: true,
 			isAddDialogOpen: false,
 			error: null
@@ -21,8 +21,8 @@ class PrimariesList extends Component {
 	componentDidMount() {
 		database.primaries
 			.get()
-			.then((weapons) => {
-				this.setState({ weapons, loading: false })
+			.then((snap) => {
+				this.setState({ weapons: snap.val(), loading: false })
 			})
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
@@ -39,11 +39,15 @@ class PrimariesList extends Component {
 		database.primaries
 			.add(value)
 			.then((ref) => database.primaries.getById(ref.key))
-			.then((newVal) =>
-				this.setState((prevState) => ({
-					weapons: [...prevState.weapons, newVal]
-				}))
-			)
+			.then((snap) => {
+				this.setState((prevState) => {
+					let weapons = {
+						...prevState.weapons,
+						[snap.key]: snap.val()
+					}
+					return { weapons }
+				})
+			})
 			.then(() => this.handleDialogClose())
 	}
 
@@ -52,7 +56,7 @@ class PrimariesList extends Component {
 	}
 
 	render() {
-		let { weapons, error, loading } = this.state
+		let { weapons, error, loading, isAddDialogOpen } = this.state
 		return (
 			<div>
 				<h2>PRIMARIES</h2>
@@ -65,7 +69,7 @@ class PrimariesList extends Component {
 				)}
 
 				<AddPrimaryDialog
-					isOpen={ this.state.isAddDialogOpen }
+					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
 					onClose={ () => this.handleDialogClose() }
 				/>

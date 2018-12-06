@@ -11,7 +11,7 @@ class GearList extends Component {
 		super(props)
 
 		this.state = {
-			gear: [],
+			gear: {},
 			loading: true,
 			isAddDialogOpen: false,
 			error: null
@@ -21,8 +21,8 @@ class GearList extends Component {
 	componentDidMount() {
 		database.gear
 			.get()
-			.then((gear) => {
-				this.setState({ gear, loading: false })
+			.then((snap) => {
+				this.setState({ gear: snap.val(), loading: false })
 			})
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
@@ -39,11 +39,15 @@ class GearList extends Component {
 		database.gear
 			.add(value)
 			.then((ref) => database.gear.getById(ref.key))
-			.then((newVal) =>
-				this.setState((prevState) => ({
-					gear: [...prevState.gear, newVal]
-				}))
-			)
+			.then((snap) => {
+				this.setState((prevState) => {
+					let gear = {
+						...prevState.gear,
+						[snap.key]: snap.val()
+					}
+					return { gear }
+				})
+			})
 			.then(() => this.handleDialogClose())
 	}
 
