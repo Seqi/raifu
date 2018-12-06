@@ -49,6 +49,8 @@ class ModifyWeapon extends Component {
 			.then(() => onAttachmentAdded(attachmentId))
 	}
 
+	filterAttachments() {}
+
 	render() {
 		let { weapon } = this.props
 		let { isDialogOpen } = this.state
@@ -64,7 +66,7 @@ class ModifyWeapon extends Component {
 					<CardList
 						cardType='attachment'
 						buildSubtitle={ () => '' }
-						items={ weapon.attachments }
+						items={ weapon.attachments || {} }
 						onAdd={ () => this.handleDialogOpen() }
 					/>
 				</div>
@@ -72,6 +74,7 @@ class ModifyWeapon extends Component {
 				<AddAttachmentDialog
 					weaponId={ this.props.weaponId }
 					weaponName={ this.buildTitle() }
+					filterIds={ weapon.attachments && Object.keys(weapon.attachments) }
 					isOpen={ isDialogOpen }
 					onClose={ () => this.handleDialogClose() }
 					onSave={ (id) => this.handleSave(id) }
