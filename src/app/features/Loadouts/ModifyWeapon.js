@@ -52,7 +52,7 @@ class ModifyWeapon extends Component {
 	filterAttachments() {}
 
 	render() {
-		let { weapon } = this.props
+		let { weapon, filterAttachmentIds } = this.props
 		let { isDialogOpen } = this.state
 
 		return (
@@ -74,7 +74,7 @@ class ModifyWeapon extends Component {
 				<AddAttachmentDialog
 					weaponId={ this.props.weaponId }
 					weaponName={ this.buildTitle() }
-					filterIds={ weapon.attachments && Object.keys(weapon.attachments) }
+					filterIds={ filterAttachmentIds }
 					isOpen={ isDialogOpen }
 					onClose={ () => this.handleDialogClose() }
 					onSave={ (id) => this.handleSave(id) }
@@ -89,10 +89,12 @@ ModifyWeapon.propTypes = {
 	weaponId: PropTypes.string.isRequired,
 	weapon: PropTypes.object.isRequired,
 	slot: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
+	filterAttachmentIds: PropTypes.array,
 	onAttachmentAdded: PropTypes.func
 }
 
 ModifyWeapon.defaultProps = {
+	filterAttachmentIds: [],
 	onAttachmentAdded: (attachment) => {}
 }
 

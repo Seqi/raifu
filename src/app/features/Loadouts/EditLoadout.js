@@ -23,6 +23,18 @@ class EditLoadout extends React.Component {
 		}
 	}
 
+	get usedAttachmentIds() {
+		let { primaries, secondaries } = this.state.loadout
+
+		let weapons = { ...primaries, ...secondaries }
+
+		let attachmentIds = Object.values(weapons)
+			.flatMap((weapon) => weapon.attachments)
+			.flatMap((attachments) => Object.keys(attachments || {}))
+
+		return attachmentIds
+	}
+
 	componentDidMount() {
 		database.loadouts
 			.getById(this.props.match.params.id)
@@ -115,6 +127,7 @@ class EditLoadout extends React.Component {
 					weaponId={ key }
 					weapon={ weapons[key] }
 					slot={ slot }
+					filterAttachmentIds={ this.usedAttachmentIds }
 					onAttachmentAdded={ (attachment) => this.pushNewAttachment(slot, key, attachment) }
 				/>
 			))
