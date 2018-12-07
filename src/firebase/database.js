@@ -11,7 +11,32 @@ function useCrud(route, userRoute) {
 		getById: (id) => database.ref(`${route}/${auth.user.uid}/${userRoute}/${id}`)
 			.once('value'),
 		add: (props) => database.ref(`${route}/${auth.user.uid}/${userRoute}`)
-			.push(props)
+			.push(props),
+		delete: (id) => {
+			let deletionRefs = {
+				// Armory item
+				[`${route}/${auth.user.uid}/${userRoute}/${id}`]: null,
+
+				// Lookup table entry
+				[`loadouts/${auth.user.uid}/weaponLookup/primaries/${id}`]: null
+			}
+
+			// Get all uses of this item in any loadouts
+			return (
+				database
+					.ref(`loadouts/${auth.user.uid}/weaponLookup/primaries/${id}`)
+					.once('value')
+					.then((snap) =>
+						Object.keys(snap.val() || {})
+							.forEach(
+								(key) => (deletionRefs[`loadouts/${auth.user.uid}/loadouts/${key}/primaries/${id}`] = null)
+							)
+					)
+					// Nuke!
+					.then(() => database.ref()
+						.update(deletionRefs))
+			)
+		}
 	}
 }
 

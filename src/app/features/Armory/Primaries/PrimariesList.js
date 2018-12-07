@@ -36,13 +36,16 @@ class PrimariesList extends Component {
 	}
 
 	delete(id) {
-		this.setState(prevState => {
-			let weaponsCopy = { ...prevState.weapons }
+		database.primaries.delete(id)
+			.then(() => {
+				this.setState((prevState) => {
+					let weaponsCopy = { ...prevState.weapons }
 
-			delete weaponsCopy[id]
+					delete weaponsCopy[id]
 
-			return { weapons: weaponsCopy }
-		})
+					return { weapons: weaponsCopy }
+				})
+			})
 	}
 
 	save(value) {
@@ -75,11 +78,12 @@ class PrimariesList extends Component {
 				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
-					<CardList 
+					<CardList
 						buildTitle={ this.buildTitle }
 						items={ weapons }
 						onAdd={ () => this.add() }
-						onCardDelete={ (id) => this.delete(id)} />
+						onCardDelete={ (id) => this.delete(id) }
+					/>
 				)}
 
 				<AddPrimaryDialog
