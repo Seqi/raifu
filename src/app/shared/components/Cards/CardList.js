@@ -4,8 +4,20 @@ import AddCard from './AddCard'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
+import ConfirmDeleteDialog from './ConfirmDeleteDialog';
 
 class CardList extends Component {
+
+	constructor(props) {
+		super(props);
+		
+		this.state = {
+			isDialogOpen: false,
+			dialogKey: '',
+			dialogTitle: ''
+		}
+	}	
+
 	componentDidMount() {
 		// Ensure we don't delay the animations once the component loaded
 		this.loaded = true
@@ -23,11 +35,14 @@ class CardList extends Component {
 
 		return (
 			<Card
-				onClick={ () => onCardClick(key) }
+				key={ key }
 				style={ { animationDelay: this.getAnimationDelay(idx) } }
 				className={ `card ${this.props.cardType}-card` }
-				key={ idx }
+				onClick={ () => onCardClick(key) }
 			>
+				<button type='button' className='avatar-button card-action' onClick={ (e) => this.handleDialogOpen(key, buildTitle(item)) }>
+					<i className='fa fa-times' />
+				</button>
 				<CardHeader title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
 				<CardContent>{JSON.stringify(item)}</CardContent>
 			</Card>
@@ -38,8 +53,22 @@ class CardList extends Component {
 		return this.loaded ? '0s' : `${0.2 * idx}s`
 	}
 
+	handleDialogOpen(key, title) {
+		this.setState({ isDialogOpen: true, dialogKey: key, dialogTitle: title })
+	}
+
+	handleDialogClose() {
+		this.setState({ isDialogOpen: false, dialogKey: '', dialogTitle: '' })
+	}
+
+	handleConfirmDelete() {
+		this.props.onCardDelete(this.state.dialogKey)
+		this.handleDialogClose()
+	}
+
 	render() {
 		let { items, onAdd, cardType } = this.props
+		
 		return (
 			<div className='card-list'>
 				{this.renderItems(items)}
@@ -48,6 +77,14 @@ class CardList extends Component {
 					onClick={ onAdd }
 					cardType={ cardType }
 				/>
+
+				{ this.state.isDialogOpen && 
+					<ConfirmDeleteDialog 
+						title={ this.state.dialogTitle }
+						isOpen={ this.state.isDialogOpen }
+						onClose={ () => this.handleDialogClose() }
+						onConfirm={ () => this.handleConfirmDelete() } />
+				}
 			</div>
 		)
 	}
@@ -57,6 +94,7 @@ CardList.propTypes = {
 	items: PropTypes.object,
 	onAdd: PropTypes.func.isRequired,
 	onCardClick: PropTypes.func,
+	onCardDelete: PropTypes.func,
 	buildTitle: PropTypes.func,
 	buildSubtitle: PropTypes.func,
 	cardType: PropTypes.string
@@ -64,10 +102,11 @@ CardList.propTypes = {
 
 CardList.defaultProps = {
 	items: {},
+	cardType: 'weapon',
 	buildTitle: (item) => item.title,
 	buildSubtitle: (item) => item.brand,
 	onCardClick: () => {},
-	cardType: 'weapon'
+	onCardDelete: () => {}
 }
 
 export default CardList

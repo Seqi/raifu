@@ -35,6 +35,16 @@ class GearList extends Component {
 		this.setState({ isAddDialogOpen: true })
 	}
 
+	delete(id) {
+		this.setState(prevState => {
+			let gearCopy = { ...prevState.gear }
+
+			delete gearCopy[id]
+
+			return { gear: gearCopy }
+		})
+	}
+
 	save(value) {
 		database.gear
 			.add(value)
@@ -61,7 +71,7 @@ class GearList extends Component {
 				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
-					<CardList items={ gear } onAdd={ () => this.add() } />
+					<CardList items={ gear } onAdd={ () => this.add() } onCardDelete={ (id) => this.delete(id)} />
 				)}
 
 				<AddGearDialog

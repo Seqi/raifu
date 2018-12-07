@@ -35,6 +35,16 @@ class SecondariesList extends Component {
 		this.setState({ isAddDialogOpen: true })
 	}
 
+	delete(id) {
+		this.setState(prevState => {
+			let weaponsCopy = { ...prevState.weapons }
+
+			delete weaponsCopy[id]
+
+			return { weapons: weaponsCopy }
+		})
+	}
+
 	buildTitle(weapon) {
 		return weapon.nickname || `${weapon.platform} ${weapon.model}`
 	}
@@ -65,7 +75,7 @@ class SecondariesList extends Component {
 				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
-					<CardList buildTitle={ this.buildTitle } items={ weapons } onAdd={ () => this.add() } />
+					<CardList buildTitle={ this.buildTitle } items={ weapons } onAdd={ () => this.add() } onCardDelete={ (id) => this.delete(id) } />
 				)}
 
 				<AddSecondaryDialog

@@ -35,6 +35,16 @@ class AttachmentsList extends Component {
 		this.setState({ isAddDialogOpen: true })
 	}
 
+	delete(id) {
+		this.setState(prevState => {
+			let attachmentsCopy = { ...prevState.attachments }
+
+			delete attachmentsCopy[id]
+
+			return { attachments: attachmentsCopy }
+		})
+	}
+
 	save(value) {
 		database.attachments
 			.add(value)
@@ -61,7 +71,7 @@ class AttachmentsList extends Component {
 				) : error ? (
 					<div className='error-alert'>Error: {error}</div>
 				) : (
-					<CardList buildSubtitle={ () => '' } cardType='attachment' items={ attachments } onAdd={ () => this.add() } />
+					<CardList buildSubtitle={ () => '' } cardType='attachment' items={ attachments } onAdd={ () => this.add() } onCardDelete={ (id) => this.delete(id) } />
 				)}
 
 				<AddAttachmentDialog
