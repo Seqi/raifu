@@ -1,82 +1,44 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import AddLoadoutDialog from './AddLoadoutDialog'
-import Loader from '../../shared/components/Loader'
-import CardList from '../../shared/components/Cards/CardList'
 
 import database from '../../../firebase/database'
+import CardListBaseComponent from '../../shared/components/Lists/CardListBaseComponent'
 
-class LoadoutList extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			loadouts: {},
-			loading: true,
-			isDialogOpen: false,
-			error: null
-		}
+class LoadoutList extends CardListBaseComponent {
+	get title() {
+		return ''
 	}
 
-	componentDidMount() {
-		database.loadouts
-			.get()
-			.then((snap) => {
-				this.setState({ loadouts: snap.val(), loading: false })
-			})
-			.catch((err) => this.setState({ error: err.message, loading: false }))
+	get cardType() {
+		return 'loadout'
 	}
 
-	handleDialogClose() {
-		this.setState({ isDialogOpen: false })
+	get items() {
+		return database.loadouts
 	}
 
-	add() {
-		this.setState({ isDialogOpen: true })
+	buildCardTitle(loadout) {
+		return loadout.name
 	}
 
 	view(id) {
 		this.props.history.push(id)
 	}
 
-	save(value) {
-		database.loadouts
-			.add(value)
-			.then((ref) => database.loadouts.getById(ref.key))
-			.then((snap) =>
-				this.setState((prevState) => {
-					let loadouts = {
-						...prevState.loadouts,
-						[snap.key]: snap.val()
-					}
-					return { loadouts }
-				})
-			)
-			.then(() => this.handleDialogClose())
-	}
-
 	render() {
-		let { loadouts, error, loading } = this.state
-		return loading ? (
-			<Loader />
-		) : error ? (
-			<div className='error-alert'>Error: {error}</div>
-		) : (
-			<React.Fragment>
-				<CardList
-					buildTitle={ (item) => item.name }
-					items={ loadouts }
-					cardType='loadout'
-					onAdd={ () => this.add() }
-					onCardClick={ (loadout) => this.view(loadout) }
-				/>
+		let { isAddDialogOpen } = this.state
+		return (
+			<div>
+				{super.render()}
 
 				<AddLoadoutDialog
-					isOpen={ this.state.isDialogOpen }
+					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
-					onClose={ () => this.handleDialogClose() }
+					onClose={ () => this.handleAddDialogClose() }
 				/>
-			</React.Fragment>
+			</div>
 		)
 	}
 }

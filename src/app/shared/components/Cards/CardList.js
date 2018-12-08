@@ -4,19 +4,18 @@ import AddCard from './AddCard'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
-import ConfirmDeleteDialog from './ConfirmDeleteDialog';
+import ConfirmDeleteDialog from './ConfirmDeleteDialog'
 
 class CardList extends Component {
-
 	constructor(props) {
-		super(props);
-		
+		super(props)
+
 		this.state = {
 			isDialogOpen: false,
 			dialogKey: '',
 			dialogTitle: ''
 		}
-	}	
+	}
 
 	componentDidMount() {
 		// Ensure we don't delay the animations once the component loaded
@@ -40,7 +39,11 @@ class CardList extends Component {
 				className={ `card ${this.props.cardType}-card` }
 				onClick={ () => onCardClick(key) }
 			>
-				<button type='button' className='avatar-button card-action' onClick={ (e) => this.handleDialogOpen(key, buildTitle(item)) }>
+				<button
+					type='button'
+					className='avatar-button card-action'
+					onClick={ (e) => this.handleDialogOpen(key, buildTitle(item)) }
+				>
 					<i className='fa fa-times' />
 				</button>
 				<CardHeader title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
@@ -68,7 +71,7 @@ class CardList extends Component {
 
 	render() {
 		let { items, onAdd, cardType } = this.props
-		
+
 		return (
 			<div className='card-list'>
 				{this.renderItems(items)}
@@ -78,13 +81,14 @@ class CardList extends Component {
 					cardType={ cardType }
 				/>
 
-				{ this.state.isDialogOpen && 
-					<ConfirmDeleteDialog 
+				{this.state.isDialogOpen && (
+					<ConfirmDeleteDialog
 						title={ this.state.dialogTitle }
 						isOpen={ this.state.isDialogOpen }
 						onClose={ () => this.handleDialogClose() }
-						onConfirm={ () => this.handleConfirmDelete() } />
-				}
+						onConfirm={ () => this.handleConfirmDelete() }
+					/>
+				)}
 			</div>
 		)
 	}

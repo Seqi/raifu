@@ -1,83 +1,33 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import AddGearDialog from './AddGearDialog'
 
 import database from '../../../../firebase/database'
-import Loader from '../../../shared/components/Loader'
-import CardList from '../../../shared/components/Cards/CardList'
+import CardListBaseComponent from '../../../shared/components/Lists/CardListBaseComponent'
 
-class GearList extends Component {
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			gear: {},
-			loading: true,
-			isAddDialogOpen: false,
-			error: null
-		}
+class GearList extends CardListBaseComponent {
+	get title() {
+		return 'GEAR'
 	}
 
-	componentDidMount() {
-		database.gear
-			.get()
-			.then((snap) => {
-				this.setState({ gear: snap.val(), loading: false })
-			})
-			.catch((err) => this.setState({ error: err.message, loading: false }))
+	get items() {
+		return database.gear
 	}
 
-	handleDialogClose() {
-		this.setState({ isAddDialogOpen: false })
-	}
-
-	add() {
-		this.setState({ isAddDialogOpen: true })
-	}
-
-	delete(id) {
-		this.setState(prevState => {
-			let gearCopy = { ...prevState.gear }
-
-			delete gearCopy[id]
-
-			return { gear: gearCopy }
-		})
-	}
-
-	save(value) {
-		database.gear
-			.add(value)
-			.then((ref) => database.gear.getById(ref.key))
-			.then((snap) => {
-				this.setState((prevState) => {
-					let gear = {
-						...prevState.gear,
-						[snap.key]: snap.val()
-					}
-					return { gear }
-				})
-			})
-			.then(() => this.handleDialogClose())
+	buildCardTitle(item) {
+		return item.title
 	}
 
 	render() {
-		let { gear, error, loading } = this.state
+		let { isAddDialogOpen } = this.state
 		return (
 			<div>
-				<h2>GEAR</h2>
-				{loading ? (
-					<Loader />
-				) : error ? (
-					<div className='error-alert'>Error: {error}</div>
-				) : (
-					<CardList items={ gear } onAdd={ () => this.add() } onCardDelete={ (id) => this.delete(id)} />
-				)}
+				{super.render()}
 
 				<AddGearDialog
-					isOpen={ this.state.isAddDialogOpen }
+					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
-					onClose={ () => this.handleDialogClose() }
+					onClose={ () => this.handleAddDialogClose() }
 				/>
 			</div>
 		)

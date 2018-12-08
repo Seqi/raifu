@@ -1,83 +1,41 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import AddAttachmentDialog from './AddAttachmentDialog'
 
 import database from '../../../../firebase/database'
-import Loader from '../../../shared/components/Loader'
-import CardList from '../../../shared/components/Cards/CardList'
+import CardListBaseComponent from '../../../shared/components/Lists/CardListBaseComponent'
 
-class AttachmentsList extends Component {
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			attachments: {},
-			loading: true,
-			isAddDialogOpen: false,
-			error: null
-		}
+class AttachmentsList extends CardListBaseComponent {
+	get title() {
+		return 'ATTACHMENTS'
 	}
 
-	componentDidMount() {
-		database.attachments
-			.get()
-			.then((snap) => {
-				this.setState({ attachments: snap.val(), loading: false })
-			})
-			.catch((err) => this.setState({ error: err.message, loading: false }))
+	get items() {
+		return database.attachments
 	}
 
-	handleDialogClose() {
-		this.setState({ isAddDialogOpen: false })
+	get cardType() {
+		return 'attachment'
 	}
 
-	add() {
-		this.setState({ isAddDialogOpen: true })
+	buildCardTitle(item) {
+		return item.title
 	}
 
-	delete(id) {
-		this.setState(prevState => {
-			let attachmentsCopy = { ...prevState.attachments }
-
-			delete attachmentsCopy[id]
-
-			return { attachments: attachmentsCopy }
-		})
-	}
-
-	save(value) {
-		database.attachments
-			.add(value)
-			.then((ref) => database.attachments.getById(ref.key))
-			.then((snap) => {
-				this.setState((prevState) => {
-					let attachments = {
-						...prevState.attachments,
-						[snap.key]: snap.val()
-					}
-					return { attachments }
-				})
-			})
-			.then(() => this.handleDialogClose())
+	buildCardSubtitle(item) {
+		return ''
 	}
 
 	render() {
-		let { attachments, error, loading } = this.state
+		let { isAddDialogOpen } = this.state
 		return (
 			<div>
-				<h2>ATTACHMENTS</h2>
-				{loading ? (
-					<Loader />
-				) : error ? (
-					<div className='error-alert'>Error: {error}</div>
-				) : (
-					<CardList buildSubtitle={ () => '' } cardType='attachment' items={ attachments } onAdd={ () => this.add() } onCardDelete={ (id) => this.delete(id) } />
-				)}
+				{super.render()}
 
 				<AddAttachmentDialog
-					isOpen={ this.state.isAddDialogOpen }
+					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
-					onClose={ () => this.handleDialogClose() }
+					onClose={ () => this.handleAddDialogClose() }
 				/>
 			</div>
 		)
