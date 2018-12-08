@@ -42,7 +42,7 @@ class CardList extends Component {
 				<button
 					type='button'
 					className='avatar-button card-action'
-					onClick={ (e) => this.handleDialogOpen(key, buildTitle(item)) }
+					onClick={ (e) => this.handleDialogOpen(e, key, buildTitle(item)) }
 				>
 					<i className='fa fa-times' />
 				</button>
@@ -56,7 +56,8 @@ class CardList extends Component {
 		return this.loaded ? '0s' : `${0.2 * idx}s`
 	}
 
-	handleDialogOpen(key, title) {
+	handleDialogOpen(e, key, title) {
+		e.stopPropagation()
 		this.setState({ isDialogOpen: true, dialogKey: key, dialogTitle: title })
 	}
 
