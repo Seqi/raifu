@@ -1,5 +1,5 @@
 import firebase from 'firebase/app'
-import client from '.'
+import client from '..'
 
 let auth = client.auth()
 
