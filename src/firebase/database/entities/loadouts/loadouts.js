@@ -11,7 +11,7 @@ export default () => {
 	return {
 		...abstract.useCrud('loadouts', 'loadouts'),
 		addPrimary: (loadoutId, primaryId) => {
-			return primaries
+			return primaries()
 				.getById(primaryId)
 				.then((snap) => {
 					database
@@ -27,7 +27,7 @@ export default () => {
 				)
 		},
 		addSecondary: (loadoutId, secondaryId) => {
-			return secondaries
+			return secondaries()
 				.getById(secondaryId)
 				.then((snap) => {
 					database
@@ -43,7 +43,7 @@ export default () => {
 				)
 		},
 		addAttachmentToPrimary: (loadoutId, primaryId, attachmentId) => {
-			return attachments
+			return attachments()
 				.getById(attachmentId)
 				.then((snap) =>
 					database
@@ -52,7 +52,7 @@ export default () => {
 				)
 		},
 		addAttachmentToSecondary: (loadoutId, secondaryId, attachmentId) => {
-			return attachments
+			return attachments()
 				.getById(attachmentId)
 				.then((snap) =>
 					database
