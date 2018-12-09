@@ -118,6 +118,16 @@ class EditLoadout extends React.Component {
 			})
 	}
 
+	deleteAttachment(slot, weaponId, attachmentId) {
+		this.setState((prevState) => {
+			let editedWeapon = prevState.loadout[slot][weaponId]
+
+			delete editedWeapon.attachments[attachmentId]
+
+			return prevState
+		})
+	}
+
 	renderWeapons(weapons, slot) {
 		if (!weapons) {
 			return null
@@ -133,6 +143,7 @@ class EditLoadout extends React.Component {
 					slot={ slot }
 					filterAttachmentIds={ this.usedAttachmentIds }
 					onAttachmentAdded={ (attachment) => this.pushNewAttachment(slot, key, attachment) }
+					onAttachmentDeleted={ (attachment) => this.deleteAttachment(slot, key, attachment) }
 				/>
 			))
 	}

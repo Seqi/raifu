@@ -49,6 +49,17 @@ class ModifyWeapon extends Component {
 			.then(() => onAttachmentAdded(attachmentId))
 	}
 
+	handleDelete(attachmentId) {
+		let { loadoutId, weaponId, slot, onAttachmentDeleted } = this.props
+		database.loadouts
+			.loadout(loadoutId)
+			// eslint-disable-next-line no-unexpected-multiline
+			[slot](weaponId)
+			.removeAttachment(attachmentId)
+			.then(() => this.handleDialogClose())
+			.then(() => onAttachmentDeleted(attachmentId))
+	}
+
 	filterAttachments() {}
 
 	render() {
@@ -68,6 +79,7 @@ class ModifyWeapon extends Component {
 						buildSubtitle={ () => '' }
 						items={ weapon.attachments || {} }
 						onAdd={ () => this.handleDialogOpen() }
+						onCardDelete={ (id) => this.handleDelete(id) }
 					/>
 				</div>
 
@@ -90,12 +102,14 @@ ModifyWeapon.propTypes = {
 	weapon: PropTypes.object.isRequired,
 	slot: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
 	filterAttachmentIds: PropTypes.array,
-	onAttachmentAdded: PropTypes.func
+	onAttachmentAdded: PropTypes.func,
+	onAttachmentDeleted: PropTypes.func
 }
 
 ModifyWeapon.defaultProps = {
 	filterAttachmentIds: [],
-	onAttachmentAdded: (attachment) => {}
+	onAttachmentAdded: (attachment) => {},
+	onAttachmentDeleted: (attachmentId) => {}
 }
 
 export default ModifyWeapon

@@ -84,6 +84,21 @@ export default () => {
 									)
 									.update({ [snap.key]: snap.val() })
 							)
+					},
+
+					removeAttachment: (attachmentId) => {
+						return database
+							.ref(`loadouts/${auth.user.uid}/attachmentLookup/${attachmentId}`)
+							.update({ [loadoutId]: null })
+							.then(() =>
+								database
+									.ref(
+										`loadouts/${
+											auth.user.uid
+										}/loadouts/${loadoutId}/primaries/${primaryId}/attachments`
+									)
+									.update({ [attachmentId]: null })
+							)
 					}
 				}),
 
@@ -122,6 +137,21 @@ export default () => {
 										}/loadouts/${loadoutId}/secondaries/${secondaryId}/attachments`
 									)
 									.update({ [snap.key]: snap.val() })
+							)
+					},
+
+					removeAttachment: (attachmentId) => {
+						return database
+							.ref(`loadouts/${auth.user.uid}/attachmentLookup/${attachmentId}`)
+							.update({ [loadoutId]: null })
+							.then(() =>
+								database
+									.ref(
+										`loadouts/${
+											auth.user.uid
+										}/loadouts/${loadoutId}/secondaries/${secondaryId}/attachments`
+									)
+									.update({ [attachmentId]: null })
 							)
 					}
 				})
