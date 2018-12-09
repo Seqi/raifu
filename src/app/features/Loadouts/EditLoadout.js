@@ -57,7 +57,9 @@ class EditLoadout extends React.Component {
 
 	onPrimarySelected(primaryId) {
 		database.loadouts
-			.addPrimary(this.state.loadoutId, primaryId)
+			.loadout(this.state.loadoutId)
+			.primaries(primaryId)
+			.add()
 			.then(() => this.pushNewWeapon('primaries', primaryId))
 			.then(() => this.closeAddPrimaryDialog())
 	}
@@ -72,7 +74,9 @@ class EditLoadout extends React.Component {
 
 	onSecondarySelected(secondaryId) {
 		database.loadouts
-			.addSecondary(this.state.loadoutId, secondaryId)
+			.loadout(this.state.loadoutId)
+			.secondaries(secondaryId)
+			.add()
 			.then(() => this.pushNewWeapon('secondaries', secondaryId))
 			.then(() => this.closeAddSecondaryDialog())
 	}

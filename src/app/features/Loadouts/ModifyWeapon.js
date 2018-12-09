@@ -40,12 +40,12 @@ class ModifyWeapon extends Component {
 	handleSave(attachmentId) {
 		let { loadoutId, weaponId, slot, onAttachmentAdded } = this.props
 
-		let promise =
-			slot === 'primaries'
-				? database.loadouts.addAttachmentToPrimary(loadoutId, weaponId, attachmentId)
-				: database.loadouts.addAttachmentToSecondary(loadoutId, weaponId, attachmentId)
-
-		promise.then(() => this.handleDialogClose())
+		database.loadouts
+			.loadout(loadoutId)
+			// eslint-disable-next-line no-unexpected-multiline
+			[slot](weaponId)
+			.addAttachment(attachmentId)
+			.then(() => this.handleDialogClose())
 			.then(() => onAttachmentAdded(attachmentId))
 	}
 
