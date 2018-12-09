@@ -4,7 +4,7 @@ import auth from '../../../auth'
 
 import primaries from '../armory/primaries'
 import secondaries from '../armory/secondaries'
-import attachments from '../armory/secondaries'
+import attachments from '../armory/attachments'
 
 export default () => {
 	let abstract = useAbstract(database)
@@ -83,6 +83,13 @@ export default () => {
 		addAttachmentToPrimary: (loadoutId, primaryId, attachmentId) => {
 			return attachments()
 				.getById(attachmentId)
+				.then((snap) => {
+					database
+						.ref(`loadouts/${auth.user.uid}/attachmentLookup/${attachmentId}`)
+						.update({ [loadoutId]: { slot: 'primaries', weaponId: primaryId } })
+
+					return snap
+				})
 				.then((snap) =>
 					database
 						.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/primaries/${primaryId}/attachments`)
@@ -93,6 +100,13 @@ export default () => {
 		addAttachmentToSecondary: (loadoutId, secondaryId, attachmentId) => {
 			return attachments()
 				.getById(attachmentId)
+				.then((snap) => {
+					database
+						.ref(`loadouts/${auth.user.uid}/attachmentLookup/${attachmentId}`)
+						.update({ [loadoutId]: { slot: 'secondaries', weaponId: secondaryId } })
+
+					return snap
+				})
 				.then((snap) =>
 					database
 						.ref(`loadouts/${auth.user.uid}/loadouts/${loadoutId}/secondaries/${secondaryId}/attachments`)
