@@ -5,8 +5,11 @@
 	transition: all 0.4s ease-out;
 }
 
-.card-list .card {
+.card {
 	position: relative;
+}
+
+.card-list .card {
 	opacity: 0;
 	animation-fill-mode: forwards;
 	animation-duration: 1s;
@@ -16,7 +19,7 @@
 
 .card .card-action {
 	position: absolute;
-	top:0;
+	top: 0;
 	right: 0;
 
 	padding: 0;
@@ -25,7 +28,7 @@
 .card-action i {
 	color: rgba(255, 255, 255, 0.7);
 	font-size: 1.1rem;
-	
+
 	padding: 7px;
 	border-radius: 25%;
 }
@@ -62,7 +65,8 @@
 	height: 175px;
 }
 
-.weapon-card:hover, .attachment-card:hover {
+.weapon-card:hover,
+.attachment-card:hover {
 	transform: scale(1.05);
 	transition: transform ease-in 0.15s;
 }
@@ -72,7 +76,8 @@
 	transition: transform ease-in 0.15s;
 }
 
-.weapon-card:not(:last-child), .attachment-card:not(:last-child) {
+.weapon-card:not(:last-child),
+.attachment-card:not(:last-child) {
 	margin-right: 20px;
 }
 
