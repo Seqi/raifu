@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import AddCard from './AddCard'
+
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
+
+import AddCard from './AddCard'
 import ConfirmDeleteDialog from './ConfirmDeleteDialog'
+import CardDeleteButton from './CardDeleteButton'
 
 class CardList extends Component {
 	constructor(props) {
@@ -39,13 +42,7 @@ class CardList extends Component {
 				className={ `card ${this.props.cardType}-card` }
 				onClick={ () => onCardClick(key) }
 			>
-				<button
-					type='button'
-					className='avatar-button card-action'
-					onClick={ (e) => this.handleDialogOpen(e, key, buildTitle(item)) }
-				>
-					<i className='fa fa-times' />
-				</button>
+				<CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, key, buildTitle(item)) } />
 				<CardHeader title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
 				<CardContent>{JSON.stringify(item)}</CardContent>
 			</Card>
