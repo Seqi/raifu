@@ -16,8 +16,7 @@ class ModifyWeapon extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			isDialogOpen: false,
-			dialogType: ''
+			isDialogOpen: false
 		}
 	}
 
@@ -30,54 +29,65 @@ class ModifyWeapon extends Component {
 		return this.props.weapon.brand
 	}
 
-	handleDialogOpen(type) {
-		this.setState({ isDialogOpen: true, dialogType: type })
+	handleDialogOpen() {
+		this.setState({ isDialogOpen: true })
 	}
 
 	handleDialogClose() {
-		this.setState({ isDialogOpen: false, dialogType: '' })
+		this.setState({ isDialogOpen: false })
 	}
 
-	handleWeaponDelete() {}
+	handleDelete() {
+		let { loadoutId, slot, weaponId, onDelete } = this.props
+
+		database.loadouts
+			.loadout(loadoutId)
+			// eslint-disable-next-line no-unexpected-multiline
+			[slot](weaponId)
+			.delete()
+			.then(() => this.handleDialogClose())
+			.then(() => onDelete())
+	}
 
 	render() {
-		let { isDialogOpen, dialogType } = this.state
+		let { isDialogOpen } = this.state
 
 		return (
 			<div className='weapon-mod'>
 				<Card className='card weapon-card'>
-					<CardDeleteButton onClick={ () => this.handleDialogOpen('delete') } />
+					<CardDeleteButton onClick={ () => this.handleDialogOpen() } />
 					<CardHeader title={ this.buildTitle() } subheader={ this.buildSubtitle() } />
 					<CardContent>{JSON.stringify(this.props.weapon)}</CardContent>
 				</Card>
 
 				<ModifyWeaponAttachments { ...this.props } />
 
-				{dialogType === 'delete' && (
-					<ConfirmDeleteDialog
-						title={ 'dick' }
-						isOpen={ isDialogOpen }
-						onClose={ () => this.handleDialogClose() }
-						onConfirm={ () => this.handleWeaponDelete() }
-					/>
-				)}
+				<ConfirmDeleteDialog
+					title={ this.buildTitle() }
+					isOpen={ isDialogOpen }
+					onClose={ () => this.handleDialogClose() }
+					onConfirm={ () => this.handleDelete() }
+				/>
 			</div>
 		)
 	}
 }
 
 ModifyWeapon.propTypes = {
+	// TODO: Move all of this stuff to a React.Context
 	loadoutId: PropTypes.string.isRequired,
 	weaponId: PropTypes.string.isRequired,
 	weapon: PropTypes.object.isRequired,
 	slot: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
 	filterAttachmentIds: PropTypes.array,
+	onDelete: PropTypes.func,
 	onAttachmentAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func
 }
 
 ModifyWeapon.defaultProps = {
 	filterAttachmentIds: [],
+	onDelete: () => {},
 	onAttachmentAdded: (attachment) => {},
 	onAttachmentDeleted: (attachmentId) => {}
 }
