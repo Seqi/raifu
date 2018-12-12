@@ -7,12 +7,10 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import CardList from '../../shared/components/Cards/CardList'
-import AddAttachmentDialog from './AddAttachmentDialog'
-
 import database from '../../../firebase/database'
 import CardDeleteButton from '../../shared/components/Cards/CardDeleteButton'
 import ConfirmDeleteDialog from '../../shared/components/Cards/ConfirmDeleteDialog'
+import ModifyWeaponAttachments from './ModifyWeaponAttachments'
 
 class ModifyWeapon extends Component {
 	constructor(props) {
@@ -40,35 +38,9 @@ class ModifyWeapon extends Component {
 		this.setState({ isDialogOpen: false, dialogType: '' })
 	}
 
-	handleSave(attachmentId) {
-		let { loadoutId, weaponId, slot, onAttachmentAdded } = this.props
-
-		database.loadouts
-			.loadout(loadoutId)
-			// eslint-disable-next-line no-unexpected-multiline
-			[slot](weaponId)
-			.addAttachment(attachmentId)
-			.then(() => this.handleDialogClose())
-			.then(() => onAttachmentAdded(attachmentId))
-	}
-
 	handleWeaponDelete() {}
 
-	handleAttachmentDelete(attachmentId) {
-		let { loadoutId, weaponId, slot, onAttachmentDeleted } = this.props
-		database.loadouts
-			.loadout(loadoutId)
-			// eslint-disable-next-line no-unexpected-multiline
-			[slot](weaponId)
-			.removeAttachment(attachmentId)
-			.then(() => this.handleDialogClose())
-			.then(() => onAttachmentDeleted(attachmentId))
-	}
-
-	filterAttachments() {}
-
 	render() {
-		let { weapon, filterAttachmentIds } = this.props
 		let { isDialogOpen, dialogType } = this.state
 
 		return (
@@ -79,31 +51,11 @@ class ModifyWeapon extends Component {
 					<CardContent>{JSON.stringify(this.props.weapon)}</CardContent>
 				</Card>
 
-				{/*  Move attachment list to own component */}
-				<div className='weapon-attachments'>
-					<CardList
-						cardType='attachment'
-						buildSubtitle={ () => '' }
-						items={ weapon.attachments || {} }
-						onAdd={ () => this.handleDialogOpen('add') }
-						onCardDelete={ (id) => this.handleAttachmentDelete(id) }
-					/>
-				</div>
-
-				{dialogType === 'add' && (
-					<AddAttachmentDialog
-						weaponId={ this.props.weaponId }
-						weaponName={ this.buildTitle() }
-						filterIds={ filterAttachmentIds }
-						isOpen={ isDialogOpen }
-						onClose={ () => this.handleDialogClose() }
-						onSave={ (id) => this.handleSave(id) }
-					/>
-				)}
+				<ModifyWeaponAttachments { ...this.props } />
 
 				{dialogType === 'delete' && (
 					<ConfirmDeleteDialog
-						title={ this.buildTitle() }
+						title={ 'dick' }
 						isOpen={ isDialogOpen }
 						onClose={ () => this.handleDialogClose() }
 						onConfirm={ () => this.handleWeaponDelete() }

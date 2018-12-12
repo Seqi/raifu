@@ -1,0 +1,99 @@
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+import AddAttachmentDialog from './AddAttachmentDialog'
+import CardList from '../../shared/components/Cards/CardList'
+
+import database from '../../../firebase/database'
+
+class ModifyWeaponAttachments extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			isDialogOpen: false
+		}
+	}
+
+	handleDialogOpen() {
+		this.setState({ isDialogOpen: true })
+	}
+
+	handleDialogClose() {
+		this.setState({ isDialogOpen: false })
+	}
+
+	buildWeaponName() {
+		let { weapon } = this.props
+		return weapon.nickname || `${weapon.platform} ${weapon.model}`
+	}
+
+	handleSave(attachmentId) {
+		let { loadoutId, weaponId, slot, onAttachmentAdded } = this.props
+
+		database.loadouts
+			.loadout(loadoutId)
+			// eslint-disable-next-line no-unexpected-multiline
+			[slot](weaponId)
+			.addAttachment(attachmentId)
+			.then(() => this.handleDialogClose())
+			.then(() => onAttachmentAdded(attachmentId))
+	}
+
+	handleDelete(attachmentId) {
+		let { loadoutId, weaponId, slot, onAttachmentDeleted } = this.props
+
+		database.loadouts
+			.loadout(loadoutId)
+			// eslint-disable-next-line no-unexpected-multiline
+			[slot](weaponId)
+			.removeAttachment(attachmentId)
+			.then(() => this.handleDialogClose())
+			.then(() => onAttachmentDeleted(attachmentId))
+	}
+
+	render() {
+		let { weapon, weaponId, filterAttachmentIds } = this.props
+
+		return (
+			<React.Fragment>
+				<div className='weapon-attachments'>
+					<CardList
+						cardType='attachment'
+						buildSubtitle={ () => '' }
+						items={ weapon.attachments }
+						onAdd={ () => this.handleDialogOpen() }
+						onCardDelete={ (id) => this.handleDelete(id) }
+					/>
+				</div>
+
+				<AddAttachmentDialog
+					weaponId={ weaponId }
+					weaponName={ this.buildWeaponName() }
+					filterIds={ filterAttachmentIds }
+					isOpen={ this.state.isDialogOpen }
+					onClose={ () => this.handleDialogClose() }
+					onSave={ (id) => this.handleSave(id) }
+				/>
+			</React.Fragment>
+		)
+	}
+}
+
+ModifyWeaponAttachments.propTypes = {
+	loadoutId: PropTypes.string.isRequired,
+	weaponId: PropTypes.string.isRequired,
+	weapon: PropTypes.object.isRequired,
+	slot: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
+	filterAttachmentIds: PropTypes.array,
+	onAttachmentAdded: PropTypes.func,
+	onAttachmentDeleted: PropTypes.func
+}
+
+ModifyWeaponAttachments.defaultProps = {
+	filterAttachmentIds: [],
+	onAttachmentAdded: (attachment) => {},
+	onAttachmentDeleted: (attachmentId) => {}
+}
+
+export default ModifyWeaponAttachments
