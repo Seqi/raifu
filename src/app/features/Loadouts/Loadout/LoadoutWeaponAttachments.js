@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import AddAttachmentDialog from './AddAttachmentDialog'
-import CardList from '../../shared/components/Cards/CardList'
+import CardList from '../../../shared/components/Cards/CardList'
 
-import database from '../../../firebase/database'
+import database from '../../../../firebase/database'
 
-class ModifyWeaponAttachments extends Component {
+class LoadoutWeaponAttachments extends Component {
 	constructor(props) {
 		super(props)
 
@@ -80,7 +80,7 @@ class ModifyWeaponAttachments extends Component {
 	}
 }
 
-ModifyWeaponAttachments.propTypes = {
+LoadoutWeaponAttachments.propTypes = {
 	loadoutId: PropTypes.string.isRequired,
 	weaponId: PropTypes.string.isRequired,
 	weapon: PropTypes.object.isRequired,
@@ -90,10 +90,10 @@ ModifyWeaponAttachments.propTypes = {
 	onAttachmentDeleted: PropTypes.func
 }
 
-ModifyWeaponAttachments.defaultProps = {
+LoadoutWeaponAttachments.defaultProps = {
 	filterAttachmentIds: [],
 	onAttachmentAdded: (attachment) => {},
 	onAttachmentDeleted: (attachmentId) => {}
 }
 
-export default ModifyWeaponAttachments
+export default LoadoutWeaponAttachments

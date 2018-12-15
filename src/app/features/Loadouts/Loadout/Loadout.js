@@ -1,16 +1,16 @@
-import './EditLoadout.css'
+import './Loadout.css'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import AddWeaponDialog from './AddWeaponDialog'
-import ModifyWeapon from './ModifyWeapon'
+import LoadoutWeapon from './LoadoutWeapon'
 
-import AddCard from '../../shared/components/Cards/AddCard'
-import Loader from '../../shared/components/Loader'
+import AddCard from '../../../shared/components/Cards/AddCard'
+import Loader from '../../../shared/components/Loader'
 
-import database from '../../../firebase/database'
+import database from '../../../../firebase/database'
 
-class EditLoadout extends React.Component {
+class Loadout extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -145,7 +145,7 @@ class EditLoadout extends React.Component {
 
 		return Object.keys(weapons)
 			.map((key) => (
-				<ModifyWeapon
+				<LoadoutWeapon
 					key={ key }
 					loadoutId={ this.props.match.params.id }
 					weaponId={ key }
@@ -205,4 +205,4 @@ class EditLoadout extends React.Component {
 	}
 }
 
-export default withRouter(EditLoadout)
+export default withRouter(Loadout)

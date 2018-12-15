@@ -1,4 +1,4 @@
-import './ModifyWeapon.css'
+import './LoadoutWeapon.css'
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -7,12 +7,12 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import database from '../../../firebase/database'
-import CardDeleteButton from '../../shared/components/Cards/CardDeleteButton'
-import ConfirmDeleteDialog from '../../shared/components/Cards/ConfirmDeleteDialog'
-import ModifyWeaponAttachments from './ModifyWeaponAttachments'
+import database from '../../../../firebase/database'
+import CardDeleteButton from '../../../shared/components/Cards/CardDeleteButton'
+import ConfirmDeleteDialog from '../../../shared/components/Cards/ConfirmDeleteDialog'
+import LoadoutWeaponAttachments from './LoadoutWeaponAttachments'
 
-class ModifyWeapon extends Component {
+class LoadoutWeapon extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -60,7 +60,7 @@ class ModifyWeapon extends Component {
 					<CardContent>{JSON.stringify(this.props.weapon)}</CardContent>
 				</Card>
 
-				<ModifyWeaponAttachments { ...this.props } />
+				<LoadoutWeaponAttachments { ...this.props } />
 
 				<ConfirmDeleteDialog
 					title={ this.buildTitle() }
@@ -73,7 +73,7 @@ class ModifyWeapon extends Component {
 	}
 }
 
-ModifyWeapon.propTypes = {
+LoadoutWeapon.propTypes = {
 	// TODO: Move all of this stuff to a React.Context
 	loadoutId: PropTypes.string.isRequired,
 	weaponId: PropTypes.string.isRequired,
@@ -85,11 +85,11 @@ ModifyWeapon.propTypes = {
 	onAttachmentDeleted: PropTypes.func
 }
 
-ModifyWeapon.defaultProps = {
+LoadoutWeapon.defaultProps = {
 	filterAttachmentIds: [],
 	onDelete: () => {},
 	onAttachmentAdded: (attachment) => {},
 	onAttachmentDeleted: (attachmentId) => {}
 }
 
-export default ModifyWeapon
+export default LoadoutWeapon

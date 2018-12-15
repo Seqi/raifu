@@ -2,14 +2,14 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import LoadoutList from './LoadoutList'
-import EditLoadout from './EditLoadout'
+import Loadout from './Loadout/Loadout'
 
 class Loadouts extends React.Component {
 	render() {
 		return (
 			<Router basename='/app'>
 				<Switch>
-					<Route path='/:id' component={ EditLoadout } />
+					<Route path='/:id' component={ Loadout } />
 					<Route path='/' component={ LoadoutList } />
 				</Switch>
 			</Router>
