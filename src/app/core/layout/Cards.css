@@ -62,7 +62,7 @@
 
 .loadout-card {
 	width: 100%;
-	height: 175px;
+	min-height: 175px;
 }
 
 .weapon-card:hover,

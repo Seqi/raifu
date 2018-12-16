@@ -5,6 +5,7 @@ import AddLoadoutDialog from './AddLoadoutDialog'
 
 import database from '../../../firebase/database'
 import CardListBaseComponent from '../../shared/components/Lists/CardListBaseComponent'
+import CardList from '../../shared/components/Cards/CardList'
 
 class LoadoutList extends CardListBaseComponent {
 	get title() {
@@ -21,6 +22,35 @@ class LoadoutList extends CardListBaseComponent {
 
 	buildCardTitle(loadout) {
 		return loadout.name
+	}
+
+	buildCardContent(loadout) {
+		let items = { ...loadout.primaries, ...loadout.secondaries }
+		let view = {}
+
+		// Bring the attachments up a level
+		Object.keys(items)
+			.forEach((weaponKey) => {
+				view[weaponKey] = items[weaponKey]
+				let weaponAttachments = items[weaponKey].attachments
+				if (weaponAttachments) {
+					Object.keys(weaponAttachments)
+						.forEach((attachmentKey) => {
+							view[attachmentKey] = weaponAttachments[attachmentKey]
+						})
+				}
+			})
+		return (
+			<CardList
+				items={ view }
+				cardType={ 'attachment' }
+				buildTitle={ (item) => item.title || item.nickname || `${item.platform} ${item.model}` }
+				buildSubtitle={ (item) => item.brand || '' }
+				buildCardContent={ () => undefined }
+				canAdd={ false }
+				canDelete={ false }
+			/>
+		)
 	}
 
 	view(id) {

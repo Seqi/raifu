@@ -33,7 +33,10 @@ class CardList extends Component {
 	}
 
 	renderItem = (key, item, idx) => {
-		let { buildTitle, buildSubtitle, onCardClick } = this.props
+		let { buildTitle, buildSubtitle, buildCardContent, onCardClick, canDelete } = this.props
+
+		// Only display if exists
+		let cardContent = buildCardContent(item)
 
 		return (
 			<Card
@@ -42,9 +45,9 @@ class CardList extends Component {
 				className={ `card ${this.props.cardType}-card` }
 				onClick={ () => onCardClick(key) }
 			>
-				<CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, key, buildTitle(item)) } />
+				{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, key, buildTitle(item)) } />}
 				<CardHeader title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
-				<CardContent>{JSON.stringify(item)}</CardContent>
+				{cardContent && <CardContent> {buildCardContent(item)} </CardContent>}
 			</Card>
 		)
 	}
@@ -68,16 +71,19 @@ class CardList extends Component {
 	}
 
 	render() {
-		let { items, onAdd, cardType } = this.props
+		let { items, canAdd, onAdd, cardType } = this.props
 
 		return (
 			<div className='card-list'>
 				{this.renderItems(items)}
-				<AddCard
-					style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length) } }
-					onClick={ onAdd }
-					cardType={ cardType }
-				/>
+
+				{canAdd && (
+					<AddCard
+						style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length) } }
+						onClick={ onAdd }
+						cardType={ cardType }
+					/>
+				)}
 
 				{this.state.isDialogOpen && (
 					<ConfirmDeleteDialog
@@ -94,12 +100,15 @@ class CardList extends Component {
 
 CardList.propTypes = {
 	items: PropTypes.object,
-	onAdd: PropTypes.func.isRequired,
-	onCardClick: PropTypes.func,
-	onCardDelete: PropTypes.func,
+	cardType: PropTypes.string,
 	buildTitle: PropTypes.func,
 	buildSubtitle: PropTypes.func,
-	cardType: PropTypes.string
+	buildCardContent: PropTypes.func,
+	canAdd: PropTypes.bool,
+	canDelete: PropTypes.bool,
+	onAdd: PropTypes.func,
+	onCardClick: PropTypes.func,
+	onCardDelete: PropTypes.func
 }
 
 CardList.defaultProps = {
@@ -107,6 +116,10 @@ CardList.defaultProps = {
 	cardType: 'weapon',
 	buildTitle: (item) => item.title,
 	buildSubtitle: (item) => item.brand,
+	buildCardContent: (item) => JSON.stringify(item),
+	canAdd: true,
+	canDelete: true,
+	onAdd: () => {},
 	onCardClick: () => {},
 	onCardDelete: () => {}
 }
