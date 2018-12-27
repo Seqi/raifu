@@ -26,23 +26,28 @@ class LoadoutList extends CardListBaseComponent {
 
 	buildCardContent(loadout) {
 		let items = { ...loadout.primaries, ...loadout.secondaries }
-		let view = {}
+		let itemsList = {}
 
 		// Bring the attachments up a level
 		Object.keys(items)
 			.forEach((weaponKey) => {
-				view[weaponKey] = items[weaponKey]
+				itemsList[weaponKey] = items[weaponKey]
 				let weaponAttachments = items[weaponKey].attachments
 				if (weaponAttachments) {
 					Object.keys(weaponAttachments)
 						.forEach((attachmentKey) => {
-							view[attachmentKey] = weaponAttachments[attachmentKey]
+							itemsList[attachmentKey] = weaponAttachments[attachmentKey]
 						})
 				}
 			})
+
+		if (Object.keys(itemsList).length === 0) {
+			return <div>No items</div>
+		}
+
 		return (
 			<CardList
-				items={ view }
+				items={ itemsList }
 				cardType={ 'attachment' }
 				buildTitle={ (item) => item.title || item.nickname || `${item.platform} ${item.model}` }
 				buildSubtitle={ (item) => item.brand || '' }
