@@ -9,6 +9,7 @@ import AddCard from '../../../shared/components/Cards/AddCard'
 import Loader from '../../../shared/components/Loader'
 
 import database from '../../../../firebase/database'
+import EditLoadoutDialog from './EditLoadoutNameDialog'
 
 class Loadout extends React.Component {
 	constructor(props) {
@@ -16,8 +17,7 @@ class Loadout extends React.Component {
 		this.state = {
 			loadoutId: '',
 			loadout: null,
-			isAddPrimaryDialogOpen: false,
-			isAddSecondaryDialogOpen: false,
+			activeDialog: null,
 			loading: true,
 			error: null
 		}
@@ -47,12 +47,29 @@ class Loadout extends React.Component {
 		this.props.history.push('../')
 	}
 
-	openAddPrimaryDialog() {
-		this.setState({ isAddPrimaryDialogOpen: true })
+	openDialog(id) {
+		this.setState({ activeDialog: id })
 	}
 
-	closeAddPrimaryDialog() {
-		this.setState({ isAddPrimaryDialogOpen: false })
+	closeDialog() {
+		this.setState({ activeDialog: null })
+	}
+
+	onEditLoadoutName(name) {
+		database.loadouts
+			.loadout(this.state.loadoutId)
+			.update({ name })
+			.then(() => {
+				this.setState((prevState) => {
+					let newLoadout = {
+						...prevState.loadout,
+						name
+					}
+
+					return { loadout: newLoadout }
+				})
+			})
+			.then(() => this.closeDialog())
 	}
 
 	onPrimarySelected(primaryId) {
@@ -61,15 +78,7 @@ class Loadout extends React.Component {
 			.primaries(primaryId)
 			.add()
 			.then(() => this.pushNewWeapon('primaries', primaryId))
-			.then(() => this.closeAddPrimaryDialog())
-	}
-
-	openAddSecondaryDialog() {
-		this.setState({ isAddSecondaryDialogOpen: true })
-	}
-
-	closeAddSecondaryDialog() {
-		this.setState({ isAddSecondaryDialogOpen: false })
+			.then(() => this.closeDialog())
 	}
 
 	onSecondarySelected(secondaryId) {
@@ -78,7 +87,7 @@ class Loadout extends React.Component {
 			.secondaries(secondaryId)
 			.add()
 			.then(() => this.pushNewWeapon('secondaries', secondaryId))
-			.then(() => this.closeAddSecondaryDialog())
+			.then(() => this.closeDialog())
 	}
 
 	pushNewWeapon(slot, id) {
@@ -160,7 +169,7 @@ class Loadout extends React.Component {
 	}
 
 	render() {
-		let { loading, error, loadout, isAddPrimaryDialogOpen, isAddSecondaryDialogOpen } = this.state
+		let { loading, error, loadout, activeDialog } = this.state
 
 		return loading ? (
 			<Loader />
@@ -168,12 +177,15 @@ class Loadout extends React.Component {
 			<div className='error-alert'>Error: {error}</div>
 		) : (
 			<React.Fragment>
-				<h2>{loadout.name}</h2>
+				<h2 className='icon-header'>
+					{loadout.name}
+					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen' />
+				</h2>
 				<div>
 					<h3>ADD A PRIMARY</h3>
 					<div className='loadout-slot-list'>
 						{this.renderWeapons(loadout.primaries, 'primaries')}
-						<AddCard onClick={ () => this.openAddPrimaryDialog() } />
+						<AddCard onClick={ () => this.openDialog('addprimary') } />
 					</div>
 				</div>
 
@@ -181,24 +193,30 @@ class Loadout extends React.Component {
 					<h3>ADD A SECONDARY</h3>
 					<div className='loadout-slot-list'>
 						{this.renderWeapons(loadout.secondaries, 'secondaries')}
-						<AddCard onClick={ () => this.openAddSecondaryDialog() } />
+						<AddCard onClick={ () => this.openDialog('addsecondary') } />
 					</div>
 				</div>
+
+				<EditLoadoutDialog
+					isOpen={ activeDialog === 'editloadout' }
+					onSave={ (name) => this.onEditLoadoutName(name) }
+					onClose={ () => this.closeDialog() }
+				/>
 
 				<AddWeaponDialog
 					weaponType='primaries'
 					filterIds={ loadout.primaries && Object.keys(loadout.primaries) }
-					isOpen={ isAddPrimaryDialogOpen }
+					isOpen={ activeDialog === 'addprimary' }
 					onSave={ (value) => this.onPrimarySelected(value) }
-					onClose={ () => this.closeAddPrimaryDialog() }
+					onClose={ () => this.closeDialog() }
 				/>
 
 				<AddWeaponDialog
 					weaponType='secondaries'
 					filterIds={ loadout.secondaries && Object.keys(loadout.secondaries) }
-					isOpen={ isAddSecondaryDialogOpen }
+					isOpen={ activeDialog === 'addsecondary' }
 					onSave={ (value) => this.onSecondarySelected(value) }
-					onClose={ () => this.closeAddSecondaryDialog() }
+					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>
 		)

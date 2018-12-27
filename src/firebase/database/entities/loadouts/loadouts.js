@@ -11,6 +11,7 @@ export default () => {
 	return {
 		...abstract.useCrud('loadouts', ''),
 
+		// TODO: Move into loadout obj below
 		delete: (id) => {
 			let deleteReferences = {
 				// Remove loadout itself
@@ -58,6 +59,18 @@ export default () => {
 
 		loadout: (loadoutId) => {
 			return {
+				update(obj) {
+					let updatePaths = {}
+
+					Object.keys(obj)
+						.forEach((key) => {
+							updatePaths[`loadouts/${auth.user.uid}/${loadoutId}/${key}`] = obj[key]
+						})
+
+					return database.ref()
+						.update(updatePaths)
+				},
+
 				primaries: (primaryId) => ({
 					add: () =>
 						primaries()
