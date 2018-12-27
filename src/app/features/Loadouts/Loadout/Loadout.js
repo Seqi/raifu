@@ -198,6 +198,7 @@ class Loadout extends React.Component {
 				</div>
 
 				<EditLoadoutDialog
+					name={ loadout.name }
 					isOpen={ activeDialog === 'editloadout' }
 					onSave={ (name) => this.onEditLoadoutName(name) }
 					onClose={ () => this.closeDialog() }

@@ -12,7 +12,7 @@ class EditLoadoutNameDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			name: ''
+			name: this.props.name
 		}
 	}
 
@@ -59,9 +59,14 @@ class EditLoadoutNameDialog extends Component {
 }
 
 EditLoadoutNameDialog.propTypes = {
+	name: PropTypes.string,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired
+}
+
+EditLoadoutNameDialog.defaultProps = {
+	name: ''
 }
 
 export default EditLoadoutNameDialog
