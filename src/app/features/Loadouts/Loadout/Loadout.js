@@ -9,6 +9,7 @@ import AddCard from '../../../shared/components/Cards/AddCard'
 import Loader from '../../../shared/components/Loader'
 
 import database from '../../../../firebase/database'
+import EditLoadoutDialog from './EditLoadoutNameDialog'
 
 class Loadout extends React.Component {
 	constructor(props) {
@@ -52,6 +53,23 @@ class Loadout extends React.Component {
 
 	closeDialog() {
 		this.setState({ activeDialog: null })
+	}
+
+	onEditLoadoutName(name) {
+		database.loadouts
+			.loadout(this.state.loadoutId)
+			.update({ name })
+			.then(() => {
+				this.setState((prevState) => {
+					let newLoadout = {
+						...prevState.loadout,
+						name
+					}
+
+					return { loadout: newLoadout }
+				})
+			})
+			.then(() => this.closeDialog())
 	}
 
 	onPrimarySelected(primaryId) {
@@ -159,7 +177,10 @@ class Loadout extends React.Component {
 			<div className='error-alert'>Error: {error}</div>
 		) : (
 			<React.Fragment>
-				<h2>{loadout.name}</h2>
+				<h2 className='icon-header'>
+					{loadout.name}
+					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen' />
+				</h2>
 				<div>
 					<h3>ADD A PRIMARY</h3>
 					<div className='loadout-slot-list'>
@@ -175,6 +196,12 @@ class Loadout extends React.Component {
 						<AddCard onClick={ () => this.openDialog('addsecondary') } />
 					</div>
 				</div>
+
+				<EditLoadoutDialog
+					isOpen={ activeDialog === 'editloadout' }
+					onSave={ (name) => this.onEditLoadoutName(name) }
+					onClose={ () => this.closeDialog() }
+				/>
 
 				<AddWeaponDialog
 					weaponType='primaries'
