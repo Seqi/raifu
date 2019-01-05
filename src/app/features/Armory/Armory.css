@@ -1,3 +1,9 @@
 .weapons-list-container {
 	width: 50%;
 }
+
+@media (max-width: 1366px) {
+	.weapons-list-container {
+		width: 100%;
+	}
+}
