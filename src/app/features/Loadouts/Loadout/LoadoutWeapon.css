@@ -4,6 +4,8 @@
 	margin-bottom: 50px;
 }
 
-.weapon-mod:not(:last-child) {
-	margin-right: 50px;
+@media (max-width: 1199px) {
+	.weapon-mod {
+		max-width: inherit;
+	}
 }

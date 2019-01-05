@@ -1,40 +1,19 @@
+/* Shared Card Styles */
 .card-list {
 	display: flex;
 	flex-wrap: wrap;
-
-	transition: all 0.4s ease-out;
-}
-
-.card {
-	position: relative;
 }
 
 .card-list .card {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+
 	opacity: 0;
 	animation-fill-mode: forwards;
 	animation-duration: 1s;
 	animation-iteration-count: 1;
 	animation-name: fadein;
-}
-
-.card .card-action {
-	position: absolute;
-	top: 0;
-	right: 0;
-
-	padding: 0;
-}
-
-.card-action i {
-	color: rgba(255, 255, 255, 0.7);
-	font-size: 1.1rem;
-
-	padding: 7px;
-	border-radius: 25%;
-}
-
-.card-action i:hover {
-	background-color: rgba(255, 255, 255, 0.1);
 }
 
 @keyframes fadein {
@@ -47,22 +26,66 @@
 	}
 }
 
+.card .card-action {
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	padding: 0;
+}
+
+.card .card-action i {
+	color: rgba(255, 255, 255, 0.7);
+	font-size: 1.1rem;
+
+	padding: 7px;
+	border-radius: 25%;
+}
+
+.card .card-action i:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.card .card-content {
+	flex-grow: 1;
+
+	padding: 0 !important;
+}
+
+/* Item Card Styles */
 .weapon-card {
 	height: 300px;
 	min-width: 220px;
 	width: 220px;
+
 	margin-top: 10px;
+	margin-right: 20px;
 }
 
 .attachment-card {
-	height: 125px;
+	min-height: 125px;
 	width: 220px;
+
 	margin-top: 10px;
+	margin-right: 20px;
 }
 
 .loadout-card {
 	width: 100%;
 	min-height: 175px;
+}
+
+@media (max-width: 767px) {
+	.weapon-card {
+		height: 200px;
+		min-width: 147px;
+		width: 147px;
+	}
+
+	.attachment-card {
+		height: 85px;
+		width: 147px;
+	}
 }
 
 .weapon-card:hover,
@@ -74,11 +97,6 @@
 .loadout-card:hover {
 	transform: scale(1.015);
 	transition: transform ease-in 0.15s;
-}
-
-.weapon-card:not(:last-child),
-.attachment-card:not(:last-child) {
-	margin-right: 20px;
 }
 
 .loadout-card:not(:first-child) {

@@ -73,7 +73,7 @@ class CardListBaseComponent extends Component {
 		let { items, error, loading } = this.state
 
 		return (
-			<div>
+			<React.Fragment>
 				<h2>{this.title}</h2>
 				{loading ? (
 					<Loader />
@@ -91,7 +91,7 @@ class CardListBaseComponent extends Component {
 						onCardDelete={ (id) => this.delete(id) }
 					/>
 				)}
-			</div>
+			</React.Fragment>
 		)
 	}
 }

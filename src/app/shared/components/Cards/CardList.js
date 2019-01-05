@@ -1,3 +1,5 @@
+import './Cards.css'
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -35,9 +37,6 @@ class CardList extends Component {
 	renderItem = (key, item, idx) => {
 		let { buildTitle, buildSubtitle, buildCardContent, onCardClick, canDelete } = this.props
 
-		// Only display if exists
-		let cardContent = buildCardContent(item)
-
 		return (
 			<Card
 				key={ key }
@@ -47,7 +46,7 @@ class CardList extends Component {
 			>
 				{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, key, buildTitle(item)) } />}
 				<CardHeader title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
-				{cardContent && <CardContent> {buildCardContent(item)} </CardContent>}
+				<CardContent className='card-content'> {buildCardContent(item)} </CardContent>
 			</Card>
 		)
 	}
@@ -116,7 +115,7 @@ CardList.defaultProps = {
 	cardType: 'weapon',
 	buildTitle: (item) => item.title,
 	buildSubtitle: (item) => item.brand,
-	buildCardContent: (item) => JSON.stringify(item),
+	buildCardContent: (item) => {},
 	canAdd: true,
 	canDelete: true,
 	onAdd: () => {},
