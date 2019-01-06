@@ -1,16 +1,31 @@
-let getImage = (category, type, platform) => {
-	if (!category || !type || !platform) {
-		throw Error('A type, platform or name was not provided.')
+let getWeaponImage = (type, platform) => {
+	if (!type || !platform) {
+		throw Error('A platform or name was not provided.')
 	}
 
 	let formattedPlatform = platform.toLowerCase()
 		.replace(' ', '-')
 
 	try {
-		return require(`../../../assets/outlines/${category}/${type}/${formattedPlatform}.png`)
+		return require(`../../../assets/outlines/weapons/${type}/${formattedPlatform}.png`)
 	} catch {
 		return ''
 	}
 }
 
-export { getImage }
+let getAttachmentImage = (name) => {
+	if (!name) {
+		throw Error('A name was not provided.')
+	}
+
+	let formattedName = name.toLowerCase()
+		.replace(' ', '-')
+
+	try {
+		return require(`../../../assets/outlines/attachments/${formattedName}.png`)
+	} catch {
+		return ''
+	}
+}
+
+export { getWeaponImage, getAttachmentImage }
