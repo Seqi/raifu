@@ -28,10 +28,13 @@ export default createMuiTheme({
 	},
 	overrides: {
 		MuiCardHeader: {
+			root: {
+				paddingBottom: '0px'
+			},
 			title: {
 				textTransform: 'uppercase',
 				fontSize: '1.1rem',
-				fontWeight: '700',
+				fontWeight: '700'
 			},
 			subheader: {
 				textTransform: 'uppercase',
