@@ -4,6 +4,7 @@ let getWeaponImage = (type, platform) => {
 	}
 
 	let formattedPlatform = platform.toLowerCase()
+		.replace('.', '')
 		.replace(' ', '-')
 
 	try {
