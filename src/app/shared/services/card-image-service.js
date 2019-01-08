@@ -3,9 +3,10 @@ let getWeaponImage = (type, platform) => {
 		throw Error('A platform or name was not provided.')
 	}
 
-	let formattedPlatform = platform.toLowerCase()
-		.replace('.', '')
-		.replace(' ', '-')
+	let formattedPlatform = platform
+		.toLowerCase()
+		.replace(/[.]/g, '')
+		.replace(/\s/g, '-')
 
 	try {
 		return require(`../../../assets/outlines/weapons/${type}/${formattedPlatform}.png`)
