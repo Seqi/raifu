@@ -141,18 +141,18 @@
 			"Thompson"
 		],
 		"snipers": [
-			"L96",
-			"Kar98K",
-			"M40",
-			"M24",
-			"VSR",
-			"Springfield M1903",
-			"M1873",
-			"Barret .50",
-			"Amoeba STRIKER",
-			"MB44",
 			"ASW338LM",
-			"SVD"
+			"Barret .50",
+			"Kar98K",
+			"L96",
+			"M1873",
+			"M1903",
+			"M24",
+			"M40",
+			"MB44",
+			"STRIKER",
+			"SVD",
+			"VSR"
 		],
 		"shotguns": ["M870", "AA-12", "SPAS-12", "SAS-12", "Kel-Tec KSG", "Benelli M4", "M1014"],
 		"support": ["M249", "MG42", "Trident LMG", "Stoner", "ZB26"]
