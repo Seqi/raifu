@@ -154,7 +154,7 @@
 			"SVD",
 			"VSR"
 		],
-		"shotguns": ["M870", "AA-12", "SPAS-12", "SAS-12", "Kel-Tec KSG", "Benelli M4", "M1014"],
+		"shotguns": ["AA-12", "Benelli M4", "KSG", "M1014", "M870", "SAS-12", "SPAS-12", "STF-12"],
 		"support": ["M249", "MG42", "Trident LMG", "Stoner", "ZB26"]
 	}
 }
