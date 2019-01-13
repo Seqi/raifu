@@ -1,0 +1,7 @@
+.loadout-list-item-container {
+	display: flex;
+	align-items: center;
+
+	margin-top: -30px;
+	margin-bottom: -30px;
+}
