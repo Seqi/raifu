@@ -10,6 +10,7 @@
 		"Army Armament",
 		"ATS",
 		"BG Tactical",
+		"BO Manufacture",
 		"Bolt",
 		"Both Elephant",
 		"Classic Army",
@@ -26,12 +27,12 @@
 		"T.I.E.R.",
 		"G&G Armament",
 		"G&P",
+		"Galaxy",
 		"GHK",
 		"Ho Feng Corp",
 		"ICS",
 		"Jing Gong",
 		"Jin Peng",
-		"Galaxy",
 		"King Arms",
 		"KJ Works",
 		"Krytac",
@@ -64,7 +65,7 @@
 		"WinGun"
 	],
 	"platforms": {
-		"assaultRifles": [
+		"rifles": [
 			"M4",
 			"SCAR",
 			"AK47",
