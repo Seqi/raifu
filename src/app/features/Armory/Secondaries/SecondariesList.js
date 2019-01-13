@@ -4,6 +4,7 @@ import AddSecondaryDialog from './AddSecondaryDialog'
 
 import database from '../../../../firebase/database'
 import CardListBaseComponent from '../../../shared/components/Lists/CardListBaseComponent'
+import WeaponCardContent from '../../../shared/components/Images/WeaponCardContent'
 
 class SecondariesList extends CardListBaseComponent {
 	get title() {
@@ -16,6 +17,10 @@ class SecondariesList extends CardListBaseComponent {
 
 	buildCardTitle(weapon) {
 		return weapon.nickname || `${weapon.platform} ${weapon.model}`
+	}
+
+	buildCardContent(item) {
+		return <WeaponCardContent weapon={ item } />
 	}
 
 	render() {

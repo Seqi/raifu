@@ -28,14 +28,27 @@ export default createMuiTheme({
 	},
 	overrides: {
 		MuiCardHeader: {
+			root: {
+				paddingBottom: '0px',
+				'@media (max-width: 767px)': {
+					paddingLeft: '16px',
+					paddingRight: '16px'
+				}
+			},
 			title: {
 				textTransform: 'uppercase',
 				fontSize: '1.1rem',
 				fontWeight: '700',
+				'@media (max-width: 767px)': {
+					fontSize: '0.8rem'
+				}
 			},
 			subheader: {
 				textTransform: 'uppercase',
 				fontSize: '0.8rem',
+				'@media (max-width: 767px)': {
+					fontSize: '0.6rem'
+				},				
 				paddingTop: '-5px',
 				paddingBottom: '5px',
 				borderBottom: '2px solid #CA054D'

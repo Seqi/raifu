@@ -45,7 +45,7 @@ class AddPrimaryDialog extends Component {
 
 				<DialogContent>
 					<WeaponSelect
-						allowedTypes={ ['assaultRifles', 'smgs', 'snipers', 'shotguns', 'support'] }
+						allowedTypes={ ['rifles', 'smgs', 'snipers', 'shotguns', 'support'] }
 						onChange={ (e) => this.handleInputChange(e) }
 					/>
 
@@ -73,7 +73,6 @@ class AddPrimaryDialog extends Component {
 						fullWidth={ true }
 						onChange={ (e) => this.handleInputChange(e) }
 					/>
-
 				</DialogContent>
 
 				<DialogActions>
