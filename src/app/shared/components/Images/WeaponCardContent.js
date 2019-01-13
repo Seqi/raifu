@@ -9,7 +9,7 @@ export default function WeaponCardContent({ weapon }) {
 	if (img) {
 		return <img alt={ weapon.platform } src={ img } />
 	} else {
-		return <React.Fragment />
+		return <div />
 	}
 }
 

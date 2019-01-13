@@ -9,6 +9,7 @@ import auth from '../../../../firebase/auth'
 import database from '../../../../firebase/database'
 jest.mock('../../../../firebase/auth')
 jest.mock('../../../../firebase/database')
+jest.mock('../../../shared/services/card-image-service')
 
 beforeEach(() => {
 	auth.user = { uid: '1' }
@@ -34,7 +35,7 @@ it('renders with a single add card if no items returned', () => {
 	})
 })
 
-it('renders a card for each item, plus one for add card', () => {
+it.only('renders a card for each item, plus one for add card', () => {
 	database.secondaries.__setData({ val: () => ({ 1: { name: '1' }, 2: { name: '2' }, 3: { name: '3' } }) })
 
 	let wrapper = mount(<SecondariesList />)

@@ -9,6 +9,7 @@ import auth from '../../../../firebase/auth'
 import database from '../../../../firebase/database'
 jest.mock('../../../../firebase/auth')
 jest.mock('../../../../firebase/database')
+jest.mock('../../../shared/services/card-image-service')
 
 beforeEach(() => {
 	auth.user = { uid: '1' }
