@@ -4,7 +4,7 @@
 	flex-wrap: wrap;
 }
 
-.card-list .card {
+.card {
 	display: flex;
 	flex-direction: column;
 	position: relative;

@@ -8,9 +8,10 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
 import database from '../../../../firebase/database'
+import LoadoutWeaponAttachments from './LoadoutWeaponAttachments'
 import CardDeleteButton from '../../../shared/components/Cards/CardDeleteButton'
 import ConfirmDeleteDialog from '../../../shared/components/Cards/ConfirmDeleteDialog'
-import LoadoutWeaponAttachments from './LoadoutWeaponAttachments'
+import WeaponCardContent from '../../../shared/components/Images/WeaponCardContent'
 
 class LoadoutWeapon extends Component {
 	constructor(props) {
@@ -57,7 +58,9 @@ class LoadoutWeapon extends Component {
 				<Card className='card weapon-card'>
 					<CardDeleteButton onClick={ () => this.handleDialogOpen() } />
 					<CardHeader title={ this.buildTitle() } subheader={ this.buildSubtitle() } />
-					<CardContent>{JSON.stringify(this.props.weapon)}</CardContent>
+					<CardContent className='card-content'>
+						<WeaponCardContent weapon={ this.props.weapon } />
+					</CardContent>
 				</Card>
 
 				<LoadoutWeaponAttachments { ...this.props } />
