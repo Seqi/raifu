@@ -24,6 +24,10 @@ class LoadoutList extends CardListBaseComponent {
 		return loadout.name
 	}
 
+	buildCardSubtitle() {
+		return ''
+	}
+
 	buildCardContent(loadout) {
 		let items = { ...loadout.primaries, ...loadout.secondaries }
 
