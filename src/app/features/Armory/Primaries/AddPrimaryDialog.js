@@ -15,7 +15,11 @@ import database from '../../../../firebase/database'
 class AddPrimaryDialog extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
+		this.state = this.defaultState
+	}
+
+	get defaultState() {
+		return {
 			brand: '',
 			type: '',
 			platform: '',
@@ -30,6 +34,12 @@ class AddPrimaryDialog extends Component {
 
 	handleSave() {
 		this.props.onSave(this.state)
+		this.setState(this.defaultState)
+	}
+
+	handleClose() {
+		this.props.onClose()
+		this.setState(this.defaultState)
 	}
 
 	formValid() {
@@ -76,7 +86,7 @@ class AddPrimaryDialog extends Component {
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ this.props.onClose }>Cancel</Button>
+					<Button onClick={ () => this.handleClose() }>Cancel</Button>
 					<Button
 						disabled={ !this.formValid() }
 						variant='contained'
