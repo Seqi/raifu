@@ -57,7 +57,7 @@ class LoadoutWeapon extends Component {
 			<div className='weapon-mod'>
 				<Card className='card weapon-card'>
 					<CardDeleteButton onClick={ () => this.handleDialogOpen() } />
-					<CardHeader title={ this.buildTitle() } subheader={ this.buildSubtitle() } />
+					<CardHeader className='card-header' title={ this.buildTitle() } subheader={ this.buildSubtitle() } />
 					<CardContent className='card-content'>
 						<WeaponCardContent weapon={ this.props.weapon } />
 					</CardContent>

@@ -45,7 +45,7 @@ class CardList extends Component {
 				onClick={ () => onCardClick(key) }
 			>
 				{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, key, buildTitle(item)) } />}
-				<CardHeader title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
+				<CardHeader className='card-header' title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
 				<CardContent className='card-content'> {buildCardContent(item)} </CardContent>
 			</Card>
 		)

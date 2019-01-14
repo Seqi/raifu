@@ -34,6 +34,10 @@
 	padding: 0;
 }
 
+.card .card-header {
+	padding-bottom: 0px;
+}
+
 .card .card-action i {
 	color: rgba(255, 255, 255, 0.7);
 	font-size: 1.1rem;

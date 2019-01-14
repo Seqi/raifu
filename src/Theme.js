@@ -29,7 +29,6 @@ export default createMuiTheme({
 	overrides: {
 		MuiCardHeader: {
 			root: {
-				paddingBottom: '0px',
 				'@media (max-width: 767px)': {
 					paddingLeft: '16px',
 					paddingRight: '16px'
@@ -48,7 +47,7 @@ export default createMuiTheme({
 				fontSize: '0.8rem',
 				'@media (max-width: 767px)': {
 					fontSize: '0.6rem'
-				},				
+				},
 				paddingTop: '-5px',
 				paddingBottom: '5px',
 				borderBottom: '2px solid #CA054D'
