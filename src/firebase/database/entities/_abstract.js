@@ -1,13 +1,13 @@
 import auth from '../../auth'
 
 export default (database) => ({
-	useCrud: (route, userRoute) => {
+	useCrud: (route) => {
 		return {
-			get: () => database.ref(`${route}/${auth.user.uid}/${userRoute}`)
+			get: () => database.ref(`${auth.user.uid}/${route}`)
 				.once('value'),
-			getById: (id) => database.ref(`${route}/${auth.user.uid}/${userRoute}/${id}`)
+			getById: (id) => database.ref(`${auth.user.uid}/${route}/${id}`)
 				.once('value'),
-			add: (props) => database.ref(`${route}/${auth.user.uid}/${userRoute}`)
+			add: (props) => database.ref(`${auth.user.uid}/${route}`)
 				.push(props)
 		}
 	}

@@ -4,6 +4,6 @@ import { database } from '../..'
 export default () => {
 	let abstract = useAbstract(database)
 	return {
-		...abstract.useCrud('armory', 'gear')
+		...abstract.useCrud('armory/gear')
 	}
 }

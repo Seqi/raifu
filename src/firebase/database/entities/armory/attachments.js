@@ -5,21 +5,21 @@ import auth from '../../../auth'
 export default () => {
 	let abstract = useAbstract(database)
 	return {
-		...abstract.useCrud('armory', 'attachments'),
+		...abstract.useCrud('armory/attachments'),
 
 		delete: (id) => {
 			let deletionRefs = {
 				// Armory item
-				[`armory/${auth.user.uid}/attachments/${id}`]: null,
+				[`${auth.user.uid}/armory/attachments/${id}`]: null,
 
 				// Lookup table entry
-				[`loadouts/${auth.user.uid}/attachmentLookup/${id}`]: null
+				[`${auth.user.uid}/lookups/loadouts/attachments/${id}`]: null
 			}
 
 			// Get all uses of this item in any loadouts
 			return (
 				database
-					.ref(`loadouts/${auth.user.uid}/attachmentLookup/${id}`)
+					.ref(`${auth.user.uid}/lookups/loadouts/attachments/${id}`)
 					.once('value')
 					.then((snap) => {
 						let val = snap.val()
@@ -33,10 +33,11 @@ export default () => {
 								let weaponId = lookup.weaponId
 
 								deletionRefs[
-									`loadouts/${auth.user.uid}/loadouts/${key}/${slot}/${weaponId}/attachments/${id}`
+									`${auth.user.uid}/loadouts/${key}/${slot}/${weaponId}/attachments/${id}`
 								] = null
 							})
 					})
+					.then(() => console.log(deletionRefs))
 					// Nuke!
 					.then(() => database.ref()
 						.update(deletionRefs))
