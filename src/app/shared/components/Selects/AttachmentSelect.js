@@ -5,7 +5,7 @@ import CascadingSelect from './CascadingSelect'
 
 import database from '../../../../firebase/database'
 
-class WeaponSelect extends Component {
+class AttachmentSelect extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -14,22 +14,10 @@ class WeaponSelect extends Component {
 	}
 
 	componentDidMount() {
-		database.platforms
+		database.attachment
 			.getTypes()
 			.then((snap) => snap.val())
-			.then((types) => this.filterTypes(types))
 			.then((types) => this.setState({ types }))
-	}
-
-	filterTypes(types) {
-		Object.keys(types)
-			.forEach((type) => {
-				if (!this.props.allowedTypes.find((allowedType) => allowedType.toLowerCase() === type.toLowerCase())) {
-					delete types[type]
-				}
-			})
-
-		return types
 	}
 
 	render() {
@@ -40,7 +28,7 @@ class WeaponSelect extends Component {
 					options={ this.state.types }
 					formatValues={ true }
 					singularValues={ true }
-					labels={ ['Type', 'Platform'] }
+					labels={ ['Type', 'Attachment'] }
 					names={ ['type', 'platform'] }
 				/>
 			</React.Fragment>
@@ -48,13 +36,8 @@ class WeaponSelect extends Component {
 	}
 }
 
-WeaponSelect.propTypes = {
-	onChange: PropType.func.isRequired,
-	allowedTypes: PropType.array
+AttachmentSelect.propTypes = {
+	onChange: PropType.func.isRequired
 }
 
-WeaponSelect.defaultProps = {
-	allowedTypes: []
-}
-
-export default WeaponSelect
+export default AttachmentSelect

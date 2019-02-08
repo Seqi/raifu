@@ -19,12 +19,12 @@ class AttachmentsList extends CardListBaseComponent {
 		return 'attachment'
 	}
 
-	buildCardTitle(item) {
-		return item.title
+	buildCardTitle(attachment) {
+		return attachment.nickname || `${attachment.platform}`
 	}
 
 	buildCardSubtitle(item) {
-		return ''
+		return item.brand || ''
 	}
 
 	buildCardContent(item) {

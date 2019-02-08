@@ -26,5 +26,9 @@ export default {
 			.once('value'),
 		get: (platform) => database.ref(`platforms/${platform}`)
 			.once('value')
+	},
+	attachment: {
+		getTypes: () => database.ref('attachments')
+			.once('value')
 	}
 }

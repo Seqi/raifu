@@ -159,5 +159,9 @@
 		],
 		"shotguns": ["AA-12", "Benelli M4", "KSG", "M1014", "M870", "SAS-12", "SPAS-12", "STF-12"],
 		"support": ["M249", "MG42", "Trident LMG", "Stoner", "ZB26"]
+	},
+	"attachments": {
+		"sights": ["Red Dot", "Reflex"],
+		"barrel": ["Surpressor", "Flash Hider"]
 	}
 }

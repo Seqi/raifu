@@ -5,19 +5,22 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
-import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+
+import AttachmentSelect from '../../../shared/components/Selects/AttachmentSelect'
 
 class AddAttachmentDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			title: ''
+			type: '',
+			platform: ''
 		}
 	}
 
 	handleFormChange(e) {
-		this.setState({ [e.target.id]: e.target.value })
+		console.log('target', e.target)
+		this.setState({ [e.target.id || e.target.name]: e.target.value })
 	}
 
 	handleSave() {
@@ -30,14 +33,7 @@ class AddAttachmentDialog extends Component {
 				<DialogTitle color='primary'>Add attachment</DialogTitle>
 
 				<DialogContent>
-					<TextField
-						autoFocus={ true }
-						id='title'
-						label='Attachment name'
-						type='text'
-						fullWidth={ true }
-						onChange={ (e) => this.handleFormChange(e) }
-					/>
+					<AttachmentSelect onChange={ (e) => this.handleFormChange(e) } />
 				</DialogContent>
 
 				<DialogActions>

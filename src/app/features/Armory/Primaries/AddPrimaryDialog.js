@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import Dialog from '@material-ui/core/Dialog'
@@ -12,7 +12,7 @@ import { ResourceSelect, WeaponSelect } from '../../../shared/components/Selects
 
 import database from '../../../../firebase/database'
 
-class AddPrimaryDialog extends Component {
+class AddPrimaryDialog extends PureComponent {
 	constructor(props) {
 		super(props)
 		this.state = this.defaultState
