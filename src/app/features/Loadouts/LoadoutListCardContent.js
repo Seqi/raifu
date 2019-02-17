@@ -3,7 +3,7 @@ import './LoadoutListCardContent.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { getWeaponImage } from '../../shared/services/card-image-service'
+import { getImage } from '../../shared/services/card-image-service'
 import RotatedImage from '../../shared/components/Images/RotatedImage'
 
 class LoadoutListCardContent extends Component {
@@ -14,7 +14,7 @@ class LoadoutListCardContent extends Component {
 			.forEach((weaponId) => {
 				let weapon = weapons[weaponId]
 
-				let weaponImage = getWeaponImage(weapon.type, weapon.platform)
+				let weaponImage = getImage('weapons', weapon.type, weapon.platform)
 				if (weaponImage) {
 					images.push({ rotate: 45, img: weaponImage })
 				}

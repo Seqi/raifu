@@ -4,7 +4,7 @@ import AddAttachmentDialog from './AddAttachmentDialog'
 
 import database from '../../../../firebase/database'
 import CardListBaseComponent from '../../../shared/components/Lists/CardListBaseComponent'
-import { getAttachmentImage } from '../../../shared/services/card-image-service'
+import { getImage } from '../../../shared/services/card-image-service'
 
 class AttachmentsList extends CardListBaseComponent {
 	get title() {
@@ -28,9 +28,7 @@ class AttachmentsList extends CardListBaseComponent {
 	}
 
 	buildCardContent(item) {
-		let demo = Math.floor(Math.random() * 2) ? 'surpressor' : 'reddot'
-
-		let img = getAttachmentImage(demo)
+		let img = getImage('attachments', item.type, item.platform)
 
 		if (img) {
 			return <img className='card-img-skew' alt={ item.name } src={ img } />

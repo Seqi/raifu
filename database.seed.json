@@ -161,7 +161,9 @@
 		"support": ["M249", "MG42", "Trident LMG", "Stoner", "ZB26"]
 	},
 	"attachments": {
-		"sights": ["Red Dot", "Reflex"],
-		"barrel": ["Surpressor", "Flash Hider"]
+		"sights": ["Red Dot", "Reflex", "Telescopic"],
+		"barrel": ["Surpressor", "Flash Hider", "Tracer Unit"],
+		"illumination": ["Pistol Torch", "Flashlight", "PEQ Box"],
+		"underbarrel": ["Vertical Foregrip", "Angled Foregrip", "Bipod", "Grenade Launcher"]
 	}
 }
