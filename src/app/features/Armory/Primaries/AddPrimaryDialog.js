@@ -50,7 +50,7 @@ class AddPrimaryDialog extends PureComponent {
 
 	render() {
 		return (
-			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ this.props.onClose }>
+			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ () => this.handleClose() }>
 				<DialogTitle>Add primary</DialogTitle>
 
 				<DialogContent>
@@ -90,8 +90,8 @@ class AddPrimaryDialog extends PureComponent {
 					<Button
 						disabled={ !this.formValid() }
 						variant='contained'
-						onClick={ () => this.handleSave() }
 						color='primary'
+						onClick={ () => this.handleSave() }
 					>
 						Save
 					</Button>

@@ -15,7 +15,11 @@ import database from '../../../../firebase/database'
 class AddSecondaryDialog extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
+		this.state = this.defaultState
+	}
+
+	get defaultState() {
+		return {
 			brand: '',
 			type: '',
 			platform: '',
@@ -30,6 +34,12 @@ class AddSecondaryDialog extends Component {
 
 	handleSave() {
 		this.props.onSave(this.state)
+		this.setState(this.defaultState)
+	}
+
+	handleClose() {
+		this.props.onClose()
+		this.setState(this.defaultState)
 	}
 
 	formValid() {
@@ -40,7 +50,7 @@ class AddSecondaryDialog extends Component {
 
 	render() {
 		return (
-			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ this.props.onClose }>
+			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ () => this.handleClose() }>
 				<DialogTitle>Add primary</DialogTitle>
 
 				<DialogContent>
@@ -73,7 +83,6 @@ class AddSecondaryDialog extends Component {
 						fullWidth={ true }
 						onChange={ (e) => this.handleInputChange(e) }
 					/>
-
 				</DialogContent>
 
 				<DialogActions>
