@@ -7,24 +7,25 @@ export default () => {
 	return {
 		...abstract.useCrud('armory/weapons'),
 
-		delete: (id) => {
+		delete: (weaponId) => {
 			let deletionRefs = {
 				// Armory item
-				[`${auth.user.uid}/armory/weapons/${id}`]: null,
+				[`${auth.user.uid}/armory/weapons/${weaponId}`]: null,
 
 				// Lookup table entry
-				[`${auth.user.uid}/lookups/loadouts/weapons/${id}`]: null
+				[`${auth.user.uid}/lookups/loadouts/weapons/${weaponId}`]: null
 			}
 
 			// Get all uses of this item in any loadouts
 			return (
 				database
-					.ref(`${auth.user.uid}/lookups/loadouts/weapons/${id}`)
+					.ref(`${auth.user.uid}/lookups/loadouts/weapons/${weaponId}`)
 					.once('value')
 					.then((snap) => {
 						Object.keys(snap.val() || {})
 							.forEach(
-								(key) => (deletionRefs[`${auth.user.uid}/loadouts/${key}/${id}`] = null)
+								(loadoutId) =>
+									(deletionRefs[`${auth.user.uid}/loadouts/${loadoutId}/weapons/${weaponId}`] = null)
 							)
 					})
 					// Nuke!

@@ -84,7 +84,7 @@ export default () => {
 					delete: () => {
 						let deleteReferences = {
 							// Remove weapon itself
-							[`${auth.user.uid}/loadouts/${loadoutId}/${weaponId}`]: null,
+							[`${auth.user.uid}/loadouts/${loadoutId}/weapons/${weaponId}`]: null,
 
 							// Remove lookup
 							[`${auth.user.uid}/lookups/loadouts/weapons/${weaponId}/${loadoutId}`]: null
@@ -93,7 +93,7 @@ export default () => {
 						return (
 							// Load the attachments attached to this weapon
 							database
-								.ref(`${auth.user.uid}/loadouts/${loadoutId}/${weaponId}/attachments`)
+								.ref(`${auth.user.uid}/loadouts/${loadoutId}/weapons/${weaponId}/attachments`)
 								.once('value')
 								.then((snap) => Object.keys(snap.val() || {}))
 
