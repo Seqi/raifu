@@ -12,7 +12,7 @@ import { ResourceSelect, WeaponSelect } from 'app/shared/components/Selects'
 
 import database from '../../../../firebase/database'
 
-class AddPrimaryDialog extends PureComponent {
+class AddWeaponDialog extends PureComponent {
 	constructor(props) {
 		super(props)
 		this.state = this.defaultState
@@ -51,13 +51,10 @@ class AddPrimaryDialog extends PureComponent {
 	render() {
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ () => this.handleClose() }>
-				<DialogTitle>Add primary</DialogTitle>
+				<DialogTitle>Add weapon</DialogTitle>
 
 				<DialogContent>
-					<WeaponSelect
-						allowedTypes={ ['rifles', 'smgs', 'snipers', 'shotguns', 'support'] }
-						onChange={ (e) => this.handleInputChange(e) }
-					/>
+					<WeaponSelect onChange={ (e) => this.handleInputChange(e) } />
 
 					<ResourceSelect
 						label='Brand'
@@ -101,10 +98,10 @@ class AddPrimaryDialog extends PureComponent {
 	}
 }
 
-AddPrimaryDialog.propTypes = {
+AddWeaponDialog.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired
 }
 
-export default AddPrimaryDialog
+export default AddWeaponDialog

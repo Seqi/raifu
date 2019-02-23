@@ -24,11 +24,7 @@ class Loadout extends React.Component {
 	}
 
 	get usedAttachmentIds() {
-		let { primaries, secondaries } = this.state.loadout
-
-		let weapons = { ...primaries, ...secondaries }
-
-		let attachmentIds = Object.values(weapons)
+		let attachmentIds = Object.values(this.state.loadout.weapons)
 			.flatMap((weapon) => weapon.attachments)
 			.flatMap((attachments) => Object.keys(attachments || {}))
 
@@ -72,37 +68,28 @@ class Loadout extends React.Component {
 			.then(() => this.closeDialog())
 	}
 
-	onPrimarySelected(primaryId) {
+	onPrimarySelected(weaponId) {
 		database.loadouts
 			.loadout(this.state.loadoutId)
-			.primaries(primaryId)
+			.weapons(weaponId)
 			.add()
-			.then(() => this.pushNewWeapon('primaries', primaryId))
+			.then(() => this.pushNewWeapon(weaponId))
 			.then(() => this.closeDialog())
 	}
 
-	onSecondarySelected(secondaryId) {
-		database.loadouts
-			.loadout(this.state.loadoutId)
-			.secondaries(secondaryId)
-			.add()
-			.then(() => this.pushNewWeapon('secondaries', secondaryId))
-			.then(() => this.closeDialog())
-	}
-
-	pushNewWeapon(slot, id) {
-		return database[slot].getById(id)
+	pushNewWeapon(id) {
+		return database.weapons.getById(id)
 			.then((snap) =>
 				this.setState((prevState) => {
 				// Add the new weapon onto the primaries
 					let weapons = {
-						...prevState.loadout[slot],
+						...prevState.loadout.weapons,
 						[snap.key]: snap.val()
 					}
 
 					let loadout = {
 						...prevState.loadout,
-						[slot]: weapons
+						weapons: weapons
 					}
 
 					return { loadout }
@@ -110,21 +97,21 @@ class Loadout extends React.Component {
 			)
 	}
 
-	deleteWeapon(slot, weaponId) {
+	deleteWeapon(weaponId) {
 		this.setState((prevState) => {
-			let slotWeapons = prevState.loadout[slot]
+			let weapons = prevState.loadout.weapons
 
-			delete slotWeapons[weaponId]
+			delete weapons[weaponId]
 
 			return prevState
 		})
 	}
 
-	pushNewAttachment(slot, weaponId, attachmentId) {
+	pushNewAttachment(weaponId, attachmentId) {
 		database.attachments.getById(attachmentId)
 			.then((snap) => {
 				this.setState((prevState) => {
-					let editedWeapon = prevState.loadout[slot][weaponId]
+					let editedWeapon = prevState.loadout.weapons[weaponId]
 
 					if (!editedWeapon.attachments) {
 						editedWeapon.attachments = {}
@@ -137,9 +124,9 @@ class Loadout extends React.Component {
 			})
 	}
 
-	deleteAttachment(slot, weaponId, attachmentId) {
+	deleteAttachment(weaponId, attachmentId) {
 		this.setState((prevState) => {
-			let editedWeapon = prevState.loadout[slot][weaponId]
+			let editedWeapon = prevState.loadout.weapons[weaponId]
 
 			delete editedWeapon.attachments[attachmentId]
 
@@ -147,7 +134,7 @@ class Loadout extends React.Component {
 		})
 	}
 
-	renderWeapons(weapons, slot) {
+	renderWeapons(weapons) {
 		if (!weapons) {
 			return null
 		}
@@ -159,11 +146,10 @@ class Loadout extends React.Component {
 					loadoutId={ this.props.match.params.id }
 					weaponId={ key }
 					weapon={ weapons[key] }
-					slot={ slot }
 					filterAttachmentIds={ this.usedAttachmentIds }
-					onDelete={ () => this.deleteWeapon(slot, key) }
-					onAttachmentAdded={ (attachment) => this.pushNewAttachment(slot, key, attachment) }
-					onAttachmentDeleted={ (attachment) => this.deleteAttachment(slot, key, attachment) }
+					onDelete={ () => this.deleteWeapon(key) }
+					onAttachmentAdded={ (attachment) => this.pushNewAttachment(key, attachment) }
+					onAttachmentDeleted={ (attachment) => this.deleteAttachment(key, attachment) }
 				/>
 			))
 	}
@@ -182,18 +168,10 @@ class Loadout extends React.Component {
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen' />
 				</h2>
 				<div>
-					<h3>ADD A PRIMARY</h3>
+					<h3>ADD A WEAPON</h3>
 					<div className='loadout-slot-list'>
-						{this.renderWeapons(loadout.primaries, 'primaries')}
-						<AddCard onClick={ () => this.openDialog('addprimary') } />
-					</div>
-				</div>
-
-				<div>
-					<h3>ADD A SECONDARY</h3>
-					<div className='loadout-slot-list'>
-						{this.renderWeapons(loadout.secondaries, 'secondaries')}
-						<AddCard onClick={ () => this.openDialog('addsecondary') } />
+						{this.renderWeapons(loadout.weapons)}
+						<AddCard onClick={ () => this.openDialog('addweapon') } />
 					</div>
 				</div>
 
@@ -205,18 +183,9 @@ class Loadout extends React.Component {
 				/>
 
 				<AddWeaponDialog
-					weaponType='primaries'
-					filterIds={ loadout.primaries && Object.keys(loadout.primaries) }
-					isOpen={ activeDialog === 'addprimary' }
+					filterIds={ loadout.weapons && Object.keys(loadout.weapons) }
+					isOpen={ activeDialog === 'addweapon' }
 					onSave={ (value) => this.onPrimarySelected(value) }
-					onClose={ () => this.closeDialog() }
-				/>
-
-				<AddWeaponDialog
-					weaponType='secondaries'
-					filterIds={ loadout.secondaries && Object.keys(loadout.secondaries) }
-					isOpen={ activeDialog === 'addsecondary' }
-					onSave={ (value) => this.onSecondarySelected(value) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>

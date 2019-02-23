@@ -10,8 +10,7 @@ let mockEntity = () => {
 }
 
 export default {
-	primaries: mockEntity(),
-	secondaries: mockEntity(),
+	weapons: mockEntity(),
 	attachments: mockEntity(),
 	gear: mockEntity(),
 	brands: mockEntity()

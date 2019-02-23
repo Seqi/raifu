@@ -27,7 +27,7 @@ class AddWeaponDialog extends Component {
 	}
 
 	filterWeapons() {
-		return database[this.props.weaponType].get()
+		return database.weapons.get()
 			.then((snap) => {
 				let weapons = snap.val()
 
@@ -75,7 +75,6 @@ class AddWeaponDialog extends Component {
 }
 
 AddWeaponDialog.propTypes = {
-	weaponType: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
 	filterIds: PropTypes.array,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
