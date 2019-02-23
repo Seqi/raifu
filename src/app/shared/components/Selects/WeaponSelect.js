@@ -13,22 +13,8 @@ class WeaponSelect extends Component {
 	}
 
 	componentDidMount() {
-		database.platforms
-			.getTypes()
-			.then((snap) => snap.val())
-			.then((types) => this.filterTypes(types))
-			.then((types) => this.setState({ types }))
-	}
-
-	filterTypes(types) {
-		Object.keys(types)
-			.forEach((type) => {
-				if (!this.props.allowedTypes.find((allowedType) => allowedType.toLowerCase() === type.toLowerCase())) {
-					delete types[type]
-				}
-			})
-
-		return types
+		database.platforms.getTypes()
+			.then((snap) => this.setState({ types: snap.val() }))
 	}
 
 	render() {
@@ -48,12 +34,7 @@ class WeaponSelect extends Component {
 }
 
 WeaponSelect.propTypes = {
-	onChange: PropType.func.isRequired,
-	allowedTypes: PropType.array
-}
-
-WeaponSelect.defaultProps = {
-	allowedTypes: []
+	onChange: PropType.func.isRequired
 }
 
 export default WeaponSelect

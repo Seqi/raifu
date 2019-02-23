@@ -39,12 +39,11 @@ class LoadoutWeapon extends Component {
 	}
 
 	handleDelete() {
-		let { loadoutId, slot, weaponId, onDelete } = this.props
+		let { loadoutId, weaponId, onDelete } = this.props
 
 		database.loadouts
 			.loadout(loadoutId)
-			// eslint-disable-next-line no-unexpected-multiline
-			[slot](weaponId)
+			.weapons(weaponId)
 			.delete()
 			.then(() => this.handleDialogClose())
 			.then(() => onDelete())
@@ -81,7 +80,6 @@ LoadoutWeapon.propTypes = {
 	loadoutId: PropTypes.string.isRequired,
 	weaponId: PropTypes.string.isRequired,
 	weapon: PropTypes.object.isRequired,
-	slot: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
 	filterAttachmentIds: PropTypes.array,
 	onDelete: PropTypes.func,
 	onAttachmentAdded: PropTypes.func,

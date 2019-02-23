@@ -29,24 +29,22 @@ class LoadoutWeaponAttachments extends Component {
 	}
 
 	handleSave(attachmentId) {
-		let { loadoutId, weaponId, slot, onAttachmentAdded } = this.props
+		let { loadoutId, weaponId, onAttachmentAdded } = this.props
 
 		database.loadouts
 			.loadout(loadoutId)
-			// eslint-disable-next-line no-unexpected-multiline
-			[slot](weaponId)
+			.weapons(weaponId)
 			.addAttachment(attachmentId)
 			.then(() => this.handleDialogClose())
 			.then(() => onAttachmentAdded(attachmentId))
 	}
 
 	handleDelete(attachmentId) {
-		let { loadoutId, weaponId, slot, onAttachmentDeleted } = this.props
+		let { loadoutId, weaponId, onAttachmentDeleted } = this.props
 
 		database.loadouts
 			.loadout(loadoutId)
-			// eslint-disable-next-line no-unexpected-multiline
-			[slot](weaponId)
+			.weapons(weaponId)
 			.removeAttachment(attachmentId)
 			.then(() => this.handleDialogClose())
 			.then(() => onAttachmentDeleted(attachmentId))
@@ -84,7 +82,6 @@ LoadoutWeaponAttachments.propTypes = {
 	loadoutId: PropTypes.string.isRequired,
 	weaponId: PropTypes.string.isRequired,
 	weapon: PropTypes.object.isRequired,
-	slot: PropTypes.oneOf(['primaries', 'secondaries']).isRequired,
 	filterAttachmentIds: PropTypes.array,
 	onAttachmentAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func

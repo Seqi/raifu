@@ -2,7 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import Card from '@material-ui/core/Card'
 
-import PrimariesList from './PrimariesList'
+import WeaponList from './WeaponList'
 import AddCard from 'app/shared/components/Cards/AddCard'
 
 import auth from '../../../../firebase/auth'
@@ -13,18 +13,18 @@ jest.mock('app/shared/services/card-image-service')
 
 beforeEach(() => {
 	auth.user = { uid: '1' }
-	database.primaries.__setData({ val: () => ({}) })
-	database.primaries.__setError(null)
-	database.primaries.get.mockClear()
+	database.weapons.__setData({ val: () => ({}) })
+	database.weapons.__setError(null)
+	database.weapons.get.mockClear()
 })
 
 it('renders with a single add card if no items returned', () => {
-	let wrapper = mount(<PrimariesList />)
+	let wrapper = mount(<WeaponList />)
 
 	process.nextTick(() => {
 		wrapper = wrapper.update()
 
-		expect(database.primaries.get.mock.calls.length)
+		expect(database.weapons.get.mock.calls.length)
 			.toBe(1)
 
 		expect(wrapper.find(Card).length)
@@ -36,14 +36,14 @@ it('renders with a single add card if no items returned', () => {
 })
 
 it('renders a card for each item, plus one for add card', () => {
-	database.primaries.__setData({ val: () => ({ 1: { name: '1' }, 2: { name: '2' }, 3: { name: '3' } }) })
+	database.weapons.__setData({ val: () => ({ 1: { name: '1' }, 2: { name: '2' }, 3: { name: '3' } }) })
 
-	let wrapper = mount(<PrimariesList />)
+	let wrapper = mount(<WeaponList />)
 
 	process.nextTick(() => {
 		wrapper = wrapper.update()
 
-		expect(database.primaries.get.mock.calls.length)
+		expect(database.weapons.get.mock.calls.length)
 			.toBe(1)
 
 		expect(wrapper.find(Card).length)
@@ -55,14 +55,14 @@ it('renders a card for each item, plus one for add card', () => {
 })
 
 it('displays an error with no cards if the data retrieval was unsuccessful', () => {
-	database.primaries.__setError({ message: 'error' })
+	database.weapons.__setError({ message: 'error' })
 
-	let wrapper = mount(<PrimariesList />)
+	let wrapper = mount(<WeaponList />)
 
 	process.nextTick(() => {
 		wrapper = wrapper.update()
 
-		expect(database.primaries.get.mock.calls.length)
+		expect(database.weapons.get.mock.calls.length)
 			.toBe(1)
 
 		expect(wrapper.find('.error-alert').length)

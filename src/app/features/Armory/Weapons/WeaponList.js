@@ -1,18 +1,17 @@
 import React from 'react'
 
-import AddSecondaryDialog from './AddSecondaryDialog'
-
+import AddWeaponDialog from './AddWeaponDialog'
 import database from '../../../../firebase/database'
 import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
 import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
 
-class SecondariesList extends CardListBaseComponent {
+class WeaponList extends CardListBaseComponent {
 	get title() {
-		return 'SECONDARIES'
+		return 'WEAPONS'
 	}
 
 	get items() {
-		return database.secondaries
+		return database.weapons
 	}
 
 	buildCardTitle(weapon) {
@@ -29,7 +28,7 @@ class SecondariesList extends CardListBaseComponent {
 			<div>
 				{super.render()}
 
-				<AddSecondaryDialog
+				<AddWeaponDialog
 					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
 					onClose={ () => this.handleAddDialogClose() }
@@ -39,4 +38,4 @@ class SecondariesList extends CardListBaseComponent {
 	}
 }
 
-export default SecondariesList
+export default WeaponList

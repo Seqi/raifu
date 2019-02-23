@@ -29,13 +29,11 @@ class LoadoutList extends CardListBaseComponent {
 	}
 
 	buildCardContent(loadout) {
-		let items = { ...loadout.primaries, ...loadout.secondaries }
-
-		if (Object.keys(items).length === 0) {
+		if (!loadout.weapons || Object.keys(loadout.weapons).length === 0) {
 			return <div>No items</div>
 		}
 
-		return <LoadoutListCardContent weapons={ items } />
+		return <LoadoutListCardContent weapons={ loadout.weapons } />
 	}
 
 	view(id) {

@@ -2,19 +2,18 @@ import useAbstract from '../_abstract'
 import { database } from '../..'
 import auth from '../../../auth'
 
-import primaries from '../armory/primaries'
-import secondaries from '../armory/secondaries'
+import weapons from '../armory/weapons'
 import attachments from '../armory/attachments'
 
 export default () => {
 	let abstract = useAbstract(database)
 	return {
-		...abstract.useCrud('loadouts', ''),
+		...abstract.useCrud('loadouts'),
 
 		// TODO: Move into loadout obj below
 		delete: (id) => {
+			// Remove loadout itself
 			let deleteReferences = {
-				// Remove loadout itself
 				[`${auth.user.uid}/loadouts/${id}`]: null
 			}
 
@@ -26,30 +25,22 @@ export default () => {
 					.then((snap) => {
 						let val = snap.val()
 
-						let removeLookups = (slot) => {
-							if (val[slot]) {
-								Object.keys(val[slot])
-									.forEach((key) => {
-									// Remove weapon lookups
+						// Remove all weapon/loadout lookups for all weapons attached to this loadout
+						Object.keys(val.weapons || {})
+							.forEach((weaponId) => {
+								deleteReferences[`${auth.user.uid}/lookups/loadouts/weapons/${weaponId}/${id}`] = null
+
+								// Remove attachment lookups
+								let weapon = val[weaponId]
+
+								// Remove all attachment/loadout lookups for all attachments on this weapon
+								Object.keys(weapon.attachments || {})
+									.forEach((attachmentId) => {
 										deleteReferences[
-											`${auth.user.uid}/lookups/loadouts/weapons/${slot}/${key}/${id}`
+											`${auth.user.uid}/lookups/loadouts/attachments/${attachmentId}/${id}`
 										] = null
-
-										// Remove attachment lookups
-										let weapon = val[slot][key]
-
-										Object.keys(weapon.attachments || {})
-											.forEach((attachmentId) => {
-												deleteReferences[
-													`${auth.user.uid}/lookups/loadouts/attachments/${attachmentId}/${id}`
-												] = null
-											})
 									})
-							}
-						}
-
-						removeLookups('primaries')
-						removeLookups('secondaries')
+							})
 					})
 					// Nuke!
 					.then(() => database.ref()
@@ -59,52 +50,54 @@ export default () => {
 
 		loadout: (loadoutId) => {
 			return {
-				update(obj) {
+				update(loadout) {
 					let updatePaths = {}
 
-					Object.keys(obj)
+					Object.keys(loadout)
 						.forEach((key) => {
-							updatePaths[`${auth.user.uid}/loadouts/${loadoutId}/${key}`] = obj[key]
+							updatePaths[`${auth.user.uid}/loadouts/${loadoutId}/${key}`] = loadout[key]
 						})
 
 					return database.ref()
 						.update(updatePaths)
 				},
 
-				primaries: (primaryId) => ({
+				weapons: (weaponId) => ({
 					add: () =>
-						primaries()
-							.getById(primaryId)
+						weapons()
+							.getById(weaponId)
+							// Add a lookup between this loadout and the new weapon
 							.then((snap) => {
 								database
-									.ref(`${auth.user.uid}/lookups/loadouts/weapons/primaries/${primaryId}`)
+									.ref(`${auth.user.uid}/lookups/loadouts/weapons/${weaponId}`)
 									.update({ [loadoutId]: true })
 
 								return snap
 							})
+							// Add the weapon object to the loadout itself
 							.then((snap) =>
 								database
-									.ref(`${auth.user.uid}/loadouts/${loadoutId}/primaries`)
+									.ref(`${auth.user.uid}/loadouts/${loadoutId}/weapons`)
 									.update({ [snap.key]: snap.val() })
 							),
 
 					delete: () => {
 						let deleteReferences = {
 							// Remove weapon itself
-							[`${auth.user.uid}/loadouts/${loadoutId}/primaries/${primaryId}`]: null,
+							[`${auth.user.uid}/loadouts/${loadoutId}/weapons/${weaponId}`]: null,
 
 							// Remove lookup
-							[`${auth.user.uid}/lookups/loadouts/weapons/primaries/${primaryId}/${loadoutId}`]: null
+							[`${auth.user.uid}/lookups/loadouts/weapons/${weaponId}/${loadoutId}`]: null
 						}
 
-						// Load the attachments attached to this weapon
 						return (
+							// Load the attachments attached to this weapon
 							database
-								.ref(`${auth.user.uid}/loadouts/${loadoutId}/primaries/${primaryId}/attachments`)
+								.ref(`${auth.user.uid}/loadouts/${loadoutId}/weapons/${weaponId}/attachments`)
 								.once('value')
 								.then((snap) => Object.keys(snap.val() || {}))
 
-								// Remove all references of this attachment being used in this loadout
+								// Remove all lookups to attachments on this loadout
 								.then((attachmentIds) =>
 									attachmentIds.forEach(
 										(attachmentId) =>
@@ -127,13 +120,13 @@ export default () => {
 							.then((snap) => {
 								database
 									.ref(`${auth.user.uid}/lookups/loadouts/attachments/${attachmentId}`)
-									.update({ [loadoutId]: { slot: 'primaries', weaponId: primaryId } })
+									.update({ [loadoutId]: { weaponId: weaponId } })
 
 								return snap
 							})
 							.then((snap) =>
 								database
-									.ref(`${auth.user.uid}/loadouts/${loadoutId}/primaries/${primaryId}/attachments`)
+									.ref(`${auth.user.uid}/loadouts/${loadoutId}/weapons/${weaponId}/attachments`)
 									.update({ [snap.key]: snap.val() })
 							)
 					},
@@ -144,94 +137,7 @@ export default () => {
 							.update({ [loadoutId]: null })
 							.then(() =>
 								database
-									.ref(`${auth.user.uid}/loadouts/${loadoutId}/primaries/${primaryId}/attachments`)
-									.update({ [attachmentId]: null })
-							)
-					}
-				}),
-
-				secondaries: (secondaryId) => ({
-					add: () =>
-						secondaries()
-							.getById(secondaryId)
-							.then((snap) => {
-								database
-									.ref(`${auth.user.uid}/lookups/loadouts/weapons/secondaries/${secondaryId}`)
-									.update({ [loadoutId]: true })
-
-								return snap
-							})
-							.then((snap) =>
-								database
-									.ref(`${auth.user.uid}/loadouts/${loadoutId}/secondaries`)
-									.update({ [snap.key]: snap.val() })
-							),
-
-					delete: () => {
-						let deleteReferences = {
-							// Remove weapon itself
-							[`${auth.user.uid}/loadouts/${loadoutId}/secondaries/${secondaryId}`]: null,
-
-							// Remove lookup
-							[`${auth.user.uid}/lookups/loadouts/weapons/secondaries/${secondaryId}/${loadoutId}`]: null
-						}
-
-						// Load the attachments attached to this weapon
-						return (
-							database
-								.ref(
-									`${
-										auth.user.uid
-									}/lookups/loadouts/${loadoutId}/secondaries/${secondaryId}/attachments`
-								)
-								.once('value')
-								.then((snap) => Object.keys(snap.val() || {}))
-
-								// Remove all references of this attachment being used in this loadout
-								.then((attachmentIds) =>
-									attachmentIds.forEach(
-										(attachmentId) =>
-											(deleteReferences[
-												`${
-													auth.user.uid
-												}/lookups/loadouts/attachments/${attachmentId}/${loadoutId}`
-											] = null)
-									)
-								)
-								// Nuke!
-								.then(() => database.ref()
-									.update(deleteReferences))
-						)
-					},
-
-					addAttachment: (attachmentId) => {
-						return attachments()
-							.getById(attachmentId)
-							.then((snap) => {
-								database
-									.ref(`${auth.user.uid}/lookups/loadouts/attachments/${attachmentId}`)
-									.update({ [loadoutId]: { slot: 'secondaries', weaponId: secondaryId } })
-
-								return snap
-							})
-							.then((snap) =>
-								database
-									.ref(
-										`${auth.user.uid}/loadouts/${loadoutId}/secondaries/${secondaryId}/attachments`
-									)
-									.update({ [snap.key]: snap.val() })
-							)
-					},
-
-					removeAttachment: (attachmentId) => {
-						return database
-							.ref(`${auth.user.uid}/lookups/loadouts/attachments/${attachmentId}`)
-							.update({ [loadoutId]: null })
-							.then(() =>
-								database
-									.ref(
-										`${auth.user.uid}/loadouts/${loadoutId}/secondaries/${secondaryId}/attachments`
-									)
+									.ref(`${auth.user.uid}/loadouts/${loadoutId}/weapons/${weaponId}/attachments`)
 									.update({ [attachmentId]: null })
 							)
 					}
