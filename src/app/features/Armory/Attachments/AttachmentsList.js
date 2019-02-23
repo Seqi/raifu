@@ -31,7 +31,7 @@ class AttachmentsList extends CardListBaseComponent {
 		let img = getImage('attachments', item.type, item.platform)
 
 		if (img) {
-			return <img className='card-img-skew' alt={ item.name } src={ img } />
+			return <img alt={ item.name } src={ img } />
 		}
 	}
 
