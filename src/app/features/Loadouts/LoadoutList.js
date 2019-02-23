@@ -29,7 +29,7 @@ class LoadoutList extends CardListBaseComponent {
 	}
 
 	buildCardContent(loadout) {
-		if (Object.keys(loadout.weapons).length === 0) {
+		if (!loadout.weapons || Object.keys(loadout.weapons).length === 0) {
 			return <div>No items</div>
 		}
 
