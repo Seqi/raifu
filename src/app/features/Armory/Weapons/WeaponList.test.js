@@ -24,7 +24,7 @@ it('renders with a single add card if no items returned', () => {
 	process.nextTick(() => {
 		wrapper = wrapper.update()
 
-		expect(database.primaries.get.mock.calls.length)
+		expect(database.weapons.get.mock.calls.length)
 			.toBe(1)
 
 		expect(wrapper.find(Card).length)

@@ -68,7 +68,7 @@ class Loadout extends React.Component {
 			.then(() => this.closeDialog())
 	}
 
-	onPrimarySelected(weaponId) {
+	onWeaponSelected(weaponId) {
 		database.loadouts
 			.loadout(this.state.loadoutId)
 			.weapons(weaponId)
@@ -79,12 +79,11 @@ class Loadout extends React.Component {
 
 	pushNewWeapon(id) {
 		return database.weapons.getById(id)
-			.then((snap) =>
+			.then((weapon) =>
 				this.setState((prevState) => {
-				// Add the new weapon onto the primaries
 					let weapons = {
 						...prevState.loadout.weapons,
-						[snap.key]: snap.val()
+						[weapon.key]: weapon.val()
 					}
 
 					let loadout = {
@@ -184,7 +183,7 @@ class Loadout extends React.Component {
 				<AddWeaponDialog
 					filterIds={ loadout.weapons && Object.keys(loadout.weapons) }
 					isOpen={ activeDialog === 'addweapon' }
-					onSave={ (value) => this.onPrimarySelected(value) }
+					onSave={ (value) => this.onWeaponSelected(value) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>
