@@ -7,11 +7,11 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import database from '../../../../firebase/database'
 import LoadoutWeaponAttachments from './LoadoutWeaponAttachments'
-import CardDeleteButton from '../../../shared/components/Cards/CardDeleteButton'
-import ConfirmDeleteDialog from '../../../shared/components/Cards/ConfirmDeleteDialog'
-import WeaponCardContent from '../../../shared/components/Images/WeaponCardContent'
+import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
+import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
+import database from '../../../../firebase/database'
 
 class LoadoutWeapon extends Component {
 	constructor(props) {

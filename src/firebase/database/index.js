@@ -1,5 +1,5 @@
 import client from '..'
-import config from '../../config'
+import config from 'config'
 
 import primaries from './entities/armory/primaries'
 import secondaries from './entities/armory/secondaries'

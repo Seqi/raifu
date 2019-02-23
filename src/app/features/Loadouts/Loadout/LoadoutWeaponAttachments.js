@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import AddAttachmentDialog from './AddAttachmentDialog'
-import CardList from '../../../shared/components/Cards/CardList'
+import CardList from 'app/shared/components/Cards/CardList'
 
 import database from '../../../../firebase/database'
 

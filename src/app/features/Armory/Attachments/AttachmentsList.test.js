@@ -3,7 +3,7 @@ import { mount } from 'enzyme'
 import Card from '@material-ui/core/Card'
 
 import AttachmentsList from './AttachmentsList'
-import AddCard from '../../../shared/components/Cards/AddCard'
+import AddCard from 'app/shared/components/Cards/AddCard'
 
 import auth from '../../../../firebase/auth'
 import database from '../../../../firebase/database'

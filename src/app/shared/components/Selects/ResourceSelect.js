@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import Loader from '../Loader'
+import Loader from 'app/shared/components/Loader'
 
 class ResourceSelect extends Component {
 	constructor(props) {

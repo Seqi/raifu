@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropType from 'prop-types'
 
-import CascadingSelect from './CascadingSelect'
-
+import CascadingSelect from 'app/shared/components/Selects/CascadingSelect'
 import database from '../../../../firebase/database'
 
 class WeaponSelect extends Component {

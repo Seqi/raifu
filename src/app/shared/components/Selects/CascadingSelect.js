@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import { convertToSingular, convertCamelCaseToLabel } from '../../services/word-service'
+import { convertToSingular, convertCamelCaseToLabel } from 'app/shared/services/word-service'
 
 class CascadingSelect extends Component {
 	constructor(props) {

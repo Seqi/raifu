@@ -1,7 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import SignupForm from './SignupForm'
+
 import { Button } from '@material-ui/core'
+
+import SignupForm from './SignupForm'
 
 let component
 let onSubmitMock

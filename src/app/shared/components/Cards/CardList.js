@@ -7,9 +7,9 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import AddCard from './AddCard'
-import ConfirmDeleteDialog from './ConfirmDeleteDialog'
-import CardDeleteButton from './CardDeleteButton'
+import AddCard from 'app/shared/components/Cards/AddCard'
+import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 class CardList extends Component {
 	constructor(props) {

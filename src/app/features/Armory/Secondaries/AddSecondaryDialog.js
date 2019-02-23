@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { ResourceSelect, WeaponSelect } from '../../../shared/components/Selects'
+import { ResourceSelect, WeaponSelect } from 'app/shared/components/Selects'
 
 import database from '../../../../firebase/database'
 

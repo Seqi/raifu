@@ -1,12 +1,12 @@
 import './index.css'
 import React from 'react'
-import { MuiThemeProvider, CssBaseline } from '@material-ui/core/'
 import ReactDOM from 'react-dom'
+import { MuiThemeProvider, CssBaseline } from '@material-ui/core/'
 
 import 'core-js/fn/array/flat-map'
 
-import App from './app/core/App'
 import Theme from './Theme'
+import App from 'app/core/App'
 
 ReactDOM.render(
 	<MuiThemeProvider theme={ Theme }>

@@ -3,13 +3,13 @@ import { mount } from 'enzyme'
 import Card from '@material-ui/core/Card'
 
 import PrimariesList from './PrimariesList'
-import AddCard from '../../../shared/components/Cards/AddCard'
+import AddCard from 'app/shared/components/Cards/AddCard'
 
 import auth from '../../../../firebase/auth'
 import database from '../../../../firebase/database'
 jest.mock('../../../../firebase/auth')
 jest.mock('../../../../firebase/database')
-jest.mock('../../../shared/services/card-image-service')
+jest.mock('app/shared/services/card-image-service')
 
 beforeEach(() => {
 	auth.user = { uid: '1' }

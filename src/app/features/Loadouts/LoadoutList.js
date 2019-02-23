@@ -3,9 +3,9 @@ import { withRouter } from 'react-router-dom'
 
 import AddLoadoutDialog from './AddLoadoutDialog'
 
-import database from '../../../firebase/database'
-import CardListBaseComponent from '../../shared/components/Lists/CardListBaseComponent'
+import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
 import LoadoutListCardContent from './LoadoutListCardContent'
+import database from '../../../firebase/database'
 
 class LoadoutList extends CardListBaseComponent {
 	get title() {

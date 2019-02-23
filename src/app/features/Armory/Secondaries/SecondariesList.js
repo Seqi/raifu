@@ -3,8 +3,8 @@ import React from 'react'
 import AddSecondaryDialog from './AddSecondaryDialog'
 
 import database from '../../../../firebase/database'
-import CardListBaseComponent from '../../../shared/components/Lists/CardListBaseComponent'
-import WeaponCardContent from '../../../shared/components/Images/WeaponCardContent'
+import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
+import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
 
 class SecondariesList extends CardListBaseComponent {
 	get title() {

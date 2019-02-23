@@ -5,10 +5,10 @@ import { withRouter, Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 
-import AuthCardHeader from '../AuthCardHeader'
 import authClient from '../../../../firebase/auth'
 import SignupForm from './SignupForm'
-import AuthError from '../AuthError'
+import AuthError from 'app/core/auth/AuthError'
+import AuthCardHeader from 'app/core/auth//AuthCardHeader'
 
 class LoginPage extends Component {
 	constructor(props) {

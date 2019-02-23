@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Loader from '../Loader'
-import CardList from '../Cards/CardList'
+import Loader from 'app/shared/components/Loader'
+import CardList from 'app/shared/components/Cards/CardList'
 
 // A little hacky, but we only use the isAddDialogOpen state in children classes
 /* eslint-disable react/no-unused-state */

@@ -2,10 +2,9 @@ import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
 
-import LoginPage from './LoginPage'
-
 import auth from '../../../../firebase/auth'
-import AuthError from '../AuthError'
+import AuthError from 'app/core/auth/AuthError'
+import LoginPage from './LoginPage'
 
 let component
 

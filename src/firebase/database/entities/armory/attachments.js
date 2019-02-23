@@ -37,7 +37,6 @@ export default () => {
 								] = null
 							})
 					})
-					.then(() => console.log(deletionRefs))
 					// Nuke!
 					.then(() => database.ref()
 						.update(deletionRefs))

@@ -6,9 +6,9 @@ import { withRouter } from 'react-router-dom'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 
-import Navbar from './Navbar/Navbar'
-import Armory from '../../features/Armory/Armory'
-import Loadouts from '../../features/Loadouts/Loadouts'
+import Navbar from 'app/core/layout/Navbar/Navbar'
+import Armory from 'app/features/Armory/Armory'
+import Loadouts from 'app/features/Loadouts/Loadouts'
 import auth from '../../../firebase/auth'
 
 class Main extends Component {

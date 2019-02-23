@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { withTheme } from '@material-ui/core'
 import CardHeader from '@material-ui/core/CardHeader'
-import PropTypes from 'prop-types'
 
 class AuthCardHeader extends Component {
 	getStyle() {

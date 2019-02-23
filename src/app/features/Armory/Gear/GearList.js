@@ -3,7 +3,7 @@ import React from 'react'
 import AddGearDialog from './AddGearDialog'
 
 import database from '../../../../firebase/database'
-import CardListBaseComponent from '../../../shared/components/Lists/CardListBaseComponent'
+import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
 
 class GearList extends CardListBaseComponent {
 	get title() {

@@ -1,6 +1,6 @@
 import useAbstract from '../_abstract'
-import auth from '../../../auth'
 import { database } from '../..'
+import auth from '../../../auth'
 
 export default () => {
 	let abstract = useAbstract(database)

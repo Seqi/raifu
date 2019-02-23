@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom'
 import AddWeaponDialog from './AddWeaponDialog'
 import LoadoutWeapon from './LoadoutWeapon'
 
-import AddCard from '../../../shared/components/Cards/AddCard'
-import Loader from '../../../shared/components/Loader'
+import AddCard from 'app/shared/components/Cards/AddCard'
+import Loader from 'app/shared/components/Loader'
 
 import database from '../../../../firebase/database'
 import EditLoadoutDialog from './EditLoadoutNameDialog'

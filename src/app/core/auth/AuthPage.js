@@ -1,11 +1,12 @@
 import './AuthPage.css'
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Ump45 from '../../../assets/ump45.png'
 
 import LoginPage from './Login/LoginPage'
 import SignupPage from './Signup/SignupPage'
 import authClient from '../../../firebase/auth'
+
+import Ump45 from 'assets/ump45.png'
 
 class AuthPage extends Component {
 	constructor(props) {

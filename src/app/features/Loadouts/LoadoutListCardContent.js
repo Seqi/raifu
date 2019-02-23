@@ -3,8 +3,8 @@ import './LoadoutListCardContent.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { getImage } from '../../shared/services/card-image-service'
-import RotatedImage from '../../shared/components/Images/RotatedImage'
+import { getImage } from 'app/shared/services/card-image-service'
+import RotatedImage from 'app/shared/components/Images/RotatedImage'
 
 class LoadoutListCardContent extends Component {
 	getImages(weapons) {

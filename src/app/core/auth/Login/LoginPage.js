@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 
 import AuthCardHeader from '../AuthCardHeader'
 import LoginForm from './LoginForm'
-import AuthError from '../AuthError'
+import AuthError from 'app/core/auth/AuthError'
 import authClient from '../../../../firebase/auth'
 
 class LoginPage extends Component {
