@@ -168,7 +168,6 @@ class Loadout extends React.Component {
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen' />
 				</h2>
 				<div>
-					<h3>ADD A WEAPON</h3>
 					<div className='loadout-slot-list'>
 						{this.renderWeapons(loadout.weapons)}
 						<AddCard onClick={ () => this.openDialog('addweapon') } />
