@@ -1,4 +1,3 @@
-let getWeaponImage = () => ''
-let getAttachmentImage = () => ''
+let getImage = () => ''
 
-export { getWeaponImage, getAttachmentImage }
+export { getImage }
