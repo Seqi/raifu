@@ -12,13 +12,14 @@ export default () => {
 
 	const loadouts = `${user}/loadouts`
 	const loadoutWeapons = (loadoutId) => `${loadouts}/${loadoutId}/weapons`
-	const loadoutWeaponAttachments = (loadoutId, weaponId) =>
-		`${loadoutWeapons(loadoutId)}/weapons/${weaponId}/attachments`
+	const loadoutWeaponAttachments = (loadoutId, weaponId) => `${loadoutWeapons(loadoutId)}/${weaponId}/attachments`
+	const loadoutWeaponAttachment = (loadoutId, weaponId, attachmentId) =>
+		`${loadoutWeaponAttachments(loadoutId, weaponId)}/${attachmentId}`
 
 	const lookups = `${user}/lookups`
 	const loadoutLookups = `${lookups}/loadouts`
 	const loadoutWeaponLookups = `${loadoutLookups}/weapons`
-	const loadoutAttachmentLookups = `${loadoutLookups}/weapons`
+	const loadoutAttachmentLookups = `${loadoutLookups}/attachments`
 
 	return {
 		user,
@@ -31,7 +32,8 @@ export default () => {
 		loadout: (loadoutId) => ({
 			weapons: loadoutWeapons(loadoutId),
 			weapon: (weaponId) => ({
-				attachments: loadoutWeaponAttachments(loadoutId, weaponId)
+				attachments: loadoutWeaponAttachments(loadoutId, weaponId),
+				attachment: (attachmentId) => loadoutWeaponAttachment(loadoutId, weaponId, attachmentId)
 			})
 		}),
 		lookups: {

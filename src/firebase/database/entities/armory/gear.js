@@ -1,9 +1,12 @@
-import useAbstract from '../_abstract'
-import { database } from '../..'
+import { database, paths } from '../..'
 
 export default () => {
-	let abstract = useAbstract(database)
 	return {
-		...abstract.useCrud('armory/gear')
+		get: () => database.ref(paths().armory.gear)
+			.once('value'),
+		getById: (id) => database.ref(`${paths().armory.gear}/${id}`)
+			.once('value'),
+		add: (props) => database.ref(paths().armory.gear)
+			.push(props)
 	}
 }

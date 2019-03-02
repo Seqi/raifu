@@ -1,25 +1,27 @@
-import useAbstract from '../_abstract'
-import { database } from '../..'
-import auth from '../../../auth'
+import { database, paths } from '../..'
 
 export default () => {
-	let abstract = useAbstract(database)
 	return {
-		...abstract.useCrud('armory/attachments'),
+		get: () => database.ref(paths().armory.attachments)
+			.once('value'),
+		getById: (id) => database.ref(`${paths().armory.attachments}/${id}`)
+			.once('value'),
+		add: (props) => database.ref(paths().armory.attachments)
+			.push(props),
 
 		delete: (attachmentId) => {
 			let deletionRefs = {
 				// Armory item
-				[`${auth.user.uid}/armory/attachments/${attachmentId}`]: null,
+				[`${paths().armory.attachments}/${attachmentId}`]: null,
 
 				// Lookup table entry
-				[`${auth.user.uid}/lookups/loadouts/attachments/${attachmentId}`]: null
+				[`${paths().lookups.loadouts.attachments}/${attachmentId}`]: null
 			}
 
 			// Get all uses of this item in any loadouts
 			return (
 				database
-					.ref(`${auth.user.uid}/lookups/loadouts/attachments/${attachmentId}`)
+					.ref(`${paths().lookups.loadouts.attachments}/${attachmentId}`)
 					.once('value')
 					.then((snap) => {
 						let loadouts = snap.val()
@@ -29,9 +31,12 @@ export default () => {
 								let lookup = loadouts[loadoutId]
 								let weaponId = lookup.weaponId
 
-								deletionRefs[
-									`${auth.user.uid}/loadouts/${loadoutId}/weapons/${weaponId}/attachments/${attachmentId}`
-								] = null
+								let path = paths()
+									.loadout(loadoutId)
+									.weapon(weaponId)
+									.attachment(attachmentId)
+
+								deletionRefs[path] = null
 							})
 					})
 					// Nuke!
