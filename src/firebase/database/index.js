@@ -1,6 +1,8 @@
 import client from '..'
 import config from 'config'
 
+import paths from './paths'
+
 import weapons from './entities/armory/weapons'
 import attachments from './entities/armory/attachments'
 import gear from './entities/armory/gear'
@@ -8,7 +10,7 @@ import loadouts from './entities/loadouts/loadouts'
 
 let database = client.database(config.firebase.databaseURL)
 
-export { database }
+export { database, paths }
 
 export default {
 	weapons: weapons(),
