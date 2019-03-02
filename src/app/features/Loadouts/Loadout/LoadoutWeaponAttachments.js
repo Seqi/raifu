@@ -33,8 +33,8 @@ class LoadoutWeaponAttachments extends Component {
 
 		database.loadouts
 			.loadout(loadoutId)
-			.weapons(weaponId)
-			.addAttachment(attachmentId)
+			.weapons.weapon(weaponId)
+			.attachments.add(attachmentId)
 			.then(() => this.handleDialogClose())
 			.then(() => onAttachmentAdded(attachmentId))
 	}
@@ -44,8 +44,8 @@ class LoadoutWeaponAttachments extends Component {
 
 		database.loadouts
 			.loadout(loadoutId)
-			.weapons(weaponId)
-			.removeAttachment(attachmentId)
+			.weapons.weapon(weaponId)
+			.attachments.delete(attachmentId)
 			.then(() => this.handleDialogClose())
 			.then(() => onAttachmentDeleted(attachmentId))
 	}

@@ -43,8 +43,7 @@ class LoadoutWeapon extends Component {
 
 		database.loadouts
 			.loadout(loadoutId)
-			.weapons(weaponId)
-			.delete()
+			.weapons.delete(weaponId)
 			.then(() => this.handleDialogClose())
 			.then(() => onDelete())
 	}

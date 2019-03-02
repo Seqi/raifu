@@ -71,8 +71,7 @@ class Loadout extends React.Component {
 	onWeaponSelected(weaponId) {
 		database.loadouts
 			.loadout(this.state.loadoutId)
-			.weapons(weaponId)
-			.add()
+			.weapons.add(weaponId)
 			.then(() => this.pushNewWeapon(weaponId))
 			.then(() => this.closeDialog())
 	}
