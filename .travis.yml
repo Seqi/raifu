@@ -12,6 +12,6 @@ deploy:
     skip_cleanup: true
     provider: firebase
     on:
-        branch: master
+        tags: true
 after_deploy:
     - firebase database:update -y / database.seed.json
