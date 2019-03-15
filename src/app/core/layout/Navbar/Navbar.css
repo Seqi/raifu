@@ -1,0 +1,9 @@
+.navbar {
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+}
+
+.user-menu {
+	float: right;
+}

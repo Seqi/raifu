@@ -1,0 +1,14 @@
+.icon-header {
+	display: inline;
+}
+
+.icon-header > i {
+	margin-left: 10px;
+	font-size: 0.8rem;
+	cursor: pointer;
+}
+
+.loadout-slot-list {
+	display: flex;
+	flex-wrap: wrap;
+}

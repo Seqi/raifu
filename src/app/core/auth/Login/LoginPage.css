@@ -1,0 +1,34 @@
+.login-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.login-form > *:not(:first-child) {
+	margin-top: 10px;
+}
+
+.login-providers-container {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.login-signup {
+	text-align: right;
+	margin-bottom: -16px;
+	margin-right: -8px;
+}
+
+@media (min-width: 600px) {
+	.login-signup {
+		margin-bottom: -20px;
+		margin-right: -15px;
+	}
+}
+
+.login-signup > a {
+	text-decoration: none;
+	color: inherit;
+	font-size: 0.9rem;
+}

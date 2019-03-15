@@ -1,0 +1,3 @@
+let getImage = () => ''
+
+export { getImage }

@@ -1,0 +1,36 @@
+{
+	"name": "raifu",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@material-ui/core": "^3.4.0",
+		"core-js": "^2.6.1",
+		"firebase": "^5.5.7",
+		"react": "^16.6.0",
+		"react-dom": "^16.6.0",
+		"react-router-dom": "^4.3.1",
+		"react-scripts": "^2.1.5"
+	},
+	"devDependencies": {
+		"enzyme": "^3.7.0",
+		"enzyme-adapter-react-16": "^1.7.0",
+		"eslint": "5.12.0",
+		"eslint-plugin-react": "^7.11.1",
+		"prettier": "^1.14.3"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"deploy": "firebase deploy",
+		"eject": "react-scripts eject",
+		"lint": "eslint src/**/*.js",
+		"lint-fix": "eslint src/**/*.js --fix"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	]
+}

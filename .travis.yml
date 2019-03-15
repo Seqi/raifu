@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+    - 8.9.4
+cache:
+    directories:
+        - node_modules
+script:
+    - npm run lint
+    - npm test
+    - npm run build
+deploy:
+    skip_cleanup: true
+    provider: firebase
+    on:
+        branch: master
+after_deploy:
+    - firebase database:update -y / database.seed.json

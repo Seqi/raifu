@@ -1,0 +1,10 @@
+{
+	"eslintIntegration": true,
+	"tabWidth": 4,
+	"printWidth": 120,
+	"proseWrap": "always",
+	"semi": false,
+	"singleQuote": false,
+	"useTabs": true,
+	"arrowParens": "always"
+}
