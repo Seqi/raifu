@@ -1,18 +1,21 @@
 {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
-  "scripts": {
-    "serve": "firebase serve --only functions",
-    "shell": "firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
-  },
-  "dependencies": {
-    "firebase-admin": "~7.0.0",
-    "firebase-functions": "^2.2.0",
-    "pg": "^7.9.0",
-    "sequelize": "^5.2.6"
-  },
-  "private": true
+	"name": "functions",
+	"description": "Cloud Functions for Firebase",
+	"scripts": {
+		"serve": "firebase serve --only functions",
+		"shell": "firebase functions:shell",
+		"start": "npm run shell",
+		"deploy": "firebase deploy --only functions",
+		"logs": "firebase functions:log"
+	},
+	"dependencies": {
+		"firebase-admin": "~7.0.0",
+		"firebase-functions": "^2.2.0",
+		"pg": "^7.9.0",
+		"sequelize": "^5.2.6"
+	},
+	"private": true,
+	"engines": {
+		"node": "8"
+	}
 }
