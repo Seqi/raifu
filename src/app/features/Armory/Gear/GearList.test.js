@@ -5,14 +5,12 @@ import Card from '@material-ui/core/Card'
 import GearList from './GearList'
 import AddCard from 'app/shared/components/Cards/AddCard'
 
-import auth from '../../../../firebase/auth'
 import database from '../../../../firebase/database'
 jest.mock('../../../../firebase/auth')
 jest.mock('../../../../firebase/database')
 
 beforeEach(() => {
-	auth.user = { uid: '1' }
-	database.gear.__setData({ val: () => ({}) })
+	database.gear.__setData([])
 	database.gear.__setError(null)
 	database.gear.get.mockClear()
 })
@@ -35,7 +33,7 @@ it('renders with a single add card if no items returned', () => {
 })
 
 it('renders a card for each item, plus one for add card', () => {
-	database.gear.__setData({ val: () => ({ 1: { name: '1' }, 2: { name: '2' }, 3: { name: '3' } }) })
+	database.gear.__setData([{ id: 1, name: '1' }, { id: 2, name: '2' }, { id: 3, name: '3' }])
 
 	let wrapper = mount(<GearList />)
 

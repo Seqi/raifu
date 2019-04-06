@@ -59,7 +59,7 @@ class AddWeaponDialog extends PureComponent {
 					<ResourceSelect
 						label='Brand'
 						name='brand'
-						dataGetter={ database.brands.get }
+						dataGetter={ () => Promise.resolve(database.brands) }
 						onChange={ (e) => this.handleInputChange(e) }
 						value={ this.state.brand }
 					/>

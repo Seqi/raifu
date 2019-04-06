@@ -5,15 +5,13 @@ import Card from '@material-ui/core/Card'
 import WeaponList from './WeaponList'
 import AddCard from 'app/shared/components/Cards/AddCard'
 
-import auth from '../../../../firebase/auth'
 import database from '../../../../firebase/database'
 jest.mock('../../../../firebase/auth')
 jest.mock('../../../../firebase/database')
 jest.mock('app/shared/services/card-image-service')
 
 beforeEach(() => {
-	auth.user = { uid: '1' }
-	database.weapons.__setData({ val: () => ({}) })
+	database.weapons.__setData([])
 	database.weapons.__setError(null)
 	database.weapons.get.mockClear()
 })
@@ -36,7 +34,7 @@ it('renders with a single add card if no items returned', () => {
 })
 
 it('renders a card for each item, plus one for add card', () => {
-	database.weapons.__setData({ val: () => ({ 1: { name: '1' }, 2: { name: '2' }, 3: { name: '3' } }) })
+	database.weapons.__setData([{ id: 1, name: '1' }, { id: 2, name: '2' }, { id: 3, name: '3' }])
 
 	let wrapper = mount(<WeaponList />)
 

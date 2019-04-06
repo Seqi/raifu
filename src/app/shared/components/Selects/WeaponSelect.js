@@ -8,13 +8,8 @@ class WeaponSelect extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			types: {}
+			types: database.platforms.weapon
 		}
-	}
-
-	componentDidMount() {
-		database.platforms.getTypes()
-			.then((snap) => this.setState({ types: snap.val() }))
 	}
 
 	render() {

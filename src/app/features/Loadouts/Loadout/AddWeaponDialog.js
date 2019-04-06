@@ -27,17 +27,9 @@ class AddWeaponDialog extends Component {
 	}
 
 	filterWeapons() {
-		return database.weapons.get()
-			.then((snap) => {
-				let weapons = snap.val()
-
-				this.props.filterIds.forEach((id) => {
-					delete weapons[id]
-				})
-
-				// Hacky
-				return { val: () => weapons }
-			})
+		return database.weapons
+			.get()
+			.then((weapons) => weapons.filter((w) => this.props.filterIds.indexOf(w.id) === -1))
 	}
 
 	render() {

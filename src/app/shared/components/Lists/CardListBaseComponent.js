@@ -10,7 +10,7 @@ class CardListBaseComponent extends Component {
 		super(props)
 
 		this.state = {
-			items: {},
+			items: [],
 			loading: true,
 			isAddDialogOpen: false,
 			error: null
@@ -18,14 +18,14 @@ class CardListBaseComponent extends Component {
 	}
 
 	get items() {
-		return {}
+		return []
 	}
 
 	componentDidMount() {
 		this.items
 			.get()
-			.then((snap) => {
-				this.setState({ items: snap.val(), loading: false })
+			.then((items) => {
+				this.setState({ items, loading: false })
 			})
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
@@ -41,31 +41,15 @@ class CardListBaseComponent extends Component {
 	view(id) {}
 
 	delete(id) {
-		this.items.delete(id)
-			.then(() => {
-				this.setState((prevState) => {
-					let itemsCopy = { ...prevState.items }
-
-					delete itemsCopy[id]
-
-					return { items: itemsCopy }
-				})
-			})
+		this.items
+			.delete(id)
+			.then(() => this.setState((prevState) => ({ items: prevState.items.filter((item) => item.id !== id) })))
 	}
 
 	save(value) {
 		this.items
 			.add(value)
-			.then((ref) => this.items.getById(ref.key))
-			.then((snap) => {
-				this.setState((prevState) => {
-					let items = {
-						...prevState.items,
-						[snap.key]: snap.val()
-					}
-					return { items }
-				})
-			})
+			.then((item) => this.setState((prevState) => ({ items: prevState.items.concat(item) })))
 			.then(() => this.handleAddDialogClose())
 	}
 
@@ -87,7 +71,7 @@ class CardListBaseComponent extends Component {
 						buildSubtitle={ this.buildCardSubtitle }
 						buildCardContent={ this.buildCardContent }
 						onAdd={ () => this.handleAddDialogOpen() }
-						onCardClick={ (id) => this.view(id) }
+						onCardClick={ (item) => this.view(item) }
 						onCardDelete={ (id) => this.delete(id) }
 					/>
 				)}

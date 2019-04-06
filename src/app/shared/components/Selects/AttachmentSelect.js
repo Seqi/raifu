@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropType from 'prop-types'
 
-import CascadingSelect from 'app/shared/components/Selects/CascadingSelect'
+import CascadingSelect from './CascadingSelect'
 
 import database from '../../../../firebase/database'
 
@@ -9,15 +9,8 @@ class AttachmentSelect extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			types: {}
+			types: database.platforms.attachment
 		}
-	}
-
-	componentDidMount() {
-		database.attachment
-			.getTypes()
-			.then((snap) => snap.val())
-			.then((types) => this.setState({ types }))
 	}
 
 	render() {

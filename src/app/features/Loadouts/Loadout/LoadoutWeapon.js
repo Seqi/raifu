@@ -39,11 +39,11 @@ class LoadoutWeapon extends Component {
 	}
 
 	handleDelete() {
-		let { loadoutId, weaponId, onDelete } = this.props
+		let { loadoutId, weapon, onDelete } = this.props
 
 		database.loadouts
 			.loadout(loadoutId)
-			.weapons.delete(weaponId)
+			.weapons.delete(weapon.id)
 			.then(() => this.handleDialogClose())
 			.then(() => onDelete())
 	}
@@ -77,7 +77,6 @@ class LoadoutWeapon extends Component {
 LoadoutWeapon.propTypes = {
 	// TODO: Move all of this stuff to a React.Context
 	loadoutId: PropTypes.string.isRequired,
-	weaponId: PropTypes.string.isRequired,
 	weapon: PropTypes.object.isRequired,
 	filterAttachmentIds: PropTypes.array,
 	onDelete: PropTypes.func,

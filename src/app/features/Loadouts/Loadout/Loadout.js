@@ -15,7 +15,6 @@ class Loadout extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			loadoutId: '',
 			loadout: null,
 			activeDialog: null,
 			loading: true,
@@ -24,17 +23,15 @@ class Loadout extends React.Component {
 	}
 
 	get usedAttachmentIds() {
-		let attachmentIds = Object.values(this.state.loadout.weapons)
-			.flatMap((weapon) => weapon.attachments)
-			.flatMap((attachments) => Object.keys(attachments || {}))
-
-		return attachmentIds
+		return this.state.loadout.weapons
+			.flatMap((weapon) => weapon.attachments || [])
+			.map((attachment) => attachment.id)
 	}
 
 	componentDidMount() {
 		database.loadouts
 			.getById(this.props.match.params.id)
-			.then((snap) => this.setState({ loadoutId: snap.key, loadout: snap.val(), loading: false }))
+			.then((loadout) => this.setState({ loadout, loading: false }))
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
@@ -52,10 +49,10 @@ class Loadout extends React.Component {
 	}
 
 	onEditLoadoutName(name) {
-		let { loadoutId } = this.state
+		let { loadout } = this.state
 
 		database.loadouts
-			.update(loadoutId, { name })
+			.edit({ id: loadout.id, name })
 			.then(() => {
 				this.setState((prevState) => {
 					let newLoadout = {
@@ -71,86 +68,98 @@ class Loadout extends React.Component {
 
 	onWeaponSelected(weaponId) {
 		database.loadouts
-			.loadout(this.state.loadoutId)
+			.loadout(this.state.loadout.id)
 			.weapons.add(weaponId)
-			.then(() => this.pushNewWeapon(weaponId))
+			.then((weapon) => this.pushNewWeapon(weapon))
 			.then(() => this.closeDialog())
 	}
 
-	pushNewWeapon(id) {
-		return database.weapons.getById(id)
-			.then((weapon) =>
-				this.setState((prevState) => {
-					let weapons = {
-						...prevState.loadout.weapons,
-						[weapon.key]: weapon.val()
-					}
+	pushNewWeapon(weapon) {
+		this.setState((prevState) => {
+			let weapons = [...prevState.loadout.weapons, weapon]
 
-					let loadout = {
-						...prevState.loadout,
-						weapons: weapons
-					}
+			let loadout = {
+				...prevState.loadout,
+				weapons: weapons
+			}
 
-					return { loadout }
-				})
-			)
+			return { loadout }
+		})
 	}
 
 	deleteWeapon(weaponId) {
 		this.setState((prevState) => {
-			let weapons = prevState.loadout.weapons
+			let weapons = prevState.loadout.weapons.filter((w) => w.id !== weaponId)
 
-			delete weapons[weaponId]
+			let loadout = {
+				...prevState.loadout,
+				weapons
+			}
 
-			return prevState
+			return { loadout }
 		})
 	}
 
-	pushNewAttachment(weaponId, attachmentId) {
-		database.attachments.getById(attachmentId)
-			.then((snap) => {
-				this.setState((prevState) => {
-					let editedWeapon = prevState.loadout.weapons[weaponId]
+	pushNewAttachment(weaponId, attachment) {
+		this.setState((prevState) => {
+			// Find the weapon to add the attachment to and create a copy
+			let editedWeapon = { ...prevState.loadout.weapons.find((w) => w.id === weaponId) }
 
-					if (!editedWeapon.attachments) {
-						editedWeapon.attachments = {}
-					}
+			// Add the attachment to the weapon
+			if (!editedWeapon.attachments) {
+				editedWeapon.attachments = []
+			}
 
-					editedWeapon.attachments[attachmentId] = snap.val()
+			editedWeapon.attachments.push(attachment)
 
-					return prevState
-				})
-			})
+			// Rebuild up the state object
+			let weapons = [...prevState.loadout.weapons.filter((w) => w.id !== weaponId), editedWeapon]
+
+			let loadout = {
+				...prevState.loadout,
+				weapons
+			}
+
+			return { loadout }
+		})
 	}
 
 	deleteAttachment(weaponId, attachmentId) {
 		this.setState((prevState) => {
-			let editedWeapon = prevState.loadout.weapons[weaponId]
+			// Find the weapon to add the attachment to and create a copy
+			let editedWeapon = { ...prevState.loadout.weapons.find((w) => w.id === weaponId) }
 
-			delete editedWeapon.attachments[attachmentId]
+			// Remove attachment
+			editedWeapon.attachments = editedWeapon.attachments.filter((a) => a.id !== attachmentId)
 
-			return prevState
+			// Rebuild up the state object
+			let weapons = [...prevState.loadout.weapons.filter((w) => w.id !== weaponId), editedWeapon]
+
+			let loadout = {
+				...prevState.loadout,
+				weapons
+			}
+
+			return { loadout }
 		})
 	}
 
 	renderWeapons(weapons) {
-		if (!weapons) {
+		if (!weapons || !weapons.length) {
 			return null
 		}
 
-		return Object.keys(weapons)
-			.map((key) => (
-				<LoadoutWeapon
-					key={ key }
-					loadoutId={ this.props.match.params.id }
-					weaponId={ key }
-					weapon={ weapons[key] }
-					filterAttachmentIds={ this.usedAttachmentIds }
-					onDelete={ () => this.deleteWeapon(key) }
-					onAttachmentAdded={ (attachment) => this.pushNewAttachment(key, attachment) }
-					onAttachmentDeleted={ (attachment) => this.deleteAttachment(key, attachment) }
-				/>
-			))
+		return weapons.map((weapon) => (
+			<LoadoutWeapon
+				key={ weapon.id }
+				loadoutId={ this.props.match.params.id }
+				weapon={ weapon }
+				filterAttachmentIds={ this.usedAttachmentIds }
+				onDelete={ () => this.deleteWeapon(weapon.id) }
+				onAttachmentAdded={ (attachment) => this.pushNewAttachment(weapon.id, attachment) }
+				onAttachmentDeleted={ (attachment) => this.deleteAttachment(weapon.id, attachment) }
+			/>
+		))
 	}
 
 	render() {
@@ -181,7 +190,7 @@ class Loadout extends React.Component {
 				/>
 
 				<AddWeaponDialog
-					filterIds={ loadout.weapons && Object.keys(loadout.weapons) }
+					filterIds={ loadout.weapons && loadout.weapons.map((w) => w.id) }
 					isOpen={ activeDialog === 'addweapon' }
 					onSave={ (value) => this.onWeaponSelected(value) }
 					onClose={ () => this.closeDialog() }

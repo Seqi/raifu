@@ -42,29 +42,29 @@ class LoadoutWeaponAttachments extends Component {
 	}
 
 	handleSave(attachmentId) {
-		let { loadoutId, weaponId, onAttachmentAdded } = this.props
+		let { loadoutId, weapon, onAttachmentAdded } = this.props
 
 		database.loadouts
 			.loadout(loadoutId)
-			.weapons.weapon(weaponId)
+			.weapons.weapon(weapon.id)
 			.attachments.add(attachmentId)
+			.then((attachment) => onAttachmentAdded(attachment))
 			.then(() => this.handleDialogClose())
-			.then(() => onAttachmentAdded(attachmentId))
 	}
 
 	handleDelete(attachmentId) {
-		let { loadoutId, weaponId, onAttachmentDeleted } = this.props
+		let { loadoutId, weapon, onAttachmentDeleted } = this.props
 
 		database.loadouts
 			.loadout(loadoutId)
-			.weapons.weapon(weaponId)
+			.weapons.weapon(weapon.id)
 			.attachments.delete(attachmentId)
 			.then(() => this.handleDialogClose())
 			.then(() => onAttachmentDeleted(attachmentId))
 	}
 
 	render() {
-		let { weapon, weaponId, filterAttachmentIds } = this.props
+		let { weapon, filterAttachmentIds } = this.props
 
 		return (
 			<React.Fragment>
@@ -81,7 +81,7 @@ class LoadoutWeaponAttachments extends Component {
 				</div>
 
 				<AddAttachmentDialog
-					weaponId={ weaponId }
+					weaponId={ weapon.id }
 					weaponName={ this.buildWeaponName() }
 					filterIds={ filterAttachmentIds }
 					isOpen={ this.state.isDialogOpen }
@@ -95,7 +95,6 @@ class LoadoutWeaponAttachments extends Component {
 
 LoadoutWeaponAttachments.propTypes = {
 	loadoutId: PropTypes.string.isRequired,
-	weaponId: PropTypes.string.isRequired,
 	weapon: PropTypes.object.isRequired,
 	filterAttachmentIds: PropTypes.array,
 	onAttachmentAdded: PropTypes.func,

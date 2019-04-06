@@ -27,24 +27,19 @@ class CardList extends Component {
 		this.loaded = true
 	}
 
-	renderItems(items) {
-		return Object.keys(items || {})
-			.map((key, idx) => {
-				return this.renderItem(key, items[key], idx)
-			})
-	}
+	renderItems = (items) => items.map(this.renderItem)
 
-	renderItem = (key, item, idx) => {
+	renderItem = (item, idx) => {
 		let { buildTitle, buildSubtitle, buildCardContent, onCardClick, canDelete } = this.props
 
 		return (
 			<Card
-				key={ key }
+				key={ item.id }
 				style={ { animationDelay: this.getAnimationDelay(idx) } }
 				className={ `card ${this.props.cardType}-card` }
-				onClick={ () => onCardClick(key) }
+				onClick={ () => onCardClick(item) }
 			>
-				{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, key, buildTitle(item)) } />}
+				{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, item.id, buildTitle(item)) } />}
 				<CardHeader className='card-header' title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
 				<CardContent className='card-content'> {buildCardContent(item)} </CardContent>
 			</Card>
@@ -98,7 +93,7 @@ class CardList extends Component {
 }
 
 CardList.propTypes = {
-	items: PropTypes.object,
+	items: PropTypes.array,
 	cardType: PropTypes.string,
 	buildTitle: PropTypes.func,
 	buildSubtitle: PropTypes.func,
@@ -111,7 +106,7 @@ CardList.propTypes = {
 }
 
 CardList.defaultProps = {
-	items: {},
+	items: [],
 	cardType: 'weapon',
 	buildTitle: (item) => item.title,
 	buildSubtitle: (item) => item.brand,

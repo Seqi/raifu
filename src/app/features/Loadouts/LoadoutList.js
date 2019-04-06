@@ -36,8 +36,8 @@ class LoadoutList extends CardListBaseComponent {
 		return <LoadoutListCardContent weapons={ loadout.weapons } />
 	}
 
-	view(id) {
-		this.props.history.push(id)
+	view(loadout) {
+		this.props.history.push(`/${loadout.id}`)
 	}
 
 	render() {

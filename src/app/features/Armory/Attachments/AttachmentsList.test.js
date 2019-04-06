@@ -5,15 +5,13 @@ import Card from '@material-ui/core/Card'
 import AttachmentsList from './AttachmentsList'
 import AddCard from 'app/shared/components/Cards/AddCard'
 
-import auth from '../../../../firebase/auth'
 import database from '../../../../firebase/database'
 jest.mock('../../../../firebase/auth')
 jest.mock('../../../../firebase/database')
 jest.mock('app/shared/services/card-image-service')
 
 beforeEach(() => {
-	auth.user = { uid: '1' }
-	database.attachments.__setData({ val: () => ({}) })
+	database.attachments.__setData([])
 	database.attachments.__setError(null)
 	database.attachments.get.mockClear()
 })
@@ -36,7 +34,7 @@ it('renders with a single add card if no items returned', () => {
 })
 
 it('renders a card for each item, plus one for add card', () => {
-	database.attachments.__setData({ val: () => ({ 1: { name: '1' }, 2: { name: '2' }, 3: { name: '3' } }) })
+	database.attachments.__setData([{ id: 1, name: '1' }, { id: 2, name: '2' }, { id: 3, name: '3' }])
 
 	let wrapper = mount(<AttachmentsList />)
 

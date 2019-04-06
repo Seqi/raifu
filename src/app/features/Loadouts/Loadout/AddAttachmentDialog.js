@@ -31,17 +31,9 @@ class AddAttachmentDialog extends Component {
 	}
 
 	filterAttachments() {
-		return database.attachments.get()
-			.then((snap) => {
-				let attachments = snap.val()
-
-				this.props.filterIds.forEach((id) => {
-					delete attachments[id]
-				})
-
-				// Hacky
-				return { val: () => attachments }
-			})
+		return database.attachments
+			.get()
+			.then((attachments) => attachments.filter((w) => this.props.filterIds.indexOf(w.id) === -1))
 	}
 
 	render() {

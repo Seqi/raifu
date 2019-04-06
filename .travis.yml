@@ -14,4 +14,6 @@ deploy:
     on:
         tags: true
 after_deploy:
-    - firebase database:update -y / database.seed.json
+    # This is necessary due to firebase cli not being installed in before_deploy
+    - firebase functions:config:set db.user=$DB_USER db.password=$DB_PASSWORD db.name=$DB_NAME db.host=$DB_HOST
+    - firebase deploy --only functions
