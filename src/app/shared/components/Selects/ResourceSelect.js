@@ -28,7 +28,7 @@ class ResourceSelect extends Component {
 
 	renderItems(items) {
 		return items.map((item, i) => (
-			<MenuItem key={ item.id || i } value={ item.id }>
+			<MenuItem key={ item.id || i } value={ item.id || item }>
 				{this.props.buildValue(item)}
 			</MenuItem>
 		))
