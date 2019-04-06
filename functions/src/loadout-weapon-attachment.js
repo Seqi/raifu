@@ -25,14 +25,33 @@ let hasPermission = async (weaponId, attachmentId, loadoutId, authId) => {
 	return result.every((r) => r > 0)
 }
 
-let find = async (weaponId, attachmentId, loadoutId) => {
-	return await entities().loadoutWeaponAttachment.findOne({
+let count = async (weaponId, attachmentId, loadoutId) => {
+	return await entities().loadoutWeaponAttachment.count({
 		raw: true,
 		where: {
 			loadout_id: loadoutId,
 			weapon_id: weaponId,
 			attachment_id: attachmentId
 		}
+	})
+}
+
+let add = async (weaponId, attachmentId, loadoutId) => {
+	// Find the loadout_weapon id to add
+	const loadoutWeapon = await entities().loadoutWeapon.findOne({
+		where: {
+			weapon_id: weaponId,
+			loadout_id: loadoutId
+		},
+		attributes: ['id'],
+		raw: true
+	})
+
+	await entities().loadoutWeaponAttachment.create({
+		loadout_weapon_id: loadoutWeapon.id,
+		loadout_id: loadoutId,
+		weapon_id: weaponId,
+		attachment_id: attachmentId
 	})
 }
 
@@ -56,35 +75,12 @@ module.exports = {
 
 		// Check if exists
 		try {
-			let loadoutWeaponAttachment = await find(data.weaponId, data.attachmentId, data.loadoutId)
+			let exists = await count(data.weaponId, data.attachmentId, data.loadoutId)
 
-			if (loadoutWeaponAttachment) {
-				return await entities().attachment.findByPk(data.attachmentId, { raw: true })
+			if (!exists) {
+				await add(data.weaponId, data.attachmentId, data.loadoutId)
 			}
-		} catch (e) {
-			return error('unknown', e, 'Error retrieving data from database')
-		}
 
-		// Add
-		try {
-			// Find the loadout_weapon id to add
-			const loadoutWeapon = await entities().loadoutWeapon.findOne({
-				where: {
-					weapon_id: data.weaponId,
-					loadout_id: data.loadoutId
-				},
-				attributes: ['id'],
-				raw: true
-			})
-
-			await entities().loadoutWeaponAttachment.create({
-				loadout_weapon_id: loadoutWeapon.id,
-				loadout_id: data.loadoutId,
-				weapon_id: data.weaponId,
-				attachment_id: data.attachmentId
-			})
-
-			// Return the attachment that was just added for the client
 			return await entities().attachment.findByPk(data.attachmentId, { raw: true })
 		} catch (e) {
 			return error('invalid-argument', e, 'Error adding loadout weapon attachment to database')

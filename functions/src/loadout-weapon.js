@@ -21,9 +21,8 @@ let hasPermission = async (weaponId, loadoutId, authId) => {
 	return result.every((r) => r > 0)
 }
 
-let find = async (weaponId, loadoutId) => {
-	return await entities().loadoutWeapon.findOne({
-		raw: true,
+let count = async (weaponId, loadoutId) => {
+	return await entities().loadoutWeapon.count({
 		where: {
 			loadout_id: loadoutId,
 			weapon_id: weaponId
@@ -51,24 +50,17 @@ module.exports = {
 
 		// Check if exists
 		try {
-			let loadoutWeapon = await find(data.weaponId, data.loadoutId)
+			let exists = await count(data.weaponId, data.loadoutId)
 
-			if (loadoutWeapon) {
-				return loadoutWeapon
+			if (!exists) {
+				// Add
+				console.log('Adding loadout weapon', data)
+				await entities().loadoutWeapon.create({
+					loadout_id: data.loadoutId,
+					weapon_id: data.weaponId
+				})
 			}
-		} catch (e) {
-			return error('unknown', e, 'Error retrieving data from database')
-		}
 
-		// Add
-		try {
-			console.log('Adding loadout weapon', data)
-			await entities().loadoutWeapon.create({
-				loadout_id: data.loadoutId,
-				weapon_id: data.weaponId
-			})
-
-			// Return the weapon that was just added for the client
 			return await entities().weapon.findByPk(data.weaponId, { raw: true })
 		} catch (e) {
 			return error('invalid-argument', e, 'Error adding loadout weapon to database')
