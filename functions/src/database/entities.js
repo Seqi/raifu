@@ -145,14 +145,6 @@ module.exports = () => {
 		through: { model: loadoutWeaponAttachment, unique: false },
 		foreignKey: 'attachment_id'
 	})
-	loadout.belongsToMany(weapon, {
-		through: { model: loadoutWeaponAttachment, unique: false },
-		foreignKey: 'loadout_id'
-	})
-	weapon.belongsToMany(loadout, {
-		through: { model: loadoutWeaponAttachment, unique: false },
-		foreignKey: 'weapon_id'
-	})
 
 	return {
 		sequelize,
