@@ -2,14 +2,16 @@ import './Loadout.css'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 
+import Typography from '@material-ui/core/Typography'
+
 import AddWeaponDialog from './AddWeaponDialog'
 import LoadoutWeapon from './LoadoutWeapon'
+import EditLoadoutDialog from './EditLoadoutNameDialog'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
 import Loader from 'app/shared/components/Loader'
 
 import database from '../../../../firebase/database'
-import EditLoadoutDialog from './EditLoadoutNameDialog'
 
 class Loadout extends React.Component {
 	constructor(props) {
@@ -171,10 +173,11 @@ class Loadout extends React.Component {
 			<div className='error-alert'>Error: {error}</div>
 		) : (
 			<React.Fragment>
-				<h2 className='icon-header'>
+				<Typography variant='h5'>
 					{loadout.name}
-					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen' />
-				</h2>
+					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
+				</Typography>
+
 				<div>
 					<div className='loadout-slot-list'>
 						{this.renderWeapons(loadout.weapons)}

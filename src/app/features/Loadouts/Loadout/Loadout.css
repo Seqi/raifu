@@ -1,8 +1,4 @@
-.icon-header {
-	display: inline;
-}
-
-.icon-header > i {
+.icon-action {
 	margin-left: 10px;
 	font-size: 0.8rem;
 	cursor: pointer;

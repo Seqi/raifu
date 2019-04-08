@@ -13,18 +13,7 @@ export default createMuiTheme({
 	},
 	typography: {
 		useNextVariants: true,
-		fontFamily: [
-			'-apple-system',
-			'BlinkMacSystemFont',
-			'Roboto',
-			'"Segoe UI"',
-			'"Helvetica Neue"',
-			'Arial',
-			'sans-serif',
-			'"Apple Color Emoji"',
-			'"Segoe UI Emoji"',
-			'"Segoe UI Symbol"'
-		].join(',')
+		fontFamily: ['Hind Siliguri', 'sans-serif'].join(',')
 	},
 	overrides: {
 		MuiCardHeader: {

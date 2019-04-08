@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import Typography from '@material-ui/core/Typography'
+
 import Loader from 'app/shared/components/Loader'
 import CardList from 'app/shared/components/Cards/CardList'
 
@@ -58,7 +60,7 @@ class CardListBaseComponent extends Component {
 
 		return (
 			<React.Fragment>
-				<h2>{this.title}</h2>
+				<Typography variant='h6'>{this.title}</Typography>
 				{loading ? (
 					<Loader />
 				) : error ? (
