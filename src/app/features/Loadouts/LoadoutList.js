@@ -37,7 +37,7 @@ class LoadoutList extends CardListBaseComponent {
 	}
 
 	view(loadout) {
-		this.props.history.push(`/${loadout.id}`)
+		this.props.history.push(`/${loadout.displayId}`)
 	}
 
 	render() {

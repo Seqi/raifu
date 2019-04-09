@@ -48,6 +48,10 @@ module.exports = () => {
 			type: Sequelize.STRING({ length: 64 }),
 			allowNull: false
 		},
+		displayId: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false
+		},
 		uid: {
 			type: Sequelize.STRING({ length: 32 }),
 			allowNull: false

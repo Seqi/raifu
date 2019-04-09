@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import shortid from 'short-id'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -12,7 +13,8 @@ class AddLoadoutDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			name: ''
+			name: '',
+			displayId: shortid.generate()
 		}
 	}
 

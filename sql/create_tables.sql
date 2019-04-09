@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS "gear" (
 CREATE TABLE IF NOT EXISTS "loadouts" (
     "id"   SERIAL , 
     "name" VARCHAR(64) NOT NULL, 
+    "displayId" VARCHAR(14) NOT NULL, 
     "uid" VARCHAR(32) NOT NULL, 
     "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
