@@ -27,9 +27,15 @@ class CardListBaseComponent extends Component {
 		this.items
 			.get()
 			.then((items) => {
-				this.setState({ items, loading: false })
+				if (!this.isUnmounted) {
+					this.setState({ items, loading: false })
+				}
 			})
 			.catch((err) => this.setState({ error: err.message, loading: false }))
+	}
+
+	componentWillUnmount() {
+		this.isUnmounted = true
 	}
 
 	handleAddDialogClose() {

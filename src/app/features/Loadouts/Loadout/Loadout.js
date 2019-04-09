@@ -33,11 +33,16 @@ class Loadout extends React.Component {
 	componentDidMount() {
 		database.loadouts
 			.getById(this.props.match.params.id)
-			.then((loadout) => this.setState({ loadout, loading: false }))
+			.then((loadout) => {
+				if (!this.isUnmounted) {
+					this.setState({ loadout, loading: false })
+				}
+			})
 			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
 	componentWillUnmount() {
+		this.isUnmounted = true
 		// Clean up the url when navigating away
 		this.props.history.push('../')
 	}
