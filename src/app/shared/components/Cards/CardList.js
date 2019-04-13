@@ -12,6 +12,7 @@ import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog
 import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 class CardList extends Component {
+
 	constructor(props) {
 		super(props)
 
@@ -27,27 +28,40 @@ class CardList extends Component {
 		this.loaded = true
 	}
 
-	renderItems = (items) => items.map(this.renderItem)
+	renderItems = (items) => {
+		let renderItem = (item, idx) => {
+			let { buildTitle, buildSubtitle, buildCardContent, onCardClick, canDelete } = this.props
+	
+			return (
+				<Card
+					key={ item.id }
+					style={ { animationDelay: this.getAnimationDelay(idx, items.length) } }
+					className={ `card ${this.props.cardType}-card` }
+					onClick={ () => onCardClick(item) }
+				>
+					{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, item.id, buildTitle(item)) } />}
+					<CardHeader className='card-header' title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
+					<CardContent className='card-content'> {buildCardContent(item)} </CardContent>
+				</Card>
+			)
+		}
 
-	renderItem = (item, idx) => {
-		let { buildTitle, buildSubtitle, buildCardContent, onCardClick, canDelete } = this.props
-
-		return (
-			<Card
-				key={ item.id }
-				style={ { animationDelay: this.getAnimationDelay(idx) } }
-				className={ `card ${this.props.cardType}-card` }
-				onClick={ () => onCardClick(item) }
-			>
-				{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, item.id, buildTitle(item)) } />}
-				<CardHeader className='card-header' title={ buildTitle(item) } subheader={ buildSubtitle(item) } />
-				<CardContent className='card-content'> {buildCardContent(item)} </CardContent>
-			</Card>
-		)
+		return items.map(renderItem)
 	}
 
-	getAnimationDelay = (idx) => {
-		return this.loaded ? '0s' : `${0.2 * idx}s`
+	getAnimationDelay = (idx, count) => {
+		let maxAnimationLength = 1
+		let standardInterval = 0.2
+
+		if (this.loaded) {
+			return '0s'
+		}
+
+		let interval = count * standardInterval > maxAnimationLength ? 
+			maxAnimationLength / count : 
+			standardInterval
+
+		return `${interval * idx}s`
 	}
 
 	handleDialogOpen(e, key, title) {
@@ -73,7 +87,7 @@ class CardList extends Component {
 
 				{canAdd && (
 					<AddCard
-						style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length) } }
+						style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length, Object.keys(items || {}).length) } }
 						onClick={ onAdd }
 						cardType={ cardType }
 					/>
