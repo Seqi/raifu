@@ -49,9 +49,12 @@ class CardList extends Component {
 		return items.map(renderItem)
 	}
 
-	getAnimationDelay = (idx, count) => {
+	getAnimationDelay = (index, count) => {
 		let maxAnimationLength = 1
 		let standardInterval = 0.2
+
+		// If no count is supplied, assume the index number is the last item
+		count = count || index
 
 		if (this.loaded) {
 			return '0s'
@@ -61,7 +64,7 @@ class CardList extends Component {
 			maxAnimationLength / count : 
 			standardInterval
 
-		return `${interval * idx}s`
+		return `${interval * index}s`
 	}
 
 	handleDialogOpen(e, key, title) {
@@ -87,7 +90,7 @@ class CardList extends Component {
 
 				{canAdd && (
 					<AddCard
-						style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length, Object.keys(items || {}).length) } }
+						style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length) } }
 						onClick={ onAdd }
 						cardType={ cardType }
 					/>
