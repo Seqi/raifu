@@ -8,8 +8,8 @@ class Loadouts extends React.Component {
 	render() {
 		return (
 			<Switch>
-				<Route path='/app/loadouts/:id' component={ Loadout } />
-				<Route path='/app/loadouts' component={ LoadoutList } />
+				<Route path='/loadouts/:id' component={ Loadout } />
+				<Route path='/loadouts' component={ LoadoutList } />
 			</Switch>
 		)
 	}
