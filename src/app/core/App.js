@@ -13,7 +13,7 @@ class App extends Component {
 					<Switch>
 						<Route path='/login' component={ AuthPage } />
 						<Route path='/app' component={ Main } />
-						<Redirect from='/' to='/login' />
+						<Redirect from='/' to='/app' />
 					</Switch>
 				</Router>
 			</div>

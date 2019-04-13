@@ -43,8 +43,6 @@ class Loadout extends React.Component {
 
 	componentWillUnmount() {
 		this.isUnmounted = true
-		// Clean up the url when navigating away
-		this.props.history.push('../')
 	}
 
 	openDialog(id) {
