@@ -1,7 +1,7 @@
 import './Main.css'
 
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link, Route, Switch, Redirect } from 'react-router-dom'
 
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -42,13 +42,16 @@ class Main extends Component {
 				<Navbar />
 
 				<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
-					<Tab label='Armory' />
-					<Tab label='Loadouts' />
+					<Tab label='Armory' component={ Link } to={ '/app/armory' } />
+					<Tab label='Loadouts' component={ Link } to={ '/app/loadouts' } />
 				</Tabs>
 
 				<div className='app-window'>
-					{tabIndex === 0 && <Armory />}
-					{tabIndex === 1 && <Loadouts />}
+					<Switch>
+						<Route path={ '/app/armory' } component={ Armory } />
+						<Route path={ '/app/loadouts' } component={ Loadouts } />
+						<Redirect from={ '/app' } to={ '/app/armory' } />
+					</Switch>
 				</div>
 			</React.Fragment>
 		) : (
