@@ -5,6 +5,9 @@ node_modules
 /.pnp
 .pnp.js
 
+#secrets
+.env
+
 # development
 *.dev.js
 

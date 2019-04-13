@@ -4,6 +4,12 @@
 
 A web application to add and customise airsoft loadouts, to help organise your weaponry and tools. These can then be shared and assigned to upcoming events that you're attending. After all, preparation is half the battle.
 
+## Getting Started
+
+Create a `.env` file in root to supply your Firebase credentials. If you need to create a Firebase project, you can get started [here](https://firebase.google.com/). 
+
+You will also need to provide a `NODE_PATH=src` insode your `.env` file to allow for absolute filepaths.
+
 ## Technologies
 
 Outside of the functionality, the purpose of this app was to pick up a few new technologies. These were:
