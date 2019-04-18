@@ -26,22 +26,9 @@ module.exports = () => {
 
 	const attachment = sequelize.define('attachment', armoryTable)
 
-	const gear = sequelize.define(
-		'gear',
-		{
-			title: {
-				type: Sequelize.STRING({ length: 64 }),
-				allowNull: false
-			},
-			uid: {
-				type: Sequelize.STRING({ length: 16 }),
-				allowNull: false
-			}
-		},
-		{
-			freezeTableName: true
-		}
-	)
+	const gear = sequelize.define('gear', armoryTable, {
+		freezeTableName: true
+	})
 
 	const loadout = sequelize.define('loadout', {
 		name: {

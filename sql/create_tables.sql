@@ -24,8 +24,12 @@ CREATE TABLE IF NOT EXISTS "attachments" (
     
 CREATE TABLE IF NOT EXISTS "gear" (
     "id"   SERIAL , 
-    "title" VARCHAR(64) NOT NULL, 
-    "uid" VARCHAR(16) NOT NULL, 
+    "platform" VARCHAR(64) NOT NULL,
+    "model" VARCHAR(64), 
+    "brand" VARCHAR(64), 
+    "nickname" VARCHAR(64), 
+    "type" VARCHAR(16) NOT NULL, 
+    "uid" VARCHAR(32) NOT NULL, 
     "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     PRIMARY KEY ("id"));
