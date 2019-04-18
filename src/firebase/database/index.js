@@ -14,6 +14,7 @@ export default {
 	brands: brands,
 	platforms: {
 		weapon: platforms.weapons,
+		gear: platforms.gear,
 		attachment: platforms.attachments
 	}
 }
