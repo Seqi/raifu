@@ -57,3 +57,12 @@ CREATE TABLE IF NOT EXISTS "loadout_weapon_attachments" (
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     UNIQUE ("loadout_weapon_id", "attachment_id"), 
     PRIMARY KEY ("loadout_weapon_id","loadout_id","weapon_id","attachment_id"));
+
+CREATE TABLE IF NOT EXISTS "loadout_gear" (
+    "id"   SERIAL , 
+    "loadout_id" INTEGER NOT NULL REFERENCES "loadouts" ("id") ON DELETE CASCADE ON UPDATE CASCADE, 
+    "gear_id" INTEGER NOT NULL REFERENCES "gear" ("id") ON DELETE CASCADE ON UPDATE CASCADE, 
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    UNIQUE ("loadout_id", "gear_id"), 
+    PRIMARY KEY ("id"));
