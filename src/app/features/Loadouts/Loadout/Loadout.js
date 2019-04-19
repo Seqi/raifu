@@ -3,13 +3,18 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import Typography from '@material-ui/core/Typography'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardContent from '@material-ui/core/CardContent'
 
 import AddWeaponDialog from './AddWeaponDialog'
+import AddGearDialog from './AddGearDialog'
 import LoadoutWeapon from './LoadoutWeapon'
 import EditLoadoutDialog from './EditLoadoutNameDialog'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
 import Loader from 'app/shared/components/Loader'
+import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
 
 import database from '../../../../firebase/database'
 
@@ -79,6 +84,14 @@ class Loadout extends React.Component {
 			.then(() => this.closeDialog())
 	}
 
+	onGearSelected(gearId) {
+		database.loadouts
+			.loadout(this.state.loadout.id)
+			.gear.add(gearId)
+			.then((gear) => this.pushNewGear(gear))
+			.then(() => this.closeDialog())
+	}
+
 	pushNewWeapon(weapon) {
 		this.setState((prevState) => {
 			let weapons = [...prevState.loadout.weapons, weapon]
@@ -86,6 +99,19 @@ class Loadout extends React.Component {
 			let loadout = {
 				...prevState.loadout,
 				weapons: weapons
+			}
+
+			return { loadout }
+		})
+	}
+
+	pushNewGear(gear) {
+		this.setState((prevState) => {
+			let updatedGear = [...prevState.loadout.gear, gear]
+
+			let loadout = {
+				...prevState.loadout,
+				gear: updatedGear
 			}
 
 			return { loadout }
@@ -167,6 +193,26 @@ class Loadout extends React.Component {
 		))
 	}
 
+	renderGear(gear) {
+		if (!gear || !gear.length) {
+			return null
+		}
+
+		let buildTitle = (gear) => gear.nickname || `${gear.platform} ${gear.model}`
+		let buildSubtitle = (gear) => gear.brand || ''
+
+		return gear.map((gear) => (
+			<Card
+				key={ gear.id }
+				className={ 'card weapon-card' }
+			>
+				{/* <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, gear.id, buildTitle(gear)) } />} */}
+				<CardHeader className='card-header' title={ buildTitle(gear) } subheader={ buildSubtitle(gear) } />
+				<CardContent className='card-content'> <WeaponCardContent weapon={ gear } /> </CardContent>
+			</Card>
+		))
+	}
+
 	render() {
 		let { loading, error, loadout, activeDialog } = this.state
 
@@ -188,6 +234,14 @@ class Loadout extends React.Component {
 					</div>
 				</div>
 
+				<Typography variant='h5'>Gear</Typography>
+				<div>
+					<div className='loadout-slot-list'>
+						{this.renderGear(loadout.gear)}
+						<AddCard onClick={ () => this.openDialog('addgear') } />
+					</div>
+				</div>
+
 				<EditLoadoutDialog
 					name={ loadout.name }
 					isOpen={ activeDialog === 'editloadout' }
@@ -199,6 +253,13 @@ class Loadout extends React.Component {
 					filterIds={ loadout.weapons && loadout.weapons.map((w) => w.id) }
 					isOpen={ activeDialog === 'addweapon' }
 					onSave={ (value) => this.onWeaponSelected(value) }
+					onClose={ () => this.closeDialog() }
+				/>
+
+				<AddGearDialog
+					filterIds={ loadout.gear && loadout.gear.map((w) => w.id) }
+					isOpen={ activeDialog === 'addgear' }
+					onSave={ (value) => this.onGearSelected(value) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>
