@@ -15,6 +15,8 @@ import EditLoadoutDialog from './EditLoadoutNameDialog'
 import AddCard from 'app/shared/components/Cards/AddCard'
 import Loader from 'app/shared/components/Loader'
 import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
+import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 import database from '../../../../firebase/database'
 
@@ -48,6 +50,10 @@ class Loadout extends React.Component {
 
 	componentWillUnmount() {
 		this.isUnmounted = true
+	}	
+	
+	buildTitle(item) {
+		return item.nickname || `${item.platform} ${item.model}`
 	}
 
 	openDialog(id) {
@@ -55,6 +61,7 @@ class Loadout extends React.Component {
 	}
 
 	closeDialog() {
+		this.activeItem = null
 		this.setState({ activeDialog: null })
 	}
 
@@ -84,14 +91,6 @@ class Loadout extends React.Component {
 			.then(() => this.closeDialog())
 	}
 
-	onGearSelected(gearId) {
-		database.loadouts
-			.loadout(this.state.loadout.id)
-			.gear.add(gearId)
-			.then((gear) => this.pushNewGear(gear))
-			.then(() => this.closeDialog())
-	}
-
 	pushNewWeapon(weapon) {
 		this.setState((prevState) => {
 			let weapons = [...prevState.loadout.weapons, weapon]
@@ -104,31 +103,58 @@ class Loadout extends React.Component {
 			return { loadout }
 		})
 	}
-
-	pushNewGear(gear) {
-		this.setState((prevState) => {
-			let updatedGear = [...prevState.loadout.gear, gear]
-
-			let loadout = {
-				...prevState.loadout,
-				gear: updatedGear
-			}
-
-			return { loadout }
-		})
-	}
-
+	
 	deleteWeapon(weaponId) {
 		this.setState((prevState) => {
 			let weapons = prevState.loadout.weapons.filter((w) => w.id !== weaponId)
-
+			
 			let loadout = {
 				...prevState.loadout,
 				weapons
 			}
-
+			
 			return { loadout }
 		})
+	}
+
+	onGearSelected(gearId) {
+		database.loadouts
+			.loadout(this.state.loadout.id)
+			.gear.add(gearId)
+			.then((gear) => this.pushNewGear(gear))
+			.then(() => this.closeDialog())
+	}
+	
+	pushNewGear(gear) {
+		this.setState((prevState) => {
+			let updatedGear = [...prevState.loadout.gear, gear]
+	
+			let loadout = {
+				...prevState.loadout,
+				gear: updatedGear
+			}
+	
+			return { loadout }
+		})
+	}
+
+	deleteGear(gearId) {
+		database.loadouts
+			.loadout(this.state.loadout.id).gear
+			.delete(gearId)
+			.then(() => {
+				this.setState((prevState) => {
+					let gear = prevState.loadout.gear.filter((w) => w.id !== gearId)
+	
+					let loadout = {
+						...prevState.loadout,
+						gear
+					}
+	
+					return { loadout }
+				})
+			})
+			.then(() => this.closeDialog())
 	}
 
 	pushNewAttachment(weaponId, attachment) {
@@ -206,7 +232,10 @@ class Loadout extends React.Component {
 				key={ gear.id }
 				className={ 'card weapon-card' }
 			>
-				{/* <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, gear.id, buildTitle(gear)) } />} */}
+				<CardDeleteButton onClick={ () => {
+					this.activeItem = gear
+					this.openDialog('deletegear') }
+				 } />
 				<CardHeader className='card-header' title={ buildTitle(gear) } subheader={ buildSubtitle(gear) } />
 				<CardContent className='card-content'> <WeaponCardContent weapon={ gear } /> </CardContent>
 			</Card>
@@ -260,6 +289,13 @@ class Loadout extends React.Component {
 					filterIds={ loadout.gear && loadout.gear.map((w) => w.id) }
 					isOpen={ activeDialog === 'addgear' }
 					onSave={ (value) => this.onGearSelected(value) }
+					onClose={ () => this.closeDialog() }
+				/>
+
+				<ConfirmDeleteDialog
+					title={ this.activeItem  ? this.buildTitle(this.activeItem) : '' }
+					isOpen={ activeDialog === 'deletegear' }
+					onConfirm={ () => this.deleteGear(this.activeItem.id) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>
