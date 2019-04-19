@@ -1,6 +1,6 @@
 import base from '../base-entity'
 import loadoutWeapons from './loadout-weapons'
-import loadoutGear from './loadout-weapons'
+import loadoutGear from './loadout-gear'
 
 export default () => {
 	return {
