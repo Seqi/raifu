@@ -62,6 +62,14 @@ module.exports = {
 							}
 						],
 						through: { attributes: [] }
+					},
+					{
+						model: entities().gear,
+						as: 'gear',
+						attributes: {
+							exclude: ['uid']
+						},
+						through: { attributes: [] }
 					}
 				],
 				attributes: {

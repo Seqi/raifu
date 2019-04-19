@@ -14,8 +14,8 @@ class GearList extends CardListBaseComponent {
 		return database.gear
 	}
 
-	buildCardTitle(item) {
-		return item.title
+	buildCardTitle(attachment) {
+		return attachment.nickname || `${attachment.platform} ${attachment.model}`
 	}
 
 	render() {

@@ -26,22 +26,9 @@ module.exports = () => {
 
 	const attachment = sequelize.define('attachment', armoryTable)
 
-	const gear = sequelize.define(
-		'gear',
-		{
-			title: {
-				type: Sequelize.STRING({ length: 64 }),
-				allowNull: false
-			},
-			uid: {
-				type: Sequelize.STRING({ length: 16 }),
-				allowNull: false
-			}
-		},
-		{
-			freezeTableName: true
-		}
-	)
+	const gear = sequelize.define('gear', armoryTable, {
+		freezeTableName: true
+	})
 
 	const loadout = sequelize.define('loadout', {
 		name: {
@@ -85,6 +72,27 @@ module.exports = () => {
 			}
 		}
 	})
+
+	const loadoutGear = sequelize.define('loadout_gear', {
+		loadout_id: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: loadout,
+				key: 'id',
+				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+			}
+		},
+		gear_id: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: gear,
+				key: 'id',
+				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+			}
+		}
+	}, { freezeTableName: true })
 
 	const loadoutWeaponAttachment = sequelize.define('loadout_weapon_attachment', {
 		loadout_weapon_id: {
@@ -150,6 +158,10 @@ module.exports = () => {
 		foreignKey: 'attachment_id'
 	})
 
+	// Loadout Gear Associations
+	loadout.belongsToMany(gear, { through: loadoutGear, foreignKey: 'loadout_id', as: 'gear'})
+	gear.belongsToMany(loadout, { through: loadoutGear, foreignKey: 'gear_id' })
+
 	return {
 		sequelize,
 		weapon,
@@ -157,6 +169,7 @@ module.exports = () => {
 		gear,
 		loadout,
 		loadoutWeapon,
-		loadoutWeaponAttachment
+		loadoutWeaponAttachment,
+		loadoutGear
 	}
 }

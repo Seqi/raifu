@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import AddWeaponDialog from './AddWeaponDialog'
 import LoadoutWeapon from './LoadoutWeapon'
 import EditLoadoutDialog from './EditLoadoutNameDialog'
+import LoadoutGearList from './Gear/LoadoutGearList'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
 import Loader from 'app/shared/components/Loader'
@@ -43,6 +44,10 @@ class Loadout extends React.Component {
 
 	componentWillUnmount() {
 		this.isUnmounted = true
+	}	
+	
+	buildTitle(item) {
+		return item.nickname || `${item.platform} ${item.model}`
 	}
 
 	openDialog(id) {
@@ -50,6 +55,7 @@ class Loadout extends React.Component {
 	}
 
 	closeDialog() {
+		this.activeItem = null
 		this.setState({ activeDialog: null })
 	}
 
@@ -91,14 +97,40 @@ class Loadout extends React.Component {
 			return { loadout }
 		})
 	}
-
+	
 	deleteWeapon(weaponId) {
 		this.setState((prevState) => {
 			let weapons = prevState.loadout.weapons.filter((w) => w.id !== weaponId)
-
+			
 			let loadout = {
 				...prevState.loadout,
 				weapons
+			}
+			
+			return { loadout }
+		})
+	}
+	
+	pushNewGear(gear) {
+		this.setState((prevState) => {
+			let updatedGear = [...prevState.loadout.gear, gear]
+	
+			let loadout = {
+				...prevState.loadout,
+				gear: updatedGear
+			}
+	
+			return { loadout }
+		})
+	}
+
+	deleteGear(gearId) {
+		this.setState((prevState) => {
+			let gear = prevState.loadout.gear.filter((w) => w.id !== gearId)
+
+			let loadout = {
+				...prevState.loadout,
+				gear
 			}
 
 			return { loadout }
@@ -181,11 +213,19 @@ class Loadout extends React.Component {
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
 				</Typography>
 
-				<div>
-					<div className='loadout-slot-list'>
-						{this.renderWeapons(loadout.weapons)}
-						<AddCard onClick={ () => this.openDialog('addweapon') } />
-					</div>
+				<div className='loadout-slot-list'>
+					{this.renderWeapons(loadout.weapons)}
+					<AddCard onClick={ () => this.openDialog('addweapon') } />
+				</div>
+
+				<Typography variant='h5'>Gear</Typography>
+				<div className='loadout-slot-list'>
+					<LoadoutGearList 
+						loadoutId={ loadout.id } 
+						gear={ loadout.gear }
+						onAdd={ gear => this.pushNewGear(gear) } 
+						onDelete={ id => this.deleteGear(id) } 
+					/>
 				</div>
 
 				<EditLoadoutDialog
