@@ -3,20 +3,14 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
 
 import AddWeaponDialog from './AddWeaponDialog'
-import AddGearDialog from './AddGearDialog'
 import LoadoutWeapon from './LoadoutWeapon'
 import EditLoadoutDialog from './EditLoadoutNameDialog'
+import LoadoutGearList from './Gear/LoadoutGearList'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
 import Loader from 'app/shared/components/Loader'
-import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
-import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 import database from '../../../../firebase/database'
 
@@ -116,14 +110,6 @@ class Loadout extends React.Component {
 			return { loadout }
 		})
 	}
-
-	onGearSelected(gearId) {
-		database.loadouts
-			.loadout(this.state.loadout.id)
-			.gear.add(gearId)
-			.then((gear) => this.pushNewGear(gear))
-			.then(() => this.closeDialog())
-	}
 	
 	pushNewGear(gear) {
 		this.setState((prevState) => {
@@ -139,22 +125,16 @@ class Loadout extends React.Component {
 	}
 
 	deleteGear(gearId) {
-		database.loadouts
-			.loadout(this.state.loadout.id).gear
-			.delete(gearId)
-			.then(() => {
-				this.setState((prevState) => {
-					let gear = prevState.loadout.gear.filter((w) => w.id !== gearId)
-	
-					let loadout = {
-						...prevState.loadout,
-						gear
-					}
-	
-					return { loadout }
-				})
-			})
-			.then(() => this.closeDialog())
+		this.setState((prevState) => {
+			let gear = prevState.loadout.gear.filter((w) => w.id !== gearId)
+
+			let loadout = {
+				...prevState.loadout,
+				gear
+			}
+
+			return { loadout }
+		})
 	}
 
 	pushNewAttachment(weaponId, attachment) {
@@ -219,29 +199,6 @@ class Loadout extends React.Component {
 		))
 	}
 
-	renderGear(gear) {
-		if (!gear || !gear.length) {
-			return null
-		}
-
-		let buildTitle = (gear) => gear.nickname || `${gear.platform} ${gear.model}`
-		let buildSubtitle = (gear) => gear.brand || ''
-
-		return gear.map((gear) => (
-			<Card
-				key={ gear.id }
-				className={ 'card weapon-card' }
-			>
-				<CardDeleteButton onClick={ () => {
-					this.activeItem = gear
-					this.openDialog('deletegear') }
-				 } />
-				<CardHeader className='card-header' title={ buildTitle(gear) } subheader={ buildSubtitle(gear) } />
-				<CardContent className='card-content'> <WeaponCardContent weapon={ gear } /> </CardContent>
-			</Card>
-		))
-	}
-
 	render() {
 		let { loading, error, loadout, activeDialog } = this.state
 
@@ -256,19 +213,19 @@ class Loadout extends React.Component {
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
 				</Typography>
 
-				<div>
-					<div className='loadout-slot-list'>
-						{this.renderWeapons(loadout.weapons)}
-						<AddCard onClick={ () => this.openDialog('addweapon') } />
-					</div>
+				<div className='loadout-slot-list'>
+					{this.renderWeapons(loadout.weapons)}
+					<AddCard onClick={ () => this.openDialog('addweapon') } />
 				</div>
 
 				<Typography variant='h5'>Gear</Typography>
-				<div>
-					<div className='loadout-slot-list'>
-						{this.renderGear(loadout.gear)}
-						<AddCard onClick={ () => this.openDialog('addgear') } />
-					</div>
+				<div className='loadout-slot-list'>
+					<LoadoutGearList 
+						loadoutId={ loadout.id } 
+						gear={ loadout.gear }
+						onAdd={ gear => this.pushNewGear(gear) } 
+						onDelete={ id => this.deleteGear(id) } 
+					/>
 				</div>
 
 				<EditLoadoutDialog
@@ -282,20 +239,6 @@ class Loadout extends React.Component {
 					filterIds={ loadout.weapons && loadout.weapons.map((w) => w.id) }
 					isOpen={ activeDialog === 'addweapon' }
 					onSave={ (value) => this.onWeaponSelected(value) }
-					onClose={ () => this.closeDialog() }
-				/>
-
-				<AddGearDialog
-					filterIds={ loadout.gear && loadout.gear.map((w) => w.id) }
-					isOpen={ activeDialog === 'addgear' }
-					onSave={ (value) => this.onGearSelected(value) }
-					onClose={ () => this.closeDialog() }
-				/>
-
-				<ConfirmDeleteDialog
-					title={ this.activeItem  ? this.buildTitle(this.activeItem) : '' }
-					isOpen={ activeDialog === 'deletegear' }
-					onConfirm={ () => this.deleteGear(this.activeItem.id) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>

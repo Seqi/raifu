@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
 import ResourceSelect from 'app/shared/components/Selects/ResourceSelect'
-import database from '../../../../firebase/database'
+import database from '../../../../../firebase/database'
 
 class AddGearDialog extends Component {
 	constructor(props) {
@@ -26,7 +26,7 @@ class AddGearDialog extends Component {
 		return this.state.gearId
 	}
 
-	filterGear() {
+	getGear() {
 		return database.gear
 			.get()
 			.then((gear) => gear.filter((w) => this.props.filterIds.indexOf(w.id) === -1))
@@ -43,7 +43,7 @@ class AddGearDialog extends Component {
 					<ResourceSelect
 						label='Select gear'
 						name='gear'
-						dataGetter={ () => this.filterGear() }
+						dataGetter={ () => this.getGear() }
 						buildValue={ (gear) => gear.nickname || `${gear.platform} ${gear.model}` }
 						value={ this.state.gearId }
 						onChange={ (e) => this.handleChange(e) }
