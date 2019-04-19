@@ -92,7 +92,7 @@ module.exports = () => {
 				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
 			}
 		}
-	})
+	}, { freezeTableName: true })
 
 	const loadoutWeaponAttachment = sequelize.define('loadout_weapon_attachment', {
 		loadout_weapon_id: {
@@ -159,8 +159,8 @@ module.exports = () => {
 	})
 
 	// Loadout Gear Associations
-	loadout.belongsToMany(gear, { through: loadoutGear, foreignKey: 'loadout_id'})
-	gear.belongsToMany(loadout, { through: loadoutGear, foreignKey: 'gear_id'})
+	loadout.belongsToMany(gear, { through: loadoutGear, foreignKey: 'loadout_id', as: 'gear'})
+	gear.belongsToMany(loadout, { through: loadoutGear, foreignKey: 'gear_id' })
 
 	return {
 		sequelize,
