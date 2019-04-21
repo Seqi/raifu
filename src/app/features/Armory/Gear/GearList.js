@@ -14,10 +14,6 @@ class GearList extends CardListBaseComponent {
 		return database.gear
 	}
 
-	buildCardTitle(attachment) {
-		return attachment.nickname || `${attachment.platform} ${attachment.model}`
-	}
-
 	render() {
 		let { isAddDialogOpen } = this.state
 		return (

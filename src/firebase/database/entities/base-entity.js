@@ -1,4 +1,5 @@
 import app from '../../'
+import { toEntity } from './entity.model'
 
 export default (entityName) => {
 	return {
@@ -6,17 +7,17 @@ export default (entityName) => {
 			app
 				.functions()
 				.httpsCallable(`${entityName}-getAll`)()
-				.then((result) => result.data),
+				.then((result) => result.data.map(toEntity)),
 		getById: (id) =>
 			app
 				.functions()
 				.httpsCallable(`${entityName}-getById`)(id)
-				.then((result) => result.data),
+				.then((result) => toEntity(result.data)),
 		add: (props) =>
 			app
 				.functions()
 				.httpsCallable(`${entityName}-add`)(props)
-				.then((result) => result.data),
+				.then((result) => toEntity(result.data)),
 		edit: (props) =>
 			app
 				.functions()

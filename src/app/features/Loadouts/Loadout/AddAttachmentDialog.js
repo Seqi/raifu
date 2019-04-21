@@ -26,10 +26,6 @@ class AddAttachmentDialog extends Component {
 		return this.state.attachmentId
 	}
 
-	buildLabel(attachment) {
-		return attachment.nickname || `${attachment.platform} ${attachment.model}`
-	}
-
 	filterAttachments() {
 		return database.attachments
 			.get()
@@ -48,7 +44,7 @@ class AddAttachmentDialog extends Component {
 						label='Select attachment'
 						name='attachment'
 						dataGetter={ () => this.filterAttachments() }
-						buildValue={ this.buildLabel }
+						buildValue={ item => item.getTitle() }
 						value={ this.state.attachmentId }
 						onChange={ (e) => this.handleChange(e) }
 					/>

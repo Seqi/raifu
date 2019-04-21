@@ -21,15 +21,6 @@ class LoadoutWeapon extends Component {
 		}
 	}
 
-	buildTitle() {
-		let { weapon } = this.props
-		return weapon.nickname || `${weapon.platform} ${weapon.model}`
-	}
-
-	buildSubtitle() {
-		return this.props.weapon.brand
-	}
-
 	handleDialogOpen() {
 		this.setState({ isDialogOpen: true })
 	}
@@ -50,12 +41,13 @@ class LoadoutWeapon extends Component {
 
 	render() {
 		let { isDialogOpen } = this.state
+		let { weapon } = this.props
 
 		return (
 			<div className='weapon-mod'>
 				<Card className='card weapon-card'>
 					<CardDeleteButton onClick={ () => this.handleDialogOpen() } />
-					<CardHeader className='card-header' title={ this.buildTitle() } subheader={ this.buildSubtitle() } />
+					<CardHeader className='card-header' title={ weapon.getTitle() } subheader={ weapon.getSubtitle() } />
 					<CardContent className='card-content'>
 						<WeaponCardContent weapon={ this.props.weapon } />
 					</CardContent>
@@ -64,7 +56,7 @@ class LoadoutWeapon extends Component {
 				<LoadoutWeaponAttachments { ...this.props } />
 
 				<ConfirmDeleteDialog
-					title={ this.buildTitle() }
+					title={ weapon.getTitle() }
 					isOpen={ isDialogOpen }
 					onClose={ () => this.handleDialogClose() }
 					onConfirm={ () => this.handleDelete() }

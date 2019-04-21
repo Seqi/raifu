@@ -1,4 +1,5 @@
 import app from '../../../'
+import { toEntity } from '../entity.model'
 import loadoutWeaponAttachments from './loadout-weapon-attachments'
 
 export default (loadoutId) => ({
@@ -6,7 +7,7 @@ export default (loadoutId) => ({
 		app
 			.functions()
 			.httpsCallable('loadouts-weapons-add')({ weaponId, loadoutId })
-			.then((result) => result.data),
+			.then((result) => toEntity(result.data)),
 	delete: (weaponId) =>
 		app
 			.functions()

@@ -38,14 +38,6 @@ export default class LoadoutGearList extends React.Component {
 		this.setState({activeDialog: null})
 	}
 
-	buildTitle(gear) {
-		return gear.nickname || `${gear.platform} ${gear.model}`
-	}
-
-	buildSubtitle (gear) {
-		return  gear.brand || ''
-	}
-
 	addGear(gearId) {
 		let { loadoutId, onAdd } = this.props 
 
@@ -76,7 +68,7 @@ export default class LoadoutGearList extends React.Component {
 		return gearList.map(gear => (
 			<Card key={ gear.id } className={ 'card weapon-card' }>
 				<CardDeleteButton onClick={ () => this.openDeleteDialog(gear) } />
-				<CardHeader className='card-header' title={ this.buildTitle(gear) } subheader={ this.buildSubtitle(gear) } />
+				<CardHeader className='card-header' title={ gear.getTitle() } subheader={ gear.getSubtitle() } />
 				<CardContent className='card-content'> <WeaponCardContent weapon={ gear } /> </CardContent>
 			</Card>
 		))
@@ -99,7 +91,7 @@ export default class LoadoutGearList extends React.Component {
 					
 				<ConfirmDeleteDialog 
 					isOpen={ activeDialog === 'delete' }
-					title={ this.activeItem ? this.buildTitle(this.activeItem) : '' }
+					title={ this.activeItem ? this.activeItem.getTitle() : '' }
 					onConfirm={ () => this.deleteGear(this.activeItem.id) }
 					onClose={ () => this.closeDialog() }
 				/>
