@@ -24,21 +24,12 @@ class LoadoutWeaponAttachments extends Component {
 		this.setState({ isDialogOpen: false })
 	}
 
-	buildTitle(attachment) {
-		return attachment.nickname || `${attachment.platform} ${attachment.model}`
-	}
-
 	buildCardContent(item) {
 		let img = getImage('attachments', item.type, item.platform)
 
 		if (img) {
 			return <img alt={ item.name } src={ img } />
 		}
-	}
-
-	buildWeaponName() {
-		let { weapon } = this.props
-		return weapon.nickname || `${weapon.platform} ${weapon.model}`
 	}
 
 	handleSave(attachmentId) {
@@ -71,8 +62,6 @@ class LoadoutWeaponAttachments extends Component {
 				<div className='weapon-attachments'>
 					<CardList
 						cardType='attachment'
-						buildTitle={ this.buildTitle }
-						buildSubtitle={ () => '' }
 						buildCardContent={ this.buildCardContent }
 						items={ weapon.attachments }
 						onAdd={ () => this.handleDialogOpen() }
@@ -82,7 +71,7 @@ class LoadoutWeaponAttachments extends Component {
 
 				<AddAttachmentDialog
 					weaponId={ weapon.id }
-					weaponName={ this.buildWeaponName() }
+					weaponName={ weapon.getTitle() }
 					filterIds={ filterAttachmentIds }
 					isOpen={ this.state.isDialogOpen }
 					onClose={ () => this.handleDialogClose() }

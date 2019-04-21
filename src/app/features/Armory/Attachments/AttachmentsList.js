@@ -19,14 +19,6 @@ class AttachmentsList extends CardListBaseComponent {
 		return 'attachment'
 	}
 
-	buildCardTitle(attachment) {
-		return attachment.nickname || `${attachment.platform} ${attachment.model}`
-	}
-
-	buildCardSubtitle(item) {
-		return item.brand || ''
-	}
-
 	buildCardContent(item) {
 		let img = getImage('attachments', item.type, item.platform)
 

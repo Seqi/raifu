@@ -1,4 +1,5 @@
 import app from '../../../'
+import { toEntity } from '../entity.model'
 
 export default (loadoutId, weaponId) => ({
 	add: (attachmentId) =>
@@ -9,7 +10,7 @@ export default (loadoutId, weaponId) => ({
 				attachmentId,
 				loadoutId
 			})
-			.then((response) => response.data),
+			.then((result) => toEntity(result.data)),
 
 	delete: (attachmentId) =>
 		app
@@ -19,5 +20,5 @@ export default (loadoutId, weaponId) => ({
 				attachmentId,
 				loadoutId
 			})
-			.then((response) => response.data)
+			.then((result) => result.data)
 })

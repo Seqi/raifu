@@ -20,14 +20,6 @@ class LoadoutList extends CardListBaseComponent {
 		return database.loadouts
 	}
 
-	buildCardTitle(loadout) {
-		return loadout.name
-	}
-
-	buildCardSubtitle() {
-		return ''
-	}
-
 	buildCardContent(loadout) {
 		if (!loadout.weapons || Object.keys(loadout.weapons).length === 0) {
 			return <div>No items</div>

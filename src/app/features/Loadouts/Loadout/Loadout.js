@@ -45,10 +45,6 @@ class Loadout extends React.Component {
 	componentWillUnmount() {
 		this.isUnmounted = true
 	}	
-	
-	buildTitle(item) {
-		return item.nickname || `${item.platform} ${item.model}`
-	}
 
 	openDialog(id) {
 		this.setState({ activeDialog: id })

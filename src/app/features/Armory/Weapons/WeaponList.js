@@ -14,10 +14,6 @@ class WeaponList extends CardListBaseComponent {
 		return database.weapons
 	}
 
-	buildCardTitle(weapon) {
-		return weapon.nickname || `${weapon.platform} ${weapon.model}`
-	}
-
 	buildCardContent(item) {
 		return <WeaponCardContent weapon={ item } />
 	}
