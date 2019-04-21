@@ -189,7 +189,7 @@ class Loadout extends React.Component {
 		return weapons.map((weapon) => (
 			<LoadoutWeapon
 				key={ weapon.id }
-				loadoutId={ this.props.match.params.id }
+				loadoutId={ this.state.loadout.id }
 				weapon={ weapon }
 				filterAttachmentIds={ this.usedAttachmentIds }
 				onDelete={ () => this.deleteWeapon(weapon.id) }
