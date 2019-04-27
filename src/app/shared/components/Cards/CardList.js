@@ -57,40 +57,27 @@ class CardList extends Component {
 	}
 
 	renderItems = (items) => {
+		let { onCardClick, canDelete, cardType } = this.props
+
 		let renderItem = (item, idx) => {
-			let { onCardClick, canDelete, cardType } = this.props
+			let sharedProps = {
+				key: item.id,
+				canDelete: canDelete,
+				onClick: () => onCardClick(item),
+				onDelete: (e) => this.handleDialogOpen(e, item.id, item.getTitle()),
+				style: { animationDelay: this.getAnimationDelay(idx, items.length) }
+			}
 	
 			if (cardType === 'weapon') {
-				return <WeaponCard 
-					key={ item.id } 
-					weapon={ item }
-					canDelete={ canDelete }
-					onClick={ () => onCardClick(item) } 
-					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
-					style={ { animationDelay: this.getAnimationDelay(idx, items.length) } }
-				/>
+				return <WeaponCard weapon={ item } { ...sharedProps } />
 			}
 
 			else if (cardType === 'attachment') {
-				return <AttachmentCard 
-					key={ item.id } 
-					attachment={ item }
-					canDelete={ canDelete }
-					onClick={ () => onCardClick(item) } 
-					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
-					style={ { animationDelay: this.getAnimationDelay(idx, items.length) } }
-				/>
+				return <AttachmentCard attachment={ item } { ...sharedProps } />
 			}
 
 			else if (cardType === 'loadout') {
-				return <LoadoutCard 
-					key={ item.id } 
-					loadout={ item }
-					canDelete={ canDelete }
-					onClick={ () => onCardClick(item) } 					
-					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
-					style={ { animationDelay: this.getAnimationDelay(idx, items.length) } }
-				/>
+				return <LoadoutCard loadout={ item } { ...sharedProps }	/>
 			}
 
 			throw Error('Unsupported card type')
