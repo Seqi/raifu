@@ -77,10 +77,9 @@ module.exports = {
 				}
 			})
 
-			let data = JSON.parse(JSON.stringify(loadout))
-			console.log('Successfuly retrieved loadout', JSON.stringify(data))
+			console.log('Successfuly retrieved loadout', loadout.id)
 
-			return data
+			return loadout.toJSON()
 		} catch (e) {
 			console.error(`Error retrieving loadout for ${context.auth.uid}`, e)
 			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
