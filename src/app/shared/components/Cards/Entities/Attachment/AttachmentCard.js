@@ -23,7 +23,15 @@ export default function AttachmentCard({ attachment, canDelete, onClick, onDelet
 }
 
 AttachmentCard.propTypes = {
-	attachment: PropTypes.object.isRequired,
+	attachment: PropTypes.shape({
+		platform: PropTypes.string.isRequired,
+		model: PropTypes.string,
+		brand: PropTypes.string,
+		nickname: PropTypes.string,
+		type: PropTypes.string.isRequired,
+		getTitle: PropTypes.func.isRequired,
+		getSubtitle: PropTypes.func.isRequired,
+	}).isRequired,
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,

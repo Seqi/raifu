@@ -63,7 +63,22 @@ class LoadoutWeapon extends Component {
 LoadoutWeapon.propTypes = {
 	// TODO: Move all of this stuff to a React.Context
 	loadoutId: PropTypes.string.isRequired,
-	weapon: PropTypes.object.isRequired,
+	weapon: PropTypes.shape({
+		platform: PropTypes.string.isRequired,
+		model: PropTypes.string,
+		brand: PropTypes.string,
+		nickname: PropTypes.string,
+		type: PropTypes.string,
+		attachments: PropTypes.arrayOf(PropTypes.shape({			
+			platform: PropTypes.string.isRequired,
+			model: PropTypes.string,
+			brand: PropTypes.string,
+			nickname: PropTypes.string,
+			type: PropTypes.string.isRequired,
+			getTitle: PropTypes.func.isRequired,
+			getSubtitle: PropTypes.func.isRequired,
+		}))
+	}).isRequired,
 	filterAttachmentIds: PropTypes.array,
 	onDelete: PropTypes.func,
 	onAttachmentAdded: PropTypes.func,

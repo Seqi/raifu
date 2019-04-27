@@ -74,7 +74,24 @@ class LoadoutWeaponAttachments extends Component {
 
 LoadoutWeaponAttachments.propTypes = {
 	loadoutId: PropTypes.string.isRequired,
-	weapon: PropTypes.object.isRequired,
+	weapon: PropTypes.shape({
+		platform: PropTypes.string.isRequired,
+		model: PropTypes.string,
+		brand: PropTypes.string,
+		nickname: PropTypes.string,
+		type: PropTypes.string.isRequired,
+		getTitle: PropTypes.func.isRequired,
+		getSubtitle: PropTypes.func.isRequired,
+		attachments: PropTypes.arrayOf(PropTypes.shape({			
+			platform: PropTypes.string.isRequired,
+			model: PropTypes.string,
+			brand: PropTypes.string,
+			nickname: PropTypes.string,
+			type: PropTypes.string.isRequired,
+			getTitle: PropTypes.func.isRequired,
+			getSubtitle: PropTypes.func.isRequired,
+		}))
+	}).isRequired,
 	filterAttachmentIds: PropTypes.array,
 	onAttachmentAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func

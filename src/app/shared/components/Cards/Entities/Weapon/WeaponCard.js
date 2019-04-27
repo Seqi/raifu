@@ -23,7 +23,15 @@ export default function WeaponCard({ weapon, canDelete, onClick, onDelete, style
 }
 
 WeaponCard.propTypes = {
-	weapon: PropTypes.object.isRequired,
+	weapon: PropTypes.shape({
+		platform: PropTypes.string.isRequired,
+		model: PropTypes.string,
+		brand: PropTypes.string,
+		nickname: PropTypes.string,
+		type: PropTypes.string.isRequired,
+		getTitle: PropTypes.func.isRequired,
+		getSubtitle: PropTypes.func.isRequired,
+	}).isRequired,
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,

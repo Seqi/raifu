@@ -15,5 +15,8 @@ export default function CardImage({ entity, category }) {
 
 CardImage.propTypes = {
 	category: PropTypes.string.isRequired,
-	entity: PropTypes.object.isRequired
+	entity: PropTypes.shape({
+		platform: PropTypes.string.isRequired,
+		type: PropTypes.string.isRequired
+	}).isRequired,
 }

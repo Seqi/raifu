@@ -25,7 +25,28 @@ export default function LoadoutCard({loadout, canDelete, onClick, onDelete, styl
 }
 
 LoadoutCard.propTypes = {
-	loadout: PropTypes.object.isRequired,
+	loadout: PropTypes.shape({
+		getTitle: PropTypes.func.isRequired,
+		getSubtitle: PropTypes.func.isRequired,
+		weapons: PropTypes.arrayOf(PropTypes.shape({			
+			platform: PropTypes.string.isRequired,
+			model: PropTypes.string,
+			brand: PropTypes.string,
+			nickname: PropTypes.string,
+			type: PropTypes.string.isRequired,
+			getTitle: PropTypes.func.isRequired,
+			getSubtitle: PropTypes.func.isRequired,
+			attachments: PropTypes.arrayOf(PropTypes.shape({			
+				platform: PropTypes.string.isRequired,
+				model: PropTypes.string,
+				brand: PropTypes.string,
+				nickname: PropTypes.string,
+				type: PropTypes.string.isRequired,
+				getTitle: PropTypes.func.isRequired,
+				getSubtitle: PropTypes.func.isRequired,
+			}))
+		}))
+	}).isRequired,
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,

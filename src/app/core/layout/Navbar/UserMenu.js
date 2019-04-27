@@ -71,7 +71,11 @@ class UserMenu extends Component {
 }
 
 UserMenu.propTypes = {
-	user: PropTypes.object.isRequired
+	user: PropTypes.shape({
+		displayName: PropTypes.string,
+		email: PropTypes.string,
+		photoURL: PropTypes.string
+	}).isRequired
 }
 
 export default UserMenu
