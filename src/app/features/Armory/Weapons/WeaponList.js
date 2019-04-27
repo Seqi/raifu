@@ -3,7 +3,6 @@ import React from 'react'
 import AddWeaponDialog from './AddWeaponDialog'
 import database from '../../../../firebase/database'
 import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
-import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
 
 class WeaponList extends CardListBaseComponent {
 	get title() {
@@ -12,10 +11,6 @@ class WeaponList extends CardListBaseComponent {
 
 	get items() {
 		return database.weapons
-	}
-
-	buildCardContent(item) {
-		return <WeaponCardContent weapon={ item } />
 	}
 
 	render() {

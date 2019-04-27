@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 
 import LoadoutWeaponAttachments from './LoadoutWeaponAttachments'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
 import { WeaponCard } from 'app/shared/components/Cards/Entities'
 
 import database from '../../../../firebase/database'
@@ -44,7 +43,6 @@ class LoadoutWeapon extends Component {
 			<div className='weapon-mod'>			
 				<WeaponCard 
 					weapon={ weapon }
-					content={ <WeaponCardContent weapon={ weapon } /> }
 					canDelete={ true } 
 					onDelete={ () => this.handleDialogOpen() }
 				/>
