@@ -4,7 +4,6 @@ import AddAttachmentDialog from './AddAttachmentDialog'
 
 import database from '../../../../firebase/database'
 import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
-import { getImage } from 'app/shared/services/card-image-service'
 
 class AttachmentsList extends CardListBaseComponent {
 	get title() {

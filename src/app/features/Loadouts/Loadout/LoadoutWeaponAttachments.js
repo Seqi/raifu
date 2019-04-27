@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import AddAttachmentDialog from './AddAttachmentDialog'
 import CardList from 'app/shared/components/Cards/CardList'
-import { getImage } from 'app/shared/services/card-image-service'
 
 import database from '../../../../firebase/database'
 
