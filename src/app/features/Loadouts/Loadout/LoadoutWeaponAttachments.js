@@ -24,14 +24,6 @@ class LoadoutWeaponAttachments extends Component {
 		this.setState({ isDialogOpen: false })
 	}
 
-	buildCardContent(item) {
-		let img = getImage('attachments', item.type, item.platform)
-
-		if (img) {
-			return <img alt={ item.name } src={ img } />
-		}
-	}
-
 	handleSave(attachmentId) {
 		let { loadoutId, weapon, onAttachmentAdded } = this.props
 
@@ -62,7 +54,6 @@ class LoadoutWeaponAttachments extends Component {
 				<div className='weapon-attachments'>
 					<CardList
 						cardType='attachment'
-						buildCardContent={ this.buildCardContent }
 						items={ weapon.attachments }
 						onAdd={ () => this.handleDialogOpen() }
 						onCardDelete={ (id) => this.handleDelete(id) }

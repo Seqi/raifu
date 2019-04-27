@@ -24,15 +24,46 @@ class CardList extends Component {
 		this.loaded = true
 	}
 
+	handleDialogOpen(e, key, title) {
+		e.stopPropagation()
+		this.setState({ isDialogOpen: true, dialogKey: key, dialogTitle: title })
+	}
+
+	handleDialogClose() {
+		this.setState({ isDialogOpen: false, dialogKey: '', dialogTitle: '' })
+	}
+
+	handleConfirmDelete() {
+		this.props.onCardDelete(this.state.dialogKey)
+		this.handleDialogClose()
+	}
+
+	getAnimationDelay = (index, count) => {
+		let maxAnimationLength = 1
+		let standardInterval = 0.2
+
+		// If no count is supplied, assume the index number is the last item
+		count = count || index
+
+		if (this.loaded) {
+			return '0s'
+		}
+
+		let interval = count * standardInterval > maxAnimationLength ? 
+			maxAnimationLength / count : 
+			standardInterval
+
+		return `${interval * index}s`
+	}
+
 	renderItems = (items) => {
 		let renderItem = (item, idx) => {
-			let { buildCardContent, onCardClick, canDelete, cardType } = this.props
+			let { onCardClick, canDelete, cardType } = this.props
 	
 			if (cardType === 'weapon') {
 				return <WeaponCard 
 					key={ item.id } 
 					weapon={ item }
-					content={ buildCardContent(item) }
 					canDelete={ canDelete }
 					onClick={ () => onCardClick(item) } 
 					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
@@ -44,7 +75,6 @@ class CardList extends Component {
 				return <AttachmentCard 
 					key={ item.id } 
 					attachment={ item }
-					content={ buildCardContent(item) }
 					canDelete={ canDelete }
 					onClick={ () => onCardClick(item) } 
 					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
@@ -67,38 +97,6 @@ class CardList extends Component {
 		}
 
 		return items.map(renderItem)
-	}
-
-	getAnimationDelay = (index, count) => {
-		let maxAnimationLength = 1
-		let standardInterval = 0.2
-
-		// If no count is supplied, assume the index number is the last item
-		count = count || index
-
-		if (this.loaded) {
-			return '0s'
-		}
-
-		let interval = count * standardInterval > maxAnimationLength ? 
-			maxAnimationLength / count : 
-			standardInterval
-
-		return `${interval * index}s`
-	}
-
-	handleDialogOpen(e, key, title) {
-		e.stopPropagation()
-		this.setState({ isDialogOpen: true, dialogKey: key, dialogTitle: title })
-	}
-
-	handleDialogClose() {
-		this.setState({ isDialogOpen: false, dialogKey: '', dialogTitle: '' })
-	}
-
-	handleConfirmDelete() {
-		this.props.onCardDelete(this.state.dialogKey)
-		this.handleDialogClose()
 	}
 
 	render() {
@@ -132,7 +130,6 @@ class CardList extends Component {
 CardList.propTypes = {
 	items: PropTypes.array,
 	cardType: PropTypes.string,
-	buildCardContent: PropTypes.func,
 	canAdd: PropTypes.bool,
 	canDelete: PropTypes.bool,
 	onAdd: PropTypes.func,
@@ -143,7 +140,6 @@ CardList.propTypes = {
 CardList.defaultProps = {
 	items: [],
 	cardType: 'weapon',
-	buildCardContent: (item) => {},
 	canAdd: true,
 	canDelete: true,
 	onAdd: () => {},

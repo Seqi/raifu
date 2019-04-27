@@ -19,14 +19,6 @@ class AttachmentsList extends CardListBaseComponent {
 		return 'attachment'
 	}
 
-	buildCardContent(item) {
-		let img = getImage('attachments', item.type, item.platform)
-
-		if (img) {
-			return <img alt={ item.name } src={ img } />
-		}
-	}
-
 	render() {
 		let { isAddDialogOpen } = this.state
 		return (
