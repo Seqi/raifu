@@ -9,12 +9,12 @@ import CardDeleteButton from '../CardDeleteButton'
 
 export default class LoadoutCard extends React.Component {
 	render() {
-		let { title, subtitle, canDelete, styles, onClick, onDelete, content } = this.props 
+		let { loadout, canDelete, styles, onClick, onDelete, content } = this.props 
 
 		return (
 			<Card style={ styles } onClick={ onClick } className='card loadout-card' >
 				{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
-				<CardHeader title={ title } subheader={ subtitle } className='card-header' />
+				<CardHeader title={ loadout.getTitle() } subheader={ loadout.getSubtitle() } className='card-header' />
 				<CardContent className='card-content'>
 					{ content } 
 				</CardContent>
@@ -24,8 +24,7 @@ export default class LoadoutCard extends React.Component {
 }
 
 LoadoutCard.propTypes = {
-	title: PropTypes.string,
-	subtitle: PropTypes.string,
+	loadout: PropTypes.object.isRequired,
 	content: PropTypes.node.isRequired,
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
@@ -34,8 +33,6 @@ LoadoutCard.propTypes = {
 }
 
 LoadoutCard.defaultProps = {
-	title: '',
-	subtitle: '',
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},

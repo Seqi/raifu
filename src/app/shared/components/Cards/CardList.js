@@ -55,8 +55,7 @@ class CardList extends Component {
 			else if (cardType === 'loadout') {
 				return <LoadoutCard 
 					key={ item.id } 
-					title={ item.getTitle() }
-					subtitle={ item.getSubtitle() }
+					loadout={ item }
 					content={ buildCardContent(item) }
 					canDelete={ canDelete }
 					onClick={ () => onCardClick(item) } 					
