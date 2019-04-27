@@ -33,7 +33,7 @@ WeaponCard.propTypes = {
 }
 
 WeaponCard.defaultProps = {
-	content: <React.Fragment />,
+	content: <></>,
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},

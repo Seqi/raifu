@@ -43,8 +43,7 @@ class CardList extends Component {
 			else if (cardType === 'attachment') {
 				return <AttachmentCard 
 					key={ item.id } 
-					title={ item.getTitle() }
-					subtitle={ item.getSubtitle() }
+					attachment={ item }
 					content={ buildCardContent(item) }
 					canDelete={ canDelete }
 					onClick={ () => onCardClick(item) } 
