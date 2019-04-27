@@ -5,18 +5,18 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import WeaponCardContent from './WeaponCardContent'
+import CardImage from 'app/shared/components/Images/CardImage'
 import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 import './WeaponCard.css'
 
-export default function WeaponCard({ weapon, canDelete, styles, onClick, onDelete }){
+export default function WeaponCard({ weapon, canDelete, styles, onClick, onDelete }) {
 	return (
 		<Card style={ styles } onClick={ onClick } className='card weapon-card' >
 			{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
 			<CardHeader title={ weapon.getTitle() } subheader={ weapon.getSubtitle() } className='card-header' />
 			<CardContent className='card-content'>
-				<WeaponCardContent weapon={ weapon } />
+				<CardImage entity={ weapon } category='weapons' />
 			</CardContent>
 		</Card>
 	)
