@@ -31,8 +31,7 @@ class CardList extends Component {
 			if (cardType === 'weapon') {
 				return <WeaponCard 
 					key={ item.id } 
-					title={ item.getTitle() }
-					subtitle={ item.getSubtitle() }
+					weapon={ item }
 					content={ buildCardContent(item) }
 					canDelete={ canDelete }
 					onClick={ () => onCardClick(item) } 

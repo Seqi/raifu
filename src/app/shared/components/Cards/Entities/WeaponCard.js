@@ -9,12 +9,12 @@ import CardDeleteButton from '../CardDeleteButton'
 
 export default class WeaponCard extends React.Component {
 	render() {
-		let { title, subtitle, canDelete, styles, onClick, onDelete, content } = this.props 
+		let { weapon, canDelete, styles, onClick, onDelete, content } = this.props 
 
 		return (
 			<Card style={ styles } onClick={ onClick } className='card weapon-card' >
 				{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
-				<CardHeader title={ title } subheader={ subtitle } className='card-header' />
+				<CardHeader title={ weapon.getTitle() } subheader={ weapon.getSubtitle() } className='card-header' />
 				<CardContent className='card-content'>
 					{ content } 
 				</CardContent>
@@ -24,8 +24,7 @@ export default class WeaponCard extends React.Component {
 }
 
 WeaponCard.propTypes = {
-	title: PropTypes.string,
-	subtitle: PropTypes.string,
+	weapon: PropTypes.object.isRequired,
 	content: PropTypes.node,
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
@@ -34,8 +33,6 @@ WeaponCard.propTypes = {
 }
 
 WeaponCard.defaultProps = {
-	title: '',
-	subtitle: '',
 	content: <React.Fragment />,
 	canDelete: false,
 	onClick: () => {},

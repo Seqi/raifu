@@ -43,8 +43,7 @@ class LoadoutWeapon extends Component {
 		return (
 			<div className='weapon-mod'>			
 				<WeaponCard 
-					title={ weapon.getTitle() } 
-					subtitle={ weapon.getSubtitle() } 
+					weapon={ weapon }
 					content={ <WeaponCardContent weapon={ weapon } /> }
 					canDelete={ true } 
 					onDelete={ () => this.handleDialogOpen() }

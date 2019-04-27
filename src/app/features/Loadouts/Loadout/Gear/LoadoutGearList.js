@@ -64,8 +64,7 @@ export default class LoadoutGearList extends React.Component {
 		return gearList.map(gear => (
 			<WeaponCard 
 				key={ gear.id } 
-				title={ gear.getTitle() } 
-				subtitle={ gear.getSubtitle() } 
+				weapon={ gear } 
 				content={ <WeaponCardContent weapon={ gear } /> }
 				canDelete={ true } 
 				onDelete={ () => this.openDeleteDialog(gear) }
