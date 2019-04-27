@@ -10,9 +10,9 @@ import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 import './LoadoutCard.css'
 
-export default function LoadoutCard({loadout, canDelete, onClick, onDelete, styles }) {	
+export default function LoadoutCard({loadout, canDelete, onClick, onDelete, style }) {	
 	return (
-		<Card style={ styles } onClick={ onClick } className='card loadout-card' >
+		<Card style={ style } onClick={ onClick } className='card loadout-card' >
 			{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
 
 			<CardHeader title={ loadout.getTitle() } subheader={ loadout.getSubtitle() } className='card-header' />
@@ -29,12 +29,12 @@ LoadoutCard.propTypes = {
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,
-	styles: PropTypes.object,
+	style: PropTypes.object,
 }
 
 LoadoutCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},
-	styles: {}
+	style: {}
 }

@@ -10,9 +10,9 @@ import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 import './AttachmentCard.css'
 
-export default function AttachmentCard({ attachment, canDelete, styles, onClick, onDelete }) {
+export default function AttachmentCard({ attachment, canDelete, onClick, onDelete, style }) {
 	return (
-		<Card style={ styles } onClick={ onClick } className='card attachment-card' >
+		<Card style={ style } onClick={ onClick } className='card attachment-card' >
 			{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
 			<CardHeader title={ attachment.getTitle() } subheader={ attachment.getSubtitle() } className='card-header' />
 			<CardContent className='card-content'>
@@ -27,12 +27,12 @@ AttachmentCard.propTypes = {
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,
-	styles: PropTypes.object,
+	style: PropTypes.object,
 }
 
 AttachmentCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},
-	styles: {}
+	style: {}
 }

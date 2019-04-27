@@ -10,9 +10,9 @@ import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 import './WeaponCard.css'
 
-export default function WeaponCard({ weapon, canDelete, styles, onClick, onDelete }) {
+export default function WeaponCard({ weapon, canDelete, onClick, onDelete, style }) {
 	return (
-		<Card style={ styles } onClick={ onClick } className='card weapon-card' >
+		<Card style={ style } onClick={ onClick } className='card weapon-card' >
 			{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
 			<CardHeader title={ weapon.getTitle() } subheader={ weapon.getSubtitle() } className='card-header' />
 			<CardContent className='card-content'>
@@ -27,12 +27,12 @@ WeaponCard.propTypes = {
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,
-	styles: PropTypes.object,
+	style: PropTypes.object,
 }
 
 WeaponCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},
-	styles: {}
+	style: {}
 }
