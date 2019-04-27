@@ -22,8 +22,6 @@ let toEntity = (entity) => {
 
 	// Convert any children 
 	Object.keys(e)
-		// Ignore timestamp fields
-		.filter(key => key !== 'createdAt' || key !== 'updatedAt')
 		.forEach(key => {
 			let prop = e[key]
 		
