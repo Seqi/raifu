@@ -135,8 +135,10 @@ class Loadout extends React.Component {
 
 	pushNewAttachment(weaponId, attachment) {
 		this.setState((prevState) => {
+			let currWeapons = prevState.loadout.weapons
+
 			// Find the weapon to add the attachment to and create a copy
-			let editedWeapon = { ...prevState.loadout.weapons.find((w) => w.id === weaponId) }
+			let editedWeapon = { ...currWeapons.find((w) => w.id === weaponId) }
 
 			// Add the attachment to the weapon
 			if (!editedWeapon.attachments) {
@@ -145,8 +147,10 @@ class Loadout extends React.Component {
 
 			editedWeapon.attachments.push(attachment)
 
-			// Rebuild up the state object
-			let weapons = [...prevState.loadout.weapons.filter((w) => w.id !== weaponId), editedWeapon]
+			// Rebuild up the state object, ensuring we preserve the order of weapons
+			let weaponIndex = currWeapons.findIndex((w) => w.id === weaponId)
+			let weapons = currWeapons.slice()
+			weapons[weaponIndex] = editedWeapon
 
 			let loadout = {
 				...prevState.loadout,
@@ -159,14 +163,18 @@ class Loadout extends React.Component {
 
 	deleteAttachment(weaponId, attachmentId) {
 		this.setState((prevState) => {
-			// Find the weapon to add the attachment to and create a copy
-			let editedWeapon = { ...prevState.loadout.weapons.find((w) => w.id === weaponId) }
+			let currWeapons = prevState.loadout.weapons
+
+			// Find the weapon to delete the attachment on and create a copy
+			let editedWeapon = { ...currWeapons.find((w) => w.id === weaponId) }
 
 			// Remove attachment
 			editedWeapon.attachments = editedWeapon.attachments.filter((a) => a.id !== attachmentId)
 
-			// Rebuild up the state object
-			let weapons = [...prevState.loadout.weapons.filter((w) => w.id !== weaponId), editedWeapon]
+			// Rebuild up the state object, ensuring we preserve the order of weapons
+			let weaponIndex = currWeapons.findIndex((w) => w.id === weaponId)
+			let weapons = currWeapons.slice()
+			weapons[weaponIndex] = editedWeapon
 
 			let loadout = {
 				...prevState.loadout,
