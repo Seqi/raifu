@@ -92,7 +92,7 @@ module.exports = {
 					loadout_id: data.loadoutId,
 					weapon_id: data.weaponId
 				}
-			})).dataValues
+			}))
 		} catch (e) {
 			return error('invalid-argument', e, 'Error adding loadout weapon to database')
 		}

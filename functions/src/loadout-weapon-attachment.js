@@ -27,7 +27,6 @@ let hasPermission = async (weaponId, attachmentId, loadoutId, authId) => {
 
 let count = async (weaponId, attachmentId, loadoutId) => {
 	return await entities().loadoutWeaponAttachment.count({
-		raw: true,
 		where: {
 			loadout_id: loadoutId,
 			weapon_id: weaponId,
@@ -113,7 +112,7 @@ module.exports = {
 					weapon_id: data.weaponId,
 					attachment_id: data.attachmentId
 				}
-			})).dataValues
+			}))
 		} catch (e) {
 			return error('invalid-argument', e, 'Error deleting loadout weapon attachment from database')
 		}

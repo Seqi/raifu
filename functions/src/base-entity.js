@@ -3,8 +3,7 @@ const functions = require('./firebase-functions-extensions')
 module.exports = (entities, entityName = 'entity') => ({
 	getAll: functions.https.onAuthedCall(async (data, context) => {
 		try {
-			// Only get the raw data back
-			return await entities.findAll({
+			let result =  await entities.findAll({
 				raw: true,
 				where: {
 					uid: context.auth.uid
@@ -13,6 +12,11 @@ module.exports = (entities, entityName = 'entity') => ({
 					exclude: ['uid']
 				}
 			})
+			
+			console.log(`${context.auth.uid}: Successfuly retrieved ${result.length} ${entityName}s`)
+
+			return result
+
 		} catch (e) {
 			console.error(`Error retrieving ${entityName} for ${context.auth.uid}`, e)
 			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
@@ -29,7 +33,7 @@ module.exports = (entities, entityName = 'entity') => ({
 
 			console.log(`Creating ${entityName}`, JSON.stringify(entity))
 
-			return (await entities.create(entity)).dataValues
+			return (await entities.create(entity)).toJSON()
 		} catch (e) {
 			// Validation errors are contained in an array, so pick them out
 			let message = e.errors && e.errors.map((error) => error.message)
