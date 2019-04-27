@@ -56,7 +56,6 @@ class CardList extends Component {
 				return <LoadoutCard 
 					key={ item.id } 
 					loadout={ item }
-					content={ buildCardContent(item) }
 					canDelete={ canDelete }
 					onClick={ () => onCardClick(item) } 					
 					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
