@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
-
 import AddCard from 'app/shared/components/Cards/AddCard'
-import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
+import { WeaponCard } from 'app/shared/components/Cards/Entities'
 
 import AddGearDialog from './AddGearDialog'
 
@@ -66,11 +62,14 @@ export default class LoadoutGearList extends React.Component {
 		}
 		
 		return gearList.map(gear => (
-			<Card key={ gear.id } className={ 'card weapon-card' }>
-				<CardDeleteButton onClick={ () => this.openDeleteDialog(gear) } />
-				<CardHeader className='card-header' title={ gear.getTitle() } subheader={ gear.getSubtitle() } />
-				<CardContent className='card-content'> <WeaponCardContent weapon={ gear } /> </CardContent>
-			</Card>
+			<WeaponCard 
+				key={ gear.id } 
+				title={ gear.getTitle() } 
+				subtitle={ gear.getSubtitle() } 
+				content={ <WeaponCardContent weapon={ gear } /> }
+				canDelete={ true } 
+				onDelete={ () => this.openDeleteDialog(gear) }
+			/>
 		))
 	}
 

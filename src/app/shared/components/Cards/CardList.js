@@ -3,13 +3,9 @@ import './Cards.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
-
 import AddCard from 'app/shared/components/Cards/AddCard'
+import { WeaponCard, AttachmentCard, LoadoutCard } from './Entities'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 class CardList extends Component {
 
@@ -30,20 +26,48 @@ class CardList extends Component {
 
 	renderItems = (items) => {
 		let renderItem = (item, idx) => {
-			let {  buildCardContent, onCardClick, canDelete } = this.props
+			let { buildCardContent, onCardClick, canDelete, cardType } = this.props
 	
-			return (
-				<Card
-					key={ item.id }
+			if (cardType === 'weapon') {
+				return <WeaponCard 
+					key={ item.id } 
+					title={ item.getTitle() }
+					subtitle={ item.getSubtitle() }
+					content={ buildCardContent(item) }
+					canDelete={ canDelete }
+					onClick={ () => onCardClick(item) } 
+					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
 					style={ { animationDelay: this.getAnimationDelay(idx, items.length) } }
-					className={ `card ${this.props.cardType}-card` }
-					onClick={ () => onCardClick(item) }
-				>
-					{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) } />}
-					<CardHeader className='card-header' title={ item.getTitle() } subheader={ item.getSubtitle() } />
-					<CardContent className='card-content'> {buildCardContent(item)} </CardContent>
-				</Card>
-			)
+				/>
+			}
+
+			else if (cardType === 'attachment') {
+				return <AttachmentCard 
+					key={ item.id } 
+					title={ item.getTitle() }
+					subtitle={ item.getSubtitle() }
+					content={ buildCardContent(item) }
+					canDelete={ canDelete }
+					onClick={ () => onCardClick(item) } 
+					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
+					style={ { animationDelay: this.getAnimationDelay(idx, items.length) } }
+				/>
+			}
+
+			else if (cardType === 'loadout') {
+				return <LoadoutCard 
+					key={ item.id } 
+					title={ item.getTitle() }
+					subtitle={ item.getSubtitle() }
+					content={ buildCardContent(item) }
+					canDelete={ canDelete }
+					onClick={ () => onCardClick(item) } 					
+					onDelete={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) }
+					style={ { animationDelay: this.getAnimationDelay(idx, items.length) } }
+				/>
+			}
+
+			throw Error('Unsupported card type')
 		}
 
 		return items.map(renderItem)

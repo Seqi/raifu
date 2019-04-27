@@ -3,14 +3,11 @@ import './LoadoutWeapon.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
-
 import LoadoutWeaponAttachments from './LoadoutWeaponAttachments'
-import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import WeaponCardContent from 'app/shared/components/Images/WeaponCardContent'
+import { WeaponCard } from 'app/shared/components/Cards/Entities'
+
 import database from '../../../../firebase/database'
 
 class LoadoutWeapon extends Component {
@@ -44,14 +41,14 @@ class LoadoutWeapon extends Component {
 		let { weapon } = this.props
 
 		return (
-			<div className='weapon-mod'>
-				<Card className='card weapon-card'>
-					<CardDeleteButton onClick={ () => this.handleDialogOpen() } />
-					<CardHeader className='card-header' title={ weapon.getTitle() } subheader={ weapon.getSubtitle() } />
-					<CardContent className='card-content'>
-						<WeaponCardContent weapon={ this.props.weapon } />
-					</CardContent>
-				</Card>
+			<div className='weapon-mod'>			
+				<WeaponCard 
+					title={ weapon.getTitle() } 
+					subtitle={ weapon.getSubtitle() } 
+					content={ <WeaponCardContent weapon={ weapon } /> }
+					canDelete={ true } 
+					onDelete={ () => this.handleDialogOpen() }
+				/>
 
 				<LoadoutWeaponAttachments { ...this.props } />
 
