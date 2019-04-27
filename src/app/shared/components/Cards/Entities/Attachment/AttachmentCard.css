@@ -1,0 +1,20 @@
+.attachment-card {
+	min-height: 125px;
+	width: 220px;
+
+	margin-top: 10px;
+	margin-right: 20px;
+}
+
+
+@media (max-width: 767px) {
+	.attachment-card {
+		height: 85px;
+		width: 147px;
+	}
+}
+
+.attachment-card:hover {
+	transform: scale(1.05);
+	transition: transform ease-in 0.15s;
+}

@@ -1,4 +1,3 @@
-/* Shared Card Styles */
 .card-list {
 	display: flex;
 	flex-wrap: wrap;
@@ -34,10 +33,6 @@
 	padding: 0;
 }
 
-.card .card-header {
-	padding-bottom: 0px;
-}
-
 .card .card-action i {
 	color: rgba(255, 255, 255, 0.7);
 	font-size: 1.1rem;
@@ -48,6 +43,10 @@
 
 .card .card-action i:hover {
 	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.card .card-header {
+	padding-bottom: 0px;
 }
 
 .card .card-content {
@@ -64,55 +63,4 @@
 
 	max-height: 95%;
 	max-width: 95%;
-}
-
-/* Item Card Styles */
-.weapon-card {
-	height: 300px;
-	min-width: 220px;
-	width: 220px;
-
-	margin-top: 10px;
-	margin-right: 20px;
-}
-
-.attachment-card {
-	min-height: 125px;
-	width: 220px;
-
-	margin-top: 10px;
-	margin-right: 20px;
-}
-
-.loadout-card {
-	width: 100%;
-	min-height: 175px;
-}
-
-@media (max-width: 767px) {
-	.weapon-card {
-		height: 200px;
-		min-width: 147px;
-		width: 147px;
-	}
-
-	.attachment-card {
-		height: 85px;
-		width: 147px;
-	}
-}
-
-.weapon-card:hover,
-.attachment-card:hover {
-	transform: scale(1.05);
-	transition: transform ease-in 0.15s;
-}
-
-.loadout-card:hover {
-	transform: scale(1.015);
-	transition: transform ease-in 0.15s;
-}
-
-.loadout-card:not(:first-child) {
-	margin-top: 20px;
 }

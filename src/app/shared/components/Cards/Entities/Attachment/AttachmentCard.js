@@ -5,7 +5,9 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import CardDeleteButton from '../CardDeleteButton'
+import CardDeleteButton from '../../CardDeleteButton'
+
+import './AttachmentCard.css'
 
 export default class AttachmentCard extends React.Component {
 	render() {
