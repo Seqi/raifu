@@ -75,7 +75,6 @@ class CardListBaseComponent extends Component {
 					<CardList
 						items={ items }
 						cardType={ this.cardType }
-						buildCardContent={ this.buildCardContent }
 						onAdd={ () => this.handleAddDialogOpen() }
 						onCardClick={ (item) => this.view(item) }
 						onCardDelete={ (id) => this.delete(id) }

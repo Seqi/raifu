@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import AddAttachmentDialog from './AddAttachmentDialog'
 import CardList from 'app/shared/components/Cards/CardList'
-import { getImage } from 'app/shared/services/card-image-service'
 
 import database from '../../../../firebase/database'
 
@@ -22,14 +21,6 @@ class LoadoutWeaponAttachments extends Component {
 
 	handleDialogClose() {
 		this.setState({ isDialogOpen: false })
-	}
-
-	buildCardContent(item) {
-		let img = getImage('attachments', item.type, item.platform)
-
-		if (img) {
-			return <img alt={ item.name } src={ img } />
-		}
 	}
 
 	handleSave(attachmentId) {
@@ -62,7 +53,6 @@ class LoadoutWeaponAttachments extends Component {
 				<div className='weapon-attachments'>
 					<CardList
 						cardType='attachment'
-						buildCardContent={ this.buildCardContent }
 						items={ weapon.attachments }
 						onAdd={ () => this.handleDialogOpen() }
 						onCardDelete={ (id) => this.handleDelete(id) }

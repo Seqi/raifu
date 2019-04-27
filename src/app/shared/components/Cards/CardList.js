@@ -3,13 +3,9 @@ import './Cards.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
-
 import AddCard from 'app/shared/components/Cards/AddCard'
+import { WeaponCard, AttachmentCard, LoadoutCard } from './Entities'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 class CardList extends Component {
 
@@ -28,25 +24,18 @@ class CardList extends Component {
 		this.loaded = true
 	}
 
-	renderItems = (items) => {
-		let renderItem = (item, idx) => {
-			let {  buildCardContent, onCardClick, canDelete } = this.props
-	
-			return (
-				<Card
-					key={ item.id }
-					style={ { animationDelay: this.getAnimationDelay(idx, items.length) } }
-					className={ `card ${this.props.cardType}-card` }
-					onClick={ () => onCardClick(item) }
-				>
-					{canDelete && <CardDeleteButton onClick={ (e) => this.handleDialogOpen(e, item.id, item.getTitle()) } />}
-					<CardHeader className='card-header' title={ item.getTitle() } subheader={ item.getSubtitle() } />
-					<CardContent className='card-content'> {buildCardContent(item)} </CardContent>
-				</Card>
-			)
-		}
+	handleDialogOpen(e, key, title) {
+		e.stopPropagation()
+		this.setState({ isDialogOpen: true, dialogKey: key, dialogTitle: title })
+	}
 
-		return items.map(renderItem)
+	handleDialogClose() {
+		this.setState({ isDialogOpen: false, dialogKey: '', dialogTitle: '' })
+	}
+
+	handleConfirmDelete() {
+		this.props.onCardDelete(this.state.dialogKey)
+		this.handleDialogClose()
 	}
 
 	getAnimationDelay = (index, count) => {
@@ -67,18 +56,34 @@ class CardList extends Component {
 		return `${interval * index}s`
 	}
 
-	handleDialogOpen(e, key, title) {
-		e.stopPropagation()
-		this.setState({ isDialogOpen: true, dialogKey: key, dialogTitle: title })
-	}
+	renderItems = (items) => {
+		let { onCardClick, canDelete, cardType } = this.props
 
-	handleDialogClose() {
-		this.setState({ isDialogOpen: false, dialogKey: '', dialogTitle: '' })
-	}
+		let renderItem = (item, idx) => {
+			let sharedProps = {
+				key: item.id,
+				canDelete: canDelete,
+				onClick: () => onCardClick(item),
+				onDelete: (e) => this.handleDialogOpen(e, item.id, item.getTitle()),
+				style: { animationDelay: this.getAnimationDelay(idx, items.length) }
+			}
+	
+			if (cardType === 'weapon') {
+				return <WeaponCard weapon={ item } { ...sharedProps } />
+			}
 
-	handleConfirmDelete() {
-		this.props.onCardDelete(this.state.dialogKey)
-		this.handleDialogClose()
+			else if (cardType === 'attachment') {
+				return <AttachmentCard attachment={ item } { ...sharedProps } />
+			}
+
+			else if (cardType === 'loadout') {
+				return <LoadoutCard loadout={ item } { ...sharedProps }	/>
+			}
+
+			throw Error('Unsupported card type')
+		}
+
+		return items.map(renderItem)
 	}
 
 	render() {
@@ -112,7 +117,6 @@ class CardList extends Component {
 CardList.propTypes = {
 	items: PropTypes.array,
 	cardType: PropTypes.string,
-	buildCardContent: PropTypes.func,
 	canAdd: PropTypes.bool,
 	canDelete: PropTypes.bool,
 	onAdd: PropTypes.func,
@@ -123,7 +127,6 @@ CardList.propTypes = {
 CardList.defaultProps = {
 	items: [],
 	cardType: 'weapon',
-	buildCardContent: (item) => {},
 	canAdd: true,
 	canDelete: true,
 	onAdd: () => {},
