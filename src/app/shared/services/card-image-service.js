@@ -16,4 +16,4 @@ let getImage = (category, type, platform) => {
 	}
 }
 
-export { getImage }
+export default getImage
