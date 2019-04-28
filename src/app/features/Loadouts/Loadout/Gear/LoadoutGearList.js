@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import { WeaponCard } from 'app/shared/components/Cards/Entities'
+import { GearCard } from 'app/shared/components/Cards/Entities'
 
 import AddGearDialog from './AddGearDialog'
 
@@ -61,9 +61,9 @@ export default class LoadoutGearList extends React.Component {
 		}
 		
 		return gearList.map(gear => (
-			<WeaponCard 
+			<GearCard 
 				key={ gear.id } 
-				weapon={ gear } 
+				gear={ gear } 
 				canDelete={ true } 
 				onDelete={ () => this.openDeleteDialog(gear) }
 			/>
