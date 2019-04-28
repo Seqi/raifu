@@ -97,7 +97,12 @@ export default {
 		launchers: ['Bazooka', 'GL06', 'GLM', 'M052', 'M79', 'RPG-7']
 	},
 	gear: {
-		test: ['Item 1', 'Item 2'],
+		protection: ['Glasses', 'Goggles', 'Fast Helmet', 'Full Face Helmet', 'Half Face Mask', 'Shemagh', 'Knee Pads', 'Elbow Pads'],
+		carriers: ['Chest Rig', 'Plate Carrier', 'Belt'],
+		grenades: ['TRMR', 'Storm 360', 'Pyro/Strike', 'Claymore'],
+		holsters: ['Leg Holster', 'Retention Holster', 'Scabbard', 'Sling'],
+		communication: ['Radio', 'Headset'],
+		misc: ['GoPro']
 	},
 	attachments: {
 		sights: ['Red Dot', 'Reflex', 'Holographic', 'Telescopic'],

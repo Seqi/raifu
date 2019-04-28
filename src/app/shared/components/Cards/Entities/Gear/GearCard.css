@@ -1,0 +1,21 @@
+.gear-card {
+	height: 300px;
+	min-width: 220px;
+	width: 220px;
+
+	margin-top: 10px;
+	margin-right: 20px;
+}
+
+@media (max-width: 767px) {
+	.gear-card {
+		height: 200px;
+		min-width: 147px;
+		width: 147px;
+    }
+}
+
+.gear-card:hover{
+	transform: scale(1.05);
+	transition: transform ease-in 0.15s;
+}
