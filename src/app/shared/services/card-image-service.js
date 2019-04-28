@@ -7,6 +7,7 @@ let getImage = (category, type, platform) => {
 		.toLowerCase()
 		.replace(/[.]/g, '')
 		.replace(/\s/g, '-')
+		.replace(/\//g, '-')
 
 	try {
 		return require(`../../../assets/outlines/${category}/${type}/${formattedPlatform}.png`)
