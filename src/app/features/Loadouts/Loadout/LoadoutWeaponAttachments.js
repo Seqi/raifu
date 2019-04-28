@@ -73,7 +73,7 @@ class LoadoutWeaponAttachments extends Component {
 }
 
 LoadoutWeaponAttachments.propTypes = {
-	loadoutId: PropTypes.string.isRequired,
+	loadoutId: PropTypes.number.isRequired,
 	weapon: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
 		model: PropTypes.string,
