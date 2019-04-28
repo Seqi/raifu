@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
-import { WeaponCard, AttachmentCard, LoadoutCard } from './Entities'
+import { WeaponCard, AttachmentCard, LoadoutCard, GearCard } from './Entities'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 
 class CardList extends Component {
@@ -74,6 +74,10 @@ class CardList extends Component {
 
 			else if (cardType === 'attachment') {
 				return <AttachmentCard attachment={ item } { ...sharedProps } />
+			}
+
+			else if (cardType === 'gear') {
+				return <GearCard gear={ item } { ...sharedProps } />
 			}
 
 			else if (cardType === 'loadout') {

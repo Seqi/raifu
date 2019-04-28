@@ -14,6 +14,10 @@ class GearList extends CardListBaseComponent {
 		return database.gear
 	}
 
+	get cardType() {
+		return 'gear'
+	}
+
 	render() {
 		let { isAddDialogOpen } = this.state
 		return (
