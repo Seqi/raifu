@@ -46,7 +46,7 @@ module.exports = {
 		try {
 			let loadout = await entities().loadout.findOne({
 				where: {
-					displayId: id,
+					id: id,
 					uid: context.auth.uid
 				},
 				include: [

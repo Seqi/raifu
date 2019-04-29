@@ -20,7 +20,7 @@ class LoadoutList extends CardListBaseComponent {
 	}
 
 	view(loadout) {
-		this.props.history.push(`${this.props.location.pathname}/${loadout.displayId}`)
+		this.props.history.push(`${this.props.location.pathname}/${loadout.id}`)
 	}
 
 	render() {

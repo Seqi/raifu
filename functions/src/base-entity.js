@@ -25,7 +25,8 @@ module.exports = (entities, entityName = 'entity') => ({
 
 	add: functions.https.onAuthedCall(async (data, context) => {
 		try {
-			// Overwrite any attempts to hijack the uid
+			// Overwrite any attempts to hijack the id or uid
+			delete data.id 
 			let entity = {
 				...data,
 				uid: context.auth.uid
