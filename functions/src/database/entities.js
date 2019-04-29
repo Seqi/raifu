@@ -111,7 +111,6 @@ module.exports = () => {
 	const loadoutWeaponAttachment = sequelize.define('loadout_weapon_attachment', {
 		loadout_weapon_id: {
 			type: Sequelize.STRING({ length: 14 }),
-			defaultValue: '',
 			primaryKey: true,
 			allowNull: false,
 			references: {
@@ -123,7 +122,6 @@ module.exports = () => {
 		// Hacky way to get joins to work
 		loadout_id: {
 			type: Sequelize.STRING({ length: 14 }),
-			defaultValue: '',
 			primaryKey: true,
 			allowNull: false,
 			references: {
@@ -135,7 +133,6 @@ module.exports = () => {
 		weapon_id: {
 			type: Sequelize.STRING({ length: 14 }),
 			primaryKey: true,
-			defaultValue: '',
 			allowNull: false,
 			references: {
 				model: weapon,
@@ -145,7 +142,6 @@ module.exports = () => {
 		},
 		attachment_id: {
 			type: Sequelize.STRING({ length: 14 }),
-			defaultValue: '',
 			primaryKey: true,
 			allowNull: false,
 			references: {
