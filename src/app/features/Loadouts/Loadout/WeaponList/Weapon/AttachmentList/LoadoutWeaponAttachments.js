@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import AddAttachmentDialog from './AddAttachmentDialog'
 import CardList from 'app/shared/components/Cards/CardList'
 
-import database from '../../../../firebase/database'
+import LoadoutContext from '../../../LoadoutContext'
+
+import database from '../../../../../../../firebase/database'
 
 class LoadoutWeaponAttachments extends Component {
 	constructor(props) {
@@ -15,59 +17,73 @@ class LoadoutWeaponAttachments extends Component {
 		}
 	}
 
-	handleDialogOpen() {
+	openDialog() {
 		this.setState({ isDialogOpen: true })
 	}
 
-	handleDialogClose() {
+	closeDialog() {
 		this.setState({ isDialogOpen: false })
 	}
 
-	handleSave(attachmentId) {
+	addAttachment(attachmentId) {
 		let { loadoutId, weapon, onAttachmentAdded } = this.props
 
 		database.loadouts
 			.loadout(loadoutId)
-			.weapons.weapon(weapon.id)
-			.attachments.add(attachmentId)
+			.weapons
+			.weapon(weapon.id)
+			.attachments
+			.add(attachmentId)
 			.then((attachment) => onAttachmentAdded(attachment))
-			.then(() => this.handleDialogClose())
+			.then(() => this.closeDialog())
 	}
 
-	handleDelete(attachmentId) {
+	deleteAttachment(attachmentId) {
 		let { loadoutId, weapon, onAttachmentDeleted } = this.props
 
 		database.loadouts
 			.loadout(loadoutId)
-			.weapons.weapon(weapon.id)
-			.attachments.delete(attachmentId)
-			.then(() => this.handleDialogClose())
+			.weapons
+			.weapon(weapon.id)
+			.attachments
+			.delete(attachmentId)
+			.then(() => this.closeDialog())
 			.then(() => onAttachmentDeleted(attachmentId))
 	}
 
+	getAttachmentsToFilter(loadout) {
+		return loadout.weapons
+			.flatMap(w => w.attachments || [])
+			.map(a => a.id)
+	}
+
 	render() {
-		let { weapon, filterAttachmentIds } = this.props
+		let { weapon } = this.props
 
 		return (
-			<React.Fragment>
-				<div className='weapon-attachments'>
-					<CardList
-						cardType='attachment'
-						items={ weapon.attachments }
-						onAdd={ () => this.handleDialogOpen() }
-						onCardDelete={ (id) => this.handleDelete(id) }
-					/>
-				</div>
+			<LoadoutContext.Consumer>
+				{ loadout => (
+					<React.Fragment>
+						<div className='weapon-attachments'>
+							<CardList
+								cardType='attachment'
+								items={ weapon.attachments }
+								onAdd={ () => this.openDialog() }
+								onCardDelete={ (id) => this.deleteAttachment(id) }
+							/>
+						</div>
 
-				<AddAttachmentDialog
-					weaponId={ weapon.id }
-					weaponName={ weapon.getTitle() }
-					filterIds={ filterAttachmentIds }
-					isOpen={ this.state.isDialogOpen }
-					onClose={ () => this.handleDialogClose() }
-					onSave={ (id) => this.handleSave(id) }
-				/>
-			</React.Fragment>
+						<AddAttachmentDialog
+							weaponId={ weapon.id }
+							weaponName={ weapon.getTitle() }
+							filterIds={ this.getAttachmentsToFilter(loadout) }
+							isOpen={ this.state.isDialogOpen }
+							onClose={ () => this.closeDialog() }
+							onSave={ (id) => this.addAttachment(id) }
+						/>
+					</React.Fragment>
+				)}
+			</LoadoutContext.Consumer>
 		)
 	}
 }
@@ -92,7 +108,6 @@ LoadoutWeaponAttachments.propTypes = {
 			getSubtitle: PropTypes.func.isRequired,
 		}))
 	}).isRequired,
-	filterAttachmentIds: PropTypes.array,
 	onAttachmentAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func
 }

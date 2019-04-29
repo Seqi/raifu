@@ -3,11 +3,9 @@ import './LoadoutWeapon.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import LoadoutWeaponAttachments from './LoadoutWeaponAttachments'
+import LoadoutWeaponAttachments from './AttachmentList/LoadoutWeaponAttachments'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import { WeaponCard } from 'app/shared/components/Cards/Entities'
-
-import database from '../../../../firebase/database'
 
 class LoadoutWeapon extends Component {
 	constructor(props) {
@@ -17,43 +15,43 @@ class LoadoutWeapon extends Component {
 		}
 	}
 
-	handleDialogOpen() {
+	openDialog() {
 		this.setState({ isDialogOpen: true })
 	}
 
-	handleDialogClose() {
+	closeDialog() {
 		this.setState({ isDialogOpen: false })
 	}
 
-	handleDelete() {
-		let { loadoutId, weapon, onDelete } = this.props
-
-		database.loadouts
-			.loadout(loadoutId)
-			.weapons.delete(weapon.id)
-			.then(() => this.handleDialogClose())
-			.then(() => onDelete())
+	deleteWeapon(weaponId) {
+		this.closeDialog()
+		this.props.onDelete(weaponId)
 	}
 
 	render() {
 		let { isDialogOpen } = this.state
-		let { weapon } = this.props
+		let { loadoutId, weapon, onAttachmentAdded, onAttachmentDeleted } = this.props
 
 		return (
 			<div className='weapon-mod'>			
 				<WeaponCard 
 					weapon={ weapon }
 					canDelete={ true } 
-					onDelete={ () => this.handleDialogOpen() }
+					onDelete={ () => this.openDialog() }
 				/>
 
-				<LoadoutWeaponAttachments { ...this.props } />
+				<LoadoutWeaponAttachments
+					loadoutId={ loadoutId }
+					weapon={ weapon }
+					onAttachmentAdded={ onAttachmentAdded }
+					onAttachmentDeleted={ onAttachmentDeleted }
+				/>
 
 				<ConfirmDeleteDialog
 					title={ weapon.getTitle() }
 					isOpen={ isDialogOpen }
-					onClose={ () => this.handleDialogClose() }
-					onConfirm={ () => this.handleDelete() }
+					onClose={ () => this.closeDialog() }
+					onConfirm={ () => this.deleteWeapon(weapon.id) }
 				/>
 			</div>
 		)
@@ -79,14 +77,12 @@ LoadoutWeapon.propTypes = {
 			getSubtitle: PropTypes.func.isRequired,
 		}))
 	}).isRequired,
-	filterAttachmentIds: PropTypes.array,
 	onDelete: PropTypes.func,
 	onAttachmentAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func
 }
 
 LoadoutWeapon.defaultProps = {
-	filterAttachmentIds: [],
 	onDelete: () => {},
 	onAttachmentAdded: (attachment) => {},
 	onAttachmentDeleted: (attachmentId) => {}

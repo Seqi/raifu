@@ -8,54 +8,55 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
 import ResourceSelect from 'app/shared/components/Selects/ResourceSelect'
-import database from '../../../../firebase/database'
+import database from '../../../../../firebase/database'
 
-class AddAttachmentDialog extends Component {
+class AddWeaponDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			attachmentId: ''
+			weaponId: ''
 		}
 	}
 
 	handleChange(e) {
-		this.setState({ attachmentId: e.target.value })
+		this.setState({ weaponId: e.target.value })
 	}
 
 	formValid() {
-		return this.state.attachmentId
+		return this.state.weaponId
 	}
 
-	filterAttachments() {
-		return database.attachments
+	filterWeapons() {
+		return database.weapons
 			.get()
-			.then((attachments) => attachments.filter((w) => this.props.filterIds.indexOf(w.id) === -1))
+			.then((weapons) => weapons.filter((w) => this.props.filterIds.indexOf(w.id) === -1))
 	}
 
 	render() {
-		let { weaponName, isOpen, onClose, onSave } = this.props
+		let { weaponId } = this.state
+		let { isOpen, onClose, onSave } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
-				<DialogTitle>Add attachment to {weaponName} </DialogTitle>
+				<DialogTitle>Add weapon to loadout</DialogTitle>
 
 				<DialogContent>
 					<ResourceSelect
-						label='Select attachment'
-						name='attachment'
-						dataGetter={ () => this.filterAttachments() }
-						buildValue={ item => item.getTitle() }
-						value={ this.state.attachmentId }
+						label='Select weapon'
+						name='weapon'
+						dataGetter={ () => this.filterWeapons() }
+						buildValue={ (weapon) => weapon.getTitle() }
+						value={ weaponId }
 						onChange={ (e) => this.handleChange(e) }
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ this.props.onClose }>Cancel</Button>
+					<Button onClick={ onClose }>Cancel</Button>
 					<Button
 						disabled={ !this.formValid() }
 						variant='contained'
-						onClick={ () => onSave(this.state.attachmentId) }
+						onClick={ () => onSave(weaponId) }
 						color='primary'
 					>
 						Save
@@ -66,16 +67,15 @@ class AddAttachmentDialog extends Component {
 	}
 }
 
-AddAttachmentDialog.propTypes = {
-	weaponName: PropTypes.string.isRequired,
+AddWeaponDialog.propTypes = {
 	filterIds: PropTypes.array,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired
 }
 
-AddAttachmentDialog.defaultProps = {
+AddWeaponDialog.defaultProps = {
 	filterIds: []
 }
 
-export default AddAttachmentDialog
+export default AddWeaponDialog

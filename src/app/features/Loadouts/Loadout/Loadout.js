@@ -4,13 +4,13 @@ import { withRouter } from 'react-router-dom'
 
 import Typography from '@material-ui/core/Typography'
 
-import AddWeaponDialog from './AddWeaponDialog'
-import LoadoutWeapon from './LoadoutWeapon'
 import EditLoadoutDialog from './EditLoadoutNameDialog'
-import LoadoutGearList from './Gear/LoadoutGearList'
+import LoadoutGearList from './GearList/LoadoutGearList'
+import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 
-import AddCard from 'app/shared/components/Cards/AddCard'
 import Loader from 'app/shared/components/Loader'
+
+import LoadoutContext from './LoadoutContext'
 
 import database from '../../../../firebase/database'
 
@@ -23,12 +23,6 @@ class Loadout extends React.Component {
 			loading: true,
 			error: null
 		}
-	}
-
-	get usedAttachmentIds() {
-		return this.state.loadout.weapons
-			.flatMap((weapon) => weapon.attachments || [])
-			.map((attachment) => attachment.id)
 	}
 
 	componentDidMount() {
@@ -55,7 +49,7 @@ class Loadout extends React.Component {
 		this.setState({ activeDialog: null })
 	}
 
-	onEditLoadoutName(name) {
+	editLoadoutName(name) {
 		let { loadout } = this.state
 
 		database.loadouts
@@ -73,15 +67,7 @@ class Loadout extends React.Component {
 			.then(() => this.closeDialog())
 	}
 
-	onWeaponSelected(weaponId) {
-		database.loadouts
-			.loadout(this.state.loadout.id)
-			.weapons.add(weaponId)
-			.then((weapon) => this.pushNewWeapon(weapon))
-			.then(() => this.closeDialog())
-	}
-
-	pushNewWeapon(weapon) {
+	addWeapon(weapon) {
 		this.setState((prevState) => {
 			let weapons = [...prevState.loadout.weapons, weapon]
 
@@ -107,7 +93,7 @@ class Loadout extends React.Component {
 		})
 	}
 	
-	pushNewGear(gear) {
+	addGear(gear) {
 		this.setState((prevState) => {
 			let updatedGear = [...prevState.loadout.gear, gear]
 	
@@ -133,7 +119,7 @@ class Loadout extends React.Component {
 		})
 	}
 
-	pushNewAttachment(weaponId, attachment) {
+	addAttachment(weaponId, attachment) {
 		this.setState((prevState) => {
 			let currWeapons = prevState.loadout.weapons
 
@@ -185,64 +171,52 @@ class Loadout extends React.Component {
 		})
 	}
 
-	renderWeapons(weapons) {
-		if (!weapons || !weapons.length) {
-			return null
-		}
-
-		return weapons.map((weapon) => (
-			<LoadoutWeapon
-				key={ weapon.id }
-				loadoutId={ this.state.loadout.id }
-				weapon={ weapon }
-				filterAttachmentIds={ this.usedAttachmentIds }
-				onDelete={ () => this.deleteWeapon(weapon.id) }
-				onAttachmentAdded={ (attachment) => this.pushNewAttachment(weapon.id, attachment) }
-				onAttachmentDeleted={ (attachment) => this.deleteAttachment(weapon.id, attachment) }
-			/>
-		))
-	}
-
 	render() {
 		let { loading, error, loadout, activeDialog } = this.state
 
-		return loading ? (
-			<Loader />
-		) : error ? (
-			<div className='error-alert'>Error: {error}</div>
-		) : (
+		if (loading) {			
+			return <Loader />
+		}
+		
+		if (error)
+		{
+			return <div className='error-alert'>Error: {error}</div>
+		}
+
+		return (
 			<React.Fragment>
 				<Typography variant='h5'>
 					{loadout.name}
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
 				</Typography>
 
-				<div className='loadout-slot-list'>
-					{this.renderWeapons(loadout.weapons)}
-					<AddCard onClick={ () => this.openDialog('addweapon') } />
-				</div>
+				<LoadoutContext.Provider value={ loadout }>
+					<div className='loadout-slot-list'>
+						<LoadoutWeaponList
+							loadoutId={ loadout.id }
+							weapons={ loadout.weapons }
+							onAdd={ weapon => this.addWeapon(weapon) } 
+							onDelete={ id => this.deleteWeapon(id) } 
+							onAttachmentAdd={ (weaponId, attachment) => this.addAttachment(weaponId, attachment) }
+							onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
+						/>
+					</div>
 
-				<Typography variant='h5'>Gear</Typography>
-				<div className='loadout-slot-list'>
-					<LoadoutGearList 
-						loadoutId={ loadout.id } 
-						gear={ loadout.gear }
-						onAdd={ gear => this.pushNewGear(gear) } 
-						onDelete={ id => this.deleteGear(id) } 
-					/>
-				</div>
+					<Typography variant='h5'>Gear</Typography>
+					<div className='loadout-slot-list'>
+						<LoadoutGearList 
+							loadoutId={ loadout.id } 
+							gear={ loadout.gear }
+							onAdd={ gear => this.addGear(gear) } 
+							onDelete={ id => this.deleteGear(id) } 
+						/>
+					</div>
+				</LoadoutContext.Provider>
 
 				<EditLoadoutDialog
 					name={ loadout.name }
 					isOpen={ activeDialog === 'editloadout' }
-					onSave={ (name) => this.onEditLoadoutName(name) }
-					onClose={ () => this.closeDialog() }
-				/>
-
-				<AddWeaponDialog
-					filterIds={ loadout.weapons && loadout.weapons.map((w) => w.id) }
-					isOpen={ activeDialog === 'addweapon' }
-					onSave={ (value) => this.onWeaponSelected(value) }
+					onSave={ (name) => this.editLoadoutName(name) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>

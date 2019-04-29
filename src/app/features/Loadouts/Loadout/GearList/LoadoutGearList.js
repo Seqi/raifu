@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
-import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import { GearCard } from 'app/shared/components/Cards/Entities'
+import LoadoutGear from './Gear/LoadoutGear'
 
 import AddGearDialog from './AddGearDialog'
 
@@ -15,22 +14,16 @@ export default class LoadoutGearList extends React.Component {
 		super(props)
 
 		this.state = {
-			activeDialog: null
+			isDialogOpen: false
 		}
 	}
 
-	openDialog(name) {
-		this.setState({activeDialog: name})
-	}
-
-	openDeleteDialog(gear) {
-		this.activeItem = gear
-		this.openDialog('delete')
+	openDialog() {
+		this.setState({ isDialogOpen: true })
 	}
 
 	closeDialog() {
-		this.activeItem = null
-		this.setState({activeDialog: null})
+		this.setState({ isDialogOpen: false })
 	}
 
 	addGear(gearId) {
@@ -61,36 +54,28 @@ export default class LoadoutGearList extends React.Component {
 		}
 		
 		return gearList.map(gear => (
-			<GearCard 
+			<LoadoutGear 
 				key={ gear.id } 
 				gear={ gear } 
-				canDelete={ true } 
-				onDelete={ () => this.openDeleteDialog(gear) }
+				onDelete={ (gearId) => this.deleteGear(gearId) }
 			/>
 		))
 	}
 
 	render() {
-		let { activeDialog } = this.state 
+		let { gear } = this.props
 
 		return (
 			<React.Fragment>
-				{ this.renderGearList(this.props.gear) }
-				<AddCard onClick={ () => this.openDialog('add') } />
+				{ this.renderGearList(gear) }
+				<AddCard onClick={ () => this.openDialog() } />
 
 				<AddGearDialog 
-					filterIds={ this.props.gear.map(g => g.id) }
-					isOpen={ activeDialog === 'add' } 
+					filterIds={ gear.map(g => g.id) }
+					isOpen={ this.state.isDialogOpen } 
 					onSave={ gearId => this.addGear(gearId) }
 					onClose={ () => this.closeDialog() } 
 				/> 
-					
-				<ConfirmDeleteDialog 
-					isOpen={ activeDialog === 'delete' }
-					title={ this.activeItem ? this.activeItem.getTitle() : '' }
-					onConfirm={ () => this.deleteGear(this.activeItem.id) }
-					onClose={ () => this.closeDialog() }
-				/>
 					
 			</React.Fragment>
 		)
