@@ -5,6 +5,12 @@ module.exports = () => {
 	const sequelize = db()
 
 	const armoryTable = {
+		id: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false,
+			primaryKey: true,
+			defaultValue :''
+		},
 		platform: {
 			type: Sequelize.STRING({ length: 64 }),
 			allowNull: false
@@ -31,12 +37,14 @@ module.exports = () => {
 	})
 
 	const loadout = sequelize.define('loadout', {
+		id: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false,
+			primaryKey: true,
+			defaultValue: ''
+		},
 		name: {
 			type: Sequelize.STRING({ length: 64 }),
-			allowNull: false
-		},
-		displayId: {
-			type: Sequelize.STRING({ length: 14 }),
 			allowNull: false
 		},
 		uid: {
@@ -48,13 +56,13 @@ module.exports = () => {
 	const loadoutWeapon = sequelize.define('loadout_weapon', {
 		// If we don't force the ID here, the associations remove it
 		id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
+			defaultValue: ''
 		},
 		loadout_id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
 			allowNull: false,
 			references: {
 				model: loadout,
@@ -63,7 +71,7 @@ module.exports = () => {
 			}
 		},
 		weapon_id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
 			allowNull: false,
 			references: {
 				model: weapon,
@@ -74,8 +82,14 @@ module.exports = () => {
 	})
 
 	const loadoutGear = sequelize.define('loadout_gear', {
+		id: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false,
+			primaryKey: true,
+			defaultValue: ''
+		},
 		loadout_id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
 			allowNull: false,
 			references: {
 				model: loadout,
@@ -84,7 +98,7 @@ module.exports = () => {
 			}
 		},
 		gear_id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
 			allowNull: false,
 			references: {
 				model: gear,
@@ -96,7 +110,8 @@ module.exports = () => {
 
 	const loadoutWeaponAttachment = sequelize.define('loadout_weapon_attachment', {
 		loadout_weapon_id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
+			defaultValue: '',
 			primaryKey: true,
 			allowNull: false,
 			references: {
@@ -107,7 +122,8 @@ module.exports = () => {
 		},
 		// Hacky way to get joins to work
 		loadout_id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
+			defaultValue: '',
 			primaryKey: true,
 			allowNull: false,
 			references: {
@@ -117,8 +133,9 @@ module.exports = () => {
 			}
 		},
 		weapon_id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
 			primaryKey: true,
+			defaultValue: '',
 			allowNull: false,
 			references: {
 				model: weapon,
@@ -127,7 +144,8 @@ module.exports = () => {
 			}
 		},
 		attachment_id: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING({ length: 14 }),
+			defaultValue: '',
 			primaryKey: true,
 			allowNull: false,
 			references: {

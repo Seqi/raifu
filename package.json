@@ -9,8 +9,7 @@
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6",
 		"react-router-dom": "^4.3.1",
-		"react-scripts": "^2.1.5",
-		"shortid": "^2.2.14"
+		"react-scripts": "^2.1.5"
 	},
 	"devDependencies": {
 		"concurrently": "^4.1.0",

@@ -16,7 +16,7 @@ export default (entityName) => {
 		add: (props) =>
 			app
 				.functions()
-				.httpsCallable(`${entityName}-add`)(props)
+				.httpsCallable(`${entityName}-add`)({...props, id: 'b' })
 				.then((result) => toEntity(result.data)),
 		edit: (props) =>
 			app
