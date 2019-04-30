@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
-import LoadoutWeapon from './Weapon/LoadoutWeapon'
 
+import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddWeaponDialog from './AddWeaponDialog'
 
 import database from '../../../../../firebase/database'

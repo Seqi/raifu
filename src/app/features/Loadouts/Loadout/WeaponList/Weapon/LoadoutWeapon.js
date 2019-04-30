@@ -33,27 +33,29 @@ class LoadoutWeapon extends Component {
 		let { loadoutId, weapon, onAttachmentAdded, onAttachmentDeleted } = this.props
 
 		return (
-			<div className='weapon-mod'>			
-				<WeaponCard 
-					weapon={ weapon }
-					canDelete={ true } 
-					onDelete={ () => this.openDialog() }
-				/>
+			<React.Fragment>
+				<div className='weapon-mod'>			
+					<WeaponCard 
+						weapon={ weapon }
+						canDelete={ true } 
+						onDelete={ () => this.openDialog() }
+					/>
 
-				<LoadoutWeaponAttachments
-					loadoutId={ loadoutId }
-					weapon={ weapon }
-					onAttachmentAdded={ onAttachmentAdded }
-					onAttachmentDeleted={ onAttachmentDeleted }
-				/>
-
+					<LoadoutWeaponAttachments
+						loadoutId={ loadoutId }
+						weapon={ weapon }
+						onAttachmentAdded={ onAttachmentAdded }
+						onAttachmentDeleted={ onAttachmentDeleted }
+					/>
+				</div>
+				
 				<ConfirmDeleteDialog
 					title={ weapon.getTitle() }
 					isOpen={ isDialogOpen }
 					onClose={ () => this.closeDialog() }
 					onConfirm={ () => this.deleteWeapon(weapon.id) }
 				/>
-			</div>
+			</React.Fragment>
 		)
 	}
 }

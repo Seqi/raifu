@@ -8,7 +8,6 @@ import AddGearDialog from './AddGearDialog'
 
 import database from '../../../../../firebase/database'
 
-
 export default class LoadoutGearList extends React.Component {
 	constructor(props) {
 		super(props)

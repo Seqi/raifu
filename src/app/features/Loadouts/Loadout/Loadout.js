@@ -178,8 +178,7 @@ class Loadout extends React.Component {
 			return <Loader />
 		}
 		
-		if (error)
-		{
+		if (error) {
 			return <div className='error-alert'>Error: {error}</div>
 		}
 
