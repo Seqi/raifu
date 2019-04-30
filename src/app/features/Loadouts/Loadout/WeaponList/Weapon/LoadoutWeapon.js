@@ -62,7 +62,7 @@ class LoadoutWeapon extends Component {
 
 LoadoutWeapon.propTypes = {
 	// TODO: Move all of this stuff to a React.Context
-	loadoutId: PropTypes.number.isRequired,
+	loadoutId: PropTypes.string.isRequired,
 	weapon: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
 		model: PropTypes.string,
