@@ -5,7 +5,15 @@ import { WeaponCard } from 'app/shared/components/Cards/Entities'
 
 import './WeaponSelect.css'
 
-const selectedWeaponStyle = {
+const cardStyle = {
+	height: '220px',
+	width: '30%',
+	minWidth: '0',
+	marginRight: '0'
+}
+
+const selectedCardStyle = {
+	...cardStyle,
 	transform: 'scale(1.05)',
 	border: '1px solid red'
 }
@@ -16,7 +24,7 @@ export default function WeaponSelect ({weapons, selectedWeaponId, onWeaponSelect
 			{ weapons.map(weapon => (
 				<WeaponCard key={ weapon.id } 
 					weapon={ weapon } 
-					style={ weapon.id === selectedWeaponId ? selectedWeaponStyle : {} }
+					style={ weapon.id === selectedWeaponId ? selectedCardStyle : cardStyle }
 					onClick={ () => onWeaponSelected(weapon.id) } />
 			))}
 		</div>
