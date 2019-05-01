@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import AddAttachmentDialog from './AddAttachmentDialog'
+import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
 import CardList from 'app/shared/components/Cards/CardList'
 
 import LoadoutContext from '../../../LoadoutContext'

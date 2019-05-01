@@ -1,26 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { withTheme } from '@material-ui/core'
+
 import { WeaponCard } from 'app/shared/components/Cards/Entities'
 
-import './WeaponSelect.css'
+function WeaponSelect ({theme, weapons, selectedWeaponId, onWeaponSelected }) {
 
-const cardStyle = {
-	height: '220px',
-	width: '30%',
-	minWidth: '0',
-	marginRight: '0'
-}
+	const cardStyle = {
+		height: '220px',
+		width: '30%',
+		minWidth: '0',
+		marginRight: '0'
+	}
+	
+	const selectedCardStyle = {
+		...cardStyle,
+		transform: 'scale(1.05)',
+		border: `1px solid ${theme.palette.primary.main}`
+	}
 
-const selectedCardStyle = {
-	...cardStyle,
-	transform: 'scale(1.05)',
-	border: '1px solid red'
-}
-
-export default function WeaponSelect ({weapons, selectedWeaponId, onWeaponSelected }) {
 	return (
-		<div className='weapon-select-list'>
+		<div className='loadout-select-list'>
 			{ weapons.map(weapon => (
 				<WeaponCard key={ weapon.id } 
 					weapon={ weapon } 
@@ -42,3 +43,5 @@ WeaponSelect.defaultProps = {
 	selectedWeaponId: null,
 	onWeaponSelected: (weapon) => {}
 }
+
+export default withTheme()(WeaponSelect)

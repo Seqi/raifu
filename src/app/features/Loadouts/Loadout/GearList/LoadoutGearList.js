@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import AddCard from 'app/shared/components/Cards/AddCard'
 import LoadoutGear from './Gear/LoadoutGear'
 
-import AddGearDialog from './AddGearDialog'
+import AddGearDialog from './AddGearDialog/AddGearDialog'
 
 import database from '../../../../../firebase/database'
 
