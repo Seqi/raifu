@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import AddAttachmentDialog from './AddAttachmentDialog'
+import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
 import CardList from 'app/shared/components/Cards/CardList'
 
 import LoadoutContext from '../../../LoadoutContext'
@@ -89,7 +89,7 @@ class LoadoutWeaponAttachments extends Component {
 }
 
 LoadoutWeaponAttachments.propTypes = {
-	loadoutId: PropTypes.number.isRequired,
+	loadoutId: PropTypes.string.isRequired,
 	weapon: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
 		model: PropTypes.string,

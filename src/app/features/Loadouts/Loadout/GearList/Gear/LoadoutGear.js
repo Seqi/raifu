@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { GearCard } from 'app/shared/components/Cards/Entities'

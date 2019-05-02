@@ -7,32 +7,43 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
-import ResourceSelect from 'app/shared/components/Selects/ResourceSelect'
-import database from '../../../../../../../firebase/database'
+import AttachmentSelect from './AttachmentSelect'
+import database from '../../../../../../../../firebase/database'
 
 class AddAttachmentDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			attachmentId: ''
+			attachmentId: '',
+			attachments: []
 		}
+	}	
+
+	componentDidMount() {
+		return database.attachments
+			.get()
+			.then((attachments) => this.setState({ attachments }))
 	}
 
-	handleChange(e) {
-		this.setState({ attachmentId: e.target.value })
+	getSelectableAttachments() {
+		return this.state.attachments.filter((a) => this.props.filterIds.indexOf(a.id) === -1)
+	}
+
+	onAttachmentSelected(attachmentId) {
+		this.setState({ attachmentId })
 	}
 
 	formValid() {
 		return this.state.attachmentId
 	}
 
-	filterAttachments() {
-		return database.attachments
-			.get()
-			.then((attachments) => attachments.filter((w) => this.props.filterIds.indexOf(w.id) === -1))
+	onSave(attachmentId) {
+		this.setState({attachmentId: ''})
+		this.props.onSave(attachmentId)
 	}
 
 	render() {
+		let { attachmentId } = this.state
 		let { weaponName, isOpen, onClose, onSave } = this.props
 
 		return (
@@ -40,13 +51,10 @@ class AddAttachmentDialog extends Component {
 				<DialogTitle>Add attachment to {weaponName} </DialogTitle>
 
 				<DialogContent>
-					<ResourceSelect
-						label='Select attachment'
-						name='attachment'
-						dataGetter={ () => this.filterAttachments() }
-						buildValue={ item => item.getTitle() }
-						value={ this.state.attachmentId }
-						onChange={ (e) => this.handleChange(e) }
+					<AttachmentSelect
+						attachments={ this.getSelectableAttachments() } 
+						selectedAttachmentId={ attachmentId } 
+						onAttachmentSelected={ attachmentId => this.onAttachmentSelected(attachmentId) } 
 					/>
 				</DialogContent>
 

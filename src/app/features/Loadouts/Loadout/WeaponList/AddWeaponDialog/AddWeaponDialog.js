@@ -7,48 +7,55 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
-import ResourceSelect from 'app/shared/components/Selects/ResourceSelect'
-import database from '../../../../../firebase/database'
+import WeaponSelect from './WeaponSelect'
+import database from '../../../../../../firebase/database'
 
 class AddWeaponDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			weaponId: ''
+			weaponId: '',
+			weapons: []
 		}
 	}
 
-	handleChange(e) {
-		this.setState({ weaponId: e.target.value })
+	componentDidMount() {
+		return database.weapons
+			.get()
+			.then((weapons) => this.setState({ weapons }))
+	}
+
+	getSelectableWeapons() {
+		return this.state.weapons.filter((w) => this.props.filterIds.indexOf(w.id) === -1)
+	}
+
+	onWeaponSelected(weaponId) {
+		this.setState({ weaponId })
 	}
 
 	formValid() {
 		return this.state.weaponId
 	}
 
-	filterWeapons() {
-		return database.weapons
-			.get()
-			.then((weapons) => weapons.filter((w) => this.props.filterIds.indexOf(w.id) === -1))
+	onSave(weaponId) {
+		this.setState({weaponId: ''})
+		this.props.onSave(weaponId)
 	}
 
 	render() {
 		let { weaponId } = this.state
-		let { isOpen, onClose, onSave } = this.props
+		let { isOpen, onClose } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>Add weapon to loadout</DialogTitle>
 
 				<DialogContent>
-					<ResourceSelect
-						label='Select weapon'
-						name='weapon'
-						dataGetter={ () => this.filterWeapons() }
-						buildValue={ (weapon) => weapon.getTitle() }
-						value={ weaponId }
-						onChange={ (e) => this.handleChange(e) }
-					/>
+					<WeaponSelect 
+						weapons={ this.getSelectableWeapons() } 
+						selectedWeaponId={ weaponId } 
+						onWeaponSelected={ weaponId => this.onWeaponSelected(weaponId) } /
+					>
 				</DialogContent>
 
 				<DialogActions>
@@ -56,7 +63,7 @@ class AddWeaponDialog extends Component {
 					<Button
 						disabled={ !this.formValid() }
 						variant='contained'
-						onClick={ () => onSave(weaponId) }
+						onClick={ () => this.onSave(weaponId) }
 						color='primary'
 					>
 						Save
