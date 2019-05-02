@@ -6,6 +6,10 @@ A web application to add and customise airsoft loadouts, to help organise your w
 
 ## Getting Started
 
+To run Raifu locally, you will need to follow a certain number of steps to configure all required elements.
+
+#### Firebase
+
 Create a `.env` file in root to supply your Firebase credentials. If you need to create a Firebase project, you can get started [here](https://firebase.google.com/). When you create a Firebase project, you will be provided with a few settings. Set these in your `.env` file with the following keys:
 
 ```
@@ -32,8 +36,16 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID=mymessagingsenderid
 
 ```
 
+You will also need to enable authentication providers in your Firebase project to log in to the application. These may require third party API keys (such as Twitter). For basic usage, enable the Email/Password provider in your Firebase project `Authentication -> Sign-in Method -> Enable Email/Password`. 
+
+Finally, replace the existing project id with your Firebase project id in `.firebaserc`. 
+
+#### Database
+
+Raifu uses PostgreSQL for data storage and requires a connection to run. If you don't have an existing PostgreSQL instance, it is recommended to use Docker to spin one up. Once configured, create a database and run the migration script in `sql/create_tables`. 
+
 #### Cloud Functions Config
-To run the cloud functions, you will need to connect up a PostgreSQL database. To point the cloud functions to the database, create a `.runtimeconfig.json` file in the `functions` directory containing the database credentials:
+To run the cloud functions, you will need to install the [Firebase CLI Tools](https://github.com/firebase/firebase-tools) containing the Cloud Functions Emulator. Additionally, you will need to connect up to your PostgreSQL database, To point the cloud functions to the database, create a `.runtimeconfig.json` file in the `functions` directory containing the database credentials:
 
 ```
 {
@@ -46,7 +58,20 @@ To run the cloud functions, you will need to connect up a PostgreSQL database. T
 }
 ```
 
-With all the config variables set up, run `npm start` to serve the application locally.
+Finish the setup by installing all required packages.
+
+```
+npm i 
+cd functions
+npm i
+cd ..
+```
+
+You should now be ready to run the project locally, using `npm start`. This will spin up both the React development server and the Cloud Functions emulator. 
+
+## Troubleshooting
+
+Sometimes the Firebase functions emulator requires admin privileges on Windows to run. If the Firebase functions are not running, try running `npm start` in a terminal with elevated privileges. 
 
 ## Technologies
 
