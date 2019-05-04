@@ -73,39 +73,33 @@ You should now be ready to run the project locally, using `npm start`. This will
 
 Sometimes the Firebase functions emulator requires admin privileges on Windows to run. If the Firebase functions are not running, try running `npm start` in a terminal with elevated privileges. 
 
-## Technologies
-
-Outside of the functionality, the purpose of this app was to pick up a few new technologies. These were:
-
--   [Firebase](https://firebase.google.com/)
--   [Google Cloud Project](https://cloud.google.com/)
-
 ## Contributing
+
+To request a weapon or item, please add an issue with the `request` tag.
 
 If you'd like to add a particular weapon or item, please follow the following steps (a guide on creating the image is below):
 
 - Add the item to the file `src/firebase/database/entities/lookups/platforms.js`
-- Add the appropriate image to `src/assets/outlines/[type]/[platform]/[itemname].png`
+- Add the appropriate image vector to `src/assets/outlines/[type]/[platform]/[itemname].svg`
 
 #### Styling
 
-All images must conform to the style used throughout Raifu, being a single basic white outline with minimal to no inner detail (unless said detail is a popular characteristic of the weapon), and at a 45 degree angle, with the barrel pointing to the top right.
+All images must conform to the style used throughout Raifu, being a single basic white outline with minimal to no inner detail (unless said detail is a popular characteristic of the weapon). Weapons should be at a 45 degree angle, with the barrel pointing to the top right, whereas gear and attachments 
+should be upright. 
 
-Weapon and gear images must be as close to **W:220px, H:235px** as possible. 
+Ensure that the thickness of the outline is consistent with other items. 
 
-Attachment images must be as close to **W:220px, H:80px** as possible.
-
-This ensures that no stretching distorts the image.
+It is recommended that a canvas of **W:220px, H:235px** is used for weapons and **W:220px, H:80px** for attachments as this matches the card content size.
 
 #### File Naming
 
-Ensure that any spaces in your weapon name are replaced by hyphons in your filename. For example, adding `Desert Eagle`, an image named `desert-eagle.png` should be added. 
+Ensure that any spaces in your weapon name are replaced by hyphons in your filename. For example, adding `Desert Eagle`, an image named `desert-eagle.svg` should be added. 
 
-Also ensure that any periods in your weapon name are not present in your filename. For example, adding `AR .556`, an image named `ar-556.png` should be added.
+Also ensure that any periods in your weapon name are not present in your filename. For example, adding `AR .556`, an image named `ar-556.svg` should be added.
 
 #### Example
 
-Most images were created using *Inkscape* software, a free open source vector graphics editor. From within *Inkscape*, use the following steps:
+Most images were created using [Inkscape](https://inkscape.org/), a free open source vector graphics editor. From within *Inkscape*, use the following steps:
 
 - In `File->Document Properties`, set this to **W:220px, H: 235px** or  **W:220px, H:80px** depending on the item you are creating an image for. This gives you a 'Canvas' to stay inside, which matches the aspect ratio and size of the box the image will be placed in.
 - Find your base image and copy this into *Inkscape*.
@@ -121,6 +115,11 @@ Most images were created using *Inkscape* software, a free open source vector gr
 - Use `No Paint` (the X) for Fill, and `Flat Colur` for Stroke Paint.
 - Set the Stroke Paint colour to white (255,255,255).
 - If necessary, rotate the image so that it's at a 45 degree angle, with the barrel pointing to the top right. This can be done in the `Transform` panel (`Ctrl-Shift-M`), in the `Rotate` tab. You can also flip the image by pressing `H` with the image selected.
-- Resize the image to fit within the original canvas. This can be done using the `Transform` panel. On the `Scale` tab, make sure `Scale Proprotionally` is checked, the unit is `px`, Start with a width of *220px* and reduce it until the image fits nicely in the canvas. Depending on the aspect ratio of your rotated image, the width value may end up in the low 100s. Just keep modifying the value until the image fits in the canvas.
-- Thicken the outline in `Fill and Stroke` panel, in the `Stroke Style` tab. For consistency, use a value of *0.4mm*
-- That's it! Export the .png image and add it to the appropriate folder with the correct naming mentioned above.
+- Thicken the outline in `Fill and Stroke` panel, in the `Stroke Style` tab. For consistency, use a value of around *0.4mm*
+
+## Technologies
+
+Outside of the functionality, the purpose of this app was to pick up a few new technologies. These were:
+
+-   [Firebase](https://firebase.google.com/)
+-   [Google Cloud Project](https://cloud.google.com/)

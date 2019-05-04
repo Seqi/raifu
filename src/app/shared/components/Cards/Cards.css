@@ -59,8 +59,7 @@
 	top: 50%;
 	left: 50%;
 	transform: translateX(-50%) translateY(-50%);
-	padding: 5px;
 
-	max-height: 95%;
-	max-width: 95%;
+	max-height: 98%;
+	max-width: 98%;
 }

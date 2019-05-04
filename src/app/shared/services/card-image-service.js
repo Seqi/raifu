@@ -10,7 +10,7 @@ let getImage = (category, type, platform) => {
 		.replace(/\//g, '-')
 
 	try {
-		return require(`../../../assets/outlines/${category}/${type}/${formattedPlatform}.png`)
+		return require(`../../../assets/outlines/${category}/${type}/${formattedPlatform}.svg`)
 	} catch (e) {
 		console.log(e)
 		return ''
