@@ -1,11 +1,14 @@
-import './LoadoutWeapon.css'
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import Typography from '@material-ui/core/Typography'
+import { withTheme } from '@material-ui/core'
 
 import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
+
+import './LoadoutWeapon.css'
 
 class LoadoutWeapon extends Component {
 	constructor(props) {
@@ -30,13 +33,20 @@ class LoadoutWeapon extends Component {
 
 	render() {
 		let { isDialogOpen } = this.state
-		let { loadoutId, weapon, onAttachmentAdded, onAttachmentDeleted } = this.props
+		let { theme, loadoutId, weapon, onAttachmentAdded, onAttachmentDeleted } = this.props
 
 		return (
 			<React.Fragment>
-				<div className='loadout-weapon-container'>		
-
+				<div className='loadout-weapon-container' style={ {					
+					marginTop: '24px',
+					marginBottom: '24px',
+					borderTop: `1px solid ${theme.palette.primary.main}`
+				} }>		
 					<div className='loadout-weapon-item'>
+						<Typography variant={ 'h4' } className='loadout-weapon-item-title'>
+							{ weapon.getTitle() }
+						</Typography>
+
 						<ArmoryItemImage 
 							style={ {
 								width: '100%',
@@ -96,4 +106,4 @@ LoadoutWeapon.defaultProps = {
 	onAttachmentDeleted: (attachmentId) => {}
 }
 
-export default LoadoutWeapon
+export default withTheme()(LoadoutWeapon)
