@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
-import AddCard from 'app/shared/components/Cards/AddCard'
 
 import LoadoutContext from '../../../LoadoutContext'
 import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
+import AddButton from 'app/shared/components/Buttons/AddButton'
 
 import database from '../../../../../../../firebase/database'
 
@@ -75,7 +75,10 @@ class LoadoutWeaponAttachmentList extends Component {
 					<React.Fragment>
 						<div className='loadout-weapon-attachment-list-container'>
 							{ this.renderAttachments(weapon.attachments)}
-							<AddCard className={ 'loadout-weapon-attachment-item' } cardType={ 'attachment' } onClick={ () => this.openDialog() } />   
+
+							<div className='loadout-weapon-attachment-item'>
+								<AddButton onClick={ () => this.openDialog() } />   
+							</div>
 						</div>
 
 						<AddAttachmentDialog

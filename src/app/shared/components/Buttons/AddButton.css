@@ -1,13 +1,9 @@
-.add-card {
-	display: inline-block;
-}
-
-.add-card-btn-wrapper {
+.add-button-wrapper {
 	position: relative;
 	height: 100%;
 }
 
-.add-card .add-card-btn {
+.add-button-wrapper .add-button {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -18,9 +14,6 @@
 	cursor: pointer;
 	border: 0;
 	border-radius: 50%;
-}
 
-.add-card .add-card-btn > i {
-	color: white;
 	font-size: 4rem;
 }
