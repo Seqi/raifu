@@ -3,9 +3,9 @@ import './LoadoutWeapon.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import LoadoutWeaponAttachments from './AttachmentList/LoadoutWeaponAttachments'
+import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import { WeaponCard } from 'app/shared/components/Cards/Entities'
+import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
 
 class LoadoutWeapon extends Component {
 	constructor(props) {
@@ -34,14 +34,20 @@ class LoadoutWeapon extends Component {
 
 		return (
 			<React.Fragment>
-				<div className='weapon-mod'>			
-					<WeaponCard 
-						weapon={ weapon }
-						canDelete={ true } 
-						onDelete={ () => this.openDialog() }
-					/>
+				<div className='loadout-weapon-container'>		
 
-					<LoadoutWeaponAttachments
+					<div className='loadout-weapon-item'>
+						<ArmoryItemImage 
+							style={ {
+								width: '100%',
+								height: '100%'
+							} }
+							entity={ weapon }
+							category={ 'weapons' }
+						/>
+					</div>	
+
+					<LoadoutWeaponAttachmentList
 						loadoutId={ loadoutId }
 						weapon={ weapon }
 						onAttachmentAdded={ onAttachmentAdded }

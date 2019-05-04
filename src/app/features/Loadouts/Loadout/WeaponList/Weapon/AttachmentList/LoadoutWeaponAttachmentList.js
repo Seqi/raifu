@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
-import CardList from 'app/shared/components/Cards/CardList'
+import AddCard from 'app/shared/components/Cards/AddCard'
 
 import LoadoutContext from '../../../LoadoutContext'
+import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
 
 import database from '../../../../../../../firebase/database'
 
-class LoadoutWeaponAttachments extends Component {
+class LoadoutWeaponAttachmentList extends Component {
 	constructor(props) {
 		super(props)
 
@@ -57,6 +58,14 @@ class LoadoutWeaponAttachments extends Component {
 			.map(a => a.id)
 	}
 
+	renderAttachments(attachments) {
+		return attachments.map(attachment => (
+			<div key={ attachment.id } className='loadout-weapon-attachment-item'>
+				<LoadoutWeaponAttachment attachment={ attachment } />
+			</div>
+		))
+	}
+
 	render() {
 		let { weapon } = this.props
 
@@ -64,13 +73,9 @@ class LoadoutWeaponAttachments extends Component {
 			<LoadoutContext.Consumer>
 				{ loadout => (
 					<React.Fragment>
-						<div className='weapon-attachments'>
-							<CardList
-								cardType='attachment'
-								items={ weapon.attachments }
-								onAdd={ () => this.openDialog() }
-								onCardDelete={ (id) => this.deleteAttachment(id) }
-							/>
+						<div className='loadout-weapon-attachment-list-container'>
+							{ this.renderAttachments(weapon.attachments)}
+							<AddCard className={ 'loadout-weapon-attachment-item' } cardType={ 'attachment' } onClick={ () => this.openDialog() } />   
 						</div>
 
 						<AddAttachmentDialog
@@ -88,7 +93,7 @@ class LoadoutWeaponAttachments extends Component {
 	}
 }
 
-LoadoutWeaponAttachments.propTypes = {
+LoadoutWeaponAttachmentList.propTypes = {
 	loadoutId: PropTypes.string.isRequired,
 	weapon: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
@@ -112,10 +117,10 @@ LoadoutWeaponAttachments.propTypes = {
 	onAttachmentDeleted: PropTypes.func
 }
 
-LoadoutWeaponAttachments.defaultProps = {
+LoadoutWeaponAttachmentList.defaultProps = {
 	filterAttachmentIds: [],
 	onAttachmentAdded: (attachment) => {},
 	onAttachmentDeleted: (attachmentId) => {}
 }
 
-export default LoadoutWeaponAttachments
+export default LoadoutWeaponAttachmentList

@@ -1,11 +1,39 @@
-.weapon-mod {
+.loadout-weapon-container{
 	display: flex;
-	max-width: 45%;
+	width: 100%;
 	margin-bottom: 50px;
 }
 
+.loadout-weapon-item {
+	flex: 1;
+
+	min-height: 300px;
+	min-width: 300px;
+
+	max-height: 500px;
+	max-width: 500px;
+}
+
 @media (max-width: 1199px) {
-	.weapon-mod {
+	.loadout-weapon-container {
 		max-width: inherit;
 	}
+}
+
+.loadout-weapon-attachment-list-container {
+	display: flex;
+	flex-wrap: wrap;
+	flex: 2;
+
+	margin-left: 5%;
+}
+
+.loadout-weapon-attachment-item {
+	height: 50%;
+
+	min-width: 200px;
+	max-width: 20%;
+	flex-grow: 1;
+
+	padding: 0rem 1.5rem;
 }

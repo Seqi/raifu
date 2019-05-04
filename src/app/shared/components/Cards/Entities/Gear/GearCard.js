@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import CardImage from 'app/shared/components/Images/CardImage'
+import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
 import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 import './GearCard.css'
@@ -16,7 +16,7 @@ export default function GearCard({ gear, canDelete, onClick, onDelete, style }) 
 			{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
 			<CardHeader title={ gear.getTitle() } subheader={ gear.getSubtitle() } className='card-header' />
 			<CardContent className='card-content'>
-				<CardImage entity={ gear } category='gear' />
+				<ArmoryItemImage entity={ gear } category='gear' />
 			</CardContent>
 		</Card>
 	)

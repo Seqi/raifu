@@ -8,7 +8,7 @@ import AddCard from 'app/shared/components/Cards/AddCard'
 import database from '../../../../firebase/database'
 jest.mock('../../../../firebase/auth')
 jest.mock('../../../../firebase/database')
-jest.mock('app/shared/services/card-image-service')
+jest.mock('app/shared/services/armory-image-service')
 
 beforeEach(() => {
 	database.attachments.__setData([])

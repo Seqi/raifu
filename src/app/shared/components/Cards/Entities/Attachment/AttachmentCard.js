@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import CardImage from 'app/shared/components/Images/CardImage'
+import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
 import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
 
 import './AttachmentCard.css'
@@ -16,7 +16,7 @@ export default function AttachmentCard({ attachment, canDelete, onClick, onDelet
 			{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
 			<CardHeader title={ attachment.getTitle() } subheader={ attachment.getSubtitle() } className='card-header' />
 			<CardContent className='card-content'>
-				<CardImage entity={ attachment } category='attachments' />
+				<ArmoryItemImage entity={ attachment } category='attachments' />
 			</CardContent>
 		</Card>
 	)
