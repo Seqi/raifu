@@ -13,6 +13,7 @@ import Loader from 'app/shared/components/Loader'
 import LoadoutContext from './LoadoutContext'
 
 import database from '../../../../firebase/database'
+import { withTheme } from '@material-ui/core'
 
 class Loadout extends React.Component {
 	constructor(props) {
@@ -184,10 +185,14 @@ class Loadout extends React.Component {
 
 		return (
 			<React.Fragment>
-				<Typography variant='h5'>
-					{loadout.name}
-					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
-				</Typography>
+				<span>
+					<Typography variant='h3' style={ {
+						borderBottom: `3px solid ${this.props.theme.palette.primary.main}`
+					} } >
+						{loadout.name}					
+						<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
+					</Typography>
+				</span>
 
 				<LoadoutContext.Provider value={ loadout }>
 					<div className='loadout-slot-list'>
@@ -223,4 +228,5 @@ class Loadout extends React.Component {
 	}
 }
 
-export default withRouter(Loadout)
+
+export default withTheme()(withRouter(Loadout))
