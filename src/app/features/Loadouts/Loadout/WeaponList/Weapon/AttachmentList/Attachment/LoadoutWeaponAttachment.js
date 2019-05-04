@@ -3,14 +3,30 @@ import PropTypes from 'prop-types'
 
 import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
 
+const fillParent = {
+	width: '100%',
+	height: '100%'
+} 
+
 export default function LoadoutWeaponAttachment({ attachment, onDelete }) {
 	return (
-		<ArmoryItemImage 
-			style={ {
-				width: '100%',
-				height: '100%'
-			} } 
-			entity={ attachment } category={ 'attachments' } />
+		<div style={ {
+			...fillParent,
+			...{ position: 'relative'} 
+		} }>
+			<span style={ {
+				position: 'absolute',
+				bottom: 0, 
+				right: 0, 
+				fontSize: '16px'
+			} }>
+				{attachment.getTitle()}
+			</span>
+
+			<ArmoryItemImage 
+				style={ fillParent } 
+				entity={ attachment } category={ 'attachments' } />
+		</div>
 	)
 }
 
