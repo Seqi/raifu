@@ -52,7 +52,7 @@ export default class LoadoutWeaponList extends React.Component {
 			return null
 		}
         
-		let { loadoutId, onAttachmentAdd, onAttachmentDelete } = this.props
+		let { loadoutId, onAttachmentsAdd, onAttachmentDelete } = this.props
 
 		return weapons.map((weapon) => (			
 			<LoadoutWeaponContainer key={ weapon.id }>				
@@ -60,7 +60,7 @@ export default class LoadoutWeaponList extends React.Component {
 					loadoutId={ loadoutId }
 					weapon={ weapon }
 					onDelete={ (weaponId) => this.deleteWeapon(weaponId) }
-					onAttachmentAdded={ (attachment) => onAttachmentAdd(weapon.id, attachment) }
+					onAttachmentsAdded={ (attachments) => onAttachmentsAdd(weapon.id, attachments) }
 					onAttachmentDeleted={ (attachmentId) => onAttachmentDelete(weapon.id, attachmentId) }
 				/>
 			</LoadoutWeaponContainer>
@@ -100,7 +100,7 @@ LoadoutWeaponList.propTypes = {
 	weapons: PropTypes.array,
 	onAdd: PropTypes.func,
 	onDelete: PropTypes.func,
-	onAttachmentAdd: PropTypes.func,
+	onAttachmentsAdd: PropTypes.func,
 	onAttachmentDelete: PropTypes.func
 }
 
@@ -108,6 +108,6 @@ LoadoutWeaponList.defaultProps = {
 	weapons: [],
 	onAdd: weapon => {},
 	onDelete: weaponId => {},
-	onAttachmentAdd: (weaponId, attachment) => {},
+	onAttachmentsAdd: (weaponId, attachments) => {},
 	onAttachmentDelete: (weaponId, attachmentId) => {}
 }

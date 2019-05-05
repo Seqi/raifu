@@ -119,7 +119,7 @@ class Loadout extends React.Component {
 		})
 	}
 
-	addAttachment(weaponId, attachment) {
+	addAttachments(weaponId, attachments) {
 		this.setState((prevState) => {
 			let currWeapons = prevState.loadout.weapons
 
@@ -131,7 +131,7 @@ class Loadout extends React.Component {
 				editedWeapon.attachments = []
 			}
 
-			editedWeapon.attachments.push(attachment)
+			editedWeapon.attachments = editedWeapon.attachments.concat(attachments)
 
 			// Rebuild up the state object, ensuring we preserve the order of weapons
 			let weaponIndex = currWeapons.findIndex((w) => w.id === weaponId)
@@ -196,7 +196,7 @@ class Loadout extends React.Component {
 							weapons={ loadout.weapons }
 							onAdd={ weapon => this.addWeapon(weapon) } 
 							onDelete={ id => this.deleteWeapon(id) } 
-							onAttachmentAdd={ (weaponId, attachment) => this.addAttachment(weaponId, attachment) }
+							onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }
 							onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
 						/>
 					</div>

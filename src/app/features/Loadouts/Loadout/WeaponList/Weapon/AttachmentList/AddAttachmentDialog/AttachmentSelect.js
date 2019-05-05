@@ -1,11 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import PropType from 'prop-types'
 
 import { withTheme } from '@material-ui/core'
 
 import { AttachmentCard } from 'app/shared/components/Cards/Entities'
 
-function AttachmentSelect ({theme, attachments, selectedAttachmentId, onAttachmentSelected }) {
+function AttachmentSelect ({theme, attachments, selectedAttachmentIds, onAttachmentSelected }) {
 
 	const cardStyle = {
 		height: '220px',
@@ -25,7 +25,7 @@ function AttachmentSelect ({theme, attachments, selectedAttachmentId, onAttachme
 			{ attachments.map(attachment => (
 				<AttachmentCard key={ attachment.id } 
 					attachment={ attachment } 
-					style={ attachment.id === selectedAttachmentId ? selectedCardStyle : cardStyle }
+					style={ selectedAttachmentIds.find(id => id === attachment.id) ? selectedCardStyle : cardStyle }
 					onClick={ () => onAttachmentSelected(attachment.id) } />
 			))}
 		</div>
@@ -33,14 +33,14 @@ function AttachmentSelect ({theme, attachments, selectedAttachmentId, onAttachme
 }
 
 AttachmentSelect.propTypes = {
-	attachments: PropTypes.array,
-	selectedAttachmentId: PropTypes.string,
-	onAttachmentSelected: PropTypes.func
+	attachments: PropType.array,
+	selectedAttachmentIds: PropType.arrayOf(PropType.string),
+	onAttachmentSelected: PropType.func
 }
 
 AttachmentSelect.defaultProps = {
 	attachments: [],
-	selectedAttachmentId: null,
+	selectedAttachmentIds: [],
 	onAttachmentSelected: (attachment) => {}
 }
 

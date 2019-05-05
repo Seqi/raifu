@@ -26,16 +26,20 @@ class LoadoutWeaponAttachmentList extends Component {
 		this.setState({ isDialogOpen: false })
 	}
 
-	addAttachment(attachmentId) {
-		let { loadoutId, weapon, onAttachmentAdded } = this.props
+	addAttachments(attachmentIds) {
+		let { loadoutId, weapon, onAttachmentsAdded } = this.props
 
-		database.loadouts
-			.loadout(loadoutId)
-			.weapons
-			.weapon(weapon.id)
-			.attachments
-			.add(attachmentId)
-			.then((attachment) => onAttachmentAdded(attachment))
+		let addToDbPromises = attachmentIds.map(attachmentId => {
+			return database.loadouts
+				.loadout(loadoutId)
+				.weapons
+				.weapon(weapon.id)
+				.attachments
+				.add(attachmentId)				
+		})
+
+		Promise.all(addToDbPromises)
+			.then(attachments => onAttachmentsAdded(attachments))
 			.then(() => this.closeDialog())
 	}
 
@@ -90,7 +94,7 @@ class LoadoutWeaponAttachmentList extends Component {
 							filterIds={ this.getAttachmentsToFilter(loadout) }
 							isOpen={ this.state.isDialogOpen }
 							onClose={ () => this.closeDialog() }
-							onSave={ (id) => this.addAttachment(id) }
+							onSave={ (ids) => this.addAttachments(ids) }
 						/>
 					</React.Fragment>
 				)}
@@ -119,13 +123,13 @@ LoadoutWeaponAttachmentList.propTypes = {
 			getSubtitle: PropTypes.func.isRequired,
 		}))
 	}).isRequired,
-	onAttachmentAdded: PropTypes.func,
+	onAttachmentsAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func
 }
 
 LoadoutWeaponAttachmentList.defaultProps = {
 	filterAttachmentIds: [],
-	onAttachmentAdded: (attachment) => {},
+	onAttachmentsAdded: (attachment) => {},
 	onAttachmentDeleted: (attachmentId) => {}
 }
 

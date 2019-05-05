@@ -14,7 +14,7 @@ class AddAttachmentDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			attachmentId: '',
+			attachmentIds: [],
 			attachments: []
 		}
 	}	
@@ -30,40 +30,52 @@ class AddAttachmentDialog extends Component {
 	}
 
 	onAttachmentSelected(attachmentId) {
-		this.setState({ attachmentId })
+		this.setState(prevState => {
+			let existingIdIndex = prevState.attachmentIds.findIndex(id => id === attachmentId)
+
+			let copy = prevState.attachmentIds.slice()
+
+			if (existingIdIndex === -1) {
+				copy.push(attachmentId)
+			} else {
+				copy.splice(existingIdIndex, 1)
+			}
+
+			return { attachmentIds: copy }
+		})
 	}
 
 	formValid() {
-		return this.state.attachmentId
+		return this.state.attachmentIds.length > 0
 	}
 
-	onSave(attachmentId) {
-		this.setState({attachmentId: ''})
-		this.props.onSave(attachmentId)
+	onSave(attachmentIds) {
+		this.setState({ attachmentIds: [] })
+		this.props.onSave(attachmentIds)
 	}
 
 	render() {
-		let { attachmentId } = this.state
+		let { attachmentIds } = this.state
 		let { weaponName, isOpen, onClose, onSave } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
-				<DialogTitle>Add attachment to {weaponName} </DialogTitle>
+				<DialogTitle>Add attachments to {weaponName} </DialogTitle>
 
 				<DialogContent>
 					<AttachmentSelect
 						attachments={ this.getSelectableAttachments() } 
-						selectedAttachmentId={ attachmentId } 
+						selectedAttachmentIds={ attachmentIds } 
 						onAttachmentSelected={ attachmentId => this.onAttachmentSelected(attachmentId) } 
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ this.props.onClose }>Cancel</Button>
+					<Button onClick={ onClose }>Cancel</Button>
 					<Button
 						disabled={ !this.formValid() }
 						variant='contained'
-						onClick={ () => onSave(this.state.attachmentId) }
+						onClick={ () => onSave(attachmentIds) }
 						color='primary'
 					>
 						Save
