@@ -46,7 +46,6 @@ export default class LoadoutGearList extends React.Component {
 			.gear
 			.delete(gearId)
 			.then(() => onDelete(gearId))
-			.then(() => this.closeDialog())
 	}
 
 	renderGearList(gearList) {

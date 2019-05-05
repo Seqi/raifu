@@ -4,8 +4,10 @@ import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 
 import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
+
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
+import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
 
 import './LoadoutWeapon.css'
 
@@ -38,8 +40,11 @@ class LoadoutWeapon extends Component {
 			<React.Fragment>	
 				<React.Fragment>
 					<div className='loadout-weapon-item'>
+
 						<Typography variant={ 'h4' } className='loadout-weapon-item-title'>
 							{ weapon.getTitle() }
+							
+							<DeleteButton style={ {position: 'initial'} } onClick={ () => this.openDialog() } />
 						</Typography>
 
 						<ArmoryItemImage 

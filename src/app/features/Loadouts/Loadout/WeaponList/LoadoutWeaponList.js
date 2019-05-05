@@ -87,7 +87,7 @@ export default class LoadoutWeaponList extends React.Component {
 				<AddWeaponDialog
 					filterIds={ weapons && weapons.map((w) => w.id) }
 					isOpen={ isDialogOpen }
-					onSave={ (weapon) => this.addWeapon(weapon) }
+					onSave={ (weaponId) => this.addWeapon(weaponId) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>

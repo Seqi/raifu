@@ -8,7 +8,7 @@ const fillParent = {
 	height: '100%'
 } 
 
-export default function LoadoutItemImage({ item, category, textStyle, onDelete }) {
+export default function LoadoutItemImage({ item, category, textStyle }) {
 	return (
 		<div style={ {
 			width: '100%',
@@ -32,7 +32,7 @@ export default function LoadoutItemImage({ item, category, textStyle, onDelete }
 }
 
 LoadoutItemImage.propTypes = {
-	category: PropTypes.oneOf('weapons', 'attachments', 'gear').isRequired,
+	category: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
 	item: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
 		model: PropTypes.string,
@@ -42,11 +42,9 @@ LoadoutItemImage.propTypes = {
 		getTitle: PropTypes.func.isRequired,
 		getSubtitle: PropTypes.func.isRequired
 	}).isRequired,
-	onDelete: PropTypes.func,
 	textStyle: PropTypes.object
 }
 
 LoadoutItemImage.defaultProps = {
-	onDelete: (itemId) => {},
 	textStyle: {}
 }

@@ -2,34 +2,33 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import LoadoutItem from '../../../../../shared/components/Display/LoadoutItem'
+import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
 
-
-export default function LoadoutGear ({ gear, onDelete }) {	
+export default function LoadoutWeaponAttachment ({ attachment, onDelete }) {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
 
 	return (
 		<React.Fragment>
 			<LoadoutItem
-				key={ gear.id } 
-				item={ gear } 
-				category={ 'gear' }
+				key={ attachment.id } 
+				item={ attachment } 
+				category={ 'attachments' }
 				onDelete={ () => setIsDialogOpen(true) }
 				textStyle={ {bottom: '-10px'} }
 			/>	
 					
 			<ConfirmDeleteDialog 
 				isOpen={ isDialogOpen }
-				title={ gear.getTitle() }
-				onConfirm={ () => onDelete(gear.id) }
+				title={ attachment.getTitle() }
+				onConfirm={ () => onDelete(attachment.id) }
 				onClose={ () => setIsDialogOpen(false) }
 			/>
 		</React.Fragment>
 	)
 }
 
-LoadoutGear.propTypes = {
-	gear: PropTypes.shape({
+LoadoutWeaponAttachment.propTypes = {
+	attachment: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
 		model: PropTypes.string,
 		brand: PropTypes.string,
@@ -39,6 +38,6 @@ LoadoutGear.propTypes = {
 	onDelete: PropTypes.func
 }
 
-LoadoutGear.defaultProps = {
+LoadoutWeaponAttachment.defaultProps = {
 	onDelete: (gearId) => {}
 }

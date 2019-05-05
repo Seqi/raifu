@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
-
 import LoadoutContext from '../../../LoadoutContext'
+import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
+import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
+
 import AddButton from 'app/shared/components/Buttons/AddButton'
 
 import database from '../../../../../../../firebase/database'
-import LoadoutItemImage from '../../../../../../shared/components/Images/LoadoutItemImage'
 
 class LoadoutWeaponAttachmentList extends Component {
 	constructor(props) {
@@ -48,7 +48,6 @@ class LoadoutWeaponAttachmentList extends Component {
 			.weapon(weapon.id)
 			.attachments
 			.delete(attachmentId)
-			.then(() => this.closeDialog())
 			.then(() => onAttachmentDeleted(attachmentId))
 	}
 
@@ -61,7 +60,7 @@ class LoadoutWeaponAttachmentList extends Component {
 	renderAttachments(attachments) {
 		return attachments.map(attachment => (
 			<div key={ attachment.id } className='loadout-weapon-attachment-item'>
-				<LoadoutItemImage category={ 'attachments' } item={ attachment } onDelete={ this.props.onAttachmentDeleted } />
+				<LoadoutWeaponAttachment attachment={ attachment } onDelete={ () => this.deleteAttachment(attachment.id) } />
 			</div>
 		))
 	}

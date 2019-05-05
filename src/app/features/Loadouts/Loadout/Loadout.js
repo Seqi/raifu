@@ -201,7 +201,7 @@ class Loadout extends React.Component {
 						/>
 					</div>
 
-					<Typography style={ {textAlign: 'center'} } variant='h3'>Gear</Typography>
+					<Typography variant='h4'>Gear</Typography>
 
 					<div className='loadout-slot-list'>
 						<LoadoutGearList 

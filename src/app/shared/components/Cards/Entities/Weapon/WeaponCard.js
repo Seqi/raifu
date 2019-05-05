@@ -6,14 +6,14 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
 import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
-import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
+import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
 
 import './WeaponCard.css'
 
 export default function WeaponCard({ weapon, canDelete, onClick, onDelete, style }) {
 	return (
 		<Card style={ style } onClick={ onClick } className='card weapon-card' >
-			{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
+			{ canDelete && <DeleteButton onClick={ onDelete } /> }
 			<CardHeader title={ weapon.getTitle() } subheader={ weapon.getSubtitle() } className='card-header' />
 			<CardContent className='card-content'>
 				<ArmoryItemImage entity={ weapon } category='weapons' />
