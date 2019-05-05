@@ -34,7 +34,7 @@ class LoadoutWeapon extends Component {
 
 	render() {
 		let { isDialogOpen } = this.state
-		let { loadoutId, weapon, onAttachmentAdded, onAttachmentDeleted } = this.props
+		let { loadoutId, weapon, onAttachmentsAdded, onAttachmentDeleted } = this.props
 
 		return (
 			<React.Fragment>	
@@ -60,7 +60,7 @@ class LoadoutWeapon extends Component {
 					<LoadoutWeaponAttachmentList
 						loadoutId={ loadoutId }
 						weapon={ weapon }
-						onAttachmentAdded={ onAttachmentAdded }
+						onAttachmentsAdded={ onAttachmentsAdded }
 						onAttachmentDeleted={ onAttachmentDeleted }
 					/>
 				</React.Fragment>	
@@ -96,13 +96,13 @@ LoadoutWeapon.propTypes = {
 		}))
 	}).isRequired,
 	onDelete: PropTypes.func,
-	onAttachmentAdded: PropTypes.func,
+	onAttachmentsAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func
 }
 
 LoadoutWeapon.defaultProps = {
 	onDelete: () => {},
-	onAttachmentAdded: (attachment) => {},
+	onAttachmentsAdded: (attachments) => {},
 	onAttachmentDeleted: (attachmentId) => {}
 }
 
