@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
-import CardList from 'app/shared/components/Cards/CardList'
-
 import LoadoutContext from '../../../LoadoutContext'
+import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
+import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
+
+import AddButton from 'app/shared/components/Buttons/AddButton'
 
 import database from '../../../../../../../firebase/database'
 
-class LoadoutWeaponAttachments extends Component {
+class LoadoutWeaponAttachmentList extends Component {
 	constructor(props) {
 		super(props)
 
@@ -47,7 +48,6 @@ class LoadoutWeaponAttachments extends Component {
 			.weapon(weapon.id)
 			.attachments
 			.delete(attachmentId)
-			.then(() => this.closeDialog())
 			.then(() => onAttachmentDeleted(attachmentId))
 	}
 
@@ -57,6 +57,18 @@ class LoadoutWeaponAttachments extends Component {
 			.map(a => a.id)
 	}
 
+	renderAttachments(attachments) {
+		if (!attachments) {
+			return null
+		}
+		
+		return attachments.map(attachment => (
+			<div key={ attachment.id } className='loadout-weapon-attachment-item'>
+				<LoadoutWeaponAttachment attachment={ attachment } onDelete={ () => this.deleteAttachment(attachment.id) } />
+			</div>
+		))
+	}
+
 	render() {
 		let { weapon } = this.props
 
@@ -64,13 +76,12 @@ class LoadoutWeaponAttachments extends Component {
 			<LoadoutContext.Consumer>
 				{ loadout => (
 					<React.Fragment>
-						<div className='weapon-attachments'>
-							<CardList
-								cardType='attachment'
-								items={ weapon.attachments }
-								onAdd={ () => this.openDialog() }
-								onCardDelete={ (id) => this.deleteAttachment(id) }
-							/>
+						<div className='loadout-weapon-attachment-list-container'>
+							{ this.renderAttachments(weapon.attachments)}
+
+							<div className='loadout-weapon-attachment-item'>
+								<AddButton onClick={ () => this.openDialog() } />   
+							</div>
 						</div>
 
 						<AddAttachmentDialog
@@ -88,7 +99,7 @@ class LoadoutWeaponAttachments extends Component {
 	}
 }
 
-LoadoutWeaponAttachments.propTypes = {
+LoadoutWeaponAttachmentList.propTypes = {
 	loadoutId: PropTypes.string.isRequired,
 	weapon: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
@@ -112,10 +123,10 @@ LoadoutWeaponAttachments.propTypes = {
 	onAttachmentDeleted: PropTypes.func
 }
 
-LoadoutWeaponAttachments.defaultProps = {
+LoadoutWeaponAttachmentList.defaultProps = {
 	filterAttachmentIds: [],
 	onAttachmentAdded: (attachment) => {},
 	onAttachmentDeleted: (attachmentId) => {}
 }
 
-export default LoadoutWeaponAttachments
+export default LoadoutWeaponAttachmentList

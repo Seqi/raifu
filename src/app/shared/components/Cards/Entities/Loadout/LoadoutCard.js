@@ -6,14 +6,14 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
 import LoadoutCardContent from './LoadoutCardContent'
-import CardDeleteButton from 'app/shared/components/Cards/CardDeleteButton'
+import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
 
 import './LoadoutCard.css'
 
 export default function LoadoutCard({loadout, canDelete, onClick, onDelete, style }) {	
 	return (
 		<Card style={ style } onClick={ onClick } className='card loadout-card' >
-			{ canDelete && <CardDeleteButton onClick={ onDelete } /> }
+			{ canDelete && <DeleteButton onClick={ onDelete } /> }
 
 			<CardHeader title={ loadout.getTitle() } subheader={ loadout.getSubtitle() } className='card-header' />
 			

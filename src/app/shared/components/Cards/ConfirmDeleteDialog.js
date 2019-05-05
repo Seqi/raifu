@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import Dialog from '@material-ui/core/Dialog'
@@ -6,14 +6,9 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
-class ConfirmDeleteDialog extends Component {
-
-	handleConfirm() {
-		this.props.onConfirm()
-	}
-
+class ConfirmDeleteDialog extends React.PureComponent {
 	render() {
-		let { onClose, isOpen, title } = this.props
+		let { onClose, onConfirm, isOpen, title } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
@@ -23,7 +18,7 @@ class ConfirmDeleteDialog extends Component {
 					<Button onClick={ onClose }>Cancel</Button>
 					<Button
 						variant='contained'
-						onClick={ () => this.handleConfirm() }
+						onClick={ onConfirm }
 						color='primary'
 					>
 						Delete

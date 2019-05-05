@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AddCard from 'app/shared/components/Cards/AddCard'
+import AddButton from 'app/shared/components/Buttons/AddButton'
 
+import LoadoutWeaponContainer from './LoadoutWeaponContainer'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddWeaponDialog from './AddWeaponDialog/AddWeaponDialog'
 
@@ -53,15 +54,16 @@ export default class LoadoutWeaponList extends React.Component {
         
 		let { loadoutId, onAttachmentAdd, onAttachmentDelete } = this.props
 
-		return weapons.map((weapon) => (
-			<LoadoutWeapon
-				key={ weapon.id }
-				loadoutId={ loadoutId }
-				weapon={ weapon }
-				onDelete={ (weaponId) => this.deleteWeapon(weaponId) }
-				onAttachmentAdded={ (attachment) => onAttachmentAdd(weapon.id, attachment) }
-				onAttachmentDeleted={ (attachmentId) => onAttachmentDelete(weapon.id, attachmentId) }
-			/>
+		return weapons.map((weapon) => (			
+			<LoadoutWeaponContainer key={ weapon.id }>				
+				<LoadoutWeapon
+					loadoutId={ loadoutId }
+					weapon={ weapon }
+					onDelete={ (weaponId) => this.deleteWeapon(weaponId) }
+					onAttachmentAdded={ (attachment) => onAttachmentAdd(weapon.id, attachment) }
+					onAttachmentDeleted={ (attachmentId) => onAttachmentDelete(weapon.id, attachmentId) }
+				/>
+			</LoadoutWeaponContainer>
 		))
 	}
     
@@ -72,12 +74,20 @@ export default class LoadoutWeaponList extends React.Component {
 		return (
 			<React.Fragment>       
 				{this.renderWeapons(weapons)}
-				<AddCard onClick={ () => this.openDialog() } />        
+
+				<LoadoutWeaponContainer showBottom={ true } >
+					<div style={ {
+						width: '100%',
+						height: '250px',
+					} }>
+						<AddButton onClick={ () => this.openDialog() } />        
+					</div>
+				</LoadoutWeaponContainer>
 
 				<AddWeaponDialog
 					filterIds={ weapons && weapons.map((w) => w.id) }
 					isOpen={ isDialogOpen }
-					onSave={ (weapon) => this.addWeapon(weapon) }
+					onSave={ (weaponId) => this.addWeapon(weaponId) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>

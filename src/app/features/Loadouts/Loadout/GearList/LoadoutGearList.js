@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AddCard from 'app/shared/components/Cards/AddCard'
-import LoadoutGear from './Gear/LoadoutGear'
+import AddButton from 'app/shared/components/Buttons/AddButton'
 
+import LoadoutGear from './Gear/LoadoutGear'
 import AddGearDialog from './AddGearDialog/AddGearDialog'
 
 import database from '../../../../../firebase/database'
+
+import './LoadoutGearList.css'
 
 export default class LoadoutGearList extends React.Component {
 	constructor(props) {
@@ -44,7 +46,6 @@ export default class LoadoutGearList extends React.Component {
 			.gear
 			.delete(gearId)
 			.then(() => onDelete(gearId))
-			.then(() => this.closeDialog())
 	}
 
 	renderGearList(gearList) {
@@ -53,11 +54,12 @@ export default class LoadoutGearList extends React.Component {
 		}
 		
 		return gearList.map(gear => (
-			<LoadoutGear 
-				key={ gear.id } 
-				gear={ gear } 
-				onDelete={ (gearId) => this.deleteGear(gearId) }
-			/>
+			<div key={ gear.id } className='loadout-gear-list-item'>
+				<LoadoutGear 
+					gear={ gear } 
+					onDelete={ (gearId) => this.deleteGear(gearId) }
+				/>
+			</div>
 		))
 	}
 
@@ -66,8 +68,13 @@ export default class LoadoutGearList extends React.Component {
 
 		return (
 			<React.Fragment>
-				{ this.renderGearList(gear) }
-				<AddCard onClick={ () => this.openDialog() } />
+				<div className='loadout-gear-list-container'>
+					{ this.renderGearList(gear) }
+
+					<div className='loadout-gear-list-item'>
+						<AddButton onClick={ () => this.openDialog() } />
+					</div>
+				</div>
 
 				<AddGearDialog 
 					filterIds={ gear.map(g => g.id) }

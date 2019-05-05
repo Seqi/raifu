@@ -184,8 +184,8 @@ class Loadout extends React.Component {
 
 		return (
 			<React.Fragment>
-				<Typography variant='h5'>
-					{loadout.name}
+				<Typography variant='h3' >
+					{loadout.name}					
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
 				</Typography>
 
@@ -201,7 +201,8 @@ class Loadout extends React.Component {
 						/>
 					</div>
 
-					<Typography variant='h5'>Gear</Typography>
+					<Typography variant='h4'>Gear</Typography>
+
 					<div className='loadout-slot-list'>
 						<LoadoutGearList 
 							loadoutId={ loadout.id } 
@@ -222,5 +223,6 @@ class Loadout extends React.Component {
 		)
 	}
 }
+
 
 export default withRouter(Loadout)
