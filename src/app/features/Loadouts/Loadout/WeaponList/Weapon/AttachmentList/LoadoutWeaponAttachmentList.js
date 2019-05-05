@@ -58,6 +58,10 @@ class LoadoutWeaponAttachmentList extends Component {
 	}
 
 	renderAttachments(attachments) {
+		if (!attachments) {
+			return null
+		}
+		
 		return attachments.map(attachment => (
 			<div key={ attachment.id } className='loadout-weapon-attachment-item'>
 				<LoadoutWeaponAttachment attachment={ attachment } onDelete={ () => this.deleteAttachment(attachment.id) } />
