@@ -102,7 +102,7 @@ export default {
 		grenades: ['TRMR', 'Storm 360', 'Pyro/Strike', 'Claymore'],
 		holsters: ['Leg Holster', 'Retention Holster', 'Scabbard', 'Sling'],
 		communication: ['Radio', 'Headset'],
-		misc: ['GoPro']
+		misc: ['GoPro', 'Knife']
 	},
 	attachments: {
 		sights: ['Red Dot', 'Reflex', 'Holographic', 'Telescopic'],
