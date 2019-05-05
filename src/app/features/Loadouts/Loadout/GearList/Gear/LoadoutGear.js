@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { GearCard } from 'app/shared/components/Cards/Entities'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import LoadoutItemImage from '../../../../../shared/components/Images/LoadoutItemImage'
 
 
 export default function LoadoutGear ({ gear, onDelete }) {	
@@ -10,11 +10,12 @@ export default function LoadoutGear ({ gear, onDelete }) {
 
 	return (
 		<React.Fragment>
-			<GearCard 
+			<LoadoutItemImage 
 				key={ gear.id } 
-				gear={ gear } 
-				canDelete={ true } 
+				item={ gear } 
+				category={ 'gear' }
 				onDelete={ () => setIsDialogOpen(true) }
+				textStyle={ {bottom: '-10px'} }
 			/>	
 					
 			<ConfirmDeleteDialog 

@@ -184,12 +184,10 @@ class Loadout extends React.Component {
 
 		return (
 			<React.Fragment>
-				<span>
-					<Typography variant='h3' >
-						{loadout.name}					
-						<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
-					</Typography>
-				</span>
+				<Typography variant='h3' >
+					{loadout.name}					
+					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
+				</Typography>
 
 				<LoadoutContext.Provider value={ loadout }>
 					<div className='loadout-slot-list'>
@@ -203,7 +201,8 @@ class Loadout extends React.Component {
 						/>
 					</div>
 
-					<Typography variant='h5'>Gear</Typography>
+					<Typography style={ {textAlign: 'center'} } variant='h3'>Gear</Typography>
+
 					<div className='loadout-slot-list'>
 						<LoadoutGearList 
 							loadoutId={ loadout.id } 

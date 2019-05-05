@@ -1,11 +1,3 @@
-.loadout-weapon-container{
-	display: flex;
-	width: 100%;
-
-	padding-top: 24px;
-	padding-bottom: 24px;
-}
-
 .loadout-weapon-item {
 	position: relative;
 	flex: 1;
