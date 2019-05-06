@@ -9,6 +9,7 @@ import Tab from '@material-ui/core/Tab'
 import Navbar from 'app/core/layout/Navbar/Navbar'
 import Armory from 'app/features/Armory/Armory'
 import Loadouts from 'app/features/Loadouts/Loadouts'
+import Events from 'app/features/Events/Events'
 import auth from '../../../firebase/auth'
 
 class Main extends Component {
@@ -45,12 +46,14 @@ class Main extends Component {
 					<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
 						<Tab label='Armory' component={ Link } to='/armory' />
 						<Tab label='Loadouts' component={ Link } to='/loadouts' />
+						<Tab label='Events' component={ Link } to='/events' />
 					</Tabs>
 
 					<div className='app-window'>
 						<Switch>
 							<Route path='/armory' component={ Armory } />
 							<Route path='/loadouts' component={ Loadouts } />
+							<Route path='/events' component={ Events } />
 							<Redirect from='/' to='/armory' />
 						</Switch>
 					</div>

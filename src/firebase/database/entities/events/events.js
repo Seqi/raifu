@@ -1,5 +1,5 @@
 import base from '../base-entity'
 
 export default () => {
-	return base('event')
+	return base('events')
 }
