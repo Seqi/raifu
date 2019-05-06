@@ -218,6 +218,7 @@ module.exports = () => {
 		loadout,
 		loadoutWeapon,
 		loadoutWeaponAttachment,
-		loadoutGear
+		loadoutGear,
+		event
 	}
 }
