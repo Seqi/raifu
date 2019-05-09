@@ -1,22 +1,15 @@
-let jsonifyDates = (entities) => {
-	if (Array.isArray(entities)) {
-		entities.forEach(recursivelyJsonifyDates)
-	} else {
-		recursivelyJsonifyDates(entities)
-	}
-}
+let mapEntities = require('./map-entities')
 
 let recursivelyJsonifyDates = (entity) => {
-	// Get object that contains the raw object
-	let obj = entity.dataValues ? entity.dataValues : entity
-
-	// Jsonify this objects dates if any exist
-	convertDatesToJson(obj)
-
-	// Check if any children also need dates converting
-	Object.keys(obj)
-		.filter(key => obj[key] !== null && typeof obj[key] === 'object')
-		.forEach(key => jsonifyDates(obj[key]))
+	mapEntities(entity, e => {// Jsonify this objects dates if any exist
+		convertDatesToJson(e)
+	
+		// Check if any children also need dates converting
+		Object.keys(e)
+			.filter(key => e[key] !== null && typeof e[key] === 'object')
+			.forEach(key => mapEntities(e[key], recursivelyJsonifyDates))
+	})
+	
 }
 
 let convertDatesToJson = (entity) => {
@@ -29,4 +22,4 @@ let convertDatesToJson = (entity) => {
 	}
 }
 
-module.exports = jsonifyDates
+module.exports = recursivelyJsonifyDates

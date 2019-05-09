@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('./database')
+const mapEntities = require('./map-entities')
 
 module.exports = () => {
 	const sequelize = db()
@@ -180,6 +181,16 @@ module.exports = () => {
 				model: loadout,
 				key: 'id',
 				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+			}
+		}
+	}, {
+		hooks: {
+			afterFind: (events) => {
+				mapEntities(events, event => {
+					if (event.date) {
+						event.date = event.date.toISOString()
+					}
+				})
 			}
 		}
 	})
