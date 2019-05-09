@@ -1,44 +1,16 @@
 import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 
-import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
+import EventList from './EventList'
+import Event from './Event/Event'
 
-import AddEventDialog from './AddEventDialog'
-
-import database from '../../../firebase/database'
-
-export default class Events extends CardListBaseComponent {
-
-	get items() {
-		return database.events
-	}
-
-	get cardType() {
-		return 'loadout'
-	}
-
-	formatDateThenSave(event) {
-		// Firebase functions don't like date objects...
-		if (event.date) {
-			event.date = event.date.toISOString()
-		}
-
-		this.save(event)
-	}
-
+export default class Events extends React.Component {
 	render() {
 		return (
-			<React.Fragment>
-			 { super.render() }
-
-			 <AddEventDialog 
-				onSave={ value => this.formatDateThenSave(value)} 
-				onClose={() => this.handleDialogClose() }
-				isOpen={ this.state.isAddDialogOpen } 
-			/>
-			</React.Fragment>
-
-
-			
+			<Switch>
+				<Route path='/events/:id' component={ Event } />
+				<Route path='/events' component={ EventList } />
+			</Switch>
 		)
 	}
 }

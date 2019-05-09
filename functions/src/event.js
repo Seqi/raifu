@@ -30,8 +30,9 @@ module.exports = {
 			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
 		}
 	}),
-	getById: functions.https.onAuthedCall(async (data, context) => {
-		if (!data.id) {
+	
+	getById: functions.https.onAuthedCall(async (id, context) => {
+		if (!id) {
 			console.warn(`No id was supplied for getting event by id for ${context.auth.uid}`)
 			return null
 		}
@@ -39,7 +40,7 @@ module.exports = {
 		try {
 			let event = await entities().event.findOne({
 				where: {
-					id: data.id,
+					id: id,
 					uid: context.auth.uid
 				},
 				include: {
