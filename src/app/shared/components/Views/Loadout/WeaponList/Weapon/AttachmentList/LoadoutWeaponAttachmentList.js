@@ -7,7 +7,7 @@ import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
 
 import AddButton from 'app/shared/components/Buttons/AddButton'
 
-import database from '../../../../../../../firebase/database'
+import database from '../../../../../../../../firebase/database'
 
 class LoadoutWeaponAttachmentList extends Component {
 	constructor(props) {

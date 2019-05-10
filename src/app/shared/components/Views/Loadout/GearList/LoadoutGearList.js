@@ -6,7 +6,7 @@ import AddButton from 'app/shared/components/Buttons/AddButton'
 import LoadoutGear from './Gear/LoadoutGear'
 import AddGearDialog from './AddGearDialog/AddGearDialog'
 
-import database from '../../../../../firebase/database'
+import database from '../../../../../../firebase/database'
 
 import './LoadoutGearList.css'
 

@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
 import AttachmentSelect from './AttachmentSelect'
-import database from '../../../../../../../../firebase/database'
+import database from '../../../../../../../../../firebase/database'
 
 class AddAttachmentDialog extends Component {
 	constructor(props) {

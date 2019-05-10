@@ -7,7 +7,7 @@ import LoadoutWeaponContainer from './LoadoutWeaponContainer'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddWeaponDialog from './AddWeaponDialog/AddWeaponDialog'
 
-import database from '../../../../../firebase/database'
+import database from '../../../../../../firebase/database'
 
 export default class LoadoutWeaponList extends React.Component {
 	constructor(props) {
