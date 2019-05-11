@@ -185,6 +185,7 @@ class Loadout extends React.Component {
 
 				<LoadoutView 
 					loadout={ loadout } 
+					canEdit={ true }
 					onWeaponAdd={ (weapon) => this.addWeapon(weapon) }
 					onWeaponDelete={ (weaponId) => this.deleteWeapon(weaponId) }
 					onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }

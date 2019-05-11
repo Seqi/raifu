@@ -34,7 +34,7 @@ class LoadoutWeapon extends Component {
 
 	render() {
 		let { isDialogOpen } = this.state
-		let { loadoutId, weapon, onAttachmentsAdded, onAttachmentDeleted } = this.props
+		let { loadoutId, weapon, canEdit, onAttachmentsAdded, onAttachmentDeleted } = this.props
 
 		return (
 			<React.Fragment>	
@@ -44,7 +44,7 @@ class LoadoutWeapon extends Component {
 						<Typography variant={ 'h4' } className='loadout-weapon-item-title'>
 							{ weapon.getTitle() }
 							
-							<DeleteButton style={ {position: 'initial'} } onClick={ () => this.openDialog() } />
+							{ canEdit && <DeleteButton style={ {position: 'initial'} } onClick={ () => this.openDialog() } /> }
 						</Typography>
 
 						<ArmoryItemImage 
@@ -60,17 +60,18 @@ class LoadoutWeapon extends Component {
 					<LoadoutWeaponAttachmentList
 						loadoutId={ loadoutId }
 						weapon={ weapon }
+						canEdit={ canEdit }
 						onAttachmentsAdded={ onAttachmentsAdded }
 						onAttachmentDeleted={ onAttachmentDeleted }
 					/>
 				</React.Fragment>	
 				
-				<ConfirmDeleteDialog
+				{ canEdit && <ConfirmDeleteDialog
 					title={ weapon.getTitle() }
 					isOpen={ isDialogOpen }
 					onClose={ () => this.closeDialog() }
 					onConfirm={ () => this.deleteWeapon(weapon.id) }
-				/>
+				/> }
 			</React.Fragment>
 		)
 	}
@@ -95,12 +96,14 @@ LoadoutWeapon.propTypes = {
 			getSubtitle: PropTypes.func.isRequired,
 		}))
 	}).isRequired,
+	canEdit: PropTypes.bool,
 	onDelete: PropTypes.func,
 	onAttachmentsAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func
 }
 
 LoadoutWeapon.defaultProps = {
+	canEdit: false,
 	onDelete: () => {},
 	onAttachmentsAdded: (attachments) => {},
 	onAttachmentDeleted: (attachmentId) => {}

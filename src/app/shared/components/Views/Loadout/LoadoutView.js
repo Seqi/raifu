@@ -12,13 +12,14 @@ import './Loadout.css'
 
 class LoadoutView extends React.Component {
 	render() {
-		let { loadout, onWeaponAdd, onWeaponDelete, onAttachmentsAdd, onAttachmentDelete, onGearAdd, onGearDelete } = this.props 
+		let { loadout, canEdit, onWeaponAdd, onWeaponDelete, onAttachmentsAdd, onAttachmentDelete, onGearAdd, onGearDelete } = this.props 
 		return (
 			<LoadoutContext.Provider value={ loadout }>
 				<div className='loadout-slot-list'>
 					<LoadoutWeaponList
 						loadoutId={ loadout.id }
 						weapons={ loadout.weapons }
+						canEdit={ canEdit }
 						onAdd={ onWeaponAdd } 
 						onDelete={ onWeaponDelete } 
 						onAttachmentsAdd={ onAttachmentsAdd }
@@ -32,6 +33,7 @@ class LoadoutView extends React.Component {
 					<LoadoutGearList 
 						loadoutId={ loadout.id } 
 						gear={ loadout.gear }
+						canEdit={ canEdit }
 						onAdd={ onGearAdd } 
 						onDelete={ onGearDelete } 
 					/>
@@ -64,6 +66,7 @@ LoadoutView.propTypes = {
 			}))
 		}))
 	}).isRequired,
+	canEdit: PropTypes.bool,
 	onWeaponAdd: PropTypes.func,
 	onWeaponDelete: PropTypes.func,
 	onAttachmentsAdd: PropTypes.func,
@@ -73,6 +76,7 @@ LoadoutView.propTypes = {
 }
 
 LoadoutView.defaultProps = {
+	canEdit: false,
 	onWeaponAdd: (weapon) => {},
 	onWeaponDelete: (weaponId) => {},
 	onAttachmentsAdd: (weaponId, attachments) => {},

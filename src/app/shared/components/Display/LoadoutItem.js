@@ -6,10 +6,10 @@ import LoadoutItemImage from '../Images/LoadoutItemImage'
 
 import './LoadoutItem.css'
 
-export default function LoadoutItem({ item, category, textStyle, onDelete }) {
+export default function LoadoutItem({ item, category, textStyle, canDelete, onDelete }) {
 	return (
 		<div className='loadout-item'>
-			<DeleteButton style={ {top: '10px'} } onClick={ onDelete } />
+			{ canDelete && <DeleteButton style={ {top: '10px'} } onClick={ onDelete } /> }
 			<LoadoutItemImage item={ item } category={ category } textStyle={ textStyle } />		
 		</div>
 	)
@@ -27,10 +27,12 @@ LoadoutItem.propTypes = {
 		getSubtitle: PropTypes.func.isRequired
 	}).isRequired,
 	textStyle: PropTypes.object,
+	canDelete: PropTypes.bool,
 	onDelete: PropTypes.func
 }
 
 LoadoutItem.defaultProps = {
 	textStyle: {},
+	canDelete: false,
 	onDelete: () => {}
 }
