@@ -47,7 +47,33 @@ module.exports = {
 					model: entities().loadout,				
 					attributes: {
 						exclude: ['uid']
-					}
+					},
+					include: [
+						{
+							model: entities().weapon,
+							attributes: {
+								exclude: ['uid']
+							},
+							through: { attributes: [] },
+							include: [
+								{
+									model: entities().attachment,
+									through: { attributes: [] },
+									attributes: {
+										exclude: ['uid']
+									}
+								}
+							]
+						},					
+						{
+							model: entities().gear,
+							as: 'gear',
+							attributes: {
+								exclude: ['uid']
+							},
+							through: { attributes: [] }
+						}
+					],
 				}, 
 				attributes: {
 					exclude: ['uid', 'loadout_id']

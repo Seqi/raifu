@@ -17,6 +17,23 @@ module.exports = {
 							exclude: ['uid']
 						},
 						// Prevents the association table (loadout_weapon) coming down too
+						through: { attributes: [] },
+						include: [
+							{
+								model: entities().attachment,
+								through: { attributes: [] },
+								attributes: {
+									exclude: ['uid']
+								}
+							}
+						]
+					},					
+					{
+						model: entities().gear,
+						as: 'gear',
+						attributes: {
+							exclude: ['uid']
+						},
 						through: { attributes: [] }
 					}
 				],

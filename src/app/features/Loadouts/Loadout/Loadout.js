@@ -179,7 +179,7 @@ class Loadout extends React.Component {
 		return (
 			<React.Fragment>
 				<Typography variant='h3' >
-					{loadout.name}					
+					{ loadout.getTitle() }					
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
 				</Typography>
 
