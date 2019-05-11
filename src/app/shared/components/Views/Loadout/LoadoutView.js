@@ -15,7 +15,7 @@ class LoadoutView extends React.Component {
 		let { loadout, canEdit, onWeaponAdd, onWeaponDelete, onAttachmentsAdd, onAttachmentDelete, onGearAdd, onGearDelete } = this.props 
 		return (
 			<LoadoutContext.Provider value={ loadout }>
-				<div className='loadout-slot-list'>
+				<div>
 					<LoadoutWeaponList
 						loadoutId={ loadout.id }
 						weapons={ loadout.weapons }
@@ -29,7 +29,7 @@ class LoadoutView extends React.Component {
 
 				<Typography variant='h4'>Gear</Typography>
 
-				<div className='loadout-slot-list'>
+				<div>
 					<LoadoutGearList 
 						loadoutId={ loadout.id } 
 						gear={ loadout.gear }
