@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import getImage from 'app/shared/services/armory-image-service'
 import RotatedImage from 'app/shared/components/Images/RotatedImage'
 
-class LoadoutListCardContent extends Component {
+class LoadoutCardContent extends Component {
 	getWeaponImages(weapons) {
 		let images = []
 
@@ -42,8 +42,12 @@ class LoadoutListCardContent extends Component {
 	}
 }
 
-LoadoutListCardContent.propTypes = {
-	weapons: PropTypes.array.isRequired
+LoadoutCardContent.propTypes = {
+	weapons: PropTypes.array
 }
 
-export default LoadoutListCardContent
+LoadoutCardContent.defaultProps = {
+	weapons: []
+}
+
+export default LoadoutCardContent

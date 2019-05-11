@@ -14,7 +14,7 @@ class Events extends CardListBaseComponent {
 	}
 
 	get cardType() {
-		return 'loadout'
+		return 'event'
 	}
 
 	view(event) {

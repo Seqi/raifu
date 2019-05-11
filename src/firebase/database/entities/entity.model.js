@@ -8,7 +8,19 @@ let Entity = (entity) => ({
 		return entity.nickname || `${entity.platform} ${entity.model}`
 	},
 	getSubtitle() {
-		return entity.brand || ''
+		// Armory items
+		if (entity.brand) {
+			return entity.brand
+		}
+
+		// Event items
+		if (entity.date) {
+			let d = new Date(entity.date)
+			return `${entity.location} @ ${d.toLocaleString()}`
+		}
+
+		// Loadout items
+		return ''
 	}
 })
 

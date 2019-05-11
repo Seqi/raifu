@@ -118,7 +118,7 @@ export default class Event extends React.Component {
 					</Typography>
 
 					<Typography variant='h4'>
-						{ event.location } @ { event.date.toLocaleString() }
+						{ event.getSubtitle() }
 					</Typography>
 				</React.Fragment>
 

@@ -14,6 +14,12 @@ module.exports = {
 					model: entities().loadout,				
 					attributes: {
 						exclude: ['uid']
+					},
+					include: {
+						model: entities().weapon,			
+						attributes: {
+							exclude: ['uid']
+						}
 					}
 				}, 
 				attributes: {
