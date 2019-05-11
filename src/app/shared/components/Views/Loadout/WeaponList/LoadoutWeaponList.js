@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AddButton from 'app/shared/components/Buttons/AddButton'
-
-import LoadoutWeaponContainer from './LoadoutWeaponContainer'
+import LoadoutAdd from '../LoadoutAdd'
+import LoadoutSeparator from '../LoadoutSeparator'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddWeaponDialog from './AddWeaponDialog/AddWeaponDialog'
 
@@ -55,7 +54,7 @@ export default class LoadoutWeaponList extends React.Component {
 		let { loadoutId, canEdit, onAttachmentsAdd, onAttachmentDelete } = this.props
 
 		return weapons.map((weapon) => (			
-			<LoadoutWeaponContainer key={ weapon.id }>				
+			<LoadoutSeparator key={ weapon.id }>				
 				<LoadoutWeapon
 					loadoutId={ loadoutId }
 					weapon={ weapon }
@@ -64,7 +63,7 @@ export default class LoadoutWeaponList extends React.Component {
 					onAttachmentsAdded={ (attachments) => onAttachmentsAdd(weapon.id, attachments) }
 					onAttachmentDeleted={ (attachmentId) => onAttachmentDelete(weapon.id, attachmentId) }
 				/>
-			</LoadoutWeaponContainer>
+			</LoadoutSeparator>
 		))
 	}
     
@@ -77,17 +76,12 @@ export default class LoadoutWeaponList extends React.Component {
 				{this.renderWeapons(weapons)}
 
 				{ canEdit && 
-					<LoadoutWeaponContainer showBottom={ true } >
-						<div style={ {
-							width: '100%',
-							height: '250px',
-						} }>
-							<AddButton onClick={ () => this.openDialog() } />
-						</div>
-					</LoadoutWeaponContainer>
+					<LoadoutSeparator showBottom={ true } >
+						<LoadoutAdd onClick={ () => this.openDialog() } />
+					</LoadoutSeparator>
 				}
 
-				{ !canEdit && <LoadoutWeaponContainer /> }
+				{ !canEdit && <LoadoutSeparator /> }
 
 				{ canEdit && <AddWeaponDialog
 					filterIds={ weapons && weapons.map((w) => w.id) }
