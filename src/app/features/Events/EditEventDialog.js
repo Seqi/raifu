@@ -10,15 +10,16 @@ import Button from '@material-ui/core/Button'
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
 
-class AddLoadoutDialog extends Component {
+class EditEventDialog extends Component {
 	constructor(props) {
 		super(props)
+		
 		this.state = {
-			name: '',
-			location: '',
-			date: new Date()
+			name: props.event.name,
+			location: props.event.location,
+			date: props.event.date
 		}
-	}
+	}	
 
 	handleInputChange(e) {
 		this.setState({ [e.target.id || e.target.name]: e.target.value })
@@ -35,6 +36,7 @@ class AddLoadoutDialog extends Component {
 	}
 
 	render() {
+		let { name, location, date } = this.state 
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ this.props.onClose }>
 				<DialogTitle>Add loadout</DialogTitle>
@@ -45,6 +47,7 @@ class AddLoadoutDialog extends Component {
 						label='Name'
 						type='text'
 						fullWidth={ true }
+						value={ name }
 						onChange={ (e) => this.handleInputChange(e) }
 					/>
 
@@ -53,16 +56,18 @@ class AddLoadoutDialog extends Component {
 						label='Location'
 						type='text'
 						fullWidth={ true }
+						value={ location }
 						onChange={ (e) => this.handleInputChange(e) }
 					/>
 
 					<MuiPickersUtilsProvider utils={ MomentUtils }>
-	    			  <DateTimePicker
-							variant='standard'
-							fullWidth={true}
-							value={ this.state.date }
-							label='Date'
-							onChange={ (e) => this.handleInputChange(e) }
+						<DateTimePicker 
+							id='date'
+							variant='standard' 
+							fullWidth={ true } 
+							value={ date } 
+							label='Date' 
+							onChange={ (date) => this.handleInputChange({ target: { id: 'date', value: date.toDate() }}) } 
 						/> 
 					</MuiPickersUtilsProvider>
 				</DialogContent>
@@ -83,10 +88,23 @@ class AddLoadoutDialog extends Component {
 	}
 }
 
-AddLoadoutDialog.propTypes = {
+EditEventDialog.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired
+	onSave: PropTypes.func.isRequired,	
+	event: PropTypes.shape({
+		name: PropTypes.string.isRequired,
+		date: PropTypes.object,
+		location: PropTypes.string.isRequired
+	})
 }
 
-export default AddLoadoutDialog
+EditEventDialog.defaultProps = {
+	event: {
+		name: '',
+		location: '',
+		date: new Date()
+	}
+}
+
+export default EditEventDialog

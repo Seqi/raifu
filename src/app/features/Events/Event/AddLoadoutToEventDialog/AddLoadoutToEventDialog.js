@@ -9,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import database from '../../../../firebase/database'
+import database from '../../../../../firebase/database'
 
 export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onClose}) {
 	let [loadouts, setLoadouts] = useState([])

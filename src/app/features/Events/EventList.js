@@ -3,7 +3,7 @@ import withRouter from 'react-router-dom/withRouter'
 
 import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
 
-import AddEventDialog from './AddEventDialog'
+import EditEventDialog from './EditEventDialog'
 
 import database from '../../../firebase/database'
 
@@ -35,9 +35,9 @@ class Events extends CardListBaseComponent {
 			<React.Fragment>
 				{ super.render() }
 
-				<AddEventDialog 
+				<EditEventDialog 
 					onSave={ value => this.formatDateThenSave(value) } 
-					onClose={ () => this.handleDialogClose() }
+					onClose={ () => this.handleAddDialogClose() }
 					isOpen={ this.state.isAddDialogOpen } 
 				/>
 			</React.Fragment>			
