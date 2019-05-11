@@ -1,10 +1,12 @@
 import React from 'react'
 
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 import LoadoutSeparator from 'app/shared/components/Views/Loadout/LoadoutSeparator'
 import LoadoutAdd from 'app/shared/components/Views/Loadout/LoadoutAdd'
+import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import Loader from 'app/shared/components/Loader'
 
 import EditEventDialog from '../EditEventDialog'
@@ -63,7 +65,7 @@ export default class Event extends React.Component {
 	setLoadout(loadout) {
 		// Filter out any functions or joins before passing back up
 		let updatedEvent = this.rawEvent
-		this.rawEvent.loadout_id = loadout ? loadout.id : null
+		updatedEvent.loadout_id = loadout ? loadout.id : null
 
 		database.events.edit(updatedEvent)
 			.then(() => this.setState((prevState) => {
@@ -128,7 +130,30 @@ export default class Event extends React.Component {
 					</LoadoutSeparator>
 				}
 
-				{ event.loadout && <LoadoutView loadout={ event.loadout } /> }
+				{ event.loadout && 
+				<div style={ {width: '100%'} }>
+					<Button 
+						color='primary' 
+						variant='outlined'
+						style={ {
+							width: '100%',
+							marginBottom: '-24px'
+						} }
+						onClick={ () => this.openDialog('delete') }
+					>
+						Remove Loadout
+					</Button>
+					<LoadoutView loadout={ event.loadout } /> 
+
+					<ConfirmDeleteDialog 
+						verb='Remove'
+						title={ `${event.loadout.getTitle()} from ${event.getTitle()}` }
+						isOpen={ activeDialog === 'delete' }
+						onClose={ () => this.openDialog(null) }
+						onConfirm={ () => this.setLoadout(null) }
+					/>
+				</div>
+				}
 
 				<AddLoadoutToEventDialog 
 					eventTitle={ event.getTitle() }

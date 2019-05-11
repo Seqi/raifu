@@ -8,11 +8,11 @@ import Button from '@material-ui/core/Button'
 
 class ConfirmDeleteDialog extends React.PureComponent {
 	render() {
-		let { onClose, onConfirm, isOpen, title } = this.props
+		let { verb, onClose, onConfirm, isOpen, title } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
-				<DialogTitle>Delete { title }?</DialogTitle>
+				<DialogTitle>{ verb } { title }?</DialogTitle>
 
 				<DialogActions>
 					<Button onClick={ onClose }>Cancel</Button>
@@ -21,7 +21,7 @@ class ConfirmDeleteDialog extends React.PureComponent {
 						onClick={ onConfirm }
 						color='primary'
 					>
-						Delete
+						{ verb }
 					</Button>
 				</DialogActions>
 			</Dialog>
@@ -31,9 +31,14 @@ class ConfirmDeleteDialog extends React.PureComponent {
 
 ConfirmDeleteDialog.propTypes = {
 	title: PropTypes.string.isRequired,
+	verb: PropTypes.oneOf(['Delete', 'Remove']),
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onConfirm: PropTypes.func.isRequired
+}
+
+ConfirmDeleteDialog.defaultProps = {
+	verb: 'Delete'
 }
 
 export default ConfirmDeleteDialog
