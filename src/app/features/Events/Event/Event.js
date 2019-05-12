@@ -82,6 +82,8 @@ export default class Event extends React.Component {
 			...event
 		}
 
+		console.log(event)
+
 		// Firebase functions don't like date objects...
 		if (updatedEvent.date) {
 			updatedEvent.date = updatedEvent.date.toISOString()
@@ -115,12 +117,12 @@ export default class Event extends React.Component {
 			<React.Fragment>
 				<React.Fragment>
 					<Typography variant='h3' >
-						{ event.getTitle() }
+						{ event.name }
 						<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />
 					</Typography>
 
 					<Typography variant='h4'>
-						{ event.getSubtitle() }
+						{ event.location } @ { event.date.toLocaleString() }
 					</Typography>
 				</React.Fragment>
 
