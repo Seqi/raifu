@@ -82,8 +82,6 @@ export default class Event extends React.Component {
 			...event
 		}
 
-		console.log(event)
-
 		// Firebase functions don't like date objects...
 		if (updatedEvent.date) {
 			updatedEvent.date = updatedEvent.date.toISOString()
