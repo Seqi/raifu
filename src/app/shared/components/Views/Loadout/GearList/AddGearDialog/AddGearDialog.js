@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button'
 
 import GearSelect from './GearSelect'
 
-import database from '../../../../../../firebase/database'
+import database from '../../../../../../../firebase/database'
 
 class AddGearDialog extends Component {
 	constructor(props) {

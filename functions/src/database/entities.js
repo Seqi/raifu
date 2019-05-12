@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('./database')
+const mapEntities = require('./map-entities')
 
 module.exports = () => {
 	const sequelize = db()
@@ -152,6 +153,51 @@ module.exports = () => {
 		}
 	})
 
+	const event = sequelize.define('event', {
+		id: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false,
+			primaryKey: true,
+			defaultValue: ''
+		},
+		name: {
+			type: Sequelize.STRING({ length: 256 }),
+			allowNull: false
+		},
+		location: {
+			type: Sequelize.STRING({ length: 256 }),
+			allowNull: false
+		},
+		date: {
+			type: 'TIMESTAMP'
+		},
+		uid: {
+			type: Sequelize.STRING({ length: 32 }),
+			allowNull: false
+		},
+		loadout_id: {
+			type: Sequelize.STRING({ length: 14 }),
+			references: {
+				model: loadout,
+				key: 'id',
+				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+			}
+		}
+	}, {
+		hooks: {
+			afterFind: (events) => {
+				mapEntities(events, event => {
+					if (event.date) {
+						event.date = event.date.toISOString()
+					}
+				})
+			}
+		}
+	})
+
+	// Event loadout association
+	event.belongsTo(loadout, { foreignKey: 'loadout_id' })
+
 	// Loadout Weapon Associations
 	loadout.belongsToMany(weapon, { through: loadoutWeapon, foreignKey: 'loadout_id' })
 	weapon.belongsToMany(loadout, { through: loadoutWeapon, foreignKey: 'weapon_id' })
@@ -177,13 +223,13 @@ module.exports = () => {
 	gear.belongsToMany(loadout, { through: loadoutGear, foreignKey: 'gear_id' })
 
 	return {
-		sequelize,
 		weapon,
 		attachment,
 		gear,
 		loadout,
 		loadoutWeapon,
 		loadoutWeaponAttachment,
-		loadoutGear
+		loadoutGear,
+		event
 	}
 }

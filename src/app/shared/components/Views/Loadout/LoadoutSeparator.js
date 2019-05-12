@@ -3,13 +3,15 @@ import PropTypes from 'prop-types'
 
 import { withTheme } from '@material-ui/core'
 
-import './LoadoutWeaponContainer.css'
-
-function LoadoutWeaponContainer(props) {
+function LoadoutSeparator(props) {
 	let borderStyle = `1px solid ${props.theme.palette.primary.main}`
 
 	return (
-		<div className='loadout-weapon-container' style={ {					
+		<div className='loadout-weapon-container' style={ {			
+			display: 'flex',
+			width: '100%',
+			paddingTop: '24px',
+			paddingBottom: '24px',		
 			marginTop: '24px',
 			marginBottom: '24px',
 			borderTop: borderStyle,
@@ -20,12 +22,12 @@ function LoadoutWeaponContainer(props) {
 	)
 }		
 
-LoadoutWeaponContainer.propTypes = {
+LoadoutSeparator.propTypes = {
 	showBottom: PropTypes.bool
 }
 
-LoadoutWeaponContainer.defaultProps = {
+LoadoutSeparator.defaultProps = {
 	showBottom: false
 }
 
-export default withTheme()(LoadoutWeaponContainer)
+export default withTheme()(LoadoutSeparator)

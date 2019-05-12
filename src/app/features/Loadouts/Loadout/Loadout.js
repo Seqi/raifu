@@ -1,17 +1,11 @@
-import './Loadout.css'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-
 import Typography from '@material-ui/core/Typography'
 
-import EditLoadoutDialog from './EditLoadoutNameDialog'
-import LoadoutGearList from './GearList/LoadoutGearList'
-import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
-
 import Loader from 'app/shared/components/Loader'
+import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 
-import LoadoutContext from './LoadoutContext'
-
+import EditLoadoutDialog from './EditLoadoutNameDialog'
 import database from '../../../../firebase/database'
 
 class Loadout extends React.Component {
@@ -185,33 +179,20 @@ class Loadout extends React.Component {
 		return (
 			<React.Fragment>
 				<Typography variant='h3' >
-					{loadout.name}					
+					{ loadout.getTitle() }					
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
 				</Typography>
 
-				<LoadoutContext.Provider value={ loadout }>
-					<div className='loadout-slot-list'>
-						<LoadoutWeaponList
-							loadoutId={ loadout.id }
-							weapons={ loadout.weapons }
-							onAdd={ weapon => this.addWeapon(weapon) } 
-							onDelete={ id => this.deleteWeapon(id) } 
-							onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }
-							onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
-						/>
-					</div>
-
-					<Typography variant='h4'>Gear</Typography>
-
-					<div className='loadout-slot-list'>
-						<LoadoutGearList 
-							loadoutId={ loadout.id } 
-							gear={ loadout.gear }
-							onAdd={ gear => this.addGear(gear) } 
-							onDelete={ id => this.deleteGear(id) } 
-						/>
-					</div>
-				</LoadoutContext.Provider>
+				<LoadoutView 
+					loadout={ loadout } 
+					canEdit={ true }
+					onWeaponAdd={ (weapon) => this.addWeapon(weapon) }
+					onWeaponDelete={ (weaponId) => this.deleteWeapon(weaponId) }
+					onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }
+					onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
+					onGearAdd={ (gear) => this.addGear(gear) }
+					onGearDelete={ (gearId) => this.deleteGear(gearId) }
+				/>
 
 				<EditLoadoutDialog
 					name={ loadout.name }

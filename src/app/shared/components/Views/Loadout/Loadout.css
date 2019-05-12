@@ -4,11 +4,6 @@
 	cursor: pointer;
 }
 
-.loadout-slot-list {
-	display: flex;
-	flex-wrap: wrap;
-}
-
 .loadout-select-list {
 	display: flex;
 	flex-wrap: wrap;

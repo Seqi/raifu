@@ -17,6 +17,23 @@ module.exports = {
 							exclude: ['uid']
 						},
 						// Prevents the association table (loadout_weapon) coming down too
+						through: { attributes: [] },
+						include: [
+							{
+								model: entities().attachment,
+								through: { attributes: [] },
+								attributes: {
+									exclude: ['uid']
+								}
+							}
+						]
+					},					
+					{
+						model: entities().gear,
+						as: 'gear',
+						attributes: {
+							exclude: ['uid']
+						},
 						through: { attributes: [] }
 					}
 				],
@@ -28,10 +45,10 @@ module.exports = {
 			// Hacky way to get the raw, nested data
 			// Can't figure out how to get sequelize to do this!
 			// raw=true doesnt work
-			let data = JSON.parse(JSON.stringify(loadouts))
-			console.log('Successfuly retrieved loadouts', JSON.stringify(data))
+			let result = JSON.parse(JSON.stringify(loadouts))
+			console.log('Successfuly retrieved loadouts', JSON.stringify(result))
 
-			return data
+			return result
 		} catch (e) {
 			console.error(`Error retrieving loadouts for ${context.auth.uid}`, e)
 			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
@@ -41,6 +58,7 @@ module.exports = {
 	getById: functions.https.onAuthedCall(async (id, context) => {
 		if (!id) {
 			console.warn(`No id was supplied for getting loadout by id for ${context.auth.uid}`)
+			return null
 		}
 
 		try {

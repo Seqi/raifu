@@ -69,3 +69,14 @@ CREATE TABLE IF NOT EXISTS "loadout_gear" (
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     UNIQUE ("loadout_id", "gear_id"), 
     PRIMARY KEY ("id"));
+
+CREATE TABLE IF NOT EXISTS "events" (
+    "id" VARCHAR(14) NOT NULL DEFAULT '' , 
+    "name" VARCHAR(256) NOT NULL, 
+    "location" VARCHAR(256) NOT NULL, 
+    "date" TIMESTAMP WITH TIME ZONE, 
+    "uid" VARCHAR(32) NOT NULL, 
+    "loadout_id" VARCHAR(14) REFERENCES "loadouts" ("id") ON DELETE NO ACTION ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE, 
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+     PRIMARY KEY ("id"));

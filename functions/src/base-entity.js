@@ -50,6 +50,20 @@ module.exports = (entities, entityName = 'entity') => ({
 		}
 
 		try {
+
+			// Ensure this id exists and belongs to the user
+			let exists = (await entities.count({
+				where: {
+					id: data.id,
+					uid: context.auth.uid
+				}
+			})) === 1
+
+			if (!exists) {
+				console.warn(`Entity with id ${data.id} does not exist for user ${data.auth.uid}`)
+				return new functions.https.HttpsError('not-found')
+			}
+
 			// Overwrite any attempts to hijack the uid
 			let entity = {
 				...data,

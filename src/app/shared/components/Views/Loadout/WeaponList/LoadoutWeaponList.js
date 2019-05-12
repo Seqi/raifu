@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AddButton from 'app/shared/components/Buttons/AddButton'
-
-import LoadoutWeaponContainer from './LoadoutWeaponContainer'
+import LoadoutAdd from '../LoadoutAdd'
+import LoadoutSeparator from '../LoadoutSeparator'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddWeaponDialog from './AddWeaponDialog/AddWeaponDialog'
 
-import database from '../../../../../firebase/database'
+import database from '../../../../../../firebase/database'
 
 export default class LoadoutWeaponList extends React.Component {
 	constructor(props) {
@@ -52,44 +51,44 @@ export default class LoadoutWeaponList extends React.Component {
 			return null
 		}
         
-		let { loadoutId, onAttachmentsAdd, onAttachmentDelete } = this.props
+		let { loadoutId, canEdit, onAttachmentsAdd, onAttachmentDelete } = this.props
 
 		return weapons.map((weapon) => (			
-			<LoadoutWeaponContainer key={ weapon.id }>				
+			<LoadoutSeparator key={ weapon.id }>				
 				<LoadoutWeapon
 					loadoutId={ loadoutId }
 					weapon={ weapon }
+					canEdit={ canEdit }
 					onDelete={ (weaponId) => this.deleteWeapon(weaponId) }
 					onAttachmentsAdded={ (attachments) => onAttachmentsAdd(weapon.id, attachments) }
 					onAttachmentDeleted={ (attachmentId) => onAttachmentDelete(weapon.id, attachmentId) }
 				/>
-			</LoadoutWeaponContainer>
+			</LoadoutSeparator>
 		))
 	}
     
 	render() {
 		let { isDialogOpen } = this.state
-		let { weapons } = this.props
+		let { weapons, canEdit } = this.props
         
 		return (
 			<React.Fragment>       
 				{this.renderWeapons(weapons)}
 
-				<LoadoutWeaponContainer showBottom={ true } >
-					<div style={ {
-						width: '100%',
-						height: '250px',
-					} }>
-						<AddButton onClick={ () => this.openDialog() } />        
-					</div>
-				</LoadoutWeaponContainer>
+				{ canEdit && 
+					<LoadoutSeparator showBottom={ true } >
+						<LoadoutAdd onClick={ () => this.openDialog() } />
+					</LoadoutSeparator>
+				}
 
-				<AddWeaponDialog
+				{ !canEdit && <LoadoutSeparator /> }
+
+				{ canEdit && <AddWeaponDialog
 					filterIds={ weapons && weapons.map((w) => w.id) }
 					isOpen={ isDialogOpen }
 					onSave={ (weaponId) => this.addWeapon(weaponId) }
 					onClose={ () => this.closeDialog() }
-				/>
+				/> }
 			</React.Fragment>
 		)
 	}
@@ -98,6 +97,7 @@ export default class LoadoutWeaponList extends React.Component {
 LoadoutWeaponList.propTypes = {
 	loadoutId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 	weapons: PropTypes.array,
+	canEdit: PropTypes.bool,
 	onAdd: PropTypes.func,
 	onDelete: PropTypes.func,
 	onAttachmentsAdd: PropTypes.func,
@@ -106,6 +106,7 @@ LoadoutWeaponList.propTypes = {
 
 LoadoutWeaponList.defaultProps = {
 	weapons: [],
+	canEdit: false,
 	onAdd: weapon => {},
 	onDelete: weaponId => {},
 	onAttachmentsAdd: (weaponId, attachments) => {},

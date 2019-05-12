@@ -6,7 +6,7 @@ import AddButton from 'app/shared/components/Buttons/AddButton'
 import LoadoutGear from './Gear/LoadoutGear'
 import AddGearDialog from './AddGearDialog/AddGearDialog'
 
-import database from '../../../../../firebase/database'
+import database from '../../../../../../firebase/database'
 
 import './LoadoutGearList.css'
 
@@ -57,6 +57,7 @@ export default class LoadoutGearList extends React.Component {
 			<div key={ gear.id } className='loadout-gear-list-item'>
 				<LoadoutGear 
 					gear={ gear } 
+					canDelete={ this.props.canEdit }
 					onDelete={ (gearId) => this.deleteGear(gearId) }
 				/>
 			</div>
@@ -64,24 +65,26 @@ export default class LoadoutGearList extends React.Component {
 	}
 
 	render() {
-		let { gear } = this.props
+		let { gear, canEdit } = this.props
 
 		return (
 			<React.Fragment>
 				<div className='loadout-gear-list-container'>
 					{ this.renderGearList(gear) }
 
-					<div className='loadout-gear-list-item'>
-						<AddButton onClick={ () => this.openDialog() } />
-					</div>
+					{ canEdit && 
+						<div className='loadout-gear-list-item'>
+							<AddButton onClick={ () => this.openDialog() } />
+						</div>
+					}
 				</div>
 
-				<AddGearDialog 
+				{ canEdit && <AddGearDialog 
 					filterIds={ gear.map(g => g.id) }
 					isOpen={ this.state.isDialogOpen } 
 					onSave={ gearId => this.addGear(gearId) }
 					onClose={ () => this.closeDialog() } 
-				/> 
+				/> }
 					
 			</React.Fragment>
 		)
@@ -91,12 +94,14 @@ export default class LoadoutGearList extends React.Component {
 LoadoutGearList.propTypes = {
 	loadoutId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 	gear: PropTypes.array,
+	canEdit: PropTypes.bool,
 	onAdd: PropTypes.func,
 	onDelete: PropTypes.func
 }
 
 LoadoutGearList.defaultProps = {
 	gear: [],
+	canEdit: false,
 	onAdd: gear => {},
 	onDelete: gearId => {}
 }

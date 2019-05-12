@@ -7,7 +7,7 @@ import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
 
 import AddButton from 'app/shared/components/Buttons/AddButton'
 
-import database from '../../../../../../../firebase/database'
+import database from '../../../../../../../../firebase/database'
 
 class LoadoutWeaponAttachmentList extends Component {
 	constructor(props) {
@@ -68,13 +68,13 @@ class LoadoutWeaponAttachmentList extends Component {
 		
 		return attachments.map(attachment => (
 			<div key={ attachment.id } className='loadout-weapon-attachment-item'>
-				<LoadoutWeaponAttachment attachment={ attachment } onDelete={ () => this.deleteAttachment(attachment.id) } />
+				<LoadoutWeaponAttachment attachment={ attachment } canEdit={ this.props.canEdit } onDelete={ () => this.deleteAttachment(attachment.id) } />
 			</div>
 		))
 	}
 
 	render() {
-		let { weapon } = this.props
+		let { weapon, canEdit } = this.props
 
 		return (
 			<LoadoutContext.Consumer>
@@ -83,19 +83,21 @@ class LoadoutWeaponAttachmentList extends Component {
 						<div className='loadout-weapon-attachment-list-container'>
 							{ this.renderAttachments(weapon.attachments)}
 
-							<div className='loadout-weapon-attachment-item'>
-								<AddButton onClick={ () => this.openDialog() } />   
-							</div>
+							{ canEdit && 
+								<div className='loadout-weapon-attachment-item'>
+									<AddButton onClick={ () => this.openDialog() } />   
+								</div> 
+							}
 						</div>
 
-						<AddAttachmentDialog
+						{ canEdit && <AddAttachmentDialog
 							weaponId={ weapon.id }
 							weaponName={ weapon.getTitle() }
 							filterIds={ this.getAttachmentsToFilter(loadout) }
 							isOpen={ this.state.isDialogOpen }
 							onClose={ () => this.closeDialog() }
 							onSave={ (ids) => this.addAttachments(ids) }
-						/>
+						/> }
 					</React.Fragment>
 				)}
 			</LoadoutContext.Consumer>
@@ -123,12 +125,14 @@ LoadoutWeaponAttachmentList.propTypes = {
 			getSubtitle: PropTypes.func.isRequired,
 		}))
 	}).isRequired,
+	canEdit: PropTypes.bool,
 	onAttachmentsAdded: PropTypes.func,
 	onAttachmentDeleted: PropTypes.func
 }
 
 LoadoutWeaponAttachmentList.defaultProps = {
 	filterAttachmentIds: [],
+	canEdit: false,
 	onAttachmentsAdded: (attachment) => {},
 	onAttachmentDeleted: (attachmentId) => {}
 }
