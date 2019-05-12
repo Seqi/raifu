@@ -141,7 +141,7 @@ export default class Event extends React.Component {
 						} }
 						onClick={ () => this.openDialog('delete') }
 					>
-						Remove Loadout
+						Remove Loadout ({ event.loadout.getTitle() })
 					</Button>
 					<LoadoutView loadout={ event.loadout } /> 
 
