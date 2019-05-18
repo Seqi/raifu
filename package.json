@@ -23,7 +23,7 @@
 		"prettier": "^1.17.0"
 	},
 	"scripts": {
-		"start": "concurrently -c \"green.bold,red.bold\" --kill-others \"npm:server\" \"npm:functions",
+		"start": "concurrently -c \"green.bold,red.bold\" --kill-others \"npm:server\" \"npm:functions\"",
 		"server": "react-scripts start",
 		"functions": "firebase serve --only functions",
 		"build": "react-scripts build",
