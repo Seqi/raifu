@@ -81,11 +81,7 @@ class CardList extends Component {
 			}
 
 			else if (cardType === 'loadout') {
-				return <LoadoutCard loadout={ item } weapons={ item.weapons } { ...sharedProps }	/>
-			}
-
-			else if (cardType === 'event') {
-				return <LoadoutCard loadout={ item } weapons={ item.loadout ? item.loadout.weapons : [] } { ...sharedProps }	/>
+				return <LoadoutCard loadout={ item } { ...sharedProps }	/>
 			}
 
 			throw Error('Unsupported card type')

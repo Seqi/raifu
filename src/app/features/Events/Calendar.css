@@ -1,0 +1,32 @@
+.rbc-off-range-bg,
+.rbc-today {
+	background: inherit;
+}
+
+.rbc-header {
+	/* Fixes the lines being off */
+	padding: 0;
+}
+
+.rbc-toolbar {
+	flex-direction: row-reverse;
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+	padding: 0;
+	font-size: 2.5rem;
+	text-align: left;
+}
+
+.rbc-day-bg {
+	cursor: pointer;
+}
+
+.rbc-event {
+	font-size: 1rem;
+	text-overflow: ellipsis;
+}
+
+.rbc-selected-cell {
+	background-color: inherit;
+}

@@ -43,11 +43,7 @@ class LoadoutCardContent extends Component {
 }
 
 LoadoutCardContent.propTypes = {
-	weapons: PropTypes.array
-}
-
-LoadoutCardContent.defaultProps = {
-	weapons: []
+	weapons: PropTypes.array.isRequired
 }
 
 export default LoadoutCardContent

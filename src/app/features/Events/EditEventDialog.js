@@ -13,11 +13,11 @@ import MomentUtils from '@date-io/moment'
 class EditEventDialog extends Component {
 	constructor(props) {
 		super(props)
-		
+
 		this.state = {
 			name: props.event.name,
 			location: props.event.location,
-			date: props.event.date
+			date: props.date || props.event.date
 		}
 	}	
 
@@ -39,7 +39,7 @@ class EditEventDialog extends Component {
 		let { name, location, date } = this.state 
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ this.props.onClose }>
-				<DialogTitle>Add loadout</DialogTitle>
+				<DialogTitle>Add event</DialogTitle>
 
 				<DialogContent>
 					<TextField
@@ -89,6 +89,7 @@ class EditEventDialog extends Component {
 }
 
 EditEventDialog.propTypes = {
+	date: PropTypes.instanceOf(Date),
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired,	
@@ -100,10 +101,11 @@ EditEventDialog.propTypes = {
 }
 
 EditEventDialog.defaultProps = {
+	date: null,
 	event: {
 		name: '',
 		location: '',
-		date: new Date()
+		date: null
 	}
 }
 
