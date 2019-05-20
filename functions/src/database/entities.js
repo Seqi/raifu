@@ -191,6 +191,11 @@ module.exports = () => {
 						event.date = event.date.toISOString()
 					}
 				})
+			},
+			afterCreate: (event) => {
+				console.log('-######################event created!#####################')
+				console.log(event)
+				event.date = event.date.toISOString()
 			}
 		}
 	})
