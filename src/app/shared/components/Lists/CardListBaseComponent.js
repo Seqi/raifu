@@ -66,7 +66,7 @@ class CardListBaseComponent extends Component {
 
 		return (
 			<React.Fragment>
-				<Typography variant='h6'>{this.title}</Typography>
+				<Typography variant='h3'>{this.title}</Typography>
 				{loading ? (
 					<Loader />
 				) : error ? (

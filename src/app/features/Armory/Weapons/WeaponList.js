@@ -6,7 +6,7 @@ import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseCompo
 
 class WeaponList extends CardListBaseComponent {
 	get title() {
-		return 'WEAPONS'
+		return 'Weapons'
 	}
 
 	get items() {

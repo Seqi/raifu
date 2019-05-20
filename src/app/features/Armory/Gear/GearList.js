@@ -7,7 +7,7 @@ import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseCompo
 
 class GearList extends CardListBaseComponent {
 	get title() {
-		return 'GEAR'
+		return 'Gear'
 	}
 
 	get items() {

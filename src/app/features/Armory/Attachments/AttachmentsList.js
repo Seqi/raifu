@@ -7,7 +7,7 @@ import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseCompo
 
 class AttachmentsList extends CardListBaseComponent {
 	get title() {
-		return 'ATTACHMENTS'
+		return 'Attachments'
 	}
 
 	get items() {
