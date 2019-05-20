@@ -11,7 +11,7 @@ class RotatedImage extends Component {
 		}
 	}
 
-	componentDidMount() {
+	setXMargin() {
 		this.setState((prevState) => {
 			return { xMargin: this.calculateAddedXMargin(prevState.containerRef) }
 		})
@@ -42,7 +42,7 @@ class RotatedImage extends Component {
 
 		return (
 			<span ref={ containerRef } style={ { marginLeft: xMargin, marginRight: xMargin } }>
-				<img alt='' src={ image } style={ { transform: `rotate(${rotateBy}deg)` } } />
+				<img onLoad={ () => this.setXMargin() } alt='' src={ image } style={ { transform: `rotate(${rotateBy}deg)` } } />
 			</span>
 		)
 	}
