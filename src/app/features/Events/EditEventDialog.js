@@ -39,7 +39,7 @@ class EditEventDialog extends Component {
 		let { name, location, date } = this.state 
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ this.props.onClose }>
-				<DialogTitle>Add event</DialogTitle>
+				<DialogTitle>{ this.props.event.date ? 'Edit' : 'Add' } event</DialogTitle>
 
 				<DialogContent>
 					<TextField
