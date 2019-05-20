@@ -11,6 +11,9 @@ module.exports = () => {
 		sequelize = new Sequelize(config.database, config.user, config.password, {
 			host: config.host,
 			dialect: 'postgres',
+			dialectOptions: {
+				useUTC: false
+			},
 			define: {
 				hooks: {
 					beforeCreate: (model) => {
