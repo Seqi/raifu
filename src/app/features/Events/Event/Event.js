@@ -1,4 +1,5 @@
 import React from 'react'
+import withRouter from 'react-router-dom/withRouter'
 
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -14,7 +15,7 @@ import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEvent
 
 import database from '../../../../firebase/database'
 
-export default class Event extends React.Component {
+class Event extends React.Component {
 
 	constructor(props) {
 		super(props)
@@ -100,6 +101,11 @@ export default class Event extends React.Component {
 			.then(() => this.openDialog(null))
 	}
 
+	deleteEvent() {
+		database.events.delete(this.state.event.id)
+			.then(() => this.props.history.push('/events'))
+	}
+
 	render() {
 		let { loading, error, event, activeDialog } = this.state
 
@@ -116,7 +122,8 @@ export default class Event extends React.Component {
 				<React.Fragment>
 					<Typography variant='h3' >
 						{ event.name }
-						<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />
+						<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />						
+						<i onClick={ () => this.openDialog('delete') } className='fa fa-times icon-action' />
 					</Typography>
 
 					<Typography variant='h4'>
@@ -139,16 +146,17 @@ export default class Event extends React.Component {
 							width: '100%',
 							marginBottom: '-24px'
 						} }
-						onClick={ () => this.openDialog('delete') }
+						onClick={ () => this.openDialog('remove') }
 					>
 						Remove Loadout ({ event.loadout.getTitle() })
 					</Button>
+					
 					<LoadoutView loadout={ event.loadout } /> 
 
 					<ConfirmDeleteDialog 
 						verb='Remove'
 						title={ `${event.loadout.getTitle()} from ${event.getTitle()}` }
-						isOpen={ activeDialog === 'delete' }
+						isOpen={ activeDialog === 'remove' }
 						onClose={ () => this.openDialog(null) }
 						onConfirm={ () => this.setLoadout(null) }
 					/>
@@ -166,7 +174,17 @@ export default class Event extends React.Component {
 					isOpen={ activeDialog === 'edit' }
 					onSave={ (event) => this.updateEvent(event) }
 					onClose={ () => this.openDialog(null) } />
+
+				<ConfirmDeleteDialog 
+					verb='Delete'
+					title={ event.getTitle() }
+					isOpen={ activeDialog === 'delete' }
+					onClose={ () => this.openDialog(null) }
+					onConfirm={ () => this.deleteEvent() }
+				/>
 			</React.Fragment>
 		)
 	}
 }
+
+export default withRouter(Event)
