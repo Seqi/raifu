@@ -7,6 +7,7 @@ import { withTheme } from '@material-ui/core'
 
 import CalendarToolbar from './CalendarToolbar'
 import CalendarEvent from './CalendarEvent'
+import CalendarAgendaEvent from './CalendarAgendaEvent'
 import EditEventDialog from './EditEventDialog'
 
 import Loader from 'app/shared/components/Loader'
@@ -22,6 +23,7 @@ class Events extends React.Component {
 
 		this.state = {
 			events: [],
+			view: 'month',
 			loading: true,
 			activeTimeslot: null,
 			isAddDialogOpen: false
@@ -43,10 +45,8 @@ class Events extends React.Component {
 		this.unmounted = false
 	}
 
-	timeSlotClicked(timeslot) {
+	addEvent(date) {
 		// Set the time to 8am for a common start, otherwise we're left at 12am
-		// Use the end as if they click dragged we use the last day they moused on
-		let date = new Date(timeslot.end)
 		let startTime = date.setHours(8)
 
 		this.setState({ activeTimeslot: new Date(startTime), isAddDialogOpen: true })
@@ -77,42 +77,57 @@ class Events extends React.Component {
 	}
 
 	styleEvent = (e) => {
-		return {
-			style: {
-				border: `1px solid ${this.props.theme.palette.primary.main}`,
-				background: 'inherit',
+		// Only give month events the accented border as agenda views don't show this right
+		if (this.state.view === 'month') {
+			return {
+				style: {
+					border: `1px solid ${this.props.theme.palette.primary.main}`,
+					background: 'inherit',
+				}
 			}
 		}
 	}
 
 	render() {
-		let { loading, events, activeTimeslot, isAddDialogOpen } = this.state
+		let { loading, events, view, activeTimeslot, isAddDialogOpen } = this.state
 
 		if (loading) {
 			return <Loader />
 		}
 
+		let monthStyle = { height: '80%' }
+		let agendaStyle = { minHeight: '80%' }
+
 		return (
 			<React.Fragment>
-				<div style={ {height: '80%'} }>
-					<BigCalendar localizer={ this.localizer } 
+				<div style={ view === 'month' ? monthStyle : agendaStyle }>
+					<BigCalendar 
+						localizer={ this.localizer } 
+						components={ {
+							toolbar: CalendarToolbar,
+							event: CalendarEvent,
+							agenda: {
+								event: CalendarAgendaEvent
+							}
+						} }
 						style={ {
 							color: this.props.theme.palette.text.primary
 						} }
 						titleAccessor={ e => e.name }
 						startAccessor={ e => e.date }
 						endAccessor={ e => e.date }
-						views={ ['month'] }
+						defaultView={ view }
+						onView={ view => this.setState({ view }) }
+						views={ ['month', 'agenda'] }
+						// Don't use a drilldown view
 						getDrilldownView={ _ => null }
-						components={ {
-							toolbar: CalendarToolbar,
-							event: CalendarEvent
-						} }
+						// Show entire year in agenda view
+						length={ 365 }
 						selectable={ true }
-						onSelectSlot={ slot => this.timeSlotClicked(slot) }
-						eventPropGetter={ this.styleEvent }
+						onSelectSlot={ slot => this.addEvent(slot.end) }
 						events={ events }
 						onSelectEvent={ event => this.view(event) }
+						eventPropGetter={ this.styleEvent }
 					/>
 				</div>
 
