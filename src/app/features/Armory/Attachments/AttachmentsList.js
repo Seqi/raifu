@@ -21,7 +21,7 @@ class AttachmentsList extends CardListBaseComponent {
 	render() {
 		let { isAddDialogOpen } = this.state
 		return (
-			<div>
+			<React.Fragment>
 				{super.render()}
 
 				<AddAttachmentDialog
@@ -29,7 +29,7 @@ class AttachmentsList extends CardListBaseComponent {
 					onSave={ (value) => this.save(value) }
 					onClose={ () => this.handleAddDialogClose() }
 				/>
-			</div>
+			</React.Fragment>
 		)
 	}
 }
