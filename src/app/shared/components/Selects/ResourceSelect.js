@@ -19,11 +19,8 @@ class ResourceSelect extends Component {
 	componentDidMount() {
 		this.props
 			.dataGetter()
-			.then((items) => this.setState({ items, loading: false }))
-			.catch((err) => {
-				console.log('err', err)
-				this.setState({ error: err.message, loading: false })
-			})
+			.then((items) => this.setState({ items, error: null, loading: false }))
+			.catch((err) => this.setState({ error: err.message, loading: false }))
 	}
 
 	renderItems(items) {

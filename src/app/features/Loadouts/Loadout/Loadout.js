@@ -32,7 +32,7 @@ class Loadout extends React.Component {
 			.getById(this.props.match.params.id)
 			.then((loadout) => {
 				if (!this.isUnmounted) {
-					this.setState({ loadout, loading: false })
+					this.setState({ loadout, error: null, loading: false })
 				}
 			})
 			.catch((err) => this.setState({ error: err, loading: false }))

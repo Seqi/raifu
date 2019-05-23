@@ -45,7 +45,7 @@ class Events extends React.Component {
 		database.events.get()
 			.then(events => {
 				if (!this.unmounted) {
-					this.setState({ events: events, loading: false })
+					this.setState({ events: events, error: null, loading: false })
 				}
 			})
 			.catch(err => {
