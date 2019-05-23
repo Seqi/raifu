@@ -1,16 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '@material-ui/core/Button'
+import { Button, withTheme } from '@material-ui/core'
 
-function Error({ error, onRetry }) {
+function Error({ error, onRetry, fillBackground, theme, style }) {
 	return (
 		<div style={ {
 			textAlign: 'center',
-			borderRadius: '5px'
+			borderRadius: '5px',
+			backgroundColor: fillBackground ? theme.palette.primary.main : 'inherit',
+			
+			// Being outside of the realm of our app element, we have to manually reapply here
+			// for it to work in dialogs :((
+			fontFamily: theme.typography.fontFamily,
+			fontSize: '1.2rem',
+			color: theme.palette.text.primary,
+			...style
 		} }>
-			<div style={ { paddingBottom: '8px'} }>
-				{ error }
+			<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>
+				An error occurred: { error ? `(${error})` : '' }
 			</div>
 
 			{ onRetry && (
@@ -22,12 +30,16 @@ function Error({ error, onRetry }) {
 
 Error.propTypes = {
 	error: PropTypes.string,
-	onRetry: PropTypes.func
+	onRetry: PropTypes.func,
+	fillBackground: PropTypes.bool,
+	style: PropTypes.object
 }
 
 Error.defaultProps = {
-	error: 'An error occurred',
-	onRetry: null
+	error: '',
+	onRetry: null,
+	fillBackground: false,
+	style: {}
 }
 
-export default Error
+export default withTheme()(Error)
