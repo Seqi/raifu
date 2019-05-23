@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Typography from '@material-ui/core/Typography'
 
-import Loader from 'app/shared/components/Loader'
+import { Error, Loading } from 'app/shared/components'
 import CardList from 'app/shared/components/Cards/CardList'
 
 // A little hacky, but we only use the isAddDialogOpen state in children classes
@@ -24,6 +24,14 @@ class CardListBaseComponent extends Component {
 	}
 
 	componentDidMount() {
+		this.loadItems()
+	}
+
+	componentWillUnmount() {
+		this.isUnmounted = true
+	}
+
+	loadItems() {
 		this.items
 			.get()
 			.then((items) => {
@@ -31,11 +39,11 @@ class CardListBaseComponent extends Component {
 					this.setState({ items, loading: false })
 				}
 			})
-			.catch((err) => this.setState({ error: err.message, loading: false }))
-	}
-
-	componentWillUnmount() {
-		this.isUnmounted = true
+			.catch((err) => {
+				if (!this.isUnmounted) {
+					this.setState({ error: err, loading: false })
+				}
+			})
 	}
 
 	handleAddDialogClose() {
@@ -68,9 +76,9 @@ class CardListBaseComponent extends Component {
 			<React.Fragment>
 				<Typography variant='h3'>{this.title}</Typography>
 				{loading ? (
-					<Loader />
+					<Loading />
 				) : error ? (
-					<div className='error-alert'>Error: {error}</div>
+					<Error error={ error } onRetry={ () => this.loadItems() } />
 				) : (
 					<CardList
 						items={ items }

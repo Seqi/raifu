@@ -10,7 +10,7 @@ import CalendarEvent from './CalendarEvent'
 import CalendarAgendaEvent from './CalendarAgendaEvent'
 import EditEventDialog from './EditEventDialog'
 
-import Loader from 'app/shared/components/Loader'
+import { Loading, Error } from 'app/shared/components'
 
 import database from '../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -25,6 +25,7 @@ class Events extends React.Component {
 			events: [],
 			view: 'month',
 			loading: true,
+			error: null,
 			activeTimeslot: null,
 			isAddDialogOpen: false
 		}
@@ -33,16 +34,26 @@ class Events extends React.Component {
 	}
 
 	componentDidMount() {
+		this.loadEvents()
+	}
+
+	componentWillUnmount() {
+		this.unmounted = false
+	}
+
+	loadEvents() {
 		database.events.get()
 			.then(events => {
 				if (!this.unmounted) {
 					this.setState({ events: events, loading: false })
 				}
 			})
-	}
+			.catch(err => {
+				if (!this.unmounted) {
+					this.setState({ error: err, loading: false})
+				}
+			})
 
-	componentWillUnmount() {
-		this.unmounted = false
 	}
 
 	addEvent(date) {
@@ -89,10 +100,14 @@ class Events extends React.Component {
 	}
 
 	render() {
-		let { loading, events, view, activeTimeslot, isAddDialogOpen } = this.state
+		let { loading, error, events, view, activeTimeslot, isAddDialogOpen } = this.state
 
 		if (loading) {
-			return <Loader />
+			return <Loading />
+		}
+
+		if (error) {
+			return <Error message={ error } onRetry={ () => this.loadEvents() } />
 		}
 
 		let monthStyle = { height: '80%' }

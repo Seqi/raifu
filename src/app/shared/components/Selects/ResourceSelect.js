@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import Loader from 'app/shared/components/Loader'
+import { Loading } from 'app/shared/components'
 
 class ResourceSelect extends Component {
 	constructor(props) {
@@ -39,7 +39,7 @@ class ResourceSelect extends Component {
 		let { label, name, value, onChange } = this.props
 
 		return loading ? (
-			<Loader />
+			<Loading />
 		) : error ? (
 			<div className='error-alert'>{error}</div>
 		) : (

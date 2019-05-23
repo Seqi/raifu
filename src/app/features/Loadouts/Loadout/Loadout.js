@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 
-import Loader from 'app/shared/components/Loader'
+import { Loading, Error } from 'app/shared/components'
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 
 import EditLoadoutDialog from './EditLoadoutNameDialog'
@@ -20,6 +20,14 @@ class Loadout extends React.Component {
 	}
 
 	componentDidMount() {
+		this.loadLoadout()
+	}
+
+	componentWillUnmount() {
+		this.isUnmounted = true
+	}
+	
+	loadLoadout() {
 		database.loadouts
 			.getById(this.props.match.params.id)
 			.then((loadout) => {
@@ -27,12 +35,8 @@ class Loadout extends React.Component {
 					this.setState({ loadout, loading: false })
 				}
 			})
-			.catch((err) => this.setState({ error: err.message, loading: false }))
+			.catch((err) => this.setState({ error: err, loading: false }))
 	}
-
-	componentWillUnmount() {
-		this.isUnmounted = true
-	}	
 
 	openDialog(id) {
 		this.setState({ activeDialog: id })
@@ -169,11 +173,11 @@ class Loadout extends React.Component {
 		let { loading, error, loadout, activeDialog } = this.state
 
 		if (loading) {			
-			return <Loader />
+			return <Loading />
 		}
 		
 		if (error) {
-			return <div className='error-alert'>Error: {error}</div>
+			return <Error error={ error } onRetry={ () => this.loadLoadout() } />
 		}
 
 		return (

@@ -1,5 +1,6 @@
 import app from '../../../'
 import { toEntity } from '../entity.model'
+import errorCheck from '../../utils/error-check'
 
 export default (loadoutId, weaponId) => ({
 	add: (attachmentId) =>
@@ -10,6 +11,7 @@ export default (loadoutId, weaponId) => ({
 				attachmentId,
 				loadoutId
 			})
+			.then(errorCheck)
 			.then((result) => toEntity(result.data)),
 
 	delete: (attachmentId) =>
@@ -20,5 +22,6 @@ export default (loadoutId, weaponId) => ({
 				attachmentId,
 				loadoutId
 			})
+			.then(errorCheck)
 			.then((result) => result.data)
 })
