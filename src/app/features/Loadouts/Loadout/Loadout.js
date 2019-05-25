@@ -47,16 +47,16 @@ class Loadout extends React.Component {
 		this.setState({ activeDialog: null })
 	}
 
-	editLoadoutName(name) {
+	editLoadout(updatedLoadout) {
 		let { loadout } = this.state
 
 		return database.loadouts
-			.edit({ id: loadout.id, name })
+			.edit({ ...updatedLoadout, id: loadout.id, })
 			.then(() => {
 				this.setState((prevState) => {
 					let newLoadout = {
 						...prevState.loadout,
-						name
+						...updatedLoadout
 					}
 
 					return { loadout: newLoadout }
@@ -183,7 +183,7 @@ class Loadout extends React.Component {
 		return (
 			<React.Fragment>
 				<Typography variant='h3' >
-					{ loadout.getTitle() }					
+					{ loadout.name }					
 					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
 				</Typography>
 
@@ -201,7 +201,7 @@ class Loadout extends React.Component {
 				<EditLoadoutDialog
 					name={ loadout.name }
 					isOpen={ activeDialog === 'editloadout' }
-					onSave={ (name) => this.editLoadoutName(name) }
+					onSave={ (name) => this.editLoadout(name) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>

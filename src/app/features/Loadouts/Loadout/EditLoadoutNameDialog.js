@@ -43,7 +43,7 @@ class EditLoadoutNameDialog extends Component {
 
 	handleSave() {
 		this.setState({loading: true, error: null}, () => {
-			this.props.onSave(this.state.loadout.name)
+			this.props.onSave(this.state.loadout)
 				.then(() => this.setState({ loading: false, error: null }))
 				.catch(err => this.setState({ error: err.message || err, loading: false }))
 		})	
