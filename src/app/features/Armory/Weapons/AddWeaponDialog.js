@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import Dialog from '@material-ui/core/Dialog'
@@ -8,11 +8,12 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
+import { Error } from 'app/shared/components'
 import { ResourceSelect, WeaponSelect } from 'app/shared/components/Selects'
 
 import database from '../../../../firebase/database'
 
-class AddWeaponDialog extends PureComponent {
+class AddWeaponDialog extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = this.defaultState
@@ -20,21 +21,39 @@ class AddWeaponDialog extends PureComponent {
 
 	get defaultState() {
 		return {
-			brand: '',
-			type: '',
-			platform: '',
-			model: '',
-			nickname: ''
+			weapon: { 
+				brand: '',
+				type: '',
+				platform: '',
+				model: '',
+				nickname: ''
+			},
+			loading: false,
+			error: null
 		}
 	}
 
 	handleInputChange(e) {
-		this.setState({ [e.target.id || e.target.name]: e.target.value })
+		// Synthetic event data is lost when callback occurs so store
+		let key = e.target.id || e.target.name
+		let val = e.target.value
+
+		this.setState(prevState => {
+			let weapon = {
+				...prevState.weapon,
+				[key]: val
+			}
+
+			return { weapon }
+		})
 	}
 
 	handleSave() {
-		this.props.onSave(this.state)
-		this.setState(this.defaultState)
+		this.setState({loading: true, error: null}, () => {
+			this.props.onSave(this.state.weapon)
+				.then(() => this.setState(this.defaultState))
+				.catch(err => this.setState({ error: err.message || err, loading: false }))
+		})		
 	}
 
 	handleClose() {
@@ -43,17 +62,21 @@ class AddWeaponDialog extends PureComponent {
 	}
 
 	formValid() {
-		let { platform, nickname } = this.state
+		let { platform, nickname } = this.state.weapon
 
 		return platform || nickname
 	}
 
 	render() {
+		let { error, loading } = this.state 
+		
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ () => this.handleClose() }>
 				<DialogTitle>Add weapon</DialogTitle>
 
 				<DialogContent>
+					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					
 					<WeaponSelect onChange={ (e) => this.handleInputChange(e) } />
 
 					<ResourceSelect
@@ -61,7 +84,7 @@ class AddWeaponDialog extends PureComponent {
 						name='brand'
 						dataGetter={ () => Promise.resolve(database.brands) }
 						onChange={ (e) => this.handleInputChange(e) }
-						value={ this.state.brand }
+						value={ this.state.weapon.brand }
 					/>
 
 					<TextField
@@ -85,7 +108,7 @@ class AddWeaponDialog extends PureComponent {
 				<DialogActions>
 					<Button onClick={ () => this.handleClose() }>Cancel</Button>
 					<Button
-						disabled={ !this.formValid() }
+						disabled={ !this.formValid() || loading }
 						variant='contained'
 						color='primary'
 						onClick={ () => this.handleSave() }

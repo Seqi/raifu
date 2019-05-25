@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import LoadoutCardContent from './LoadoutCardContent'
+import WeaponDisplay from 'app/shared/components/Display/WeaponDisplay'
 import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
 
 import './LoadoutCard.css'
@@ -18,7 +18,7 @@ export default function LoadoutCard({loadout, canDelete, onClick, onDelete, styl
 			<CardHeader title={ loadout.getTitle() } subheader={ loadout.getSubtitle() } className='card-header' />
 			
 			<CardContent className='card-content'>
-				<LoadoutCardContent weapons={ loadout.weapons } />
+				<WeaponDisplay weapons={ loadout.weapons } />
 			</CardContent>
 		</Card>
 	)

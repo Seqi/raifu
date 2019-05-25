@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 
-import Loader from 'app/shared/components/Loader'
+import { Loading, Error } from 'app/shared/components'
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 
 import EditLoadoutDialog from './EditLoadoutNameDialog'
@@ -20,19 +20,23 @@ class Loadout extends React.Component {
 	}
 
 	componentDidMount() {
-		database.loadouts
-			.getById(this.props.match.params.id)
-			.then((loadout) => {
-				if (!this.isUnmounted) {
-					this.setState({ loadout, loading: false })
-				}
-			})
-			.catch((err) => this.setState({ error: err.message, loading: false }))
+		this.loadLoadout()
 	}
 
 	componentWillUnmount() {
 		this.isUnmounted = true
-	}	
+	}
+	
+	loadLoadout() {
+		database.loadouts
+			.getById(this.props.match.params.id)
+			.then((loadout) => {
+				if (!this.isUnmounted) {
+					this.setState({ loadout, error: null, loading: false })
+				}
+			})
+			.catch((err) => this.setState({ error: err, loading: false }))
+	}
 
 	openDialog(id) {
 		this.setState({ activeDialog: id })
@@ -46,7 +50,7 @@ class Loadout extends React.Component {
 	editLoadoutName(name) {
 		let { loadout } = this.state
 
-		database.loadouts
+		return database.loadouts
 			.edit({ id: loadout.id, name })
 			.then(() => {
 				this.setState((prevState) => {
@@ -169,11 +173,11 @@ class Loadout extends React.Component {
 		let { loading, error, loadout, activeDialog } = this.state
 
 		if (loading) {			
-			return <Loader />
+			return <Loading />
 		}
 		
 		if (error) {
-			return <div className='error-alert'>Error: {error}</div>
+			return <Error error={ error } onRetry={ () => this.loadLoadout() } />
 		}
 
 		return (

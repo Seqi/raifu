@@ -16,15 +16,15 @@ class WeaponList extends CardListBaseComponent {
 	render() {
 		let { isAddDialogOpen } = this.state
 		return (
-			<div>
+			<React.Fragment>
 				{super.render()}
 
 				<AddWeaponDialog
 					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
-					onClose={ () => this.handleAddDialogClose() }
+					onClose={ () => this.setDialogOpen(false) }
 				/>
-			</div>
+			</React.Fragment>
 		)
 	}
 }

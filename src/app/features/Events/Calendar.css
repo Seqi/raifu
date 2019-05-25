@@ -3,18 +3,14 @@
 	background: inherit;
 }
 
-.rbc-header {
-	/* Fixes the lines being off */
-	padding: 0;
-}
-
 .rbc-toolbar .rbc-toolbar-label {
 	padding: 0;
 	font-size: 2.5rem;
 	text-align: left;
 }
 
-.rbc-day-bg {
+.rbc-day-bg,
+.rbc-row:not(.rbc-month-header) {
 	cursor: pointer;
 }
 

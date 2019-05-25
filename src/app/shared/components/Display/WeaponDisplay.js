@@ -1,12 +1,12 @@
-import './LoadoutCardContent.css'
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import getImage from 'app/shared/services/armory-image-service'
 import RotatedImage from 'app/shared/components/Images/RotatedImage'
 
-class LoadoutCardContent extends Component {
+import './WeaponDisplay.css'
+
+class WeaponDisplay extends Component {
 	getWeaponImages(weapons) {
 		let images = []
 
@@ -42,8 +42,8 @@ class LoadoutCardContent extends Component {
 	}
 }
 
-LoadoutCardContent.propTypes = {
+WeaponDisplay.propTypes = {
 	weapons: PropTypes.array.isRequired
 }
 
-export default LoadoutCardContent
+export default WeaponDisplay

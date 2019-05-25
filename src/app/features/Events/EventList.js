@@ -7,9 +7,10 @@ import { withTheme } from '@material-ui/core'
 
 import CalendarToolbar from './CalendarToolbar'
 import CalendarEvent from './CalendarEvent'
+import CalendarAgendaEvent from './CalendarAgendaEvent'
 import EditEventDialog from './EditEventDialog'
 
-import Loader from 'app/shared/components/Loader'
+import { Loading, Error } from 'app/shared/components'
 
 import database from '../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -22,7 +23,9 @@ class Events extends React.Component {
 
 		this.state = {
 			events: [],
+			view: 'month',
 			loading: true,
+			error: null,
 			activeTimeslot: null,
 			isAddDialogOpen: false
 		}
@@ -31,22 +34,30 @@ class Events extends React.Component {
 	}
 
 	componentDidMount() {
-		database.events.get()
-			.then(events => {
-				if (!this.unmounted) {
-					this.setState({ events: events, loading: false })
-				}
-			})
+		this.loadEvents()
 	}
 
 	componentWillUnmount() {
-		this.unmounted = false
+		this.unmounted = true
 	}
 
-	timeSlotClicked(timeslot) {
+	loadEvents() {
+		database.events.get()
+			.then(events => {
+				if (!this.unmounted) {
+					this.setState({ events: events, error: null, loading: false })
+				}
+			})
+			.catch(err => {
+				if (!this.unmounted) {
+					this.setState({ error: err, loading: false})
+				}
+			})
+
+	}
+
+	addEvent(date) {
 		// Set the time to 8am for a common start, otherwise we're left at 12am
-		// Use the end as if they click dragged we use the last day they moused on
-		let date = new Date(timeslot.end)
 		let startTime = date.setHours(8)
 
 		this.setState({ activeTimeslot: new Date(startTime), isAddDialogOpen: true })
@@ -60,65 +71,80 @@ class Events extends React.Component {
 		this.props.history.push(`${this.props.location.pathname}/${event.id}`)
 	}
 
-	save(value) {
-		database.events
-			.add(value)
-			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
-			.then(() => this.closeDialog())
-	}
-
-	formatDateThenSave(event) {
+	save(event) {
 		// Firebase functions don't like date objects...
 		if (event.date) {
 			event.date = event.date.toISOString()
 		}
 
-		this.save(event)
+		return database.events
+			.add(event)
+			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
+			.then(() => this.closeDialog())
 	}
 
 	styleEvent = (e) => {
-		return {
-			style: {
-				border: `1px solid ${this.props.theme.palette.primary.main}`,
-				background: 'inherit',
+		// Only give month events the accented border as agenda views don't show this right
+		if (this.state.view === 'month') {
+			return {
+				style: {
+					border: `1px solid ${this.props.theme.palette.primary.main}`,
+					background: 'inherit',
+				}
 			}
 		}
 	}
 
 	render() {
-		let { loading, events, activeTimeslot, isAddDialogOpen } = this.state
+		let { loading, error, events, view, activeTimeslot, isAddDialogOpen } = this.state
 
 		if (loading) {
-			return <Loader />
+			return <Loading />
 		}
+
+		if (error) {
+			return <Error message={ error } onRetry={ () => this.loadEvents() } />
+		}
+
+		let monthStyle = { height: '80%' }
+		let agendaStyle = { minHeight: '80%' }
 
 		return (
 			<React.Fragment>
-				<div style={ {height: '80%'} }>
-					<BigCalendar localizer={ this.localizer } 
+				<div style={ view === 'month' ? monthStyle : agendaStyle }>
+					<BigCalendar 
+						localizer={ this.localizer } 
+						components={ {
+							toolbar: CalendarToolbar,
+							event: CalendarEvent,
+							agenda: {
+								event: CalendarAgendaEvent
+							}
+						} }
 						style={ {
 							color: this.props.theme.palette.text.primary
 						} }
 						titleAccessor={ e => e.name }
 						startAccessor={ e => e.date }
 						endAccessor={ e => e.date }
-						views={ ['month'] }
+						defaultView={ view }
+						onView={ view => this.setState({ view }) }
+						views={ ['month', 'agenda'] }
+						// Don't use a drilldown view
 						getDrilldownView={ _ => null }
-						components={ {
-							toolbar: CalendarToolbar,
-							event: CalendarEvent
-						} }
+						// Show entire year in agenda view
+						length={ 365 }
 						selectable={ true }
-						onSelectSlot={ slot => this.timeSlotClicked(slot) }
-						eventPropGetter={ this.styleEvent }
+						onSelectSlot={ slot => this.addEvent(slot.end) }
 						events={ events }
 						onSelectEvent={ event => this.view(event) }
+						eventPropGetter={ this.styleEvent }
 					/>
 				</div>
 
 				{ activeTimeslot && <EditEventDialog 
 					date={ activeTimeslot }
-					onSave={ value => this.formatDateThenSave(value) } 
+					onSave={ value => this.save(value) } 
 					onClose={ () => this.closeDialog() }
 					isOpen={ isAddDialogOpen } 
 				/> }

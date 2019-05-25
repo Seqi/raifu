@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
+import { Loading, Error } from 'app/shared/components'
 import AttachmentSelect from './AttachmentSelect'
 import database from '../../../../../../../../../firebase/database'
 
@@ -15,14 +16,28 @@ class AddAttachmentDialog extends Component {
 		super(props)
 		this.state = {
 			attachmentIds: [],
-			attachments: []
+			attachments: [],
+			loading: false,
+			errorOnLoad: null,
+			errorOnSave: null
 		}
 	}	
 
-	componentDidMount() {
-		return database.attachments
-			.get()
-			.then((attachments) => this.setState({ attachments }))
+	componentDidMount = () => this.loadAttachments()
+
+	componentWillUnmount = () => this.isUnmounted = true	
+
+	loadAttachments() {
+		if (this.isUnmounted) {
+			return
+		}
+
+		this.setState({ loading: true, errorOnLoad: null }, () => {
+			database.attachments
+				.get()
+				.then((attachments) => !this.isUnmounted && this.setState({ attachments, loading: false }))
+				.catch((err) => !this.isUnmounted && this.setState( { errorOnLoad: err.message || err, loading: false}))
+		})
 	}
 
 	getSelectableAttachments() {
@@ -50,19 +65,27 @@ class AddAttachmentDialog extends Component {
 	}
 
 	onSave(attachmentIds) {
-		this.setState({ attachmentIds: [] })
-		this.props.onSave(attachmentIds)
+		this.setState({ loading: true, errorOnSave: false }, () => {
+			this.props.onSave(attachmentIds)
+				.then(() => this.setState({ attachmentIds: [], loading: false }))
+				.catch(err => this.setState({ loading: false, errorOnSave: err }))
+		})
 	}
 
 	render() {
-		let { attachmentIds } = this.state
-		let { weaponName, isOpen, onClose, onSave } = this.props
+		let { attachmentIds, loading, errorOnLoad, errorOnSave } = this.state
+		let { weaponName, isOpen, onClose } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>Add attachments to {weaponName} </DialogTitle>
 
 				<DialogContent>
+					{ loading && <Loading /> }
+
+					{ errorOnLoad && <Error error={ errorOnLoad } onRetry={ () => this.loadAttachments() } /> }
+					{ errorOnSave && <Error error={ errorOnSave } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+
 					<AttachmentSelect
 						attachments={ this.getSelectableAttachments() } 
 						selectedAttachmentIds={ attachmentIds } 
@@ -73,9 +96,9 @@ class AddAttachmentDialog extends Component {
 				<DialogActions>
 					<Button onClick={ onClose }>Cancel</Button>
 					<Button
-						disabled={ !this.formValid() }
+						disabled={ !this.formValid() || loading }
 						variant='contained'
-						onClick={ () => onSave(attachmentIds) }
+						onClick={ () => this.onSave(attachmentIds) }
 						color='primary'
 					>
 						Save

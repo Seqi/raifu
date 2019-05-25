@@ -16,30 +16,30 @@ export default class LoadoutWeaponList extends React.Component {
 			isDialogOpen: false,
 		}
 	}
+
+	componentWillUnmount() {
+		this.isUnmounted = true
+	}	
     
-	openDialog() {
-		this.setState({ isDialogOpen: true })
+	setDialogOpen(isDialogOpen) {
+		!this.isUnmounted && this.setState({ isDialogOpen })
 	}
 
-	closeDialog() {
-		this.setState({ isDialogOpen: false })
-	}
-    
 	addWeapon(weaponId) {
 		let { loadoutId, onAdd } = this.props 
 
-		database.loadouts
+		return database.loadouts
 			.loadout(loadoutId)
 			.weapons
 			.add(weaponId)
 			.then((weapon) => onAdd(weapon))
-			.then(() => this.closeDialog())
+			.then(() => this.setDialogOpen(false))
 	}
 
 	deleteWeapon(weaponId) {
 		let { loadoutId, onDelete } = this.props
 
-		database.loadouts
+		return database.loadouts
 			.loadout(loadoutId)
 			.weapons
 			.delete(weaponId)
@@ -77,7 +77,7 @@ export default class LoadoutWeaponList extends React.Component {
 
 				{ canEdit && 
 					<LoadoutSeparator showBottom={ true } >
-						<LoadoutAdd onClick={ () => this.openDialog() } />
+						<LoadoutAdd onClick={ () => this.setDialogOpen(true) } />
 					</LoadoutSeparator>
 				}
 
@@ -87,7 +87,7 @@ export default class LoadoutWeaponList extends React.Component {
 					filterIds={ weapons && weapons.map((w) => w.id) }
 					isOpen={ isDialogOpen }
 					onSave={ (weaponId) => this.addWeapon(weaponId) }
-					onClose={ () => this.closeDialog() }
+					onClose={ () => this.setDialogOpen(false) }
 				/> }
 			</React.Fragment>
 		)
