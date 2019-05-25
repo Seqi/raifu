@@ -34,8 +34,8 @@ class CardList extends Component {
 	}
 
 	handleConfirmDelete() {
-		this.props.onCardDelete(this.state.dialogKey)
-		this.handleDialogClose()
+		return this.props.onCardDelete(this.state.dialogKey)
+			.then(() => this.handleDialogClose())
 	}
 
 	getAnimationDelay = (index, count) => {

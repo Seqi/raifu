@@ -22,7 +22,7 @@ class WeaponList extends CardListBaseComponent {
 				<AddWeaponDialog
 					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
-					onClose={ () => this.handleAddDialogClose() }
+					onClose={ () => this.setDialogOpen(false) }
 				/>
 			</React.Fragment>
 		)

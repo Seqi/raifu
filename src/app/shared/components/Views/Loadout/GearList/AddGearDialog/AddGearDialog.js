@@ -7,8 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
+import { Loading, Error } from 'app/shared/components'
 import GearSelect from './GearSelect'
-
 import database from '../../../../../../../firebase/database'
 
 class AddGearDialog extends Component {
@@ -16,16 +16,23 @@ class AddGearDialog extends Component {
 		super(props)
 		this.state = {
 			gearId: '',
-			gear: []
+			gear: [],
+			loading: false,
+			errorOnLoad: null,
+			errorOnSave: null
 		}
 	}
 
-	componentDidMount() {
-		database.gear
-			.get()
-			.then((gear) => this.setState({ gear }))
-	}
+	componentDidMount = () => this.loadGear()
 
+	loadGear() {
+		this.setState({ loading: true, errorOnLoad: null }, () => {
+			database.gear
+				.get()
+				.then((gear) => this.setState({ gear, loading: false }))
+				.catch((err) => this.setState( { errorOnLoad: err.message || err, loading: false}))
+		})
+	}
 
 	getSelectableGear() {
 		return this.state.gear.filter((g) => this.props.filterIds.indexOf(g.id) === -1)
@@ -40,19 +47,27 @@ class AddGearDialog extends Component {
 	}
 
 	onSave(gearId) {
-		this.setState({ gearId: '' })
-		this.props.onSave(gearId)
+		this.setState({ loading: true, errorOnSave: false }, () => {
+			this.props.onSave(gearId)
+				.then(() => this.setState({ gearId: '', loading: false }))
+				.catch(err => this.setState({ loading: false, errorOnSave: err }))
+		})
 	}
 
 	render() {
-		let { gearId } = this.state
-		let { isOpen, onClose, onSave } = this.props
+		let { gearId, loading, errorOnLoad, errorOnSave } = this.state
+		let { isOpen, onClose } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>Add gear to loadout</DialogTitle>
 
-				<DialogContent>					
+				<DialogContent>			
+					{ loading && <Loading /> }
+
+					{ errorOnLoad && <Error error={ errorOnLoad } onRetry={ () => this.loadGear() } /> }
+					{ errorOnSave && <Error error={ errorOnSave } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+
 					<GearSelect 
 						gear={ this.getSelectableGear() } 
 						selectedGearId={ gearId } 
@@ -65,7 +80,7 @@ class AddGearDialog extends Component {
 					<Button
 						disabled={ !this.formValid() }
 						variant='contained'
-						onClick={ () => onSave(this.state.gearId) }
+						onClick={ () => this.onSave(this.state.gearId) }
 						color='primary'
 					>
 						Save

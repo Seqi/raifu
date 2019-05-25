@@ -27,7 +27,7 @@ class GearList extends CardListBaseComponent {
 				<AddGearDialog
 					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
-					onClose={ () => this.handleAddDialogClose() }
+					onClose={ () => this.setDialogOpen(false) }
 				/>
 			</React.Fragment>
 		)

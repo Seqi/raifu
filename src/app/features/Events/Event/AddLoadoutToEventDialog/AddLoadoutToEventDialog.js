@@ -9,51 +9,80 @@ import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
+import { Loading, Error } from 'app/shared/components'
+
 import database from '../../../../../firebase/database'
 
 export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onClose}) {
-	let [loadouts, setLoadouts] = useState([])
+	let [loadouts, setLoadouts] = useState({ data: [], loading: true, error: null })
 	let [loadoutId, setLoadoutId] = useState('')
+	let [saveError, setSaveError] = useState(null)
+
 	let isUnmounted = false
 
 	useEffect(() => {
-		database.loadouts
-			.get()
-			.then((loadouts) => {
-				if (!isUnmounted) {
-					setLoadouts(loadouts)
-				}
-			})
+		loadLoadouts()
 
 		return () => isUnmounted = true
 	}, [])
 
+	let loadLoadouts = () => {
+		setLoadouts(prevLoadout => ({ ...prevLoadout, error: null, loading: true }))
+		
+		database.loadouts
+			.get()
+			.then((loadouts) => {
+				if (!isUnmounted) {
+					setLoadouts({ data: loadouts, loading: false, error: null })
+				}
+			})
+			.catch((err) => {
+				if (!isUnmounted) {
+					setLoadouts({ data: [], loading: false, error: err.message || err })
+				}
+			})
+	}
+
+	let save = () => {
+		setSaveError(false)
+
+		onSave(loadouts.data.find(l => l.id === loadoutId))
+			.catch(err => setSaveError(err.message || err))
+	}
+
 	return (
 		<Dialog fullWidth={ true } open={ isOpen }>
 			<DialogTitle>Set loadout for { eventTitle }</DialogTitle>
-			<DialogContent>				
-				<TextField
-					label='Loadout'
-					fullWidth={ true }
-					value={ loadoutId }
-					onChange={ (e) => setLoadoutId(e.target.value) }
-					select={ true }
-					SelectProps={ { name: 'loadoutId' } }
-				>
-					{loadouts.map((loadout) => (
-						<MenuItem key={ loadout.id } value={ loadout.id }>
-							{ loadout.getTitle() }
-						</MenuItem>
-					))}
-				</TextField>
+			<DialogContent>			
+
+				{ loadouts.error && !loadouts.loading && <Error error={ loadouts.error } onRetry={ loadLoadouts } /> }
+				{ loadouts.loading && !loadouts.error && <Loading /> }
+				{ saveError && <Error error={ saveError } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+
+				{ !loadouts.error && !loadouts.loading && (
+					<TextField
+						label='Loadout'
+						fullWidth={ true }
+						value={ loadoutId }
+						onChange={ (e) => setLoadoutId(e.target.value) }
+						select={ true }
+						SelectProps={ { name: 'loadoutId' } }
+					>
+						{loadouts.data.map((loadout) => (
+							<MenuItem key={ loadout.id } value={ loadout.id }>
+								{ loadout.getTitle() }
+							</MenuItem>
+						))}
+					</TextField>
+				)}
 			</DialogContent>
 			
 			<DialogActions>
 				<Button onClick={ onClose }>Cancel</Button>
 				<Button
-					disabled={ !loadoutId }
+					disabled={ !loadoutId || loadouts.loading }
 					variant='contained'
-					onClick={ () => onSave(loadouts.find(l => l.id === loadoutId)) }
+					onClick={ save }
 					color='primary'
 				>
 					Save

@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 
 import Typography from '@material-ui/core/Typography'
 
-import Loader from 'app/shared/components/Loader'
+import { Error, Loading } from 'app/shared/components'
 import CardList from 'app/shared/components/Cards/CardList'
+
 
 // A little hacky, but we only use the isAddDialogOpen state in children classes
 /* eslint-disable react/no-unused-state */
@@ -24,41 +25,52 @@ class CardListBaseComponent extends Component {
 	}
 
 	componentDidMount() {
-		this.items
-			.get()
-			.then((items) => {
-				if (!this.isUnmounted) {
-					this.setState({ items, loading: false })
-				}
-			})
-			.catch((err) => this.setState({ error: err.message, loading: false }))
+		this.loadItems()
 	}
 
 	componentWillUnmount() {
 		this.isUnmounted = true
 	}
 
-	handleAddDialogClose() {
-		this.setState({ isAddDialogOpen: false })
+	loadItems() {
+		this.setState({loading: true}, () => {
+			this.items
+				.get()
+				.then((items) => {
+					if (!this.isUnmounted) {
+						this.setState({ items, error: null, loading: false })
+					}
+				})
+				.catch((err) => {
+					if (!this.isUnmounted) {
+						this.setState({ error: err.message || err, loading: false })
+					}
+				})
+		})
 	}
 
-	handleAddDialogOpen() {
-		this.setState({ isAddDialogOpen: true })
+	setDialogOpen(isOpen) {
+		this.setState({ isAddDialogOpen: isOpen })
 	}
 
 	view(id) {}
 
 	delete(id) {
-		this.items
+		return this.items
 			.delete(id)
 			.then(() => this.setState((prevState) => ({ items: prevState.items.filter((item) => item.id !== id) })))
 	}
 
-	save(value) {
-		this.items
+	save(value) {		
+		return this.items
 			.add(value)
-			.then((item) => this.setState((prevState) => ({ items: prevState.items.concat(item) })))
-			.then(() => this.handleAddDialogClose())
+			.then((item) => {
+				if (!this.isUnmounted) {
+					this.setState((prevState) => {
+						return { items: prevState.items.concat(item), isAddDialogOpen: false }
+					})
+				}
+			})
 	}
 
 	render() {
@@ -68,14 +80,14 @@ class CardListBaseComponent extends Component {
 			<React.Fragment>
 				<Typography variant='h3'>{this.title}</Typography>
 				{loading ? (
-					<Loader />
+					<Loading />
 				) : error ? (
-					<div className='error-alert'>Error: {error}</div>
+					<Error error={ error } onRetry={ () => this.loadItems() } />
 				) : (
 					<CardList
 						items={ items }
 						cardType={ this.cardType }
-						onAdd={ () => this.handleAddDialogOpen() }
+						onAdd={ () => this.setDialogOpen(true) }
 						onCardClick={ (item) => this.view(item) }
 						onCardDelete={ (id) => this.delete(id) }
 					/>

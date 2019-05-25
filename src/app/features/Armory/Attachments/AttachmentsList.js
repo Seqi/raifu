@@ -27,7 +27,7 @@ class AttachmentsList extends CardListBaseComponent {
 				<AddAttachmentDialog
 					isOpen={ isAddDialogOpen }
 					onSave={ (value) => this.save(value) }
-					onClose={ () => this.handleAddDialogClose() }
+					onClose={ () => this.setDialogOpen(false) }
 				/>
 			</React.Fragment>
 		)

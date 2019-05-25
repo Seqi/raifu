@@ -10,7 +10,7 @@ import CalendarEvent from './CalendarEvent'
 import CalendarAgendaEvent from './CalendarAgendaEvent'
 import EditEventDialog from './EditEventDialog'
 
-import Loader from 'app/shared/components/Loader'
+import { Loading, Error } from 'app/shared/components'
 
 import database from '../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -25,6 +25,7 @@ class Events extends React.Component {
 			events: [],
 			view: 'month',
 			loading: true,
+			error: null,
 			activeTimeslot: null,
 			isAddDialogOpen: false
 		}
@@ -33,16 +34,26 @@ class Events extends React.Component {
 	}
 
 	componentDidMount() {
-		database.events.get()
-			.then(events => {
-				if (!this.unmounted) {
-					this.setState({ events: events, loading: false })
-				}
-			})
+		this.loadEvents()
 	}
 
 	componentWillUnmount() {
-		this.unmounted = false
+		this.unmounted = true
+	}
+
+	loadEvents() {
+		database.events.get()
+			.then(events => {
+				if (!this.unmounted) {
+					this.setState({ events: events, error: null, loading: false })
+				}
+			})
+			.catch(err => {
+				if (!this.unmounted) {
+					this.setState({ error: err, loading: false})
+				}
+			})
+
 	}
 
 	addEvent(date) {
@@ -60,20 +71,16 @@ class Events extends React.Component {
 		this.props.history.push(`${this.props.location.pathname}/${event.id}`)
 	}
 
-	save(value) {
-		database.events
-			.add(value)
-			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
-			.then(() => this.closeDialog())
-	}
-
-	formatDateThenSave(event) {
+	save(event) {
 		// Firebase functions don't like date objects...
 		if (event.date) {
 			event.date = event.date.toISOString()
 		}
 
-		this.save(event)
+		return database.events
+			.add(event)
+			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
+			.then(() => this.closeDialog())
 	}
 
 	styleEvent = (e) => {
@@ -89,10 +96,14 @@ class Events extends React.Component {
 	}
 
 	render() {
-		let { loading, events, view, activeTimeslot, isAddDialogOpen } = this.state
+		let { loading, error, events, view, activeTimeslot, isAddDialogOpen } = this.state
 
 		if (loading) {
-			return <Loader />
+			return <Loading />
+		}
+
+		if (error) {
+			return <Error message={ error } onRetry={ () => this.loadEvents() } />
 		}
 
 		let monthStyle = { height: '80%' }
@@ -133,7 +144,7 @@ class Events extends React.Component {
 
 				{ activeTimeslot && <EditEventDialog 
 					date={ activeTimeslot }
-					onSave={ value => this.formatDateThenSave(value) } 
+					onSave={ value => this.save(value) } 
 					onClose={ () => this.closeDialog() }
 					isOpen={ isAddDialogOpen } 
 				/> }

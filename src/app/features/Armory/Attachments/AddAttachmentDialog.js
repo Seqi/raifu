@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import Dialog from '@material-ui/core/Dialog'
@@ -8,9 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import AttachmentSelect from 'app/shared/components/Selects/AttachmentSelect'
+import { Error } from 'app/shared/components'
+import { AttachmentSelect } from 'app/shared/components/Selects'
 
-class AddAttachmentDialog extends Component {
+class AddAttachmentDialog extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = this.defaultState
@@ -18,21 +19,39 @@ class AddAttachmentDialog extends Component {
 
 	get defaultState() {
 		return {
-			type: '',
-			platform: '',
-			brand: '',
-			model: '',
-			nickname: ''
+			attachment: { 
+				brand: '',
+				type: '',
+				platform: '',
+				model: '',
+				nickname: ''
+			},
+			loading: false,
+			error: null
 		}
 	}
 
-	handleFormChange(e) {
-		this.setState({ [e.target.id || e.target.name]: e.target.value })
+	handleInputChange(e) {
+		// Synthetic event data is lost when callback occurs so store
+		let key = e.target.id || e.target.name
+		let val = e.target.value
+
+		this.setState(prevState => {
+			let attachment = {
+				...prevState.attachment,
+				[key]: val
+			}
+
+			return { attachment }
+		})
 	}
 
 	handleSave() {
-		this.props.onSave(this.state)
-		this.setState(this.defaultState)
+		this.setState({loading: true, error: null}, () => {
+			this.props.onSave(this.state.attachment)
+				.then(() => this.setState(this.defaultState))
+				.catch(err => this.setState({ error: err.message || err, loading: false }))
+		})		
 	}
 
 	handleClose() {
@@ -41,25 +60,30 @@ class AddAttachmentDialog extends Component {
 	}
 
 	formValid() {
-		let { type, platform } = this.state
+		let { platform, nickname } = this.state.attachment
 
-		return type && platform
+		return platform || nickname
 	}
 
 	render() {
+		let { error, loading } = this.state 
+		
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ () => this.handleClose() }>
-				<DialogTitle color='primary'>Add attachment</DialogTitle>
+				<DialogTitle>Add attachment</DialogTitle>
 
 				<DialogContent>
-					<AttachmentSelect onChange={ (e) => this.handleFormChange(e) } />
-
+					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					
+					<AttachmentSelect onChange={ (e) => this.handleInputChange(e) } />
+					
 					<TextField
 						id='brand'
 						label='Brand'
 						type='text'
 						fullWidth={ true }
-						onChange={ (e) => this.handleFormChange(e) }
+						onChange={ (e) => this.handleInputChange(e) }
+						value={ this.state.brand }
 					/>
 
 					<TextField
@@ -67,8 +91,8 @@ class AddAttachmentDialog extends Component {
 						label='Model'
 						type='text'
 						fullWidth={ true }
-						onChange={ (e) => this.handleFormChange(e) }
-						helperText='E.g. TRMR, Bocca, NX400'
+						onChange={ (e) => this.handleInputChange(e) }
+						helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
 					/>
 
 					<TextField
@@ -76,17 +100,17 @@ class AddAttachmentDialog extends Component {
 						label='Nickname'
 						type='text'
 						fullWidth={ true }
-						onChange={ (e) => this.handleFormChange(e) }
+						onChange={ (e) => this.handleInputChange(e) }
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ this.props.onClose }>Cancel</Button>
+					<Button onClick={ () => this.handleClose() }>Cancel</Button>
 					<Button
+						disabled={ !this.formValid() || loading }
 						variant='contained'
-						disabled={ !this.formValid() }
-						onClick={ () => this.handleSave() }
 						color='primary'
+						onClick={ () => this.handleSave() }
 					>
 						Save
 					</Button>

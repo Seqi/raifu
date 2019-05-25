@@ -8,7 +8,7 @@ import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 import LoadoutSeparator from 'app/shared/components/Views/Loadout/LoadoutSeparator'
 import LoadoutAdd from 'app/shared/components/Views/Loadout/LoadoutAdd'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import Loader from 'app/shared/components/Loader'
+import { Loading, Error } from 'app/shared/components'
 
 import EditEventDialog from '../EditEventDialog'
 import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
@@ -22,6 +22,7 @@ class Event extends React.Component {
 
 		this.state = {
 			loading: true,
+			error: null,
 			activeDialog: null,
 			event: null
 		}
@@ -41,23 +42,34 @@ class Event extends React.Component {
 			}, { loadout_id: event.loadout ? event.loadout.id : null })
 	}
 
-	componentDidMount() {		
-		database.events.getById(this.props.match.params.id)
-			// Convert from JSON date format
-			.then(event => ({
-				...event,
-				date: new Date(event.date)
-			}))
-			.then(event => {
-				if (!this.isUnmounted) {
-					this.setState({ event: event, loading: false })
-				}
-			})
+	componentDidMount() {	
+		this.loadEvent()	
 	}
 
 	componentWillUnmount() {
 		this.isUnmounted = true
 	}	
+
+	loadEvent() {
+		this.setState({loading: true, error: null}, () => {
+			database.events.getById(this.props.match.params.id)
+				// Convert from JSON date format
+				.then(event => ({
+					...event,
+					date: new Date(event.date)
+				}))
+				.then(event => {
+					if (!this.isUnmounted) {
+						this.setState({ event: event, loading: false })
+					}
+				})
+				.catch(err => {
+					if (!this.isUnmounted) {
+						this.setState({ error: err.message || err, loading: false})
+					}
+				})
+		})
+	}
 
 	openDialog(activeDialog) {
 		this.setState({ activeDialog })
@@ -68,7 +80,7 @@ class Event extends React.Component {
 		let updatedEvent = this.rawEvent
 		updatedEvent.loadout_id = loadout ? loadout.id : null
 
-		database.events.edit(updatedEvent)
+		return database.events.edit(updatedEvent)
 			.then(() => this.setState((prevState) => {
 				return {
 					event: {...prevState.event, loadout: loadout}
@@ -88,7 +100,7 @@ class Event extends React.Component {
 			updatedEvent.date = updatedEvent.date.toISOString()
 		}
 
-		database.events.edit(updatedEvent)
+		return database.events.edit(updatedEvent)
 			.then(() => this.setState((prevState) => {
 				return {
 					event: {
@@ -102,7 +114,7 @@ class Event extends React.Component {
 	}
 
 	deleteEvent() {
-		database.events.delete(this.state.event.id)
+		return database.events.delete(this.state.event.id)
 			.then(() => this.props.history.push('/events'))
 	}
 
@@ -110,11 +122,11 @@ class Event extends React.Component {
 		let { loading, error, event, activeDialog } = this.state
 
 		if (loading) {			
-			return <Loader />
+			return <Loading />
 		}
 	
 		if (error) {
-			return <div className='error-alert'>Error: {error}</div>
+			return <Error error={ error } onRetry={ () => this.loadEvent() } />
 		}
 
 		return (

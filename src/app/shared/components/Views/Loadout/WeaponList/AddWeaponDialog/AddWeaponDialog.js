@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
+import { Loading, Error } from 'app/shared/components'
 import WeaponSelect from './WeaponSelect'
 import database from '../../../../../../../firebase/database'
 
@@ -15,14 +16,28 @@ class AddWeaponDialog extends Component {
 		super(props)
 		this.state = {
 			weaponId: '',
-			weapons: []
+			weapons: [],
+			loading: false,
+			errorOnLoad: null,
+			errorOnSave: null
 		}
 	}
 
-	componentDidMount() {
-		return database.weapons
-			.get()
-			.then((weapons) => this.setState({ weapons }))
+	componentDidMount = () => this.loadWeapons()
+
+	componentWillUnmount = () => this.isUnmounted = true
+
+	loadWeapons() {
+		if (this.isUnmounted) {
+			return
+		}
+
+		this.setState({ loading: true, errorOnLoad: null }, () => {
+			database.weapons
+				.get()
+				.then((weapons) => !this.isUnmounted && this.setState({ weapons, loading: false }))
+				.catch((err) => !this.isUnmounted && this.setState( { errorOnLoad: err.message || err, loading: false}))
+		})
 	}
 
 	getSelectableWeapons() {
@@ -38,12 +53,15 @@ class AddWeaponDialog extends Component {
 	}
 
 	onSave(weaponId) {
-		this.setState({weaponId: ''})
-		this.props.onSave(weaponId)
+		this.setState({ loading: true, errorOnSave: false }, () => {
+			this.props.onSave(weaponId)
+				.then(() => this.setState({ weaponId: '', loading: false }))
+				.catch(err => this.setState({ loading: false, errorOnSave: err }))
+		})
 	}
 
 	render() {
-		let { weaponId } = this.state
+		let { weaponId, loading, errorOnLoad, errorOnSave } = this.state
 		let { isOpen, onClose } = this.props
 
 		return (
@@ -51,17 +69,24 @@ class AddWeaponDialog extends Component {
 				<DialogTitle>Add weapon to loadout</DialogTitle>
 
 				<DialogContent>
-					<WeaponSelect 
-						weapons={ this.getSelectableWeapons() } 
-						selectedWeaponId={ weaponId } 
-						onWeaponSelected={ weaponId => this.onWeaponSelected(weaponId) } /
-					>
+					{ loading && <Loading /> }
+
+					{ errorOnLoad && <Error error={ errorOnLoad } onRetry={ () => this.loadWeapons() } /> }
+					{ errorOnSave && <Error error={ errorOnSave } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+
+					{ !loading && !errorOnLoad && (
+						<WeaponSelect 
+							weapons={ this.getSelectableWeapons() } 
+							selectedWeaponId={ weaponId } 
+							onWeaponSelected={ weaponId => this.onWeaponSelected(weaponId) } /
+						>
+					)}
 				</DialogContent>
 
 				<DialogActions>
 					<Button onClick={ onClose }>Cancel</Button>
 					<Button
-						disabled={ !this.formValid() }
+						disabled={ !this.formValid() || loading }
 						variant='contained'
 						onClick={ () => this.onSave(weaponId) }
 						color='primary'
