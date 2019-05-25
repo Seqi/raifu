@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('./database')
 const mapEntities = require('./map-entities')
+const jsonifyDates = require('./jsonify-dates')
 
 module.exports = () => {
 	const sequelize = db()
@@ -51,6 +52,14 @@ module.exports = () => {
 		uid: {
 			type: Sequelize.STRING({ length: 32 }),
 			allowNull: false
+		}
+	}, {
+		hooks: {
+			afterCreate: (loadout) => {
+				// Saves doing a pointless join
+				loadout.dataValues.weapons = []
+				jsonifyDates(loadout)
+			}
 		}
 	})
 
