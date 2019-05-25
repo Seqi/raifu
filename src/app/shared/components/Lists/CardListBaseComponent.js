@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import { Error, Loading } from 'app/shared/components'
 import CardList from 'app/shared/components/Cards/CardList'
 
+
 // A little hacky, but we only use the isAddDialogOpen state in children classes
 /* eslint-disable react/no-unused-state */
 class CardListBaseComponent extends Component {
@@ -48,27 +49,28 @@ class CardListBaseComponent extends Component {
 		})
 	}
 
-	handleAddDialogClose() {
-		this.setState({ isAddDialogOpen: false })
-	}
-
-	handleAddDialogOpen() {
-		this.setState({ isAddDialogOpen: true })
+	setDialogOpen(isOpen) {
+		this.setState({ isAddDialogOpen: isOpen })
 	}
 
 	view(id) {}
 
 	delete(id) {
-		this.items
+		return this.items
 			.delete(id)
 			.then(() => this.setState((prevState) => ({ items: prevState.items.filter((item) => item.id !== id) })))
 	}
 
-	save(value) {
-		this.items
+	save(value) {		
+		return this.items
 			.add(value)
-			.then((item) => this.setState((prevState) => ({ items: prevState.items.concat(item) })))
-			.then(() => this.handleAddDialogClose())
+			.then((item) => {
+				if (!this.isUnmounted) {
+					this.setState((prevState) => {
+						return { items: prevState.items.concat(item), isAddDialogOpen: false }
+					})
+				}
+			})
 	}
 
 	render() {
@@ -85,7 +87,7 @@ class CardListBaseComponent extends Component {
 					<CardList
 						items={ items }
 						cardType={ this.cardType }
-						onAdd={ () => this.handleAddDialogOpen() }
+						onAdd={ () => this.setDialogOpen(true) }
 						onCardClick={ (item) => this.view(item) }
 						onCardDelete={ (id) => this.delete(id) }
 					/>

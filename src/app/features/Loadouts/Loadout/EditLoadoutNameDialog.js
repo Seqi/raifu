@@ -8,34 +8,63 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
+import { Error } from 'app/shared/components'
+
 class EditLoadoutNameDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			name: this.props.name
+			loadout: {
+				name: this.props.name
+			},
+			loading: false,
+			error: null
 		}
 	}
 
 	handleChange(e) {
-		this.setState({ name: e.target.value })
+		// Synthetic event data is lost when callback occurs so store
+		let key = e.target.id || e.target.name
+		let val = e.target.value
+
+		this.setState(prevState => {
+			let loadout = {
+				...prevState.loadout,
+				[key]: val
+			}
+
+			return { loadout }
+		})
 	}
 
 	formValid() {
-		return this.state.name
+		return this.state.loadout.name
+	}
+
+	handleSave() {
+		this.setState({loading: true, error: null}, () => {
+			this.props.onSave(this.state.loadout.name)
+				.then(() => this.setState({ loading: false, error: null }))
+				.catch(err => this.setState({ error: err.message || err, loading: false }))
+		})	
+		
 	}
 
 	render() {
-		let { isOpen, onClose, onSave } = this.props
+		let { isOpen, onClose } = this.props
+		let { loading, error, loadout } = this.state
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>Change loadout name</DialogTitle>
 
-				<DialogContent>
+				<DialogContent>					
+					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+
 					<TextField
 						label='Name'
 						name='name'
-						value={ this.state.name }
+						value={ loadout.name }
 						fullWidth={ true }
 						autoFocus={ true }
 						onChange={ (e) => this.handleChange(e) }
@@ -43,11 +72,11 @@ class EditLoadoutNameDialog extends Component {
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ this.props.onClose }>Cancel</Button>
+					<Button onClick={ onClose }>Cancel</Button>
 					<Button
-						disabled={ !this.formValid() }
+						disabled={ !this.formValid() || loading }
 						variant='contained'
-						onClick={ () => onSave(this.state.name) }
+						onClick={ () => this.handleSave() }
 						color='primary'
 					>
 						Save

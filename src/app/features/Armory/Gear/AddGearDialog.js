@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import Dialog from '@material-ui/core/Dialog'
@@ -8,9 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
+import { Error } from 'app/shared/components'
 import { GearSelect } from 'app/shared/components/Selects'
 
-class AddGearDialog extends PureComponent {
+class AddGearDialog extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = this.defaultState
@@ -18,21 +19,39 @@ class AddGearDialog extends PureComponent {
 
 	get defaultState() {
 		return {
-			brand: '',
-			type: '',
-			platform: '',
-			model: '',
-			nickname: ''
+			gear: { 
+				brand: '',
+				type: '',
+				platform: '',
+				model: '',
+				nickname: ''
+			},
+			loading: false,
+			error: null
 		}
 	}
 
 	handleInputChange(e) {
-		this.setState({ [e.target.id || e.target.name]: e.target.value })
+		// Synthetic event data is lost when callback occurs so store
+		let key = e.target.id || e.target.name
+		let val = e.target.value
+
+		this.setState(prevState => {
+			let gear = {
+				...prevState.gear,
+				[key]: val
+			}
+
+			return { gear }
+		})
 	}
 
 	handleSave() {
-		this.props.onSave(this.state)
-		this.setState(this.defaultState)
+		this.setState({loading: true, error: null}, () => {
+			this.props.onSave(this.state.gear)
+				.then(() => this.setState(this.defaultState))
+				.catch(err => this.setState({ error: err.message || err, loading: false }))
+		})		
 	}
 
 	handleClose() {
@@ -41,19 +60,23 @@ class AddGearDialog extends PureComponent {
 	}
 
 	formValid() {
-		let { platform, nickname } = this.state
+		let { platform, nickname } = this.state.gear
 
 		return platform || nickname
 	}
 
 	render() {
+		let { error, loading } = this.state 
+		
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ () => this.handleClose() }>
 				<DialogTitle>Add gear</DialogTitle>
 
 				<DialogContent>
+					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					
 					<GearSelect onChange={ (e) => this.handleInputChange(e) } />
-
+					
 					<TextField
 						id='brand'
 						label='Brand'
@@ -84,7 +107,7 @@ class AddGearDialog extends PureComponent {
 				<DialogActions>
 					<Button onClick={ () => this.handleClose() }>Cancel</Button>
 					<Button
-						disabled={ !this.formValid() }
+						disabled={ !this.formValid() || loading }
 						variant='contained'
 						color='primary'
 						onClick={ () => this.handleSave() }

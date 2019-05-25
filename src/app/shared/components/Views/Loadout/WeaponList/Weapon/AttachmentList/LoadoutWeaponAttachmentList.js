@@ -18,12 +18,16 @@ class LoadoutWeaponAttachmentList extends Component {
 		}
 	}
 
+	componentWillUnmount() {
+		this.isUmounted = true
+	}	
+
 	openDialog() {
-		this.setState({ isDialogOpen: true })
+		!this.isUmounted && this.setState({ isDialogOpen: true })
 	}
 
 	closeDialog() {
-		this.setState({ isDialogOpen: false })
+		this.isUmounted && this.setState({ isDialogOpen: false })
 	}
 
 	addAttachments(attachmentIds) {
@@ -38,7 +42,7 @@ class LoadoutWeaponAttachmentList extends Component {
 				.add(attachmentId)				
 		})
 
-		Promise.all(addToDbPromises)
+		return Promise.all(addToDbPromises)
 			.then(attachments => onAttachmentsAdded(attachments))
 			.then(() => this.closeDialog())
 	}
@@ -46,7 +50,7 @@ class LoadoutWeaponAttachmentList extends Component {
 	deleteAttachment(attachmentId) {
 		let { loadoutId, weapon, onAttachmentDeleted } = this.props
 
-		database.loadouts
+		return database.loadouts
 			.loadout(loadoutId)
 			.weapons
 			.weapon(weapon.id)

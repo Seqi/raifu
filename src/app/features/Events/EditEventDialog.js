@@ -10,38 +10,62 @@ import Button from '@material-ui/core/Button'
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
 
+import { Error } from 'app/shared/components'
+
 class EditEventDialog extends Component {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			name: props.event.name,
-			location: props.event.location,
-			date: props.date || props.event.date
+			event: {
+				name: props.event.name,
+				location: props.event.location,
+				date: props.date || props.event.date
+			},
+			loading: false,
+			error: null
 		}
 	}	
 
 	handleInputChange(e) {
-		this.setState({ [e.target.id || e.target.name]: e.target.value })
+		// Synthetic event data is lost when callback occurs so store
+		let key = e.target.id || e.target.name
+		let val = e.target.value
+
+		this.setState(prevState => {
+			let event = {
+				...prevState.event,
+				[key]: val
+			}
+
+			return { event }
+		})
 	}
 
 	handleSave() {
-		this.props.onSave(this.state)
+		this.setState({ loading: true, error: null }, () => {
+			this.props.onSave(this.state)
+				.catch(err => this.setState({ error: err.message || err, loading: false }))
+		})
 	}
 
 	formValid() {
-		let { name, location, date} = this.state
+		let { name, location, date} = this.state.event
 
 		return name && location && date
 	}
 
 	render() {
-		let { name, location, date } = this.state 
+		let { name, location, date } = this.state.event
+		let { error, loading } = this.state
+
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ this.props.onClose }>
 				<DialogTitle>{ this.props.event.date ? 'Edit' : 'Add' } event</DialogTitle>
 
 				<DialogContent>
+					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+
 					<TextField
 						id='name'
 						label='Name'
@@ -75,7 +99,7 @@ class EditEventDialog extends Component {
 				<DialogActions>
 					<Button onClick={ this.props.onClose }>Cancel</Button>
 					<Button
-						disabled={ !this.formValid() }
+						disabled={ !this.formValid() || loading }
 						variant='contained'
 						onClick={ () => this.handleSave() }
 						color='primary'

@@ -38,7 +38,7 @@ class Events extends React.Component {
 	}
 
 	componentWillUnmount() {
-		this.unmounted = false
+		this.unmounted = true
 	}
 
 	loadEvents() {
@@ -71,20 +71,16 @@ class Events extends React.Component {
 		this.props.history.push(`${this.props.location.pathname}/${event.id}`)
 	}
 
-	save(value) {
-		database.events
-			.add(value)
-			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
-			.then(() => this.closeDialog())
-	}
-
-	formatDateThenSave(event) {
+	save(event) {
 		// Firebase functions don't like date objects...
 		if (event.date) {
 			event.date = event.date.toISOString()
 		}
 
-		this.save(event)
+		return database.events
+			.add(event)
+			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
+			.then(() => this.closeDialog())
 	}
 
 	styleEvent = (e) => {
@@ -148,7 +144,7 @@ class Events extends React.Component {
 
 				{ activeTimeslot && <EditEventDialog 
 					date={ activeTimeslot }
-					onSave={ value => this.formatDateThenSave(value) } 
+					onSave={ value => this.save(value) } 
 					onClose={ () => this.closeDialog() }
 					isOpen={ isAddDialogOpen } 
 				/> }

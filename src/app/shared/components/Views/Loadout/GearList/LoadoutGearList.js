@@ -30,7 +30,7 @@ export default class LoadoutGearList extends React.Component {
 	addGear(gearId) {
 		let { loadoutId, onAdd } = this.props 
 
-		database.loadouts
+		return database.loadouts
 			.loadout(loadoutId)
 			.gear
 			.add(gearId)
@@ -41,7 +41,7 @@ export default class LoadoutGearList extends React.Component {
 	deleteGear(gearId) {
 		let { loadoutId, onDelete } = this.props 
 
-		database.loadouts
+		return database.loadouts
 			.loadout(loadoutId)
 			.gear
 			.delete(gearId)

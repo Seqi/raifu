@@ -19,17 +19,17 @@ class LoadoutWeapon extends Component {
 		}
 	}
 
-	openDialog() {
-		this.setState({ isDialogOpen: true })
-	}
+	componentWillUnmount() {
+		this.isUnmounted = true
+	}	
 
-	closeDialog() {
-		this.setState({ isDialogOpen: false })
+	setDialogOpen(isOpen) {
+		!this.isUnmounted && this.setState({ isDialogOpen: isOpen })
 	}
 
 	deleteWeapon(weaponId) {
-		this.closeDialog()
-		this.props.onDelete(weaponId)
+		return this.props.onDelete(weaponId)
+			.then(() => this.setDialogOpen(false))
 	}
 
 	render() {
@@ -44,7 +44,7 @@ class LoadoutWeapon extends Component {
 						<Typography variant={ 'h4' } className='loadout-weapon-item-title'>
 							{ weapon.getTitle() }
 							
-							{ canEdit && <DeleteButton style={ {position: 'initial'} } onClick={ () => this.openDialog() } /> }
+							{ canEdit && <DeleteButton style={ {position: 'initial'} } onClick={ () => this.setDialogOpen(true) } /> }
 						</Typography>
 
 						<ArmoryItemImage 
@@ -69,7 +69,7 @@ class LoadoutWeapon extends Component {
 				{ canEdit && <ConfirmDeleteDialog
 					title={ weapon.getTitle() }
 					isOpen={ isDialogOpen }
-					onClose={ () => this.closeDialog() }
+					onClose={ () => this.setDialogOpen(false) }
 					onConfirm={ () => this.deleteWeapon(weapon.id) }
 				/> }
 			</React.Fragment>

@@ -50,7 +50,7 @@ class Loadout extends React.Component {
 	editLoadoutName(name) {
 		let { loadout } = this.state
 
-		database.loadouts
+		return database.loadouts
 			.edit({ id: loadout.id, name })
 			.then(() => {
 				this.setState((prevState) => {
