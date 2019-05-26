@@ -203,6 +203,7 @@ module.exports = () => {
 			},
 			afterCreate: (event) => {
 				event.date = event.date.toISOString()
+				jsonifyDates(event)
 			}
 		}
 	})
