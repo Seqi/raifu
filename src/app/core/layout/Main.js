@@ -10,35 +10,48 @@ import Navbar from 'app/core/layout/Navbar/Navbar'
 import Armory from 'app/features/Armory/Armory'
 import Loadouts from 'app/features/Loadouts/Loadouts'
 import Events from 'app/features/Events/Events'
-import auth from '../../../firebase/auth'
+import AuthenticatedRoute from 'app/shared/components/Auth/AuthenticatedRoute'
 
 class Main extends Component {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			tabIndex: 0
+			tabIndex: this.getTabIndex()
 		}
+	}
 
-		if (!auth.user) {
-			this.props.history.push('/login')
-		}
+	// Fixes active tab on direct navigations
+	getTabIndex() {
+		let idxMap = [
+			{ path: '/armory', idx: 0 },
+			{ path: '/loadouts', idx: 1 },
+			{ path: '/events', idx: 2 },
+		]
 
-		auth.onAuthChanged((user) => {
-			if (!user) {
-				this.props.history.push('/login')
+		let currPath = this.props.location.pathname
+
+		for (let map of idxMap) {
+			if (currPath.indexOf(map.path) > -1) {
+				return map.idx
 			}
-		})
+		}
+
+		return 0
 	}
 
 	tabChange(evt, tabIndex) {
 		this.setState({ tabIndex })
 	}
 
+	onAuthFailure() {
+		this.props.history.push('/login')
+	}
+
 	render() {
 		let { tabIndex } = this.state
 
-		return auth.user ? (
+		return (
 			<Router basename='/app'>
 				<React.Fragment>
 					<Navbar />
@@ -51,16 +64,14 @@ class Main extends Component {
 
 					<div className='app-window'>
 						<Switch>
-							<Route path='/armory' component={ Armory } />
-							<Route path='/loadouts' component={ Loadouts } />
-							<Route path='/events' component={ Events } />
+							<AuthenticatedRoute path='/armory' component={ Armory } onFail={ () => this.onAuthFailure() } />
+							<AuthenticatedRoute path='/loadouts' component={ Loadouts } onFail={ () => this.onAuthFailure() }  />
+							<AuthenticatedRoute path='/events' component={ Events } onFail={ () => this.onAuthFailure() }  />
 							<Redirect from='/' to='/armory' />
 						</Switch>
 					</div>
 				</React.Fragment>
 			</Router>
-		) : (
-			<div />
 		)
 	}
 }
