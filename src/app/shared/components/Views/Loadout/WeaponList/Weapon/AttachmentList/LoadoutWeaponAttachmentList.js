@@ -19,15 +19,11 @@ class LoadoutWeaponAttachmentList extends Component {
 	}
 
 	componentWillUnmount() {
-		this.isUmounted = true
+		this.isUnmounted = true
 	}	
 
-	openDialog() {
-		!this.isUmounted && this.setState({ isDialogOpen: true })
-	}
-
-	closeDialog() {
-		this.isUmounted && this.setState({ isDialogOpen: false })
+	setDialogOpen(isDialogOpen) {
+		!this.isUnmounted && this.setState({ isDialogOpen })
 	}
 
 	addAttachments(attachmentIds) {
@@ -44,7 +40,7 @@ class LoadoutWeaponAttachmentList extends Component {
 
 		return Promise.all(addToDbPromises)
 			.then(attachments => onAttachmentsAdded(attachments))
-			.then(() => this.closeDialog())
+			.then(() => this.setDialogOpen(false))
 	}
 
 	deleteAttachment(attachmentId) {
@@ -89,7 +85,7 @@ class LoadoutWeaponAttachmentList extends Component {
 
 							{ canEdit && 
 								<div className='loadout-weapon-attachment-item'>
-									<AddButton onClick={ () => this.openDialog() } />   
+									<AddButton onClick={ () => this.setDialogOpen(true) } />   
 								</div> 
 							}
 						</div>
@@ -99,7 +95,7 @@ class LoadoutWeaponAttachmentList extends Component {
 							weaponName={ weapon.getTitle() }
 							filterIds={ this.getAttachmentsToFilter(loadout) }
 							isOpen={ this.state.isDialogOpen }
-							onClose={ () => this.closeDialog() }
+							onClose={ () => this.setDialogOpen(false) }
 							onSave={ (ids) => this.addAttachments(ids) }
 						/> }
 					</React.Fragment>
