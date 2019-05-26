@@ -1,7 +1,7 @@
 import './Main.css'
 
 import React, { Component } from 'react'
-import { withRouter, BrowserRouter as Router, Link, Route, Switch, Redirect } from 'react-router-dom'
+import { withRouter, BrowserRouter as Router, Link, Switch, Redirect } from 'react-router-dom'
 
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
