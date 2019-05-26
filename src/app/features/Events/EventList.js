@@ -42,18 +42,22 @@ class Events extends React.Component {
 	}
 
 	loadEvents() {
-		database.events.get()
-			.then(events => {
-				if (!this.unmounted) {
-					this.setState({ events: events, error: null, loading: false })
-				}
-			})
-			.catch(err => {
-				if (!this.unmounted) {
-					this.setState({ error: err, loading: false})
-				}
-			})
-
+		if (this.unmounted) {
+			return
+		}
+		this.setState({ loading: true, error: null }, () => {
+			database.events.get()
+				.then(events => {
+					if (!this.unmounted) {
+						this.setState({ events: events, error: null, loading: false })
+					}
+				})
+				.catch(err => {
+					if (!this.unmounted) {
+						this.setState({ error: err, loading: false})
+					}
+				})			
+		})
 	}
 
 	addEvent(date) {
