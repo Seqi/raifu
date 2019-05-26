@@ -1,6 +1,7 @@
 const functions = require('./firebase-functions-extensions')
 const entities = require('./database/entities')
 const baseEntity = require('./base-entity')
+const loadout = require('./loadout')
 
 module.exports = {
 	...baseEntity(entities().event, 'event'),
@@ -24,11 +25,14 @@ module.exports = {
 				}, 
 				attributes: {
 					exclude: ['uid', 'loadout_id']
-				}
+				},
+				order: ['createdAt']
 			})
 			
 			let result = JSON.parse(JSON.stringify(events))
 			console.log('Successfuly retrieved events', JSON.stringify(result))
+
+			result.forEach(event => event.loadout && loadout.orderLoadoutItems(event.loadout))
 
 			return result
 		} catch (e) {			
@@ -60,11 +64,9 @@ module.exports = {
 							attributes: {
 								exclude: ['uid']
 							},
-							through: { attributes: [] },
 							include: [
 								{
 									model: entities().attachment,
-									through: { attributes: [] },
 									attributes: {
 										exclude: ['uid']
 									}
@@ -76,8 +78,7 @@ module.exports = {
 							as: 'gear',
 							attributes: {
 								exclude: ['uid']
-							},
-							through: { attributes: [] }
+							}
 						}
 					],
 				}, 
@@ -85,6 +86,8 @@ module.exports = {
 					exclude: ['uid', 'loadout_id']
 				}
 			})
+			
+			loadout.orderLoadoutItems(event.loadout)
 			
 			console.log('Successfuly retrieved event', event.id)
 

@@ -10,7 +10,8 @@ module.exports = (entities, entityName = 'entity') => ({
 				},
 				attributes: {
 					exclude: ['uid']
-				}
+				},
+				order: ['createdAt']
 			})
 			
 			console.log(`${context.auth.uid}: Successfuly retrieved ${result.length} ${entityName}s`)
