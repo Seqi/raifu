@@ -1,5 +1,6 @@
 import './UserMenu.css'
 import React, { Component } from 'react'
+import withRouter from 'react-router-dom/withRouter'
 import PropTypes from 'prop-types'
 
 import Menu from '@material-ui/core/Menu'
@@ -27,6 +28,7 @@ class UserMenu extends Component {
 	logout() {
 		this.handleClose()
 		auth.logout()
+			.then(() => this.props.history.push('/login'))
 	}
 
 	render() {
@@ -78,4 +80,4 @@ UserMenu.propTypes = {
 	}).isRequired
 }
 
-export default UserMenu
+export default withRouter(UserMenu)
