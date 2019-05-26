@@ -10,15 +10,12 @@ To run Raifu locally, you will need to follow a certain number of steps to confi
 
 #### Firebase
 
-Create a `.env` file in root to supply your Firebase credentials. If you need to create a Firebase project, you can get started [here](https://firebase.google.com/). When you create a Firebase project, you will be provided with a few settings. Set these in your `.env` file with the following keys:
+Create a `.env` file in root to supply your Firebase credentials. If you need to create a Firebase project, you can get started [here](https://firebase.google.com/). When you create a Firebase project and add a web app, you will be provided with a few settings. Set these in your `.env` file with the following keys:
 
 ```
 REACT_APP_FIREBASE_APIKEY
 REACT_APP_FIREBASE_AUTH_DOMAIN
-REACT_APP_FIREBASE_DATABASE_URL
 REACT_APP_FIREBASE_PROJECT_ID
-REACT_APP_FIREBASE_STORAGE_BUCKET
-REACT_APP_FIREBASE_MESSAGING_SENDER_ID
 ```
 
 You will also need to provide a `NODE_PATH=src` inside your `.env` file to allow for absolute filepaths.
@@ -29,10 +26,7 @@ Your `.env` file should now look something like this:
 NODE_PATH=src
 REACT_APP_FIREBASE_APIKEY=myapikey
 REACT_APP_FIREBASE_AUTH_DOMAIN=myauthdomain
-REACT_APP_FIREBASE_DATABASE_URL=mydatabaseurl
 REACT_APP_FIREBASE_PROJECT_ID=myprojectid
-REACT_APP_FIREBASE_STORAGE_BUCKET=mystoragebucket
-REACT_APP_FIREBASE_MESSAGING_SENDER_ID=mymessagingsenderid
 
 ```
 
