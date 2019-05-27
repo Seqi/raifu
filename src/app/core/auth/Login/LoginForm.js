@@ -34,6 +34,7 @@ class LoginForm extends Component {
 					id='email'
 					label='E-mail'
 					value={ this.state.email }
+					autoComplete={ 'email' }
 					onChange={ (evt) => this.handleChange(evt) }
 					autoFocus={ true }
 				/>
@@ -41,6 +42,7 @@ class LoginForm extends Component {
 					id='password'
 					label='Password'
 					type='password'
+					autoComplete={ 'current-password' }
 					value={ this.state.password }
 					onChange={ (evt) => this.handleChange(evt) }
 				/>
