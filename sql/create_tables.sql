@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS "gear" (
 CREATE TABLE IF NOT EXISTS "loadouts" (
     "id"   VARCHAR(14) NOT NULL, 
     "name" VARCHAR(64) NOT NULL, 
+    "shared" BOOLEAN,
     "uid" VARCHAR(32) NOT NULL, 
     "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
