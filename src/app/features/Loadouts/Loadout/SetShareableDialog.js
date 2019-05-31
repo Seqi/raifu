@@ -66,7 +66,7 @@ class SetShareableDialog extends Component {
 					/>
 
 					<FormControlLabel 
-						label={ loadout.shared ? 'Stop sharing': 'Share' }
+						label='Share'
 						onChange={ e => this.handleShare(e.target.checked) }
 						control={ <Checkbox disabled={ loading } checked={ loadout.shared } /> }
 					/>
