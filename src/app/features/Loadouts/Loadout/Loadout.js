@@ -6,6 +6,7 @@ import { Loading, Error } from 'app/shared/components'
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 
 import EditLoadoutDialog from './EditLoadoutNameDialog'
+import SetShareableDialog from './SetShareableDialog'
 import database from '../../../../firebase/database'
 
 class Loadout extends React.Component {
@@ -52,17 +53,19 @@ class Loadout extends React.Component {
 
 		return database.loadouts
 			.edit({ ...updatedLoadout, id: loadout.id, })
-			.then(() => {
-				this.setState((prevState) => {
-					let newLoadout = {
-						...prevState.loadout,
-						...updatedLoadout
-					}
-
-					return { loadout: newLoadout }
-				})
-			})
+			.then(() => this.onLoadoutUpdated(updatedLoadout))
 			.then(() => this.closeDialog())
+	}
+	
+	onLoadoutUpdated(updatedLoadout) {
+		this.setState((prevState) => {
+			let newLoadout = {
+				...prevState.loadout,
+				...updatedLoadout
+			}
+
+			return { loadout: newLoadout }
+		})
 	}
 
 	addWeapon(weapon) {
@@ -184,7 +187,8 @@ class Loadout extends React.Component {
 			<React.Fragment>
 				<Typography variant='h3' >
 					{ loadout.name }					
-					<i onClick={ () => this.openDialog('editloadout') } className='fa fa-pen icon-action' />
+					<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />
+					<i onClick={ () => this.openDialog('share') } className='fa fa-link icon-action' />
 				</Typography>
 
 				<LoadoutView 
@@ -200,8 +204,15 @@ class Loadout extends React.Component {
 
 				<EditLoadoutDialog
 					name={ loadout.name }
-					isOpen={ activeDialog === 'editloadout' }
+					isOpen={ activeDialog === 'edit' }
 					onSave={ (name) => this.editLoadout(name) }
+					onClose={ () => this.closeDialog() }
+				/>
+
+				<SetShareableDialog
+					loadout={ loadout }
+					isOpen={ activeDialog === 'share' }
+					onShare={ (isShared) => this.onLoadoutUpdated({...loadout, shared: isShared }) }
 					onClose={ () => this.closeDialog() }
 				/>
 			</React.Fragment>
