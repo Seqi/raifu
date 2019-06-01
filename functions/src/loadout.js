@@ -3,6 +3,10 @@ const entities = require('./database/entities')
 const baseEntity = require('./base-entity')
 
 let orderLoadoutItems = (loadout) => {
+	if (!loadout) {
+		return 
+	}
+
 	loadout.weapons.sort((weapon1, weapon2) => {
 		let a1 = weapon1.loadout_weapon
 		let a2 = weapon2.loadout_weapon
@@ -116,6 +120,11 @@ module.exports = {
 					exclude: ['uid']
 				}
 			})
+
+			if (!loadout) {
+				console.warn(`No loadout was found with id ${id} for user ${context.auth.uid}`)
+				return new functions.https.HttpsError('not-found', null, 'Loadout not found')
+			}
 
 			orderLoadoutItems(loadout)
 

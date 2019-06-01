@@ -54,8 +54,6 @@ class Main extends Component {
 		return (
 			<Router basename='/app'>
 				<React.Fragment>
-					<Navbar />
-
 					<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
 						<Tab label='Armory' component={ Link } to='/armory' />
 						<Tab label='Loadouts' component={ Link } to='/loadouts' />

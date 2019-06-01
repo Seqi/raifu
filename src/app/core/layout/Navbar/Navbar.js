@@ -23,7 +23,9 @@ class Navbar extends Component {
 	render() {
 		return (
 			<div className='navbar'>
-				<div className='user-menu'>{this.state.user && <UserMenu user={ this.state.user } />}</div>
+				<div className='user-menu'>
+					{this.state.user && <UserMenu user={ this.state.user } />}
+				</div>
 			</div>
 		)
 	}
