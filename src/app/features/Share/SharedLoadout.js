@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Typography from '@material-ui/core/Typography'
 
+import SharedNotFound from './SharedNotFound'
 import { Loading, Error } from 'app/shared/components'
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 import database from '../../../firebase/database'
@@ -23,7 +24,12 @@ export default function SharedLoadout(props) {
 				!unmounted && setLoadout({ data: loadout, loading: false, error: null })
 			})
 			.catch((err) => {
-				!unmounted && setLoadout({data: null, loading: false, error: err.message || err})
+				let error = null
+				if (err !== 'Loadout not found') {
+					error = err.message || err
+				}
+
+				!unmounted && setLoadout({ data: null, loading: false, error: error })
 			})
 	}
 
@@ -33,6 +39,10 @@ export default function SharedLoadout(props) {
 
 	if (loadout.error) {
 		return <Error error={ loadout.error } onRetry={ () => loadLoadout() } />
+	}
+
+	if (!loadout.data) {
+		return <SharedNotFound entityName={ 'Loadout' } />
 	}
 
 	return (
