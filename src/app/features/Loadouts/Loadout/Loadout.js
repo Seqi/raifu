@@ -36,7 +36,7 @@ class Loadout extends React.Component {
 					this.setState({ loadout, error: null, loading: false })
 				}
 			})
-			.catch((err) => this.setState({ error: err, loading: false }))
+			.catch((err) => this.setState({ error: err.message || err, loading: false }))
 	}
 
 	openDialog(id) {
