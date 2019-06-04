@@ -1,6 +1,7 @@
 import './Navbar.css'
 import React, { Component } from 'react'
-import UserMenu from './UserMenu'
+import AuthenticatedUserMenu from './AuthenticatedUserMenu'
+import UnauthenticatedUserMenu from './UnauthenticatedUserMenu'
 
 import auth from '../../../../firebase/auth'
 
@@ -24,7 +25,8 @@ class Navbar extends Component {
 		return (
 			<div className='navbar'>
 				<div className='user-menu'>
-					{this.state.user && <UserMenu user={ this.state.user } />}
+					{ this.state.user && <AuthenticatedUserMenu user={ this.state.user } /> }
+					{ !this.state.user && <UnauthenticatedUserMenu /> }
 				</div>
 			</div>
 		)

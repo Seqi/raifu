@@ -1,14 +1,14 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import UserMenu from './UserMenu'
+import AuthenticatedUserMenu from './AuthenticatedUserMenu'
 import { Avatar, MenuItem } from '@material-ui/core'
 import auth from '../../../../firebase/auth'
 
 jest.mock('../../../../firebase/auth')
 
 it('displays user information with display name and photo (third party login)', () => {
-	let wrapper = mount(<UserMenu user={ { displayName: 'Test Name', photoURL: 'test' } } />)
+	let wrapper = mount(<AuthenticatedUserMenu user={ { displayName: 'Test Name', photoURL: 'test' } } />)
 
 	expect(wrapper.find('.user-name')
 		.contains('Test Name'))
@@ -20,7 +20,7 @@ it('displays user information with display name and photo (third party login)', 
 })
 
 it('displays user information with email (email login)', () => {
-	let wrapper = mount(<UserMenu user={ { email: 'Test Name' } } />)
+	let wrapper = mount(<AuthenticatedUserMenu user={ { email: 'Test Name' } } />)
 
 	expect(wrapper.find('.user-name')
 		.contains('Test Name'))
@@ -31,14 +31,14 @@ it('displays user information with email (email login)', () => {
 })
 
 it('doesn\'t show menu items by default', () => {
-	let wrapper = mount(<UserMenu user={ { email: 'Test Name' } } />)
+	let wrapper = mount(<AuthenticatedUserMenu user={ { email: 'Test Name' } } />)
 
 	expect(wrapper.find(MenuItem).length)
 		.toBe(0)
 })
 
 it('shows menu items when avatar clicked', () => {
-	let wrapper = mount(<UserMenu user={ { email: 'Test Name' } } />)
+	let wrapper = mount(<AuthenticatedUserMenu user={ { email: 'Test Name' } } />)
 
 	let btn = wrapper.find('.avatar-button')
 
@@ -51,7 +51,7 @@ it('shows menu items when avatar clicked', () => {
 })
 
 it('has a logout button which logs the user out when clicked', () => {
-	let wrapper = mount(<UserMenu user={ { email: 'Test Name' } } />)
+	let wrapper = mount(<AuthenticatedUserMenu user={ { email: 'Test Name' } } />)
 
 	// Open the menu
 	let btn = wrapper.find('.avatar-button')

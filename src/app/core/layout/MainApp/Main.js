@@ -52,24 +52,27 @@ class Main extends Component {
 		let { tabIndex } = this.state
 
 		return (
-			<Router basename='/app'>
-				<React.Fragment>
-					<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
-						<Tab label='Armory' component={ Link } to='/armory' />
-						<Tab label='Loadouts' component={ Link } to='/loadouts' />
-						<Tab label='Events' component={ Link } to='/events' />
-					</Tabs>
+			<React.Fragment>				
+				<Navbar />
+				<Router basename='/app'>
+					<React.Fragment>
+						<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
+							<Tab label='Armory' component={ Link } to='/armory' />
+							<Tab label='Loadouts' component={ Link } to='/loadouts' />
+							<Tab label='Events' component={ Link } to='/events' />
+						</Tabs>
 
-					<div className='app-window'>
-						<Switch>
-							<AuthenticatedRoute path='/armory' component={ Armory } onFail={ () => this.onAuthFailure() } />
-							<AuthenticatedRoute path='/loadouts' component={ Loadouts } onFail={ () => this.onAuthFailure() }  />
-							<AuthenticatedRoute path='/events' component={ Events } onFail={ () => this.onAuthFailure() }  />
-							<Redirect from='/' to='/armory' />
-						</Switch>
-					</div>
-				</React.Fragment>
-			</Router>
+						<div className='app-window'>
+							<Switch>
+								<AuthenticatedRoute path='/armory' component={ Armory } onFail={ () => this.onAuthFailure() } />
+								<AuthenticatedRoute path='/loadouts' component={ Loadouts } onFail={ () => this.onAuthFailure() }  />
+								<AuthenticatedRoute path='/events' component={ Events } onFail={ () => this.onAuthFailure() }  />
+								<Redirect from='/' to='/armory' />
+							</Switch>
+						</div>
+					</React.Fragment>
+				</Router>
+			</React.Fragment>
 		)
 	}
 }

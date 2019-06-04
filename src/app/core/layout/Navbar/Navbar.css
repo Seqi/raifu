@@ -6,4 +6,5 @@
 
 .user-menu {
 	float: right;
+	display: flex;
 }

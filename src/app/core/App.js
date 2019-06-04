@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import AuthPage from './auth/AuthPage'
 import Main from './layout/MainApp/Main'
 import Shared from './layout/Shared/Shared'
-import Navbar from './layout/Navbar/Navbar'
 
 class App extends Component {
 	render() {
@@ -13,7 +12,6 @@ class App extends Component {
 			<div className='app'>
 				<Router>
 					<React.Fragment>
-						<Navbar />
 						<Switch>
 							<Route path='/login' component={ AuthPage } />
 							<Route path='/app' component={ Main } />
