@@ -29,9 +29,6 @@ class SetShareableDialog extends Component {
 		return `${window.location.origin}/share/loadout/${this.props.loadout.id}`
 	}
 
-	// We don't have to worry about updating the calling component as this component will
-	// either be rerendered with a refetched loadout with updated value, or itll persist
-	// with the updated state we update here
 	handleShare(isShared) {
 		let { loadout } = this.props 
 
