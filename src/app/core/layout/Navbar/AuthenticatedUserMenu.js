@@ -1,4 +1,3 @@
-import './UserMenu.css'
 import React, { Component } from 'react'
 import withRouter from 'react-router-dom/withRouter'
 import PropTypes from 'prop-types'
@@ -9,7 +8,9 @@ import Avatar from '@material-ui/core/Avatar'
 
 import auth from '../../../../firebase/auth'
 
-class UserMenu extends Component {
+import './AuthenticatedUserMenu.css'
+
+class AuthenticatedUserMenu extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -39,6 +40,7 @@ class UserMenu extends Component {
 		return (
 			<div className='user-profile'>
 				<span className='user-name'>{user.displayName || user.email}</span>
+				
 				<button type='button' className='avatar-button' onClick={ this.handleMenu }>
 					{user.photoURL ? (
 						<Avatar
@@ -51,6 +53,7 @@ class UserMenu extends Component {
 						<i className='avatar-icon fa fa-user' />
 					)}
 				</button>
+
 				<Menu
 					id='auth-menu'
 					anchorEl={ anchor }
@@ -72,7 +75,7 @@ class UserMenu extends Component {
 	}
 }
 
-UserMenu.propTypes = {
+AuthenticatedUserMenu.propTypes = {
 	user: PropTypes.shape({
 		displayName: PropTypes.string,
 		email: PropTypes.string,
@@ -80,4 +83,4 @@ UserMenu.propTypes = {
 	}).isRequired
 }
 
-export default withRouter(UserMenu)
+export default withRouter(AuthenticatedUserMenu)

@@ -4,7 +4,7 @@ import { Tabs } from '@material-ui/core'
 
 import Main from './Main'
 
-import auth from '../../../firebase/auth'
+import auth from '../../../../firebase/auth'
 jest.mock('../../../firebase/auth')
 jest.mock('../../../firebase/database')
 

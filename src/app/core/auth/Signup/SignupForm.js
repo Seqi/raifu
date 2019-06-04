@@ -41,6 +41,7 @@ class LoginForm extends Component {
 					value={ this.state.email }
 					onChange={ (evt) => this.handleChange(evt) }
 					autoFocus={ true }
+					autoComplete={ 'off' }
 					error={ this.state.email.length === 0 }
 				/>
 				<TextField
@@ -49,6 +50,7 @@ class LoginForm extends Component {
 					type='password'
 					value={ this.state.password }
 					onChange={ (evt) => this.handleChange(evt) }
+					autoComplete={ 'off' }
 					helperText='Minimum of six characters'
 				/>
 				<TextField
@@ -57,6 +59,7 @@ class LoginForm extends Component {
 					type='password'
 					value={ this.state.confirmPassword }
 					onChange={ (evt) => this.handleChange(evt) }
+					autoComplete={ 'off' }
 					error={ this.state.password !== this.state.confirmPassword }
 				/>
 

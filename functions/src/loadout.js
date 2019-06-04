@@ -3,6 +3,10 @@ const entities = require('./database/entities')
 const baseEntity = require('./base-entity')
 
 let orderLoadoutItems = (loadout) => {
+	if (!loadout) {
+		return 
+	}
+
 	loadout.weapons.sort((weapon1, weapon2) => {
 		let a1 = weapon1.loadout_weapon
 		let a2 = weapon2.loadout_weapon
@@ -84,17 +88,19 @@ module.exports = {
 		}
 	}),
 
-	getById: functions.https.onAuthedCall(async (id, context) => {
+	getById: functions.https.onCall(async (id, context) => {
 		if (!id) {
-			console.warn(`No id was supplied for getting loadout by id for ${context.auth.uid}`)
+			console.warn(`No id was supplied for getting loadout by id for ${context.auth ? context.auth.uid : 'anonymous'}`)
 			return null
 		}
 
 		try {
+			let query = context.auth ? { uid: context.auth.uid } : { shared: true }
+
 			let loadout = await entities().loadout.findOne({
 				where: {
 					id: id,
-					uid: context.auth.uid
+					...query
 				},
 				include: [
 					{
@@ -117,13 +123,18 @@ module.exports = {
 				}
 			})
 
+			if (!loadout) {
+				console.warn(`No loadout was found with id ${id} for user ${context.auth ? context.auth.uid : 'anonymous'}`)
+				return new functions.https.HttpsError('not-found', null, 'Loadout not found')
+			}
+
 			orderLoadoutItems(loadout)
 
 			console.log('Successfuly retrieved loadout', loadout.id)
 
 			return loadout.toJSON()
 		} catch (e) {
-			console.error(`Error retrieving loadout for ${context.auth.uid}`, e)
+			console.error(`Error retrieving loadout for ${context.auth ? context.auth.uid : 'anonymous'}`, e)
 			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
 		}
 	}),
