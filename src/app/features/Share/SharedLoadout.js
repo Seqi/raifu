@@ -8,10 +8,8 @@ import database from '../../../firebase/database'
 export default function SharedLoadout(props) {
 	let [ loadout, setLoadout ] = useState({data: null, error: null, loading: true })
 	let unmounted = false
-	let loadoutId = null
 
 	useEffect(() => {
-		loadoutId = props.match.params.loadoutId
 		loadLoadout()
 
 		return () => unmounted = true
@@ -20,7 +18,7 @@ export default function SharedLoadout(props) {
 	let loadLoadout = () => {
 		setLoadout({ error: null, loading: true })
 
-		database.loadouts.getById(loadoutId)
+		database.loadouts.getById(props.match.params.loadoutId)
 			.then((loadout) => {
 				!unmounted && setLoadout({ data: loadout, loading: false, error: null })
 			})
