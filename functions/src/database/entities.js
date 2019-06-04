@@ -49,6 +49,10 @@ module.exports = () => {
 			type: Sequelize.STRING({ length: 64 }),
 			allowNull: false
 		},
+		shared: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: false
+		},
 		uid: {
 			type: Sequelize.STRING({ length: 32 }),
 			allowNull: false

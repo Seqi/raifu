@@ -12,7 +12,17 @@ import './Loadout.css'
 
 class LoadoutView extends React.Component {
 	render() {
-		let { loadout, canEdit, onWeaponAdd, onWeaponDelete, onAttachmentsAdd, onAttachmentDelete, onGearAdd, onGearDelete } = this.props 
+		let { 
+			loadout,
+			canEdit, 
+			onWeaponAdd, 
+			onWeaponDelete, 
+			onAttachmentsAdd, 
+			onAttachmentDelete, 
+			onGearAdd, 
+			onGearDelete 
+		} = this.props 
+		
 		return (
 			<LoadoutContext.Provider value={ loadout }>
 				<div>
