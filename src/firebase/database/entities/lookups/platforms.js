@@ -76,6 +76,7 @@ export default {
 			'M9',
 			'CZ 45',
 			'CZ P-09',
+			'CZ Shadow 2',
 			'Desert Eagle',
 			'F226',
 			'F228',
