@@ -28,6 +28,7 @@ export default {
 			'SG553',
 			'SR-25',
 			'TAR-21',
+			'TK-45',
 			'Type 64',
 			'Type 95',
 			'UAR',
