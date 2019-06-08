@@ -15,7 +15,7 @@ class AttachmentsList extends CardListBaseComponent {
 	}
 
 	get cardType() {
-		return 'attachment'
+		return 'attachments'
 	}
 
 	render() {
