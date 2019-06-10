@@ -13,6 +13,10 @@ class WeaponList extends CardListBaseComponent {
 		return database.weapons
 	}
 
+	get cardType() {
+		return 'weapons'
+	}
+
 	render() {
 		let { isAddDialogOpen } = this.state
 		return (

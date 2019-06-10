@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
-import { WeaponCard, AttachmentCard, LoadoutCard, GearCard } from './Entities'
+import { ArmoryCard, LoadoutCard } from './Entities'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 
 class CardList extends Component {
@@ -68,16 +68,8 @@ class CardList extends Component {
 				style: { animationDelay: this.getAnimationDelay(idx, items.length) }
 			}
 	
-			if (cardType === 'weapon') {
-				return <WeaponCard weapon={ item } { ...sharedProps } />
-			}
-
-			else if (cardType === 'attachment') {
-				return <AttachmentCard attachment={ item } { ...sharedProps } />
-			}
-
-			else if (cardType === 'gear') {
-				return <GearCard gear={ item } { ...sharedProps } />
+			if (['weapons', 'attachments', 'gear'].indexOf(cardType) > -1) {
+				return <ArmoryCard item={ item } category={ cardType } { ...sharedProps } />
 			}
 
 			else if (cardType === 'loadout') {
@@ -93,6 +85,14 @@ class CardList extends Component {
 	render() {
 		let { items, canAdd, onAdd, cardType } = this.props
 
+		let mappedCardType
+
+		if (['weapons', 'attachments', 'gear'].indexOf(cardType) > -1) { 
+			mappedCardType = 'armory'
+		} else {
+			mappedCardType = cardType
+		}
+
 		return (
 			<div className='card-list'>
 				{this.renderItems(items)}
@@ -101,7 +101,7 @@ class CardList extends Component {
 					<AddCard
 						style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length) } }
 						onClick={ onAdd }
-						cardType={ cardType }
+						cardType={ mappedCardType }
 					/>
 				)}
 
@@ -120,7 +120,7 @@ class CardList extends Component {
 
 CardList.propTypes = {
 	items: PropTypes.array,
-	cardType: PropTypes.string,
+	cardType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'loadout']).isRequired,
 	canAdd: PropTypes.bool,
 	canDelete: PropTypes.bool,
 	onAdd: PropTypes.func,
@@ -130,7 +130,6 @@ CardList.propTypes = {
 
 CardList.defaultProps = {
 	items: [],
-	cardType: 'weapon',
 	canAdd: true,
 	canDelete: true,
 	onAdd: () => {},

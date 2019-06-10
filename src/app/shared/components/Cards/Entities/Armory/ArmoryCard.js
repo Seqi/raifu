@@ -8,37 +8,35 @@ import CardContent from '@material-ui/core/CardContent'
 import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
 import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
 
-import './WeaponCard.css'
+import './ArmoryCard.css'
 
-export default function WeaponCard({ weapon, canDelete, onClick, onDelete, style }) {
+export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, style }) {
 	return (
-		<Card style={ style } onClick={ onClick } className='card weapon-card' >
+		<Card style={ style } onClick={ onClick } className='card armory-card' >
 			{ canDelete && <DeleteButton onClick={ onDelete } /> }
-			<CardHeader title={ weapon.getTitle() } subheader={ weapon.getSubtitle() } className='card-header' />
+			<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header' />
 			<CardContent className='card-content'>
-				<ArmoryItemImage entity={ weapon } category='weapons' />
+				<ArmoryItemImage entity={ item } category={ category } />
 			</CardContent>
 		</Card>
 	)
 }
 
-WeaponCard.propTypes = {
-	weapon: PropTypes.shape({
+ArmoryCard.propTypes = {
+	item: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
-		model: PropTypes.string,
-		brand: PropTypes.string,
-		nickname: PropTypes.string,
 		type: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired,
 		getSubtitle: PropTypes.func.isRequired,
 	}).isRequired,
+	category: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,
 	style: PropTypes.object,
 }
 
-WeaponCard.defaultProps = {
+ArmoryCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},

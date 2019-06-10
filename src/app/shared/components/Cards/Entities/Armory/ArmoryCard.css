@@ -1,20 +1,21 @@
-.attachment-card {
-	min-height: 125px;
+.armory-card {
+	height: 300px;
+	min-width: 220px;
 	width: 220px;
 
 	margin-top: 10px;
 	margin-right: 20px;
 }
 
-
 @media (max-width: 767px) {
-	.attachment-card {
-		height: 85px;
+	.armory-card {
+		height: 200px;
+		min-width: 147px;
 		width: 147px;
-	}
+    }
 }
 
-.attachment-card:hover {
+.armory-card:hover{
 	transform: scale(1.05);
 	transition: transform ease-in 0.15s;
 }

@@ -8,88 +8,94 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
 import { Loading, Error } from 'app/shared/components'
-import AttachmentSelect from './AttachmentSelect'
-import database from '../../../../../../../../../firebase/database'
+import ArmoryItemSelect from './ArmoryItemSelect'
 
-class AddAttachmentDialog extends Component {
+class AddArmoryItemDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			attachmentIds: [],
-			attachments: [],
+			itemIds: [],
+			items: [],
 			loading: false,
 			errorOnLoad: null,
 			errorOnSave: null
 		}
 	}	
 
-	componentDidMount = () => this.loadAttachments()
+	componentDidMount = () => this.loadItems()
 
 	componentWillUnmount = () => this.isUnmounted = true	
 
-	loadAttachments() {
+	loadItems() {
 		if (this.isUnmounted) {
 			return
 		}
 
 		this.setState({ loading: true, errorOnLoad: null }, () => {
-			database.attachments
-				.get()
-				.then((attachments) => !this.isUnmounted && this.setState({ attachments, loading: false }))
+			this.props.itemLoadFunc()
+				.then((items) => !this.isUnmounted && this.setState({ items, loading: false }))
 				.catch((err) => !this.isUnmounted && this.setState( { errorOnLoad: err.message || err, loading: false}))
 		})
 	}
 
-	getSelectableAttachments() {
-		return this.state.attachments.filter((a) => this.props.filterIds.indexOf(a.id) === -1)
+	getSelectableItems() {
+		return this.state.items.filter((a) => this.props.filterIds.indexOf(a.id) === -1)
 	}
 
-	onAttachmentSelected(attachmentId) {
+	onItemSelected(itemId) {
 		this.setState(prevState => {
-			let existingIdIndex = prevState.attachmentIds.findIndex(id => id === attachmentId)
+			let existingIdIndex = prevState.itemIds.findIndex(id => id === itemId)
 
-			let copy = prevState.attachmentIds.slice()
+			let copy = prevState.itemIds.slice()
 
 			if (existingIdIndex === -1) {
-				copy.push(attachmentId)
+				// If we're not allowing multiple, replace
+				if (!this.props.allowMultiple && prevState.itemIds.length > 0) {
+					copy[0] = itemId
+				} else {
+					copy.push(itemId)
+				}
 			} else {
 				copy.splice(existingIdIndex, 1)
 			}
 
-			return { attachmentIds: copy }
+			return { itemIds: copy }
 		})
 	}
 
 	formValid() {
-		return this.state.attachmentIds.length > 0
+		return this.state.itemIds.length > 0
 	}
 
-	onSave(attachmentIds) {
+	onSave(itemIds) {
+		let data = this.props.allowMultiple ? itemIds : itemIds[0]
+
 		this.setState({ loading: true, errorOnSave: false }, () => {
-			this.props.onSave(attachmentIds)
-				.then(() => this.setState({ attachmentIds: [], loading: false }))
+			this.props.onSave(data)
+				.then(() => this.setState({ itemIds: [], loading: false }))
 				.catch(err => this.setState({ loading: false, errorOnSave: err }))
 		})
 	}
 
 	render() {
-		let { attachmentIds, loading, errorOnLoad, errorOnSave } = this.state
-		let { weaponName, isOpen, onClose } = this.props
+		let { itemIds, loading, errorOnLoad, errorOnSave } = this.state
+		let { title, category, isOpen, onClose } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
-				<DialogTitle>Add attachments to {weaponName} </DialogTitle>
+				<DialogTitle>{ title } </DialogTitle>
 
 				<DialogContent>
 					{ loading && <Loading /> }
 
-					{ errorOnLoad && <Error error={ errorOnLoad } onRetry={ () => this.loadAttachments() } /> }
+					{ errorOnLoad && <Error error={ errorOnLoad } onRetry={ () => this.loadItems() } /> }
 					{ errorOnSave && <Error error={ errorOnSave } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
 
-					<AttachmentSelect
-						attachments={ this.getSelectableAttachments() } 
-						selectedAttachmentIds={ attachmentIds } 
-						onAttachmentSelected={ attachmentId => this.onAttachmentSelected(attachmentId) } 
+					<ArmoryItemSelect
+						items={ this.getSelectableItems() } 
+						category={ category }
+						selectedItemIds={ itemIds } 
+						onItemSelected={ itemId => this.onItemSelected(itemId) } 
 					/>
 				</DialogContent>
 
@@ -98,7 +104,7 @@ class AddAttachmentDialog extends Component {
 					<Button
 						disabled={ !this.formValid() || loading }
 						variant='contained'
-						onClick={ () => this.onSave(attachmentIds) }
+						onClick={ () => this.onSave(itemIds) }
 						color='primary'
 					>
 						Save
@@ -109,16 +115,20 @@ class AddAttachmentDialog extends Component {
 	}
 }
 
-AddAttachmentDialog.propTypes = {
-	weaponName: PropTypes.string.isRequired,
+AddArmoryItemDialog.propTypes = {
+	title: PropTypes.string.isRequired,
+	category: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
+	itemLoadFunc: PropTypes.func.isRequired,
+	allowMultiple: PropTypes.bool,
 	filterIds: PropTypes.array,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired
 }
 
-AddAttachmentDialog.defaultProps = {
-	filterIds: []
+AddArmoryItemDialog.defaultProps = {
+	filterIds: [],
+	allowMultiple: false
 }
 
-export default AddAttachmentDialog
+export default AddArmoryItemDialog

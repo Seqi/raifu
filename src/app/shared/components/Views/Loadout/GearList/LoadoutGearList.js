@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import AddButton from 'app/shared/components/Buttons/AddButton'
 
 import LoadoutGear from './Gear/LoadoutGear'
-import AddGearDialog from './AddGearDialog/AddGearDialog'
+import AddArmoryItemDialog from '../AddArmoryItemDialog/AddArmoryItemDialog'
 
 import database from '../../../../../../firebase/database'
 
@@ -79,7 +79,10 @@ export default class LoadoutGearList extends React.Component {
 					}
 				</div>
 
-				{ canEdit && <AddGearDialog 
+				{ canEdit && <AddArmoryItemDialog 
+					title='Add gear to loadout'
+					category='gear'
+					itemLoadFunc={ database.gear.get }
 					filterIds={ gear.map(g => g.id) }
 					isOpen={ this.state.isDialogOpen } 
 					onSave={ gearId => this.addGear(gearId) }

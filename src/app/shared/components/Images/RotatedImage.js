@@ -41,9 +41,9 @@ class RotatedImage extends Component {
 		let { containerRef, xMargin } = this.state
 
 		return (
-			<span ref={ containerRef } style={ { marginLeft: xMargin, marginRight: xMargin } }>
+			<div ref={ containerRef } style={ { marginLeft: xMargin, marginRight: xMargin } }>
 				<img onLoad={ () => this.setXMargin() } alt='' src={ image } style={ { transform: `rotate(${rotateBy}deg)` } } />
-			</span>
+			</div>
 		)
 	}
 }
