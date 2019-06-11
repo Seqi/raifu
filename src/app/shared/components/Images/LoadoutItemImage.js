@@ -18,7 +18,8 @@ export default function LoadoutItemImage({ item, category, textStyle }) {
 			<ArmoryItemImage 
 				style={ fillParent } 
 				entity={ item } 
-				category={ category } />
+				category={ category }
+				rotate={ category === 'attachments' } />
 			<span style={ {...{
 				position: 'absolute',
 				bottom: 0, 

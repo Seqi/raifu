@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import LoadoutAdd from '../LoadoutAdd'
 import LoadoutSeparator from '../LoadoutSeparator'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
-import AddWeaponDialog from './AddWeaponDialog/AddWeaponDialog'
+import AddArmoryItemDialog from '../AddArmoryItemDialog/AddArmoryItemDialog'
 
 import database from '../../../../../../firebase/database'
 
@@ -83,7 +83,10 @@ export default class LoadoutWeaponList extends React.Component {
 
 				{ !canEdit && <LoadoutSeparator /> }
 
-				{ canEdit && <AddWeaponDialog
+				{ canEdit && <AddArmoryItemDialog
+					title='Add weapon to loadout'
+					category='weapons'
+					itemLoadFunc={ database.weapons.get }
 					filterIds={ weapons && weapons.map((w) => w.id) }
 					isOpen={ isDialogOpen }
 					onSave={ (weaponId) => this.addWeapon(weaponId) }

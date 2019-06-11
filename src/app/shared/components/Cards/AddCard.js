@@ -20,11 +20,11 @@ AddCard.propTypes = {
 	className: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
 	style: PropTypes.object,
-	cardType: PropTypes.string
+	cardType: PropTypes.oneOf(['armory', 'loadout'])
 }
 
 AddCard.defaultProps = {
 	className: '',
 	style: {},
-	cardType: 'weapon'
+	cardType: 'armory'
 }

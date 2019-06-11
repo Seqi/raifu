@@ -1,11 +1,7 @@
-import WeaponCard from './Weapon/WeaponCard'
-import AttachmentCard from './Attachment/AttachmentCard'
-import GearCard from './Gear/GearCard'
+import ArmoryCard from './Armory/ArmoryCard'
 import LoadoutCard from './Loadout/LoadoutCard'
 
 export {
-	WeaponCard, 
-	AttachmentCard,
-	GearCard,
+	ArmoryCard,
 	LoadoutCard
 }

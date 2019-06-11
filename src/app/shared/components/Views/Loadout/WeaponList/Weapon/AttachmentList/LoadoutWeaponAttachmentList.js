@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import LoadoutContext from '../../../LoadoutContext'
-import AddAttachmentDialog from './AddAttachmentDialog/AddAttachmentDialog'
+import AddArmoryItemDialog from '../../../AddArmoryItemDialog/AddArmoryItemDialog'
 import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
 
 import AddButton from 'app/shared/components/Buttons/AddButton'
@@ -90,9 +90,11 @@ class LoadoutWeaponAttachmentList extends Component {
 							}
 						</div>
 
-						{ canEdit && <AddAttachmentDialog
-							weaponId={ weapon.id }
-							weaponName={ weapon.getTitle() }
+						{ canEdit && <AddArmoryItemDialog
+							title={ `Add attachment to ${weapon.getTitle()}` }
+							category='attachments'
+							allowMultiple={ true }
+							itemLoadFunc={ database.attachments.get }
 							filterIds={ this.getAttachmentsToFilter(loadout) }
 							isOpen={ this.state.isDialogOpen }
 							onClose={ () => this.setDialogOpen(false) }
