@@ -8,7 +8,6 @@ let sequelize
 
 module.exports = () => {
 	if (!sequelize) {
-		console.log('new sequelize')
 		sequelize = new Sequelize(config.database, config.user, config.password, {
 			host: config.host,
 			dialect: 'postgres',

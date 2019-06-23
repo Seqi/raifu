@@ -80,7 +80,7 @@ module.exports = {
 				throw new errors.NotFoundError('Loadout or weapon not found')
 			}
 		} catch (e) {
-			console.log('error retrieving permission to delete loadout weapon', e.message, user.uid)
+			console.log('Error retrieving permission to delete loadout weapon', e.message, user.uid)
 			throw e
 		}
 

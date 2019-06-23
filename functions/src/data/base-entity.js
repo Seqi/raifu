@@ -107,8 +107,6 @@ module.exports = (entities, entityName = 'entity') => ({
 				}
 			})
 
-			console.log(result)
-
 			if (result === 0) {
 				throw new errors.NotFoundError()
 			}

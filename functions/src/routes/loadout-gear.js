@@ -6,7 +6,6 @@ let errors = require('../utils/errors')
 
 router.post('/:gearId', async (req, res) => {
 	try {
-		console.log(req.params)
 		let result = await loadoutGear.add(req.params.gearId, req.params.loadoutId, req.user)
 
 		return res.json(result)

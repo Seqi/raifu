@@ -31,8 +31,6 @@ let count = async (gearId, loadoutId) => {
 
 module.exports = {
 	add: async (gearId, loadoutId, user) => {
-		// Validate
-		console.log('##########', gearId, loadoutId)
 		if (!gearId || !loadoutId) {
 			throw new errors.BadRequestError(`GearId and LoadoutId missing by ${user.uid}`)
 		}
@@ -45,7 +43,7 @@ module.exports = {
 				throw new errors.NotFoundError('Loadout or gear not found')
 			}
 		} catch (e) {
-			console.log('error retrieving permission to add loadout gear', e.message, user.uid)
+			console.log('Error retrieving permission to add loadout gear', e.message, user.uid)
 			throw e
 		}
 
@@ -81,7 +79,7 @@ module.exports = {
 				throw new errors.NotFoundError('Loadout or gear not found')
 			}
 		} catch (e) {
-			console.log('error retrieving permission to delete loadout gear', e.message, user.uid)
+			console.log('Error retrieving permission to delete loadout gear', e.message, user.uid)
 			throw e
 		}
 

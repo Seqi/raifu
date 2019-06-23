@@ -68,7 +68,7 @@ module.exports = {
 				throw new errors.NotFoundError('Loadout, weapon or attachment not found')
 			}
 		} catch (e) {
-			console.log('error retrieving permission to add loadout weapon attachment', e.message, user.uid)
+			console.log('Error retrieving permission to add loadout weapon attachment', e.message, user.uid)
 			throw e
 		}
 
@@ -105,7 +105,7 @@ module.exports = {
 				throw new errors.NotFoundError('Loadout, weapon or attachment not found')
 			}
 		} catch (e) {
-			console.log('error retrieving permission to remove loadout weapon attachment', e.message, user.uid)
+			console.log('Error retrieving permission to remove loadout weapon attachment', e.message, user.uid)
 			throw e
 		}
 

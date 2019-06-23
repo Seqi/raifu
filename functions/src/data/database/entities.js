@@ -257,10 +257,7 @@ let initEntities = () => {
 
 module.exports = () => {
 	if (entities == null) {
-		console.log('getting entities')
 		entities = initEntities()
-	} else {
-		console.log('already got entities')
 	}
 
 	return entities

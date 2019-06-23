@@ -12,7 +12,6 @@ let middleware = (blockUnauthorised = true) => {
 		let authHeaderParts = authHeader.split(' ')
 	
 		if (authHeaderParts.length !== 2) {
-			console.log('b')
 			return res.status(401)
 				.end('Authorization header must be in \'Bearer [token]\' format')
 		}
