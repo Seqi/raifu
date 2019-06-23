@@ -21,7 +21,7 @@ router.get('/', authMiddleware(), async (req, res) => {
 	}
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware(false), async (req, res) => {
 	try {
 		let item = await loadout.getById(req.params.id, req.user)
 		return res.json(item)
