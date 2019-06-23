@@ -33,7 +33,10 @@ class CloudFunction {
 
 		let url = buildUrl(this.region, this.path, CloudFunction.useLocal)
 
-		let token = await app.auth().currentUser.getIdToken()
+		let token = ''
+		if (app.auth().currentUser) {
+			token = await app.auth().currentUser.getIdToken()
+		}
 
 		return await fetch(url, {
 			method: method,
@@ -43,16 +46,24 @@ class CloudFunction {
 			},
 			body: JSON.stringify(data)
 		})
+			.then((result) => {
+				if (!result.ok) {
+					return Promise.reject({
+						status: result.status,
+						statusText: result.statusText
+					})
+				}
+			})
 	}
 
 	async get() {
-		let result = await this.call(undefined, 'GET')
-		return result.json()
+		return this.call(undefined, 'GET')
+			.then((result) => result.json())
 	}
 
 	async post(data) {
-		let result = await this.call(data, 'POST')
-		return result.json()
+		return this.call(data, 'POST')
+			.then((result) => result.json())
 	}
 
 	async put(data) {

@@ -1,4 +1,4 @@
-import { CloudFunction } from '../../../functions/functions'
+import { CloudFunction } from '../../../functions'
 import { toEntity } from '../entity.model'
 import loadoutWeaponAttachments from './loadout-weapon-attachments'
 

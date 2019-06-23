@@ -3,7 +3,7 @@ import 'firebase/auth'
 import 'firebase/functions'
 
 import config from 'config/index'
-import { CloudFunction } from './functions/functions'
+import { CloudFunction } from './functions'
 
 let app = firebase.initializeApp(config.firebase)
 

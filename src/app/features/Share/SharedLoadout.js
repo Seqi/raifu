@@ -30,8 +30,8 @@ export default class SharedLoadout extends React.Component {
 				})
 				.catch((err) => {
 					let error = null
-					if (err !== 'Loadout not found') {
-						error = err.message || err
+					if (err.status !== 404) {
+						error = err.statusMessage || err
 					}
 
 					!this.unmounted && this.setState({ loadout: null, loading: false, error: error })
@@ -40,8 +40,7 @@ export default class SharedLoadout extends React.Component {
 	}
 
 	render() {
-		let { loadout: data, error, loading } = this.state 
-
+		let { loadout: data, error, loading } = this.state
 		if (loading) {
 			return <Loading />
 		}
