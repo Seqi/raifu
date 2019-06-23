@@ -3,6 +3,10 @@ import app from '../index'
 const DEFAULT_REGION = 'us-central1'
 
 function buildUrl(opts, path, useLocal) {
+	if (path.startsWith('/')) {
+		path = path.substring(1)
+	}
+	
 	return useLocal ? buildLocalUrl(opts, path) : buildCloudUrl(opts, path)
 }
 
