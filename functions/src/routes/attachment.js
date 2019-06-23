@@ -36,35 +36,6 @@ router.post('/', async (req, res) => {
 	}
 })
 
-router.put('/:id', async (req, res) => {
-	try {
-		let entity = req.body
-
-		if (!entity.id) {
-			entity.id = req.params.id
-		}
-
-		let item = await baseEntity(entities().attachment, 'attachment')
-			.edit(req.body, req.user)
-
-		return res.json(item)
-	} 
-	catch (e) {
-		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
-				.json({ errors: e })
-		}
-
-		if (e instanceof errors.NotFoundError) {
-			return res.status(404)
-				.end()
-		}
-
-		return res.status(500)
-			.end()
-	}
-})
-
 router.delete('/:id', async (req, res) => {
 	try {
 		let item = await baseEntity(entities().attachment, 'attachment')

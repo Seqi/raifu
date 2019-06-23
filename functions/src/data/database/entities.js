@@ -208,7 +208,9 @@ let initEntities = () => {
 				})
 			},
 			afterCreate: (event) => {
-				event.date = event.date.toISOString()
+				if (event.date) {
+					event.date = event.date.toISOString()
+				}
 				jsonifyDates(event)
 			}
 		}

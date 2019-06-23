@@ -100,12 +100,18 @@ module.exports = (entities, entityName = 'entity') => ({
 		}
 
 		try {
-			return await entities.destroy({
+			let result = await entities.destroy({
 				where: {
 					id: id,
 					uid: user.uid
 				}
 			})
+
+			console.log(result)
+
+			if (result === 0) {
+				throw new errors.NotFoundError()
+			}
 		} catch (e) {
 			console.error(`Error removing ${entityName}`, e)
 			throw e

@@ -1,6 +1,5 @@
 const entities = require('./database/entities')
-const functions = require('./firebase-functions-extensions')
-const error = require('../utils/error')
+const errors = require('../utils/errors')
 
 let hasPermission = async (weaponId, loadoutId, authId) => {
 	let ownsWeapon = entities().weapon.count({
@@ -31,70 +30,75 @@ let count = async (weaponId, loadoutId) => {
 }
 
 module.exports = {
-	add: functions.https.onAuthedCall(async (data, context) => {
+	add: async (weaponId, loadoutId, user) => {
 		// Validate
-		if (!data.weaponId || !data.loadoutId) {
-			return error('invalid-argument', null, `WeaponId and LoadoutId missing by ${context.auth.uid}`)
+		if (!weaponId || !loadoutId) {
+			throw new errors.BadRequestError(`WeaponId and LoadoutId missing by ${user.uid}`)
 		}
 
 		// Ensure this user owns both weapon and loadout
 		try {
-			let canAdd = await hasPermission(data.weaponId, data.loadoutId, context.auth.uid)
+			let canAdd = await hasPermission(weaponId, loadoutId, user.uid)
 
 			if (!canAdd) {
-				return error('not-found', null, 'weapon or loadout not found')
+				throw new errors.NotFoundError('Loadout or weapon not found')
 			}
 		} catch (e) {
-			return error('invalid-argument', e, 'Error retrieving data from database')
+			console.log('error retrieving permission to add loadout weapon', e.message, user.uid)
+			throw e
 		}
 
-		// Check if exists
 		try {
-			let exists = await count(data.weaponId, data.loadoutId)
+			let exists = await count(weaponId, loadoutId)
 
 			if (!exists) {
-				// Add
-				console.log('Adding loadout weapon', data)
+				console.log(`Adding loadout weapon. LoadoutId: ${loadoutId}. WeaponId: ${weaponId}`)
 				await entities().loadoutWeapon.create({
-					loadout_id: data.loadoutId,
-					weapon_id: data.weaponId
+					loadout_id: loadoutId,
+					weapon_id: weaponId
 				})
 			}
 
-			return await entities().weapon.findByPk(data.weaponId, { raw: true })
+			return await entities().weapon.findByPk(weaponId, { raw: true })
 		} catch (e) {
-			return error('invalid-argument', e, 'Error adding loadout weapon to database')
+			console.log('Error adding loadout weapon to database', e.message)
+			throw e
 		}
-	}),
+	},
 
-	delete: functions.https.onAuthedCall(async (data, context) => {
+	delete: async (weaponId, loadoutId, user) => {
 		// Validate
-		if (!data.weaponId || !data.loadoutId) {
-			return error('invalid-argument', null, `WeaponId and LoadoutId missing by ${context.auth.uid}`)
+		if (!weaponId || !loadoutId) {
+			throw new errors.BadRequestError(`WeaponId and LoadoutId missing by ${user.uid}`)
 		}
 
 		// Ensure this user owns both weapon and loadout
 		try {
-			let canDelete = await hasPermission(data.weaponId, data.loadoutId, context.auth.uid)
+			let canDelete = await hasPermission(weaponId, loadoutId, user.uid)
 
 			if (!canDelete) {
-				return error('not-found', null, 'weapon or loadout not found')
+				throw new errors.NotFoundError('Loadout or weapon not found')
 			}
 		} catch (e) {
-			return error('invalid-argument', e, 'Error retrieving data from database')
+			console.log('error retrieving permission to delete loadout weapon', e.message, user.uid)
+			throw e
 		}
 
-		// Remove
 		try {
-			console.log('Removing loadout weapon', data)
-			return (await entities().loadoutWeapon.destroy({
+			console.log(`Removing loadout weapon. LoadoutId: ${loadoutId}. WeaponId: ${weaponId}`)
+			let result = await entities().loadoutWeapon.destroy({
 				where: {
-					loadout_id: data.loadoutId,
-					weapon_id: data.weaponId
+					loadout_id: loadoutId,
+					weapon_id: weaponId
 				}
-			}))
+			})
+
+			if (result === 0) {
+				throw new errors.NotFoundError('Loadout or weapon not found')
+			}			
 		} catch (e) {
-			return error('invalid-argument', e, 'Error adding loadout weapon to database')
+			console.log('Error removing loadout weapon from database', e.message)
+			throw e
 		}
-	})
+	}
 }

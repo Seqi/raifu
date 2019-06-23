@@ -1,6 +1,5 @@
 const entities = require('./database/entities')
-const functions = require('./firebase-functions-extensions')
-const error = require('../utils/error')
+const errors = require('../utils/errors')
 
 let hasPermission = async (weaponId, attachmentId, loadoutId, authId) => {
 	let ownsLoadoutWeapon = entities().loadoutWeapon.count({
@@ -55,66 +54,82 @@ let add = async (weaponId, attachmentId, loadoutId) => {
 }
 
 module.exports = {
-	add: functions.https.onAuthedCall(async (data, context) => {
+	add: async (weaponId, attachmentId, loadoutId, user) => {
 		// Validate
-		if (!data.weaponId || !data.loadoutId || !data.attachmentId) {
-			return error('invalid-argument', null, `WeaponId, LoadoutId & AttachmentId missing by ${context.auth.uid}`)
+		if (!weaponId || !loadoutId || !attachmentId) {
+			throw new errors.BadRequestError(`WeaponId, LoadoutId & AttachmentId missing by ${user.uid}`)
 		}
 
 		// Ensure this user owns weapon, attachment and loadout
 		try {
-			let canAdd = await hasPermission(data.weaponId, data.attachmentId, data.loadoutId, context.auth.uid)
+			let canAdd = await hasPermission(weaponId, attachmentId, loadoutId, user.uid)
 
 			if (!canAdd) {
-				return error('not-found', null, 'weapon, attachment or loadout not found')
+				throw new errors.NotFoundError('Loadout, weapon or attachment not found')
 			}
 		} catch (e) {
-			return error('invalid-argument', e, 'Error retrieving data from database')
+			console.log('error retrieving permission to add loadout weapon attachment', e.message, user.uid)
+			throw e
 		}
 
-		// Check if exists
 		try {
-			let exists = await count(data.weaponId, data.attachmentId, data.loadoutId)
+			let exists = await count(weaponId, attachmentId, loadoutId)
 
-			if (!exists) {
-				await add(data.weaponId, data.attachmentId, data.loadoutId)
+			if (!exists) {			
+				console.log(`Adding loadout weapon attachment. 
+					LoadoutId: ${loadoutId}. 
+					WeaponId: ${weaponId}
+					AttachmentId: ${attachmentId}`)
+
+				await add(weaponId, attachmentId, loadoutId)
 			}
 
-			return await entities().attachment.findByPk(data.attachmentId, { raw: true })
-		} catch (e) {
-			return error('invalid-argument', e, 'Error adding loadout weapon attachment to database')
+			return await entities().attachment.findByPk(attachmentId, { raw: true })
+		} catch (e) {			
+			console.log('Error adding loadout weapon attachment to database', e.message)
+			throw e
 		}
-	}),
+	},
 
-	delete: functions.https.onAuthedCall(async (data, context) => {
+	delete: async (weaponId, attachmentId, loadoutId, user) => {
 		// Validate
-		if (!data.weaponId || !data.loadoutId || !data.attachmentId) {
-			return error('invalid-argument', null, `WeaponId, LoadoutId & AttachmentId missing by ${context.auth.uid}`)
+		if (!weaponId || !loadoutId || !attachmentId) {
+			throw new errors.BadRequestError(`WeaponId, LoadoutId & AttachmentId missing by ${user.uid}`)
 		}
 
 		// Ensure this user owns both weapon and loadout
 		try {
-			let canDelete = await hasPermission(data.weaponId, data.attachmentId, data.loadoutId, context.auth.uid)
+			let canDelete = await hasPermission(weaponId, attachmentId, loadoutId, user.uid)
 
 			if (!canDelete) {
-				return error('not-found', null, 'weapon, attachment or loadout not found')
+				throw new errors.NotFoundError('Loadout, weapon or attachment not found')
 			}
 		} catch (e) {
-			return error('invalid-argument', e, 'Error retrieving data from database')
+			console.log('error retrieving permission to remove loadout weapon attachment', e.message, user.uid)
+			throw e
 		}
 
 		// Remove
 		try {
-			console.log('Removing loadout weapon', data)
-			return (await entities().loadoutWeaponAttachment.destroy({
+			console.log(`Removing loadout weapon attachment. 
+				LoadoutId: ${loadoutId}. 
+				WeaponId: ${weaponId}
+				AttachmentId: ${attachmentId}`)
+
+			let result = await entities().loadoutWeaponAttachment.destroy({
 				where: {
-					loadout_id: data.loadoutId,
-					weapon_id: data.weaponId,
-					attachment_id: data.attachmentId
+					loadout_id: loadoutId,
+					weapon_id: weaponId,
+					attachment_id: attachmentId
 				}
-			}))
-		} catch (e) {
-			return error('invalid-argument', e, 'Error deleting loadout weapon attachment from database')
+			})
+			
+			if (result === 0) {
+				throw new errors.NotFoundError('Loadout or weapon not found')
+			}	
+		} catch (e) {	
+			console.log('Error removing loadout weapon attachment to database', e.message)
+			throw e	
 		}
-	})
+	}
 }

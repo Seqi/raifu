@@ -1,6 +1,5 @@
 const entities = require('./database/entities')
-const functions = require('./firebase-functions-extensions')
-const error = require('../utils/error')
+const errors = require('../utils/errors')
 
 let hasPermission = async (gearId, loadoutId, authId) => {
 	let ownsGear = entities().gear.count({
@@ -31,70 +30,76 @@ let count = async (gearId, loadoutId) => {
 }
 
 module.exports = {
-	add: functions.https.onAuthedCall(async (data, context) => {
+	add: async (gearId, loadoutId, user) => {
 		// Validate
-		if (!data.gearId || !data.loadoutId) {
-			return error('invalid-argument', null, `GearId and LoadoutId missing by ${context.auth.uid}`)
+		console.log('##########', gearId, loadoutId)
+		if (!gearId || !loadoutId) {
+			throw new errors.BadRequestError(`GearId and LoadoutId missing by ${user.uid}`)
 		}
 
 		// Ensure this user owns both gear and loadout
 		try {
-			let canAdd = await hasPermission(data.gearId, data.loadoutId, context.auth.uid)
+			let canAdd = await hasPermission(gearId, loadoutId, user.uid)
 
 			if (!canAdd) {
-				return error('not-found', null, 'gear or loadout not found')
+				throw new errors.NotFoundError('Loadout or gear not found')
 			}
 		} catch (e) {
-			return error('invalid-argument', e, 'Error retrieving data from database')
+			console.log('error retrieving permission to add loadout gear', e.message, user.uid)
+			throw e
 		}
 
-		// Check if exists
 		try {
-			let exists = await count(data.gearId, data.loadoutId)
+			let exists = await count(gearId, loadoutId)
 
 			if (!exists) {
-				// Add
-				console.log('Adding loadout gear', data)
+				console.log(`Adding loadout gear. LoadoutId: ${loadoutId}. GearId: ${gearId}`)
 				await entities().loadoutGear.create({
-					loadout_id: data.loadoutId,
-					gear_id: data.gearId
+					loadout_id: loadoutId,
+					gear_id: gearId
 				})
 			}
 
-			return await entities().gear.findByPk(data.gearId, { raw: true })
+			return await entities().gear.findByPk(gearId, { raw: true })
 		} catch (e) {
-			return error('invalid-argument', e, 'Error adding loadout gear to database')
+			console.log('Error adding loadout gear to database', e.message)
+			throw e
 		}
-	}),
+	},
 
-	delete: functions.https.onAuthedCall(async (data, context) => {
+	delete: async (gearId, loadoutId, user) => {
 		// Validate
-		if (!data.gearId || !data.loadoutId) {
-			return error('invalid-argument', null, `GearId and LoadoutId missing by ${context.auth.uid}`)
+		if (!gearId || !loadoutId) {
+			throw new errors.BadRequestError(`GearId and LoadoutId missing by ${user.uid}`)
 		}
 
 		// Ensure this user owns both gear and loadout
 		try {
-			let canDelete = await hasPermission(data.gearId, data.loadoutId, context.auth.uid)
+			let canDelete = await hasPermission(gearId, loadoutId, user.uid)
 
 			if (!canDelete) {
-				return error('not-found', null, 'gear or loadout not found')
+				throw new errors.NotFoundError('Loadout or gear not found')
 			}
 		} catch (e) {
-			return error('invalid-argument', e, 'Error retrieving data from database')
+			console.log('error retrieving permission to delete loadout gear', e.message, user.uid)
+			throw e
 		}
 
-		// Remove
 		try {
-			console.log('Removing loadout gear', data)
-			return (await entities().loadoutGear.destroy({
+			console.log(`Removing loadout gear. LoadoutId: ${loadoutId}. GearId: ${gearId}`)
+			let result = await entities().loadoutGear.destroy({
 				where: {
-					loadout_id: data.loadoutId,
-					gear_id: data.gearId
+					loadout_id: loadoutId,
+					gear_id: gearId
 				}
-			}))
+			})
+
+			if (result === 0) {
+				throw new errors.NotFoundError('Loadout or gear not found')
+			}			
 		} catch (e) {
-			return error('invalid-argument', e, 'Error adding loadout gear to database')
+			console.log('Error removing loadout gear from database', e.message)
+			throw e
 		}
-	})
+	}
 }

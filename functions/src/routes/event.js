@@ -1,15 +1,12 @@
 let express = require('express')
 let router = express.Router()
 
-let loadoutWeaponRoutes = require('./loadout-weapon')
-let loadoutGearRoutes = require('./loadout-gear')
-
-let loadout = require('../data/loadout')
+let event = require('../data/event')
 let errors = require('../utils/errors')
 
 router.get('/', async (req, res) => {
 	try {
-		let items = await loadout.getAll(req.user)
+		let items = await event.getAll(req.user)
 
 		return res.json(items)
 	} 
@@ -21,13 +18,18 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 	try {
-		let item = await loadout.getById(req.params.id, req.user)
+		if (!req.params.id) {
+			res.status(400)
+				.json({ error: 'Id is required' })
+		}
+
+		let item = await event.getById(req.params.id, req.user)
 		
 		return res.json(item)
 	} catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(400)
-				.json({ errors: e.message })
+			return res.status(401)
+				.json({ errors: e })
 		}
 
 		if (e instanceof errors.NotFoundError) {
@@ -42,13 +44,13 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {		
-		let item = await loadout.add(req.body, req.user)
+		let item = await event.add(req.body, req.user)
 
 		return res.json(item)
 	} 
 	catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(400)
+			return res.status(401)
 				.json({ errors: e.message.split(',') })
 		}
 
@@ -65,13 +67,14 @@ router.put('/:id', async (req, res) => {
 			entity.id = req.params.id
 		}
 
-		let item = await loadout.edit(req.body, req.user)
+		await event.edit(req.body, req.user)
 
-		return res.json(item)
+		return res.status(204)
+			.end()
 	} 
 	catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(400)
+			return res.status(401)
 				.json({ errors: e })
 		}
 
@@ -87,12 +90,13 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
 	try {
-		await loadout.delete(req.params.id, req.user)
+		await event.delete(req.params.id, req.user)
 
 		return res.status(204)
 			.end()
 	} 
 	catch (e) {
+		console.log('Error deleting event', e)
 		if (e instanceof errors.BadRequestError) {
 			return res.status(401)
 				.end(e.message)
@@ -107,8 +111,5 @@ router.delete('/:id', async (req, res) => {
 			.end()
 	}
 })
-
-router.use('/:loadoutId/weapons', loadoutWeaponRoutes)
-router.use('/:loadoutId/gear', loadoutGearRoutes)
 
 module.exports = router
