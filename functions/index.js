@@ -1,15 +1,26 @@
-const armory = require('./src/armory')
-const loadout = require('./src/loadout')
-const loadoutWeapon = require('./src/loadout-weapon')
-const loadoutGear = require('./src/loadout-gear')
-const loadoutWeaponAttachments = require('./src/loadout-weapon-attachment')
-const events = require('./src/event')
+let functions = require('firebase-functions')
+let firebase = require('firebase-admin')
+let bodyParser = require('body-parser')
+let express = require('express')
+let app = express()
 
-exports.weapons = armory.weapons
-exports.attachments = armory.attachments
-exports.gear = armory.gear
-exports.loadouts = loadout
-exports.loadouts.gear = loadoutGear
-exports.loadouts.weapons = loadoutWeapon
-exports.loadouts.weapons.attachments = loadoutWeaponAttachments
-exports.events = events
+let weaponRoutes = require('./src/routes/weapon')
+let attachmentRoutes = require('./src/routes/attachment')
+let gearRoutes = require('./src/routes/gear')
+let loadoutRoutes = require('./src/routes/loadout')
+let authMiddleware = require('./src/middleware/firebase-auth-middleware')
+
+app.use(bodyParser.json())
+
+app.use('/weapons', authMiddleware, weaponRoutes)
+app.use('/attachments', authMiddleware, attachmentRoutes)
+app.use('/gear', gearRoutes)
+app.use('/loadouts', loadoutRoutes())
+
+app.get('/', (req, res) => {
+	res.send('Hello world!')
+})
+
+firebase.initializeApp()
+
+module.exports.api = functions.https.onRequest(app)

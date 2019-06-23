@@ -1,6 +1,6 @@
-const functions = require('./firebase-functions-extensions')
-const entities = require('./database/entities')
-const baseEntity = require('./base-entity')
+let entities = require('./database/entities')
+let baseEntity = require('./base-entity')
+let errors = require('../utils/errors')
 
 let orderLoadoutItems = (loadout) => {
 	if (!loadout) {
@@ -45,11 +45,11 @@ let orderLoadoutItems = (loadout) => {
 
 module.exports = {
 	...baseEntity(entities().loadout, 'loadout'),
-	getAll: functions.https.onAuthedCall(async (data, context) => {
+	getAll: async (user) => {
 		try {
 			let loadouts = await entities().loadout.findAll({
 				where: {
-					uid: context.auth.uid
+					uid: user.uid
 				},
 				include: [
 					{
@@ -83,19 +83,19 @@ module.exports = {
 
 			return result
 		} catch (e) {
-			console.error(`Error retrieving loadouts for ${context.auth.uid}`, e)
-			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
+			console.error(`Error retrieving loadouts for ${user.uid}`, e)
+			throw e
 		}
-	}),
+	},
 
-	getById: functions.https.onCall(async (id, context) => {
+	getById: async (id, user) => {
 		if (!id) {
-			console.warn(`No id was supplied for getting loadout by id for ${context.auth ? context.auth.uid : 'anonymous'}`)
-			return null
+			console.warn(`No id was supplied for getting loadout by id for ${user ? user.uid : 'anonymous'}`)
+			throw new errors.BadRequestError('Id is required')
 		}
 
 		try {
-			let query = context.auth ? { uid: context.auth.uid } : { shared: true }
+			let query = user ? { uid: user.uid } : { shared: true }
 
 			let loadout = await entities().loadout.findOne({
 				where: {
@@ -124,8 +124,8 @@ module.exports = {
 			})
 
 			if (!loadout) {
-				console.warn(`No loadout was found with id ${id} for user ${context.auth ? context.auth.uid : 'anonymous'}`)
-				return new functions.https.HttpsError('not-found', null, 'Loadout not found')
+				console.warn(`No loadout was found with id ${id} for user ${user ? user.uid : 'anonymous'}`)
+				throw new errors.NotFoundError()
 			}
 
 			orderLoadoutItems(loadout)
@@ -134,10 +134,10 @@ module.exports = {
 
 			return loadout.toJSON()
 		} catch (e) {
-			console.error(`Error retrieving loadout for ${context.auth ? context.auth.uid : 'anonymous'}`, e)
-			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
+			console.error(`Error retrieving loadout for ${user ? user.uid : 'anonymous'}`, e)
+			throw e
 		}
-	}),
+	},
 
 	orderLoadoutItems: orderLoadoutItems
 }

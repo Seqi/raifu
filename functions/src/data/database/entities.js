@@ -3,7 +3,9 @@ const db = require('./database')
 const mapEntities = require('./map-entities')
 const jsonifyDates = require('./jsonify-dates')
 
-module.exports = () => {
+let entities = null
+
+let initEntities = () => {
 	const sequelize = db()
 
 	const armoryTable = {
@@ -249,4 +251,15 @@ module.exports = () => {
 		loadoutGear,
 		event
 	}
+}
+
+module.exports = () => {
+	if (entities == null) {
+		console.log('getting entities')
+		entities = initEntities()
+	} else {
+		console.log('already got entities')
+	}
+
+	return entities
 }

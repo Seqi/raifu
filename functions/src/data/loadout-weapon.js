@@ -1,6 +1,6 @@
 const entities = require('./database/entities')
 const functions = require('./firebase-functions-extensions')
-const error = require('./error')
+const error = require('../utils/error')
 
 let hasPermission = async (weaponId, loadoutId, authId) => {
 	let ownsWeapon = entities().weapon.count({
