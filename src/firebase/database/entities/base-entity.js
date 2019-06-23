@@ -1,38 +1,30 @@
-import app from '../../'
 import { toEntity } from './entity.model'
-import errorCheck from '../utils/error-check'
+import { CloudFunction } from '../../functions/functions'
 
 export default (entityName) => {
 	return {
 		get: () =>
-			app
-				.functions()
-				.httpsCallable(`${entityName}-getAll`)()
-				.then(errorCheck)
-				.then((result) => result.data.map(toEntity)),
+			new CloudFunction()
+				.path(entityName)
+				.get()
+				.then((result) => result.map(toEntity)),
 		getById: (id) =>
-			app
-				.functions()
-				.httpsCallable(`${entityName}-getById`)(id)
-				.then(errorCheck)
-				.then((result) => toEntity(result.data)),
+			new CloudFunction()
+				.path(`${entityName}/${id}`)
+				.get()
+				.then(toEntity),
 		add: (props) =>
-			app
-				.functions()
-				.httpsCallable(`${entityName}-add`)(props)
-				.then(errorCheck)
-				.then((result) => toEntity(result.data)),
-		edit: (props) =>
-			app
-				.functions()
-				.httpsCallable(`${entityName}-edit`)(props)
-				.then(errorCheck)
-				.then((result) => result.data),
+			new CloudFunction()
+				.path(entityName)
+				.post(props)
+				.then(toEntity),
+		edit: (id, props) =>
+			new CloudFunction()
+				.path(`${entityName}/${id}`)
+				.put(props),
 		delete: (id) =>
-			app
-				.functions()
-				.httpsCallable(`${entityName}-delete`)(id)
-				.then(errorCheck)
-				.then((result) => result.data)
+			new CloudFunction()
+				.path(`${entityName}/${id}`)
+				.delete(),
 	}
 }

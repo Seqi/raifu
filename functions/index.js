@@ -1,6 +1,7 @@
 let functions = require('firebase-functions')
 let firebase = require('firebase-admin')
 let bodyParser = require('body-parser')
+let cors = require('cors')
 let express = require('express')
 let app = express()
 
@@ -11,6 +12,7 @@ let loadoutRoutes = require('./src/routes/loadout')
 let eventRoutes = require('./src/routes/event')
 let authMiddleware = require('./src/middleware/firebase-auth-middleware')
 
+app.use(cors())
 app.use(bodyParser.json())
 
 app.use('/weapons', authMiddleware, weaponRoutes)
