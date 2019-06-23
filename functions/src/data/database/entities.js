@@ -3,7 +3,9 @@ const db = require('./database')
 const mapEntities = require('./map-entities')
 const jsonifyDates = require('./jsonify-dates')
 
-module.exports = () => {
+let entities = null
+
+let initEntities = () => {
 	const sequelize = db()
 
 	const armoryTable = {
@@ -206,7 +208,9 @@ module.exports = () => {
 				})
 			},
 			afterCreate: (event) => {
-				event.date = event.date.toISOString()
+				if (event.date) {
+					event.date = event.date.toISOString()
+				}
 				jsonifyDates(event)
 			}
 		}
@@ -249,4 +253,12 @@ module.exports = () => {
 		loadoutGear,
 		event
 	}
+}
+
+module.exports = () => {
+	if (entities == null) {
+		entities = initEntities()
+	}
+
+	return entities
 }

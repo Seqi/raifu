@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { MuiThemeProvider, CssBaseline, Typography } from '@material-ui/core/'
 
 import 'core-js/fn/array/flat-map'
+import 'whatwg-fetch'
 
 import Theme from './Theme'
 import App from 'app/core/App'

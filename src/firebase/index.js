@@ -3,12 +3,12 @@ import 'firebase/auth'
 import 'firebase/functions'
 
 import config from 'config/index'
+import { CloudFunction } from './functions'
 
 let app = firebase.initializeApp(config.firebase)
 
 if (process.env.NODE_ENV === 'development') {
-	app.functions()
-		.useFunctionsEmulator('http://localhost:5000')
+	CloudFunction.useLocal = true
 }
 
 export default app

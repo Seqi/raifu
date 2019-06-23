@@ -1,15 +1,15 @@
-const functions = require('./firebase-functions-extensions')
 const entities = require('./database/entities')
 const baseEntity = require('./base-entity')
+const errors = require('../utils/errors')
 const loadout = require('./loadout')
 
 module.exports = {
 	...baseEntity(entities().event, 'event'),
-	getAll: functions.https.onAuthedCall(async (data, context) => {
+	getAll: async (user) => {
 		try {
 			let events = await entities().event.findAll({
 				where: {
-					uid: context.auth.uid
+					uid: user.uid
 				},
 				include: {
 					model: entities().loadout,				
@@ -36,22 +36,22 @@ module.exports = {
 
 			return result
 		} catch (e) {			
-			console.error(`Error retrieving events for ${context.auth.uid}`, e)
-			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
+			console.error(`Error retrieving events for ${user.id}`, e)
+			throw e
 		}
-	}),
+	},
 	
-	getById: functions.https.onAuthedCall(async (id, context) => {
+	getById: async (id, user) => {
 		if (!id) {
-			console.warn(`No id was supplied for getting event by id for ${context.auth.uid}`)
-			return null
+			console.warn(`No id was supplied for getting event by id for ${user.uid}`)
+			throw new errors.NotFoundError()
 		}
 
 		try {
 			let event = await entities().event.findOne({
 				where: {
 					id: id,
-					uid: context.auth.uid
+					uid: user.uid
 				},
 				include: {
 					model: entities().loadout,				
@@ -93,8 +93,8 @@ module.exports = {
 
 			return event.toJSON()
 		} catch (e) {			
-			console.error(`Error retrieving events for ${context.auth.uid}`, e)
-			return new functions.https.HttpsError('unknown', null, 'Unexpected error retrieving data')
+			console.error(`Error retrieving events for ${user.uid}`, e)
+			throw e
 		}
-	})
+	}
 }

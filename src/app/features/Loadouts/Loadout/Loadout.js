@@ -52,7 +52,7 @@ class Loadout extends React.Component {
 		let { loadout } = this.state
 
 		return database.loadouts
-			.edit({ ...updatedLoadout, id: loadout.id, })
+			.edit(loadout.id, { ...updatedLoadout })
 			.then(() => this.onLoadoutUpdated(updatedLoadout))
 			.then(() => this.closeDialog())
 	}

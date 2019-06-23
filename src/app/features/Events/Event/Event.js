@@ -80,7 +80,7 @@ class Event extends React.Component {
 		let updatedEvent = this.rawEvent
 		updatedEvent.loadout_id = loadout ? loadout.id : null
 
-		return database.events.edit(updatedEvent)
+		return database.events.edit(this.state.event.id, updatedEvent)
 			.then(() => this.setState((prevState) => {
 				return {
 					event: {...prevState.event, loadout: loadout}
@@ -100,7 +100,7 @@ class Event extends React.Component {
 			updatedEvent.date = updatedEvent.date.toISOString()
 		}
 
-		return database.events.edit(updatedEvent)
+		return database.events.edit(this.state.event.id, updatedEvent)
 			.then(() => this.setState((prevState) => {
 				return {
 					event: {
