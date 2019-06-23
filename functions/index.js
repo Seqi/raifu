@@ -22,7 +22,7 @@ app.use('/loadouts', loadoutRoutes) // Configure auth at a more granular level
 app.use('/events', authMiddleware(), eventRoutes)
 
 app.get('/', (req, res) => {
-	res.send('Hello world!')
+	res.send('pong')
 })
 
 firebase.initializeApp()
