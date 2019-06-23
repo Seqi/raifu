@@ -15,11 +15,11 @@ let authMiddleware = require('./src/middleware/firebase-auth-middleware')
 app.use(cors())
 app.use(bodyParser.json())
 
-app.use('/weapons', authMiddleware, weaponRoutes)
-app.use('/attachments', authMiddleware, attachmentRoutes)
-app.use('/gear', authMiddleware, gearRoutes)
-app.use('/loadouts', authMiddleware, loadoutRoutes)
-app.use('/events', authMiddleware, eventRoutes)
+app.use('/weapons', authMiddleware(), weaponRoutes)
+app.use('/attachments', authMiddleware(), attachmentRoutes)
+app.use('/gear', authMiddleware(), gearRoutes)
+app.use('/loadouts', loadoutRoutes) // Configure auth at a more granular level
+app.use('/events', authMiddleware(), eventRoutes)
 
 app.get('/', (req, res) => {
 	res.send('Hello world!')

@@ -53,6 +53,9 @@ class CloudFunction {
 						statusText: result.statusText
 					})
 				}
+				else {
+					return result
+				}
 			})
 	}
 

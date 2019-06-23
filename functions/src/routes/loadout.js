@@ -1,13 +1,15 @@
 let express = require('express')
 let router = express.Router()
 
+let authMiddleware = require('../middleware/firebase-auth-middleware')
+
 let loadoutWeaponRoutes = require('./loadout-weapon')
 let loadoutGearRoutes = require('./loadout-gear')
 
 let loadout = require('../data/loadout')
 let errors = require('../utils/errors')
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware(), async (req, res) => {
 	try {
 		let items = await loadout.getAll(req.user)
 
@@ -22,9 +24,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	try {
 		let item = await loadout.getById(req.params.id, req.user)
-		
 		return res.json(item)
 	} catch (e) {
+		console.log('error getting loadout', e)
 		if (e instanceof errors.BadRequestError) {
 			return res.status(400)
 				.json({ errors: e.message })
@@ -40,7 +42,7 @@ router.get('/:id', async (req, res) => {
 	}
 })
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware(), async (req, res) => {
 	try {		
 		let item = await loadout.add(req.body, req.user)
 
@@ -57,7 +59,7 @@ router.post('/', async (req, res) => {
 	}
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware(), async (req, res) => {
 	try {
 		let entity = req.body
 
@@ -85,7 +87,7 @@ router.put('/:id', async (req, res) => {
 	}
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware(), async (req, res) => {
 	try {
 		await loadout.delete(req.params.id, req.user)
 
@@ -108,7 +110,7 @@ router.delete('/:id', async (req, res) => {
 	}
 })
 
-router.use('/:loadoutId/weapons', loadoutWeaponRoutes)
-router.use('/:loadoutId/gear', loadoutGearRoutes)
+router.use('/:loadoutId/weapons', authMiddleware(), loadoutWeaponRoutes)
+router.use('/:loadoutId/gear', authMiddleware(), loadoutGearRoutes)
 
 module.exports = router
