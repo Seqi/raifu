@@ -19,9 +19,11 @@ class App extends Component {
 							<Route path='/' component={ () => 
 								<React.Fragment>
 									<NavBar />
-									<Route path='/app' component={ Main } />
-									<Route path='/share' component={ Shared } />
-									<Route path='/' component={ HomePage } />
+									<Switch>
+										<Route path='/app' component={ Main } />
+										<Route path='/share' component={ Shared } />
+										<Route path='/' component={ HomePage } />
+									</Switch>
 								</React.Fragment>
 							} />
 						</Switch>
