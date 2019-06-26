@@ -4,26 +4,38 @@ import HomePageSegment from './HomePageSegment'
 
 import ArmoryImage from 'assets/home/armory.png'
 import LoadoutImage from 'assets/home/loadout.png'
+import EventsImage from 'assets/home/events.png'
 import Ump45 from 'assets/ump45.png'
 
 const segments = [
 	{
+		title: 'Inventory Management',
 		image: ArmoryImage,
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+		text: 'Keep track and manage all of your airsoft weaponry, attachments, and gear.'
 	},
 	{
+		title: 'Loadout Creation',
 		image: LoadoutImage,
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+		text: 'Create your custom loadouts by creating combinations with your airsoft inventory, then share your loadouts online.'
+	},
+	{
+		title: 'Event Planning',
+		image: EventsImage,
+		text: 'Manage upcoming events and assign a loadout to each. View a simple agenda of your upcoming events, and the loadout you plan to take'
 	}
 ]
 
 export default function HomePage() {
 	return (
 		<React.Fragment>
-			<div>Im a homepage</div>
-
+			<div>
+				<div className='logo-box'>
+					<span className='title'>Raifu</span>
+					<img src={ Ump45 } alt='' />
+				</div>
+			</div>
 			{segments.map((segment, i) => 
-				<HomePageSegment key={ i } text={ segment.text } image={ segment.image } />
+				<HomePageSegment key={ i } title={ segment.title } text={ segment.text } image={ segment.image } />
 			)}
 		</React.Fragment>
 	)
