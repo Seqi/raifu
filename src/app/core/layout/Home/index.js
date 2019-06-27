@@ -44,9 +44,7 @@ export default function HomePage() {
 
 	return (
 		<React.Fragment>
-			<div>
-				<Logo height={ isMobileMode ? '300px' : '400px' } subtitle='Airsoft loadout management' />
-			</div>
+			<Logo height={ isMobileMode ? '300px' : '400px' } subtitle='Airsoft loadout management' />
 
 			{segments.map((segment, i) => 
 				<HomePageSegment key={ i } 
