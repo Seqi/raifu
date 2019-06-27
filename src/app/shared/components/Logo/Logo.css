@@ -1,0 +1,11 @@
+.logo-box {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 24px;
+}
+
+.title {
+	font-size: 3rem;
+	padding-top: 10px;
+	letter-spacing: 2px;
+}

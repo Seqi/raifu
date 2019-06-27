@@ -6,7 +6,6 @@ import { withRouter, BrowserRouter as Router, Link, Switch, Redirect } from 'rea
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 
-import Navbar from 'app/core/layout/Navbar/Navbar'
 import Armory from 'app/features/Armory/Armory'
 import Loadouts from 'app/features/Loadouts/Loadouts'
 import Events from 'app/features/Events/Events'
@@ -52,8 +51,7 @@ class Main extends Component {
 		let { tabIndex } = this.state
 
 		return (
-			<React.Fragment>				
-				<Navbar />
+			<React.Fragment>
 				<Router basename='/app'>
 					<React.Fragment>
 						<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => this.tabChange(evt, idx) }>
