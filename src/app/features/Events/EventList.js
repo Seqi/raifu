@@ -110,12 +110,9 @@ class Events extends React.Component {
 			return <Error message={ error } onRetry={ () => this.loadEvents() } />
 		}
 
-		let monthStyle = { height: '80%' }
-		let agendaStyle = { minHeight: '80%' }
-
 		return (
 			<React.Fragment>
-				<div style={ view === 'month' ? monthStyle : agendaStyle }>
+				<div style={ { height: '80%' } }>
 					<BigCalendar 
 						localizer={ this.localizer } 
 						components={ {
