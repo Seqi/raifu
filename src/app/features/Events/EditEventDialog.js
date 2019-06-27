@@ -45,7 +45,7 @@ class EditEventDialog extends Component {
 	handleSave() {
 		this.setState({ loading: true, error: null }, () => {
 			this.props.onSave(this.state.event)
-				.catch(err => this.setState({ error: err.message || err, loading: false }))
+				.catch(err => this.setState({ error: err.statusText || err.message || err, loading: false }))
 		})
 	}
 

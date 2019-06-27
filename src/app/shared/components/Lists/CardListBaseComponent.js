@@ -43,7 +43,7 @@ class CardListBaseComponent extends Component {
 				})
 				.catch((err) => {
 					if (!this.isUnmounted) {
-						this.setState({ error: err.message || err, loading: false })
+						this.setState({ error: err.statusText || err, loading: false })
 					}
 				})
 		})

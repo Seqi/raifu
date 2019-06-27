@@ -38,7 +38,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 			})
 			.catch((err) => {
 				if (!isUnmounted) {
-					setLoadouts({ data: [], loading: false, error: err.message || err })
+					setLoadouts({ data: [], loading: false, error: err.statusText || err.message || err })
 				}
 			})
 	}
@@ -47,7 +47,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 		setSaveError(false)
 
 		onSave(loadouts.data.find(l => l.id === loadoutId))
-			.catch(err => setSaveError(err.message || err))
+			.catch(err => setSaveError(err.statusText || err.message || err))
 	}
 
 	return (

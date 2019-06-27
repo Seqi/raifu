@@ -34,7 +34,7 @@ class AddArmoryItemDialog extends Component {
 		this.setState({ loading: true, errorOnLoad: null }, () => {
 			this.props.itemLoadFunc()
 				.then((items) => !this.isUnmounted && this.setState({ items, loading: false }))
-				.catch((err) => !this.isUnmounted && this.setState( { errorOnLoad: err.message || err, loading: false}))
+				.catch((err) => !this.isUnmounted && this.setState( { errorOnLoad: err.statusText || err.message || err, loading: false}))
 		})
 	}
 
