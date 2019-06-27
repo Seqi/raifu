@@ -4,7 +4,7 @@ import { withTheme, Typography } from '@material-ui/core'
 
 import './HomePageSegment.css'
 
-function HomePageSegment({title, text, image, flip, theme}) {
+function HomePageSegment({title, text, image, flip, isMobileMode, theme}) {
 	return (
 		<div className='segment-container' style={ { 
 			flexDirection: flip ? 'row-reverse' : 'row',
@@ -15,7 +15,7 @@ function HomePageSegment({title, text, image, flip, theme}) {
 			</div>
 			<div className='segment-text-container'>
 				<div>
-					<Typography variant='h2'>{ title }</Typography>
+					<Typography variant={ isMobileMode ? 'h3' : 'h2' }>{ title }</Typography>
 					<span className='segment-text'>
 						{ text }
 					</span>
@@ -29,7 +29,8 @@ HomePageSegment.propTypes = {
 	title: PropTypes.string.isRequired,
 	text: PropTypes.string.isRequired,
 	image: PropTypes.any.isRequired, // Temp any
-	flip: PropTypes.bool
+	flip: PropTypes.bool,
+	isMobileMode: PropTypes.bool.isRequired
 }
 
 HomePageSegment.defaultProps = {

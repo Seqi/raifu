@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import HomePageSegment from './HomePageSegment'
+import Logo from 'app/shared/components/Logo'
 
 import ArmoryImage from 'assets/home/armory.png'
 import LoadoutImage from 'assets/home/loadout.png'
 import EventsImage from 'assets/home/events.png'
-import Ump45 from 'assets/ump45.png'
 
 const segments = [
 	{
@@ -26,16 +26,36 @@ const segments = [
 ]
 
 export default function HomePage() {
+	let [isMobileMode, setIsMobileMode] = useState(calculateIsMobileMode(window.innerWidth))
+
+	useEffect(() => {
+		let onResize = () => {
+			setIsMobileMode(calculateIsMobileMode(window.innerWidth))
+		}
+
+		window.addEventListener('resize', onResize)
+
+		return () => window.removeEventListener('resize', onResize)
+	}, [])
+
+	function calculateIsMobileMode(width) {
+		return width <= 768
+	}
+
 	return (
 		<React.Fragment>
 			<div>
-				<div className='logo-box'>
-					<span className='title'>Raifu</span>
-					<img src={ Ump45 } alt='' />
-				</div>
+				<Logo height={ isMobileMode ? '300px' : '400px' } subtitle='Airsoft loadout management' />
 			</div>
+
 			{segments.map((segment, i) => 
-				<HomePageSegment key={ i } title={ segment.title } text={ segment.text } image={ segment.image } />
+				<HomePageSegment key={ i } 
+					title={ segment.title } 
+					text={ segment.text } 
+					image={ segment.image } 
+					flip={ i % 2 === 0 }
+					isMobileMode={ isMobileMode }
+				/>
 			)}
 		</React.Fragment>
 	)
