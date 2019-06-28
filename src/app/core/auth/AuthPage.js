@@ -1,4 +1,3 @@
-import './AuthPage.css'
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
@@ -7,7 +6,7 @@ import SignupPage from './Signup/SignupPage'
 import Logo from 'app/shared/components/Logo'
 import authClient from '../../../firebase/auth'
 
-import Ump45 from 'assets/ump45.png'
+import './AuthPage.css'
 
 class AuthPage extends Component {
 	constructor(props) {
@@ -28,7 +27,9 @@ class AuthPage extends Component {
 	render() {
 		return (
 			<div className='auth-container'>
-				<Logo height='350px' subtitle='Airsoft loadout management' />
+				<div className='auth-logo-container'>
+					<Logo height='350px' subtitle='Airsoft loadout management' />
+				</div>
 
 				<Router basename='/login'>
 					<Switch>

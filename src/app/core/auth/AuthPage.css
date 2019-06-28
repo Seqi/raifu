@@ -2,3 +2,13 @@
 	margin: 5% auto;
 	max-width: 600px;
 }
+
+.auth-logo-container {
+	margin-bottom: 24px;
+}
+
+@media(max-width: 768px) {
+	.auth-logo-container {
+		margin-top: 24px;
+	}	
+}

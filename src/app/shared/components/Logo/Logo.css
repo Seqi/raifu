@@ -1,8 +1,6 @@
 .logo-box {
 	display: flex;
 	justify-content: center;
-	margin-top: 8px;
-	margin-bottom: 24px;
 	max-width: 80%;
 	margin-left: auto;
 	margin-right: auto;

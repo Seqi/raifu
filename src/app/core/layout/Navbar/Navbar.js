@@ -1,5 +1,6 @@
 import './Navbar.css'
 import React, { Component } from 'react'
+
 import AuthenticatedUserMenu from './AuthenticatedUserMenu'
 import UnauthenticatedUserMenu from './UnauthenticatedUserMenu'
 
@@ -24,10 +25,8 @@ class Navbar extends Component {
 	render() {
 		return (
 			<div className='navbar'>
-				<div className='user-menu'>
-					{ this.state.user && <AuthenticatedUserMenu user={ this.state.user } /> }
-					{ !this.state.user && <UnauthenticatedUserMenu /> }
-				</div>
+				{ this.state.user && <AuthenticatedUserMenu user={ this.state.user } /> }
+				{ !this.state.user && <UnauthenticatedUserMenu /> }
 			</div>
 		)
 	}
