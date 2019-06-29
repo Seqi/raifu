@@ -1,9 +1,9 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import Typography from '@material-ui/core/Typography'
 
 import { Loading, Error } from 'app/shared/components'
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import EditLoadoutDialog from './EditLoadoutNameDialog'
 import SetShareableDialog from './SetShareableDialog'
@@ -185,11 +185,11 @@ class Loadout extends React.Component {
 
 		return (
 			<React.Fragment>
-				<Typography variant='h3' >
+				<ReactiveTitle>
 					{ loadout.name }					
 					<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />
 					<i onClick={ () => this.openDialog('share') } className='fa fa-link icon-action' />
-				</Typography>
+				</ReactiveTitle>
 
 				<LoadoutView 
 					loadout={ loadout } 
