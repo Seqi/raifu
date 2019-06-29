@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import ArmoryItemImage from './ArmoryItemImage'
 
 const fillParent = {
+	display: 'flex',
 	width: '100%',
 	height: '100%'
 } 

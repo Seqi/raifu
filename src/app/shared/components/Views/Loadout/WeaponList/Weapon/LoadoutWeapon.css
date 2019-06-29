@@ -13,10 +13,12 @@
 	max-width: 500px;
 }
 
-.loadout-weapon-item-title {
+.loadout-weapon-item h2, 
+.loadout-weapon-item h3, 
+.loadout-weapon-item h4, 
+.loadout-weapon-item h5,
+.loadout-weapon-item h6  {
 	position: absolute;
-	top: 0;
-	left: 0;
 }
 
 .loadout-weapon-attachment-list-container {
@@ -46,6 +48,14 @@
 	.loadout-weapon-item {		
 		max-height: initial;
 		max-width: initial;
+	}
+
+	.loadout-weapon-item h2, 
+	.loadout-weapon-item h3, 
+	.loadout-weapon-item h4, 
+	.loadout-weapon-item h5,
+	.loadout-weapon-item h6  {
+		position: initial;
 	}
 
 	.loadout-weapon-attachment-list-container {

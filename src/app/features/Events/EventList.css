@@ -2,6 +2,12 @@
 	height: 80%;
 }
 
+.fab-add-event {
+	position: absolute !important;
+	bottom: 3%;
+	right: 3%;
+}
+
 @media (max-width: 768px) {
 	.event-list {
 		height: 100%;
