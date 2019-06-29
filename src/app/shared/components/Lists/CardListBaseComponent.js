@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import { Error, Loading } from 'app/shared/components'
 import CardList from 'app/shared/components/Cards/CardList'
 
+import './CardListBaseComponent.css'
 
 // A little hacky, but we only use the isAddDialogOpen state in children classes
 /* eslint-disable react/no-unused-state */

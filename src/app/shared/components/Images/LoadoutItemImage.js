@@ -10,13 +10,10 @@ const fillParent = {
 
 export default function LoadoutItemImage({ item, category, textStyle }) {
 	return (
-		<div style={ {
-			width: '100%',
-			height: '100%',
-			position: 'relative'
-		} }>
+		<div style={ fillParent }>
 			<ArmoryItemImage 
-				style={ fillParent } 
+				fixBoundingBox={ false }
+				// style={ fillParent } 
 				entity={ item } 
 				category={ category }
 				rotate={ category === 'attachments' } />

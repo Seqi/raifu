@@ -15,12 +15,6 @@
 	left: 0;
 }
 
-@media (max-width: 1199px) {
-	.loadout-weapon-container {
-		max-width: inherit;
-	}
-}
-
 .loadout-weapon-attachment-list-container {
 	display: flex;
 	flex-wrap: wrap;
@@ -32,9 +26,7 @@
 .loadout-weapon-attachment-item {
 	max-height: 50%;
 
-	min-width: 200px;
+	min-width: 300px;
 	max-width: 33%;
 	flex-grow: 1;
-
-	padding: 0rem 1.5rem;
 }

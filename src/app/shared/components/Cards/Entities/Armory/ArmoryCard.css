@@ -7,15 +7,17 @@
 	margin-right: 20px;
 }
 
-@media (max-width: 767px) {
-	.armory-card {
-		height: 200px;
-		min-width: 147px;
-		width: 147px;
-    }
-}
 
 .armory-card:hover{
 	transform: scale(1.05);
 	transition: transform ease-in 0.15s;
+}
+
+@media (max-width: 768px) {
+	.armory-card {
+		height: 200px;
+		min-width: 147px;
+		width: 147px;
+		margin-right: 0px;
+	}
 }
