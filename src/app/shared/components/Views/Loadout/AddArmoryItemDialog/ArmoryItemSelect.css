@@ -1,0 +1,13 @@
+.armory-item-select-card {
+	height: 220px;
+	width: 30%;
+	min-width: 0;
+	margin-right: 0;
+}
+
+@media (max-width: 768px) {	
+	.armory-item-select-card {
+		height: 170px;
+		width: 45%;
+	}
+}

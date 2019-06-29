@@ -34,12 +34,23 @@
 	flex-grow: 1;
 }
 
-.card .card-content > img {
+.card:not(.loadout-card) .card-content img {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%) !important;
 
 	max-height: 98%;
 	max-width: 98%;
+}
+
+/* Shrink the loadout card images for mobiles */
+@media(max-width: 768px){
+	.card-list {
+		justify-content: space-around
+	}
+	
+	.loadout-card .card-content img {
+		height: 150px;
+	}
 }

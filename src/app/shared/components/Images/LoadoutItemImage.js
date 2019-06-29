@@ -4,23 +4,21 @@ import PropTypes from 'prop-types'
 import ArmoryItemImage from './ArmoryItemImage'
 
 const fillParent = {
+	display: 'flex',
 	width: '100%',
 	height: '100%'
 } 
 
 export default function LoadoutItemImage({ item, category, textStyle }) {
 	return (
-		<div style={ {
-			width: '100%',
-			height: '100%',
-			position: 'relative'
-		} }>
+		<div style={ fillParent }>
 			<ArmoryItemImage 
 				style={ fillParent } 
 				entity={ item } 
 				category={ category }
 				rotate={ category === 'attachments' } />
-			<span style={ {...{
+
+			<span className='loadout-weapon-attachment-item-text' style={ {...{
 				position: 'absolute',
 				bottom: 0, 
 				right: 0, 

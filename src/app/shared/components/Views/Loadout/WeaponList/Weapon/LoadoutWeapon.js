@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Typography from '@material-ui/core/Typography'
-
 import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
 
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
 import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import './LoadoutWeapon.css'
 
@@ -38,14 +37,13 @@ class LoadoutWeapon extends Component {
 
 		return (
 			<React.Fragment>	
-				<React.Fragment>
+				<div className='loadout-weapon-item-container'>
 					<div className='loadout-weapon-item'>
-
-						<Typography variant={ 'h4' } className='loadout-weapon-item-title'>
+						<ReactiveTitle variant='h4' mobileVariant='h5' className='loadout-weapon-item-title'>
 							{ weapon.getTitle() }
 							
 							{ canEdit && <DeleteButton style={ {position: 'initial'} } onClick={ () => this.setDialogOpen(true) } /> }
-						</Typography>
+						</ReactiveTitle>
 
 						<ArmoryItemImage 
 							style={ {
@@ -64,7 +62,7 @@ class LoadoutWeapon extends Component {
 						onAttachmentsAdded={ onAttachmentsAdded }
 						onAttachmentDeleted={ onAttachmentDeleted }
 					/>
-				</React.Fragment>	
+				</div>	
 				
 				{ canEdit && <ConfirmDeleteDialog
 					title={ weapon.getTitle() }

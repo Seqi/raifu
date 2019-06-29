@@ -8,9 +8,7 @@ export default function ArmoryItemImage({ style, entity, category, rotate }) {
 	let img = getImage(category, entity.type, entity.platform)
 
 	if (img) {
-		return rotate ?
-			<RotatedImage image={ img } rotateBy={ 45 } /> :
-			<img style={ style } alt={ entity.platform } src={ img } />
+		return <RotatedImage style={ style } image={ img } rotateBy={ rotate ? 45 : 0 } />
 	} else {
 		return <div />
 	}

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-import Typography from '@material-ui/core/Typography'
-
 import { Error, Loading } from 'app/shared/components'
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 import CardList from 'app/shared/components/Cards/CardList'
 
+import './CardListBaseComponent.css'
 
 // A little hacky, but we only use the isAddDialogOpen state in children classes
 /* eslint-disable react/no-unused-state */
@@ -78,7 +78,7 @@ class CardListBaseComponent extends Component {
 
 		return (
 			<React.Fragment>
-				<Typography variant='h3'>{this.title}</Typography>
+				<ReactiveTitle>{this.title}</ReactiveTitle>
 				{loading ? (
 					<Loading />
 				) : error ? (

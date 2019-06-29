@@ -10,11 +10,11 @@ import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
 
 import './ArmoryCard.css'
 
-export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, style }) {
+export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, style, className }) {
 	return (
-		<Card style={ style } onClick={ onClick } className='card armory-card' >
+		<Card style={ style } onClick={ onClick } className={ `${className} card armory-card` } >
 			{ canDelete && <DeleteButton onClick={ onDelete } /> }
-			<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header' />
+			<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header'/>
 			<CardContent className='card-content'>
 				<ArmoryItemImage entity={ item } category={ category } />
 			</CardContent>
@@ -34,11 +34,13 @@ ArmoryCard.propTypes = {
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,
 	style: PropTypes.object,
+	className: PropTypes.string
 }
 
 ArmoryCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},
-	style: {}
+	style: {},
+	className: ''
 }

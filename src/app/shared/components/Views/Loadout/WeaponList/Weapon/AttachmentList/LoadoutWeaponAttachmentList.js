@@ -91,7 +91,7 @@ class LoadoutWeaponAttachmentList extends Component {
 						</div>
 
 						{ canEdit && <AddArmoryItemDialog
-							title={ `Add attachment to ${weapon.getTitle()}` }
+							title={ `Add attachments to ${weapon.getTitle()}` }
 							category='attachments'
 							allowMultiple={ true }
 							itemLoadFunc={ database.attachments.get }

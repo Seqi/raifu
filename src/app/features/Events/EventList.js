@@ -3,7 +3,7 @@ import withRouter from 'react-router-dom/withRouter'
 import BigCalendar from 'react-big-calendar' 
 import moment from 'moment'
 
-import { withTheme } from '@material-ui/core'
+import { withTheme, Fab } from '@material-ui/core'
 
 import CalendarToolbar from './CalendarToolbar'
 import CalendarEvent from './CalendarEvent'
@@ -15,6 +15,7 @@ import { Loading, Error } from 'app/shared/components'
 import database from '../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
+import './EventList.css'
 
 class Events extends React.Component {
 
@@ -60,7 +61,7 @@ class Events extends React.Component {
 		})
 	}
 
-	addEvent(date) {
+	addEvent(date = new Date()) {
 		// Set the time to 8am for a common start, otherwise we're left at 12am
 		let startTime = date.setHours(8)
 
@@ -112,7 +113,7 @@ class Events extends React.Component {
 
 		return (
 			<React.Fragment>
-				<div style={ { height: '80%' } }>
+				<div className='event-list'>
 					<BigCalendar 
 						localizer={ this.localizer } 
 						components={ {
@@ -142,6 +143,10 @@ class Events extends React.Component {
 						eventPropGetter={ this.styleEvent }
 					/>
 				</div>
+
+				<Fab onClick={ () => this.addEvent() } className='fab-add-event' color='primary' aria-label='Add'>
+					<i className='fa fa-plus' />
+				</Fab>
 
 				{ activeTimeslot && <EditEventDialog 
 					date={ activeTimeslot }

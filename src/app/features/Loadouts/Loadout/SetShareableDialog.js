@@ -52,21 +52,24 @@ class SetShareableDialog extends Component {
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>Share loadout</DialogTitle>
 
-				<DialogContent style={ { display: 'flex' } }>					
+				<DialogContent>					
 					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
 
 					<TextField
-						style={ {flex: 1} }
+						fullWidth={ true }
 						label='URL'
 						value={ loadout.shared ? this.shareableLink : 'Share this loadout to get a shareable URL' }
 						disabled={ true }
 					/>
 
-					<FormControlLabel 
-						label='Share'
-						onChange={ e => this.handleShare(e.target.checked) }
-						control={ <Checkbox disabled={ loading } checked={ loadout.shared } /> }
-					/>
+					<div>
+						<FormControlLabel 
+							style={ {float:'right'} }
+							label='Share'
+							onChange={ e => this.handleShare(e.target.checked) }
+							control={ <Checkbox disabled={ loading } checked={ loadout.shared } /> }
+						/>
+					</div>
 				</DialogContent>
 
 				<DialogActions>
