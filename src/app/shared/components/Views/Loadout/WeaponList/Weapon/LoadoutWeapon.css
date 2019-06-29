@@ -34,7 +34,6 @@
 	font-size: 16px;
 }
 
-
 .loadout-weapon-attachment-item {
 	max-height: 50%;
 
@@ -44,13 +43,19 @@
 }
 
 @media (max-width: 768px) {
+	.loadout-weapon-item {		
+		max-height: initial;
+		max-width: initial;
+	}
+
 	.loadout-weapon-attachment-list-container {
-		justify-content: space-between
+		justify-content: space-between;
+		margin-left: 0;
 	}
 
 	.loadout-weapon-attachment-item {
 		min-width: 45%;
-		min-height: 130px;
+		min-height: 125px;
 	}
 
 	.loadout-weapon-item img {
@@ -62,7 +67,6 @@
 	}
 
 	.loadout-weapon-attachment-item img {
-		max-height: 150px;
-		width: 90%;
+		width: 100%;
 	}
 }

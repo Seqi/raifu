@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-
-import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
 function calculateAddedXMargin(ref, rotateBy) {
 	let boundingBoxWidth = calculateBoundingBoxWidth(ref, rotateBy)
@@ -26,13 +24,17 @@ function RotatedImage({image, rotateBy, style}) {
 	let [containerRef] = useState(React.createRef())
 	let [xMargin, setXMargin] = useState(0)
 
-	useIsMobileMode(768, _ => {
-		setNewXMargin()
-	})
+	useEffect(() => {
+		window.addEventListener('resize', setNewXMargin)
+		setTimeout(setNewXMargin, 10) // Hack for offsetHeight being unreliable? Idk whats going on
+
+		return () => window.removeEventListener('resize', setNewXMargin)
+	}, [])
 	
 	function setNewXMargin() {
 		if (containerRef.current) {
-			setXMargin(calculateAddedXMargin(containerRef, rotateBy))
+			let newXMargin = calculateAddedXMargin(containerRef, rotateBy)
+			setXMargin(newXMargin)
 		}
 	}
 	

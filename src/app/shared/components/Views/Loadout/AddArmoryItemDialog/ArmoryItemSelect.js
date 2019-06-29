@@ -4,18 +4,10 @@ import PropType from 'prop-types'
 import { withTheme } from '@material-ui/core'
 
 import { ArmoryCard } from 'app/shared/components/Cards/Entities'
+import './ArmoryItemSelect.css'
 
 function ArmoryItemSelect ({theme, items, category, selectedItemIds, onItemSelected }) {
-
-	const cardStyle = {
-		height: '220px',
-		width: '30%',
-		minWidth: '0',
-		marginRight: '0'
-	}
-	
 	const selectedCardStyle = {
-		...cardStyle,
 		transform: 'scale(1.05)',
 		border: `1px solid ${theme.palette.primary.main}`
 	}
@@ -27,7 +19,8 @@ function ArmoryItemSelect ({theme, items, category, selectedItemIds, onItemSelec
 					key={ item.id } 
 					category={ category }
 					item={ item } 
-					style={ selectedItemIds.find(id => id === item.id) ? selectedCardStyle : cardStyle }
+					className='armory-item-select-card'
+					style={ selectedItemIds.find(id => id === item.id) ? selectedCardStyle : {} }
 					onClick={ () => onItemSelected(item.id) } />
 			))}
 		</div>
