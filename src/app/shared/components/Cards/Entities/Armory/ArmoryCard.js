@@ -12,9 +12,9 @@ import './ArmoryCard.css'
 
 export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, style, className }) {
 	return (
-		<Card style={ style } onClick={ onClick } className='card armory-card' >
+		<Card style={ style } onClick={ onClick } className={ `${className} card armory-card` } >
 			{ canDelete && <DeleteButton onClick={ onDelete } /> }
-			<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className={ `${className} card-header` }/>
+			<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header'/>
 			<CardContent className='card-content'>
 				<ArmoryItemImage entity={ item } category={ category } />
 			</CardContent>

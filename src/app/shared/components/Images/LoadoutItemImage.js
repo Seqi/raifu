@@ -12,11 +12,11 @@ export default function LoadoutItemImage({ item, category, textStyle }) {
 	return (
 		<div style={ fillParent }>
 			<ArmoryItemImage 
-				fixBoundingBox={ false }
-				// style={ fillParent } 
+				style={ fillParent } 
 				entity={ item } 
 				category={ category }
 				rotate={ category === 'attachments' } />
+
 			<span className='loadout-weapon-attachment-item-text' style={ {...{
 				position: 'absolute',
 				bottom: 0, 
