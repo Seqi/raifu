@@ -7,8 +7,7 @@ function LoadoutSeparator(props) {
 	let borderStyle = `1px solid ${props.theme.palette.primary.main}`
 
 	return (
-		<div className='loadout-weapon-container' style={ {			
-			display: 'flex',
+		<div style={ {			
 			width: '100%',
 			paddingTop: '24px',
 			paddingBottom: '24px',		

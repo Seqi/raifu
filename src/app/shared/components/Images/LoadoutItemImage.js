@@ -17,7 +17,7 @@ export default function LoadoutItemImage({ item, category, textStyle }) {
 				entity={ item } 
 				category={ category }
 				rotate={ category === 'attachments' } />
-			<span style={ {...{
+			<span className='loadout-weapon-attachment-item-text' style={ {...{
 				position: 'absolute',
 				bottom: 0, 
 				right: 0, 

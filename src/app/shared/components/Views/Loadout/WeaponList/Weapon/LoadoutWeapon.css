@@ -1,10 +1,14 @@
+.loadout-weapon-item-container {
+	display: flex;
+}
+
 .loadout-weapon-item {
 	position: relative;
 	flex: 1;
-
+	
 	min-height: 300px;
 	min-width: 300px;
-
+	
 	max-height: 500px;
 	max-width: 500px;
 }
@@ -23,10 +27,42 @@
 	margin-left: 5%;
 }
 
+.loadout-weapon-attachment-item-text {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	font-size: 16px;
+}
+
+
 .loadout-weapon-attachment-item {
 	max-height: 50%;
 
 	min-width: 300px;
 	max-width: 33%;
 	flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+	.loadout-weapon-attachment-list-container {
+		justify-content: space-between
+	}
+
+	.loadout-weapon-attachment-item {
+		min-width: 45%;
+		min-height: 130px;
+	}
+
+	.loadout-weapon-item img {
+		max-height: 300px;
+	}
+
+	.loadout-weapon-item-container {
+		flex-direction: column;
+	}
+
+	.loadout-weapon-attachment-item img {
+		max-height: 150px;
+		width: 90%;
+	}
 }

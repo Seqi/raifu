@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withTheme, Typography } from '@material-ui/core'
+import { withTheme } from '@material-ui/core'
+
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 function CalendarToolbar({label, view, onNavigate, onView, theme}) {
 	const blankButton = {
@@ -17,9 +19,9 @@ function CalendarToolbar({label, view, onNavigate, onView, theme}) {
 
 	return (
 		<div style={ {display: 'flex', marginBottom: '16px'} }>
-			<Typography variant={ 'h3' }>
+			<ReactiveTitle>
 				{ label }
-			</Typography>
+			</ReactiveTitle>
 
 			<div style={ {display: 'flex', flex: '1', marginLeft: '12px', fontSize: '1.5rem'} }>
 				<button 
