@@ -1,0 +1,9 @@
+.event-list {
+	height: 80%;
+}
+
+@media (max-width: 768px) {
+	.event-list {
+		height: 100%;
+	}
+}

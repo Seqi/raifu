@@ -1,7 +1,6 @@
 import React from 'react'
 import withRouter from 'react-router-dom/withRouter'
 
-import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
@@ -9,6 +8,7 @@ import LoadoutSeparator from 'app/shared/components/Views/Loadout/LoadoutSeparat
 import LoadoutAdd from 'app/shared/components/Views/Loadout/LoadoutAdd'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import { Loading, Error } from 'app/shared/components'
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import EditEventDialog from '../EditEventDialog'
 import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
@@ -132,15 +132,15 @@ class Event extends React.Component {
 		return (
 			<React.Fragment>
 				<React.Fragment>
-					<Typography variant='h3' >
+					<ReactiveTitle>
 						{ event.name }
 						<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />						
 						<i onClick={ () => this.openDialog('delete') } className='fa fa-times icon-action' />
-					</Typography>
+					</ReactiveTitle>
 
-					<Typography variant='h4'>
+					<ReactiveTitle variant='h4' mobileVariant='h5'>
 						{ event.location } @ { event.date.toLocaleString() }
-					</Typography>
+					</ReactiveTitle>
 				</React.Fragment>
 
 				{ !event.loadout && 

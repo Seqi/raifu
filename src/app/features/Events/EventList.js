@@ -15,6 +15,7 @@ import { Loading, Error } from 'app/shared/components'
 import database from '../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './Calendar.css'
+import './EventList.css'
 
 class Events extends React.Component {
 
@@ -112,7 +113,7 @@ class Events extends React.Component {
 
 		return (
 			<React.Fragment>
-				<div style={ { height: '80%' } }>
+				<div className='event-list'>
 					<BigCalendar 
 						localizer={ this.localizer } 
 						components={ {
