@@ -63,7 +63,7 @@ class Events extends React.Component {
 
 	addEvent(date = new Date()) {
 		// Set the time to 8am for a common start, otherwise we're left at 12am
-		let startTime = date.setHours(8)
+		let startTime = date.setHours(8, 0, 0, 0)
 
 		this.setState({ activeTimeslot: new Date(startTime), isAddDialogOpen: true })
 	}
