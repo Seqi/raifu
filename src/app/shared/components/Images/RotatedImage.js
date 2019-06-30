@@ -39,7 +39,7 @@ function RotatedImage({image, rotateBy, style}) {
 	}
 	
 	return (
-		<div ref={ containerRef } style={ { width: '100%', marginLeft: xMargin, marginRight: xMargin } }>
+		<div className='rotated-image-container' ref={ containerRef } style={ { marginLeft: xMargin, marginRight: xMargin } }>
 			<img alt=''
 				src={ image }
 				style={ { ...style, transform: `rotate(${rotateBy}deg)` } }
