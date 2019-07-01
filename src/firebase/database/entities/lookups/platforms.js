@@ -108,7 +108,7 @@ export default {
 		misc: ['GoPro', 'Knife']
 	},
 	attachments: {
-		sights: ['Red Dot', 'Reflex', 'Holographic', 'Telescopic'],
+		sights: ['Red Dot', 'Reflex', 'Holographic', 'Telescopic', 'Iron Sights'],
 		barrel: ['Surpressor', 'Flash Hider', 'Tracer Unit'],
 		illumination: ['Pistol Torch', 'Flashlight', 'PEQ Box'],
 		underbarrel: ['Vertical Foregrip', 'Angled Foregrip', 'Bipod', 'Grenade Launcher']
