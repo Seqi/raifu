@@ -28,7 +28,7 @@ class AuthPage extends Component {
 		return (
 			<div className='auth-container'>
 				<div className='auth-logo-container'>
-					<Logo height='350px' subtitle='Airsoft loadout management' />
+					<Logo height='250px' subtitle='Airsoft loadout management' />
 				</div>
 
 				<Router basename='/login'>

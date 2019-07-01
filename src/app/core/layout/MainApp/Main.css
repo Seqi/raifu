@@ -3,8 +3,6 @@
 }
 
 .app-window {
-	/* Hacky fix for children not abiding my min-height */
-	height: 1px;
 	min-height: 100%;
 	margin-top: 1.1rem;
 }
