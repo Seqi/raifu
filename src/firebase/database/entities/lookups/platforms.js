@@ -22,7 +22,7 @@ export default {
 			'G3',
 			'Galil',
 			'L1A1',
-			'L85A1',
+			'L85',
 			'M1 Garand',
 			'M14',
 			'SA80',
