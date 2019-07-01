@@ -9,6 +9,7 @@ export default {
 			'M16',
 			'HK416',
 			'ACR',
+			'AK12',
 			'AK74',
 			'AK74U',
 			'AR 9mm',
