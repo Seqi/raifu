@@ -37,6 +37,7 @@ export default [
 	'KJ Works',
 	'Krytac',
 	'KWA',
+	'KSC',
 	'KWC',
 	'Lancer Tactical',
 	'LCT',
