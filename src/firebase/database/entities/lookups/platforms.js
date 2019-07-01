@@ -85,6 +85,7 @@ export default {
 			'HK45',
 			'Luger',
 			'Revolver',
+			'M93R',
 			'M&P',
 			'Makarov',
 			'MK23 Socom',
