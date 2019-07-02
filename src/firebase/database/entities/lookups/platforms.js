@@ -21,6 +21,7 @@ export default {
 			'FAL',
 			'G3',
 			'Galil',
+			'HK33',
 			'L1A1',
 			'L85',
 			'M1 Garand',
