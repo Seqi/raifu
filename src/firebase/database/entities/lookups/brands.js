@@ -31,6 +31,7 @@ export default [
 	'GHK',
 	'Ho Feng Corp',
 	'ICS',
+	'Jag Arms',
 	'Jing Gong',
 	'Jin Peng',
 	'King Arms',
