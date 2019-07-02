@@ -102,7 +102,7 @@ export default {
 			'XDM',
 			'XP18'
 		],
-		support: ['M249', 'MG42', 'Trident LMG', 'Stoner', 'ZB26'],
+		support: ['M249', 'MG42', 'PKP', 'Trident LMG', 'Stoner', 'ZB26'],
 		launchers: ['Bazooka', 'GL06', 'GLM', 'M052', 'M79', 'RPG-7']
 	},
 	gear: {
