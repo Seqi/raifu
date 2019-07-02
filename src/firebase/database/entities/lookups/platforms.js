@@ -57,7 +57,8 @@ export default {
 			'PPSH 41',
 			'Scorpion',
 			'Sterling',
-			'Thompson'
+			'Thompson',
+			'Vityaz-SN'
 		],
 		snipers: [
 			'ASW338LM',
