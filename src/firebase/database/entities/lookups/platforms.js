@@ -31,6 +31,7 @@ export default {
 			'TAR-21',
 			'TK-45',
 			'Type 64',
+			'Type 89',
 			'Type 95',
 			'UAR',
 			'VZ.58'
