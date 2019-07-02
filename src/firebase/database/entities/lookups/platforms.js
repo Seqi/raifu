@@ -15,22 +15,28 @@ export default {
 			'AR 9mm',
 			'AR .556',
 			'AR .308',
+			'AS Val',
 			'AUG',
 			'CZ 805',
 			'FAMAS',
 			'FAL',
+			'FNC',
 			'G3',
 			'Galil',
+			'HK33',
 			'L1A1',
 			'L85',
 			'M1 Garand',
 			'M14',
 			'SA80',
+			'Scorpion EVO 3',
 			'SG553',
+			'SL8',
 			'SR-25',
 			'TAR-21',
 			'TK-45',
 			'Type 64',
+			'Type 89',
 			'Type 95',
 			'UAR',
 			'VZ.58'
@@ -51,7 +57,8 @@ export default {
 			'PPSH 41',
 			'Scorpion',
 			'Sterling',
-			'Thompson'
+			'Thompson',
+			'Vityaz-SN'
 		],
 		snipers: [
 			'ASW338LM',
@@ -97,7 +104,7 @@ export default {
 			'XDM',
 			'XP18'
 		],
-		support: ['M249', 'MG42', 'Trident LMG', 'Stoner', 'ZB26'],
+		support: ['M249', 'MG42', 'PKP', 'Trident LMG', 'Stoner', 'ZB26'],
 		launchers: ['Bazooka', 'GL06', 'GLM', 'M052', 'M79', 'RPG-7']
 	},
 	gear: {
