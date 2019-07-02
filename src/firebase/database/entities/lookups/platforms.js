@@ -28,6 +28,7 @@ export default {
 			'SA80',
 			'Scorpion EVO 3',
 			'SG553',
+			'SL8',
 			'SR-25',
 			'TAR-21',
 			'TK-45',
