@@ -42,6 +42,11 @@ class AddAttachmentDialog extends React.Component {
 				[key]: val
 			}
 
+			// Reset platform if type changes
+			if (key === 'type') {
+				attachment.platform = ''
+			}
+
 			return { attachment }
 		})
 	}

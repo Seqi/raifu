@@ -42,6 +42,11 @@ class AddGearDialog extends React.Component {
 				[key]: val
 			}
 
+			// Reset platform if type changes
+			if (key === 'type') {
+				gear.platform = ''
+			}
+
 			return { gear }
 		})
 	}

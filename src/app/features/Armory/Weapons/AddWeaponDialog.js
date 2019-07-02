@@ -44,6 +44,11 @@ class AddWeaponDialog extends React.Component {
 				[key]: val
 			}
 
+			// Reset platform if type changes
+			if (key === 'type') {
+				weapon.platform = ''
+			}
+
 			return { weapon }
 		})
 	}
