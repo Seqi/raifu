@@ -19,6 +19,7 @@ export default {
 			'CZ 805',
 			'FAMAS',
 			'FAL',
+			'FNC',
 			'G3',
 			'Galil',
 			'HK33',
