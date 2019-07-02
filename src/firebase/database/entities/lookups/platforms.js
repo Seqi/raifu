@@ -15,6 +15,7 @@ export default {
 			'AR 9mm',
 			'AR .556',
 			'AR .308',
+			'AS Val',
 			'AUG',
 			'CZ 805',
 			'FAMAS',
