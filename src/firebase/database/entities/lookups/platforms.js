@@ -26,6 +26,7 @@ export default {
 			'M1 Garand',
 			'M14',
 			'SA80',
+			'Scorpion EVO 3',
 			'SG553',
 			'SR-25',
 			'TAR-21',
