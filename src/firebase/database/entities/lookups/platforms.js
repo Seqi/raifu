@@ -31,7 +31,6 @@ export default {
 			'M1918 BAR',
 			'Magpul PDR',
 			'SA80',
-			'Scorpion EVO 3',
 			'SG553',
 			'SL8',
 			'SR-25',
@@ -60,6 +59,7 @@ export default {
 			'P90',
 			'PPSH 41',
 			'Scorpion',
+			'Scorpion EVO 3',
 			'Sterling',
 			'Thompson',
 			'Vityaz-SN'
