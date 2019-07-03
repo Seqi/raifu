@@ -28,6 +28,7 @@ export default {
 			'L85',
 			'M1 Garand',
 			'M14',
+			'M1918 BAR',
 			'Magpul PDR',
 			'SA80',
 			'Scorpion EVO 3',
