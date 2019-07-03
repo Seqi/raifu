@@ -53,6 +53,7 @@ export default [
 	'Pro Arms',
 	'RWA',
 	'Silesia Factory',
+	'Specna Arms',
 	'SRC',
 	'Systema Engineering',
 	'T.I.E.R.',
