@@ -35,6 +35,7 @@ export default {
 			'SR-25',
 			'TAR-21',
 			'TK-45',
+			'Type 56',
 			'Type 64',
 			'Type 89',
 			'Type 95',
