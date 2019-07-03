@@ -39,6 +39,7 @@ export default {
 			'Type 64',
 			'Type 89',
 			'Type 95',
+			'Type 97',
 			'UAR',
 			'VZ.58'
 		],
