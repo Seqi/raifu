@@ -96,7 +96,7 @@ class Loadout extends React.Component {
 	
 	addGear(gear) {
 		this.setState((prevState) => {
-			let updatedGear = [...prevState.loadout.gear, gear]
+			let updatedGear = [...prevState.loadout.gear, ...gear]
 	
 			let loadout = {
 				...prevState.loadout,

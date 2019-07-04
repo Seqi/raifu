@@ -27,13 +27,17 @@ export default class LoadoutGearList extends React.Component {
 		this.setState({ isDialogOpen: false })
 	}
 
-	addGear(gearId) {
+	addGear(gearIds) {
 		let { loadoutId, onAdd } = this.props 
 
-		return database.loadouts
-			.loadout(loadoutId)
-			.gear
-			.add(gearId)
+		let promises = gearIds.map(gearId => {
+			return database.loadouts
+				.loadout(loadoutId)
+				.gear
+				.add(gearId)
+		})
+
+		return Promise.all(promises)
 			.then((gear) => onAdd(gear))
 			.then(() => this.closeDialog())
 	}	
@@ -85,7 +89,8 @@ export default class LoadoutGearList extends React.Component {
 					itemLoadFunc={ database.gear.get }
 					filterIds={ gear.map(g => g.id) }
 					isOpen={ this.state.isDialogOpen } 
-					onSave={ gearId => this.addGear(gearId) }
+					allowMultiple={ true }
+					onSave={ gearIds => this.addGear(gearIds) }
 					onClose={ () => this.closeDialog() } 
 				/> }
 					
