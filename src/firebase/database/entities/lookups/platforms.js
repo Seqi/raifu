@@ -24,6 +24,7 @@ export default {
 			'G3',
 			'Galil',
 			'HK33',
+			'HK417',
 			'L1A1',
 			'L85',
 			'M1 Garand',
