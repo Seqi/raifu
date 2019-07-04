@@ -34,6 +34,7 @@ export default {
 			'SA80',
 			'SG553',
 			'SL8',
+			'SR-3M',
 			'SR-25',
 			'TAR-21',
 			'TK-45',
