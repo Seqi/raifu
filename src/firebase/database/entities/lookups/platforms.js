@@ -76,6 +76,7 @@ export default {
 			'M24',
 			'M40',
 			'MB44',
+			'MSR',
 			'STRIKER',
 			'SVD',
 			'VSR'
