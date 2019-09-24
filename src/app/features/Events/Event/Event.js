@@ -135,7 +135,7 @@ class Event extends React.Component {
 					<ReactiveTitle>
 						{ event.name }
 						<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />						
-						<i onClick={ () => this.openDialog('delete') } className='fa fa-times icon-action' />
+						<i onClick={ () => this.openDialog('delete') } className='fa fa-trash icon-action' />
 					</ReactiveTitle>
 
 					<ReactiveTitle variant='h4' mobileVariant='h5'>
