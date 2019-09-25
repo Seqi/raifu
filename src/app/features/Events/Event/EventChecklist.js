@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 
 const EventChecklist = ({ title, loadout, isOpen, onClose }) => {
 
@@ -12,25 +12,31 @@ const EventChecklist = ({ title, loadout, isOpen, onClose }) => {
 				items.push(weapon)
 
 				if (weapon.attachments) {
-					weapon.attachments.forEach(items.push)
+					weapon.attachments.forEach(attachment => items.push(attachment))
 				}
 			})
 		}
 		
 		if (loadout.gear) {
-			loadout.gear.forEach(items.push)
+			loadout.gear.forEach(gear => items.push(gear))
 		}
+
+		console.log(items)
+
+		return items
 	}
 
 	return (
-		<Dialog>
+		<Dialog open={ isOpen }>
 			<DialogTitle>Checklist for {title} </DialogTitle>
 
-			<DialogContent>
+			<DialogContent style={ {display: 'flex', flexDirection: 'column'} }>
 				{
 					getAllItems(loadout)
 						.map((item, i) => (
-							<Checkbox key={ i } >item.getTitle()</Checkbox>
+							<FormControlLabel key={ i } label={ item.getTitle() }
+								control={ <Checkbox /> }
+							/>
 						))
 				}
 			</DialogContent>
