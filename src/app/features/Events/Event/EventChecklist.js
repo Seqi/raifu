@@ -1,43 +1,67 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel, Typography } from '@material-ui/core'
+
+let checkboxListStyle = {
+	display: 'flex',
+	flexDirection: 'column'
+}
 
 const EventChecklist = ({ title, loadout, isOpen, onClose }) => {
+	function getAllWeapons(loadout) {
+		return loadout.weapons || []
+	}
 
-	function getAllItems(loadout) {
-		let items = []
-
+	function getAllAttachments(loadout) {
+		let attachments = []
+		
 		if (loadout.weapons) {
 			loadout.weapons.forEach(weapon => {
-				items.push(weapon)
-
 				if (weapon.attachments) {
-					weapon.attachments.forEach(attachment => items.push(attachment))
+					weapon.attachments.forEach(attachment => attachments.push(attachment))
 				}
 			})
 		}
-		
-		if (loadout.gear) {
-			loadout.gear.forEach(gear => items.push(gear))
-		}
 
-		console.log(items)
+		return attachments
+	}
 
-		return items
+	function getAllGear(loadout) {
+		return loadout.gear || []
+	}
+
+	// eslint-disable-next-line react/no-multi-comp
+	function toCheckbox(item, index) {
+		return <FormControlLabel key={ index } label={ item.getTitle() } control={ <Checkbox /> } />
 	}
 
 	return (
 		<Dialog open={ isOpen }>
 			<DialogTitle>Checklist for {title} </DialogTitle>
 
-			<DialogContent style={ {display: 'flex', flexDirection: 'column'} }>
+			<DialogContent>
+				<div style={ {display: 'flex', justifyContent: 'space-between' } }>
+					<div style={ checkboxListStyle }>	
+						<Typography variant='h6'>Weapons</Typography>
+						{
+							getAllWeapons(loadout)
+								.map(toCheckbox)
+						}
+					</div>
+				
+					<div style={ checkboxListStyle }>
+						<Typography variant='h6'>Attachments</Typography>
+						{
+							getAllAttachments(loadout)
+								.map(toCheckbox)
+						}
+					</div>
+				</div>
+				
+				<Typography variant='h6'>Gear</Typography>
 				{
-					getAllItems(loadout)
-						.map((item, i) => (
-							<FormControlLabel key={ i } label={ item.getTitle() }
-								control={ <Checkbox /> }
-							/>
-						))
+					getAllGear(loadout)
+						.map(toCheckbox)
 				}
 			</DialogContent>
 
