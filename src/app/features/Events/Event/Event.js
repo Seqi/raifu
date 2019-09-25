@@ -11,6 +11,7 @@ import { Loading, Error } from 'app/shared/components'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import EditEventDialog from '../EditEventDialog'
+import EventChecklist from './EventChecklist'
 import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
 
 import database from '../../../../firebase/database'
@@ -193,6 +194,13 @@ class Event extends React.Component {
 					isOpen={ activeDialog === 'delete' }
 					onClose={ () => this.openDialog(null) }
 					onConfirm={ () => this.deleteEvent() }
+				/>
+
+				<EventChecklist
+					title={ event.getTitle() }
+					loadout={ event.loadout }
+					isOpen={ activeDialog === 'checklist' }
+					onClose={ () => this.openDialog(null) }
 				/>
 			</React.Fragment>
 		)
