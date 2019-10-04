@@ -185,19 +185,11 @@ let initEntities = () => {
 		},
 		date: {
 			type: 'TIMESTAMP'
-		},
-		uid: {
+		},		
+		organiser_uid: {
 			type: Sequelize.STRING({ length: 32 }),
 			allowNull: false
 		},
-		loadout_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			references: {
-				model: loadout,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		}
 	}, {
 		hooks: {
 			afterFind: (events) => {
@@ -216,8 +208,40 @@ let initEntities = () => {
 		}
 	})
 
+	const eventUser = sequelize.define('event_users', {
+		id: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false,
+			primaryKey: true,
+			defaultValue: ''
+		},
+		uid: {
+			type: Sequelize.STRING({ length: 32 }),
+			allowNull: false
+		},
+		event_id: {
+			type: Sequelize.STRING({ length: 14 }),
+			references: {
+				model: event,
+				key: 'id',
+				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+			}
+		},
+		loadout_id: {
+			type: Sequelize.STRING({ length: 14 }),
+			references: {
+				model: loadout,
+				key: 'id',
+				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+			}
+		}
+	})
+
 	// Event loadout association
 	event.belongsTo(loadout, { foreignKey: 'loadout_id' })
+
+	// Event user association
+	event.hasMany(eventUser, { foreignKey: 'event_id' })
 
 	// Loadout Weapon Associations
 	loadout.belongsToMany(weapon, { through: loadoutWeapon, foreignKey: 'loadout_id' })
