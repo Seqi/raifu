@@ -8,23 +8,27 @@ module.exports = {
 	getAll: async (user) => {
 		try {
 			let events = await entities().event.findAll({
-				where: {
-					uid: user.uid
-				},
 				include: {
-					model: entities().loadout,				
-					attributes: {
-						exclude: ['uid']
+					// Only bring back events that the user is part of
+					model: entities().eventUsers,
+					where: {
+						uid: user.uid
 					},
 					include: {
-						model: entities().weapon,			
+						model: entities().loadout,				
 						attributes: {
 							exclude: ['uid']
+						},
+						include: {
+							model: entities().weapon,			
+							attributes: {
+								exclude: ['uid']
+							}
 						}
-					}
-				}, 
-				attributes: {
-					exclude: ['uid', 'loadout_id']
+					}, 				
+					attributes: {
+						exclude: ['uid', 'loadout_id', 'event_id']
+					},
 				},
 				order: ['createdAt']
 			})
