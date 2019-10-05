@@ -20,11 +20,22 @@ begin
 end;
 $$ language plpgsql;
 
+-- Create new table for 1:M events:users
+CREATE TABLE IF NOT EXISTS "event_users" (
+    "id" VARCHAR(14) NOT NULL DEFAULT '' ,
+    "uid" VARCHAR(32) NOT NULL, 
+    "event_id" VARCHAR(14) REFERENCES "events" ("id") ON DELETE NO ACTION ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE, 
+    "loadout_id" VARCHAR(14) REFERENCES "loadouts" ("id") ON DELETE NO ACTION ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE, 
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+    UNIQUE ("uid", "event_id"),
+    PRIMARY KEY ("id"));
+
 -- Copy over all events into the event_users table
-INSERT INTO event_users SELECT random_string(9), "uid", "id" as "event_id", "loadout_id", "createdAt", "updatedAt" FROM events
+INSERT INTO event_users SELECT random_string(9), "uid", "id" as "event_id", "loadout_id", "createdAt", "updatedAt" FROM events;
 
 -- Drop the loadout_id column on events as it belongs to the user
-ALTER TABLE events DROP COLUMN loadout_id
+ALTER TABLE events DROP COLUMN loadout_id;
 
 -- Make the event owner the organiser
-ALTER TABLE events RENAME COLUMN uid TO organiser_uid
+ALTER TABLE events RENAME COLUMN uid TO organiser_uid;
