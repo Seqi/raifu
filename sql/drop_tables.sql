@@ -1,3 +1,5 @@
+DROP TABLE event_users;
+DROP TABLE events;
 DROP TABLE loadout_weapon_attachments;
 DROP TABLE loadout_gear;
 DROP TABLE loadout_weapons;
