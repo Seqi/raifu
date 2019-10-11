@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Seqi/raifu.svg?branch=master)](https://travis-ci.com/Seqi/raifu)
 
-A web application to add and customise airsoft loadouts, to help organise your weaponry and tools. These can then be shared and assigned to upcoming events that you're attending. After all, preparation is half the battle.
+A web application to add and customise airsoft loadouts, to help organise your weaponry and tools. These can then be shared and assigned to upcoming events that you're attending. After all, preparation is half the battle. Find the app at [raif.us](https://raif.us).
 
 ## Getting Started
 
