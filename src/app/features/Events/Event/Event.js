@@ -11,6 +11,7 @@ import { Loading, Error } from 'app/shared/components'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import EditEventDialog from '../EditEventDialog'
+import EventChecklist from './EventChecklist'
 import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
 
 import database from '../../../../firebase/database'
@@ -135,7 +136,8 @@ class Event extends React.Component {
 					<ReactiveTitle>
 						{ event.name }
 						<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />						
-						<i onClick={ () => this.openDialog('delete') } className='fa fa-trash icon-action' />
+						<i onClick={ () => this.openDialog('delete') } className='fa fa-times icon-action' />				
+						<i onClick={ () => this.openDialog('checklist') } className='fa fa-clipboard icon-action' />
 					</ReactiveTitle>
 
 					<ReactiveTitle variant='h4' mobileVariant='h5'>
@@ -193,6 +195,13 @@ class Event extends React.Component {
 					isOpen={ activeDialog === 'delete' }
 					onClose={ () => this.openDialog(null) }
 					onConfirm={ () => this.deleteEvent() }
+				/>
+
+				<EventChecklist
+					title={ event.getTitle() }
+					loadout={ event.loadout }
+					isOpen={ activeDialog === 'checklist' }
+					onClose={ () => this.openDialog(null) }
 				/>
 			</React.Fragment>
 		)
