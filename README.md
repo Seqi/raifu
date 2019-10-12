@@ -24,7 +24,6 @@ Your `.env` file should now look something like this:
 REACT_APP_FIREBASE_APIKEY=myapikey
 REACT_APP_FIREBASE_AUTH_DOMAIN=myauthdomain
 REACT_APP_FIREBASE_PROJECT_ID=myprojectid
-
 ```
 
 You will also need to enable authentication providers in your Firebase project to log in to the application. These may require third party API keys (such as Twitter). For basic usage, enable the Email/Password provider in your Firebase project `Authentication -> Sign-in Method -> Enable Email/Password`. 
