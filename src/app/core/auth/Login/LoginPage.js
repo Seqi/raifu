@@ -1,6 +1,6 @@
 import './LoginPage.css'
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -78,4 +78,4 @@ class LoginPage extends Component {
 	}
 }
 
-export default withRouter(LoginPage)
+export default LoginPage

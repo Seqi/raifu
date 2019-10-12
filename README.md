@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Seqi/raifu.svg?branch=master)](https://travis-ci.com/Seqi/raifu)
 
-A web application to add and customise airsoft loadouts, to help organise your weaponry and tools. These can then be shared and assigned to upcoming events that you're attending. After all, preparation is half the battle.
+A web application to add and customise airsoft loadouts, to help organise your weaponry and tools. These can then be shared and assigned to upcoming events that you're attending. After all, preparation is half the battle. Find the app at [raif.us](https://raif.us).
 
 ## Getting Started
 
@@ -18,16 +18,12 @@ REACT_APP_FIREBASE_AUTH_DOMAIN
 REACT_APP_FIREBASE_PROJECT_ID
 ```
 
-You will also need to provide a `NODE_PATH=src` inside your `.env` file to allow for absolute filepaths.
-
 Your `.env` file should now look something like this:
 
 ```
-NODE_PATH=src
 REACT_APP_FIREBASE_APIKEY=myapikey
 REACT_APP_FIREBASE_AUTH_DOMAIN=myauthdomain
 REACT_APP_FIREBASE_PROJECT_ID=myprojectid
-
 ```
 
 You will also need to enable authentication providers in your Firebase project to log in to the application. These may require third party API keys (such as Twitter). For basic usage, enable the Email/Password provider in your Firebase project `Authentication -> Sign-in Method -> Enable Email/Password`. 

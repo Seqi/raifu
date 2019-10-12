@@ -37,4 +37,4 @@ HomePageSegment.defaultProps = {
 	flip: false
 }
 
-export default withTheme()(HomePageSegment)
+export default withTheme(HomePageSegment)

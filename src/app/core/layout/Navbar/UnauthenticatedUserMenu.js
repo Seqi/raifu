@@ -1,5 +1,5 @@
 import React from 'react'
-import withRouter from 'react-router/withRouter'
+import { withRouter } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
 
