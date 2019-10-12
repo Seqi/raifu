@@ -20,4 +20,4 @@ AuthCardHeader.propTypes = {
 	title: PropTypes.string.isRequired
 }
 
-export default withTheme()(AuthCardHeader)
+export default withTheme(AuthCardHeader)

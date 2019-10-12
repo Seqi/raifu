@@ -23,4 +23,4 @@ AddButton.defaultProps = {
 	onClick: () => {}
 }
 
-export default withTheme()(AddButton)
+export default withTheme(AddButton)

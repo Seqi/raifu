@@ -29,4 +29,4 @@ LoadoutSeparator.defaultProps = {
 	showBottom: false
 }
 
-export default withTheme()(LoadoutSeparator)
+export default withTheme(LoadoutSeparator)

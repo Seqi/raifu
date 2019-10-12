@@ -12,13 +12,13 @@ export default function useIsMobileMode(mobileModeWidth = 768, onMobileModeChang
 		window.addEventListener('resize', onResize)
 
 		return () => window.removeEventListener('resize', onResize)
-	}, [])
+	}, [mobileModeWidth])
 
 	useEffect(() => {
 		if (onMobileModeChange) {
 			onMobileModeChange(isMobileMode)
 		}
-	}, [isMobileMode])
+	}, [isMobileMode, onMobileModeChange])
 
 	return isMobileMode
 }

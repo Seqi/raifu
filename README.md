@@ -18,12 +18,9 @@ REACT_APP_FIREBASE_AUTH_DOMAIN
 REACT_APP_FIREBASE_PROJECT_ID
 ```
 
-You will also need to provide a `NODE_PATH=src` inside your `.env` file to allow for absolute filepaths.
-
 Your `.env` file should now look something like this:
 
 ```
-NODE_PATH=src
 REACT_APP_FIREBASE_APIKEY=myapikey
 REACT_APP_FIREBASE_AUTH_DOMAIN=myauthdomain
 REACT_APP_FIREBASE_PROJECT_ID=myprojectid
