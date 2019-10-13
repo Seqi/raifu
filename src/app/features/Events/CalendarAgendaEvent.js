@@ -10,6 +10,11 @@ import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 function CalendarAgendaEvent ({event, theme, location, history}) {
 	let isMobileMode = useIsMobileMode()
 
+	// TODO: remove this, temp solution
+	function findUsersLoadout(eventLoadouts) {
+		return eventLoadouts[0]
+	}
+
 	return (
 		// By design, agenda events don't have a click event, so we have to make one ourselves
 		<div onClick={ () => history.push(`${location.pathname}/${event.id}`) } style={ {cursor: 'pointer'} }>
@@ -20,10 +25,10 @@ function CalendarAgendaEvent ({event, theme, location, history}) {
 				<span> { event.getTitle() } @ { event.location } </span>
 			</div>
 
-			{ !isMobileMode && event.loadout && <WeaponDisplay weapons={ event.loadout.weapons } />}
-			{ isMobileMode && event.loadout && <div>Loadout: {event.loadout.name} </div>}
+			{ !isMobileMode && findUsersLoadout(event.event_users).loadout && <WeaponDisplay weapons={ findUsersLoadout(event.event_users).loadout.weapons } />}
+			{ isMobileMode && findUsersLoadout(event.event_users).loadout && <div>Loadout: { findUsersLoadout(event.event_users).loadout.name } </div>}
 
-			{ !event.loadout && 
+			{ !findUsersLoadout(event.event_users).loadout && 
 				<div style={ { width: '100%', textAlign: 'center', padding: '2rem 0rem'} }>
 					No loadout
 				</div>
