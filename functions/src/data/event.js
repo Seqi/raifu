@@ -55,42 +55,48 @@ module.exports = {
 			let event = await entities().event.findOne({
 				where: {
 					id: id,
-					uid: user.uid
 				},
 				include: {
-					model: entities().loadout,				
-					attributes: {
-						exclude: ['uid']
+					model: entities().eventUsers,
+					where: {
+						uid: user.uid
 					},
-					include: [
-						{
-							model: entities().weapon,
-							attributes: {
-								exclude: ['uid']
-							},
-							include: [
-								{
-									model: entities().attachment,
-									attributes: {
-										exclude: ['uid']
+					include: {
+						model: entities().loadout,				
+						attributes: {
+							exclude: ['uid']
+						},
+						include: [
+							{
+								model: entities().weapon,
+								attributes: {
+									exclude: ['uid']
+								},
+								include: [
+									{
+										model: entities().attachment,
+										attributes: {
+											exclude: ['uid']
+										}
 									}
+								]
+							},					
+							{
+								model: entities().gear,
+								as: 'gear',
+								attributes: {
+									exclude: ['uid']
 								}
-							]
-						},					
-						{
-							model: entities().gear,
-							as: 'gear',
-							attributes: {
-								exclude: ['uid']
 							}
-						}
-					],
+						],
+					}
 				}, 
 				attributes: {
 					exclude: ['uid', 'loadout_id']
 				}
 			})
 			
+			// TODO: have this as a hook?
 			loadout.orderLoadoutItems(event.loadout)
 			
 			console.log('Successfuly retrieved event', event.id)
