@@ -11,6 +11,7 @@ module.exports = {
 				include: {
 					// Only bring back events that the user is part of
 					model: entities().eventUsers,
+					as: 'users',
 					where: {
 						uid: user.uid
 					},
@@ -58,8 +59,12 @@ module.exports = {
 				},
 				include: {
 					model: entities().eventUsers,
+					as: 'users',
 					where: {
 						uid: user.uid
+					},
+					attributes: {
+						exclude: [ 'event_id', 'loadout_id' ]
 					},
 					include: {
 						model: entities().loadout,				
@@ -95,13 +100,30 @@ module.exports = {
 					exclude: ['uid', 'loadout_id']
 				}
 			})
+
+			let eventJson = event.toJSON()
+
+			// Always put the calling user's event first
+			// TODO: have this as a hook?
+			let currUserIdx = eventJson.users.findIndex(u => u.uid === user.uid)
+
+			// Create a copy of the event users and the one to move
+			let currUserEvent = eventJson.users[currUserIdx]
+			let eventUsersCopy = [ ...eventJson.users ]
+
+			// Remove the user and place at the start
+			eventUsersCopy.splice(currUserIdx, 1)
+			eventUsersCopy.unshift(currUserEvent)
+
+			// Add back
+			eventJson.users = eventUsersCopy
 			
 			// TODO: have this as a hook?
 			loadout.orderLoadoutItems(event.loadout)
 			
 			console.log('Successfuly retrieved event', event.id)
 
-			return event.toJSON()
+			return eventJson
 		} catch (e) {			
 			console.error(`Error retrieving events for ${user.uid}`, e)
 			throw e

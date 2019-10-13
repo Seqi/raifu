@@ -238,10 +238,10 @@ let initEntities = () => {
 	})
 
 	// Event user association
-	event.hasMany(eventUser, { foreignKey: 'event_id' })
+	event.hasMany(eventUser, { foreignKey: 'event_id', as: 'users' })
 
 	// Loadout event user association
-	eventUser.belongsTo(loadout, { foreignKey: 'loadout_id'})
+	eventUser.belongsTo(loadout, { foreignKey: 'loadout_id' })
 
 	// Loadout Weapon Associations
 	loadout.belongsToMany(weapon, { through: loadoutWeapon, foreignKey: 'loadout_id' })

@@ -25,10 +25,10 @@ function CalendarAgendaEvent ({event, theme, location, history}) {
 				<span> { event.getTitle() } @ { event.location } </span>
 			</div>
 
-			{ !isMobileMode && findUsersLoadout(event.event_users).loadout && <WeaponDisplay weapons={ findUsersLoadout(event.event_users).loadout.weapons } />}
-			{ isMobileMode && findUsersLoadout(event.event_users).loadout && <div>Loadout: { findUsersLoadout(event.event_users).loadout.name } </div>}
+			{ !isMobileMode && findUsersLoadout(event.users).loadout && <WeaponDisplay weapons={ findUsersLoadout(event.users).loadout.weapons } />}
+			{ isMobileMode && findUsersLoadout(event.users).loadout && <div>Loadout: { findUsersLoadout(event.users).loadout.name } </div>}
 
-			{ !findUsersLoadout(event.event_users).loadout && 
+			{ !findUsersLoadout(event.users).loadout && 
 				<div style={ { width: '100%', textAlign: 'center', padding: '2rem 0rem'} }>
 					No loadout
 				</div>

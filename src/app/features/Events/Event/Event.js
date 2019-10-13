@@ -131,7 +131,7 @@ class Event extends React.Component {
 			return <Error error={ error } onRetry={ () => this.loadEvent() } />
 		}
 
-		let loadout = event.event_users[0].loadout
+		let loadout = event.users[0].loadout
 
 		return (
 			<React.Fragment>
