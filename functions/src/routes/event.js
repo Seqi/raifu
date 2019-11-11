@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 		return res.json(item)
 	} catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e })
 		}
 
@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 	} 
 	catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e.message.split(',') })
 		}
 
@@ -74,7 +74,7 @@ router.put('/:id', async (req, res) => {
 	} 
 	catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e })
 		}
 
@@ -98,7 +98,7 @@ router.delete('/:id', async (req, res) => {
 	catch (e) {
 		console.log('Error deleting event', e)
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.end(e.message)
 		}
 

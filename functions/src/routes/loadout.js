@@ -96,7 +96,7 @@ router.delete('/:id', authMiddleware(), async (req, res) => {
 	} 
 	catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.end(e.message)
 		}
 
