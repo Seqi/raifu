@@ -3,6 +3,8 @@ const baseEntity = require('./base-entity')
 const errors = require('../utils/errors')
 const loadout = require('./loadout')
 
+const db = require('./database/database')
+
 module.exports = {
 	...baseEntity(entities().event, 'event'),
 	getAll: async (user) => {
@@ -10,7 +12,7 @@ module.exports = {
 			let events = await entities().event.findAll({
 				include: {
 					// Only bring back events that the user is part of
-					model: entities().eventUsers,
+					model: entities().eventUser,
 					as: 'users',
 					where: {
 						uid: user.uid
@@ -58,7 +60,7 @@ module.exports = {
 					id: id,
 				},
 				include: {
-					model: entities().eventUsers,
+					model: entities().eventUser,
 					as: 'users',
 					where: {
 						uid: user.uid
@@ -128,5 +130,50 @@ module.exports = {
 			console.error(`Error retrieving events for ${user.uid}`, e)
 			throw e
 		}
-	}
+	},
+
+	add: async (data, user) => {
+		try {
+			// Overwrite any attempts to hijack the id or uid
+			delete data.id 
+
+			let event = {
+				...data,
+				organiser_uid: user.uid,
+				users: [{
+					uid: user.uid
+				}]
+			}
+
+			console.log('Creating event', JSON.stringify(event))
+
+			let response = await db()
+				.transaction(t =>  
+					entities().event.create(event, {
+						include: [{
+							model: entities().eventUser,
+							as: 'users'
+						}],
+						transaction: t
+					})
+				)
+
+			console.log('-----------------', response)
+			
+			
+			return response.toJSON()
+		} catch (e) {
+
+			console.log('------eeee-----------', e)
+			// Validation errors are contained in an array, so pick them out
+			let message = e.errors && e.errors.map((error) => error.message)
+			console.error(message || e.message)
+
+			if (message) {
+				throw new errors.BadRequestError(message)
+			} else {
+				throw new Error(e.message)
+			}
+		}
+	},
 }

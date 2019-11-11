@@ -276,7 +276,7 @@ let initEntities = () => {
 		loadoutWeaponAttachment,
 		loadoutGear,
 		event,
-		eventUsers: eventUser
+		eventUser
 	}
 }
 
