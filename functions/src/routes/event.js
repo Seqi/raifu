@@ -112,6 +112,31 @@ router.delete('/:id', async (req, res) => {
 	}
 })
 
+router.post('/:eventId/loadout/remove', async (req, res) => {
+	try {
+		let eventId = req.params.eventId
+
+		let newEvent = await event.setLoadout(eventId, null, req.user)
+
+		return res.json(newEvent)
+	} 
+	catch (e) {
+		console.log('Error adding loadout to event', e)
+		if (e instanceof errors.BadRequestError) {
+			return res.status(400)
+				.end(e.message)
+		}
+
+		if (e instanceof errors.NotFoundError) {
+			return res.status(404)
+				.end()
+		}
+
+		return res.status(500)
+			.end()
+	}
+})
+
 router.post('/:eventId/loadout/:loadoutId', async (req, res) => {
 	try {
 		let eventId = req.params.eventId
@@ -119,7 +144,6 @@ router.post('/:eventId/loadout/:loadoutId', async (req, res) => {
 
 		let newEvent = await event.setLoadout(eventId, loadoutId, req.user)
 
-		console.log('aaaaaaa', newEvent)
 		return res.json(newEvent)
 	} 
 	catch (e) {

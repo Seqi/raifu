@@ -88,6 +88,14 @@ class Event extends React.Component {
 			.then(() => this.openDialog(null))
 	}
 
+	removeLoadout() {
+		let eventId = this.state.event.id
+
+		return database.events.removeLoadout(eventId)
+			.then(event => this.setState({ event }))
+			.then(() => this.openDialog(null))
+	}
+
 	updateEvent(event) {
 		let updatedEvent = {
 			...this.rawEvent,
@@ -170,7 +178,7 @@ class Event extends React.Component {
 						title={ `${this.currentUsersEvent.loadout.getTitle()} from ${event.getTitle()}` }
 						isOpen={ activeDialog === 'remove' }
 						onClose={ () => this.openDialog(null) }
-						onConfirm={ () => this.setLoadout(null) }
+						onConfirm={ () => this.removeLoadout(null) }
 					/>
 				</div>
 				}
