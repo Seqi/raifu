@@ -43,6 +43,10 @@ class Event extends React.Component {
 			}, { loadout_id: event.loadout ? event.loadout.id : null })
 	}
 
+	get currentUsersEvent() {
+		return this.state.event && this.state.event.users[0]
+	}
+
 	componentDidMount() {	
 		this.loadEvent()	
 	}
@@ -76,17 +80,11 @@ class Event extends React.Component {
 		this.setState({ activeDialog })
 	}
 
-	setLoadout(loadout) {
-		// Filter out any functions or joins before passing back up
-		let updatedEvent = this.rawEvent
-		updatedEvent.loadout_id = loadout ? loadout.id : null
+	setLoadout(loadoutId) {
+		let eventId = this.state.event.id
 
-		return database.events.edit(this.state.event.id, updatedEvent)
-			.then(() => this.setState((prevState) => {
-				return {
-					event: {...prevState.event, loadout: loadout}
-				}
-			}))
+		return database.events.setLoadout(eventId, loadoutId)
+			.then(event => this.setState({ event }))
 			.then(() => this.openDialog(null))
 	}
 
@@ -118,7 +116,6 @@ class Event extends React.Component {
 		return database.events.delete(this.state.event.id)
 			.then(() => this.props.history.push('/events'))
 	}
-
 	
 	render() {
 		let { loading, error, event, activeDialog } = this.state
@@ -130,8 +127,6 @@ class Event extends React.Component {
 		if (error) {
 			return <Error error={ error } onRetry={ () => this.loadEvent() } />
 		}
-
-		let loadout = event.users[0].loadout
 
 		return (
 			<React.Fragment>
@@ -148,13 +143,13 @@ class Event extends React.Component {
 					</ReactiveTitle>
 				</React.Fragment>
 
-				{ !loadout && 
+				{ !this.currentUsersEvent.loadout && 
 					<LoadoutSeparator showBottom={ true } >
 						<LoadoutAdd onClick={ () => this.openDialog('add') } />
 					</LoadoutSeparator>
 				}
 
-				{ loadout && 
+				{ this.currentUsersEvent.loadout && 
 				<div style={ {width: '100%'} }>
 					<Button 
 						color='primary' 
@@ -165,14 +160,14 @@ class Event extends React.Component {
 						} }
 						onClick={ () => this.openDialog('remove') }
 					>
-						Remove Loadout ({ loadout.getTitle() })
+						Remove Loadout ({ this.currentUsersEvent.loadout.getTitle() })
 					</Button>
 					
-					<LoadoutView loadout={ loadout } /> 
+					<LoadoutView loadout={ this.currentUsersEvent.loadout } /> 
 
 					<ConfirmDeleteDialog 
 						verb='Remove'
-						title={ `${loadout.getTitle()} from ${event.getTitle()}` }
+						title={ `${this.currentUsersEvent.loadout.getTitle()} from ${event.getTitle()}` }
 						isOpen={ activeDialog === 'remove' }
 						onClose={ () => this.openDialog(null) }
 						onConfirm={ () => this.setLoadout(null) }
@@ -200,12 +195,14 @@ class Event extends React.Component {
 					onConfirm={ () => this.deleteEvent() }
 				/>
 
-				<EventChecklist
-					title={ event.getTitle() }
-					loadout={ loadout }
-					isOpen={ activeDialog === 'checklist' }
-					onClose={ () => this.openDialog(null) }
-				/>
+				{ this.currentUsersEvent.loadout && 
+					<EventChecklist
+						title={ event.getTitle() }
+						loadout={ this.currentUsersEvent.loadout }
+						isOpen={ activeDialog === 'checklist' }
+						onClose={ () => this.openDialog(null) }
+					/>
+				}
 			</React.Fragment>
 		)
 	}
