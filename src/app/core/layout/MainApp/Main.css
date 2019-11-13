@@ -14,8 +14,16 @@
 	margin: 0.8rem 0rem 0.2rem;
 }
 
+.separator-padding {
+	padding-top: 24px
+}
+
 @media (max-width: 767px) {
 	.app {
 		padding: 20px;
+	}
+
+	.separator-padding {
+		padding-top: 16px;
 	}
 }

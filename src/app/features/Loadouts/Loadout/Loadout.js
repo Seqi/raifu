@@ -191,7 +191,7 @@ class Loadout extends React.Component {
 					<i onClick={ () => this.openDialog('share') } className='fa fa-link icon-action' />
 				</ReactiveTitle>
 
-				<div style={ {paddingTop: '24px'} }>
+				<div className='separator-padding'>
 					<LoadoutView 
 						loadout={ loadout } 
 						canEdit={ true }
