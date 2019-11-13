@@ -1,5 +1,4 @@
 const entities = require('./database/entities')
-const baseEntity = require('./base-entity')
 const errors = require('../utils/errors')
 const loadout = require('./loadout')
 
@@ -171,6 +170,93 @@ let add = async (data, user) => {
 	}
 }
 
+let canEdit = async (id, user) => {
+	if (!id) {
+		throw new errors.BadRequestError('Id is required')
+	}
+
+	try {
+		// Ensure this id exists and belongs to the user
+		let event = await entities().event.findOne({
+			where: { id },
+			attributes: ['organiser_uid']
+		})
+
+		return event.organiser_uid === user.uid
+	} catch (e) {		
+		console.error(`Error checking if user ${user.uid} can edit event ${id}`, e)
+		throw e
+	}
+}
+
+let edit = async (id, event, user) => {
+	if (!id) {
+		throw new errors.BadRequestError('Id is required')
+	}
+
+	try {
+		// Ensure this id exists and belongs to the user
+		let exists = (await entities().event.count({
+			where: {
+				id: id,
+				organiser_uid: user.uid
+			}
+		})) === 1
+
+		if (!exists) {
+			console.warn(`Entity with id ${id} does not exist for user ${user.uid}`)
+			throw new errors.NotFoundError()
+		}
+
+		// Overwrite any attempts to hijack the id and uid
+		delete event.id
+		let newEvent = {
+			...event,
+			organiser_uid: user.uid
+		}
+
+		console.log('Editing event', JSON.stringify(newEvent))
+
+		return await entities().event.update(newEvent, {
+			where: {
+				id: id,
+				organiser_uid: user.uid
+			}
+		})
+	} catch (e) {
+		// Validation errors are contained in an array, so pick them out
+		let message = e.errors && e.errors.map((error) => error.message)
+
+		if (message) {
+			throw new errors.BadRequestError(message)
+		} else {
+			throw new Error(e.message)
+		}
+	}
+}
+
+let remove = async (id, user) => {
+	if (!id) {
+		throw new errors.BadRequestError('Id is required')
+	}
+
+	try {
+		let result = await entities().event.destroy({
+			where: {
+				id: id,
+				organiser_uid: user.uid
+			}
+		})
+
+		if (result === 0) {
+			throw new errors.NotFoundError()
+		}
+	} catch (e) {
+		console.error('Error removing event', e)
+		throw e
+	}
+}
+
 let setLoadout = async (eventId, loadoutId, user) => {
 	try {
 		// Check the user has access to this event
@@ -223,9 +309,11 @@ let setLoadout = async (eventId, loadoutId, user) => {
 }
 
 module.exports = {
-	...baseEntity(entities().event, 'event'),
 	getAll,
 	getById,
 	add,
+	edit,
+	remove,
+	canEdit,
 	setLoadout
 }

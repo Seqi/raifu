@@ -8,13 +8,11 @@ import LoadoutSeparator from 'app/shared/components/Views/Loadout/LoadoutSeparat
 import LoadoutAdd from 'app/shared/components/Views/Loadout/LoadoutAdd'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import { Loading, Error } from 'app/shared/components'
-import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
-import EditEventDialog from '../EditEventDialog'
-import EventChecklist from './EventChecklist'
 import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
 
 import database from '../../../../firebase/database'
+import EventActions from './EventActions'
 
 class Event extends React.Component {
 
@@ -76,26 +74,6 @@ class Event extends React.Component {
 		})
 	}
 
-	openDialog(activeDialog) {
-		this.setState({ activeDialog })
-	}
-
-	setLoadout(loadoutId) {
-		let eventId = this.state.event.id
-
-		return database.events.setLoadout(eventId, loadoutId)
-			.then(event => this.setState({ event }))
-			.then(() => this.openDialog(null))
-	}
-
-	removeLoadout() {
-		let eventId = this.state.event.id
-
-		return database.events.removeLoadout(eventId)
-			.then(event => this.setState({ event }))
-			.then(() => this.openDialog(null))
-	}
-
 	updateEvent(event) {
 		let updatedEvent = {
 			...this.rawEvent,
@@ -124,6 +102,26 @@ class Event extends React.Component {
 		return database.events.delete(this.state.event.id)
 			.then(() => this.props.history.push('/events'))
 	}
+
+	setLoadout(loadoutId) {
+		let eventId = this.state.event.id
+
+		return database.events.setLoadout(eventId, loadoutId)
+			.then(event => this.setState({ event }))
+			.then(() => this.openDialog(null))
+	}
+
+	removeLoadout() {
+		let eventId = this.state.event.id
+
+		return database.events.removeLoadout(eventId)
+			.then(event => this.setState({ event }))
+			.then(() => this.openDialog(null))
+	}
+
+	openDialog(activeDialog) {
+		this.setState({ activeDialog })
+	}
 	
 	render() {
 		let { loading, error, event, activeDialog } = this.state
@@ -138,18 +136,11 @@ class Event extends React.Component {
 
 		return (
 			<React.Fragment>
-				<React.Fragment>
-					<ReactiveTitle>
-						{ event.name }
-						<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />						
-						<i onClick={ () => this.openDialog('delete') } className='fa fa-times icon-action' />				
-						<i onClick={ () => this.openDialog('checklist') } className='fa fa-clipboard icon-action' />
-					</ReactiveTitle>
-
-					<ReactiveTitle variant='h4' mobileVariant='h5'>
-						{ event.location } @ { event.date.toLocaleString() }
-					</ReactiveTitle>
-				</React.Fragment>
+				<EventActions 
+					event={ event } 
+					updateEvent={ (event) => this.updateEvent(event) }
+					deleteEvent={ () => this.deleteEvent() }
+				/>
 
 				{ !this.currentUsersEvent.loadout && 
 					<LoadoutSeparator showBottom={ true } >
@@ -188,29 +179,6 @@ class Event extends React.Component {
 					isOpen={ activeDialog === 'add' }
 					onSave={ (loadoutId) => this.setLoadout(loadoutId) }
 					onClose={ () => this.openDialog(null) } />
-
-				<EditEventDialog 
-					event={ event }
-					isOpen={ activeDialog === 'edit' }
-					onSave={ (event) => this.updateEvent(event) }
-					onClose={ () => this.openDialog(null) } />
-
-				<ConfirmDeleteDialog 
-					verb='Delete'
-					title={ event.getTitle() }
-					isOpen={ activeDialog === 'delete' }
-					onClose={ () => this.openDialog(null) }
-					onConfirm={ () => this.deleteEvent() }
-				/>
-
-				{ this.currentUsersEvent.loadout && 
-					<EventChecklist
-						title={ event.getTitle() }
-						loadout={ this.currentUsersEvent.loadout }
-						isOpen={ activeDialog === 'checklist' }
-						onClose={ () => this.openDialog(null) }
-					/>
-				}
 			</React.Fragment>
 		)
 	}

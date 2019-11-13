@@ -61,13 +61,15 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
 	try {
-		let entity = req.body
+		let eventId = req.params.id
 
-		if (!entity.id) {
-			entity.id = req.params.id
+		let canEdit = await event.canEdit(eventId, req.user)
+		if (!canEdit) {
+			return res.status(401)
+				.end()
 		}
 
-		await event.edit(req.body, req.user)
+		await event.edit(eventId, req.body, req.user)
 
 		return res.status(204)
 			.end()
@@ -90,7 +92,15 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
 	try {
-		await event.delete(req.params.id, req.user)
+		let eventId = req.params.id
+
+		let canEdit = await event.canEdit(eventId, req.user)
+		if (!canEdit) {
+			return res.status(401)
+				.end()
+		}
+
+		await event.remove(eventId, req.user)
 
 		return res.status(204)
 			.end()
