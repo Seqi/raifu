@@ -76,22 +76,22 @@ export default class LoadoutWeaponList extends React.Component {
 				{this.renderWeapons(weapons)}
 
 				{ canEdit && 
-					<LoadoutSeparator showBottom={ true } >
-						<LoadoutAdd onClick={ () => this.setDialogOpen(true) } />
-					</LoadoutSeparator>
+					<React.Fragment>
+						<LoadoutSeparator>
+							<LoadoutAdd onClick={ () => this.setDialogOpen(true) } />
+						</LoadoutSeparator>
+
+						<AddArmoryItemDialog
+							title='Add weapon to loadout'
+							category='weapons'
+							itemLoadFunc={ database.weapons.get }
+							filterIds={ weapons && weapons.map((w) => w.id) }
+							isOpen={ isDialogOpen }
+							onSave={ (weaponId) => this.addWeapon(weaponId) }
+							onClose={ () => this.setDialogOpen(false) }
+						/>
+					</React.Fragment>
 				}
-
-				{ !canEdit && <LoadoutSeparator /> }
-
-				{ canEdit && <AddArmoryItemDialog
-					title='Add weapon to loadout'
-					category='weapons'
-					itemLoadFunc={ database.weapons.get }
-					filterIds={ weapons && weapons.map((w) => w.id) }
-					isOpen={ isDialogOpen }
-					onSave={ (weaponId) => this.addWeapon(weaponId) }
-					onClose={ () => this.setDialogOpen(false) }
-				/> }
 			</React.Fragment>
 		)
 	}

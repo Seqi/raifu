@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 import auth from '../../../../firebase/auth'
 
 import EditEventDialog from '../EditEventDialog'
@@ -22,17 +21,11 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 
 	return (
 		<React.Fragment>
-			<ReactiveTitle>
-				{ event.name }
-			
-				{ isMyEvent(event) && <i onClick={ () => setActiveDialog('edit') } className='fa fa-pen icon-action' /> }
-				{ isMyEvent(event) && <i onClick={ () => setActiveDialog('delete') } className='fa fa-times icon-action' />}
-				{ getMyLoadout(event) && <i onClick={ () => setActiveDialog('checklist') } className='fa fa-clipboard icon-action' /> }
-			</ReactiveTitle>
 
-			<ReactiveTitle variant='h4' mobileVariant='h5'>
-				{ event.location } @ { event.date.toLocaleString() }
-			</ReactiveTitle>
+			{/* Actions */}
+			{ isMyEvent(event) && <i onClick={ () => setActiveDialog('edit') } className='fa fa-pen icon-action' /> }
+			{ isMyEvent(event) && <i onClick={ () => setActiveDialog('delete') } className='fa fa-times icon-action' />}
+			{ getMyLoadout(event) && <i onClick={ () => setActiveDialog('checklist') } className='fa fa-clipboard icon-action' /> }
 
 			{/* Dialogs */}
 			<EditEventDialog 

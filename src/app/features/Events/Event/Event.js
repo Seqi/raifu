@@ -1,18 +1,12 @@
 import React from 'react'
 import withRouter from 'react-router-dom/withRouter'
 
-import Button from '@material-ui/core/Button'
-
-import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
-import LoadoutSeparator from 'app/shared/components/Views/Loadout/LoadoutSeparator'
-import LoadoutAdd from 'app/shared/components/Views/Loadout/LoadoutAdd'
-import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import { Loading, Error } from 'app/shared/components'
 
-import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
-
+import EventHeader from './EventHeader'
+import EventLoadout from './EventLoadout'
 import database from '../../../../firebase/database'
-import EventActions from './EventActions'
+import EventLoadoutSelect from './EventLoadoutSelect'
 
 class Event extends React.Component {
 
@@ -22,7 +16,6 @@ class Event extends React.Component {
 		this.state = {
 			loading: true,
 			error: null,
-			activeDialog: null,
 			event: null
 		}
 	}
@@ -51,16 +44,21 @@ class Event extends React.Component {
 
 	componentWillUnmount() {
 		this.isUnmounted = true
-	}	
+	}
+
+	// TODO: Move this to the service itself
+	formatEvent(event) {
+		return {
+			...event,
+			date: new Date(event.date)
+		}
+	}
 
 	loadEvent() {
 		this.setState({loading: true, error: null}, () => {
 			database.events.getById(this.props.match.params.id)
 				// Convert from JSON date format
-				.then(event => ({
-					...event,
-					date: new Date(event.date)
-				}))
+				.then(this.formatEvent)
 				.then(event => {
 					if (!this.isUnmounted) {
 						this.setState({ event: event, loading: false })
@@ -91,6 +89,7 @@ class Event extends React.Component {
 					event: {
 						...prevState.event, 
 						...event,
+						date: new Date(event.date),
 						loadout: prevState.event.loadout
 					}
 				}
@@ -107,6 +106,7 @@ class Event extends React.Component {
 		let eventId = this.state.event.id
 
 		return database.events.setLoadout(eventId, loadoutId)
+			.then(this.formatEvent)
 			.then(event => this.setState({ event }))
 			.then(() => this.openDialog(null))
 	}
@@ -115,16 +115,13 @@ class Event extends React.Component {
 		let eventId = this.state.event.id
 
 		return database.events.removeLoadout(eventId)
+			.then(this.formatEvent)
 			.then(event => this.setState({ event }))
 			.then(() => this.openDialog(null))
 	}
-
-	openDialog(activeDialog) {
-		this.setState({ activeDialog })
-	}
 	
 	render() {
-		let { loading, error, event, activeDialog } = this.state
+		let { loading, error, event } = this.state
 
 		if (loading) {			
 			return <Loading />
@@ -136,49 +133,17 @@ class Event extends React.Component {
 
 		return (
 			<React.Fragment>
-				<EventActions 
+				<EventHeader 
 					event={ event } 
 					updateEvent={ (event) => this.updateEvent(event) }
 					deleteEvent={ () => this.deleteEvent() }
 				/>
 
-				{ !this.currentUsersEvent.loadout && 
-					<LoadoutSeparator showBottom={ true } >
-						<LoadoutAdd onClick={ () => this.openDialog('add') } />
-					</LoadoutSeparator>
+				{	
+					this.currentUsersEvent.loadout ?
+						<EventLoadout event={ event } removeLoadout={ () => this.removeLoadout() } /> :
+						<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } />
 				}
-
-				{ this.currentUsersEvent.loadout && 
-				<div style={ {width: '100%'} }>
-					<Button 
-						color='primary' 
-						variant='outlined'
-						style={ {
-							width: '100%',
-							marginBottom: '-24px'
-						} }
-						onClick={ () => this.openDialog('remove') }
-					>
-						Remove Loadout ({ this.currentUsersEvent.loadout.getTitle() })
-					</Button>
-					
-					<LoadoutView loadout={ this.currentUsersEvent.loadout } /> 
-
-					<ConfirmDeleteDialog 
-						verb='Remove'
-						title={ `${this.currentUsersEvent.loadout.getTitle()} from ${event.getTitle()}` }
-						isOpen={ activeDialog === 'remove' }
-						onClose={ () => this.openDialog(null) }
-						onConfirm={ () => this.removeLoadout(null) }
-					/>
-				</div>
-				}
-
-				<AddLoadoutToEventDialog 
-					eventTitle={ event.getTitle() }
-					isOpen={ activeDialog === 'add' }
-					onSave={ (loadoutId) => this.setLoadout(loadoutId) }
-					onClose={ () => this.openDialog(null) } />
 			</React.Fragment>
 		)
 	}
