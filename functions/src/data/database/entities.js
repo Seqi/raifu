@@ -190,7 +190,7 @@ let initEntities = () => {
 			type: Sequelize.STRING({ length: 32 }),
 			allowNull: false
 		},
-		joinable: {
+		public: {
 			type: Sequelize.BOOLEAN,
 			defaultValue: false
 		}

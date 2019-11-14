@@ -26,7 +26,7 @@ class EditEventDialog extends Component {
 				name: props.event.name,
 				location: props.event.location,
 				date: props.date || props.event.date,
-				joinable: props.event.joinable
+				public: props.event.public
 			},
 			loading: false,
 			error: null
@@ -63,7 +63,7 @@ class EditEventDialog extends Component {
 	}
 
 	render() {
-		let { name, location, date, joinable } = this.state.event
+		let { name, location, date } = this.state.event
 		let { error, loading } = this.state
 
 		return (
@@ -104,12 +104,12 @@ class EditEventDialog extends Component {
 
 					<FormControl>
 						<FormControlLabel 
-							label='Allow others to join this event'
+							label='Make this event public'
 							onChange={ e => this.handleInputChange(e) }
-							control={ <Checkbox id='joinable' checked={ joinable } /> }
+							control={ <Checkbox id='public' checked={ this.state.event.public } /> }
 						/>					
 						<FormHelperText>
-							If joinable, users with the event link will be able to add themselves to the event and add their own loadouts.
+							If public, users with the event link will be able to add themselves to the event and add their own loadouts.
 						</FormHelperText>
 					</FormControl>
 				</DialogContent>
@@ -139,7 +139,7 @@ EditEventDialog.propTypes = {
 		name: PropTypes.string.isRequired,
 		date: PropTypes.object,
 		location: PropTypes.string.isRequired,
-		joinable: PropTypes.bool.isRequired
+		public: PropTypes.bool.isRequired
 	})
 }
 

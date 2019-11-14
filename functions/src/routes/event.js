@@ -24,6 +24,11 @@ router.get('/:id', async (req, res) => {
 		}
 
 		let item = await event.getById(req.params.id, req.user)
+
+		if (!item) {
+			return res.status(404)
+				.end()
+		}
 		
 		return res.json(item)
 	} catch (e) {

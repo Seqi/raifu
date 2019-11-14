@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS "events" (
     "location" VARCHAR(256) NOT NULL, 
     "date" TIMESTAMP WITH TIME ZONE, 
     "organiser_uid" VARCHAR(32) NOT NULL,
-    "joinable" BOOLEAN DEFAULT false NOT NULL,
+    "public" BOOLEAN DEFAULT false NOT NULL,
     "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
      PRIMARY KEY ("id"));

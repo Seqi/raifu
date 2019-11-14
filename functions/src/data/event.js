@@ -1,3 +1,4 @@
+const Op = require('sequelize').Op
 const entities = require('./database/entities')
 const errors = require('../utils/errors')
 const loadout = require('./loadout')
@@ -54,14 +55,15 @@ let getById = async (id, user) => {
 
 	try {
 		let event = await entities().event.findOne({
-			where: {
-				id: id,
-			},
 			include: {
 				model: entities().eventUser,
 				as: 'users',
 				where: {
-					uid: user.uid
+					event_id: id,
+					[Op.or]: {
+						uid: user.uid,
+						'$event.public$': true
+					}
 				},
 				attributes: {
 					exclude: [ 'id', 'event_id', 'loadout_id' ]
@@ -101,11 +103,21 @@ let getById = async (id, user) => {
 			}
 		})
 
+		if (!event) {
+			return null
+		}
+
 		let eventJson = event.toJSON()
 
 		// Always put the calling user's event first
 		// TODO: have this as a hook?
 		let currUserIdx = eventJson.users.findIndex(u => u.uid === user.uid)
+
+		// If its a public event where the user doesnt exist on it, don't show the users info
+		if (currUserIdx < 0) {
+			eventJson.users = []
+			return eventJson
+		}
 
 		// Create a copy of the event users and the one to move
 		let currUserEvent = eventJson.users[currUserIdx]
@@ -213,7 +225,7 @@ let edit = async (id, event, user) => {
 			name: event.name,
 			location: event.location,
 			date: event.date,
-			joinable: event.joinable
+			public: event.public
 		}
 
 		console.log('Editing event', JSON.stringify(newEvent))

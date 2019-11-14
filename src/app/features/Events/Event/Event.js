@@ -7,6 +7,7 @@ import EventHeader from './EventHeader'
 import EventLoadout from './EventLoadout'
 import database from '../../../../firebase/database'
 import EventLoadoutSelect from './EventLoadoutSelect'
+import EventInvite from './EventInvite'
 
 class Event extends React.Component {
 
@@ -136,7 +137,9 @@ class Event extends React.Component {
 					deleteEvent={ () => this.deleteEvent() }
 				/>
 
-				{	
+				{	event.users.length === 0 ? 
+					<EventInvite event={ event } /> :
+
 					this.currentUsersEvent.loadout ?
 						<EventLoadout event={ event } removeLoadout={ () => this.removeLoadout() } /> :
 						<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } />

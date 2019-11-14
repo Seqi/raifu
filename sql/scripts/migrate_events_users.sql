@@ -41,4 +41,4 @@ ALTER TABLE events DROP COLUMN loadout_id;
 ALTER TABLE events RENAME COLUMN uid TO organiser_uid;
 
 -- Create a flag for if you can join the event
-ALTER TABLE events ADD COLUMN "joinable" boolean DEFAULT false NOT NULL;
+ALTER TABLE events ADD COLUMN "public" boolean DEFAULT false NOT NULL;

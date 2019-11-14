@@ -9,8 +9,12 @@ function EventHeader( { event, updateEvent, deleteEvent }) {
 		<React.Fragment>
 			<ReactiveTitle>
 				{ event.name }
-			
-				<EventActions event={ event } updateEvent={ updateEvent } deleteEvent={ deleteEvent } />
+				{
+					/* Don't display actions if no users! */
+					event.users.length > 0 && 
+						<EventActions event={ event } updateEvent={ updateEvent } deleteEvent={ deleteEvent } />
+				}
+
 			</ReactiveTitle>
 
 			<ReactiveTitle variant='h4' mobileVariant='h5'>
