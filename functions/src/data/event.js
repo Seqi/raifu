@@ -208,11 +208,12 @@ let edit = async (id, event, user) => {
 			throw new errors.NotFoundError()
 		}
 
-		// Overwrite any attempts to hijack the id and uid
-		delete event.id
+		// Manually set the fields to update. Saves messing around with preventing overwrites
 		let newEvent = {
-			...event,
-			organiser_uid: user.uid
+			name: event.name,
+			location: event.location,
+			date: event.date,
+			joinable: event.joinable
 		}
 
 		console.log('Editing event', JSON.stringify(newEvent))

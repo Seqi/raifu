@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+import Tooltip from '@material-ui/core/Tooltip'
+
 import auth from '../../../../firebase/auth'
 
 import EditEventDialog from '../EditEventDialog'
@@ -21,11 +23,24 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 
 	return (
 		<React.Fragment>
-
 			{/* Actions */}
-			{ isMyEvent(event) && <i onClick={ () => setActiveDialog('edit') } className='fa fa-pen icon-action' /> }
-			{ isMyEvent(event) && <i onClick={ () => setActiveDialog('delete') } className='fa fa-times icon-action' />}
-			{ getMyLoadout(event) && <i onClick={ () => setActiveDialog('checklist') } className='fa fa-clipboard icon-action' /> }
+			{ isMyEvent(event) && (
+				<React.Fragment>
+					<Tooltip title='Edit' aria-label='edit'>
+						<i onClick={ () => setActiveDialog('edit') } className='fa fa-pen icon-action' /> 
+					</Tooltip>						
+						
+					<Tooltip title='Delete' aria-label='delete'>
+						<i onClick={ () => setActiveDialog('delete') } className='fa fa-trash icon-action' />
+					</Tooltip>
+				</React.Fragment>
+			)}
+
+			{ getMyLoadout(event) && (					
+				<Tooltip title='Checklist' aria-label='checklist'>
+					<i onClick={ () => setActiveDialog('checklist') } className='fa fa-clipboard icon-action' /> 
+				</Tooltip>
+			)}
 
 			{/* Dialogs */}
 			<EditEventDialog 

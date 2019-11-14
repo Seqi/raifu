@@ -7,10 +7,15 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormHelperText from '@material-ui/core/FormHelperText'
+
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
 
 import { Error } from 'app/shared/components'
+import { FormControl } from '@material-ui/core'
 
 class EditEventDialog extends Component {
 	constructor(props) {
@@ -20,7 +25,8 @@ class EditEventDialog extends Component {
 			event: {
 				name: props.event.name,
 				location: props.event.location,
-				date: props.date || props.event.date
+				date: props.date || props.event.date,
+				joinable: props.event.joinable
 			},
 			loading: false,
 			error: null
@@ -30,7 +36,7 @@ class EditEventDialog extends Component {
 	handleInputChange(e) {
 		// Synthetic event data is lost when callback occurs so store
 		let key = e.target.id || e.target.name
-		let val = e.target.value
+		let val = e.target.value || e.target.checked
 
 		this.setState(prevState => {
 			let event = {
@@ -45,6 +51,7 @@ class EditEventDialog extends Component {
 	handleSave() {
 		this.setState({ loading: true, error: null }, () => {
 			this.props.onSave(this.state.event)
+				.then(() => this.setState({ loading: false }))
 				.catch(err => this.setState({ error: err.statusText || err.message || err, loading: false }))
 		})
 	}
@@ -56,7 +63,7 @@ class EditEventDialog extends Component {
 	}
 
 	render() {
-		let { name, location, date } = this.state.event
+		let { name, location, date, joinable } = this.state.event
 		let { error, loading } = this.state
 
 		return (
@@ -94,6 +101,17 @@ class EditEventDialog extends Component {
 							onChange={ (date) => this.handleInputChange({ target: { id: 'date', value: date.toDate() }}) } 
 						/> 
 					</MuiPickersUtilsProvider>
+
+					<FormControl>
+						<FormControlLabel 
+							label='Allow others to join this event'
+							onChange={ e => this.handleInputChange(e) }
+							control={ <Checkbox id='joinable' checked={ joinable } /> }
+						/>					
+						<FormHelperText>
+							If joinable, users with the event link will be able to add themselves to the event and add their own loadouts.
+						</FormHelperText>
+					</FormControl>
 				</DialogContent>
 
 				<DialogActions>
@@ -120,7 +138,8 @@ EditEventDialog.propTypes = {
 	event: PropTypes.shape({
 		name: PropTypes.string.isRequired,
 		date: PropTypes.object,
-		location: PropTypes.string.isRequired
+		location: PropTypes.string.isRequired,
+		joinable: PropTypes.bool.isRequired
 	})
 }
 

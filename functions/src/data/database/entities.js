@@ -190,6 +190,10 @@ let initEntities = () => {
 			type: Sequelize.STRING({ length: 32 }),
 			allowNull: false
 		},
+		joinable: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: false
+		}
 	}, {
 		hooks: {
 			afterFind: (events) => {

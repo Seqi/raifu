@@ -94,7 +94,6 @@ class Event extends React.Component {
 					}
 				}
 			}))
-			.then(() => this.openDialog(null))
 	}
 
 	deleteEvent() {
@@ -108,7 +107,6 @@ class Event extends React.Component {
 		return database.events.setLoadout(eventId, loadoutId)
 			.then(this.formatEvent)
 			.then(event => this.setState({ event }))
-			.then(() => this.openDialog(null))
 	}
 
 	removeLoadout() {
@@ -117,7 +115,6 @@ class Event extends React.Component {
 		return database.events.removeLoadout(eventId)
 			.then(this.formatEvent)
 			.then(event => this.setState({ event }))
-			.then(() => this.openDialog(null))
 	}
 	
 	render() {
