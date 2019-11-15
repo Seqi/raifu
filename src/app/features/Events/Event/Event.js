@@ -8,6 +8,7 @@ import EventLoadout from './EventLoadout'
 import database from '../../../../firebase/database'
 import EventLoadoutSelect from './EventLoadoutSelect'
 import EventInvite from './EventInvite'
+import EventUserSelect from './EventUserSelect'
 
 class Event extends React.Component {
 
@@ -17,7 +18,8 @@ class Event extends React.Component {
 		this.state = {
 			loading: true,
 			error: null,
-			event: null
+			event: null,
+			activeUserIndex: 0
 		}
 	}
 
@@ -36,7 +38,11 @@ class Event extends React.Component {
 	}
 
 	get currentUsersEvent() {
-		return this.state.event && this.state.event.users[0]
+		return this.state.event && this.state.event.users[this.state.activeUserIndex]
+	}
+
+	get currentUserIsSelf() {
+		return this.state.activeUserIndex === 0
 	}
 
 	componentDidMount() {	
@@ -117,9 +123,13 @@ class Event extends React.Component {
 			.then(this.formatEvent)
 			.then(event => this.setState({ event }))
 	}
+
+	onActiveUserChange(userIndex) {
+		this.setState({ activeUserIndex: userIndex })
+	}
 	
 	render() {
-		let { loading, error, event } = this.state
+		let { loading, error, event, activeUserIndex } = this.state
 
 		if (loading) {			
 			return <Loading />
@@ -137,12 +147,18 @@ class Event extends React.Component {
 					deleteEvent={ () => this.deleteEvent() }
 				/>
 
+				{ event.users.length > 1 && 
+					<EventUserSelect event={ event } userIndex={ activeUserIndex } onUserIndexChange={ (idx) => this.onActiveUserChange(idx) } />
+				}
+
 				{	event.users.length === 0 ? 
 					<EventInvite event={ event } onJoin={ () => this.loadEvent() } /> :
 
 					this.currentUsersEvent.loadout ?
-						<EventLoadout event={ event } removeLoadout={ () => this.removeLoadout() } /> :
-						<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } />
+						<EventLoadout event={ event } activeUserIndex={ activeUserIndex } removeLoadout={ () => this.removeLoadout() } /> :
+						this.currentUserIsSelf ? 
+							<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } /> :
+							<div style={ {textAlign: 'center' } }>User has not added a loadout to this event.</div>
 				}
 			</React.Fragment>
 		)
