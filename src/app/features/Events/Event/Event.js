@@ -138,7 +138,7 @@ class Event extends React.Component {
 				/>
 
 				{	event.users.length === 0 ? 
-					<EventInvite event={ event } /> :
+					<EventInvite event={ event } onJoin={ () => this.loadEvent() } /> :
 
 					this.currentUsersEvent.loadout ?
 						<EventLoadout event={ event } removeLoadout={ () => this.removeLoadout() } /> :

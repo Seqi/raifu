@@ -321,6 +321,51 @@ let setLoadout = async (eventId, loadoutId, user) => {
 	}
 }
 
+let join = async (eventId, user) => {
+	try {
+		// Check the event is joinable
+		let joinable = await entities().event.count({
+			where: {
+				id: eventId,
+				public: true
+			}
+		})
+
+		if (!joinable) {
+			throw errors.NotFoundError('Could not find a joinable event')
+		}
+
+		// Check the user isn't already part of this event
+		let alreadyInEvent = await entities().eventUser.count({
+			where: {
+				event_id: eventId,
+				uid: user.uid
+			}
+		}) > 0
+
+		if (alreadyInEvent) {
+			throw new errors.BadRequestError('User already in event')
+		}
+
+		// Add the user
+		await entities().eventUser.create({
+			event_id: eventId,
+			uid: user.uid
+		})
+
+	} catch (e) {
+		// Validation errors are contained in an array, so pick them out
+		let message = e.errors && e.errors.map((error) => error.message)
+		console.error(message || e.message)
+
+		if (message) {
+			throw new errors.BadRequestError(message)
+		} else {
+			throw e
+		}
+	}
+}
+
 module.exports = {
 	getAll,
 	getById,
@@ -328,5 +373,6 @@ module.exports = {
 	edit,
 	remove,
 	canEdit,
-	setLoadout
+	setLoadout,
+	join
 }

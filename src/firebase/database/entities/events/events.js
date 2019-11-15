@@ -15,6 +15,11 @@ export default () => {
 			new CloudFunction()
 				.path(`events/${eventId}/loadout/remove`)
 				.post()
-				.then(toEntity)
+				.then(toEntity),
+
+		join: (eventId) => 
+			new CloudFunction()
+				.path(`events/${eventId}/join`)
+				.post()		
 	}
 }

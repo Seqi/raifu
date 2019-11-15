@@ -1,11 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@material-ui/core'
 
-const EventInvite = ({ event }) => {
+import { Loading } from 'app/shared/components'
+
+import database from '../../../../firebase/database'
+
+const EventInvite = ({ event, onJoin }) => {
+	let [loading, setLoading] = useState(false)
+
+	let joinEvent = () => {
+		setLoading(true)
+		
+		database.events.join(event.id)
+			.then(() => setLoading(false))
+			.then(onJoin)
+	}
+
+	if (loading) {
+		return <Loading />
+	}
+
 	return (
 		<div className='separator-padding'>
-			<Button variant='outlined' color='primary' style={ { width: '100%'} }>
+			<Button onClick={ joinEvent } variant='outlined' color='primary' style={ { width: '100%'} }>
 					Join event!
 			</Button>
 		</div>
@@ -15,6 +33,7 @@ const EventInvite = ({ event }) => {
 export default EventInvite
 
 EventInvite.propTypes = {
-	event: PropTypes.object.isRequired
+	event: PropTypes.object.isRequired,
+	onJoin: PropTypes.func.isRequired
 }
 	

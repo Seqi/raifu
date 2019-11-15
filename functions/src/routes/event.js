@@ -178,4 +178,30 @@ router.post('/:eventId/loadout/:loadoutId', async (req, res) => {
 	}
 })
 
+router.post('/:eventId/join', async (req, res) => {
+	try {
+		let eventId = req.params.eventId
+
+		await event.join(eventId, req.user)
+
+		return res.status(204)
+			.end()
+	} 
+	catch (e) {
+		console.log('Error adding loadout to event', e)
+		if (e instanceof errors.BadRequestError) {
+			return res.status(400)
+				.end(e.message)
+		}
+
+		if (e instanceof errors.NotFoundError) {
+			return res.status(404)
+				.end()
+		}
+
+		return res.status(500)
+			.end()
+	}
+})
+
 module.exports = router
