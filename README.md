@@ -26,6 +26,8 @@ REACT_APP_FIREBASE_AUTH_DOMAIN=myauthdomain
 REACT_APP_FIREBASE_PROJECT_ID=myprojectid
 ```
 
+Next, install the `firebase-tools` package from npm with `npm i -g firebase-tools`. Then run `firebase login` to login with your Google account linked to your firebase project. This will link your local running code with your Firebase project for use with features like Firebase authentication.
+
 You will also need to enable authentication providers in your Firebase project to log in to the application. These may require third party API keys (such as Twitter). For basic usage, enable the Email/Password provider in your Firebase project `Authentication -> Sign-in Method -> Enable Email/Password`. 
 
 Finally, replace the existing project id with your Firebase project id in `.firebaserc`. 
