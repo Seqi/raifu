@@ -7,7 +7,7 @@ const EventUserSelect = ({ event, userIndex,  onUserIndexChange }) => {
 	return (
 		<Tabs centered={ true } value={ userIndex } onChange={ (e, idx) => onUserIndexChange(idx) }>
 			{ event.users.map((user, idx) => (
-				<Tab key={ user.uid } label={ idx === 0 ? 'Me' : user.uid } />
+				<Tab key={ user.uid } label={ `${user.displayName} ${idx === 0 ? '(You)' : '' }` } />
 			))}
 		</Tabs>
 	)

@@ -1,3 +1,4 @@
+const firebase = require('firebase-admin')
 const Op = require('sequelize').Op
 const entities = require('./database/entities')
 const errors = require('../utils/errors')
@@ -121,15 +122,31 @@ let getById = async (id, user) => {
 
 		// Create a copy of the event users and the one to move
 		let currUserEvent = eventJson.users[currUserIdx]
-		let eventUsersCopy = [ ...eventJson.users ]
+		let eventUsers = [ ...eventJson.users ]
 
 		// Remove the user and place at the start
-		eventUsersCopy.splice(currUserIdx, 1)
-		eventUsersCopy.unshift(currUserEvent)
+		eventUsers.splice(currUserIdx, 1)
+		eventUsers.unshift(currUserEvent)
+
+		// Populate each event user with a hydrated user object for display purposes
+		// No need to do the current user, we alredy have that
+		eventUsers[0].displayName = user.name
+		
+		let fbAuth = firebase.auth()
+		let fbUsers = await Promise.all(
+			eventUsers.slice(1)
+				.map(user => user.uid)
+				.map(uid => fbAuth.getUser(uid))
+		)
+
+		fbUsers.forEach(fbUser => 
+			eventUsers.find(u => u.uid === fbUser.uid).displayName = fbUser.displayName
+		)
 
 		// Add back
-		eventJson.users = eventUsersCopy
+		eventJson.users = eventUsers
 		
+		// Order the loadout items in terms of date added to the loadout
 		// TODO: have this as a hook?
 		loadout.orderLoadoutItems(event.loadout)
 		
