@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormHelperText from '@material-ui/core/FormHelperText'
-
-import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers'
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	FormControl,
+	FormControlLabel,
+	FormHelperText,
+	TextField,
+	Button,
+	Checkbox
+} from '@material-ui/core'
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 
 import { Error } from 'app/shared/components'
-import { FormControl } from '@material-ui/core'
 
 class EditEventDialog extends Component {
 	constructor(props) {
