@@ -40,4 +40,4 @@ ArmoryItemSelect.defaultProps = {
 	onItemSelected: (item) => {}
 }
 
-export default withTheme()(ArmoryItemSelect)
+export default withTheme(ArmoryItemSelect)

@@ -42,4 +42,4 @@ Error.defaultProps = {
 	style: {}
 }
 
-export default withTheme()(Error)
+export default withTheme(Error)

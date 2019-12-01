@@ -1,5 +1,5 @@
 import React from 'react'
-import withRouter from 'react-router-dom/withRouter'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { withTheme } from '@material-ui/core'
@@ -41,4 +41,4 @@ CalendarAgendaEvent.propTypes = {
 	event: PropTypes.object.isRequired
 }
 
-export default withTheme()(withRouter(CalendarAgendaEvent))
+export default withTheme(withRouter(CalendarAgendaEvent))

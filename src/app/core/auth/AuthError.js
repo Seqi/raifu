@@ -16,4 +16,4 @@ AuthError.propTypes = {
 	message: PropTypes.string.isRequired
 }
 
-export default withTheme()(AuthError)
+export default withTheme(AuthError)

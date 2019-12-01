@@ -18,12 +18,8 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 	let [loadoutId, setLoadoutId] = useState('')
 	let [saveError, setSaveError] = useState(null)
 
-	let isUnmounted = false
-
 	useEffect(() => {
 		loadLoadouts()
-
-		return () => isUnmounted = true
 	}, [])
 
 	let loadLoadouts = () => {
@@ -32,14 +28,10 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 		database.loadouts
 			.get()
 			.then((loadouts) => {
-				if (!isUnmounted) {
-					setLoadouts({ data: loadouts, loading: false, error: null })
-				}
+				setLoadouts({ data: loadouts, loading: false, error: null })
 			})
 			.catch((err) => {
-				if (!isUnmounted) {
-					setLoadouts({ data: [], loading: false, error: err.statusText || err.message || err })
-				}
+				setLoadouts({ data: [], loading: false, error: err.statusText || err.message || err })
 			})
 	}
 

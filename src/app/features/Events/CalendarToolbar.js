@@ -77,4 +77,4 @@ CalendarToolbar.propTypes = {
 	onNavigate: PropTypes.func.isRequired
 }
 
-export default withTheme()(CalendarToolbar)
+export default withTheme(CalendarToolbar)

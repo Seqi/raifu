@@ -20,7 +20,7 @@ function AuthenticatedRoute(props) {
 		}
 
 		return onAuthChangeSub
-	}, [])
+	}, [props])
 
 	return isAuthenticated ? <Route { ...props } /> : <Loading />
 }

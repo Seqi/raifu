@@ -1,5 +1,5 @@
 import React from 'react'
-import withRouter from 'react-router-dom/withRouter'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import Typography from '@material-ui/core/Typography'
