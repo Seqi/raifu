@@ -14,7 +14,7 @@ router.post('/:weaponId', async (req, res) => {
 		console.log('Error adding loadout weapon', e)
 
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e.message || e })
 		}
 
@@ -38,7 +38,7 @@ router.delete('/:weaponId', async (req, res) => {
 		console.log('Error removing loadout weapon', e)
 
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e.message || e })
 		}
 

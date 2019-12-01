@@ -1,4 +1,4 @@
-let errors = require('../utils/errors')
+const errors = require('../utils/errors')
 
 module.exports = (entities, entityName = 'entity') => ({
 	getAll: async (user) => {

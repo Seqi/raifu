@@ -70,7 +70,11 @@ class CloudFunction {
 
 	async post(data) {
 		return this.call(data, 'POST')
-			.then((result) => result.json())
+			.then((result) => {
+				if (result.status !== 204) {
+					return result.json()
+				}				
+			})
 	}
 
 	async put(data) {

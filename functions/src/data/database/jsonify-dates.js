@@ -1,7 +1,8 @@
 let mapEntities = require('./map-entities')
 
 let recursivelyJsonifyDates = (entity) => {
-	mapEntities(entity, e => {// Jsonify this objects dates if any exist
+	mapEntities(entity, e => {
+		// Jsonify this objects dates if any exist
 		convertDatesToJson(e)
 	
 		// Check if any children also need dates converting
@@ -14,11 +15,13 @@ let recursivelyJsonifyDates = (entity) => {
 
 let convertDatesToJson = (entity) => {
 	if (entity.createdAt) {
-		entity.createdAt = entity.createdAt.toJSON()
+		let date = new Date(entity.createdAt)
+		entity.createdAt = date.toJSON()
 	}
 		
 	if (entity.updatedAt) {
-		entity.updatedAt = entity.updatedAt.toJSON()
+		let date = new Date(entity.updatedAt)
+		entity.updatedAt = date
 	}
 }
 

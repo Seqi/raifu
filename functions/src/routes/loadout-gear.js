@@ -13,7 +13,7 @@ router.post('/:gearId', async (req, res) => {
 		console.log('Error adding loadout gear', e)
 
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e.message || e })
 		}
 
@@ -37,7 +37,7 @@ router.delete('/:gearId', async (req, res) => {
 		console.log('Error removing loadout gear', e)
 
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e.message || e })
 		}
 

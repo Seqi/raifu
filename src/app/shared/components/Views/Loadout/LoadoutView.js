@@ -9,6 +9,7 @@ import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutContext from './LoadoutContext'
 
 import './Loadout.css'
+import LoadoutSeparator from './LoadoutSeparator'
 
 class LoadoutView extends React.Component {
 	render() {
@@ -37,9 +38,8 @@ class LoadoutView extends React.Component {
 					/>
 				</div>
 
-				<Typography variant='h4'>Gear</Typography>
-
-				<div>
+				<LoadoutSeparator>
+					<Typography variant='h4'>Gear</Typography>
 					<LoadoutGearList 
 						loadoutId={ loadout.id } 
 						gear={ loadout.gear }
@@ -47,7 +47,7 @@ class LoadoutView extends React.Component {
 						onAdd={ onGearAdd } 
 						onDelete={ onGearDelete } 
 					/>
-				</div>
+				</LoadoutSeparator>
 			</LoadoutContext.Provider>
 		)
 	}

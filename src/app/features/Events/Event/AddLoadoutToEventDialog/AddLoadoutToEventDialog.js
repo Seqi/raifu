@@ -38,7 +38,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 	let save = () => {
 		setSaveError(false)
 
-		onSave(loadouts.data.find(l => l.id === loadoutId))
+		onSave(loadoutId)
 			.catch(err => setSaveError(err.statusText || err.message || err))
 	}
 

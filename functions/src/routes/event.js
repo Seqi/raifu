@@ -24,11 +24,16 @@ router.get('/:id', async (req, res) => {
 		}
 
 		let item = await event.getById(req.params.id, req.user)
+
+		if (!item) {
+			return res.status(404)
+				.end()
+		}
 		
 		return res.json(item)
 	} catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e })
 		}
 
@@ -50,7 +55,7 @@ router.post('/', async (req, res) => {
 	} 
 	catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e.message.split(',') })
 		}
 
@@ -61,20 +66,22 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
 	try {
-		let entity = req.body
+		let eventId = req.params.id
 
-		if (!entity.id) {
-			entity.id = req.params.id
+		let canEdit = await event.canEdit(eventId, req.user)
+		if (!canEdit) {
+			return res.status(401)
+				.end()
 		}
 
-		await event.edit(req.body, req.user)
+		await event.edit(eventId, req.body, req.user)
 
 		return res.status(204)
 			.end()
 	} 
 	catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
 				.json({ errors: e })
 		}
 
@@ -90,7 +97,15 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
 	try {
-		await event.delete(req.params.id, req.user)
+		let eventId = req.params.id
+
+		let canEdit = await event.canEdit(eventId, req.user)
+		if (!canEdit) {
+			return res.status(401)
+				.end()
+		}
+
+		await event.remove(eventId, req.user)
 
 		return res.status(204)
 			.end()
@@ -98,7 +113,84 @@ router.delete('/:id', async (req, res) => {
 	catch (e) {
 		console.log('Error deleting event', e)
 		if (e instanceof errors.BadRequestError) {
-			return res.status(401)
+			return res.status(400)
+				.end(e.message)
+		}
+
+		if (e instanceof errors.NotFoundError) {
+			return res.status(404)
+				.end()
+		}
+
+		return res.status(500)
+			.end()
+	}
+})
+
+router.post('/:eventId/loadout/remove', async (req, res) => {
+	try {
+		let eventId = req.params.eventId
+
+		let newEvent = await event.setLoadout(eventId, null, req.user)
+
+		return res.json(newEvent)
+	} 
+	catch (e) {
+		console.log('Error adding loadout to event', e)
+		if (e instanceof errors.BadRequestError) {
+			return res.status(400)
+				.end(e.message)
+		}
+
+		if (e instanceof errors.NotFoundError) {
+			return res.status(404)
+				.end()
+		}
+
+		return res.status(500)
+			.end()
+	}
+})
+
+router.post('/:eventId/loadout/:loadoutId', async (req, res) => {
+	try {
+		let eventId = req.params.eventId
+		let loadoutId = req.params.loadoutId
+
+		let newEvent = await event.setLoadout(eventId, loadoutId, req.user)
+
+		return res.json(newEvent)
+	} 
+	catch (e) {
+		console.log('Error adding loadout to event', e)
+		if (e instanceof errors.BadRequestError) {
+			return res.status(400)
+				.end(e.message)
+		}
+
+		if (e instanceof errors.NotFoundError) {
+			return res.status(404)
+				.end()
+		}
+
+		return res.status(500)
+			.end()
+	}
+})
+
+router.post('/:eventId/join', async (req, res) => {
+	try {
+		let eventId = req.params.eventId
+
+		await event.join(eventId, req.user)
+
+		return res.status(204)
+			.end()
+	} 
+	catch (e) {
+		console.log('Error adding loadout to event', e)
+		if (e instanceof errors.BadRequestError) {
+			return res.status(400)
 				.end(e.message)
 		}
 

@@ -5,12 +5,6 @@
 .loadout-weapon-item {
 	position: relative;
 	flex: 1;
-	
-	min-height: 300px;
-	min-width: 300px;
-	
-	max-height: 500px;
-	max-width: 500px;
 }
 
 .loadout-weapon-item h2, 

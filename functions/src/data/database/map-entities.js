@@ -1,4 +1,4 @@
-module.exports = function mapEntities(entities, fn) {
+module.exports = function mapEntities(entities, mapFunction) {
 	if (!entities) {
 		return 
 	}
@@ -7,10 +7,10 @@ module.exports = function mapEntities(entities, fn) {
 		entities.forEach((e) => {			
 			let obj = e.dataValues ? e.dataValues : e
 
-			fn(obj)
+			mapFunction(obj)
 		})
 	} else {
 		let obj = entities.dataValues ? entities.dataValues : entities
-		fn(obj)
+		mapFunction(obj)
 	}
 }

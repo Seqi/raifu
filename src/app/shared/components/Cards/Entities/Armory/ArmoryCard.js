@@ -14,7 +14,9 @@ export default function ArmoryCard({ item, category, canDelete, onClick, onDelet
 	return (
 		<Card style={ style } onClick={ onClick } className={ `${className} card armory-card` } >
 			{ canDelete && <DeleteButton onClick={ onDelete } /> }
+			
 			<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header'/>
+
 			<CardContent className='card-content'>
 				<ArmoryItemImage entity={ item } category={ category } />
 			</CardContent>
