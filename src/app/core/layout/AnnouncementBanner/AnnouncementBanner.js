@@ -5,6 +5,8 @@ import { withTheme } from '@material-ui/styles'
 import AnnouncementBannerItem from './AnnouncementBannerItem'
 import announcements from './announcements'
 
+import './AnnouncementBanner.css'
+
 const getAnnouncements = (seen) => {
 	if (!seen) {
 		return announcements
@@ -55,7 +57,7 @@ let AnnouncementBanner = ({ theme }) => {
 	}
 
 	return (
-		<div style={ containerStyle }>
+		<div className='slide-up' style={ containerStyle }>
 			{ announcements.map((announcement, i) => <AnnouncementBannerItem key={ i } onClose={ onBannerClose } announcement={ announcement } />)}			
 		</div>
 	)
