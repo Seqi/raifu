@@ -7,11 +7,13 @@ import AuthPage from './auth/AuthPage'
 import Main from './layout/MainApp/Main'
 import Shared from './layout/Shared/Shared'
 import HomePage from './layout/Home'
+import AnnouncementBanner from './layout/AnnouncementBanner'
 
 class App extends Component {
 	render() {
 		return (
 			<div className='app'>
+				<AnnouncementBanner />
 				<Router>
 					<React.Fragment>
 						<Switch>
