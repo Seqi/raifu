@@ -1,5 +1,5 @@
 import React from 'react'
-import withRouter from 'react-router-dom/withRouter'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { withTheme } from '@material-ui/core'
@@ -9,6 +9,11 @@ import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
 function CalendarAgendaEvent ({event, theme, location, history}) {
 	let isMobileMode = useIsMobileMode()
+
+	// TODO: remove this, temp solution
+	function findUsersLoadout(eventLoadouts) {
+		return eventLoadouts[0]
+	}
 
 	return (
 		// By design, agenda events don't have a click event, so we have to make one ourselves
@@ -20,10 +25,10 @@ function CalendarAgendaEvent ({event, theme, location, history}) {
 				<span> { event.getTitle() } @ { event.location } </span>
 			</div>
 
-			{ !isMobileMode && event.loadout && <WeaponDisplay weapons={ event.loadout.weapons } />}
-			{ isMobileMode && event.loadout && <div>Loadout: {event.loadout.name} </div>}
+			{ !isMobileMode && findUsersLoadout(event.users).loadout && <WeaponDisplay weapons={ findUsersLoadout(event.users).loadout.weapons } />}
+			{ isMobileMode && findUsersLoadout(event.users).loadout && <div>Loadout: { findUsersLoadout(event.users).loadout.name } </div>}
 
-			{ !event.loadout && 
+			{ !findUsersLoadout(event.users).loadout && 
 				<div style={ { width: '100%', textAlign: 'center', padding: '2rem 0rem'} }>
 					No loadout
 				</div>
@@ -36,4 +41,4 @@ CalendarAgendaEvent.propTypes = {
 	event: PropTypes.object.isRequired
 }
 
-export default withTheme()(withRouter(CalendarAgendaEvent))
+export default withTheme(withRouter(CalendarAgendaEvent))

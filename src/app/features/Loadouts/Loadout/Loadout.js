@@ -191,16 +191,18 @@ class Loadout extends React.Component {
 					<i onClick={ () => this.openDialog('share') } className='fa fa-link icon-action' />
 				</ReactiveTitle>
 
-				<LoadoutView 
-					loadout={ loadout } 
-					canEdit={ true }
-					onWeaponAdd={ (weapon) => this.addWeapon(weapon) }
-					onWeaponDelete={ (weaponId) => this.deleteWeapon(weaponId) }
-					onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }
-					onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
-					onGearAdd={ (gear) => this.addGear(gear) }
-					onGearDelete={ (gearId) => this.deleteGear(gearId) }
-				/>
+				<div className='separator-padding'>
+					<LoadoutView 
+						loadout={ loadout } 
+						canEdit={ true }
+						onWeaponAdd={ (weapon) => this.addWeapon(weapon) }
+						onWeaponDelete={ (weaponId) => this.deleteWeapon(weaponId) }
+						onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }
+						onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
+						onGearAdd={ (gear) => this.addGear(gear) }
+						onGearDelete={ (gearId) => this.deleteGear(gearId) }
+					/>
+				</div>
 
 				<EditLoadoutDialog
 					name={ loadout.name }

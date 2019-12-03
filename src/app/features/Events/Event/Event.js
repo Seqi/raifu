@@ -1,19 +1,14 @@
 import React from 'react'
-import withRouter from 'react-router-dom/withRouter'
+import { withRouter } from 'react-router-dom'
 
-import Button from '@material-ui/core/Button'
-
-import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
-import LoadoutSeparator from 'app/shared/components/Views/Loadout/LoadoutSeparator'
-import LoadoutAdd from 'app/shared/components/Views/Loadout/LoadoutAdd'
-import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import { Loading, Error } from 'app/shared/components'
-import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
-import EditEventDialog from '../EditEventDialog'
-import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
-
+import EventHeader from './EventHeader'
+import EventLoadout from './EventLoadout'
 import database from '../../../../firebase/database'
+import EventLoadoutSelect from './EventLoadoutSelect'
+import EventInvite from './EventInvite'
+import EventUserSelect from './EventUserSelect'
 
 class Event extends React.Component {
 
@@ -23,8 +18,8 @@ class Event extends React.Component {
 		this.state = {
 			loading: true,
 			error: null,
-			activeDialog: null,
-			event: null
+			event: null,
+			activeUserIndex: 0
 		}
 	}
 
@@ -42,22 +37,35 @@ class Event extends React.Component {
 			}, { loadout_id: event.loadout ? event.loadout.id : null })
 	}
 
+	get currentUsersEvent() {
+		return this.state.event && this.state.event.users[this.state.activeUserIndex]
+	}
+
+	get currentUserIsSelf() {
+		return this.state.activeUserIndex === 0
+	}
+
 	componentDidMount() {	
 		this.loadEvent()	
 	}
 
 	componentWillUnmount() {
 		this.isUnmounted = true
-	}	
+	}
+
+	// TODO: Move this to the service itself
+	formatEvent(event) {
+		return {
+			...event,
+			date: new Date(event.date)
+		}
+	}
 
 	loadEvent() {
 		this.setState({loading: true, error: null}, () => {
 			database.events.getById(this.props.match.params.id)
 				// Convert from JSON date format
-				.then(event => ({
-					...event,
-					date: new Date(event.date)
-				}))
+				.then(this.formatEvent)
 				.then(event => {
 					if (!this.isUnmounted) {
 						this.setState({ event: event, loading: false })
@@ -69,24 +77,6 @@ class Event extends React.Component {
 					}
 				})
 		})
-	}
-
-	openDialog(activeDialog) {
-		this.setState({ activeDialog })
-	}
-
-	setLoadout(loadout) {
-		// Filter out any functions or joins before passing back up
-		let updatedEvent = this.rawEvent
-		updatedEvent.loadout_id = loadout ? loadout.id : null
-
-		return database.events.edit(this.state.event.id, updatedEvent)
-			.then(() => this.setState((prevState) => {
-				return {
-					event: {...prevState.event, loadout: loadout}
-				}
-			}))
-			.then(() => this.openDialog(null))
 	}
 
 	updateEvent(event) {
@@ -106,11 +96,11 @@ class Event extends React.Component {
 					event: {
 						...prevState.event, 
 						...event,
+						date: new Date(event.date),
 						loadout: prevState.event.loadout
 					}
 				}
 			}))
-			.then(() => this.openDialog(null))
 	}
 
 	deleteEvent() {
@@ -118,8 +108,28 @@ class Event extends React.Component {
 			.then(() => this.props.history.push('/events'))
 	}
 
+	setLoadout(loadoutId) {
+		let eventId = this.state.event.id
+
+		return database.events.setLoadout(eventId, loadoutId)
+			.then(this.formatEvent)
+			.then(event => this.setState({ event }))
+	}
+
+	removeLoadout() {
+		let eventId = this.state.event.id
+
+		return database.events.removeLoadout(eventId)
+			.then(this.formatEvent)
+			.then(event => this.setState({ event }))
+	}
+
+	onActiveUserChange(userIndex) {
+		this.setState({ activeUserIndex: userIndex })
+	}
+	
 	render() {
-		let { loading, error, event, activeDialog } = this.state
+		let { loading, error, event, activeUserIndex } = this.state
 
 		if (loading) {			
 			return <Loading />
@@ -131,69 +141,25 @@ class Event extends React.Component {
 
 		return (
 			<React.Fragment>
-				<React.Fragment>
-					<ReactiveTitle>
-						{ event.name }
-						<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />						
-						<i onClick={ () => this.openDialog('delete') } className='fa fa-times icon-action' />
-					</ReactiveTitle>
-
-					<ReactiveTitle variant='h4' mobileVariant='h5'>
-						{ event.location } @ { event.date.toLocaleString() }
-					</ReactiveTitle>
-				</React.Fragment>
-
-				{ !event.loadout && 
-					<LoadoutSeparator showBottom={ true } >
-						<LoadoutAdd onClick={ () => this.openDialog('add') } />
-					</LoadoutSeparator>
-				}
-
-				{ event.loadout && 
-				<div style={ {width: '100%'} }>
-					<Button 
-						color='primary' 
-						variant='outlined'
-						style={ {
-							width: '100%',
-							marginBottom: '-24px'
-						} }
-						onClick={ () => this.openDialog('remove') }
-					>
-						Remove Loadout ({ event.loadout.getTitle() })
-					</Button>
-					
-					<LoadoutView loadout={ event.loadout } /> 
-
-					<ConfirmDeleteDialog 
-						verb='Remove'
-						title={ `${event.loadout.getTitle()} from ${event.getTitle()}` }
-						isOpen={ activeDialog === 'remove' }
-						onClose={ () => this.openDialog(null) }
-						onConfirm={ () => this.setLoadout(null) }
-					/>
-				</div>
-				}
-
-				<AddLoadoutToEventDialog 
-					eventTitle={ event.getTitle() }
-					isOpen={ activeDialog === 'add' }
-					onSave={ (loadoutId) => this.setLoadout(loadoutId) }
-					onClose={ () => this.openDialog(null) } />
-
-				<EditEventDialog 
-					event={ event }
-					isOpen={ activeDialog === 'edit' }
-					onSave={ (event) => this.updateEvent(event) }
-					onClose={ () => this.openDialog(null) } />
-
-				<ConfirmDeleteDialog 
-					verb='Delete'
-					title={ event.getTitle() }
-					isOpen={ activeDialog === 'delete' }
-					onClose={ () => this.openDialog(null) }
-					onConfirm={ () => this.deleteEvent() }
+				<EventHeader 
+					event={ event } 
+					updateEvent={ (event) => this.updateEvent(event) }
+					deleteEvent={ () => this.deleteEvent() }
 				/>
+
+				{ event.users.length > 1 && 
+					<EventUserSelect event={ event } userIndex={ activeUserIndex } onUserIndexChange={ (idx) => this.onActiveUserChange(idx) } />
+				}
+
+				{	event.users.length === 0 ? 
+					<EventInvite event={ event } onJoin={ () => this.loadEvent() } /> :
+
+					this.currentUsersEvent.loadout ?
+						<EventLoadout event={ event } activeUserIndex={ activeUserIndex } removeLoadout={ () => this.removeLoadout() } /> :
+						this.currentUserIsSelf ? 
+							<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } /> :
+							<div style={ {textAlign: 'center' } }>User has not added a loadout to this event.</div>
+				}
 			</React.Fragment>
 		)
 	}

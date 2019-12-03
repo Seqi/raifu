@@ -19,7 +19,7 @@ function AuthPage({ history }) {
 		})
 
 		return authUnsubscribe
-	}, [])
+	}, [history])
 
 	return (
 		<div className='auth-container'>

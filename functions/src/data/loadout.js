@@ -1,6 +1,6 @@
-let entities = require('./database/entities')
-let baseEntity = require('./base-entity')
-let errors = require('../utils/errors')
+const entities = require('./database/entities')
+const baseEntity = require('./base-entity')
+const errors = require('../utils/errors')
 
 let orderLoadoutItems = (loadout) => {
 	if (!loadout) {

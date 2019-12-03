@@ -1,0 +1,15 @@
+.slide-up {
+	animation-name: fadeInUp;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes fadeInUp {
+    0% {
+        transform: translate3d(0,75%,0);
+    }
+    100% {
+        transform: none;
+    }
+}

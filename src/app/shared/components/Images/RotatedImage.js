@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 function calculateAddedXMargin(ref, rotateBy) {
@@ -23,20 +23,21 @@ function calculateBoundingBoxWidth(ref, rotateBy) {
 function RotatedImage({image, rotateBy, style}) {
 	let [containerRef] = useState(React.createRef())
 	let [xMargin, setXMargin] = useState(0)
+	
+	// Use memoization to stop this function triggering the below effect on every render
+	let setNewXMargin = useCallback(() => {
+		if (containerRef.current) {
+			let newXMargin = calculateAddedXMargin(containerRef, rotateBy)
+			setXMargin(newXMargin)
+		}
+	}, [containerRef, rotateBy])
 
 	useEffect(() => {
 		window.addEventListener('resize', setNewXMargin)
 		setTimeout(setNewXMargin, 10) // Hack for offsetHeight being unreliable? Idk whats going on
 
 		return () => window.removeEventListener('resize', setNewXMargin)
-	}, [])
-	
-	function setNewXMargin() {
-		if (containerRef.current) {
-			let newXMargin = calculateAddedXMargin(containerRef, rotateBy)
-			setXMargin(newXMargin)
-		}
-	}
+	}, [setNewXMargin])
 	
 	return (
 		<div className='rotated-image-container' ref={ containerRef } style={ { marginLeft: xMargin, marginRight: xMargin } }>
