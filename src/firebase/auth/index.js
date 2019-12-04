@@ -18,20 +18,12 @@ export default {
 	},
 	onAuthChanged: (fun) => auth.onAuthStateChanged(fun),
 	signup: {
-		withEmail: (email, pass) => {
-			return auth.createUserWithEmailAndPassword(email, pass)
-		}
+		withEmail: (email, pass) => auth.createUserWithEmailAndPassword(email, pass)
 	},
 	login: {
-		withTwitter: () => {
-			return auth.signInWithPopup(providers.twitter)
-		},
-		withGoogle: () => {
-			return auth.signInWithPopup(providers.google)
-		},
-		withEmail: (email, pass) => {
-			return auth.signInWithEmailAndPassword(email, pass)
-		}
+		withTwitter: () => auth.signInWithPopup(providers.twitter),
+		withGoogle: () =>  auth.signInWithPopup(providers.google),
+		withEmail: (email, pass) => auth.signInWithEmailAndPassword(email, pass)
 	},
 	logout: () => auth.signOut()
 }

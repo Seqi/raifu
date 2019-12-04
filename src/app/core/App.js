@@ -8,30 +8,33 @@ import Main from './layout/MainApp/Main'
 import Shared from './layout/Shared/Shared'
 import HomePage from './layout/Home'
 import AnnouncementBanner from './layout/AnnouncementBanner'
+import UserContextProvider from './auth/UserContextProvider'
 
 class App extends Component {
 	render() {
 		return (
-			<div className='app'>
-				<AnnouncementBanner />
-				<Router>
-					<React.Fragment>
-						<Switch>
-							<Route path='/login' component={ AuthPage } />
-							<Route path='/' component={ () => 
-								<React.Fragment>
-									<NavBar />
-									<Switch>
-										<Route path='/app' component={ Main } />
-										<Route path='/share' component={ Shared } />
-										<Route path='/' component={ HomePage } />
-									</Switch>
-								</React.Fragment>
-							} />
-						</Switch>
-					</React.Fragment>
-				</Router>
-			</div>
+			<UserContextProvider>
+				<div className='app'>
+					<AnnouncementBanner />
+					<Router>
+						<React.Fragment>
+							<Switch>
+								<Route path='/login' component={ AuthPage } />
+								<Route path='/' component={ () => 
+									<React.Fragment>
+										<NavBar />
+										<Switch>
+											<Route path='/app' component={ Main } />
+											<Route path='/share' component={ Shared } />
+											<Route path='/' component={ HomePage } />
+										</Switch>
+									</React.Fragment>
+								} />
+							</Switch>
+						</React.Fragment>
+					</Router>
+				</div>
+			</UserContextProvider>
 		)
 	}
 }

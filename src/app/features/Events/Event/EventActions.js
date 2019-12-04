@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import Tooltip from '@material-ui/core/Tooltip'
 
-import auth from '../../../../firebase/auth'
-
 import EditEventDialog from '../EditEventDialog'
 import EventChecklist from './EventChecklist'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import UserContext from 'app/core/auth/UserContext'
 
 
-let isMyEvent = (event) => {
-	return event.organiser_uid === auth.user.uid
+let isMyEvent = (user, event) => {
+	return event.organiser_uid === user.uid
 }
 
 let getMyLoadout = (event) => {
@@ -20,11 +19,12 @@ let getMyLoadout = (event) => {
 
 function EventActions( { event, updateEvent, deleteEvent }) {
 	let [ activeDialog, setActiveDialog] = useState()
+	let user = useContext(UserContext)
 
 	return (
 		<React.Fragment>
 			{/* Actions */}
-			{ isMyEvent(event) && (
+			{ isMyEvent(user, event) && (
 				<React.Fragment>
 					<Tooltip title='Edit' aria-label='edit'>
 						<i onClick={ () => setActiveDialog('edit') } className='fa fa-pen icon-action' /> 
