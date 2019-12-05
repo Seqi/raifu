@@ -21,6 +21,8 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 	let [ activeDialog, setActiveDialog] = useState()
 	let user = useContext(UserContext)
 
+	console.log('event actions user', user)
+
 	return (
 		<React.Fragment>
 			{/* Actions */}
