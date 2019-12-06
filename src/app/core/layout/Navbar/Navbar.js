@@ -1,7 +1,7 @@
 import './Navbar.css'
 import React, { useContext } from 'react'
 
-import UserContext from 'app/core/auth/UserContext'
+import { UserContext } from 'app/core/auth/contexts'
 import AuthenticatedUserMenu from './AuthenticatedUserMenu'
 import UnauthenticatedUserMenu from './UnauthenticatedUserMenu'
 

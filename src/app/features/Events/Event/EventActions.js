@@ -6,8 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import EditEventDialog from '../EditEventDialog'
 import EventChecklist from './EventChecklist'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
-import UserContext from 'app/core/auth/UserContext'
-
+import { UserContext } from 'app/core/auth/contexts'
 
 let isMyEvent = (user, event) => {
 	return event.organiser_uid === user.uid
@@ -20,8 +19,6 @@ let getMyLoadout = (event) => {
 function EventActions( { event, updateEvent, deleteEvent }) {
 	let [ activeDialog, setActiveDialog] = useState()
 	let user = useContext(UserContext)
-
-	console.log('event actions user', user)
 
 	return (
 		<React.Fragment>
