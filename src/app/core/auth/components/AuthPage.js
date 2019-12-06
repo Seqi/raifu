@@ -6,7 +6,7 @@ import SignupPage from './Signup/SignupPage'
 import Logo from 'app/shared/components/Logo'
 
 import './AuthPage.css'
-import UserContext from './UserContext'
+import UserContext from '../contexts/UserContext'
 
 function AuthPage({ history }) {
 	let user = useContext(UserContext)
