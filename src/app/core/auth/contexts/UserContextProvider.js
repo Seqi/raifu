@@ -14,7 +14,7 @@ let UserContextProvider = ({ children }) => {
 	useEffect(() => {
 		let authUnsubscribe = auth.onAuthChanged(u => setUser(u))
 		return authUnsubscribe 
-	}, [auth, user])
+	}, [auth])
 
 	return (
 		<UserContext.Provider value={ user }>

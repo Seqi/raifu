@@ -13,30 +13,28 @@ import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 class App extends Component {
 	render() {
 		return (
-			<AuthContextProvider>
-				<UserContextProvider>
-					<div className='app'>
-						<AnnouncementBanner />
-						<Router>
-							<React.Fragment>
-								<Switch>
-									<Route path='/login' component={ AuthPage } />
-									<Route path='/' component={ () => 
-										<React.Fragment>
-											<NavBar />
-											<Switch>
-												<Route path='/app' component={ Main } />
-												<Route path='/share' component={ Shared } />
-												<Route path='/' component={ HomePage } />
-											</Switch>
-										</React.Fragment>
-									} />
-								</Switch>
-							</React.Fragment>
-						</Router>
-					</div>
-				</UserContextProvider>
-			</AuthContextProvider>
+			<div className='app'>
+				<AnnouncementBanner />
+				<Router>
+					<AuthContextProvider>
+						<UserContextProvider>
+							<Switch>
+								<Route path='/login' component={ AuthPage } />
+								<Route path='/' component={ () => 
+									<React.Fragment>
+										<NavBar />
+										<Switch>
+											<Route path='/app' component={ Main } />
+											<Route path='/share' component={ Shared } />
+											<Route path='/' component={ HomePage } />
+										</Switch>
+									</React.Fragment>
+								} />
+							</Switch>
+						</UserContextProvider>
+					</AuthContextProvider>
+				</Router>
+			</div>
 		)
 	}
 }

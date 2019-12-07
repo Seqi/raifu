@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react'
+import React, { useContext, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -15,9 +15,6 @@ let AuthenticatedUserMenu = ({ history }) => {
 	let auth = useContext(AuthContext)
 	let user = useContext(UserContext)
 	let [anchor, setAnchor] = useState(null)
-
-	let logout = useCallback(() => 	auth.logout()
-		.then(() => history.push('/login')), [auth, history])
 
 	let isOpen = !!anchor 
 	return (
@@ -58,7 +55,7 @@ let AuthenticatedUserMenu = ({ history }) => {
 						horizontal: 'right'
 					} }
 				>
-					<MenuItem onClick={ logout }>Logout</MenuItem>
+					<MenuItem onClick={ auth.logout }>Logout</MenuItem>
 				</Menu>
 			</div>
 		</React.Fragment>
