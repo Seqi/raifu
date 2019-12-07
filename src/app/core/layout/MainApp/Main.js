@@ -31,9 +31,7 @@ let  Main = ({ history, location }) => {
 		return 0
 	})
 
-	let onAuthFailure = useCallback(() => {
-		history.push('/login')
-	}, [history])
+	let onAuthFailure = useCallback(() => history.push('/login'), [history])
 
 	return (
 		<React.Fragment>
