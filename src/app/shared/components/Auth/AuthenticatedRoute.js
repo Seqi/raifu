@@ -1,44 +1,35 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { Loading } from 'app/shared/components'
-import UserContext from 'app/core/auth/UserContext'
+import { AuthContext } from 'app/core/auth/contexts'
 
-function AuthenticatedRoute({ onFail, waitFor, ...props }) {
-	let [isAuthenticated, setIsAuthenticated] = useState(false)
-	let timer = useRef(null)
-	let user = useContext(UserContext)
+const AUTH_TIMEOUT = 1000
+
+function AuthenticatedRoute({ onFail, ...props }) {
+	let auth = useContext(AuthContext)
+	let [isAuthenticated, setIsAuthenticated] = useState(auth.isAuthenticated)
 
 	useEffect(() => {
-		// Clear any existing timeout
-		clearTimeout(timer.current)
+		// Watch for user logging out
+		let onAuthChangeSub = auth.onAuthChanged(user => {
+			user ? setIsAuthenticated(true) : onFail()
+		})
 
-		// If we don't have a user, wait to see the specified amount before throwing out
-		if (!user) {			
-			timer.current = setTimeout(() => {
-				setIsAuthenticated(false)
-				onFail()
-			}, waitFor)
-		} else {
-			setIsAuthenticated(true)
+		// Give Firebase a sec to set user from token
+		if (!auth.isAuthenticated) {
+			setTimeout(() => !auth.isAuthenticated && onFail(), AUTH_TIMEOUT)
 		}
-	}, [onFail, waitFor, user])
 
-	if (!isAuthenticated) {
-		return <Loading />
-	}
+		return onAuthChangeSub
+	}, [auth, onFail])
 
-	return <Route { ...props } />
+	return isAuthenticated ? <Route { ...props } /> : <Loading />
 }
 
 AuthenticatedRoute.propTypes = {
-	waitFor: PropTypes.number,
 	onFail: PropTypes.func.isRequired
-}
-
-AuthenticatedRoute.defaultProps = {
-	waitFor: 1000
 }
 
 export default withRouter(AuthenticatedRoute)
