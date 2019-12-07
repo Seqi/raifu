@@ -20,6 +20,9 @@ const getAnnouncements = (seen) => {
 }
 
 const cookieName = 'announcement-last-seen'
+const cookieOptions = {
+	path: '/'
+}
 
 let AnnouncementBanner = ({ theme }) => {
 	const containerStyle = {
@@ -46,9 +49,9 @@ let AnnouncementBanner = ({ theme }) => {
 		let cookie = cookies[cookieName]
 
 		if (cookie) {
-			setCookie(cookieName, { ids: [ ...cookie.ids, bannerItem.id]})
+			setCookie(cookieName, { ids: [ ...cookie.ids, bannerItem.id]}, cookieOptions)
 		} else {
-			setCookie(cookieName, { ids: [ bannerItem.id ] })
+			setCookie(cookieName, { ids: [ bannerItem.id ] }, cookieOptions)
 		}
 	}, [announcements, cookies, setCookie])
 
