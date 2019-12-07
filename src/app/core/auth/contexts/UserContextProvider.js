@@ -13,7 +13,7 @@ let UserContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		let authUnsubscribe = auth.onAuthChanged(u => setUser(u))
-		return () => authUnsubscribe 
+		return authUnsubscribe 
 	}, [auth, user])
 
 	return (
