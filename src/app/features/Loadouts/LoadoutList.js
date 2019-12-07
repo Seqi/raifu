@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 
 import AddLoadoutDialog from './AddLoadoutDialog'
 
@@ -39,4 +38,4 @@ class LoadoutList extends CardListBaseComponent {
 	}
 }
 
-export default withRouter(LoadoutList)
+export default LoadoutList

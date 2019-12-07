@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 
 import { Loading, Error } from 'app/shared/components'
 
@@ -165,4 +164,4 @@ class Event extends React.Component {
 	}
 }
 
-export default withRouter(Event)
+export default Event

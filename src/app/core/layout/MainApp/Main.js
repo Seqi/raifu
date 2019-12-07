@@ -1,7 +1,7 @@
 import './Main.css'
 
 import React, { useState, useCallback } from 'react'
-import { BrowserRouter as Router, Link, Switch, Redirect, useHistory, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Switch, Redirect } from 'react-router-dom'
 
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -11,9 +11,7 @@ import Loadouts from 'app/features/Loadouts/Loadouts'
 import Events from 'app/features/Events/Events'
 import AuthenticatedRoute from 'app/shared/components/Auth/AuthenticatedRoute'
 
-let Main = () => {
-	let location = useLocation()
-	let history = useHistory()
+let Main = ({ location, history }) => {
 	let [tabIndex, setTabIndex] = useState(() => {
 		// Fixes active tab on direct navigations
 		let idxMap = [

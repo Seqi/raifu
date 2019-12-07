@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import Typography from '@material-ui/core/Typography'
@@ -55,8 +54,10 @@ class LoadoutView extends React.Component {
 
 LoadoutView.propTypes = {	
 	loadout: PropTypes.shape({
+		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired,
 		getSubtitle: PropTypes.func.isRequired,
+		gear: PropTypes.array.isRequired,
 		weapons: PropTypes.arrayOf(PropTypes.shape({			
 			platform: PropTypes.string.isRequired,
 			model: PropTypes.string,
@@ -95,4 +96,4 @@ LoadoutView.defaultProps = {
 	onGearDelete: (weaponId) => {},
 }
 
-export default withRouter(LoadoutView)
+export default LoadoutView

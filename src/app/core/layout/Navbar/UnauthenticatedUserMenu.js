@@ -1,9 +1,11 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
 
-function UnauthenticatedUserMenu(props) {	
+function UnauthenticatedUserMenu() {	
+	let history = useHistory()
+
 	return (
 		<Button
 			style={ {
@@ -14,10 +16,10 @@ function UnauthenticatedUserMenu(props) {
 			variant='outlined'
 			color='primary'
 			size='large' 
-			onClick={ _ => props.history.push('/login') }>
+			onClick={ _ => history.push('/login') }>
 			Log in
 		</Button>
 	)
 }
 
-export default withRouter(UnauthenticatedUserMenu)
+export default UnauthenticatedUserMenu

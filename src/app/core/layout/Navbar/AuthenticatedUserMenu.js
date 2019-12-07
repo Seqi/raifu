@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { Menu, MenuItem, Avatar, Button } from '@material-ui/core'
@@ -55,7 +54,8 @@ let AuthenticatedUserMenu = ({ history }) => {
 						horizontal: 'right'
 					} }
 				>
-					<MenuItem onClick={ auth.logout }>Logout</MenuItem>
+					<MenuItem onClick={ auth.logout }>Logout
+					</MenuItem>
 				</Menu>
 			</div>
 		</React.Fragment>
@@ -70,4 +70,4 @@ AuthenticatedUserMenu.propTypes = {
 	}).isRequired
 }
 
-export default withRouter(AuthenticatedUserMenu)
+export default AuthenticatedUserMenu

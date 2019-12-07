@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import BigCalendar from 'react-big-calendar' 
 import moment from 'moment'
 
@@ -159,4 +158,4 @@ class Events extends React.Component {
 	}
 }
 
-export default withTheme(withRouter(Events))
+export default withTheme(Events)

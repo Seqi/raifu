@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 
 import { Loading, Error } from 'app/shared/components'
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
@@ -223,4 +222,4 @@ class Loadout extends React.Component {
 }
 
 
-export default withRouter(Loadout)
+export default Loadout

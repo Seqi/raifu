@@ -14,7 +14,6 @@ class App extends Component {
 	render() {
 		return (
 			<div className='app'>
-				<AnnouncementBanner />
 				<Router>
 					<AuthContextProvider>
 						<UserContextProvider>
@@ -34,6 +33,8 @@ class App extends Component {
 						</UserContextProvider>
 					</AuthContextProvider>
 				</Router>
+				
+				<AnnouncementBanner />
 			</div>
 		)
 	}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { withTheme } from '@material-ui/core'
@@ -7,7 +7,9 @@ import { withTheme } from '@material-ui/core'
 import WeaponDisplay from 'app/shared/components/Display/WeaponDisplay'
 import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
-function CalendarAgendaEvent ({event, theme, location, history}) {
+function CalendarAgendaEvent ({ event, theme }) {
+	let location = useLocation()
+	let history = useHistory()
 	let isMobileMode = useIsMobileMode()
 
 	// TODO: remove this, temp solution
@@ -41,4 +43,4 @@ CalendarAgendaEvent.propTypes = {
 	event: PropTypes.object.isRequired
 }
 
-export default withTheme(withRouter(CalendarAgendaEvent))
+export default withTheme(CalendarAgendaEvent)
