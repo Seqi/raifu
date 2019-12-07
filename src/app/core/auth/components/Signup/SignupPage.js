@@ -1,53 +1,36 @@
 import './SignupPage.css'
-import React, { Component } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
+import { Card, CardContent } from '@material-ui/core'
 
-import authClient from '../../../../../firebase/auth'
+import { AuthContext } from '../../contexts'
 import SignupForm from './SignupForm'
 import AuthError from '../AuthError'
 import AuthCardHeader from '../AuthCardHeader'
 
-class LoginPage extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			error: false,
-			errorMessage: ''
-		}
-	}
+let LoginPage = () => {
+	let { signup } = useContext(AuthContext)
+	let [error, setError] = useState()
 
-	error(message) {
-		this.setState({ error: true, errorMessage: message })
-	}
+	let signupWithEmail = useCallback((email, pass) => signup.withEmail(email, pass)
+		.catch((err) => setError(err.message))
+	, [signup])
 
-	signupWithEmail(email, pass) {
-		authClient.signup.withEmail(email, pass)
-			.catch((err) =>
-				this.setState({
-					error: true,
-					errorMessage: err.message
-				})
-			)
-	}
+	return (
+		<Card>
+			<AuthCardHeader title='Sign up' />
+			<CardContent>
+				{ error && <AuthError message={ error } />}
+				<SignupForm onSubmit={ signupWithEmail } />
 
-	render() {
-		return (
-			<Card>
-				<AuthCardHeader title='Sign up' />
-				<CardContent>
-					{this.state.error && <AuthError message={ this.state.errorMessage } />}
-					<SignupForm onSubmit={ (email, pass) => this.signupWithEmail(email, pass) } />
-
-					<div className='login-signup'>
-						<Link to='../'>Already have an account? Log in</Link>
-					</div>
-				</CardContent>
-			</Card>
-		)
-	}
+				<div className='login-signup'>
+					<Link to='../'>Already have an account? Log in</Link>
+				</div>
+			</CardContent>
+		</Card>
+	)
+	
 }
 
 export default LoginPage
