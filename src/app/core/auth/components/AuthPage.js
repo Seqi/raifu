@@ -1,25 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import LoginPage from './Login/LoginPage'
 import SignupPage from './Signup/SignupPage'
 import Logo from 'app/shared/components/Logo'
-import authClient from '../../../firebase/auth'
 
 import './AuthPage.css'
+import UserContext from '../contexts/UserContext'
 
 function AuthPage({ history }) {
-	useEffect(() => {
-		// Listen out for successful login to redirect back
-		// also handles if they're already authenticated
-		let authUnsubscribe = authClient.onAuthChanged((user) => {
-			if (user) {
-				history.push('/app')
-			}
-		})
+	let user = useContext(UserContext)
 
-		return authUnsubscribe
-	}, [history])
+	useEffect(() => {
+		if (user) {
+			history.push('/app')
+		}
+	}, [user, history])
 
 	return (
 		<div className='auth-container'>
