@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { Menu, MenuItem, Avatar, Button } from '@material-ui/core'
@@ -10,9 +11,10 @@ let isHomePage = () => {
 	return window.location.pathname.indexOf('app') === -1
 }
 
-let AuthenticatedUserMenu = ({ history }) => {
+let AuthenticatedUserMenu = () => {
 	let auth = useContext(AuthContext)
 	let user = useContext(UserContext)
+	let history = useHistory()
 	let [anchor, setAnchor] = useState(null)
 
 	let isOpen = !!anchor 
