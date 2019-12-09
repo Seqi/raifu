@@ -1,41 +1,23 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import AddLoadoutDialog from './AddLoadoutDialog'
-
-import CardListBaseComponent from 'app/shared/components/Lists/CardListBaseComponent'
+import { ResourceList } from 'app/shared/components/Lists'
 import database from '../../../firebase/database'
 
-class LoadoutList extends CardListBaseComponent {
-	get title() {
-		return ''
-	}
-
-	get cardType() {
-		return 'loadout'
-	}
-
-	get items() {
-		return database.loadouts
-	}
-
-	view(loadout) {
-		this.props.history.push(`${this.props.location.pathname}/${loadout.id}`)
-	}
-
-	render() {
-		let { isAddDialogOpen } = this.state
-		return (
-			<React.Fragment>
-				{super.render()}
-
-				<AddLoadoutDialog
-					isOpen={ isAddDialogOpen }
-					onSave={ (value) => this.save(value) }
-					onClose={ () => this.setDialogOpen(false) }
-				/>
-			</React.Fragment>
-		)
-	}
+let LoadoutList = ({ history, location }) => {
+	let viewLoadout = useCallback((loadout) => history.push(`${location.pathname}/${loadout.id}`), [history, location])
+	
+	return (
+		<ResourceList
+			title=''
+			resource={ database.loadouts }
+			resourceType='loadout'
+			onResourceClick={ viewLoadout }
+			renderAddDialog={ (isOpen, onClose, onSave) => (
+				<AddLoadoutDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
+			) } 
+		/>
+	)
 }
 
 export default LoadoutList
