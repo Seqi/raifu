@@ -22,19 +22,19 @@ const ResourceList = ({
 	return (
 		<React.Fragment>
 			<ReactiveTitle>{ title }</ReactiveTitle>
-			{loading ? (
-				<Loading />
-			) : error ? (
-				<Error error='could not load' onRetry={ loadResource } />
-			) : (
-				<CardList
-					items={ items }
-					cardType={ resourceType }
-					onAdd={ () => setDialog('add') }
-					onCardClick={ onResourceClick }
-					onCardDelete={ deleteResource }
-				/>
-			)}
+			{ 
+				loading ? <Loading /> :
+				error ? <Error error='could not load' onRetry={ loadResource } /> : 
+				(
+					<CardList
+						items={ items }
+						cardType={ resourceType }
+						onAdd={ () => setDialog('add') }
+						onCardClick={ onResourceClick }
+						onCardDelete={ deleteResource }
+					/>
+				)
+			}
 
 			{ renderAddDialog(
 				// Is Open
