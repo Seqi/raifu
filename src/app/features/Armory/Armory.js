@@ -1,19 +1,51 @@
 import React, { Component } from 'react'
-import { WeaponList, AttachmentsList, GearList } from './'
+
+import { ResourceList } from 'app/shared/components/Lists'
+import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog } from './Dialogs'
+import database from '../../../firebase/database'
 
 class Armory extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<div className='section-container'>
-					<WeaponList />
-				</div>
-				<div className='section-container'>
-					<AttachmentsList />
-				</div>
-				<div className='section-container'>
-					<GearList />
-				</div>
+				<section>
+					<div className='section-container'>
+						<ResourceList
+							title='Weapons'
+							resource={ database.weapons }
+							resourceType='weapons'
+							renderAddDialog={ (isOpen, onClose, onSave) => (
+								<AddWeaponDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
+							) } 
+						/>
+					</div>
+				</section>
+
+				<section>
+					<div className='section-container'>
+						<ResourceList
+							title='Attachments'
+							resource={ database.attachments }
+							resourceType='attachments'
+							renderAddDialog={ (isOpen, onClose, onSave) => (
+								<AddAttachmentDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
+							) } 
+						/>
+					</div>
+				</section>
+
+				<section>
+					<div className='section-container'>
+						<ResourceList
+							title='Gear'
+							resource={ database.gear }
+							resourceType='gear'
+							renderAddDialog={ (isOpen, onClose, onSave) => (
+								<AddGearDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
+							) } 
+						/>
+					</div>
+				</section>
 			</React.Fragment>
 		)
 	}
