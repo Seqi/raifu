@@ -20,7 +20,7 @@ const ResourceListContainer = ({ resource, ...props }) => {
 
 	let addResource = useCallback((item) => 
 		resource.add(item)
-			.then((result) => setItems(({ loading, error, items}) => ({ loading, error, items: [ items, result ]})))
+			.then((result) => setItems(({ loading, error, items}) => ({ loading, error, items: [ ...items, result ]})))
 	, [resource])
 
 	let deleteResource = useCallback((id) => 
