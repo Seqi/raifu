@@ -4,9 +4,10 @@ import { Loading, Error } from 'app/shared/components'
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
-import EditLoadoutDialog from './EditLoadoutNameDialog'
-import SetShareableDialog from './SetShareableDialog'
+import EditLoadoutDialog from './Dialogs/EditLoadoutNameDialog'
+import SetShareableDialog from './Dialogs/SetShareableDialog'
 import database from '../../../../firebase/database'
+import LoadoutContextProvider from './LoadoutContextProvider'
 
 class Loadout extends React.Component {
 	constructor(props) {
@@ -191,16 +192,18 @@ class Loadout extends React.Component {
 				</ReactiveTitle>
 
 				<div className='separator-padding'>
-					<LoadoutView 
-						loadout={ loadout } 
-						canEdit={ true }
-						onWeaponAdd={ (weapon) => this.addWeapon(weapon) }
-						onWeaponDelete={ (weaponId) => this.deleteWeapon(weaponId) }
-						onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }
-						onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
-						onGearAdd={ (gear) => this.addGear(gear) }
-						onGearDelete={ (gearId) => this.deleteGear(gearId) }
-					/>
+					<LoadoutContextProvider loadout={ loadout }>
+						<LoadoutView 
+							loadout={ loadout } 
+							canEdit={ true }
+							onWeaponAdd={ (weapon) => this.addWeapon(weapon) }
+							onWeaponDelete={ (weaponId) => this.deleteWeapon(weaponId) }
+							onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }
+							onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
+							onGearAdd={ (gear) => this.addGear(gear) }
+							onGearDelete={ (gearId) => this.deleteGear(gearId) }
+						/>
+					</LoadoutContextProvider>
 				</div>
 
 				<EditLoadoutDialog
