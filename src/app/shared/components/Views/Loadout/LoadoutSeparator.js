@@ -5,7 +5,7 @@ import { withTheme } from '@material-ui/core'
 
 function LoadoutSeparator(props) {
 	return (
-		<div className='loadout-separator-item' style={ {
+		<div className='loadout-separator-item separator-padding' style={ {
 			borderBottom: props.showBottom && '1px solid',
 			borderColor: props.theme.palette.primary.main
 		} }>

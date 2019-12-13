@@ -39,13 +39,8 @@ class Loadout extends React.Component {
 			.catch((err) => this.setState({ error: err.statusText || err.message || err, loading: false }))
 	}
 
-	openDialog(id) {
+	setDialog(id) {
 		this.setState({ activeDialog: id })
-	}
-
-	closeDialog() {
-		this.activeItem = null
-		this.setState({ activeDialog: null })
 	}
 
 	editLoadout(updatedLoadout) {
@@ -54,7 +49,7 @@ class Loadout extends React.Component {
 		return database.loadouts
 			.edit(loadout.id, { ...updatedLoadout })
 			.then(() => this.onLoadoutUpdated(updatedLoadout))
-			.then(() => this.closeDialog())
+			.then(() => this.setDialog(null))
 	}
 	
 	onLoadoutUpdated(updatedLoadout) {
@@ -65,110 +60,6 @@ class Loadout extends React.Component {
 			}
 
 			return { loadout: newLoadout }
-		})
-	}
-
-	addWeapon(weapon) {
-		this.setState((prevState) => {
-			let weapons = [...prevState.loadout.weapons, weapon]
-
-			let loadout = {
-				...prevState.loadout,
-				weapons: weapons
-			}
-
-			return { loadout }
-		})
-	}
-	
-	deleteWeapon(weaponId) {
-		this.setState((prevState) => {
-			let weapons = prevState.loadout.weapons.filter((w) => w.id !== weaponId)
-			
-			let loadout = {
-				...prevState.loadout,
-				weapons
-			}
-			
-			return { loadout }
-		})
-	}
-	
-	addGear(gear) {
-		this.setState((prevState) => {
-			let updatedGear = [...prevState.loadout.gear, ...gear]
-	
-			let loadout = {
-				...prevState.loadout,
-				gear: updatedGear
-			}
-	
-			return { loadout }
-		})
-	}
-
-	deleteGear(gearId) {
-		this.setState((prevState) => {
-			let gear = prevState.loadout.gear.filter((w) => w.id !== gearId)
-
-			let loadout = {
-				...prevState.loadout,
-				gear
-			}
-
-			return { loadout }
-		})
-	}
-
-	addAttachments(weaponId, attachments) {
-		this.setState((prevState) => {
-			let currWeapons = prevState.loadout.weapons
-
-			// Find the weapon to add the attachment to and create a copy
-			let editedWeapon = { ...currWeapons.find((w) => w.id === weaponId) }
-
-			// Add the attachment to the weapon
-			if (!editedWeapon.attachments) {
-				editedWeapon.attachments = []
-			}
-
-			editedWeapon.attachments = editedWeapon.attachments.concat(attachments)
-
-			// Rebuild up the state object, ensuring we preserve the order of weapons
-			let weaponIndex = currWeapons.findIndex((w) => w.id === weaponId)
-			let weapons = currWeapons.slice()
-			weapons[weaponIndex] = editedWeapon
-
-			let loadout = {
-				...prevState.loadout,
-				weapons
-			}
-
-			return { loadout }
-		})
-	}
-
-	deleteAttachment(weaponId, attachmentId) {
-		this.setState((prevState) => {
-			let currWeapons = prevState.loadout.weapons
-
-			// Find the weapon to delete the attachment on and create a copy
-			let editedWeapon = { ...currWeapons.find((w) => w.id === weaponId) }
-
-			// Remove attachment
-			editedWeapon.attachments = editedWeapon.attachments.filter((a) => a.id !== attachmentId)
-
-			// Rebuild up the state object, ensuring we preserve the order of weapons
-			let weaponIndex = currWeapons.findIndex((w) => w.id === weaponId)
-			let weapons = currWeapons.slice()
-			weapons[weaponIndex] = editedWeapon
-
-			let loadout = {
-				...prevState.loadout,
-				weapons
-			}
-
-			return { loadout }
 		})
 	}
 
@@ -187,22 +78,13 @@ class Loadout extends React.Component {
 			<React.Fragment>
 				<ReactiveTitle>
 					{ loadout.name }					
-					<i onClick={ () => this.openDialog('edit') } className='fa fa-pen icon-action' />
-					<i onClick={ () => this.openDialog('share') } className='fa fa-link icon-action' />
+					<i onClick={ () => this.setDialog('edit') } className='fa fa-pen icon-action' />
+					<i onClick={ () => this.setDialog('share') } className='fa fa-link icon-action' />
 				</ReactiveTitle>
 
 				<div className='separator-padding'>
 					<LoadoutContextProvider loadout={ loadout }>
-						<LoadoutView 
-							loadout={ loadout } 
-							canEdit={ true }
-							onWeaponAdd={ (weapon) => this.addWeapon(weapon) }
-							onWeaponDelete={ (weaponId) => this.deleteWeapon(weaponId) }
-							onAttachmentsAdd={ (weaponId, attachments) => this.addAttachments(weaponId, attachments) }
-							onAttachmentDelete={ (weaponId, attachmentId) => this.deleteAttachment(weaponId, attachmentId) }
-							onGearAdd={ (gear) => this.addGear(gear) }
-							onGearDelete={ (gearId) => this.deleteGear(gearId) }
-						/>
+						<LoadoutView canEdit={ true } />
 					</LoadoutContextProvider>
 				</div>
 
@@ -210,14 +92,14 @@ class Loadout extends React.Component {
 					name={ loadout.name }
 					isOpen={ activeDialog === 'edit' }
 					onSave={ (name) => this.editLoadout(name) }
-					onClose={ () => this.closeDialog() }
+					onClose={ () => this.setDialog() }
 				/>
 
 				<SetShareableDialog
 					loadout={ loadout }
 					isOpen={ activeDialog === 'share' }
 					onShare={ (isShared) => this.onLoadoutUpdated({...loadout, shared: isShared }) }
-					onClose={ () => this.closeDialog() }
+					onClose={ () => this.setDialog(null) }
 				/>
 			</React.Fragment>
 		)

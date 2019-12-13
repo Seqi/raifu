@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import LoadoutContext from './LoadoutContext'
@@ -25,7 +25,7 @@ const LoadoutContextProvider = ({ loadout, children }) => {
 	let addGear = useCallback((newGear) => setLoadout((currentLoadout) => 
 		({ 
 			...currentLoadout,
-			gear: [ ...currentLoadout.gear, newGear ]
+			gear: [ ...currentLoadout.gear, ...newGear ]
 		})
 	), [])
 
@@ -46,7 +46,7 @@ const LoadoutContextProvider = ({ loadout, children }) => {
 		weaponToAddTo.attachments = [ ...(weaponToAddTo.attachments || []), ...newAttachments]
 
 		// Rebuild up the state object, ensuring we preserve the order of weapons
-		let newWeapons = currentLoadout.slice()
+		let newWeapons = currentLoadout.weapons.slice()
 		newWeapons[weaponIndex] = weaponToAddTo
 
 		return { ...currentLoadout, weapons: newWeapons }
@@ -62,25 +62,16 @@ const LoadoutContextProvider = ({ loadout, children }) => {
 		weaponToAddTo.attachments = weaponToAddTo.attachments.filter((a) => a.id !== attachmentId)
 
 		// Rebuild up the state object, ensuring we preserve the order of weapons
-		let newWeapons = currentLoadout.slice()
+		let newWeapons = currentLoadout.weapons.slice()
 		newWeapons[weaponIndex] = weaponToAddTo
 
 		return { ...currentLoadout, weapons: newWeapons }
 	}), [])
 
-	// Build up the provider ensuring the object reference does not change
-	let valueRef = useRef({
-		loadout: currentLoadout,
-		addWeapon,
-		deleteWeapon,
-		addGear,
-		deleteGear,
-		addWeaponAttachments,
-		deleteWeaponAttachment
-	})
+	console.log('rendering context provider', loadout, currentLoadout)
 
-	useEffect(() => {
-		valueRef.current = {
+	return (
+		<LoadoutContext.Provider value={ {
 			loadout: currentLoadout,
 			addWeapon,
 			deleteWeapon,
@@ -88,13 +79,7 @@ const LoadoutContextProvider = ({ loadout, children }) => {
 			deleteGear,
 			addWeaponAttachments,
 			deleteWeaponAttachment
-		}
-	}, [addGear, addWeapon, addWeaponAttachments, currentLoadout, deleteGear, deleteWeapon, deleteWeaponAttachment, loadout])
-
-	console.log('rendering context provider', loadout, currentLoadout, valueRef.current)
-
-	return (
-		<LoadoutContext.Provider value={ valueRef.current }>
+		} }>
 			{ children }
 		</LoadoutContext.Provider>
 	)

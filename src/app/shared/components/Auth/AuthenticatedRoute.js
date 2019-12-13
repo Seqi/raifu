@@ -34,7 +34,7 @@ AuthenticatedRoute.propTypes = {
 }
 
 AuthenticatedRoute.defaultProps = {
-	waitFor: 500
+	waitFor: 1000
 }
 
 export default AuthenticatedRoute

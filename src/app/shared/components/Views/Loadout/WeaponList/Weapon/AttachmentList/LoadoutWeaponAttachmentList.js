@@ -1,37 +1,21 @@
-import React, { Component } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import LoadoutContext from '../../../LoadoutContext'
 import AddArmoryItemDialog from '../../../AddArmoryItemDialog/AddArmoryItemDialog'
 import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
 
 import AddButton from 'app/shared/components/Buttons/AddButton'
-
+import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 import database from '../../../../../../../../firebase/database'
 
-class LoadoutWeaponAttachmentList extends Component {
-	constructor(props) {
-		super(props)
+let LoadoutWeaponAttachmentList = ({ weapon, canEdit }) => {
+	let [dialog, setDialog] = useState(null)
+	let { loadout, addWeaponAttachments } = useContext(LoadoutContext)
 
-		this.state = {
-			isDialogOpen: false
-		}
-	}
-
-	componentWillUnmount() {
-		this.isUnmounted = true
-	}	
-
-	setDialogOpen(isDialogOpen) {
-		!this.isUnmounted && this.setState({ isDialogOpen })
-	}
-
-	addAttachments(attachmentIds) {
-		let { loadoutId, weapon, onAttachmentsAdded } = this.props
-
+	let addAttachments = useCallback((attachmentIds) => {
 		let addToDbPromises = attachmentIds.map(attachmentId => {
 			return database.loadouts
-				.loadout(loadoutId)
+				.loadout(loadout.id)
 				.weapons
 				.weapon(weapon.id)
 				.attachments
@@ -39,104 +23,56 @@ class LoadoutWeaponAttachmentList extends Component {
 		})
 
 		return Promise.all(addToDbPromises)
-			.then(attachments => onAttachmentsAdded(attachments))
-			.then(() => this.setDialogOpen(false))
-	}
-
-	deleteAttachment(attachmentId) {
-		let { loadoutId, weapon, onAttachmentDeleted } = this.props
-
-		return database.loadouts
-			.loadout(loadoutId)
-			.weapons
-			.weapon(weapon.id)
-			.attachments
-			.delete(attachmentId)
-			.then(() => onAttachmentDeleted(attachmentId))
-	}
-
-	getAttachmentsToFilter(loadout) {
-		return loadout.weapons
-			.flatMap(w => w.attachments || [])
-			.map(a => a.id)
-	}
-
-	renderAttachments(attachments) {
-		if (!attachments) {
-			return null
-		}
-		
-		return attachments.map(attachment => (
-			<div key={ attachment.id } className='loadout-weapon-attachment-item'>
-				<LoadoutWeaponAttachment attachment={ attachment } canEdit={ this.props.canEdit } onDelete={ () => this.deleteAttachment(attachment.id) } />
-			</div>
-		))
-	}
-
-	render() {
-		let { weapon, canEdit } = this.props
-
-		return (
-			<LoadoutContext.Consumer>
-				{ loadout => (
-					<React.Fragment>
-						<div className='loadout-weapon-attachment-list-container'>
-							{ this.renderAttachments(weapon.attachments)}
-
-							{ canEdit && 
-								<div className='loadout-weapon-attachment-item'>
-									<AddButton onClick={ () => this.setDialogOpen(true) } />   
-								</div> 
-							}
+			.then(attachments => addWeaponAttachments(weapon.id, attachments))
+			.then(() => setDialog(null))
+	}, [addWeaponAttachments, loadout, weapon])
+	
+	return (
+		<React.Fragment>
+			<div className='loadout-weapon-attachment-list-container'>
+				{
+					(weapon.attachments || []).map(attachment => (
+						<div key={ attachment.id } className='loadout-weapon-attachment-item'>
+							<LoadoutWeaponAttachment attachment={ attachment } weaponId={ weapon.id } canEdit={ canEdit } />
 						</div>
+					))
+				}
 
-						{ canEdit && <AddArmoryItemDialog
-							title={ `Add attachments to ${weapon.getTitle()}` }
-							category='attachments'
-							allowMultiple={ true }
-							itemLoadFunc={ database.attachments.get }
-							filterIds={ this.getAttachmentsToFilter(loadout) }
-							isOpen={ this.state.isDialogOpen }
-							onClose={ () => this.setDialogOpen(false) }
-							onSave={ (ids) => this.addAttachments(ids) }
-						/> }
-					</React.Fragment>
-				)}
-			</LoadoutContext.Consumer>
-		)
-	}
+				{ canEdit && 
+					<div className='loadout-weapon-attachment-item'>
+						<AddButton onClick={ () => setDialog('add') } />   
+					</div> 
+				}
+			</div>
+
+			{ canEdit && <AddArmoryItemDialog
+				title={ `Add attachments to ${weapon.getTitle()}` }
+				category='attachments'
+				allowMultiple={ true }
+				itemLoadFunc={ database.attachments.get }
+				filterIds={ loadout.weapons
+					.flatMap(w => w.attachments || [])
+					.map(a => a.id) 
+				}
+				isOpen={ dialog === 'add' }
+				onClose={ () => setDialog(null) }
+				onSave={ addAttachments }
+			/> }
+		</React.Fragment>
+	)
 }
 
 LoadoutWeaponAttachmentList.propTypes = {
-	loadoutId: PropTypes.string.isRequired,
 	weapon: PropTypes.shape({
-		platform: PropTypes.string.isRequired,
-		model: PropTypes.string,
-		brand: PropTypes.string,
-		nickname: PropTypes.string,
-		type: PropTypes.string.isRequired,
+		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired,
-		getSubtitle: PropTypes.func.isRequired,
-		attachments: PropTypes.arrayOf(PropTypes.shape({			
-			platform: PropTypes.string.isRequired,
-			model: PropTypes.string,
-			brand: PropTypes.string,
-			nickname: PropTypes.string,
-			type: PropTypes.string.isRequired,
-			getTitle: PropTypes.func.isRequired,
-			getSubtitle: PropTypes.func.isRequired,
-		}))
+		attachments: PropTypes.array
 	}).isRequired,
-	canEdit: PropTypes.bool,
-	onAttachmentsAdded: PropTypes.func,
-	onAttachmentDeleted: PropTypes.func
+	canEdit: PropTypes.bool
 }
 
 LoadoutWeaponAttachmentList.defaultProps = {
-	filterAttachmentIds: [],
-	canEdit: false,
-	onAttachmentsAdded: (attachment) => {},
-	onAttachmentDeleted: (attachmentId) => {}
+	canEdit: false
 }
 
 export default LoadoutWeaponAttachmentList

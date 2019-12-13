@@ -1,11 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
+import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 
-export default function LoadoutWeaponAttachment ({ attachment, canEdit, onDelete }) {	
+import database from '../../../../../../../../../firebase/database'
+
+export default function LoadoutWeaponAttachment ({ weaponId, attachment, canEdit }) {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
+	let { loadout, deleteWeaponAttachment } = useContext(LoadoutContext)
+
+	let deleteAttachment = useCallback(async () => {
+		await database.loadouts
+			.loadout(loadout.id)
+			.weapons
+			.weapon(weaponId)
+			.attachments
+			.delete(attachment.id)
+
+		return deleteWeaponAttachment(weaponId, attachment.id)
+	}, [loadout, weaponId, attachment, deleteWeaponAttachment])
 
 	return (
 		<React.Fragment>
@@ -21,7 +36,7 @@ export default function LoadoutWeaponAttachment ({ attachment, canEdit, onDelete
 			{ canEdit && <ConfirmDeleteDialog 
 				isOpen={ isDialogOpen }
 				title={ attachment.getTitle() }
-				onConfirm={ () => onDelete(attachment.id) }
+				onConfirm={ deleteAttachment }
 				onClose={ () => setIsDialogOpen(false) }
 			/> }
 		</React.Fragment>
@@ -29,18 +44,14 @@ export default function LoadoutWeaponAttachment ({ attachment, canEdit, onDelete
 }
 
 LoadoutWeaponAttachment.propTypes = {
+	weaponId: PropTypes.string.isRequired,
 	attachment: PropTypes.shape({
-		platform: PropTypes.string.isRequired,
-		model: PropTypes.string,
-		brand: PropTypes.string,
-		nickname: PropTypes.string,
-		type: PropTypes.string
+		id: PropTypes.string.isRequired,
+		getTitle: PropTypes.func.isRequired,
 	}).isRequired,
-	canEdit: PropTypes.bool,
-	onDelete: PropTypes.func
+	canEdit: PropTypes.bool
 }
 
 LoadoutWeaponAttachment.defaultProps = {
-	canEdit: false,
-	onDelete: (gearId) => {}
+	canEdit: false
 }

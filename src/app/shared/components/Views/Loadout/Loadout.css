@@ -10,16 +10,15 @@
 	justify-content: space-evenly;
 }
 
+/* Todo this could be achieved with separator padding */
 .loadout-separator-item {
 	width: 100%;
-	padding-top: 24px;
 	padding-bottom: 24px;
 	border-top: 1px solid;
 }
 
 @media (max-width: 767px) {
 	.loadout-separator-item {
-		padding-top: 16px;
 		padding-bottom: 16px;
 	}
 }

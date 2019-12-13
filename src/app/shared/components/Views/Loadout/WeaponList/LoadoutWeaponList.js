@@ -1,117 +1,65 @@
-import React from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import LoadoutAdd from '../LoadoutAdd'
 import LoadoutSeparator from '../LoadoutSeparator'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddArmoryItemDialog from '../AddArmoryItemDialog/AddArmoryItemDialog'
+import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 
 import database from '../../../../../../firebase/database'
 
-export default class LoadoutWeaponList extends React.Component {
-	constructor(props) {
-		super(props)
+let LoadoutWeaponList = ({ canEdit }) => {
+	let [dialog, setDialog] = useState(null)
+	let { loadout, addWeapon } = useContext(LoadoutContext)
 
-		this.state = {
-			isDialogOpen: false,
-		}
-	}
-
-	componentWillUnmount() {
-		this.isUnmounted = true
-	}	
-    
-	setDialogOpen(isDialogOpen) {
-		!this.isUnmounted && this.setState({ isDialogOpen })
-	}
-
-	addWeapon(weaponId) {
-		let { loadoutId, onAdd } = this.props 
-
-		return database.loadouts
-			.loadout(loadoutId)
+	let addNewWeapon = useCallback(async (weaponId) => {
+		const weapon = await database.loadouts
+			.loadout(loadout.id)
 			.weapons
 			.add(weaponId)
-			.then((weapon) => onAdd(weapon))
-			.then(() => this.setDialogOpen(false))
-	}
 
-	deleteWeapon(weaponId) {
-		let { loadoutId, onDelete } = this.props
+		setDialog(null)
+		return addWeapon(weapon)
+	}, [addWeapon, loadout])
 
-		return database.loadouts
-			.loadout(loadoutId)
-			.weapons
-			.delete(weaponId)
-			.then(() => onDelete(weaponId))
-	}
-    
-	renderWeapons(weapons) {
-		if (!weapons || !weapons.length) {
-			return null
-		}
-        
-		let { loadoutId, canEdit, onAttachmentsAdd, onAttachmentDelete } = this.props
+	return (
+		<React.Fragment>       
+			{
+				(loadout.weapons || []).map((weapon) => (			
+					<LoadoutSeparator key={ weapon.id }>				
+						<LoadoutWeapon weapon={ weapon } canEdit={ canEdit } />
+					</LoadoutSeparator>
+				))
+			}
 
-		return weapons.map((weapon) => (			
-			<LoadoutSeparator key={ weapon.id }>				
-				<LoadoutWeapon
-					loadoutId={ loadoutId }
-					weapon={ weapon }
-					canEdit={ canEdit }
-					onDelete={ (weaponId) => this.deleteWeapon(weaponId) }
-					onAttachmentsAdded={ (attachments) => onAttachmentsAdd(weapon.id, attachments) }
-					onAttachmentDeleted={ (attachmentId) => onAttachmentDelete(weapon.id, attachmentId) }
-				/>
-			</LoadoutSeparator>
-		))
-	}
-    
-	render() {
-		let { isDialogOpen } = this.state
-		let { weapons, canEdit } = this.props
-        
-		return (
-			<React.Fragment>       
-				{this.renderWeapons(weapons)}
-
-				{ canEdit && 
+			{ canEdit && 
 					<React.Fragment>
 						<LoadoutSeparator>
-							<LoadoutAdd onClick={ () => this.setDialogOpen(true) } />
+							<LoadoutAdd onClick={ () => setDialog('add') } />
 						</LoadoutSeparator>
 
 						<AddArmoryItemDialog
 							title='Add weapon to loadout'
 							category='weapons'
 							itemLoadFunc={ database.weapons.get }
-							filterIds={ weapons && weapons.map((w) => w.id) }
-							isOpen={ isDialogOpen }
-							onSave={ (weaponId) => this.addWeapon(weaponId) }
-							onClose={ () => this.setDialogOpen(false) }
+							filterIds={ (loadout.weapons || []).map((w) => w.id) }
+							isOpen={ dialog === 'add' }
+							onSave={ addNewWeapon }
+							onClose={ () => setDialog(null) }
 						/>
 					</React.Fragment>
-				}
-			</React.Fragment>
-		)
-	}
+			}
+		</React.Fragment>
+	)
 }
 
 LoadoutWeaponList.propTypes = {
-	loadoutId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-	weapons: PropTypes.array,
-	canEdit: PropTypes.bool,
-	onAdd: PropTypes.func,
-	onDelete: PropTypes.func,
-	onAttachmentsAdd: PropTypes.func,
-	onAttachmentDelete: PropTypes.func
+	canEdit: PropTypes.bool
 }
 
 LoadoutWeaponList.defaultProps = {
-	weapons: [],
-	canEdit: false,
-	onAdd: weapon => {},
-	onDelete: weaponId => {},
-	onAttachmentsAdd: (weaponId, attachments) => {},
-	onAttachmentDelete: (weaponId, attachmentId) => {}
+	canEdit: false
 }
+
+export default LoadoutWeaponList
