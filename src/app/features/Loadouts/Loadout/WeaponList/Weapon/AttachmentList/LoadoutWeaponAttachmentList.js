@@ -6,7 +6,7 @@ import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
 
 import AddButton from 'app/shared/components/Buttons/AddButton'
 import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
-import database from '../../../../../../../../firebase/database'
+import database from '../../../../../../../firebase/database'
 
 let LoadoutWeaponAttachmentList = ({ weapon, canEdit }) => {
 	let [dialog, setDialog] = useState(null)

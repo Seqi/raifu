@@ -7,7 +7,7 @@ import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddArmoryItemDialog from '../AddArmoryItemDialog/AddArmoryItemDialog'
 import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 
-import database from '../../../../../../firebase/database'
+import database from '../../../../../firebase/database'
 
 let LoadoutWeaponList = ({ canEdit }) => {
 	let [dialog, setDialog] = useState(null)

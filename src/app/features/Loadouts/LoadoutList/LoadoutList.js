@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 
-import AddLoadoutDialog from './AddLoadoutDialog'
+import AddLoadoutDialog from './Dialogs/AddLoadoutDialog'
 import { ResourceList } from 'app/shared/components/Lists'
-import database from '../../../firebase/database'
+import database from '../../../../firebase/database'
 
 let LoadoutList = ({ history, location }) => {
 	let viewLoadout = useCallback((loadout) => history.push(`${location.pathname}/${loadout.id}`), [history, location])

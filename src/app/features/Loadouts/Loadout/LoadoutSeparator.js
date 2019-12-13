@@ -1,15 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { withTheme } from '@material-ui/core'
+import { useTheme } from '@material-ui/core'
 
-function LoadoutSeparator(props) {
+let LoadoutSeparator = ({ children, showBottom }) => {
+	let theme = useTheme()
+
 	return (
 		<div className='loadout-separator-item separator-padding' style={ {
-			borderBottom: props.showBottom && '1px solid',
-			borderColor: props.theme.palette.primary.main
+			borderBottom: showBottom && '1px solid',
+			borderColor: theme.palette.primary.main
 		} }>
-			{ props.children }
+			{ children }
 		</div>
 	)
 }		
@@ -22,4 +24,4 @@ LoadoutSeparator.defaultProps = {
 	showBottom: false
 }
 
-export default withTheme(LoadoutSeparator)
+export default LoadoutSeparator

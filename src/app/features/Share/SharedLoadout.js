@@ -2,8 +2,7 @@ import React from 'react'
 
 import { Loading, Error } from 'app/shared/components'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
-import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
-import LoadoutContextProvider from '../Loadouts/Loadout/LoadoutContextProvider'
+import { LoadoutView } from 'app/features/Loadouts'
 import SharedNotFound from './SharedNotFound'
 import database from '../../../firebase/database'
 
@@ -58,9 +57,7 @@ export default class SharedLoadout extends React.Component {
 			<React.Fragment>
 				<ReactiveTitle>{ data.name }</ReactiveTitle>
 	
-				<LoadoutContextProvider loadout={ data }>
-					<LoadoutView />
-				</LoadoutContextProvider>
+				<LoadoutView loadout={ data }/>
 			</React.Fragment>
 		)
 	}

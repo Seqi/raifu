@@ -5,7 +5,7 @@ import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog
 import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
 import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 
-import database from '../../../../../../../../../firebase/database'
+import database from '../../../../../../../../firebase/database'
 
 export default function LoadoutWeaponAttachment ({ weaponId, attachment, canEdit }) {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)

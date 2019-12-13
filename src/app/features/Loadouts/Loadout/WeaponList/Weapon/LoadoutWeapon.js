@@ -10,7 +10,7 @@ import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import './LoadoutWeapon.css'
 import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
-import database from '../../../../../../../firebase/database'
+import database from '../../../../../../firebase/database'
 
 let LoadoutWeapon = ({ weapon, canEdit }) => {
 	let [dialog, setDialog] = useState(null)

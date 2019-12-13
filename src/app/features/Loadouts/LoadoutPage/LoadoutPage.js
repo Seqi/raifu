@@ -1,15 +1,14 @@
 import React from 'react'
 
 import { Loading, Error } from 'app/shared/components'
-import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
+import { LoadoutView } from 'app/features/Loadouts'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import EditLoadoutDialog from './Dialogs/EditLoadoutNameDialog'
 import SetShareableDialog from './Dialogs/SetShareableDialog'
 import database from '../../../../firebase/database'
-import LoadoutContextProvider from './LoadoutContextProvider'
 
-class Loadout extends React.Component {
+class LoadoutPage extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -83,9 +82,7 @@ class Loadout extends React.Component {
 				</ReactiveTitle>
 
 				<div className='separator-padding'>
-					<LoadoutContextProvider loadout={ loadout }>
-						<LoadoutView canEdit={ true } />
-					</LoadoutContextProvider>
+					<LoadoutView loadout={ loadout } canEdit={ true } />
 				</div>
 
 				<EditLoadoutDialog
@@ -107,4 +104,4 @@ class Loadout extends React.Component {
 }
 
 
-export default Loadout
+export default LoadoutPage

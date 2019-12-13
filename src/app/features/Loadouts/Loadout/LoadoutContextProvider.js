@@ -87,24 +87,16 @@ LoadoutContextProvider.propTypes = {
 	loadout: PropTypes.shape({
 		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired,
-		getSubtitle: PropTypes.func.isRequired,
-		gear: PropTypes.array.isRequired,
-		weapons: PropTypes.arrayOf(PropTypes.shape({			
-			platform: PropTypes.string.isRequired,
-			model: PropTypes.string,
-			brand: PropTypes.string,
-			nickname: PropTypes.string,
-			type: PropTypes.string.isRequired,
+		gear: PropTypes.arrayOf(PropTypes.shape({
+			id: PropTypes.string.isRequired,
 			getTitle: PropTypes.func.isRequired,
-			getSubtitle: PropTypes.func.isRequired,
-			attachments: PropTypes.arrayOf(PropTypes.shape({			
-				platform: PropTypes.string.isRequired,
-				model: PropTypes.string,
-				brand: PropTypes.string,
-				nickname: PropTypes.string,
-				type: PropTypes.string.isRequired,
+		})),
+		weapons: PropTypes.arrayOf(PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			getTitle: PropTypes.func.isRequired,
+			attachments: PropTypes.arrayOf(PropTypes.shape({
+				id: PropTypes.string.isRequired,
 				getTitle: PropTypes.func.isRequired,
-				getSubtitle: PropTypes.func.isRequired,
 			}))
 		}))
 	}).isRequired,
