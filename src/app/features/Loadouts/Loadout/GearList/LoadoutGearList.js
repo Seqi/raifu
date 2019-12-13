@@ -1,19 +1,16 @@
 import React, { useState, useCallback, useContext } from 'react'
-import PropTypes from 'prop-types'
 
 import AddButton from 'app/shared/components/Buttons/AddButton'
 
-import LoadoutGear from './Gear/LoadoutGear'
+import { LoadoutContext } from 'app/features/Loadouts'
 import AddArmoryItemDialog from '../AddArmoryItemDialog/AddArmoryItemDialog'
-
+import LoadoutGear from './Gear/LoadoutGear'
 import database from '../../../../../firebase/database'
-
 import './LoadoutGearList.css'
-import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 
-let LoadoutGearList = ({ canEdit }) => {
+let LoadoutGearList = () => {
 	let [dialog, setDialog] = useState(null)
-	let { loadout, addGear, deleteGear } = useContext(LoadoutContext)
+	let { loadout, editable, addGear, deleteGear } = useContext(LoadoutContext)
 
 	let addNewGear = useCallback((gearIds) => {
 		let promises = gearIds.map(gearId => {
@@ -43,12 +40,12 @@ let LoadoutGearList = ({ canEdit }) => {
 				{ 
 					(loadout.gear || []).map(gear => (
 						<div key={ gear.id } className='loadout-gear-list-item'>
-							<LoadoutGear gear={ gear } canDelete={ canEdit } onDelete={ deleteNewGear }	/>
+							<LoadoutGear gear={ gear } canDelete={ editable } onDelete={ deleteNewGear }	/>
 						</div>
 					)) 
 				}
 
-				{ canEdit && 
+				{ editable && 
 					<div className='loadout-gear-list-item'>
 						<AddButton onClick={ () => setDialog('add') } />
 					</div>
@@ -67,14 +64,6 @@ let LoadoutGearList = ({ canEdit }) => {
 			/>
 		</React.Fragment>
 	)
-}
-
-LoadoutGearList.propTypes = {
-	canEdit: PropTypes.bool
-}
-
-LoadoutGearList.defaultProps = {
-	canEdit: false,
 }
 
 export default LoadoutGearList

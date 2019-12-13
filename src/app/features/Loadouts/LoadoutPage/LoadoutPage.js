@@ -82,7 +82,7 @@ class LoadoutPage extends React.Component {
 				</ReactiveTitle>
 
 				<div className='separator-padding'>
-					<LoadoutView loadout={ loadout } canEdit={ true } />
+					<LoadoutView loadout={ loadout } editable={ true } />
 				</div>
 
 				<EditLoadoutDialog

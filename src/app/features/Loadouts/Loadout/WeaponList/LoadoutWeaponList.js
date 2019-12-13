@@ -1,5 +1,4 @@
 import React, { useState, useContext, useCallback } from 'react'
-import PropTypes from 'prop-types'
 
 import LoadoutAdd from '../LoadoutAdd'
 import LoadoutSeparator from '../LoadoutSeparator'
@@ -9,9 +8,9 @@ import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 
 import database from '../../../../../firebase/database'
 
-let LoadoutWeaponList = ({ canEdit }) => {
+let LoadoutWeaponList = () => {
 	let [dialog, setDialog] = useState(null)
-	let { loadout, addWeapon } = useContext(LoadoutContext)
+	let { loadout, editable, addWeapon } = useContext(LoadoutContext)
 
 	let addNewWeapon = useCallback(async (weaponId) => {
 		const weapon = await database.loadouts
@@ -28,12 +27,12 @@ let LoadoutWeaponList = ({ canEdit }) => {
 			{
 				(loadout.weapons || []).map((weapon) => (			
 					<LoadoutSeparator key={ weapon.id }>				
-						<LoadoutWeapon weapon={ weapon } canEdit={ canEdit } />
+						<LoadoutWeapon weapon={ weapon } />
 					</LoadoutSeparator>
 				))
 			}
 
-			{ canEdit && 
+			{ editable && 
 					<React.Fragment>
 						<LoadoutSeparator>
 							<LoadoutAdd onClick={ () => setDialog('add') } />
@@ -52,14 +51,6 @@ let LoadoutWeaponList = ({ canEdit }) => {
 			}
 		</React.Fragment>
 	)
-}
-
-LoadoutWeaponList.propTypes = {
-	canEdit: PropTypes.bool
-}
-
-LoadoutWeaponList.defaultProps = {
-	canEdit: false
 }
 
 export default LoadoutWeaponList

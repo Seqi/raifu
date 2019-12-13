@@ -33,7 +33,7 @@ const EventLoadout = ({ event, activeUserIndex, removeLoadout }) => {
 				<div style={ {marginTop: '24px'} }/>
 			}
 					
-			<LoadoutView loadout={ activeLoadout }/>
+			<LoadoutView loadout={ activeLoadout } editable={ false }/>
 
 			<ConfirmDeleteDialog 
 				verb='Remove'

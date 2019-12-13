@@ -9,14 +9,14 @@ import LoadoutSeparator from './LoadoutSeparator'
 import LoadoutContextProvider from './LoadoutContextProvider'
 import './Loadout.css'
 
-let LoadoutView = ({ loadout, canEdit }) => {		
+let LoadoutView = ({ loadout, editable }) => {		
 	return (
-		<LoadoutContextProvider loadout={ loadout }>
-			<LoadoutWeaponList canEdit={ canEdit } />
+		<LoadoutContextProvider loadout={ loadout } editable={ editable }>
+			<LoadoutWeaponList />
 
 			<LoadoutSeparator>
 				<Typography variant='h4'>Gear</Typography>
-				<LoadoutGearList canEdit={ canEdit } />
+				<LoadoutGearList />
 			</LoadoutSeparator>
 		</LoadoutContextProvider>
 	)
@@ -39,11 +39,11 @@ LoadoutView.propTypes = {
 			}))
 		}))
 	}).isRequired,
-	canEdit: PropTypes.bool
+	editable: PropTypes.bool
 }
 
 LoadoutView.defaultProps = {
-	canEdit: false
+	editable: false
 }
 
 export default LoadoutView

@@ -8,9 +8,9 @@ import AddButton from 'app/shared/components/Buttons/AddButton'
 import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 import database from '../../../../../../../firebase/database'
 
-let LoadoutWeaponAttachmentList = ({ weapon, canEdit }) => {
+let LoadoutWeaponAttachmentList = ({ weapon }) => {
 	let [dialog, setDialog] = useState(null)
-	let { loadout, addWeaponAttachments } = useContext(LoadoutContext)
+	let { loadout, editable, addWeaponAttachments } = useContext(LoadoutContext)
 
 	let addAttachments = useCallback((attachmentIds) => {
 		let addToDbPromises = attachmentIds.map(attachmentId => {
@@ -33,19 +33,19 @@ let LoadoutWeaponAttachmentList = ({ weapon, canEdit }) => {
 				{
 					(weapon.attachments || []).map(attachment => (
 						<div key={ attachment.id } className='loadout-weapon-attachment-item'>
-							<LoadoutWeaponAttachment attachment={ attachment } weaponId={ weapon.id } canEdit={ canEdit } />
+							<LoadoutWeaponAttachment attachment={ attachment } weaponId={ weapon.id } />
 						</div>
 					))
 				}
 
-				{ canEdit && 
+				{ editable && 
 					<div className='loadout-weapon-attachment-item'>
 						<AddButton onClick={ () => setDialog('add') } />   
 					</div> 
 				}
 			</div>
 
-			{ canEdit && <AddArmoryItemDialog
+			{ editable && <AddArmoryItemDialog
 				title={ `Add attachments to ${weapon.getTitle()}` }
 				category='attachments'
 				allowMultiple={ true }
@@ -67,12 +67,7 @@ LoadoutWeaponAttachmentList.propTypes = {
 		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired,
 		attachments: PropTypes.array
-	}).isRequired,
-	canEdit: PropTypes.bool
-}
-
-LoadoutWeaponAttachmentList.defaultProps = {
-	canEdit: false
+	}).isRequired
 }
 
 export default LoadoutWeaponAttachmentList

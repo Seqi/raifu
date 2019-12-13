@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
-import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
+import { LoadoutContext } from 'app/features/Loadouts'
 
 import database from '../../../../../../../../firebase/database'
 
-export default function LoadoutWeaponAttachment ({ weaponId, attachment, canEdit }) {	
+let LoadoutWeaponAttachment = ({ weaponId, attachment }) => {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
-	let { loadout, deleteWeaponAttachment } = useContext(LoadoutContext)
+	let { loadout, editable, deleteWeaponAttachment } = useContext(LoadoutContext)
 
 	let deleteAttachment = useCallback(async () => {
 		await database.loadouts
@@ -28,12 +28,12 @@ export default function LoadoutWeaponAttachment ({ weaponId, attachment, canEdit
 				key={ attachment.id } 
 				item={ attachment } 
 				category={ 'attachments' }
-				canDelete={ canEdit }
+				canDelete={ editable }
 				onDelete={ () => setIsDialogOpen(true) }
 				textStyle={ {bottom: '-10px'} }
 			/>	
 					
-			{ canEdit && <ConfirmDeleteDialog 
+			{ editable && <ConfirmDeleteDialog 
 				isOpen={ isDialogOpen }
 				title={ attachment.getTitle() }
 				onConfirm={ deleteAttachment }
@@ -48,10 +48,7 @@ LoadoutWeaponAttachment.propTypes = {
 	attachment: PropTypes.shape({
 		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired,
-	}).isRequired,
-	canEdit: PropTypes.bool
+	}).isRequired
 }
 
-LoadoutWeaponAttachment.defaultProps = {
-	canEdit: false
-}
+export default LoadoutWeaponAttachment

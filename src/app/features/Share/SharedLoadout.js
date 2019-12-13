@@ -57,7 +57,7 @@ export default class SharedLoadout extends React.Component {
 			<React.Fragment>
 				<ReactiveTitle>{ data.name }</ReactiveTitle>
 	
-				<LoadoutView loadout={ data }/>
+				<LoadoutView loadout={ data } editable={ false }/>
 			</React.Fragment>
 		)
 	}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import LoadoutContext from './LoadoutContext'
 
-const LoadoutContextProvider = ({ loadout, children }) => {
+const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	let [currentLoadout, setLoadout] = useState(loadout)
 
 	useEffect(() => setLoadout(loadout), [loadout])
@@ -71,6 +71,7 @@ const LoadoutContextProvider = ({ loadout, children }) => {
 	return (
 		<LoadoutContext.Provider value={ {
 			loadout: currentLoadout,
+			editable,
 			addWeapon,
 			deleteWeapon,
 			addGear,
@@ -100,6 +101,11 @@ LoadoutContextProvider.propTypes = {
 			}))
 		}))
 	}).isRequired,
+	editable: PropTypes.bool,
+}
+
+LoadoutContextProvider.defaultProps = {
+	editable: false
 }
 
 export default LoadoutContextProvider
