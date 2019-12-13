@@ -68,8 +68,6 @@ const LoadoutContextProvider = ({ loadout, children }) => {
 		return { ...currentLoadout, weapons: newWeapons }
 	}), [])
 
-	console.log('rendering context provider', loadout, currentLoadout)
-
 	return (
 		<LoadoutContext.Provider value={ {
 			loadout: currentLoadout,
