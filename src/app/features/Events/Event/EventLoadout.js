@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button'
 
 import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import LoadoutContextProvider from 'app/features/Loadouts/Loadout/LoadoutContextProvider'
 
 const EventLoadout = ({ event, activeUserIndex, removeLoadout }) => {
 	let [ activeDialog, setActiveDialog ] = useState() 
@@ -33,7 +34,9 @@ const EventLoadout = ({ event, activeUserIndex, removeLoadout }) => {
 				<div style={ {marginTop: '24px'} }/>
 			}
 					
-			<LoadoutView loadout={ activeLoadout } /> 
+			<LoadoutContextProvider loadout={ activeLoadout } >
+				<LoadoutView />
+			</LoadoutContextProvider>
 
 			<ConfirmDeleteDialog 
 				verb='Remove'
