@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import LoadoutSeparator from 'app/shared/components/Views/Loadout/LoadoutSeparator'
-import LoadoutAdd from 'app/shared/components/Views/Loadout/LoadoutAdd'
+import { LoadoutAdd, LoadoutSeparator } from 'app/features/Loadouts'
 import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
 
 const EventLoadoutSelect = ({ event, setLoadout }) => {

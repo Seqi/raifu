@@ -1,9 +1,9 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
 
-import SharedNotFound from './SharedNotFound'
 import { Loading, Error } from 'app/shared/components'
-import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
+import { LoadoutView } from 'app/features/Loadouts'
+import SharedNotFound from './SharedNotFound'
 import database from '../../../firebase/database'
 
 export default class SharedLoadout extends React.Component {
@@ -55,11 +55,9 @@ export default class SharedLoadout extends React.Component {
 	
 		return (
 			<React.Fragment>
-				<Typography variant='h3' >
-					{ data.name }					
-				</Typography>
+				<ReactiveTitle>{ data.name }</ReactiveTitle>
 	
-				<LoadoutView loadout={ data } />
+				<LoadoutView loadout={ data } editable={ false }/>
 			</React.Fragment>
 		)
 	}

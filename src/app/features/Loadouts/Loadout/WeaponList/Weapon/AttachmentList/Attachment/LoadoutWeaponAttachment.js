@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 
+import { LoadoutContext } from 'app/features/Loadouts'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
 
-export default function LoadoutWeaponAttachment ({ attachment, canEdit, onDelete }) {	
+let LoadoutWeaponAttachment = ({ weaponId, attachment }) => {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
+	let { editable, deleteWeaponAttachment } = useContext(LoadoutContext)
 
 	return (
 		<React.Fragment>
@@ -13,15 +15,15 @@ export default function LoadoutWeaponAttachment ({ attachment, canEdit, onDelete
 				key={ attachment.id } 
 				item={ attachment } 
 				category={ 'attachments' }
-				canDelete={ canEdit }
+				canDelete={ editable }
 				onDelete={ () => setIsDialogOpen(true) }
 				textStyle={ {bottom: '-10px'} }
 			/>	
 					
-			{ canEdit && <ConfirmDeleteDialog 
+			{ editable && <ConfirmDeleteDialog 
 				isOpen={ isDialogOpen }
 				title={ attachment.getTitle() }
-				onConfirm={ () => onDelete(attachment.id) }
+				onConfirm={ () => deleteWeaponAttachment(weaponId, attachment.id) }
 				onClose={ () => setIsDialogOpen(false) }
 			/> }
 		</React.Fragment>
@@ -29,18 +31,11 @@ export default function LoadoutWeaponAttachment ({ attachment, canEdit, onDelete
 }
 
 LoadoutWeaponAttachment.propTypes = {
+	weaponId: PropTypes.string.isRequired,
 	attachment: PropTypes.shape({
-		platform: PropTypes.string.isRequired,
-		model: PropTypes.string,
-		brand: PropTypes.string,
-		nickname: PropTypes.string,
-		type: PropTypes.string
-	}).isRequired,
-	canEdit: PropTypes.bool,
-	onDelete: PropTypes.func
+		id: PropTypes.string.isRequired,
+		getTitle: PropTypes.func.isRequired,
+	}).isRequired
 }
 
-LoadoutWeaponAttachment.defaultProps = {
-	canEdit: false,
-	onDelete: (gearId) => {}
-}
+export default LoadoutWeaponAttachment

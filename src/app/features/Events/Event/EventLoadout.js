@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Button from '@material-ui/core/Button'
 
-import LoadoutView from 'app/shared/components/Views/Loadout/LoadoutView'
+import { LoadoutView } from 'app/features/Loadouts'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 
 const EventLoadout = ({ event, activeUserIndex, removeLoadout }) => {
@@ -33,7 +33,7 @@ const EventLoadout = ({ event, activeUserIndex, removeLoadout }) => {
 				<div style={ {marginTop: '24px'} }/>
 			}
 					
-			<LoadoutView loadout={ activeLoadout } /> 
+			<LoadoutView loadout={ activeLoadout } editable={ false }/>
 
 			<ConfirmDeleteDialog 
 				verb='Remove'

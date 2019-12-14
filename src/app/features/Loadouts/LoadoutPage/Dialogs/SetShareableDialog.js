@@ -11,7 +11,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Button from '@material-ui/core/Button'
 
 import { Error } from 'app/shared/components'
-import database from '../../../../firebase/database'
+import database from '../../../../../firebase/database'
 
 class SetShareableDialog extends Component {
 	constructor(props) {

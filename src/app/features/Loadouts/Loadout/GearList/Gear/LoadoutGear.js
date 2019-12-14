@@ -30,11 +30,8 @@ export default function LoadoutGear ({ gear, canDelete, onDelete }) {
 
 LoadoutGear.propTypes = {
 	gear: PropTypes.shape({
-		platform: PropTypes.string.isRequired,
-		model: PropTypes.string,
-		brand: PropTypes.string,
-		nickname: PropTypes.string,
-		type: PropTypes.string
+		id: PropTypes.string.isRequired,
+		getTitle: PropTypes.func.isRequired
 	}).isRequired,
 	canDelete: PropTypes.bool,
 	onDelete: PropTypes.func

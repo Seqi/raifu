@@ -7,7 +7,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 
 import Armory from 'app/features/Armory/Armory'
-import Loadouts from 'app/features/Loadouts/Loadouts'
+import LoadoutRouter from 'app/features/Loadouts/LoadoutRouter'
 import Events from 'app/features/Events/Events'
 import AuthenticatedRoute from 'app/shared/components/Auth/AuthenticatedRoute'
 
@@ -45,7 +45,7 @@ let Main = ({ location, history }) => {
 				<div className='app-window'>
 					<Switch>
 						<AuthenticatedRoute path='/armory' component={ Armory } onFail={ onAuthFailure } />
-						<AuthenticatedRoute path='/loadouts' component={ Loadouts } onFail={ onAuthFailure }  />
+						<AuthenticatedRoute path='/loadouts' component={ LoadoutRouter } onFail={ onAuthFailure }  />
 						<AuthenticatedRoute path='/events' component={ Events } onFail={ onAuthFailure }  />
 						<Redirect from='/' to='/armory' />
 					</Switch>

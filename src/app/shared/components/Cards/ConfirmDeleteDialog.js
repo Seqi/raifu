@@ -32,7 +32,7 @@ class ConfirmDeleteDialog extends React.PureComponent {
 		this.setState({ loading: true, error: null}, () => {
 			this.props.onConfirm()
 				.then(() => !this.isUnmounted && this.setState({ loading: false }))
-				.catch((err) => !this.isUnmounted && this.setState({ loading: false, error: err.message || err }))
+				.catch((err) => !this.isUnmounted && this.setState({ loading: false, error: 'An error ocurred while deleting' }))
 		})
 	}
 
@@ -50,8 +50,7 @@ class ConfirmDeleteDialog extends React.PureComponent {
 					</DialogContent>
 				)}
 
-				<DialogActions>					
-
+				<DialogActions>
 					<Button onClick={ onClose }>Cancel</Button>
 					<Button
 						variant='contained'
