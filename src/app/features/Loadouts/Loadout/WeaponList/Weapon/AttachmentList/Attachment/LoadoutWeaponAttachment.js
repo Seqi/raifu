@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 
+import { LoadoutContext } from 'app/features/Loadouts'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
-import { LoadoutContext } from 'app/features/Loadouts'
 
 let LoadoutWeaponAttachment = ({ weaponId, attachment }) => {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)

@@ -7,7 +7,6 @@ import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutSeparator from './LoadoutSeparator'
 import LoadoutContextProvider from './LoadoutContextProvider'
-import './Loadout.css'
 
 let LoadoutView = ({ loadout, editable }) => {		
 	return (

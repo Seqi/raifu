@@ -1,11 +1,10 @@
 import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import AddArmoryItemDialog from '../../../AddArmoryItemDialog/AddArmoryItemDialog'
-import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
-
+import { LoadoutContext } from 'app/features/Loadouts'
 import AddButton from 'app/shared/components/Buttons/AddButton'
-import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
+import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
+import AddArmoryItemDialog from '../../../AddArmoryItemDialog/AddArmoryItemDialog'
 import database from '../../../../../../../firebase/database'
 
 let LoadoutWeaponAttachmentList = ({ weapon }) => {

@@ -7,7 +7,8 @@ let LoadoutSeparator = ({ children, showBottom }) => {
 	let theme = useTheme()
 
 	return (
-		<div className='loadout-separator-item separator-padding' style={ {
+		<div className='separator-padding' style={ {
+			borderTop: '1px solid',
 			borderBottom: showBottom && '1px solid',
 			borderColor: theme.palette.primary.main
 		} }>

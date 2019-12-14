@@ -1,15 +1,13 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
-
+import { LoadoutContext } from 'app/features/Loadouts'
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
 import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
-
+import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
 import './LoadoutWeapon.css'
-import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 
 let LoadoutWeapon = ({ weapon }) => {
 	let [dialog, setDialog] = useState(null)

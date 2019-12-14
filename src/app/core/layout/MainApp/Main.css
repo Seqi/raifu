@@ -15,7 +15,14 @@
 }
 
 .separator-padding {
-	padding-top: 24px
+	padding-top: 24px;
+	padding-bottom: 24px;
+}
+
+.icon-action {
+	margin-left: 10px;
+	font-size: 1rem;
+	cursor: pointer;
 }
 
 @media (max-width: 767px) {
@@ -25,5 +32,6 @@
 
 	.separator-padding {
 		padding-top: 16px;
+		padding-bottom: 16px;
 	}
 }
