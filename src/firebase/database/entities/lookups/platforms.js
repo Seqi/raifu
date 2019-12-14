@@ -126,6 +126,7 @@ export default {
 		sights: ['Red Dot', 'Reflex', 'Holographic', 'Telescopic', 'Iron Sights'],
 		barrel: ['Surpressor', 'Flash Hider', 'Tracer Unit'],
 		illumination: ['Pistol Torch', 'Flashlight', 'PEQ Box'],
-		underbarrel: ['Vertical Foregrip', 'Angled Foregrip', 'Bipod', 'Grenade Launcher']
+		underbarrel: ['Vertical Foregrip', 'Angled Foregrip', 'Bipod', 'Grenade Launcher'],
+		externals: ['Stock', 'Grip', 'Rail Riser', 'Rail System', 'Conversion Kit', 'Handguard Panel']
 	}
 }
