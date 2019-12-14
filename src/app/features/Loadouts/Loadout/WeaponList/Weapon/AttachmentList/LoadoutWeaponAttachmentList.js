@@ -12,20 +12,10 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 	let [dialog, setDialog] = useState(null)
 	let { loadout, editable, addWeaponAttachments } = useContext(LoadoutContext)
 
-	let addAttachments = useCallback((attachmentIds) => {
-		let addToDbPromises = attachmentIds.map(attachmentId => {
-			return database.loadouts
-				.loadout(loadout.id)
-				.weapons
-				.weapon(weapon.id)
-				.attachments
-				.add(attachmentId)				
-		})
-
-		return Promise.all(addToDbPromises)
-			.then(attachments => addWeaponAttachments(weapon.id, attachments))
-			.then(() => setDialog(null))
-	}, [addWeaponAttachments, loadout, weapon])
+	let addAttachments = useCallback(async (attachmentIds) => {
+		await addWeaponAttachments(weapon.id, attachmentIds)
+		setDialog(null)
+	}, [addWeaponAttachments, weapon])
 	
 	return (
 		<React.Fragment>

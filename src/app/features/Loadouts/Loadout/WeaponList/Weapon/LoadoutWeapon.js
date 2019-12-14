@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
@@ -10,21 +10,12 @@ import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import './LoadoutWeapon.css'
 import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
-import database from '../../../../../../firebase/database'
 
 let LoadoutWeapon = ({ weapon }) => {
 	let [dialog, setDialog] = useState(null)
-	let { loadout, editable, deleteWeapon } = useContext(LoadoutContext)	
+	let { editable, deleteWeapon } = useContext(LoadoutContext)	
 
-	let deleteNewWeapon = useCallback(async () => {
-		await database.loadouts
-			.loadout(loadout.id)
-			.weapons
-			.delete(weapon.id)
-
-		setDialog(null)
-		return deleteWeapon(weapon.id)
-	}, [deleteWeapon, loadout, weapon])
+	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
 
 	return (
 		<React.Fragment>	

@@ -50,8 +50,7 @@ class ConfirmDeleteDialog extends React.PureComponent {
 					</DialogContent>
 				)}
 
-				<DialogActions>					
-
+				<DialogActions>
 					<Button onClick={ onClose }>Cancel</Button>
 					<Button
 						variant='contained'

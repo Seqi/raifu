@@ -1,10 +1,8 @@
 import React, { useState, useContext, useCallback } from 'react'
 
-import LoadoutAdd from '../LoadoutAdd'
-import LoadoutSeparator from '../LoadoutSeparator'
+import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/Loadouts'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddArmoryItemDialog from '../AddArmoryItemDialog/AddArmoryItemDialog'
-import LoadoutContext from 'app/features/Loadouts/Loadout/LoadoutContext'
 
 import database from '../../../../../firebase/database'
 
@@ -12,15 +10,10 @@ let LoadoutWeaponList = () => {
 	let [dialog, setDialog] = useState(null)
 	let { loadout, editable, addWeapon } = useContext(LoadoutContext)
 
-	let addNewWeapon = useCallback(async (weaponId) => {
-		const weapon = await database.loadouts
-			.loadout(loadout.id)
-			.weapons
-			.add(weaponId)
-
+	let saveWeapon = useCallback(async (weaponId) => {
+		await addWeapon(weaponId)
 		setDialog(null)
-		return addWeapon(weapon)
-	}, [addWeapon, loadout])
+	}, [addWeapon])
 
 	return (
 		<React.Fragment>       
@@ -44,7 +37,7 @@ let LoadoutWeaponList = () => {
 							itemLoadFunc={ database.weapons.get }
 							filterIds={ (loadout.weapons || []).map((w) => w.id) }
 							isOpen={ dialog === 'add' }
-							onSave={ addNewWeapon }
+							onSave={ saveWeapon }
 							onClose={ () => setDialog(null) }
 						/>
 					</React.Fragment>

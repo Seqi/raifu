@@ -12,27 +12,10 @@ let LoadoutGearList = () => {
 	let [dialog, setDialog] = useState(null)
 	let { loadout, editable, addGear, deleteGear } = useContext(LoadoutContext)
 
-	let addNewGear = useCallback((gearIds) => {
-		let promises = gearIds.map(gearId => {
-			return database.loadouts
-				.loadout(loadout.id)
-				.gear
-				.add(gearId)
-		})
-
-		return Promise.all(promises)
-			.then((gear) => addGear(gear))
-			.then(() => setDialog(null))
-	}, [addGear, loadout])
-	
-	let deleteNewGear = useCallback(async (gearId) => {
-		await database.loadouts
-			.loadout(loadout.id)
-			.gear
-			.delete(gearId)
-			
-		return deleteGear(gearId)
-	}, [deleteGear, loadout])
+	let saveGear = useCallback(async (gearIds) => {
+		await addGear(gearIds)
+		setDialog(null)
+	}, [addGear])
 
 	return (
 		<React.Fragment>
@@ -40,7 +23,7 @@ let LoadoutGearList = () => {
 				{ 
 					(loadout.gear || []).map(gear => (
 						<div key={ gear.id } className='loadout-gear-list-item'>
-							<LoadoutGear gear={ gear } canDelete={ editable } onDelete={ deleteNewGear }	/>
+							<LoadoutGear gear={ gear } canDelete={ editable } onDelete={ deleteGear } />
 						</div>
 					)) 
 				}
@@ -59,7 +42,7 @@ let LoadoutGearList = () => {
 				filterIds={ (loadout.gear || []).map(g => g.id) }
 				isOpen={ dialog === 'add' } 
 				allowMultiple={ true }
-				onSave={ addNewGear }
+				onSave={ saveGear }
 				onClose={ () => setDialog(null) } 
 			/>
 		</React.Fragment>

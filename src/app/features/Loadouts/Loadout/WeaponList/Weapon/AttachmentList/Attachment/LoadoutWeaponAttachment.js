@@ -1,26 +1,13 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
 import { LoadoutContext } from 'app/features/Loadouts'
 
-import database from '../../../../../../../../firebase/database'
-
 let LoadoutWeaponAttachment = ({ weaponId, attachment }) => {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
-	let { loadout, editable, deleteWeaponAttachment } = useContext(LoadoutContext)
-
-	let deleteAttachment = useCallback(async () => {
-		await database.loadouts
-			.loadout(loadout.id)
-			.weapons
-			.weapon(weaponId)
-			.attachments
-			.delete(attachment.id)
-
-		return deleteWeaponAttachment(weaponId, attachment.id)
-	}, [loadout, weaponId, attachment, deleteWeaponAttachment])
+	let { editable, deleteWeaponAttachment } = useContext(LoadoutContext)
 
 	return (
 		<React.Fragment>
@@ -36,7 +23,7 @@ let LoadoutWeaponAttachment = ({ weaponId, attachment }) => {
 			{ editable && <ConfirmDeleteDialog 
 				isOpen={ isDialogOpen }
 				title={ attachment.getTitle() }
-				onConfirm={ deleteAttachment }
+				onConfirm={ () => deleteWeaponAttachment(weaponId, attachment.id) }
 				onClose={ () => setIsDialogOpen(false) }
 			/> }
 		</React.Fragment>
