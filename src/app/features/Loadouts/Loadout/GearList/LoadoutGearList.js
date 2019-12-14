@@ -3,7 +3,7 @@ import React, { useState, useCallback, useContext } from 'react'
 import AddButton from 'app/shared/components/Buttons/AddButton'
 
 import { LoadoutContext } from 'app/features/Loadouts'
-import AddArmoryItemDialog from '../AddArmoryItemDialog/AddArmoryItemDialog'
+import AddArmoryItemDialog from 'app/shared/components/Dialogs/AddArmoryItemDialog'
 import LoadoutGear from './Gear/LoadoutGear'
 import database from '../../../../../firebase/database'
 import './LoadoutGearList.css'

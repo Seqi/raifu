@@ -1,8 +1,8 @@
 import React, { useState, useContext, useCallback } from 'react'
 
 import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/Loadouts'
+import AddArmoryItemDialog from 'app/shared/components/Dialogs/AddArmoryItemDialog'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
-import AddArmoryItemDialog from '../AddArmoryItemDialog/AddArmoryItemDialog'
 
 import database from '../../../../../firebase/database'
 
