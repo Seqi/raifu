@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react'
 
-import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/Loadouts'
+import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/loadouts'
 import AddArmoryItemDialog from 'app/shared/components/Dialogs/AddArmoryItemDialog'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 

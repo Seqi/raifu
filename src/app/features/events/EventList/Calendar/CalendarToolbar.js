@@ -24,19 +24,11 @@ function CalendarToolbar({label, view, onNavigate, onView, theme}) {
 			</ReactiveTitle>
 
 			<div style={ {display: 'flex', flex: '1', marginLeft: '12px', fontSize: '1.5rem'} }>
-				<button 
-					type='button' 
-					style={ {...blankButton, marginRight: '8px' } } 					
-					onClick={ _ => onNavigate('PREV') } 
-				>
+				<button type='button' style={ {...blankButton, marginRight: '8px' } } onClick={ _ => onNavigate('PREV') } >
 					<i className='fa fa-chevron-left' />
 				</button>
 				
-				<button 
-					type='button' 
-					style={ blankButton }  
-					onClick={ _ => onNavigate('NEXT') } 
-				>
+				<button type='button' style={ blankButton } onClick={ _ => onNavigate('NEXT') } >
 					<i className='fa fa-chevron-right' />
 				</button>
 			</div>

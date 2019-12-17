@@ -4,16 +4,14 @@ import moment from 'moment'
 
 import { withTheme, Fab } from '@material-ui/core'
 
-import CalendarToolbar from './CalendarToolbar'
-import CalendarEvent from './CalendarEvent'
-import CalendarAgendaEvent from './CalendarAgendaEvent'
-import EditEventDialog from './EditEventDialog'
+import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './Calendar'
+import EditEventDialog from './Dialogs/EditEventDialog'
 
 import { Loading, Error } from 'app/shared/components'
 
-import database from '../../../firebase/database'
+import database from '../../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-import './Calendar.css'
+import './Calendar/Calendar.css'
 import './EventList.css'
 
 class Events extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import SharedLoadout from 'app/features/Share/SharedLoadout'
+import SharedLoadout from 'app/features/share/SharedLoadout'
 
 export default class Shared extends React.Component {
 	render() {

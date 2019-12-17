@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import ConfirmDeleteDialog from 'app/shared/components/Dialogs/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
 
 export default function LoadoutGear ({ gear, canDelete, onDelete }) {	

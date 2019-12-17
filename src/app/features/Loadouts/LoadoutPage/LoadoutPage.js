@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Loading, Error } from 'app/shared/components'
-import { LoadoutView } from 'app/features/Loadouts'
+import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 import EditLoadoutDialog from './Dialogs/EditLoadoutNameDialog'

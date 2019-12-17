@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import AddCard from 'app/shared/components/Cards/AddCard'
 import { ArmoryCard, LoadoutCard } from './Entities'
-import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import ConfirmDeleteDialog from 'app/shared/components/Dialogs/ConfirmDeleteDialog'
 
 class CardList extends Component {
 

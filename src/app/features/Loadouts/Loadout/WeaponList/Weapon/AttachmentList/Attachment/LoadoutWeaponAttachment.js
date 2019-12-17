@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 
-import { LoadoutContext } from 'app/features/Loadouts'
-import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import { LoadoutContext } from 'app/features/loadouts'
+import ConfirmDeleteDialog from 'app/shared/components/Dialogs/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
 
 let LoadoutWeaponAttachment = ({ weaponId, attachment }) => {	

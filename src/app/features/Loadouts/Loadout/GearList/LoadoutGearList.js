@@ -2,7 +2,7 @@ import React, { useState, useCallback, useContext } from 'react'
 
 import AddButton from 'app/shared/components/Buttons/AddButton'
 
-import { LoadoutContext } from 'app/features/Loadouts'
+import { LoadoutContext } from 'app/features/loadouts'
 import AddArmoryItemDialog from 'app/shared/components/Dialogs/AddArmoryItemDialog'
 import LoadoutGear from './Gear/LoadoutGear'
 import database from '../../../../../firebase/database'

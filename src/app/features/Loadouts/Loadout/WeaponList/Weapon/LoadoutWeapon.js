@@ -1,8 +1,8 @@
 import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import { LoadoutContext } from 'app/features/Loadouts'
-import ConfirmDeleteDialog from 'app/shared/components/Cards/ConfirmDeleteDialog'
+import { LoadoutContext } from 'app/features/loadouts'
+import ConfirmDeleteDialog from 'app/shared/components/Dialogs/ConfirmDeleteDialog'
 import ArmoryItemImage from 'app/shared/components/Images/ArmoryItemImage'
 import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import EventList from './EventList'
+import EventList from './EventList/EventList'
 import Event from './Event/Event'
 
-export default class Events extends React.Component {
+export default class EventRouter extends React.Component {
 	render() {
 		return (
 			<Switch>

@@ -3,12 +3,11 @@ import './Main.css'
 import React, { useState, useCallback } from 'react'
 import { BrowserRouter as Router, Link, Switch, Redirect } from 'react-router-dom'
 
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import { Tabs, Tab } from '@material-ui/core'
 
-import Armory from 'app/features/Armory/Armory'
-import LoadoutRouter from 'app/features/Loadouts/LoadoutRouter'
-import Events from 'app/features/Events/Events'
+import Armory from 'app/features/armory/Armory'
+import LoadoutRouter from 'app/features/loadouts/LoadoutRouter'
+import EventRouter from 'app/features/events/EventRouter'
 import AuthenticatedRoute from 'app/shared/components/Auth/AuthenticatedRoute'
 
 let Main = ({ location, history }) => {
@@ -46,7 +45,7 @@ let Main = ({ location, history }) => {
 					<Switch>
 						<AuthenticatedRoute path='/armory' component={ Armory } onFail={ onAuthFailure } />
 						<AuthenticatedRoute path='/loadouts' component={ LoadoutRouter } onFail={ onAuthFailure }  />
-						<AuthenticatedRoute path='/events' component={ Events } onFail={ onAuthFailure }  />
+						<AuthenticatedRoute path='/events' component={ EventRouter } onFail={ onAuthFailure }  />
 						<Redirect from='/' to='/armory' />
 					</Switch>
 				</div>
