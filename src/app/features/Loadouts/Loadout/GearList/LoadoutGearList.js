@@ -35,16 +35,18 @@ let LoadoutGearList = () => {
 				}
 			</div>
 
-			<AddArmoryItemDialog 
-				title='Add gear to loadout'
-				category='gear'
-				itemLoadFunc={ database.gear.get }
-				filterIds={ (loadout.gear || []).map(g => g.id) }
-				isOpen={ dialog === 'add' } 
-				allowMultiple={ true }
-				onSave={ saveGear }
-				onClose={ () => setDialog(null) } 
-			/>
+			{editable && 
+				<AddArmoryItemDialog 
+					title='Add gear to loadout'
+					category='gear'
+					itemLoadFunc={ database.gear.get }
+					filterIds={ (loadout.gear || []).map(g => g.id) }
+					isOpen={ dialog === 'add' } 
+					allowMultiple={ true }
+					onSave={ saveGear }
+					onClose={ () => setDialog(null) } 
+				/>
+			}
 		</React.Fragment>
 	)
 }
