@@ -1,3 +1,4 @@
+const Op = require('sequelize').Op
 const entities = require('./database/entities')
 const baseEntity = require('./base-entity')
 const errors = require('../utils/errors')
@@ -95,7 +96,9 @@ module.exports = {
 		}
 
 		try {
-			let query = user ? { uid: user.uid } : { shared: true }
+			let query = user ? 
+				{ [Op.or]: { uid: user.uid, shared: true } } :
+				{ shared: true }
 
 			let loadout = await entities().loadout.findOne({
 				where: {
@@ -134,7 +137,7 @@ module.exports = {
 
 			return loadout.toJSON()
 		} catch (e) {
-			console.error(`Error retrieving loadout for ${user ? user.uid : 'anonymous'}`, e)
+			console.warn(`Error retrieving loadout for ${user ? user.uid : 'anonymous'}`, e)
 			throw e
 		}
 	},
