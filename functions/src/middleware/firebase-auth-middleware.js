@@ -5,6 +5,10 @@ let middleware = (blockUnauthorised = true) => {
 		let authHeader = req.headers.authorization
 	
 		if (!authHeader) {
+			if (!blockUnauthorised) {
+				return next()
+			}
+
 			return res.status(401)
 				.end()
 		}
@@ -25,10 +29,9 @@ let middleware = (blockUnauthorised = true) => {
 		}
 	
 		try {
-			let decodedToken = await firebase.auth()
+			await firebase.auth()
 				.verifyIdToken(creds)
-		
-			req.user = decodedToken
+				.then(user => req.user = user)
 		
 			next()
 		} 
