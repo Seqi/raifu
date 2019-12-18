@@ -37,17 +37,18 @@ class CloudFunction {
 
 		let url = buildUrl(this.region, this.path, CloudFunction.useLocal)
 
-		let token = ''
+		let requestHeaders = {
+			'Content-Type': 'application/json'
+		}
+
 		if (app.auth().currentUser) {
-			token = await app.auth().currentUser.getIdToken()
+			let token = await app.auth().currentUser.getIdToken()
+			requestHeaders['Authorization'] = `Bearer ${token}`
 		}
 
 		return await fetch(url, {
 			method: method,
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}`
-			},
+			headers: requestHeaders,
 			body: JSON.stringify(data)
 		})
 			.then((result) => {

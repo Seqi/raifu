@@ -29,12 +29,7 @@ export default class SharedLoadout extends React.Component {
 					!this.unmounted && this.setState({ loadout: loadout, loading: false, error: null })
 				})
 				.catch((err) => {
-					let error = null
-					if (err.status !== 404) {
-						error = err.statusMessage || err
-					}
-
-					!this.unmounted && this.setState({ loadout: null, loading: false, error: error })
+					!this.unmounted && this.setState({ loadout: null, loading: false, error: 'Could not retrieve loadout' })
 				})
 		})	
 	}
