@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel, Typography } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel } from '@material-ui/core'
+
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
 let checkboxListStyle = {
 	display: 'flex',
@@ -41,16 +43,16 @@ const EventChecklist = ({ title, loadout, isOpen, onClose }) => {
 
 			<DialogContent>
 				<div style={ {display: 'flex', justifyContent: 'space-between' } }>
-					<div style={ checkboxListStyle }>	
-						<Typography variant='h6'>Weapons</Typography>
+					<div style={ {...checkboxListStyle,  paddingRight: '16px' } }>	
+						<ReactiveTitle variant='h5' mobileVariant='h6'>Weapons</ReactiveTitle>
 						{
 							getAllWeapons(loadout)
 								.map(toCheckbox)
 						}
 					</div>
 				
-					<div style={ checkboxListStyle }>
-						<Typography variant='h6'>Attachments</Typography>
+					<div style={ {...checkboxListStyle,  paddingLeft: '16px' } }>
+						<ReactiveTitle variant='h5' mobileVariant='h6'>Attachments</ReactiveTitle>
 						{
 							getAllAttachments(loadout)
 								.map(toCheckbox)
@@ -58,11 +60,13 @@ const EventChecklist = ({ title, loadout, isOpen, onClose }) => {
 					</div>
 				</div>
 				
-				<Typography variant='h6'>Gear</Typography>
-				{
-					getAllGear(loadout)
-						.map(toCheckbox)
-				}
+				<div>	
+					<ReactiveTitle variant='h5' mobileVariant='h6'>Gear</ReactiveTitle>
+					{
+						getAllGear(loadout)
+							.map(toCheckbox)
+					}
+				</div>
 			</DialogContent>
 
 			<DialogActions>

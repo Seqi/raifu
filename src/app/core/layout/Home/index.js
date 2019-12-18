@@ -37,7 +37,7 @@ export default function HomePage() {
 				<Logo height={ isMobileMode ? '300px' : '400px' } subtitle='Airsoft loadout management' />
 			</div>
 
-			{segments.map((segment, i) => 
+			{ segments.map((segment, i) => 
 				<HomePageSegment key={ i } 
 					title={ segment.title } 
 					text={ segment.text } 
@@ -45,7 +45,7 @@ export default function HomePage() {
 					flip={ i % 2 === 0 }
 					isMobileMode={ isMobileMode }
 				/>
-			)}
+			) }
 		</React.Fragment>
 	)
 }
