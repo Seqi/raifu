@@ -21,9 +21,8 @@ function buildLocalUrl(region, path) {
 class CloudFunction {
 	static useLocal = false
 
-	constructor(region, authenticated = true) {
+	constructor(region) {
 		this.region = region || DEFAULT_REGION
-		this.authenticated = authenticated
 	}
 
 	path(path) {
