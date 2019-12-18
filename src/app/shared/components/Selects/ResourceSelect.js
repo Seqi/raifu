@@ -20,7 +20,7 @@ class ResourceSelect extends Component {
 		this.props
 			.dataGetter()
 			.then((items) => this.setState({ items, error: null, loading: false }))
-			.catch((err) => this.setState({ error: err.statusText || err.message, loading: false }))
+			.catch((err) => this.setState({ error: 'An error occurred while loading items.', loading: false }))
 	}
 
 	renderItems(items) {

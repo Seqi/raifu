@@ -18,9 +18,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 	let [loadoutId, setLoadoutId] = useState('')
 	let [saveError, setSaveError] = useState(null)
 
-	useEffect(() => {
-		loadLoadouts()
-	}, [])
+	useEffect(() => { loadLoadouts() }, [])
 
 	let loadLoadouts = () => {
 		setLoadouts(prevLoadout => ({ ...prevLoadout, error: null, loading: true }))
@@ -31,7 +29,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 				setLoadouts({ data: loadouts, loading: false, error: null })
 			})
 			.catch((err) => {
-				setLoadouts({ data: [], loading: false, error: err.statusText || err.message || err })
+				setLoadouts({ data: [], loading: false, error: 'An error occurred while loading available loadouts.' })
 			})
 	}
 
@@ -39,7 +37,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 		setSaveError(false)
 
 		onSave(loadoutId)
-			.catch(err => setSaveError(err.statusText || err.message || err))
+			.catch(err => setSaveError('An error occurred while adding loadout to event.'))
 	}
 
 	return (

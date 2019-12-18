@@ -34,7 +34,7 @@ class AddArmoryItemDialog extends Component {
 		this.setState({ loading: true, errorOnLoad: null }, () => {
 			this.props.itemLoadFunc()
 				.then((items) => !this.isUnmounted && this.setState({ items, loading: false }))
-				.catch((err) => !this.isUnmounted && this.setState( { errorOnLoad: 'Could not load', loading: false}))
+				.catch((err) => !this.isUnmounted && this.setState( { errorOnLoad: `An error occurred while loading ${this.props.category}.`, loading: false}))
 		})
 	}
 
@@ -73,7 +73,7 @@ class AddArmoryItemDialog extends Component {
 		this.setState({ loading: true, errorOnSave: false }, () => {
 			this.props.onSave(data)
 				.then(() => this.setState({ itemIds: [], loading: false }))
-				.catch(err => this.setState({ loading: false, errorOnSave: 'Could not save' }))
+				.catch(err => this.setState({ loading: false, errorOnSave: `An error occurred while saving ${this.props.category}.` }))
 		})
 	}
 
