@@ -10,6 +10,8 @@ import HomePage from './layout/Home'
 import AnnouncementBanner from './layout/AnnouncementBanner'
 import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 
+let showAnnouncements = process.env.NODE_ENV !== 'development'
+
 class App extends Component {
 	render() {
 		return (
@@ -34,7 +36,7 @@ class App extends Component {
 					</AuthContextProvider>
 				</Router>
 				
-				<AnnouncementBanner />
+				{ showAnnouncements && <AnnouncementBanner /> }
 			</div>
 		)
 	}
