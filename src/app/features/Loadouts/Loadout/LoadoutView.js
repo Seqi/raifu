@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Typography from '@material-ui/core/Typography'
-
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutSeparator from './LoadoutSeparator'
@@ -14,7 +13,7 @@ let LoadoutView = ({ loadout, editable }) => {
 			<LoadoutWeaponList />
 
 			<LoadoutSeparator>
-				<Typography variant='h4'>Gear</Typography>
+				<ReactiveTitle variant='h4' mobileVariant='h5'>Gear</ReactiveTitle>
 				<LoadoutGearList />
 			</LoadoutSeparator>
 		</LoadoutContextProvider>

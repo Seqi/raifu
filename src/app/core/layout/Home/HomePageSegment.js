@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withTheme, Typography } from '@material-ui/core'
+import { useTheme } from '@material-ui/core'
 
+import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 import './HomePageSegment.css'
 
-function HomePageSegment({title, text, image, flip, isMobileMode, theme}) {
+function HomePageSegment({ title, text, image, flip, isMobileMode }) {
+	let theme = useTheme()
+	
 	return (
 		<div className='segment-container' style={ { 
 			flexDirection: flip ? 'row-reverse' : 'row',
@@ -15,7 +18,14 @@ function HomePageSegment({title, text, image, flip, isMobileMode, theme}) {
 			</div>
 			<div className='segment-text-container'>
 				<div>
-					<Typography variant={ isMobileMode ? 'h3' : 'h2' }>{ title }</Typography>
+					<ReactiveTitle 
+						variant={ 'h2' } 
+						mobileVariant={ 'h3' }
+						style={ { padding: isMobileMode ? '16px' : '24px' } }
+					>
+						{ title }
+					</ReactiveTitle>
+
 					<span className='segment-text'>
 						{ text }
 					</span>
@@ -37,4 +47,4 @@ HomePageSegment.defaultProps = {
 	flip: false
 }
 
-export default withTheme(HomePageSegment)
+export default HomePageSegment
