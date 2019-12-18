@@ -54,7 +54,7 @@ class Events extends React.Component {
 				})
 				.catch(err => {
 					if (!this.unmounted) {
-						this.setState({ error: err, loading: false})
+						this.setState({ error: 'An error occurred while loading events.', loading: false})
 					}
 				})			
 		})

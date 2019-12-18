@@ -57,7 +57,7 @@ class AddWeaponDialog extends React.Component {
 		this.setState({loading: true, error: null}, () => {
 			this.props.onSave(this.state.weapon)
 				.then(() => this.handleClose())
-				.catch(err => this.setState({ error: err.statusText || err.message || err, loading: false }))
+				.catch(err => this.setState({ error: 'An error occurred while adding weapon.', loading: false }))
 		})		
 	}
 

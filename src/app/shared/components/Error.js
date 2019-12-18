@@ -18,12 +18,10 @@ function Error({ error, onRetry, fillBackground, theme, style }) {
 			...style
 		} }>
 			<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>
-				An error occurred: { error ? `(${error})` : '' }
+				{ error || 'An error occurred.' }
 			</div>
 
-			{ onRetry && (
-				<Button variant='outlined' color='primary' onClick={ onRetry }>Retry</Button>
-			)}
+			{ onRetry && <Button variant='outlined' color='primary' onClick={ onRetry }>Retry</Button> }
 		</div>
 	)
 }

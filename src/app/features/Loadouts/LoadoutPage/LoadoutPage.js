@@ -35,7 +35,7 @@ class LoadoutPage extends React.Component {
 					this.setState({ loadout, error: null, loading: false })
 				}
 			})
-			.catch((err) => this.setState({ error: err.statusText || err.message || err, loading: false }))
+			.catch((err) => this.setState({ error: 'An error occurred while loading loadout.', loading: false }))
 	}
 
 	setDialog(id) {

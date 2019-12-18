@@ -24,16 +24,16 @@ const ResourceList = ({
 			<ReactiveTitle>{ title }</ReactiveTitle>
 			{ 
 				loading ? <Loading /> :
-				error ? <Error error='could not load' onRetry={ loadResource } /> : 
-				(
-					<CardList
-						items={ items }
-						cardType={ resourceType }
-						onAdd={ () => setDialog('add') }
-						onCardClick={ onResourceClick }
-						onCardDelete={ deleteResource }
-					/>
-				)
+					error ? <Error error={ `An error occurred while loading ${resourceType}.` } onRetry={ loadResource } /> : 
+						(
+							<CardList
+								items={ items }
+								cardType={ resourceType }
+								onAdd={ () => setDialog('add') }
+								onCardClick={ onResourceClick }
+								onCardDelete={ deleteResource }
+							/>
+						)
 			}
 
 			{ renderAddDialog(
