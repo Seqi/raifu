@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
-
-import { convertToSingular, convertCamelCaseToLabel } from 'app/shared/services/word-service'
+import { sentenceCase, capitalCase } from 'change-case'
 
 class CascadingSelect extends Component {
 	constructor(props) {
@@ -40,15 +39,11 @@ class CascadingSelect extends Component {
 	}
 
 	getValue(text) {
-		let { formatValues, singluarValues } = this.props
+		let { formatValues } = this.props
 		let result = text
 
 		if (formatValues) {
-			result = convertCamelCaseToLabel(result)
-		}
-
-		if (singluarValues) {
-			result = convertToSingular(result)
+			result = capitalCase(sentenceCase(result))
 		}
 
 		return result
@@ -56,7 +51,7 @@ class CascadingSelect extends Component {
 
 	render() {
 		let { value } = this.state
-		let { labels, names, depth, onChange, formatValues, singluarValues } = this.props
+		let { labels, names, depth, onChange, formatValues } = this.props
 
 		let children = this.getSelectedChildren(value)
 
@@ -83,7 +78,6 @@ class CascadingSelect extends Component {
 						names={ names }
 						labels={ labels }
 						formatLabels={ formatValues }
-						singularLabels={ singluarValues }
 						options={ children }
 						onChange={ onChange }
 					/>
@@ -95,7 +89,6 @@ class CascadingSelect extends Component {
 
 CascadingSelect.propTypes = {
 	formatValues: PropTypes.bool,
-	singluarValues: PropTypes.bool,
 	labels: PropTypes.array.isRequired,
 	names: PropTypes.array.isRequired,
 	depth: PropTypes.number,
@@ -105,8 +98,7 @@ CascadingSelect.propTypes = {
 
 CascadingSelect.defaultProps = {
 	depth: 0,
-	formatValues: false,
-	singluarValues: false
+	formatValues: false
 }
 
 export default CascadingSelect

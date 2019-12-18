@@ -19,7 +19,6 @@ class WeaponSelect extends Component {
 					onChange={ this.props.onChange }
 					options={ this.state.types }
 					formatValues={ true }
-					singularValues={ true }
 					labels={ ['Type', 'Platform'] }
 					names={ ['type', 'platform'] }
 				/>
