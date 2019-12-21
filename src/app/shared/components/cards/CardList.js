@@ -3,9 +3,8 @@ import './Cards.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import AddCard from 'app/shared/components/cards/AddCard'
 import ConfirmDeleteDialog from 'app/shared/components/dialogs/ConfirmDeleteDialog'
-import { ArmoryCard, LoadoutCard } from './entities'
+import { AddCard, ArmoryCard, LoadoutCard } from './'
 
 class CardList extends Component {
 

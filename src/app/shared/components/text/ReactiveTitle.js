@@ -7,7 +7,11 @@ import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 function ReactiveTitle({children, variant, mobileVariant, style}) {
 	let isMobileMode = useIsMobileMode()
 
-	return <Typography style={ style } variant={ isMobileMode ? mobileVariant : variant }>{ children }</Typography>
+	return (
+		<Typography style={ style } variant={ isMobileMode ? mobileVariant : variant }>
+			{ children }
+		</Typography>
+	)
 }
 
 ReactiveTitle.propTypes = {
