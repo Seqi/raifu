@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import ConfirmDeleteDialog from 'app/shared/components/Dialogs/ConfirmDeleteDialog'
-import LoadoutItem from 'app/shared/components/Display/LoadoutItem'
+import ConfirmDeleteDialog from 'app/shared/components/dialogs/ConfirmDeleteDialog'
+import LoadoutItem from 'app/shared/components/display/LoadoutItem'
 
 export default function LoadoutGear ({ gear, canDelete, onDelete }) {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import getImage from 'app/shared/services/armory-image-service'
-import RotatedImage from 'app/shared/components/Images/RotatedImage'
+import RotatedImage from 'app/shared/components/images/RotatedImage'
 
 import './WeaponDisplay.css'
 

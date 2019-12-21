@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { ResourceList } from 'app/shared/components/Lists'
-import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog } from './Dialogs'
+import { ResourceList } from 'app/shared/components/lists'
+import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog } from './dialogs'
 import database from '../../../firebase/database'
 
 class Armory extends Component {

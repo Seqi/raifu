@@ -5,8 +5,8 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import WeaponDisplay from 'app/shared/components/Display/WeaponDisplay'
-import DeleteButton from 'app/shared/components/Buttons/DeleteButton'
+import WeaponDisplay from 'app/shared/components/display/WeaponDisplay'
+import DeleteButton from 'app/shared/components/buttons/DeleteButton'
 
 import './LoadoutCard.css'
 

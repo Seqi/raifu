@@ -1,6 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel } from '@material-ui/core'
+
+import { 
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	Button,
+	Checkbox,
+	FormControlLabel 
+} from '@material-ui/core'
 
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 

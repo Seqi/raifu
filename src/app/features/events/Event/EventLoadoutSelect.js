@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { LoadoutAdd, LoadoutSeparator } from 'app/features/loadouts'
-import AddLoadoutToEventDialog from './AddLoadoutToEventDialog/AddLoadoutToEventDialog'
+import AddLoadoutToEventDialog from './AddLoadoutToEventDialog'
 
 const EventLoadoutSelect = ({ event, setLoadout }) => {
 	let [activeDialog, setActiveDialog] = useState()

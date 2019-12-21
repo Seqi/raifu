@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
-import MenuItem from '@material-ui/core/MenuItem'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	MenuItem,
+	TextField,
+	Button
+} from '@material-ui/core'
 
 import { Loading, Error } from 'app/shared/components'
 
-import database from '../../../../../firebase/database'
+import database from '../../../../firebase/database'
 
 export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onClose}) {
 	let [loadouts, setLoadouts] = useState({ data: [], loading: true, error: null })

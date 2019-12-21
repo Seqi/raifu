@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 
-import AddLoadoutDialog from './Dialogs/AddLoadoutDialog'
-import { ResourceList } from 'app/shared/components/Lists'
+import { ResourceList } from 'app/shared/components/lists'
+import AddLoadoutDialog from './AddLoadoutDialog'
 import database from '../../../../firebase/database'
 
 let LoadoutList = ({ history, location }) => {

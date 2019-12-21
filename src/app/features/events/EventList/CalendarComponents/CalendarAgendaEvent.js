@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { withTheme } from '@material-ui/core'
 
-import WeaponDisplay from 'app/shared/components/Display/WeaponDisplay'
+import WeaponDisplay from 'app/shared/components/display/WeaponDisplay'
 import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
 function CalendarAgendaEvent ({ event, theme }) {

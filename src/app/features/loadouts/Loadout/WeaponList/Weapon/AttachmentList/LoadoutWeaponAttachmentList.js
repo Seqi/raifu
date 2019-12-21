@@ -2,8 +2,8 @@ import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import { LoadoutContext } from 'app/features/loadouts'
-import AddArmoryItemDialog from 'app/shared/components/Dialogs/AddArmoryItemDialog'
-import AddButton from 'app/shared/components/Buttons/AddButton'
+import AddArmoryItemDialog from 'app/shared/components/dialogs/AddArmoryItemDialog'
+import AddButton from 'app/shared/components/buttons/AddButton'
 import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
 import database from '../../../../../../../firebase/database'
 

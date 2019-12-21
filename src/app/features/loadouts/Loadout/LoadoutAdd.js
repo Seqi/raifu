@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AddButton from 'app/shared/components/Buttons/AddButton'
+import AddButton from 'app/shared/components/buttons/AddButton'
 import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
 export default function LoadoutAdd({ onClick }) {

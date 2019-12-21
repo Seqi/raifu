@@ -8,7 +8,7 @@ import { Tabs, Tab } from '@material-ui/core'
 import Armory from 'app/features/armory/Armory'
 import LoadoutRouter from 'app/features/loadouts/LoadoutRouter'
 import EventRouter from 'app/features/events/EventRouter'
-import AuthenticatedRoute from 'app/shared/components/Auth/AuthenticatedRoute'
+import AuthenticatedRoute from 'app/shared/components/auth/AuthenticatedRoute'
 
 let Main = ({ location, history }) => {
 	let [tabIndex, setTabIndex] = useState(() => {

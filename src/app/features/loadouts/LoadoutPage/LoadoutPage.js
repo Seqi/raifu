@@ -4,8 +4,7 @@ import { Loading, Error } from 'app/shared/components'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
 
-import EditLoadoutDialog from './Dialogs/EditLoadoutNameDialog'
-import SetShareableDialog from './Dialogs/SetShareableDialog'
+import { EditLoadoutDialog, SetShareableDialog } from './dialogs'
 import database from '../../../../firebase/database'
 
 class LoadoutPage extends React.Component {
