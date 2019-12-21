@@ -1,33 +1,34 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-function calculateAddedXMargin(ref, rotateBy) {
-	let boundingBoxWidth = calculateBoundingBoxWidth(ref, rotateBy)
-	let diff = boundingBoxWidth - ref.current.offsetWidth
+function calculateAddedXMargin(width, height, rotateBy) {
+	// Calculate the new width when the box is rotated
+	let newWidth = calculateBoundingBoxWidth(width, height, rotateBy)
 
+	// Calculate how much width is added in total
+	let diff = newWidth - width
+
+	// Return what is required to add to an individual side-padding
 	return diff / 2
 }
 
-function calculateBoundingBoxWidth(ref, rotateBy) {
+function calculateBoundingBoxWidth(width, height, rotateBy) {
 	// We want to make sure the container expands its bounding box
 	// to contain the new length of the rotated image
 	// https://stackoverflow.com/questions/3231176/how-to-get-size-of-a-rotated-rectangle
-	let x = ref.current.offsetWidth
-	let y = ref.current.offsetHeight
-
 	let rads = rotateBy * (Math.PI / 180)
 
-	return Math.abs(x * Math.cos(rads)) + Math.abs(y * Math.sin(rads))
+	return Math.abs(width * Math.cos(rads)) + Math.abs(height * Math.sin(rads))
 }
 
 function RotatedImage({image, rotateBy, style}) {
 	let [containerRef] = useState(React.createRef())
 	let [xMargin, setXMargin] = useState(0)
 	
-	// Use memoization to stop this function triggering the below effect on every render
 	let setNewXMargin = useCallback(() => {
 		if (containerRef.current) {
-			let newXMargin = calculateAddedXMargin(containerRef, rotateBy)
+			let ref = containerRef.current
+			let newXMargin = calculateAddedXMargin(ref.offsetWidth, ref.offsetHeight, rotateBy)
 			setXMargin(newXMargin)
 		}
 	}, [containerRef, rotateBy])
@@ -44,7 +45,7 @@ function RotatedImage({image, rotateBy, style}) {
 			<img alt=''
 				src={ image }
 				style={ { ...style, transform: `rotate(${rotateBy}deg)` } }
-				onLoad={ () => setNewXMargin() } 
+				onLoad={ setNewXMargin } 
 			/>
 		</div>
 	)
