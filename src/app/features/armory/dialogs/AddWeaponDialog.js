@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 import { Error } from 'app/shared/components'
-import { ResourceSelect, WeaponSelect } from 'app/shared/components/Selects'
+import { ResourceSelect, WeaponSelect } from 'app/shared/components/selects'
 
 import database from '../../../../firebase/database'
 

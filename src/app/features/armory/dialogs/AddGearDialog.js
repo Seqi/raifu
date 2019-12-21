@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 import { Error } from 'app/shared/components'
-import { GearSelect } from 'app/shared/components/Selects'
+import { GearSelect } from 'app/shared/components/selects'
 
 class AddGearDialog extends React.Component {
 	constructor(props) {

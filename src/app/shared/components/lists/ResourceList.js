@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { Error, Loading } from 'app/shared/components'
-import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
-import CardList from 'app/shared/components/Cards/CardList'
+import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
+import CardList from 'app/shared/components/cards/CardList'
 
 const ResourceList = ({ 
 	title, 

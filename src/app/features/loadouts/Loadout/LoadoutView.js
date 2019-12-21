@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
+import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
 import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutSeparator from './LoadoutSeparator'

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Loading, Error } from 'app/shared/components'
-import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
+import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
 import { LoadoutView } from 'app/features/loadouts'
 import SharedNotFound from './SharedNotFound'
 import database from '../../../firebase/database'

@@ -3,7 +3,7 @@ import PropType from 'prop-types'
 
 import { withTheme } from '@material-ui/core'
 
-import { ArmoryCard } from 'app/shared/components/Cards/Entities'
+import { ArmoryCard } from 'app/shared/components/cards/Entities'
 import './ArmoryItemSelect.css'
 
 function ArmoryItemSelect ({theme, items, category, selectedItemIds, onItemSelected }) {

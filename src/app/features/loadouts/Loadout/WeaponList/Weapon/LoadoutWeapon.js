@@ -5,7 +5,7 @@ import { LoadoutContext } from 'app/features/loadouts'
 import ConfirmDeleteDialog from 'app/shared/components/dialogs/ConfirmDeleteDialog'
 import ArmoryItemImage from 'app/shared/components/images/ArmoryItemImage'
 import DeleteButton from 'app/shared/components/buttons/DeleteButton'
-import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
+import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
 import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
 import './LoadoutWeapon.css'
 

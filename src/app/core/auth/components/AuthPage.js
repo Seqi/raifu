@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import LoginPage from './Login/LoginPage'
 import SignupPage from './Signup/SignupPage'
-import Logo from 'app/shared/components/Logo'
+import Logo from 'app/shared/components/logo'
 
 import './AuthPage.css'
 import UserContext from '../contexts/UserContext'

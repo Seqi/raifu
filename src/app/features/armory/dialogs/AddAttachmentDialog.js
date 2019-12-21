@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 import { Error } from 'app/shared/components'
-import { AttachmentSelect } from 'app/shared/components/Selects'
+import { AttachmentSelect } from 'app/shared/components/selects'
 
 class AddAttachmentDialog extends React.Component {
 	constructor(props) {

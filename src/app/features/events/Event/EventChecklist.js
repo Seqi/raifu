@@ -11,7 +11,7 @@ import {
 	FormControlLabel 
 } from '@material-ui/core'
 
-import ReactiveTitle from 'app/shared/components/Text/ReactiveTitle'
+import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
 
 let checkboxListStyle = {
 	display: 'flex',

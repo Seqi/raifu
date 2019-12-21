@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropType from 'prop-types'
 
-import CascadingSelect from 'app/shared/components/Selects/CascadingSelect'
+import CascadingSelect from 'app/shared/components/selects/CascadingSelect'
 import database from '../../../../firebase/database'
 
 class GearSelect extends Component {

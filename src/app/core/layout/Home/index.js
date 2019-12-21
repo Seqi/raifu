@@ -1,7 +1,7 @@
 import React from 'react'
 
 import HomePageSegment from './HomePageSegment'
-import Logo from 'app/shared/components/Logo'
+import Logo from 'app/shared/components/logo'
 import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
 import ArmoryImage from 'assets/home/armory.png'
