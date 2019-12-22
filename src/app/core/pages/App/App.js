@@ -1,16 +1,15 @@
-import './Main.css'
-
 import React, { useState, useCallback } from 'react'
 import { BrowserRouter as Router, Link, Switch, Redirect } from 'react-router-dom'
 
 import { Tabs, Tab } from '@material-ui/core'
 
-import Armory from 'app/features/armory/Armory'
+import AuthenticatedRoute from 'app/shared/auth/AuthenticatedRoute'
+import Armory from 'app/features/armory'
 import LoadoutRouter from 'app/features/loadouts/LoadoutRouter'
 import EventRouter from 'app/features/events/EventRouter'
-import AuthenticatedRoute from 'app/shared/auth/AuthenticatedRoute'
+import './App.css'
 
-let Main = ({ location, history }) => {
+let App = ({ location, history }) => {
 	let [tabIndex, setTabIndex] = useState(() => {
 		// Fixes active tab on direct navigations
 		let idxMap = [
@@ -54,4 +53,4 @@ let Main = ({ location, history }) => {
 	)
 }
 
-export default Main
+export default App
