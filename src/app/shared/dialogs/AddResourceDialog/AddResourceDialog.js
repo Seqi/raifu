@@ -8,9 +8,9 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
 import { Loading, Error } from 'app/shared'
-import ArmoryItemSelect from './ArmoryItemSelect'
+import ResourceSelect from './ResourceSelect'
 
-class AddArmoryItemDialog extends Component {
+class AddResourceDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -91,7 +91,7 @@ class AddArmoryItemDialog extends Component {
 					{ errorOnLoad && <Error error={ errorOnLoad } onRetry={ () => this.loadItems() } /> }
 					{ errorOnSave && <Error error={ errorOnSave } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
 
-					<ArmoryItemSelect
+					<ResourceSelect
 						items={ this.getSelectableItems() } 
 						category={ category }
 						selectedItemIds={ itemIds } 
@@ -115,7 +115,7 @@ class AddArmoryItemDialog extends Component {
 	}
 }
 
-AddArmoryItemDialog.propTypes = {
+AddResourceDialog.propTypes = {
 	title: PropTypes.string.isRequired,
 	category: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
 	itemLoadFunc: PropTypes.func.isRequired,
@@ -126,9 +126,9 @@ AddArmoryItemDialog.propTypes = {
 	onSave: PropTypes.func.isRequired
 }
 
-AddArmoryItemDialog.defaultProps = {
+AddResourceDialog.defaultProps = {
 	filterIds: [],
 	allowMultiple: false
 }
 
-export default AddArmoryItemDialog
+export default AddResourceDialog

@@ -2,7 +2,7 @@ import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import { LoadoutContext } from 'app/features/loadouts'
-import AddArmoryItemDialog from 'app/shared/dialogs/AddArmoryItemDialog'
+import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import AddButton from 'app/shared/buttons/AddButton'
 import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
 import database from '../../../../../../../firebase/database'
@@ -34,7 +34,7 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 				}
 			</div>
 
-			{ editable && <AddArmoryItemDialog
+			{ editable && <AddResourceDialog
 				title={ `Add attachments to ${weapon.getTitle()}` }
 				category='attachments'
 				allowMultiple={ true }

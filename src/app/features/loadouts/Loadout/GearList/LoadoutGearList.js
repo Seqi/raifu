@@ -3,7 +3,7 @@ import React, { useState, useCallback, useContext } from 'react'
 import AddButton from 'app/shared/buttons/AddButton'
 
 import { LoadoutContext } from 'app/features/loadouts'
-import AddArmoryItemDialog from 'app/shared/dialogs/AddArmoryItemDialog'
+import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import LoadoutGear from './Gear/LoadoutGear'
 import database from '../../../../../firebase/database'
 import './LoadoutGearList.css'
@@ -36,7 +36,7 @@ let LoadoutGearList = () => {
 			</div>
 
 			{editable && 
-				<AddArmoryItemDialog 
+				<AddResourceDialog 
 					title='Add gear to loadout'
 					category='gear'
 					itemLoadFunc={ database.gear.get }

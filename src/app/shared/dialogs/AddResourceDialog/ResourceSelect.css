@@ -1,0 +1,19 @@
+.resource-select-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+.resource-select-card {
+	height: 220px;
+	width: 30%;
+	min-width: 0;
+	margin-right: 0;
+}
+
+@media (max-width: 768px) {	
+	.aresource-select-card {
+		height: 170px;
+		width: 45%;
+	}
+}

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback } from 'react'
 
 import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/loadouts'
-import AddArmoryItemDialog from 'app/shared/dialogs/AddArmoryItemDialog'
+import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 
 import database from '../../../../../firebase/database'
@@ -31,7 +31,7 @@ let LoadoutWeaponList = () => {
 							<LoadoutAdd onClick={ () => setDialog('add') } />
 						</LoadoutSeparator>
 
-						<AddArmoryItemDialog
+						<AddResourceDialog
 							title='Add weapon to loadout'
 							category='weapons'
 							itemLoadFunc={ database.weapons.get }
