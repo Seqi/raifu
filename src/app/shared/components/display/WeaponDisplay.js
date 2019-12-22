@@ -1,45 +1,24 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import getImage from 'app/shared/services/armory-image-service'
-import RotatedImage from 'app/shared/components/images/RotatedImage'
+import ResourceImage from 'app/shared/components/images/ResourceImage'
 
 import './WeaponDisplay.css'
 
-class WeaponDisplay extends Component {
-	getWeaponImages(weapons) {
-		let images = []
-
-		Object.keys(weapons)
-			.forEach((weaponId) => {
-				let weapon = weapons[weaponId]
-
-				let weaponImage = getImage('weapons', weapon.type, weapon.platform)
-				if (weaponImage) {
-					images.push({ rotate: 45, img: weaponImage })
-				}
-			})
-
-		return images
+let WeaponDisplay = ({ weapons }) => {
+	if (!weapons || weapons.length === 0) {
+		return <div>No items</div>
 	}
 
-	render() {
-		let { weapons } = this.props 
-
-		if (!weapons || weapons.length === 0) {
-			return <div>No items</div>
-		}
-
-		let images = this.getWeaponImages(weapons)
-
-		return (
-			<div className='loadout-list-item-container'>
-				{images.map((image, idx) => (
-					<RotatedImage key={ idx } rotateBy={ image.rotate } image={ image.img } />
-				))}
-			</div>
-		)
-	}
+	return (
+		<div className='loadout-list-item-container'>
+			{
+				weapons.map((weapon) => 
+					<ResourceImage key={ weapon.id } resourceType='weapons' resource={ weapon } rotate={ true } />
+				)
+			}
+		</div>
+	)
 }
 
 WeaponDisplay.propTypes = {

@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import ArmoryItemImage from 'app/shared/components/images/ArmoryItemImage'
+import ResourceImage from 'app/shared/components/images/ResourceImage'
 import DeleteButton from 'app/shared/components/buttons/DeleteButton'
 
 import './ArmoryCard.css'
@@ -18,7 +18,7 @@ export default function ArmoryCard({ item, category, canDelete, onClick, onDelet
 			<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header'/>
 
 			<CardContent className='card-content'>
-				<ArmoryItemImage entity={ item } category={ category } />
+				<ResourceImage resource={ item } resourceType={ category } />
 			</CardContent>
 		</Card>
 	)

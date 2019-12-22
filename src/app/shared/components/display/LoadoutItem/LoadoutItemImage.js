@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ArmoryItemImage from 'app/shared/components/images/ArmoryItemImage'
+import ResourceImage from 'app/shared/components/images/ResourceImage'
 
 const fillParent = {
 	display: 'flex',
@@ -12,10 +12,10 @@ const fillParent = {
 export default function LoadoutItemImage({ item, category, textStyle }) {
 	return (
 		<div style={ fillParent }>
-			<ArmoryItemImage 
+			<ResourceImage 
 				style={ fillParent } 
-				entity={ item } 
-				category={ category }
+				resource={ item } 
+				resourceType={ category }
 				rotate={ category === 'attachments' } />
 
 			<span className='loadout-weapon-attachment-item-text' style={ {

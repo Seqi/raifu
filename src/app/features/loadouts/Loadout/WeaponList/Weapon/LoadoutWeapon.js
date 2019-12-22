@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { LoadoutContext } from 'app/features/loadouts'
 import ConfirmDeleteDialog from 'app/shared/components/dialogs/ConfirmDeleteDialog'
-import ArmoryItemImage from 'app/shared/components/images/ArmoryItemImage'
+import ResourceImage from 'app/shared/components/images/ResourceImage'
 import DeleteButton from 'app/shared/components/buttons/DeleteButton'
 import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
 import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
@@ -25,10 +25,10 @@ let LoadoutWeapon = ({ weapon }) => {
 						{ editable && <DeleteButton style={ {position: 'initial'} } onClick={ () => setDialog('delete') } /> }
 					</ReactiveTitle>
 
-					<ArmoryItemImage 
+					<ResourceImage 
 						style={ { width: '100%', height: '100%'	} }
-						entity={ weapon }
-						category={ 'weapons' }
+						resource={ weapon }
+						resourceType='weapons'
 					/>
 				</div>	
 
