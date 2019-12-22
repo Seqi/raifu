@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
+import Logo from 'app/core/layout/logo'
+import UserContext from '../contexts/UserContext'
+
 import LoginPage from './Login/LoginPage'
 import SignupPage from './Signup/SignupPage'
-import Logo from 'app/shared/logo'
 
 import './AuthPage.css'
-import UserContext from '../contexts/UserContext'
 
 function AuthPage({ history }) {
 	let user = useContext(UserContext)
