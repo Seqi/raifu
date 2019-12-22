@@ -18,13 +18,13 @@ let Site = () => {
 					<UserContextProvider>
 						<Switch>
 							<Route path='/login' component={ AuthPage } />
-							<Route path='/' component={ () => 
+							<Route path='/' render={ () => 
 								<React.Fragment>
 									<NavBar />
 									<Switch>
+										<Route path='/' component={ HomePage } exact={ true } />
 										<Route path='/app' component={ App } />
 										<Route path='/share' component={ Shared } />
-										<Route path='/' component={ HomePage } />
 									</Switch>
 								</React.Fragment>
 							} />
