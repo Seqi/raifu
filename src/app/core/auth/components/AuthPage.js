@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Logo from 'app/core/layout/logo'
 import UserContext from '../contexts/UserContext'
+import Logo from 'app/core/layout/Logo'
 
 import LoginPage from './Login/LoginPage'
 import SignupPage from './Signup/SignupPage'
