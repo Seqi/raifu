@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Card, CardHeader, CardContent } from '@material-ui/core'
 
-import WeaponDisplay from 'app/shared/display/WeaponDisplay'
+import WeaponDisplay from 'app/shared/images/WeaponDisplay'
 import DeleteButton from 'app/shared/buttons/DeleteButton'
 
 import './LoadoutCard.css'

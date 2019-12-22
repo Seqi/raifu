@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { LoadoutContext } from 'app/features/loadouts'
 import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
-import LoadoutItem from 'app/shared/display/LoadoutItem'
+import LoadoutItem from 'app/shared/images/LoadoutItem'
 
 let LoadoutWeaponAttachment = ({ weaponId, attachment }) => {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
