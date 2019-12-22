@@ -9,7 +9,7 @@ let UserContextProvider = ({ children }) => {
 		throw new Error('Could not retrieve AuthContext. Ensure UserContext is wrapped with an AuthContext.Provider.')
 	}
 
-	let [user, setUser] = useState()
+	let [user, setUser] = useState(auth.user)
 
 	useEffect(() => {
 		let authUnsubscribe = auth.onAuthChanged(u => setUser(u))
