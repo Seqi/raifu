@@ -7,13 +7,13 @@ import 'core-js/fn/array/flat-map'
 import 'whatwg-fetch'
 
 import Theme from './Theme'
-import App from 'app/core/App'
+import Site from 'app/core/Site'
 
 ReactDOM.render(
 	<MuiThemeProvider theme={ Theme }>
 		<CssBaseline />
 		<Typography component='div'>
-			<App />
+			<Site />
 		</Typography>
 	</MuiThemeProvider>,
 	document.getElementById('root')
