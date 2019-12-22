@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import DeleteButton from '../../buttons/DeleteButton'
+import DeleteButton from 'app/shared/components/buttons/DeleteButton'
 import LoadoutItemImage from './LoadoutItemImage'
 
 import './LoadoutItem.css'

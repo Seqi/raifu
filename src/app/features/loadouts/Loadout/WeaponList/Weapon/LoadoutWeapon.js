@@ -6,6 +6,7 @@ import ConfirmDeleteDialog from 'app/shared/components/dialogs/ConfirmDeleteDial
 import ResourceImage from 'app/shared/components/images/ResourceImage'
 import DeleteButton from 'app/shared/components/buttons/DeleteButton'
 import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
+
 import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
 import './LoadoutWeapon.css'
 
