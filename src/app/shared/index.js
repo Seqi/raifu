@@ -1,4 +1,2 @@
-import Error from './Error'
-import Loading from './Loading'
-
-export { Error, Loading }
+export { default as Error } from './Error'
+export { default as Loading } from './Loading'
