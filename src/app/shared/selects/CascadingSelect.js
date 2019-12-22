@@ -65,8 +65,8 @@ class CascadingSelect extends Component {
 					select={ true }
 					SelectProps={ { name: names[depth] } }
 				>
-					{this.options.map((option) => (
-						<MenuItem key={ option } value={ option }>
+					{this.options.map((option, i) => (
+						<MenuItem key={ i } value={ option }>
 							{this.getValue(option)}
 						</MenuItem>
 					))}

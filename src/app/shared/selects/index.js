@@ -1,5 +1,1 @@
-export { default as ResourceSelect } from './ResourceSelect'
-export { default as WeaponSelect } from './WeaponSelect'
-export { default as GearSelect } from './GearSelect'
-export { default as AttachmentSelect } from './AttachmentSelect'
 export { default as CascadingSelect } from './CascadingSelect'

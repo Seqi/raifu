@@ -9,7 +9,9 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 import { Error } from 'app/shared'
-import { GearSelect } from 'app/shared/selects'
+import { CascadingSelect } from 'app/shared/selects'
+
+import database from '../../../../firebase/database'
 
 class AddGearDialog extends React.Component {
 	constructor(props) {
@@ -80,7 +82,13 @@ class AddGearDialog extends React.Component {
 				<DialogContent>
 					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
 					
-					<GearSelect onChange={ (e) => this.handleInputChange(e) } />
+					<CascadingSelect
+						onChange={ (e) => this.handleInputChange(e) }
+						options={ database.platforms.gear }
+						formatValues={ true }
+						labels={ ['Type', 'Gear'] }
+						names={ ['type', 'platform'] }
+					/>
 					
 					<TextField
 						id='brand'

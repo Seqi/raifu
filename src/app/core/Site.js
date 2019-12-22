@@ -10,7 +10,7 @@ import './Site.css'
 
 let showAnnouncements = process.env.NODE_ENV !== 'development'
 
-let Site = () =>  {
+let Site = () => {
 	return (
 		<div className='app'>
 			<Router>

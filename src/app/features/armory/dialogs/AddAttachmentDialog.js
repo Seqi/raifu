@@ -1,15 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	TextField,
+	Button,
+} from '@material-ui/core'
 
 import { Error } from 'app/shared'
-import { AttachmentSelect } from 'app/shared/selects'
+import { CascadingSelect } from 'app/shared/selects'
+
+import database from '../../../../firebase/database'
 
 class AddAttachmentDialog extends React.Component {
 	constructor(props) {
@@ -79,8 +83,14 @@ class AddAttachmentDialog extends React.Component {
 
 				<DialogContent>
 					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
-					
-					<AttachmentSelect onChange={ (e) => this.handleInputChange(e) } />
+										
+					<CascadingSelect
+						onChange={ (e) => this.handleInputChange(e) }
+						options={ database.platforms.attachment }
+						formatValues={ true }
+						labels={ ['Type', 'Attachment'] }
+						names={ ['type', 'platform'] }
+					/>
 					
 					<TextField
 						id='brand'
