@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResourceImage from 'app/shared/components/images/ResourceImage'
+import ResourceImage from 'app/shared/images/ResourceImage'
 
 const fillParent = {
 	display: 'flex',

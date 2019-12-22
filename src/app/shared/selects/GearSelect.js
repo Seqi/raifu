@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropType from 'prop-types'
 
-import CascadingSelect from 'app/shared/components/selects/CascadingSelect'
-import database from '../../../../firebase/database'
+import CascadingSelect from 'app/shared/selects/CascadingSelect'
+import database from '../../../firebase/database'
 
-class WeaponSelect extends Component {
+class GearSelect extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			types: database.platforms.weapon
+			types: database.platforms.gear
 		}
 	}
 
@@ -27,8 +27,8 @@ class WeaponSelect extends Component {
 	}
 }
 
-WeaponSelect.propTypes = {
+GearSelect.propTypes = {
 	onChange: PropType.func.isRequired
 }
 
-export default WeaponSelect
+export default GearSelect

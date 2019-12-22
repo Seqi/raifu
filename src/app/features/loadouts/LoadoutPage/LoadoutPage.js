@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared/components'
+import { Loading, Error } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
-import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
+import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import { EditLoadoutDialog, SetShareableDialog } from './dialogs'
 import database from '../../../../firebase/database'

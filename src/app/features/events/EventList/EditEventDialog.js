@@ -16,7 +16,7 @@ import {
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 
-import { Error } from 'app/shared/components'
+import { Error } from 'app/shared'
 
 class EditEventDialog extends Component {
 	constructor(props) {

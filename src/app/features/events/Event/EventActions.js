@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import EditEventDialog from '../EventList/EditEventDialog'
 import EventChecklist from './EventChecklist'
-import ConfirmDeleteDialog from 'app/shared/components/dialogs/ConfirmDeleteDialog'
+import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
 import { UserContext } from 'app/core/auth/contexts'
 
 let isMyEvent = (user, event) => {

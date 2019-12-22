@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 
-import { Loading, Error } from 'app/shared/components'
+import { Loading, Error } from 'app/shared'
 import ArmoryItemSelect from './ArmoryItemSelect'
 
 class AddArmoryItemDialog extends Component {

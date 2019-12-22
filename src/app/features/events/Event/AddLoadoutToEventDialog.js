@@ -11,7 +11,7 @@ import {
 	Button
 } from '@material-ui/core'
 
-import { Loading, Error } from 'app/shared/components'
+import { Loading, Error } from 'app/shared'
 
 import database from '../../../../firebase/database'
 

@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
+import { Card, CardHeader, CardContent } from '@material-ui/core'
 
-import WeaponDisplay from 'app/shared/components/display/WeaponDisplay'
-import DeleteButton from 'app/shared/components/buttons/DeleteButton'
+import WeaponDisplay from 'app/shared/display/WeaponDisplay'
+import DeleteButton from 'app/shared/buttons/DeleteButton'
 
 import './LoadoutCard.css'
 

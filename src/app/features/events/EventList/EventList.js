@@ -7,7 +7,7 @@ import { withTheme, Fab } from '@material-ui/core'
 import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarComponents'
 import EditEventDialog from './EditEventDialog'
 
-import { Loading, Error } from 'app/shared/components'
+import { Loading, Error } from 'app/shared'
 
 import database from '../../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'

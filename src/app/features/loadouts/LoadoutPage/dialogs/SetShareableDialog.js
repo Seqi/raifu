@@ -10,7 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Button from '@material-ui/core/Button'
 
-import { Error } from 'app/shared/components'
+import { Error } from 'app/shared'
 import database from '../../../../../firebase/database'
 
 class SetShareableDialog extends Component {

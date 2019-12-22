@@ -5,8 +5,8 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
-import ResourceImage from 'app/shared/components/images/ResourceImage'
-import DeleteButton from 'app/shared/components/buttons/DeleteButton'
+import ResourceImage from 'app/shared/images/ResourceImage'
+import DeleteButton from 'app/shared/buttons/DeleteButton'
 
 import './ArmoryCard.css'
 

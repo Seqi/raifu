@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import EventActions from './EventActions' 
-import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
+import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 function EventHeader( { event, updateEvent, deleteEvent }) {
 	return (

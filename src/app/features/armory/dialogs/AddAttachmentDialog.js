@@ -8,8 +8,8 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { Error } from 'app/shared/components'
-import { AttachmentSelect } from 'app/shared/components/selects'
+import { Error } from 'app/shared'
+import { AttachmentSelect } from 'app/shared/selects'
 
 class AddAttachmentDialog extends React.Component {
 	constructor(props) {

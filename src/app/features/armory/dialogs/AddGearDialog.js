@@ -8,8 +8,8 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { Error } from 'app/shared/components'
-import { GearSelect } from 'app/shared/components/selects'
+import { Error } from 'app/shared'
+import { GearSelect } from 'app/shared/selects'
 
 class AddGearDialog extends React.Component {
 	constructor(props) {

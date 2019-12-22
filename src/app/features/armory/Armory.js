@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { ResourceList } from 'app/shared/components/lists'
+import { ResourceList } from 'app/shared/lists'
 import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog } from './dialogs'
 import database from '../../../firebase/database'
 

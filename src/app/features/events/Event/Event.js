@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared/components'
+import { Loading, Error } from 'app/shared'
 
 import EventHeader from './EventHeader'
 import EventLoadout from './EventLoadout'

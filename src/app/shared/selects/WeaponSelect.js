@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import PropType from 'prop-types'
 
-import CascadingSelect from './CascadingSelect'
+import CascadingSelect from 'app/shared/selects/CascadingSelect'
+import database from '../../../firebase/database'
 
-import database from '../../../../firebase/database'
-
-class AttachmentSelect extends Component {
+class WeaponSelect extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			types: database.platforms.attachment
+			types: database.platforms.weapon
 		}
 	}
 
@@ -20,7 +19,7 @@ class AttachmentSelect extends Component {
 					onChange={ this.props.onChange }
 					options={ this.state.types }
 					formatValues={ true }
-					labels={ ['Type', 'Attachment'] }
+					labels={ ['Type', 'Platform'] }
 					names={ ['type', 'platform'] }
 				/>
 			</React.Fragment>
@@ -28,8 +27,8 @@ class AttachmentSelect extends Component {
 	}
 }
 
-AttachmentSelect.propTypes = {
+WeaponSelect.propTypes = {
 	onChange: PropType.func.isRequired
 }
 
-export default AttachmentSelect
+export default WeaponSelect

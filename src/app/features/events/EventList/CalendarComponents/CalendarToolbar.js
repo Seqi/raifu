@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from '@material-ui/core'
 
-import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
+import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 function CalendarToolbar({label, view, onNavigate, onView, theme}) {
 	const blankButton = {

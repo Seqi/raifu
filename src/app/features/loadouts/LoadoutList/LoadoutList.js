@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { ResourceList } from 'app/shared/components/lists'
+import { ResourceList } from 'app/shared/lists'
 import AddLoadoutDialog from './AddLoadoutDialog'
 import database from '../../../../firebase/database'
 

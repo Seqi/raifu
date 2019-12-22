@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import { Loading } from 'app/shared/components'
+import { Loading } from 'app/shared'
 
 class ResourceSelect extends Component {
 	constructor(props) {

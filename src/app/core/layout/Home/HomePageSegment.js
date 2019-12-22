@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useTheme } from '@material-ui/core'
 
-import ReactiveTitle from 'app/shared/components/text/ReactiveTitle'
+import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import './HomePageSegment.css'
 
 function HomePageSegment({ title, text, image, flip, isMobileMode }) {
