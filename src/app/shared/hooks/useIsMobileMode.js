@@ -1,24 +1,16 @@
 import { useState, useEffect } from 'react'
 
-export default function useIsMobileMode(mobileModeWidth = 768, onMobileModeChange) {	
+export default function useIsMobileMode(mobileModeWidth = 768) {	
 	let [isMobileMode, setIsMobileMode] = useState(window.innerWidth <= mobileModeWidth)
 
 	useEffect(() => {
-		let onResize = () => {
-			let isMobileModeSize = window.innerWidth <= mobileModeWidth
-			setIsMobileMode(isMobileModeSize)
-		}
+		let media = window.matchMedia(`(max-width: ${mobileModeWidth}px)`)
 
-		window.addEventListener('resize', onResize)
+		let listener = (mediaQuery) => setIsMobileMode(mediaQuery.matches)
+		media.addListener(listener)
 
-		return () => window.removeEventListener('resize', onResize)
+		return () => media.removeListener(listener)
 	}, [mobileModeWidth])
-
-	useEffect(() => {
-		if (onMobileModeChange) {
-			onMobileModeChange(isMobileMode)
-		}
-	}, [isMobileMode, onMobileModeChange])
 
 	return isMobileMode
 }
