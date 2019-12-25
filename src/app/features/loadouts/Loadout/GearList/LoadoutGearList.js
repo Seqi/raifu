@@ -1,53 +1,31 @@
-import React, { useState, useCallback, useContext } from 'react'
-
-import AddButton from 'app/shared/buttons/AddButton'
+import React, { useContext } from 'react'
 
 import { LoadoutContext } from 'app/features/loadouts'
 import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
-import LoadoutGear from './Gear/LoadoutGear'
+import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
 import database from '../../../../../firebase/database'
-import './LoadoutGearList.css'
 
 let LoadoutGearList = () => {
-	let [dialog, setDialog] = useState(null)
-	let { loadout, editable, addGear, deleteGear } = useContext(LoadoutContext)
-
-	let saveGear = useCallback(async (gearIds) => {
-		await addGear(gearIds)
-		setDialog(null)
-	}, [addGear])
+	let { loadout, addGear, deleteGear } = useContext(LoadoutContext)
 
 	return (
-		<React.Fragment>
-			<div className='loadout-gear-list-container'>				
-				{ 
-					(loadout.gear || []).map(gear => (
-						<div key={ gear.id } className='loadout-gear-list-item'>
-							<LoadoutGear gear={ gear } canDelete={ editable } onDelete={ deleteGear } />
-						</div>
-					)) 
-				}
-
-				{ editable && 
-					<div className='loadout-gear-list-item'>
-						<AddButton onClick={ () => setDialog('add') } />
-					</div>
-				}
-			</div>
-
-			{editable && 
+		<LoadoutResourceList
+			items={ loadout.gear || [] }
+			addItem={ addGear }
+			deleteItem={ deleteGear }
+			renderAddDialog={ (isOpen, onClose, onSave) => (
 				<AddResourceDialog 
 					title='Add gear to loadout'
 					category='gear'
 					itemLoadFunc={ database.gear.get }
 					filterIds={ (loadout.gear || []).map(g => g.id) }
-					isOpen={ dialog === 'add' } 
 					allowMultiple={ true }
-					onSave={ saveGear }
-					onClose={ () => setDialog(null) } 
+					isOpen={ isOpen } 
+					onSave={ onSave }
+					onClose={ onClose } 
 				/>
-			}
-		</React.Fragment>
+			) }
+		/>
 	)
 }
 

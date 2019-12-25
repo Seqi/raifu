@@ -4,32 +4,32 @@ import PropTypes from 'prop-types'
 import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/images/LoadoutItem'
 
-export default function LoadoutGear ({ gear, canDelete, onDelete }) {	
+export default function LoadoutResourceItem ({ item, canDelete, onDelete }) {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
 
 	return (
 		<React.Fragment>
 			<LoadoutItem
-				key={ gear.id } 
-				item={ gear } 
+				key={ item.id } 
+				item={ item } 
 				category={ 'gear' }
 				canDelete={ canDelete }
 				onDelete={ () => setIsDialogOpen(true) }
-				textStyle={ {bottom: '-10px'} }
+				textStyle={ { bottom: '-10px' } }
 			/>	
 					
 			{ canDelete && <ConfirmDeleteDialog 
 				isOpen={ isDialogOpen }
-				title={ gear.getTitle() }
-				onConfirm={ () => onDelete(gear.id) }
+				title={ item.getTitle() }
+				onConfirm={ () => onDelete(item.id) }
 				onClose={ () => setIsDialogOpen(false) }
 			/> }
 		</React.Fragment>
 	)
 }
 
-LoadoutGear.propTypes = {
-	gear: PropTypes.shape({
+LoadoutResourceItem.propTypes = {
+	item: PropTypes.shape({
 		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired
 	}).isRequired,
@@ -37,7 +37,7 @@ LoadoutGear.propTypes = {
 	onDelete: PropTypes.func
 }
 
-LoadoutGear.defaultProps = {
+LoadoutResourceItem.defaultProps = {
 	canDelete: false,
-	onDelete: (gearId) => {}
+	onDelete: (itemId) => {}
 }
