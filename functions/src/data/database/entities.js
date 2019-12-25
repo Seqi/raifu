@@ -40,6 +40,10 @@ let initEntities = () => {
 		freezeTableName: true
 	})
 
+	const clothing = sequelize.define('clothing', armoryTable, {
+		freezeTableName: true
+	})
+
 	const loadout = sequelize.define('loadout', {
 		id: {
 			type: Sequelize.STRING({ length: 14 }),
@@ -275,6 +279,7 @@ let initEntities = () => {
 		weapon,
 		attachment,
 		gear,
+		clothing,
 		loadout,
 		loadoutWeapon,
 		loadoutWeaponAttachment,
