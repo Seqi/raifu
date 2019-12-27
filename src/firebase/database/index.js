@@ -19,6 +19,7 @@ export default {
 	platforms: {
 		weapon: platforms.weapons,
 		gear: platforms.gear,
-		attachment: platforms.attachments
+		attachment: platforms.attachments,
+		clothing: platforms.clothing
 	}
 }
