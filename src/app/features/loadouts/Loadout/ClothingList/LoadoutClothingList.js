@@ -5,21 +5,21 @@ import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
 import database from '../../../../../firebase/database'
 
-let LoadoutGearList = () => {
-	let { loadout, addGear, deleteGear } = useContext(LoadoutContext)
+let LoadoutClothingList = () => {
+	let { loadout, addClothing, deleteClothing } = useContext(LoadoutContext)
 
 	return (
 		<LoadoutResourceList
-			resourceType='gear'
-			items={ loadout.gear || [] }
-			addItem={ addGear }
-			deleteItem={ deleteGear }
+			resourceType='clothing'
+			items={ loadout.clothing || [] }
+			addItem={ addClothing }
+			deleteItem={ deleteClothing }
 			renderAddDialog={ (isOpen, onClose, onSave) => (
 				<AddResourceDialog 
-					title='Add gear to loadout'
-					category='gear'
-					itemLoadFunc={ database.gear.get }
-					filterIds={ (loadout.gear || []).map(g => g.id) }
+					title='Add clothing to loadout'
+					category='clothing'
+					itemLoadFunc={ database.clothing.get }
+					filterIds={ (loadout.clothing || []).map(g => g.id) }
 					allowMultiple={ true }
 					isOpen={ isOpen } 
 					onSave={ onSave }
@@ -30,4 +30,4 @@ let LoadoutGearList = () => {
 	)
 }
 
-export default LoadoutGearList
+export default LoadoutClothingList

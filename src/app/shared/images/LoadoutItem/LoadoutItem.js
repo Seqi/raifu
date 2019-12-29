@@ -16,7 +16,7 @@ export default function LoadoutItem({ item, category, textStyle, canDelete, onDe
 }
 
 LoadoutItem.propTypes = {
-	category: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
+	category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	item: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
 		model: PropTypes.string,

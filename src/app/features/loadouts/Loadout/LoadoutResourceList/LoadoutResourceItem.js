@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
 import LoadoutItem from 'app/shared/images/LoadoutItem'
 
-export default function LoadoutResourceItem ({ item, canDelete, onDelete }) {	
+export default function LoadoutResourceItem ({ resourceType, item, canDelete, onDelete }) {	
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
 
 	return (
@@ -12,7 +12,7 @@ export default function LoadoutResourceItem ({ item, canDelete, onDelete }) {
 			<LoadoutItem
 				key={ item.id } 
 				item={ item } 
-				category={ 'gear' }
+				category={ resourceType }
 				canDelete={ canDelete }
 				onDelete={ () => setIsDialogOpen(true) }
 				textStyle={ { bottom: '-10px' } }
@@ -29,6 +29,7 @@ export default function LoadoutResourceItem ({ item, canDelete, onDelete }) {
 }
 
 LoadoutResourceItem.propTypes = {
+	resourceType: PropTypes.oneOf(['clothing', 'gear']).isRequired,
 	item: PropTypes.shape({
 		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired

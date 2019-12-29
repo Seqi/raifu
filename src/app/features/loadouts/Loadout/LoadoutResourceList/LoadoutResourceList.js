@@ -7,7 +7,7 @@ import { LoadoutContext } from 'app/features/loadouts'
 import LoadoutResourceItem from './LoadoutResourceItem'
 import './LoadoutResourceList.css'
 
-let LoadoutResourceList = ({ items, addItem, deleteItem, renderAddDialog }) => {
+let LoadoutResourceList = ({ resourceType, items, addItem, deleteItem, renderAddDialog }) => {
 	let [dialog, setDialog] = useState(null)
 	let { editable } = useContext(LoadoutContext)
 
@@ -22,7 +22,11 @@ let LoadoutResourceList = ({ items, addItem, deleteItem, renderAddDialog }) => {
 				{ 
 					items.map(item => (
 						<div key={ item.id } className='loadout-resource-list-item'>
-							<LoadoutResourceItem item={ item } canDelete={ editable } onDelete={ deleteItem } />
+							<LoadoutResourceItem
+								resourceType={ resourceType } 
+								item={ item }
+								canDelete={ editable }
+								onDelete={ deleteItem } />
 						</div>
 					)) 
 				}
@@ -49,6 +53,7 @@ let LoadoutResourceList = ({ items, addItem, deleteItem, renderAddDialog }) => {
 }
 
 LoadoutResourceList.propTypes = {
+	resourceType: PropTypes.oneOf(['clothing', 'gear']).isRequired,
 	items: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.string.isRequired,
 	})).isRequired,

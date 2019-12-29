@@ -32,7 +32,7 @@ export default function LoadoutItemImage({ item, category, textStyle }) {
 }
 
 LoadoutItemImage.propTypes = {
-	category: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
+	category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	item: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
 		model: PropTypes.string,

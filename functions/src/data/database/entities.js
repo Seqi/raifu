@@ -128,6 +128,33 @@ let initEntities = () => {
 		}
 	}, { freezeTableName: true })
 
+	const loadoutClothing = sequelize.define('loadout_clothing', {
+		id: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false,
+			primaryKey: true,
+			defaultValue: ''
+		},
+		loadout_id: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false,
+			references: {
+				model: loadout,
+				key: 'id',
+				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+			}
+		},
+		clothing_id: {
+			type: Sequelize.STRING({ length: 14 }),
+			allowNull: false,
+			references: {
+				model: clothing,
+				key: 'id',
+				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+			}
+		}
+	}, { freezeTableName: true })
+
 	const loadoutWeaponAttachment = sequelize.define('loadout_weapon_attachment', {
 		loadout_weapon_id: {
 			type: Sequelize.STRING({ length: 14 }),
@@ -275,6 +302,10 @@ let initEntities = () => {
 	loadout.belongsToMany(gear, { through: loadoutGear, foreignKey: 'loadout_id', as: 'gear'})
 	gear.belongsToMany(loadout, { through: loadoutGear, foreignKey: 'gear_id' })
 
+	// Loadout Clothing Associations
+	loadout.belongsToMany(clothing, { through: loadoutClothing, foreignKey: 'loadout_id', as: 'clothing'})
+	clothing.belongsToMany(loadout, { through: loadoutClothing, foreignKey: 'clothing_id' })
+
 	return {
 		weapon,
 		attachment,
@@ -284,6 +315,7 @@ let initEntities = () => {
 		loadoutWeapon,
 		loadoutWeaponAttachment,
 		loadoutGear,
+		loadoutClothing,
 		event,
 		eventUser
 	}

@@ -31,7 +31,7 @@ ArmoryCard.propTypes = {
 		getTitle: PropTypes.func.isRequired,
 		getSubtitle: PropTypes.func.isRequired,
 	}).isRequired,
-	category: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
+	category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,

@@ -37,38 +37,6 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 		}))
 	}, [currentLoadout])
 
-	let addGear = useCallback(async (ids) => {
-		// Save
-		let promises = ids.map(gearId => {
-			return database.loadouts
-				.loadout(currentLoadout.id)
-				.gear
-				.add(gearId)
-		})
-
-		let newGear = await Promise.all(promises)
-
-		// Update
-		setLoadout((currentLoadout) => ({ 
-			...currentLoadout,
-			gear: [ ...currentLoadout.gear, ...newGear ]
-		}))
-	}, [currentLoadout])
-
-	let deleteGear = useCallback(async (gearId) => {
-		// Save
-		await database.loadouts
-			.loadout(currentLoadout.id)
-			.gear
-			.delete(gearId)
-
-		// Update
-		setLoadout((currentLoadout) => ({ 
-			...currentLoadout,
-			gear: currentLoadout.gear.filter((g) => g.id !== gearId)
-		}))
-	}, [currentLoadout])
-
 	let addWeaponAttachments = useCallback(async (weaponId, attachmentIds) => {
 		// Save
 		let addToDbPromises = attachmentIds.map(attachmentId => {
@@ -127,16 +95,82 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 		})
 	}, [currentLoadout])
 
+	let addGear = useCallback(async (ids) => {
+		// Save
+		let promises = ids.map(gearId => {
+			return database.loadouts
+				.loadout(currentLoadout.id)
+				.gear
+				.add(gearId)
+		})
+
+		let newGear = await Promise.all(promises)
+
+		// Update
+		setLoadout((currentLoadout) => ({ 
+			...currentLoadout,
+			gear: [ ...currentLoadout.gear, ...newGear ]
+		}))
+	}, [currentLoadout])
+
+	let deleteGear = useCallback(async (gearId) => {
+		// Save
+		await database.loadouts
+			.loadout(currentLoadout.id)
+			.gear
+			.delete(gearId)
+
+		// Update
+		setLoadout((currentLoadout) => ({ 
+			...currentLoadout,
+			gear: currentLoadout.gear.filter((g) => g.id !== gearId)
+		}))
+	}, [currentLoadout])
+
+	let addClothing = useCallback(async (ids) => {
+		// Save
+		let promises = ids.map(clothingId => {
+			return database.loadouts
+				.loadout(currentLoadout.id)
+				.clothing
+				.add(clothingId)
+		})
+
+		let newClothing = await Promise.all(promises)
+
+		// Update
+		setLoadout((currentLoadout) => ({ 
+			...currentLoadout,
+			clothing: [ ...currentLoadout.clothing, ...newClothing ]
+		}))
+	}, [currentLoadout])
+
+	let deleteClothing = useCallback(async (clothingId) => {
+		// Save
+		await database.loadouts
+			.loadout(currentLoadout.id)
+			.clothing
+			.delete(clothingId)
+
+		// Update
+		setLoadout((currentLoadout) => ({ 
+			...currentLoadout,
+			clothing: currentLoadout.clothing.filter((c) => c.id !== clothingId)
+		}))
+	}, [currentLoadout])
+
 	return (
 		<LoadoutContext.Provider value={ {
 			loadout: currentLoadout,
 			editable,
 			addWeapon,
 			deleteWeapon,
+			addWeaponAttachments,
+			deleteWeaponAttachment,
 			addGear,
 			deleteGear,
-			addWeaponAttachments,
-			deleteWeaponAttachment
+			addClothing,
+			deleteClothing
 		} }>
 			{ children }
 		</LoadoutContext.Provider>

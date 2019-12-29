@@ -83,6 +83,15 @@ CREATE TABLE IF NOT EXISTS "loadout_gear" (
     UNIQUE ("loadout_id", "gear_id"), 
     PRIMARY KEY ("id"));
 
+CREATE TABLE IF NOT EXISTS "loadout_clothing" (
+    "id"   VARCHAR(14) NOT NULL, 
+    "loadout_id"  VARCHAR(14) NOT NULL REFERENCES "loadouts" ("id") ON DELETE CASCADE ON UPDATE CASCADE, 
+    "clothing_id"  VARCHAR(14) NOT NULL REFERENCES "clothing" ("id") ON DELETE CASCADE ON UPDATE CASCADE, 
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    UNIQUE ("loadout_id", "clothing_id"), 
+    PRIMARY KEY ("id"));
+
 CREATE TABLE IF NOT EXISTS "events" (
     "id" VARCHAR(14) NOT NULL DEFAULT '' , 
     "name" VARCHAR(256) NOT NULL, 

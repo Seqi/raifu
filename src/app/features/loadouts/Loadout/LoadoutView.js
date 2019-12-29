@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
-import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
+import LoadoutGearList from './GearList/LoadoutGearList'
+import LoadoutClothingList from './ClothingList/LoadoutClothingList'
 import LoadoutSeparator from './LoadoutSeparator'
 import LoadoutContextProvider from './LoadoutContextProvider'
 
@@ -15,6 +16,11 @@ let LoadoutView = ({ loadout, editable }) => {
 			<LoadoutSeparator>
 				<ReactiveTitle variant='h4' mobileVariant='h5'>Gear</ReactiveTitle>
 				<LoadoutGearList />
+			</LoadoutSeparator>
+
+			<LoadoutSeparator>
+				<ReactiveTitle variant='h4' mobileVariant='h5'>Clothing</ReactiveTitle>
+				<LoadoutClothingList />
 			</LoadoutSeparator>
 		</LoadoutContextProvider>
 	)

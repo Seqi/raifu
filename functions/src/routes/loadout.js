@@ -5,6 +5,7 @@ let authMiddleware = require('../middleware/firebase-auth-middleware')
 
 let loadoutWeaponRoutes = require('./loadout-weapon')
 let loadoutGearRoutes = require('./loadout-gear')
+let loadoutClothingRoutes = require('./loadout-clothing')
 
 let loadout = require('../data/loadout')
 let errors = require('../utils/errors')
@@ -112,5 +113,6 @@ router.delete('/:id', authMiddleware(), async (req, res) => {
 
 router.use('/:loadoutId/weapons', authMiddleware(), loadoutWeaponRoutes)
 router.use('/:loadoutId/gear', authMiddleware(), loadoutGearRoutes)
+router.use('/:loadoutId/clothing', authMiddleware(), loadoutClothingRoutes)
 
 module.exports = router
