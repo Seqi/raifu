@@ -95,6 +95,13 @@ let getById = async (id, user) => {
 							attributes: {
 								exclude: ['uid']
 							}
+						},					
+						{
+							model: entities().clothing,
+							as: 'clothing',
+							attributes: {
+								exclude: ['uid']
+							}
 						}
 					],
 				}
