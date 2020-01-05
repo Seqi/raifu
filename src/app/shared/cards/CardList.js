@@ -67,7 +67,7 @@ class CardList extends Component {
 				style: { animationDelay: this.getAnimationDelay(idx, items.length) }
 			}
 	
-			if (['weapons', 'attachments', 'gear'].indexOf(cardType) > -1) {
+			if (['weapons', 'attachments', 'gear', 'clothing'].indexOf(cardType) > -1) {
 				return <ArmoryCard item={ item } category={ cardType } { ...sharedProps } />
 			}
 
@@ -86,7 +86,7 @@ class CardList extends Component {
 
 		let mappedCardType
 
-		if (['weapons', 'attachments', 'gear'].indexOf(cardType) > -1) { 
+		if (['weapons', 'attachments', 'gear', 'clothing'].indexOf(cardType) > -1) { 
 			mappedCardType = 'armory'
 		} else {
 			mappedCardType = cardType
@@ -119,7 +119,7 @@ class CardList extends Component {
 
 CardList.propTypes = {
 	items: PropTypes.array,
-	cardType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'loadout']).isRequired,
+	cardType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing', 'loadout']).isRequired,
 	canAdd: PropTypes.bool,
 	canDelete: PropTypes.bool,
 	onAdd: PropTypes.func,

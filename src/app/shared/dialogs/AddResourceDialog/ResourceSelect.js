@@ -34,7 +34,7 @@ function ResourceSelect ({ items, category, selectedItemIds, onItemSelected }) {
 
 ResourceSelect.propTypes = {
 	items: PropType.array,
-	category: PropType.oneOf(['weapons', 'attachments', 'gear']).isRequired,
+	category: PropType.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	selectedItemIds: PropType.arrayOf(PropType.string),
 	onItemSelected: PropType.func
 }

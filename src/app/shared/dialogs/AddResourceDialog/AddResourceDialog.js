@@ -117,7 +117,7 @@ class AddResourceDialog extends Component {
 
 AddResourceDialog.propTypes = {
 	title: PropTypes.string.isRequired,
-	category: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
+	category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	itemLoadFunc: PropTypes.func.isRequired,
 	allowMultiple: PropTypes.bool,
 	filterIds: PropTypes.array,

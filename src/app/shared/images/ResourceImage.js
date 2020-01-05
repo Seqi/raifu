@@ -32,7 +32,7 @@ export default function ResourceImage({ resourceType, resource, rotate, style })
 ResourceImage.propTypes = {
 	style: PropTypes.object,
 	rotate: PropTypes.bool,
-	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear']).isRequired,
+	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	resource: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
 		type: PropTypes.string.isRequired

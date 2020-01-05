@@ -128,5 +128,14 @@ export default {
 		illumination: ['Pistol Torch', 'Flashlight', 'PEQ Box'],
 		underbarrel: ['Vertical Foregrip', 'Angled Foregrip', 'Bipod', 'Grenade Launcher'],
 		externals: ['Stock', 'Grip', 'Rail Riser', 'Rail System', 'Conversion Kit', 'Handguard Panel']
+	},
+	clothing: {
+		footwear: ['Boots', 'Shoes'],
+		hands: ['Gloves'],
+		hats: ['Cap'],
+		jackets: ['Hoodie', 'Jacket', 'Smock', 'Sweatshirt'],
+		legs: ['Pants', 'Shorts'],
+		shirts: ['T-Shirt', 'Ubacs'],
+		suits: ['Gorka']
 	}
 }

@@ -119,6 +119,13 @@ module.exports = {
 						attributes: {
 							exclude: ['uid']
 						}
+					},
+					{
+						model: entities().clothing,
+						as: 'clothing',
+						attributes: {
+							exclude: ['uid']
+						}
 					}
 				],
 				attributes: {

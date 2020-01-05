@@ -33,6 +33,18 @@ CREATE TABLE IF NOT EXISTS "gear" (
     "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     PRIMARY KEY ("id"));
+    
+CREATE TABLE IF NOT EXISTS "clothing" (
+    "id"   VARCHAR(14) NOT NULL, 
+    "platform" VARCHAR(64) NOT NULL,
+    "model" VARCHAR(64), 
+    "brand" VARCHAR(64), 
+    "nickname" VARCHAR(64), 
+    "type" VARCHAR(16) NOT NULL, 
+    "uid" VARCHAR(32) NOT NULL, 
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    PRIMARY KEY ("id"));
 
 CREATE TABLE IF NOT EXISTS "loadouts" (
     "id"   VARCHAR(14) NOT NULL, 
@@ -69,6 +81,15 @@ CREATE TABLE IF NOT EXISTS "loadout_gear" (
     "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
     UNIQUE ("loadout_id", "gear_id"), 
+    PRIMARY KEY ("id"));
+
+CREATE TABLE IF NOT EXISTS "loadout_clothing" (
+    "id"   VARCHAR(14) NOT NULL, 
+    "loadout_id"  VARCHAR(14) NOT NULL REFERENCES "loadouts" ("id") ON DELETE CASCADE ON UPDATE CASCADE, 
+    "clothing_id"  VARCHAR(14) NOT NULL REFERENCES "clothing" ("id") ON DELETE CASCADE ON UPDATE CASCADE, 
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+    UNIQUE ("loadout_id", "clothing_id"), 
     PRIMARY KEY ("id"));
 
 CREATE TABLE IF NOT EXISTS "events" (

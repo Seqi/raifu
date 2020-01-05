@@ -1,4 +1,4 @@
-.loadout-gear-list-container {
+.loadout-resource-list-container {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -6,7 +6,7 @@
 	margin-right: 2rem;
 }
 
-.loadout-gear-list-item {
+.loadout-resource-list-item {
 	flex: 1;
 
 	min-width: 250px;
@@ -18,12 +18,12 @@
 }
 
 @media (max-width: 768px) {
-	.loadout-gear-list-container {
+	.loadout-resource-list-container {
 		margin-left: 0;
 		margin-right: 0;
 	}
 
-	.loadout-gear-list-item {	
+	.loadout-resource-list-item {	
 		min-width: 150px;
 		max-width: 50%;
 		min-height: 100px;

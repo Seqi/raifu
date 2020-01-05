@@ -50,7 +50,9 @@ const ResourceList = ({
 
 ResourceList.propTypes = {
 	title: PropTypes.string.isRequired,
-	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'loadout']).isRequired,
+	resourceType: PropTypes.oneOf([
+		'weapons', 'attachments', 'gear', 'clothing', 'loadout'
+	]).isRequired,
 	onResourceClick: PropTypes.func,
 	renderAddDialog: PropTypes.func.isRequired,
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { ResourceList } from 'app/shared/resources'
-import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog } from './dialogs'
+import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
 import database from '../../../firebase/database'
 
 class Armory extends Component {
@@ -42,6 +42,19 @@ class Armory extends Component {
 							resourceType='gear'
 							renderAddDialog={ (isOpen, onClose, onSave) => (
 								<AddGearDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
+							) } 
+						/>
+					</div>
+				</section>
+
+				<section>
+					<div className='section-container'>
+						<ResourceList
+							title='Clothing'
+							resource={ database.clothing }
+							resourceType='clothing'
+							renderAddDialog={ (isOpen, onClose, onSave) => (
+								<AddClothingDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
 							) } 
 						/>
 					</div>
