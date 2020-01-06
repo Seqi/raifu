@@ -5,8 +5,7 @@ import { Error, Loading } from 'app/shared'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import CardList from 'app/shared/cards/CardList'
 
-const ResourceList = ({ 
-	title, 
+const ResourceList = ({
 	items,
 	loading,
 	error,
@@ -21,7 +20,10 @@ const ResourceList = ({
 
 	return (
 		<React.Fragment>
-			<ReactiveTitle>{ title }</ReactiveTitle>
+			<ReactiveTitle>
+				{ /* eslint-disable-next-line newline-per-chained-call */ }
+				{ resourceType.charAt(0).toUpper() + resourceType.slice(1) }
+			</ReactiveTitle>
 			{ 
 				loading ? <Loading /> :
 					error ? <Error error={ `An error occurred while loading ${resourceType}.` } onRetry={ loadResource } /> : 
@@ -49,7 +51,6 @@ const ResourceList = ({
 }
 
 ResourceList.propTypes = {
-	title: PropTypes.string.isRequired,
 	resourceType: PropTypes.oneOf([
 		'weapons', 'attachments', 'gear', 'clothing', 'loadout'
 	]).isRequired,
