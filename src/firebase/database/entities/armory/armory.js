@@ -6,13 +6,11 @@ export default {
 		new CloudFunction()
 			.path('armory')
 			.get()
-			.then((result) => {
-				// TODO: Use reduce
+			.then((result) => 
 				Object.keys(result)
-					.forEach(key => {
-						result[key] = result[key].map(toEntity)
-					})
-
-				return result
-			}),
+					.reduce((current, key) => {						
+						current[key] = result[key].map(toEntity)
+						return current
+					}, {})
+			)
 }
