@@ -5,6 +5,7 @@ import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import CardList from 'app/shared/cards/CardList'
 
 const ResourceList = ({
+	showTitle,
 	items,
 	addResource,
 	deleteResource,
@@ -16,10 +17,12 @@ const ResourceList = ({
 
 	return (
 		<React.Fragment>
-			<ReactiveTitle>
-				{ /* eslint-disable-next-line newline-per-chained-call */ }
-				{ resourceType.charAt(0).toUpperCase() + resourceType.slice(1) }
-			</ReactiveTitle>
+			{ showTitle && 
+				<ReactiveTitle>
+					{ /* eslint-disable-next-line newline-per-chained-call */ }
+					{ resourceType.charAt(0).toUpperCase() + resourceType.slice(1) }
+				</ReactiveTitle>
+			}
 
 			<CardList
 				items={ items }
@@ -42,6 +45,7 @@ const ResourceList = ({
 }
 
 ResourceList.propTypes = {
+	showTitle: PropTypes.bool,
 	resourceType: PropTypes.oneOf([
 		'weapons', 'attachments', 'gear', 'clothing', 'loadout'
 	]).isRequired,
@@ -56,6 +60,7 @@ ResourceList.propTypes = {
 }
 
 ResourceList.defaultProps = {
+	showTitle: true,
 	onResourceClick: (id) => { }
 }
 
