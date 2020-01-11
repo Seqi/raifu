@@ -13,8 +13,6 @@ module.exports = (entities, entityName = 'entity') => ({
 				},
 				order: ['createdAt']
 			})
-			
-			console.log(`${user.uid}: Successfuly retrieved ${result.length} ${entityName}s`)
 
 			return result
 
@@ -33,8 +31,6 @@ module.exports = (entities, entityName = 'entity') => ({
 				uid: user.uid
 			}
 
-			console.log(`Creating ${entityName}`, JSON.stringify(entity))
-
 			return (await entities.create(entity)).toJSON()
 		} catch (e) {
 			// Validation errors are contained in an array, so pick them out
@@ -49,51 +45,7 @@ module.exports = (entities, entityName = 'entity') => ({
 		}
 	},
 
-	edit: async (data, user) => {
-		if (!data.id) {
-			throw new errors.BadRequestError('Id is required')
-		}
-
-		try {
-			// Ensure this id exists and belongs to the user
-			let exists = (await entities.count({
-				where: {
-					id: data.id,
-					uid: user.uid
-				}
-			})) === 1
-
-			if (!exists) {
-				console.warn(`Entity with id ${data.id} does not exist for user ${user.uid}`)
-				throw new errors.NotFoundError()
-			}
-
-			// Overwrite any attempts to hijack the uid
-			let entity = {
-				...data,
-				uid: user.uid
-			}
-
-			console.log(`Editing ${entityName}`, JSON.stringify(entity))
-
-			return await entities.update(entity, {
-				where: {
-					id: data.id,
-					uid: user.uid
-				}
-			})
-		} catch (e) {
-			// Validation errors are contained in an array, so pick them out
-			let message = e.errors && e.errors.map((error) => error.message)
-
-			if (message) {
-				throw new errors.BadRequestError(message)
-			} else {
-				throw new Error(e.message)
-			}
-		}
-	},
-
+	
 	delete: async (id, user) => {
 		if (!id) {
 			throw new errors.BadRequestError('Id is required')

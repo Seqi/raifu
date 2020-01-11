@@ -52,7 +52,6 @@ module.exports = {
 			let exists = await count(weaponId, loadoutId)
 
 			if (!exists) {
-				console.log(`Adding loadout weapon. LoadoutId: ${loadoutId}. WeaponId: ${weaponId}`)
 				await entities().loadoutWeapon.create({
 					loadout_id: loadoutId,
 					weapon_id: weaponId
@@ -85,7 +84,6 @@ module.exports = {
 		}
 
 		try {
-			console.log(`Removing loadout weapon. LoadoutId: ${loadoutId}. WeaponId: ${weaponId}`)
 			let result = await entities().loadoutWeapon.destroy({
 				where: {
 					loadout_id: loadoutId,

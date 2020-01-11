@@ -51,7 +51,6 @@ module.exports = {
 			let exists = await count(clothingId, loadoutId)
 
 			if (!exists) {
-				console.log(`Adding loadout clothing. LoadoutId: ${loadoutId}. ClothingId: ${clothingId}`)
 				await entities().loadoutClothing.create({
 					loadout_id: loadoutId,
 					clothing_id: clothingId

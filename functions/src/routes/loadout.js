@@ -13,6 +13,8 @@ let errors = require('../utils/errors')
 router.get('/', authMiddleware(), async (req, res) => {
 	try {
 		let items = await loadout.getAll(req.user)
+		
+		console.log(`[${req.user.uid}]: Retrieved ${items.length} loadouts`)
 
 		return res.json(items)
 	} 
@@ -25,6 +27,9 @@ router.get('/', authMiddleware(), async (req, res) => {
 router.get('/:id', authMiddleware(false), async (req, res) => {
 	try {
 		let item = await loadout.getById(req.params.id, req.user)
+		
+		console.log(`[${req.user ? req.user.uid : 'Anonymous'}]: Retrieved loadout ${JSON.stringify(item)}`)
+
 		return res.json(item)
 	} catch (e) {
 		console.log('error getting loadout', e)
@@ -46,6 +51,8 @@ router.get('/:id', authMiddleware(false), async (req, res) => {
 router.post('/', authMiddleware(), async (req, res) => {
 	try {		
 		let item = await loadout.add(req.body, req.user)
+		
+		console.log(`[${req.user.uid}]: Added loadout ${JSON.stringify(item)}`)
 
 		return res.json(item)
 	} 
@@ -69,6 +76,8 @@ router.put('/:id', authMiddleware(), async (req, res) => {
 		}
 
 		let item = await loadout.edit(req.body, req.user)
+
+		console.log(`[${req.user.uid}]: Updated loadout ${JSON.stringify(item)}`)
 
 		return res.json(item)
 	} 

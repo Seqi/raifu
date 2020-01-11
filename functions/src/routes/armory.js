@@ -22,6 +22,13 @@ router.get('/', async (req, res) => {
 
 		let [weapons, attachments, gear, clothing] = await Promise.all(promises)
 
+		
+		console.log(`[${req.user.uid}]: Retrieved ` +
+			`${weapons.length} weapons, ` +
+			`${attachments.length} attachments ` +
+			`${gear.length} gear ` +
+			`${clothing.length} clothing`)
+
 		return res.json({
 			weapons,
 			attachments,

@@ -6,7 +6,12 @@ let errors = require('../utils/errors')
 
 router.post('/:gearId', async (req, res) => {
 	try {
-		let result = await loadoutGear.add(req.params.gearId, req.params.loadoutId, req.user)
+		let loadoutId = req.params.loadoutId
+		let gearId = req.params.gearId
+
+		let result = await loadoutGear.add(gearId, loadoutId, req.user)
+
+		console.log(`[${req.user.uid}]: Added loadout gear. LoadoutId: ${loadoutId}. GearId: ${gearId}`)
 
 		return res.json(result)
 	} catch (e) {
@@ -29,7 +34,12 @@ router.post('/:gearId', async (req, res) => {
 
 router.delete('/:gearId', async (req, res) => {
 	try {
-		await loadoutGear.delete(req.params.gearId, req.params.loadoutId, req.user)
+		let loadoutId = req.params.loadoutId
+		let gearId = req.params.gearId
+
+		await loadoutGear.delete(gearId, loadoutId, req.user)
+
+		console.log(`[${req.user.uid}]: Deleted loadout gear. LoadoutId: ${loadoutId}. GearId: ${gearId}`)
 
 		return res.status(204)
 			.end()

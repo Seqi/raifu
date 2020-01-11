@@ -6,8 +6,13 @@ let errors = require('../utils/errors')
 
 router.post('/:clothingId', async (req, res) => {
 	try {
-		let result = await loadoutClothing.add(req.params.clothingId, req.params.loadoutId, req.user)
+		let loadoutId = req.params.loadoutId
+		let clothingId = req.params.clothingId
 
+		let result = await loadoutClothing.add(clothingId, loadoutId, req.user)
+
+		console.log(`[${req.user.uid}]: Added loadout clothing. LoadoutId: ${loadoutId}. ClothingId: ${clothingId}`)
+		
 		return res.json(result)
 	} catch (e) {
 		console.log('Error adding loadout clothing', e)
@@ -29,7 +34,12 @@ router.post('/:clothingId', async (req, res) => {
 
 router.delete('/:clothingId', async (req, res) => {
 	try {
-		await loadoutClothing.delete(req.params.clothingId, req.params.loadoutId, req.user)
+		let loadoutId = req.params.loadoutId
+		let clothingId = req.params.clothingId
+
+		await loadoutClothing.delete(clothingId, loadoutId, req.user)
+
+		console.log(`[${req.user.uid}]: Deleted loadout clothing. LoadoutId: ${loadoutId}. ClothingId: ${clothingId}`)
 
 		return res.status(204)
 			.end()

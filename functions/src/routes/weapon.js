@@ -9,6 +9,8 @@ router.get('/', async (req, res) => {
 	try {
 		let items = await baseEntity(entities().weapon, 'weapon')
 			.getAll(req.user)
+			
+		console.log(`[${req.user.uid}]: Retrieved ${items.length} weapons`)
 
 		return res.json(items)
 	} 
@@ -22,6 +24,8 @@ router.post('/', async (req, res) => {
 	try {		
 		let item = await baseEntity(entities().weapon, 'weapon')
 			.add(req.body, req.user)
+
+		console.log(`[${req.user.uid}]: Added weapon ${JSON.stringify(item)}`)
 
 		return res.json(item)
 	} 
@@ -45,6 +49,8 @@ router.delete('/:id', async (req, res) => {
 			return res.status(404)
 				.end()
 		}
+
+		console.log(`[${req.user.uid}]: Deleted weapon ${req.params.id}`)
 
 		return res.json(item)
 	} 

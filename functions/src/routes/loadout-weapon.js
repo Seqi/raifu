@@ -7,7 +7,12 @@ let errors = require('../utils/errors')
 
 router.post('/:weaponId', async (req, res) => {
 	try {
-		let result = await loadoutWeapon.add(req.params.weaponId, req.params.loadoutId, req.user)
+		let weaponId = req.params.weaponId
+		let loadoutId = req.params.loadoutId
+
+		let result = await loadoutWeapon.add(weaponId, loadoutId, req.user)
+
+		console.log(`[${req.user.uid}]: Added loadout weapon. LoadoutId: ${loadoutId}. WeaponId: ${weaponId}`)
 
 		return res.json(result)
 	} catch (e) {
@@ -30,7 +35,12 @@ router.post('/:weaponId', async (req, res) => {
 
 router.delete('/:weaponId', async (req, res) => {
 	try {
-		await loadoutWeapon.delete(req.params.weaponId, req.params.loadoutId, req.user)
+		let weaponId = req.params.weaponId
+		let loadoutId = req.params.loadoutId
+
+		await loadoutWeapon.delete(weaponId, loadoutId, req.user)
+
+		console.log(`[${req.user.uid}]: Removed loadout weapon. LoadoutId: ${loadoutId}. WeaponId: ${weaponId}`)
 
 		return res.status(204)
 			.end()

@@ -37,7 +37,6 @@ let getAll = async (user) => {
 		})
 		
 		let result = JSON.parse(JSON.stringify(events))
-		console.log('Successfuly retrieved events', JSON.stringify(result))
 
 		result.forEach(event => event.loadout && loadout.orderLoadoutItems(event.loadout))
 
@@ -156,8 +155,6 @@ let getById = async (id, user) => {
 		// Order the loadout items in terms of date added to the loadout
 		// TODO: have this as a hook?
 		loadout.orderLoadoutItems(event.loadout)
-		
-		console.log('Successfuly retrieved event', event.id)
 
 		return eventJson
 	} catch (e) {			
@@ -178,8 +175,6 @@ let add = async (data, user) => {
 				uid: user.uid
 			}]
 		}
-
-		console.log('Creating event', JSON.stringify(event))
 
 		let response = await db()
 			.transaction(t =>  
@@ -240,7 +235,6 @@ let edit = async (id, event, user) => {
 		})) === 1
 
 		if (!exists) {
-			console.warn(`Entity with id ${id} does not exist for user ${user.uid}`)
 			throw new errors.NotFoundError()
 		}
 
@@ -252,14 +246,14 @@ let edit = async (id, event, user) => {
 			public: event.public
 		}
 
-		console.log('Editing event', JSON.stringify(newEvent))
-
-		return await entities().event.update(newEvent, {
+		await entities().event.update(newEvent, {
 			where: {
 				id: id,
 				organiser_uid: user.uid
 			}
 		})
+
+		return newEvent
 	} catch (e) {
 		// Validation errors are contained in an array, so pick them out
 		let message = e.errors && e.errors.map((error) => error.message)
@@ -336,7 +330,6 @@ let setLoadout = async (eventId, loadoutId, user) => {
 		}
 
 		return await getById(eventId, user)
-
 	} catch (e) {
 		let message = e.message || (e.errors && e.errors.map((error) => error.message))
 

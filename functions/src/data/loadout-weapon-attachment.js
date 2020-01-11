@@ -75,12 +75,7 @@ module.exports = {
 		try {
 			let exists = await count(weaponId, attachmentId, loadoutId)
 
-			if (!exists) {			
-				console.log(`Adding loadout weapon attachment. 
-					LoadoutId: ${loadoutId}. 
-					WeaponId: ${weaponId}
-					AttachmentId: ${attachmentId}`)
-
+			if (!exists) {
 				await add(weaponId, attachmentId, loadoutId)
 			}
 
@@ -111,11 +106,6 @@ module.exports = {
 
 		// Remove
 		try {
-			console.log(`Removing loadout weapon attachment. 
-				LoadoutId: ${loadoutId}. 
-				WeaponId: ${weaponId}
-				AttachmentId: ${attachmentId}`)
-
 			let result = await entities().loadoutWeaponAttachment.destroy({
 				where: {
 					loadout_id: loadoutId,

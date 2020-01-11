@@ -76,8 +76,7 @@ module.exports = {
 			// Hacky way to get the raw, nested data
 			// Can't figure out how to get sequelize to do this!
 			// raw=true doesnt work
-			let result = JSON.parse(JSON.stringify(loadouts))			
-			console.log('Successfuly retrieved loadouts', JSON.stringify(result))
+			let result = JSON.parse(JSON.stringify(loadouts))
 
 			// Order each loadout weapon collection by when it was added then clean up unnecessary prop
 			result.forEach(orderLoadoutItems)
@@ -139,8 +138,6 @@ module.exports = {
 			}
 
 			orderLoadoutItems(loadout)
-
-			console.log('Successfuly retrieved loadout', loadout.id)
 
 			return loadout.toJSON()
 		} catch (e) {

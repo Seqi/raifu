@@ -6,11 +6,20 @@ let errors = require('../utils/errors')
 
 router.post('/:attachmentId', async (req, res) => {
 	try {
+		let weaponId = req.params.weaponId
+		let attachmentId = req.params.attachmentId
+		let loadoutId = req.params.loadoutId
+
 		let result = await loadoutWeaponAttachment.add(
-			req.params.weaponId,
-			req.params.attachmentId,
-			req.params.loadoutId, 
+			weaponId,
+			attachmentId,
+			loadoutId,
 			req.user)
+			
+		console.log(`Adding loadout weapon attachment. 
+			LoadoutId: ${loadoutId}. 
+			WeaponId: ${weaponId}
+			AttachmentId: ${attachmentId}`)
 
 		return res.json(result)
 	} catch (e) {
@@ -33,11 +42,20 @@ router.post('/:attachmentId', async (req, res) => {
 
 router.delete('/:attachmentId', async (req, res) => {
 	try {
+		let weaponId = req.params.weaponId
+		let attachmentId = req.params.attachmentId
+		let loadoutId = req.params.loadoutId
+
 		await loadoutWeaponAttachment.delete(
-			req.params.weaponId,
-			req.params.attachmentId,
-			req.params.loadoutId,
+			weaponId,
+			attachmentId,
+			loadoutId,
 			req.user)
+			
+		console.log(`Removed loadout weapon attachment. 
+			LoadoutId: ${loadoutId}. 
+			WeaponId: ${weaponId}
+			AttachmentId: ${attachmentId}`)
 
 		return res.status(204)
 			.end()

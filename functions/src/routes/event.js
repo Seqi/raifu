@@ -8,6 +8,8 @@ router.get('/', async (req, res) => {
 	try {
 		let items = await event.getAll(req.user)
 
+		console.log(`[${req.user.uid}]: Successfuly retrieved ${items.length} events`)
+
 		return res.json(items)
 	} 
 	catch (e) {
@@ -26,9 +28,12 @@ router.get('/:id', async (req, res) => {
 		let item = await event.getById(req.params.id, req.user)
 
 		if (!item) {
+			console.log(`[${req.user.uid}]: Could not retrieve event with id `, req.params.id)
 			return res.status(404)
 				.end()
 		}
+
+		console.log(`[${req.user.uid}]: Successfuly retrieved event ${JSON.stringify(item)}`)
 		
 		return res.json(item)
 	} catch (e) {
@@ -50,6 +55,8 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 	try {		
 		let item = await event.add(req.body, req.user)
+		
+		console.log(`[${req.user.uid}]: Created event ${JSON.stringify(item)}`)
 
 		return res.json(item)
 	} 
@@ -74,7 +81,9 @@ router.put('/:id', async (req, res) => {
 				.end()
 		}
 
-		await event.edit(eventId, req.body, req.user)
+		let item = await event.edit(eventId, req.body, req.user)
+		
+		console.log(`[${req.user.uid}]: Updated event ${JSON.stringify(item)}`)
 
 		return res.status(204)
 			.end()
@@ -107,6 +116,8 @@ router.delete('/:id', async (req, res) => {
 
 		await event.remove(eventId, req.user)
 
+		console.log(`[${req.user.uid}]: Deleted event`, eventId)
+
 		return res.status(204)
 			.end()
 	} 
@@ -118,6 +129,8 @@ router.delete('/:id', async (req, res) => {
 		}
 
 		if (e instanceof errors.NotFoundError) {
+			console.warn(`Entity with id ${req.params.id} does not exist for user ${req.user.uid}`)
+
 			return res.status(404)
 				.end()
 		}
@@ -132,6 +145,7 @@ router.post('/:eventId/loadout/remove', async (req, res) => {
 		let eventId = req.params.eventId
 
 		let newEvent = await event.setLoadout(eventId, null, req.user)
+		console.log(`[${req.user.uid}]: Removed loadout from event ${eventId}`)
 
 		return res.json(newEvent)
 	} 
@@ -158,6 +172,7 @@ router.post('/:eventId/loadout/:loadoutId', async (req, res) => {
 		let loadoutId = req.params.loadoutId
 
 		let newEvent = await event.setLoadout(eventId, loadoutId, req.user)
+		console.log(`[${req.user.uid}]: Added loadout ${loadoutId} to event ${eventId}`)
 
 		return res.json(newEvent)
 	} 
@@ -183,6 +198,7 @@ router.post('/:eventId/join', async (req, res) => {
 		let eventId = req.params.eventId
 
 		await event.join(eventId, req.user)
+		console.log(`[${req.user.uid}]: Joined event ${eventId}`)
 
 		return res.status(204)
 			.end()

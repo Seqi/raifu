@@ -10,6 +10,8 @@ router.get('/', async (req, res) => {
 		let items = await baseEntity(entities().attachment, 'attachment')
 			.getAll(req.user)
 
+		console.log(`[${req.user.uid}]: Successfuly retrieved ${items.length} attachments`)
+
 		return res.json(items)
 	} 
 	catch (e) {
@@ -22,6 +24,8 @@ router.post('/', async (req, res) => {
 	try {		
 		let item = await baseEntity(entities().attachment, 'attachment')
 			.add(req.body, req.user)
+			
+		console.log(`[${req.user.uid}]: Added attachment ${JSON.stringify(item)}`)
 
 		return res.json(item)
 	} 
@@ -45,6 +49,8 @@ router.delete('/:id', async (req, res) => {
 			return res.status(404)
 				.end()
 		}
+		
+		console.log(`[${req.user.uid}]: Deleted attachment ${req.params.id}`)
 
 		return res.json(item)
 	} 
