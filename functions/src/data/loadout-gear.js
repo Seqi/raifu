@@ -58,7 +58,7 @@ module.exports = {
 				})
 			}
 
-			return await entities().gear.findByPk(gearId, { raw: true })
+			return await entities().gear.findByPk(gearId)
 		} catch (e) {
 			console.log('Error adding loadout gear to database', e.message)
 			throw e

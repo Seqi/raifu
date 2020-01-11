@@ -6,7 +6,6 @@ const loadout = require('./loadout')
 
 const db = require('./database/database')
 
-
 let getAll = async (user) => {
 	try {
 		let events = await entities().event.findAll({
@@ -152,10 +151,6 @@ let getById = async (id, user) => {
 
 		// Add back
 		eventJson.users = eventUsers
-		
-		// Order the loadout items in terms of date added to the loadout
-		// TODO: have this as a hook?
-		loadout.orderLoadoutItems(event.loadout)
 		
 		console.log('Successfuly retrieved event', event.id)
 

@@ -59,7 +59,7 @@ module.exports = {
 				})
 			}
 
-			return await entities().weapon.findByPk(weaponId, { raw: true })
+			return await entities().weapon.findByPk(weaponId)
 		} catch (e) {
 			console.log('Error adding loadout weapon to database', e.message)
 			throw e

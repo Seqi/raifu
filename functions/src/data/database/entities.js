@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('./database')
-const mapEntities = require('./map-entities')
-const jsonifyDates = require('./jsonify-dates')
+const { applyHook, orderLoadoutItems } = require('./hooks/')
 
 let entities = null
 
@@ -66,10 +65,11 @@ let initEntities = () => {
 	}, {
 		hooks: {
 			afterCreate: (loadout) => {
-				// Saves doing a pointless join
+				// Saves doing a pointless join, helps the client see theres no 
+				// weapons without any type checking
 				loadout.dataValues.weapons = []
-				jsonifyDates(loadout)
-			}
+			},
+			afterFind: applyHook(orderLoadoutItems)
 		}
 	})
 
@@ -227,19 +227,11 @@ let initEntities = () => {
 		}
 	}, {
 		hooks: {
-			afterFind: (events) => {
-				mapEntities(events, event => {
-					if (event.date) {
-						event.date = event.date.toISOString()
-					}
-				})
-			},
-			afterCreate: (event) => {
-				if (event.date) {
-					event.date = event.date.toISOString()
+			afterFind: applyHook((event) => {
+				if (event.dataValues.users) {
+					event.dataValues.users.forEach(user => orderLoadoutItems(user.dataValues.loadout))
 				}
-				jsonifyDates(event)
-			}
+			})
 		}
 	})
 

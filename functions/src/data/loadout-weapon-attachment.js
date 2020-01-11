@@ -41,8 +41,7 @@ let add = async (weaponId, attachmentId, loadoutId) => {
 			weapon_id: weaponId,
 			loadout_id: loadoutId
 		},
-		attributes: ['id'],
-		raw: true
+		attributes: ['id']
 	})
 
 	await entities().loadoutWeaponAttachment.create({
@@ -84,7 +83,7 @@ module.exports = {
 				await add(weaponId, attachmentId, loadoutId)
 			}
 
-			return await entities().attachment.findByPk(attachmentId, { raw: true })
+			return await entities().attachment.findByPk(attachmentId)
 		} catch (e) {			
 			console.log('Error adding loadout weapon attachment to database', e.message)
 			throw e
