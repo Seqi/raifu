@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { Error, Loading } from 'app/shared'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import CardList from 'app/shared/cards/CardList'
 
-const ResourceList = ({ 
-	title, 
+const ResourceList = ({
+	showTitle,
 	items,
-	loading,
-	error,
-	loadResource,
 	addResource,
 	deleteResource,
 	resourceType,
@@ -21,20 +17,20 @@ const ResourceList = ({
 
 	return (
 		<React.Fragment>
-			<ReactiveTitle>{ title }</ReactiveTitle>
-			{ 
-				loading ? <Loading /> :
-					error ? <Error error={ `An error occurred while loading ${resourceType}.` } onRetry={ loadResource } /> : 
-						(
-							<CardList
-								items={ items }
-								cardType={ resourceType }
-								onAdd={ () => setDialog('add') }
-								onCardClick={ onResourceClick }
-								onCardDelete={ deleteResource }
-							/>
-						)
+			{ showTitle && 
+				<ReactiveTitle>
+					{ /* eslint-disable-next-line newline-per-chained-call */ }
+					{ resourceType.charAt(0).toUpperCase() + resourceType.slice(1) }
+				</ReactiveTitle>
 			}
+
+			<CardList
+				items={ items }
+				cardType={ resourceType }
+				onAdd={ () => setDialog('add') }
+				onCardClick={ onResourceClick }
+				onCardDelete={ deleteResource }
+			/>						
 
 			{ renderAddDialog(
 				// Is Open
@@ -49,7 +45,7 @@ const ResourceList = ({
 }
 
 ResourceList.propTypes = {
-	title: PropTypes.string.isRequired,
+	showTitle: PropTypes.bool,
 	resourceType: PropTypes.oneOf([
 		'weapons', 'attachments', 'gear', 'clothing', 'loadout'
 	]).isRequired,
@@ -59,12 +55,12 @@ ResourceList.propTypes = {
 	items: PropTypes.array.isRequired,
 	loading: PropTypes.bool.isRequired,
 	error: PropTypes.bool.isRequired,
-	loadResource: PropTypes.func.isRequired,
 	addResource: PropTypes.func.isRequired,
 	deleteResource: PropTypes.func.isRequired,
 }
 
 ResourceList.defaultProps = {
+	showTitle: true,
 	onResourceClick: (id) => { }
 }
 
