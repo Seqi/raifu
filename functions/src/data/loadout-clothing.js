@@ -31,73 +31,43 @@ let count = async (clothingId, loadoutId) => {
 
 module.exports = {
 	add: async (clothingId, loadoutId, user) => {
-		if (!clothingId || !loadoutId) {
-			throw new errors.BadRequestError(`ClothingId and LoadoutId missing by ${user.uid}`)
-		}
-
 		// Ensure this user owns both clothing and loadout
-		try {
-			let canAdd = await hasPermission(clothingId, loadoutId, user.uid)
+		let canAdd = await hasPermission(clothingId, loadoutId, user.uid)
 
-			if (!canAdd) {
-				throw new errors.NotFoundError('Loadout or clothing not found')
-			}
-		} catch (e) {
-			console.log('Error retrieving permission to add loadout clothing', e.message, user.uid)
-			throw e
+		if (!canAdd) {
+			throw new errors.NotFoundError('Loadout or clothing not found')
+		}		
+
+		// Ensure this combination doesnt already exist
+		let exists = await count(clothingId, loadoutId)
+
+		if (!exists) {
+			await entities().loadoutClothing.create({
+				loadout_id: loadoutId,
+				clothing_id: clothingId
+			})
 		}
 
-		try {
-			let exists = await count(clothingId, loadoutId)
-
-			if (!exists) {
-				console.log(`Adding loadout clothing. LoadoutId: ${loadoutId}. ClothingId: ${clothingId}`)
-				await entities().loadoutClothing.create({
-					loadout_id: loadoutId,
-					clothing_id: clothingId
-				})
-			}
-
-			return await entities().clothing.findByPk(clothingId)
-		} catch (e) {
-			console.log('Error adding loadout clothing to database', e.message)
-			throw e
-		}
+		return await entities().clothing.findByPk(clothingId)		
 	},
 
 	delete: async (clothingId, loadoutId, user) => {
-		// Validate
-		if (!clothingId || !loadoutId) {
-			throw new errors.BadRequestError(`ClothingId and LoadoutId missing by ${user.uid}`)
-		}
-
 		// Ensure this user owns both clothing and loadout
-		try {
-			let canDelete = await hasPermission(clothingId, loadoutId, user.uid)
+		let canDelete = await hasPermission(clothingId, loadoutId, user.uid)
 
-			if (!canDelete) {
-				throw new errors.NotFoundError('Loadout or clothing not found')
+		if (!canDelete) {
+			throw new errors.NotFoundError('Loadout or clothing not found')
+		}		
+
+		let result = await entities().loadoutClothing.destroy({
+			where: {
+				loadout_id: loadoutId,
+				clothing_id: clothingId
 			}
-		} catch (e) {
-			console.log('Error retrieving permission to delete loadout clothing', e.message, user.uid)
-			throw e
-		}
+		})
 
-		try {
-			console.log(`Removing loadout clothing. LoadoutId: ${loadoutId}. ClothingId: ${clothingId}`)
-			let result = await entities().loadoutClothing.destroy({
-				where: {
-					loadout_id: loadoutId,
-					clothing_id: clothingId
-				}
-			})
-
-			if (result === 0) {
-				throw new errors.NotFoundError('Loadout or clothing not found')
-			}			
-		} catch (e) {
-			console.log('Error removing loadout clothing from database', e.message)
-			throw e
-		}
+		if (result === 0) {
+			throw new errors.NotFoundError('Loadout or clothing not found')
+		}		
 	}
 }

@@ -1,26 +1,18 @@
 const errors = require('../utils/errors')
 
-module.exports = (entities, entityName = 'entity') => ({
+module.exports = (entities) => ({
 	getAll: async (user) => {
-		try {
-			let result =  await entities.findAll({
-				where: {
-					uid: user.uid
-				},
-				attributes: {
-					exclude: ['uid']
-				},
-				order: ['createdAt']
-			})
-			
-			console.log(`${user.uid}: Successfuly retrieved ${result.length} ${entityName}s`)
+		let result =  await entities.findAll({
+			where: {
+				uid: user.uid
+			},
+			attributes: {
+				exclude: ['uid']
+			},
+			order: ['createdAt']
+		})
 
-			return result
-
-		} catch (e) {
-			console.log(`Error retrieving ${entityName} for ${user.uid}`, e)
-			throw e
-		}
+		return result.map(item => item.toJSON())
 	},
 
 	add: async (data, user) => {
@@ -32,27 +24,20 @@ module.exports = (entities, entityName = 'entity') => ({
 				uid: user.uid
 			}
 
-			console.log(`Creating ${entityName}`, JSON.stringify(entity))
-
 			return (await entities.create(entity)).toJSON()
 		} catch (e) {
 			// Validation errors are contained in an array, so pick them out
 			let message = e.errors && e.errors.map((error) => error.message)
-			console.error(message || e.message)
 
 			if (message) {
 				throw new errors.BadRequestError(message)
 			} else {
-				throw new Error(e.message)
+				throw e
 			}
 		}
 	},
 
 	edit: async (data, user) => {
-		if (!data.id) {
-			throw new errors.BadRequestError('Id is required')
-		}
-
 		try {
 			// Ensure this id exists and belongs to the user
 			let exists = (await entities.count({
@@ -63,7 +48,6 @@ module.exports = (entities, entityName = 'entity') => ({
 			})) === 1
 
 			if (!exists) {
-				console.warn(`Entity with id ${data.id} does not exist for user ${user.uid}`)
 				throw new errors.NotFoundError()
 			}
 
@@ -72,8 +56,6 @@ module.exports = (entities, entityName = 'entity') => ({
 				...data,
 				uid: user.uid
 			}
-
-			console.log(`Editing ${entityName}`, JSON.stringify(entity))
 
 			return await entities.update(entity, {
 				where: {
@@ -88,30 +70,21 @@ module.exports = (entities, entityName = 'entity') => ({
 			if (message) {
 				throw new errors.BadRequestError(message)
 			} else {
-				throw new Error(e.message)
+				throw e
 			}
 		}
 	},
-
+	
 	delete: async (id, user) => {
-		if (!id) {
-			throw new errors.BadRequestError('Id is required')
-		}
-
-		try {
-			let result = await entities.destroy({
-				where: {
-					id: id,
-					uid: user.uid
-				}
-			})
-
-			if (result === 0) {
-				throw new errors.NotFoundError()
+		let result = await entities.destroy({
+			where: {
+				id: id,
+				uid: user.uid
 			}
-		} catch (e) {
-			console.error(`Error removing ${entityName}`, e)
-			throw e
+		})
+
+		if (result === 0) {
+			throw new errors.NotFoundError()
 		}
 	}
 })

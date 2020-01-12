@@ -7,12 +7,15 @@ let errors = require('../utils/errors')
 
 router.get('/', async (req, res) => {
 	try {
-		let items = await baseEntity(entities().gear, 'gear')
+		let items = await baseEntity(entities().gear)
 			.getAll(req.user)
+			
+		console.log(`[${req.user.uid}]: Successfuly retrieved ${items.length} gear`)
 
 		return res.json(items)
 	} 
 	catch (e) {
+		console.error(`[${req.user.uid}]: Error retrieving gear`, e)
 		res.status(500)
 			.end()
 	}
@@ -20,17 +23,21 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {		
-		let item = await baseEntity(entities().gear, 'gear')
+		let item = await baseEntity(entities().gear)
 			.add(req.body, req.user)
+			
+		console.log(`[${req.user.uid}]: Added gear ${JSON.stringify(item)}`)
 
 		return res.json(item)
 	} 
 	catch (e) {
 		if (e instanceof errors.BadRequestError) {
+			console.warn(`[${req.user.uid}]: Bad request when creating gear ${e.message}`)
 			return res.status(400)
 				.json({ errors: e.message.split(',') })
 		}
 
+		console.error(`[${req.user.uid}]: Error adding gear`, e)
 		return res.status(500)
 			.end()
 	}
@@ -38,7 +45,7 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
 	try {
-		let item = await baseEntity(entities().gear, 'gear')
+		let item = await baseEntity(entities().gear)
 			.delete(req.params.id, req.user)
 
 		if (item === 0) {
@@ -46,19 +53,18 @@ router.delete('/:id', async (req, res) => {
 				.end()
 		}
 
+		console.log(`[${req.user.uid}]: Deleted gear ${req.params.id}`)
+
 		return res.json(item)
 	} 
 	catch (e) {
-		if (e instanceof errors.BadRequestError) {
-			return res.status(400)
-				.end(e.message)
-		}
-
+		console.warn(`[${req.user.uid}]: Attempted to delete gear that does not exist (${req.params.id})`)
 		if (e instanceof errors.NotFoundError) {
 			return res.status(404)
 				.end()
 		}
 
+		console.error(`[${req.user.uid}]: Error deleting gear`, e)
 		return res.status(500)
 			.end()
 	}

@@ -4,104 +4,80 @@ const baseEntity = require('./base-entity')
 const errors = require('../utils/errors')
 
 module.exports = {
-	...baseEntity(entities().loadout, 'loadout'),
+	...baseEntity(entities().loadout),
 	getAll: async (user) => {
-		try {
-			let loadouts = await entities().loadout.findAll({
-				where: {
-					uid: user.uid
-				},
-				include: [
-					{
-						model: entities().weapon,
-						attributes: {
-							exclude: ['uid']
-						}
-					},					
-					{
-						model: entities().gear,
-						as: 'gear',
-						attributes: {
-							exclude: ['uid']
-						}
+		let loadouts = await entities().loadout.findAll({
+			where: {
+				uid: user.uid
+			},
+			include: [
+				{
+					model: entities().weapon,
+					attributes: {
+						exclude: ['uid']
 					}
-				],
-				attributes: {
-					exclude: ['uid']
-				},
-				order: [
-					'createdAt',
-				]
-			})
+				},					
+				{
+					model: entities().gear,
+					as: 'gear',
+					attributes: {
+						exclude: ['uid']
+					}
+				}
+			],
+			attributes: {
+				exclude: ['uid']
+			},
+			order: [
+				'createdAt',
+			]
+		})
 
-			// Hacky way to get the raw, nested data
-			// Can't figure out how to get sequelize to do this!
-			// raw=true doesnt work
-			let result = JSON.parse(JSON.stringify(loadouts))			
-			console.log('Successfuly retrieved loadouts', JSON.stringify(result))
-
-			return loadouts.map(loadout => loadout.toJSON())
-		} catch (e) {
-			console.error(`Error retrieving loadouts for ${user.uid}`, e)
-			throw e
-		}
+		return loadouts.map(loadout => loadout.toJSON())
 	},
 
 	getById: async (id, user) => {
-		if (!id) {
-			console.warn(`No id was supplied for getting loadout by id for ${user ? user.uid : 'anonymous'}`)
-			throw new errors.BadRequestError('Id is required')
-		}
+		let query = user ? 
+			{ [Op.or]: { uid: user.uid, shared: true } } :
+			{ shared: true }
 
-		try {
-			let query = user ? 
-				{ [Op.or]: { uid: user.uid, shared: true } } :
-				{ shared: true }
-
-			let loadout = await entities().loadout.findOne({
-				where: {
-					id: id,
-					...query
+		let loadout = await entities().loadout.findOne({
+			where: {
+				id: id,
+				...query
+			},
+			include: [
+				{
+					model: entities().weapon,
+					attributes: {
+						exclude: ['uid']
+					},
+					include: [ entities().attachment ],
 				},
-				include: [
-					{
-						model: entities().weapon,
-						attributes: {
-							exclude: ['uid']
-						},
-						include: [ entities().attachment ],
-					},
-					{
-						model: entities().gear,
-						as: 'gear',
-						attributes: {
-							exclude: ['uid']
-						}
-					},
-					{
-						model: entities().clothing,
-						as: 'clothing',
-						attributes: {
-							exclude: ['uid']
-						}
+				{
+					model: entities().gear,
+					as: 'gear',
+					attributes: {
+						exclude: ['uid']
 					}
-				],
-				attributes: {
-					exclude: ['uid']
+				},
+				{
+					model: entities().clothing,
+					as: 'clothing',
+					attributes: {
+						exclude: ['uid']
+					}
 				}
-			})
-
-			if (!loadout) {
-				console.warn(`No loadout was found with id ${id} for user ${user ? user.uid : 'anonymous'}`)
-				throw new errors.NotFoundError()
+			],
+			attributes: {
+				exclude: ['uid']
 			}
+		})
 
-			console.log('Successfuly retrieved loadout', loadout.toJSON())
-
-			return loadout.toJSON()
-		} catch (e) {
-			console.warn(`Error retrieving loadout for ${user ? user.uid : 'anonymous'}`, e)
-			throw e
+		if (!loadout) {
+			throw new errors.NotFoundError()
 		}
+
+		return loadout.toJSON()
 	},
 }
