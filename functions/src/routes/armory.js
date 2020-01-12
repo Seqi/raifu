@@ -7,16 +7,16 @@ let entities = require('../data/database/entities')
 router.get('/', async (req, res) => {
 	try {
 		let promises = [ 
-			baseEntity(entities().weapon, 'weapon')
+			baseEntity(entities().weapon)
 				.getAll(req.user),
 
-			baseEntity(entities().attachment, 'attachment')
+			baseEntity(entities().attachment)
 				.getAll(req.user),
 
-			baseEntity(entities().gear, 'gear')
+			baseEntity(entities().gear)
 				.getAll(req.user),
 
-			baseEntity(entities().clothing, 'clothing')
+			baseEntity(entities().clothing)
 				.getAll(req.user)
 		]
 
@@ -36,6 +36,7 @@ router.get('/', async (req, res) => {
 		})
 	} 
 	catch (e) {
+		console.error(`[${req.user.uid}]: Error retrieving armory`, e)
 		res.status(500)
 			.end()
 	}
