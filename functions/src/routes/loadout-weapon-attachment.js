@@ -79,10 +79,10 @@ router.delete('/:attachmentId', async (req, res) => {
 			loadoutId,
 			req.user)
 			
-		console.log(`Removed loadout weapon attachment. 
-			LoadoutId: ${loadoutId}. 
-			WeaponId: ${weaponId}
-			AttachmentId: ${attachmentId}`)
+		console.log('Removed loadout weapon attachment ' +
+			`LoadoutId: ${loadoutId}. ` +
+			`WeaponId: ${weaponId} ` +
+			`AttachmentId: ${attachmentId}`)
 
 		return res.status(204)
 			.end()

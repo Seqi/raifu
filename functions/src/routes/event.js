@@ -31,12 +31,6 @@ router.get('/:id', async (req, res) => {
 
 		let item = await event.getById(eventId, req.user)
 
-		if (!item) {
-			console.log(`[${req.user.uid}]: Could not retrieve event with id `, req.params.id)
-			return res.status(404)
-				.end()
-		}
-
 		console.log(`[${req.user.uid}]: Successfuly retrieved event ${JSON.stringify(item)}`)
 		
 		return res.json(item)
@@ -76,6 +70,11 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
 	let eventId = req.params.id
+
+	if (!eventId) {		
+		return res.status(400)
+			.send('Event id is required')
+	}
 
 	try {
 		let canEdit = await event.canEdit(eventId, req.user)

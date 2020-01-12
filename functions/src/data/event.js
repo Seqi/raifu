@@ -100,7 +100,7 @@ let getById = async (id, user) => {
 	})
 
 	if (!event) {
-		return null
+		throw new errors.NotFoundError()
 	}
 
 	let eventJson = event.toJSON()
@@ -196,10 +196,6 @@ let canEdit = async (id, user) => {
 }
 
 let edit = async (id, event, user) => {
-	if (!id) {
-		throw new errors.BadRequestError('Id is required')
-	}
-
 	try {
 		// Ensure this id exists and belongs to the user
 		let exists = (await entities().event.count({
