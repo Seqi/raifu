@@ -71,6 +71,11 @@ router.post('/', authMiddleware(), async (req, res) => {
 router.put('/:id', authMiddleware(), async (req, res) => {
 	let loadoutId = req.params.id
 
+	if (!loadoutId) {
+		return res.status(400)
+			.send('Loadout id is required')
+	}
+
 	try {
 		let item = await loadout.edit(loadoutId, req.user)
 
