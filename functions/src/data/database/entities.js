@@ -64,11 +64,11 @@ let initEntities = () => {
 		}
 	}, {
 		hooks: {
-			afterCreate: (loadout) => {
+			afterCreate: applyHook((loadout) => {
 				// Saves doing a pointless join, helps the client see theres no 
 				// weapons without any type checking
-				loadout.dataValues.weapons = []
-			},
+				loadout.weapons = []
+			}),
 			afterFind: applyHook(orderLoadoutItems)
 		}
 	})
@@ -228,8 +228,8 @@ let initEntities = () => {
 	}, {
 		hooks: {
 			afterFind: applyHook((event) => {
-				if (event.dataValues.users) {
-					event.dataValues.users.forEach(user => orderLoadoutItems(user.dataValues.loadout))
+				if (event.users) {
+					event.users.forEach(user => orderLoadoutItems(user.loadout))
 				}
 			})
 		}
