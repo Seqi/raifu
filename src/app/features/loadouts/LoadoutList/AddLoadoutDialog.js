@@ -45,9 +45,14 @@ class AddLoadoutDialog extends React.Component {
 	handleSave() {
 		this.setState({ loading: true, error: null }, () => {
 			this.props.onSave(this.state.loadout)
-				.then(() => this.setState(this.defaultState))
+				.then(() => this.handleClose())
 				.catch(err => this.setState({ error: 'An error occurred while adding loadout.', loading: false }))
 		})	
+	}
+
+	handleClose() {
+		this.props.onClose()
+		this.setState(this.defaultState)
 	}
 
 	formValid() {
@@ -77,7 +82,7 @@ class AddLoadoutDialog extends React.Component {
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ this.props.onClose }>Cancel</Button>
+					<Button onClick={ () => this.handleClose() }>Cancel</Button>
 					<Button
 						disabled={ !this.formValid() || loading }
 						variant='contained'
