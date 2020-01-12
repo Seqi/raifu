@@ -18,10 +18,7 @@ module.exports = function applyHook(mapFunction, recursive) {
 				// Check if any children also need dates converting
 				Object.keys(row)
 					.filter(key => row[key] !== null && typeof row[key] === 'object')
-					.forEach(key => {
-						console.log(key)
-						applyHook(row[key], mapFunction)
-					})
+					.forEach(key => applyHook(row[key], mapFunction))
 			}
 		})
 	}	
