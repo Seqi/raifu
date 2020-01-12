@@ -57,7 +57,7 @@ module.exports = {
 				})
 			}
 
-			return await entities().clothing.findByPk(clothingId, { raw: true })
+			return await entities().clothing.findByPk(clothingId)
 		} catch (e) {
 			console.log('Error adding loadout clothing to database', e.message)
 			throw e

@@ -4,7 +4,6 @@ module.exports = (entities, entityName = 'entity') => ({
 	getAll: async (user) => {
 		try {
 			let result =  await entities.findAll({
-				raw: true,
 				where: {
 					uid: user.uid
 				},

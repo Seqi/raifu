@@ -17,10 +17,7 @@ const ResourceListContainer = ({ resource, items, ...props }) => {
 
 	let deleteResource = useCallback((id) => 
 		resource.delete(id)
-			// Filter out deleted item
-			.then(() => mounted.current && setItems(({ items }) => 
-				({ loading: false, error: false, items: items.filter((item) => item.id !== id) }))
-			)
+			.then(() => mounted.current && setItems((items) => (items.filter((item) => item.id !== id) )))
 	, [resource])
 
 	return (

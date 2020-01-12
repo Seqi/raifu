@@ -3,47 +3,6 @@ const entities = require('./database/entities')
 const baseEntity = require('./base-entity')
 const errors = require('../utils/errors')
 
-let orderLoadoutItems = (loadout) => {
-	if (!loadout) {
-		return 
-	}
-
-	loadout.weapons.sort((weapon1, weapon2) => {
-		let a1 = weapon1.loadout_weapon
-		let a2 = weapon2.loadout_weapon
-
-		return new Date(a1.createdAt) - new Date(a2.createdAt)
-	})
-
-	if (loadout.gear) {
-		loadout.gear.sort((gear1, gear2) => {
-			let a1 = gear1.loadout_gear
-			let a2 = gear2.loadout_gear
-	
-			return new Date(a1.createdAt) - new Date(a2.createdAt)
-		})
-	
-		loadout.gear.forEach(gear => delete gear.loadout_gear)
-	}
-	
-	loadout.weapons.forEach(weapon => {
-		delete weapon.loadout_weapon
-
-		if (!weapon.attachments) {
-			return
-		}
-
-		weapon.attachments.sort((attachment1, attachment2) => {
-			let a1 = attachment1.loadout_weapon_attachment
-			let a2 = attachment2.loadout_weapon_attachment
-	
-			return new Date(a1.createdAt) - new Date(a2.createdAt)
-		})
-
-		weapon.attachments.forEach(attachment => delete attachment.loadout_weapon_attachment)
-	})
-}
-
 module.exports = {
 	...baseEntity(entities().loadout, 'loadout'),
 	getAll: async (user) => {
@@ -70,18 +29,12 @@ module.exports = {
 				attributes: {
 					exclude: ['uid']
 				},
-				order: ['createdAt']
+				order: [
+					'createdAt',
+				]
 			})
 
-			// Hacky way to get the raw, nested data
-			// Can't figure out how to get sequelize to do this!
-			// raw=true doesnt work
-			let result = JSON.parse(JSON.stringify(loadouts))
-
-			// Order each loadout weapon collection by when it was added then clean up unnecessary prop
-			result.forEach(orderLoadoutItems)
-
-			return result
+			return loadouts.map(loadout => loadout.toJSON())
 		} catch (e) {
 			console.error(`Error retrieving loadouts for ${user.uid}`, e)
 			throw e
@@ -137,14 +90,10 @@ module.exports = {
 				throw new errors.NotFoundError()
 			}
 
-			orderLoadoutItems(loadout)
-
 			return loadout.toJSON()
 		} catch (e) {
 			console.warn(`Error retrieving loadout for ${user ? user.uid : 'anonymous'}`, e)
 			throw e
 		}
 	},
-
-	orderLoadoutItems: orderLoadoutItems
 }

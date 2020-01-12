@@ -1,29 +1,35 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Loading, Error } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
 import database from '../../../firebase/database'
 
+const defaultState = {armory: null, loading: true, error: false}
+
 let Armory = () => {
-	let [{ armory, loading, error }, setArmory] = useState({armory: null, loading: true, error: false})
+	let [{ armory, loading, error }, setArmory] = useState(defaultState)
 
 	let mounted = useRef(true)
 
-	useEffect(() => {
-		database.armory.get()
-			.then(result => setArmory({ armory: result, loading: false, error: false }))			
-			.catch(e => setArmory({ armory: null, loading: false, error: true }))
+	useEffect(() => () => mounted.current = false, [])
 
-		return () => mounted.current = false
+	let loadArmory = useCallback(() => {
+		setArmory(defaultState)
+
+		database.armory.get()
+			.then(result => mounted && setArmory({ armory: result, loading: false, error: false }))			
+			.catch(e => mounted && setArmory({ armory: null, loading: false, error: true }))
 	}, [])
+
+	useEffect(() => { loadArmory() }, [loadArmory])
 
 	if (loading) {
 		return <Loading />
 	}
 
 	if (error) {
-		return <Error error='Could not load armory' />
+		return <Error error='Could not load armory' onRetry={ loadArmory } />
 	}
 
 	return (
