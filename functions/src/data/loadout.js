@@ -37,10 +37,10 @@ module.exports = {
 			// Hacky way to get the raw, nested data
 			// Can't figure out how to get sequelize to do this!
 			// raw=true doesnt work
-			//let result = JSON.parse(JSON.stringify(loadouts))			
-			//console.log('Successfuly retrieved loadouts', JSON.stringify(result))
+			let result = JSON.parse(JSON.stringify(loadouts))			
+			console.log('Successfuly retrieved loadouts', JSON.stringify(result))
 
-			return loadouts
+			return loadouts.map(loadout => loadout.toJSON())
 		} catch (e) {
 			console.error(`Error retrieving loadouts for ${user.uid}`, e)
 			throw e
