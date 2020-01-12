@@ -33,7 +33,7 @@ let getAll = async (user) => {
 		order: ['createdAt']
 	})
 
-	return events.forEach(event => event.toJSON())
+	return events.map(event => event.toJSON())
 	
 }
 
