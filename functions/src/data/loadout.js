@@ -1,24 +1,25 @@
 const Op = require('sequelize').Op
-const entities = require('./database/entities')
-const baseEntity = require('./base-entity')
+
 const errors = require('../utils/errors')
+const baseEntity = require('./base-entity')
+const { Loadout, Weapon, Gear, Attachment, Clothing } = require('./database/entities')
 
 module.exports = {
-	...baseEntity(entities().loadout),
+	...baseEntity(Loadout),
 	getAll: async (user) => {
-		let loadouts = await entities().loadout.findAll({
+		let loadouts = await Loadout.findAll({
 			where: {
 				uid: user.uid
 			},
 			include: [
 				{
-					model: entities().weapon,
+					model: Weapon,
 					attributes: {
 						exclude: ['uid']
 					}
 				},					
 				{
-					model: entities().gear,
+					model: Gear,
 					as: 'gear',
 					attributes: {
 						exclude: ['uid']
@@ -41,28 +42,28 @@ module.exports = {
 			{ [Op.or]: { uid: user.uid, shared: true } } :
 			{ shared: true }
 
-		let loadout = await entities().loadout.findOne({
+		let loadout = await Loadout.findOne({
 			where: {
 				id: id,
 				...query
 			},
 			include: [
 				{
-					model: entities().weapon,
+					model: Weapon,
 					attributes: {
 						exclude: ['uid']
 					},
-					include: [ entities().attachment ],
+					include: [ Attachment ],
 				},
 				{
-					model: entities().gear,
+					model: Gear,
 					as: 'gear',
 					attributes: {
 						exclude: ['uid']
 					}
 				},
 				{
-					model: entities().clothing,
+					model: Clothing,
 					as: 'clothing',
 					attributes: {
 						exclude: ['uid']

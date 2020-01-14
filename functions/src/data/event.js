@@ -1,26 +1,26 @@
 const firebase = require('firebase-admin')
 const Op = require('sequelize').Op
-const entities = require('./database/entities')
-const errors = require('../utils/errors')
 
-const db = require('./database/database')
+const errors = require('../utils/errors')
+const database = require('./database/database')
+const { Event, EventUser, Loadout, Weapon, Attachment, Gear, Clothing } = require('./database/entities')
 
 let getAll = async (user) => {
-	let events = await entities().event.findAll({
+	let events = await Event.findAll({
 		include: {
 			// Only bring back events that the user is part of
-			model: entities().eventUser,
+			model: EventUser,
 			as: 'users',
 			where: {
 				uid: user.uid
 			},
 			include: {
-				model: entities().loadout,				
+				model: Loadout,				
 				attributes: {
 					exclude: ['uid']
 				},
 				include: {
-					model: entities().weapon,			
+					model: Weapon,	
 					attributes: {
 						exclude: ['uid']
 					}
@@ -32,20 +32,18 @@ let getAll = async (user) => {
 		},
 		order: ['createdAt']
 	})
-
-	return events.map(event => event.toJSON())
 	
+	return events.map(event => event.toJSON())	
 }
 
 let getById = async (id, user) => {
 	if (!id) {
-		console.warn(`No id was supplied for getting event by id for ${user.uid}`)
 		throw new errors.NotFoundError()
 	}
 
-	let event = await entities().event.findOne({
+	let event = await Event.findOne({
 		include: {
-			model: entities().eventUser,
+			model: EventUser,
 			as: 'users',
 			where: {
 				event_id: id,
@@ -58,19 +56,19 @@ let getById = async (id, user) => {
 				exclude: [ 'id', 'event_id', 'loadout_id' ]
 			},
 			include: {
-				model: entities().loadout,				
+				model: Loadout,				
 				attributes: {
 					exclude: ['uid']
 				},
 				include: [
 					{
-						model: entities().weapon,
+						model: Weapon,
 						attributes: {
 							exclude: ['uid']
 						},
 						include: [
 							{
-								model: entities().attachment,
+								model: Attachment,
 								attributes: {
 									exclude: ['uid']
 								}
@@ -78,14 +76,14 @@ let getById = async (id, user) => {
 						]
 					},					
 					{
-						model: entities().gear,
+						model: Gear,
 						as: 'gear',
 						attributes: {
 							exclude: ['uid']
 						}
 					},					
 					{
-						model: entities().clothing,
+						model: Clothing,
 						as: 'clothing',
 						attributes: {
 							exclude: ['uid']
@@ -157,16 +155,16 @@ let add = async (data, user) => {
 			}]
 		}
 
-		let response = await db()
-			.transaction(t =>  
-				entities().event.create(event, {
-					include: [{
-						model: entities().eventUser,
-						as: 'users'
-					}],
-					transaction: t
-				})
-			)			
+		// Transction is necessary as this is multiple db calls to create event and event user
+		let response = await database.transaction(t =>  
+			Event.create(event, {
+				include: [{
+					model: EventUser,
+					as: 'users'
+				}],
+				transaction: t
+			})
+		)			
 		
 		return response.toJSON()
 	} catch (e) {
@@ -187,7 +185,7 @@ let canEdit = async (id, user) => {
 	}
 
 	// Ensure this id exists and belongs to the user
-	let event = await entities().event.findOne({
+	let event = await Event.findOne({
 		where: { id },
 		attributes: ['organiser_uid']
 	})
@@ -198,7 +196,7 @@ let canEdit = async (id, user) => {
 let edit = async (id, event, user) => {
 	try {
 		// Ensure this id exists and belongs to the user
-		let exists = (await entities().event.count({
+		let exists = (await Event.count({
 			where: {
 				id: id,
 				organiser_uid: user.uid
@@ -217,7 +215,7 @@ let edit = async (id, event, user) => {
 			public: event.public
 		}
 
-		await entities().event.update(newEvent, {
+		await Event.update(newEvent, {
 			where: {
 				id: id,
 				organiser_uid: user.uid
@@ -238,7 +236,7 @@ let edit = async (id, event, user) => {
 }
 
 let remove = async (id, user) => {
-	let result = await entities().event.destroy({
+	let result = await Event.destroy({
 		where: {
 			id: id,
 			organiser_uid: user.uid
@@ -252,7 +250,7 @@ let remove = async (id, user) => {
 
 let setLoadout = async (eventId, loadoutId, user) => {
 	// Check the user has access to this event
-	let hasEvent = await entities().eventUser.count({
+	let hasEvent = await EventUser.count({
 		where: {
 			uid: user.uid,
 			event_id: eventId
@@ -265,7 +263,7 @@ let setLoadout = async (eventId, loadoutId, user) => {
 
 	// Check user has access to loadout
 	if (loadoutId != null) {
-		let hasLoadout = entities().loadout.count({
+		let hasLoadout = Loadout.count({
 			id: loadoutId,
 			uid: user.uid
 		})
@@ -276,7 +274,7 @@ let setLoadout = async (eventId, loadoutId, user) => {
 	}
 
 	// Update the event user and return the full event object back
-	let rowsUpdated = await entities().eventUser
+	let rowsUpdated = await EventUser
 		.update(
 			{ loadout_id: loadoutId },
 			{
@@ -296,7 +294,7 @@ let setLoadout = async (eventId, loadoutId, user) => {
 
 let join = async (eventId, user) => {
 	// Check the event is joinable
-	let joinable = await entities().event.count({
+	let joinable = await Event.count({
 		where: {
 			id: eventId,
 			public: true
@@ -308,7 +306,7 @@ let join = async (eventId, user) => {
 	}
 
 	// Check the user isn't already part of this event
-	let alreadyInEvent = await entities().eventUser.count({
+	let alreadyInEvent = await EventUser.count({
 		where: {
 			event_id: eventId,
 			uid: user.uid
@@ -320,7 +318,7 @@ let join = async (eventId, user) => {
 	}
 
 	// Add the user
-	await entities().eventUser.create({
+	await EventUser.create({
 		event_id: eventId,
 		uid: user.uid
 	})

@@ -1,15 +1,15 @@
-const entities = require('./database/entities')
+const { LoadoutWeapon, Loadout, Weapon } = require('./database/entities')
 const errors = require('../utils/errors')
 
 let hasPermission = async (weaponId, loadoutId, authId) => {
-	let ownsWeapon = entities().weapon.count({
+	let ownsWeapon = Weapon.count({
 		where: {
 			id: weaponId,
 			uid: authId
 		}
 	})
 
-	let ownsLoadout = entities().loadout.count({
+	let ownsLoadout = Loadout.count({
 		where: {
 			id: loadoutId,
 			uid: authId
@@ -21,7 +21,7 @@ let hasPermission = async (weaponId, loadoutId, authId) => {
 }
 
 let count = async (weaponId, loadoutId) => {
-	return await entities().loadoutWeapon.count({
+	return await LoadoutWeapon.count({
 		where: {
 			loadout_id: loadoutId,
 			weapon_id: weaponId
@@ -42,13 +42,13 @@ module.exports = {
 		let exists = await count(weaponId, loadoutId)
 
 		if (!exists) {
-			await entities().loadoutWeapon.create({
+			await LoadoutWeapon.create({
 				loadout_id: loadoutId,
 				weapon_id: weaponId
 			})
 		}
 
-		return await entities().weapon.findByPk(weaponId)
+		return await Weapon.findByPk(weaponId)
 	},
 
 	delete: async (weaponId, loadoutId, user) => {
@@ -59,7 +59,7 @@ module.exports = {
 			throw new errors.NotFoundError('Loadout or weapon not found')
 		}		
 
-		let result = await entities().loadoutWeapon.destroy({
+		let result = await LoadoutWeapon.destroy({
 			where: {
 				loadout_id: loadoutId,
 				weapon_id: weaponId

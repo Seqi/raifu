@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./database')
+
+const db = require('./database')
 const { applyHook, orderLoadoutItems } = require('./hooks/')
 
-
-const armoryTable = {
+const armoryTableSchema = {
 	id: {
 		type: Sequelize.STRING({ length: 14 }),
 		allowNull: false,
@@ -27,19 +27,20 @@ const armoryTable = {
 	}
 }
 
-const Weapon = sequelize.define('weapon', armoryTable)
+class Weapon extends Sequelize.Model { }
+Weapon.init(armoryTableSchema, { sequelize: db })
 
-const Attachment = sequelize.define('attachment', armoryTable)
+class Attachment extends Sequelize.Model { }
+Attachment.init(armoryTableSchema, { sequelize: db })
 
-const Gear = sequelize.define('gear', armoryTable, {
-	freezeTableName: true
-})
+class Gear extends Sequelize.Model { }
+Gear.init(armoryTableSchema, { sequelize: db, freezeTableName: true })
 
-const Clothing = sequelize.define('clothing', armoryTable, {
-	freezeTableName: true
-})
+class Clothing extends Sequelize.Model { }
+Clothing.init(armoryTableSchema, { sequelize: db, freezeTableName: true })
 
-const Loadout = sequelize.define('loadout', {
+class Loadout extends Sequelize.Model { }
+Loadout.init({
 	id: {
 		type: Sequelize.STRING({ length: 14 }),
 		allowNull: false,
@@ -59,6 +60,7 @@ const Loadout = sequelize.define('loadout', {
 		allowNull: false
 	}
 }, {
+	sequelize: db,
 	hooks: {
 		afterCreate: applyHook((loadout) => {
 			// Saves doing a pointless join, helps the client see theres no 
@@ -69,7 +71,8 @@ const Loadout = sequelize.define('loadout', {
 	}
 })
 
-const LoadoutWeapon = sequelize.define('loadout_weapon', {
+class LoadoutWeapon extends Sequelize.Model { }
+LoadoutWeapon.init({
 	// If we don't force the ID here, the associations remove it
 	id: {
 		type: Sequelize.STRING({ length: 14 }),
@@ -95,9 +98,13 @@ const LoadoutWeapon = sequelize.define('loadout_weapon', {
 			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
 		}
 	}
+}, { 
+	sequelize: db, 
+	modelName: 'loadout_weapon' 
 })
 
-const LoadoutGear = sequelize.define('loadout_gear', {
+class LoadoutGear extends Sequelize.Model { }
+LoadoutGear.init({
 	id: {
 		type: Sequelize.STRING({ length: 14 }),
 		allowNull: false,
@@ -122,9 +129,14 @@ const LoadoutGear = sequelize.define('loadout_gear', {
 			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
 		}
 	}
-}, { freezeTableName: true })
+}, { 
+	sequelize: db,
+	modelName: 'loadout_gear',
+	freezeTableName: true 
+})
 
-const LoadoutClothing = sequelize.define('loadout_clothing', {
+class LoadoutClothing extends Sequelize.Model { }
+LoadoutClothing.init({
 	id: {
 		type: Sequelize.STRING({ length: 14 }),
 		allowNull: false,
@@ -149,9 +161,14 @@ const LoadoutClothing = sequelize.define('loadout_clothing', {
 			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
 		}
 	}
-}, { freezeTableName: true })
+}, { 
+	sequelize: db,
+	modelName: 'loadout_clothing',
+	freezeTableName: true 
+})
 
-const LoadoutWeaponAttachment = sequelize.define('loadout_weapon_attachment', {
+class LoadoutWeaponAttachment extends Sequelize.Model { }
+LoadoutWeaponAttachment.init({
 	loadout_weapon_id: {
 		type: Sequelize.STRING({ length: 14 }),
 		primaryKey: true,
@@ -193,9 +210,13 @@ const LoadoutWeaponAttachment = sequelize.define('loadout_weapon_attachment', {
 			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
 		}
 	}
+}, {
+	sequelize: db,
+	modelName: 'loadout_weapon_attachment'
 })
 
-const Event = sequelize.define('event', {
+class Event extends Sequelize.Model { }
+Event.init({
 	id: {
 		type: Sequelize.STRING({ length: 14 }),
 		allowNull: false,
@@ -222,6 +243,7 @@ const Event = sequelize.define('event', {
 		defaultValue: false
 	}
 }, {
+	sequelize: db,
 	hooks: {
 		afterFind: applyHook((event) => {
 			if (event.users) {
@@ -231,7 +253,8 @@ const Event = sequelize.define('event', {
 	}
 })
 
-const EventUser = sequelize.define('event_users', {
+class EventUser extends Sequelize.Model { }
+EventUser.init({
 	id: {
 		type: Sequelize.STRING({ length: 14 }),
 		allowNull: false,
@@ -258,6 +281,9 @@ const EventUser = sequelize.define('event_users', {
 			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
 		}
 	}
+}, { 
+	sequelize: db,
+	modelName: 'event_users' 
 })
 
 // Event user association

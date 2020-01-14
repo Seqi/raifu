@@ -1,15 +1,15 @@
-const entities = require('./database/entities')
+const { LoadoutClothing, Loadout, Clothing } = require('./database/entities')
 const errors = require('../utils/errors')
 
 let hasPermission = async (clothingId, loadoutId, authId) => {
-	let ownsClothing = entities().clothing.count({
+	let ownsClothing = Clothing.count({
 		where: {
 			id: clothingId,
 			uid: authId
 		}
 	})
 
-	let ownsLoadout = entities().loadout.count({
+	let ownsLoadout = Loadout.count({
 		where: {
 			id: loadoutId,
 			uid: authId
@@ -21,7 +21,7 @@ let hasPermission = async (clothingId, loadoutId, authId) => {
 }
 
 let count = async (clothingId, loadoutId) => {
-	return await entities().loadoutClothing.count({
+	return await LoadoutClothing.count({
 		where: {
 			loadout_id: loadoutId,
 			clothing_id: clothingId
@@ -42,13 +42,13 @@ module.exports = {
 		let exists = await count(clothingId, loadoutId)
 
 		if (!exists) {
-			await entities().loadoutClothing.create({
+			await LoadoutClothing.create({
 				loadout_id: loadoutId,
 				clothing_id: clothingId
 			})
 		}
 
-		return await entities().clothing.findByPk(clothingId)		
+		return await Clothing.findByPk(clothingId)		
 	},
 
 	delete: async (clothingId, loadoutId, user) => {
@@ -59,7 +59,7 @@ module.exports = {
 			throw new errors.NotFoundError('Loadout or clothing not found')
 		}		
 
-		let result = await entities().loadoutClothing.destroy({
+		let result = await LoadoutClothing.destroy({
 			where: {
 				loadout_id: loadoutId,
 				clothing_id: clothingId

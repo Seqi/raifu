@@ -1,13 +1,13 @@
 let express = require('express')
 let router = express.Router()
 
-let baseEntity = require('../data/base-entity')
-let entities = require('../data/database/entities')
 let errors = require('../utils/errors')
+let baseEntity = require('../data/base-entity')
+let { Gear } = require('../data/database/entities')
 
 router.get('/', async (req, res) => {
 	try {
-		let items = await baseEntity(entities().gear)
+		let items = await baseEntity(Gear)
 			.getAll(req.user)
 			
 		console.log(`[${req.user.uid}]: Successfuly retrieved ${items.length} gear`)
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {		
-		let item = await baseEntity(entities().gear)
+		let item = await baseEntity(Gear)
 			.add(req.body, req.user)
 			
 		console.log(`[${req.user.uid}]: Added gear ${JSON.stringify(item)}`)
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
 	try {
-		let item = await baseEntity(entities().gear)
+		let item = await baseEntity(Gear)
 			.delete(req.params.id, req.user)
 
 		if (item === 0) {
