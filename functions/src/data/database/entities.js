@@ -28,16 +28,16 @@ const armoryTableSchema = {
 }
 
 class Weapon extends Sequelize.Model { }
-Weapon.init(armoryTableSchema, { sequelize: db })
+Weapon.init(armoryTableSchema, { sequelize: db, modelName: 'weapon' })
 
 class Attachment extends Sequelize.Model { }
-Attachment.init(armoryTableSchema, { sequelize: db })
+Attachment.init(armoryTableSchema, { sequelize: db, modelName: 'attachment' })
 
 class Gear extends Sequelize.Model { }
-Gear.init(armoryTableSchema, { sequelize: db, freezeTableName: true })
+Gear.init(armoryTableSchema, { sequelize: db, modelName: 'gear', freezeTableName: true })
 
 class Clothing extends Sequelize.Model { }
-Clothing.init(armoryTableSchema, { sequelize: db, freezeTableName: true })
+Clothing.init(armoryTableSchema, { sequelize: db, modelName: 'clothing', freezeTableName: true })
 
 class Loadout extends Sequelize.Model { }
 Loadout.init({
@@ -61,6 +61,7 @@ Loadout.init({
 	}
 }, {
 	sequelize: db,
+	modelName: 'loadout',
 	hooks: {
 		afterCreate: applyHook((loadout) => {
 			// Saves doing a pointless join, helps the client see theres no 
@@ -244,6 +245,7 @@ Event.init({
 	}
 }, {
 	sequelize: db,
+	modelName: 'event',
 	hooks: {
 		afterFind: applyHook((event) => {
 			if (event.users) {
@@ -283,34 +285,22 @@ EventUser.init({
 	}
 }, { 
 	sequelize: db,
-	modelName: 'event_users' 
+	modelName: 'event_user'
 })
 
-// Event user association
+// Event User association
 Event.hasMany(EventUser, { foreignKey: 'event_id', as: 'users' })
 
-// Loadout event user association
+// Loadout Event user association
 EventUser.belongsTo(Loadout, { foreignKey: 'loadout_id' })
 
 // Loadout Weapon Associations
 Loadout.belongsToMany(Weapon, { through: LoadoutWeapon, foreignKey: 'loadout_id' })
 Weapon.belongsToMany(Loadout, { through: LoadoutWeapon, foreignKey: 'weapon_id' })
-LoadoutWeapon.belongsTo(Loadout, { foreignKey: 'loadout_id' })
-LoadoutWeapon.belongsTo(Weapon, { foreignKey: 'weapon_id' })
 
 // Loadout Weapon Attachments Associations
-Attachment.belongsToMany(LoadoutWeapon, { through: LoadoutWeaponAttachment, foreignKey: 'attachment_id' })
-LoadoutWeapon.belongsToMany(Attachment, { through: LoadoutWeaponAttachment, foreignKey: 'loadout_weapon_id' })
-
-// Hacky bit to make it all play nice with the child collections
-Weapon.belongsToMany(Attachment, {
-	through: { model: LoadoutWeaponAttachment, unique: false },
-	foreignKey: 'weapon_id'
-})
-Attachment.belongsToMany(Weapon, {
-	through: { model: LoadoutWeaponAttachment, unique: false },
-	foreignKey: 'attachment_id'
-})
+Weapon.belongsToMany(Attachment, { through: { model: LoadoutWeaponAttachment, unique: false }, foreignKey: 'weapon_id' })
+Attachment.belongsToMany(Weapon, { through: { model: LoadoutWeaponAttachment, unique: false }, foreignKey: 'attachment_id' })
 
 // Loadout Gear Associations
 Loadout.belongsToMany(Gear, { through: LoadoutGear, foreignKey: 'loadout_id', as: 'gear'})
