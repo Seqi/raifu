@@ -2,21 +2,21 @@ let express = require('express')
 let router = express.Router()
 
 let baseEntity = require('../data/base-entity')
-let entities = require('../data/database/entities')
+let { Weapon, Attachment, Gear, Clothing } = require('../data/database/entities')
 
 router.get('/', async (req, res) => {
 	try {
 		let promises = [ 
-			baseEntity(entities().weapon)
+			baseEntity(Weapon)
 				.getAll(req.user),
 
-			baseEntity(entities().attachment)
+			baseEntity(Attachment)
 				.getAll(req.user),
 
-			baseEntity(entities().gear)
+			baseEntity(Gear)
 				.getAll(req.user),
 
-			baseEntity(entities().clothing)
+			baseEntity(Clothing)
 				.getAll(req.user)
 		]
 

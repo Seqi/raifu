@@ -2,12 +2,12 @@ let express = require('express')
 let router = express.Router()
 
 let baseEntity = require('../data/base-entity')
-let entities = require('../data/database/entities')
+let { Weapon } = require('../data/database/entities')
 let errors = require('../utils/errors')
 
 router.get('/', async (req, res) => {
 	try {
-		let items = await baseEntity(entities().weapon)
+		let items = await baseEntity(Weapon)
 			.getAll(req.user)
 			
 		console.log(`[${req.user.uid}]: Retrieved ${items.length} weapons`)
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {		
-		let item = await baseEntity(entities().weapon)
+		let item = await baseEntity(Weapon)
 			.add(req.body, req.user)
 
 		console.log(`[${req.user.uid}]: Added weapon ${JSON.stringify(item)}`)
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
 	try {
-		let item = await baseEntity(entities().weapon)
+		let item = await baseEntity(Weapon)
 			.delete(req.params.id, req.user)
 
 		if (item === 0) {

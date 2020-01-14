@@ -1,13 +1,13 @@
 let express = require('express')
 let router = express.Router()
 
-let baseEntity = require('../data/base-entity')
-let entities = require('../data/database/entities')
 let errors = require('../utils/errors')
+let baseEntity = require('../data/base-entity')
+let { Attachment } = require('../data/database/entities')
 
 router.get('/', async (req, res) => {
 	try {
-		let items = await baseEntity(entities().attachment)
+		let items = await baseEntity(Attachment)
 			.getAll(req.user)
 
 		console.log(`[${req.user.uid}]: Successfuly retrieved ${items.length} attachments`)
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {		
-		let item = await baseEntity(entities().attachment)
+		let item = await baseEntity(Attachment)
 			.add(req.body, req.user)
 			
 		console.log(`[${req.user.uid}]: Added attachment ${JSON.stringify(item)}`)
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
 	try {
-		let item = await baseEntity(entities().attachment)
+		let item = await baseEntity(Attachment)
 			.delete(req.params.id, req.user)
 
 		if (item === 0) {

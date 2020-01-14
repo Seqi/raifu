@@ -1,15 +1,15 @@
-const entities = require('./database/entities')
+const { LoadoutGear, Loadout, Gear } = require('./database/entities')
 const errors = require('../utils/errors')
 
 let hasPermission = async (gearId, loadoutId, authId) => {
-	let ownsGear = entities().gear.count({
+	let ownsGear = Gear.count({
 		where: {
 			id: gearId,
 			uid: authId
 		}
 	})
 
-	let ownsLoadout = entities().loadout.count({
+	let ownsLoadout = Loadout.count({
 		where: {
 			id: loadoutId,
 			uid: authId
@@ -21,7 +21,7 @@ let hasPermission = async (gearId, loadoutId, authId) => {
 }
 
 let count = async (gearId, loadoutId) => {
-	return await entities().loadoutGear.count({
+	return await LoadoutGear.count({
 		where: {
 			loadout_id: loadoutId,
 			gear_id: gearId
@@ -40,13 +40,13 @@ module.exports = {
 		let exists = await count(gearId, loadoutId)
 
 		if (!exists) {
-			await entities().loadoutGear.create({
+			await LoadoutGear.create({
 				loadout_id: loadoutId,
 				gear_id: gearId
 			})
 		}
 
-		return await entities().gear.findByPk(gearId)		
+		return await Gear.findByPk(gearId)		
 	},
 
 	delete: async (gearId, loadoutId, user) => {
@@ -57,7 +57,7 @@ module.exports = {
 			throw new errors.NotFoundError('Loadout or gear not found')
 		}
 		
-		let result = await entities().loadoutGear.destroy({
+		let result = await LoadoutGear.destroy({
 			where: {
 				loadout_id: loadoutId,
 				gear_id: gearId

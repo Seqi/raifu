@@ -1,19 +1,19 @@
-const entities = require('./database/entities')
+const { LoadoutWeaponAttachment, LoadoutWeapon, Weapon, Loadout, Attachment } = require('./database/entities')
 const errors = require('../utils/errors')
 
 let hasPermission = async (weaponId, attachmentId, loadoutId, authId) => {
-	let ownsLoadoutWeapon = entities().loadoutWeapon.count({
+	let ownsLoadoutWeapon = LoadoutWeapon.count({
 		where: {
 			weapon_id: weaponId,
 			loadout_id: loadoutId
 		},
 		include: [
-			{ model: entities().weapon, where: { uid: authId } },
-			{ model: entities().loadout, where: { uid: authId } }
+			{ model: Weapon, where: { uid: authId } },
+			{ model: Loadout, where: { uid: authId } }
 		]
 	})
 
-	let ownsAttachment = entities().attachment.count({
+	let ownsAttachment = Attachment.count({
 		where: {
 			id: attachmentId,
 			uid: authId
@@ -25,7 +25,7 @@ let hasPermission = async (weaponId, attachmentId, loadoutId, authId) => {
 }
 
 let count = async (weaponId, attachmentId, loadoutId) => {
-	return await entities().loadoutWeaponAttachment.count({
+	return await LoadoutWeaponAttachment.count({
 		where: {
 			loadout_id: loadoutId,
 			weapon_id: weaponId,
@@ -36,7 +36,7 @@ let count = async (weaponId, attachmentId, loadoutId) => {
 
 let add = async (weaponId, attachmentId, loadoutId) => {
 	// Find the loadout_weapon id to add
-	const loadoutWeapon = await entities().loadoutWeapon.findOne({
+	const loadoutWeapon = await LoadoutWeapon.findOne({
 		where: {
 			weapon_id: weaponId,
 			loadout_id: loadoutId
@@ -44,7 +44,7 @@ let add = async (weaponId, attachmentId, loadoutId) => {
 		attributes: ['id']
 	})
 
-	await entities().loadoutWeaponAttachment.create({
+	await LoadoutWeaponAttachment.create({
 		loadout_weapon_id: loadoutWeapon.id,
 		loadout_id: loadoutId,
 		weapon_id: weaponId,
@@ -67,7 +67,7 @@ module.exports = {
 			await add(weaponId, attachmentId, loadoutId)
 		}
 
-		return await entities().attachment.findByPk(attachmentId)		
+		return await Attachment.findByPk(attachmentId)		
 	},
 
 	delete: async (weaponId, attachmentId, loadoutId, user) => {
@@ -79,7 +79,7 @@ module.exports = {
 		}
 
 		// Remove
-		let result = await entities().loadoutWeaponAttachment.destroy({
+		let result = await LoadoutWeaponAttachment.destroy({
 			where: {
 				loadout_id: loadoutId,
 				weapon_id: weaponId,

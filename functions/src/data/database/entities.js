@@ -1,322 +1,325 @@
 const Sequelize = require('sequelize')
+
 const db = require('./database')
 const { applyHook, orderLoadoutItems } = require('./hooks/')
 
-let entities = null
-
-let initEntities = () => {
-	const sequelize = db()
-
-	const armoryTable = {
-		id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			primaryKey: true,
-			defaultValue :''
-		},
-		platform: {
-			type: Sequelize.STRING({ length: 64 }),
-			allowNull: false
-		},
-		model: Sequelize.STRING({ length: 64 }),
-		brand: Sequelize.STRING({ length: 64 }),
-		nickname: Sequelize.STRING({ length: 64 }),
-		type: {
-			type: Sequelize.STRING({ length: 16 }),
-			allowNull: false
-		},
-		uid: {
-			type: Sequelize.STRING({ length: 32 }),
-			allowNull: false
-		}
-	}
-
-	const weapon = sequelize.define('weapon', armoryTable)
-
-	const attachment = sequelize.define('attachment', armoryTable)
-
-	const gear = sequelize.define('gear', armoryTable, {
-		freezeTableName: true
-	})
-
-	const clothing = sequelize.define('clothing', armoryTable, {
-		freezeTableName: true
-	})
-
-	const loadout = sequelize.define('loadout', {
-		id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			primaryKey: true,
-			defaultValue: ''
-		},
-		name: {
-			type: Sequelize.STRING({ length: 64 }),
-			allowNull: false
-		},
-		shared: {
-			type: Sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		uid: {
-			type: Sequelize.STRING({ length: 32 }),
-			allowNull: false
-		}
-	}, {
-		hooks: {
-			afterCreate: applyHook((loadout) => {
-				// Saves doing a pointless join, helps the client see theres no 
-				// weapons without any type checking
-				loadout.weapons = []
-			}),
-			afterFind: applyHook(orderLoadoutItems)
-		}
-	})
-
-	const loadoutWeapon = sequelize.define('loadout_weapon', {
-		// If we don't force the ID here, the associations remove it
-		id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			primaryKey: true,
-			defaultValue: ''
-		},
-		loadout_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			references: {
-				model: loadout,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		},
-		weapon_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			references: {
-				model: weapon,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		}
-	})
-
-	const loadoutGear = sequelize.define('loadout_gear', {
-		id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			primaryKey: true,
-			defaultValue: ''
-		},
-		loadout_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			references: {
-				model: loadout,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		},
-		gear_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			references: {
-				model: gear,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		}
-	}, { freezeTableName: true })
-
-	const loadoutClothing = sequelize.define('loadout_clothing', {
-		id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			primaryKey: true,
-			defaultValue: ''
-		},
-		loadout_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			references: {
-				model: loadout,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		},
-		clothing_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			references: {
-				model: clothing,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		}
-	}, { freezeTableName: true })
-
-	const loadoutWeaponAttachment = sequelize.define('loadout_weapon_attachment', {
-		loadout_weapon_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			primaryKey: true,
-			allowNull: false,
-			references: {
-				model: weapon,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		},
-		// Hacky way to get joins to work
-		loadout_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			primaryKey: true,
-			allowNull: false,
-			references: {
-				model: loadout,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		},
-		weapon_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			primaryKey: true,
-			allowNull: false,
-			references: {
-				model: weapon,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		},
-		attachment_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			primaryKey: true,
-			allowNull: false,
-			references: {
-				model: attachment,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		}
-	})
-
-	const event = sequelize.define('event', {
-		id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			primaryKey: true,
-			defaultValue: ''
-		},
-		name: {
-			type: Sequelize.STRING({ length: 256 }),
-			allowNull: false
-		},
-		location: {
-			type: Sequelize.STRING({ length: 256 }),
-			allowNull: false
-		},
-		date: {
-			type: 'TIMESTAMP'
-		},		
-		organiser_uid: {
-			type: Sequelize.STRING({ length: 32 }),
-			allowNull: false
-		},
-		public: {
-			type: Sequelize.BOOLEAN,
-			defaultValue: false
-		}
-	}, {
-		hooks: {
-			afterFind: applyHook((event) => {
-				if (event.users) {
-					event.users.forEach(user => orderLoadoutItems(user.loadout))
-				}
-			})
-		}
-	})
-
-	const eventUser = sequelize.define('event_users', {
-		id: {
-			type: Sequelize.STRING({ length: 14 }),
-			allowNull: false,
-			primaryKey: true,
-			defaultValue: ''
-		},
-		uid: {
-			type: Sequelize.STRING({ length: 32 }),
-			allowNull: false
-		},
-		event_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			references: {
-				model: event,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		},
-		loadout_id: {
-			type: Sequelize.STRING({ length: 14 }),
-			references: {
-				model: loadout,
-				key: 'id',
-				deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-			}
-		}
-	})
-
-	// Event user association
-	event.hasMany(eventUser, { foreignKey: 'event_id', as: 'users' })
-
-	// Loadout event user association
-	eventUser.belongsTo(loadout, { foreignKey: 'loadout_id' })
-
-	// Loadout Weapon Associations
-	loadout.belongsToMany(weapon, { through: loadoutWeapon, foreignKey: 'loadout_id' })
-	weapon.belongsToMany(loadout, { through: loadoutWeapon, foreignKey: 'weapon_id' })
-	loadoutWeapon.belongsTo(loadout, { foreignKey: 'loadout_id' })
-	loadoutWeapon.belongsTo(weapon, { foreignKey: 'weapon_id' })
-
-	// Loadout Weapon Attachments Associations
-	attachment.belongsToMany(loadoutWeapon, { through: loadoutWeaponAttachment, foreignKey: 'attachment_id' })
-	loadoutWeapon.belongsToMany(attachment, { through: loadoutWeaponAttachment, foreignKey: 'loadout_weapon_id' })
-
-	// Hacky bit to make it all play nice with the child collections
-	weapon.belongsToMany(attachment, {
-		through: { model: loadoutWeaponAttachment, unique: false },
-		foreignKey: 'weapon_id'
-	})
-	attachment.belongsToMany(weapon, {
-		through: { model: loadoutWeaponAttachment, unique: false },
-		foreignKey: 'attachment_id'
-	})
-
-	// Loadout Gear Associations
-	loadout.belongsToMany(gear, { through: loadoutGear, foreignKey: 'loadout_id', as: 'gear'})
-	gear.belongsToMany(loadout, { through: loadoutGear, foreignKey: 'gear_id' })
-
-	// Loadout Clothing Associations
-	loadout.belongsToMany(clothing, { through: loadoutClothing, foreignKey: 'loadout_id', as: 'clothing'})
-	clothing.belongsToMany(loadout, { through: loadoutClothing, foreignKey: 'clothing_id' })
-
-	return {
-		weapon,
-		attachment,
-		gear,
-		clothing,
-		loadout,
-		loadoutWeapon,
-		loadoutWeaponAttachment,
-		loadoutGear,
-		loadoutClothing,
-		event,
-		eventUser
+const armoryTableSchema = {
+	id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		primaryKey: true,
+		defaultValue :''
+	},
+	platform: {
+		type: Sequelize.STRING({ length: 64 }),
+		allowNull: false
+	},
+	model: Sequelize.STRING({ length: 64 }),
+	brand: Sequelize.STRING({ length: 64 }),
+	nickname: Sequelize.STRING({ length: 64 }),
+	type: {
+		type: Sequelize.STRING({ length: 16 }),
+		allowNull: false
+	},
+	uid: {
+		type: Sequelize.STRING({ length: 32 }),
+		allowNull: false
 	}
 }
 
-module.exports = () => {
-	if (entities == null) {
-		entities = initEntities()
-	}
+class Weapon extends Sequelize.Model { }
+Weapon.init(armoryTableSchema, { sequelize: db, modelName: 'weapon' })
 
-	return entities
+class Attachment extends Sequelize.Model { }
+Attachment.init(armoryTableSchema, { sequelize: db, modelName: 'attachment' })
+
+class Gear extends Sequelize.Model { }
+Gear.init(armoryTableSchema, { sequelize: db, modelName: 'gear', freezeTableName: true })
+
+class Clothing extends Sequelize.Model { }
+Clothing.init(armoryTableSchema, { sequelize: db, modelName: 'clothing', freezeTableName: true })
+
+class Loadout extends Sequelize.Model { }
+Loadout.init({
+	id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		primaryKey: true,
+		defaultValue: ''
+	},
+	name: {
+		type: Sequelize.STRING({ length: 64 }),
+		allowNull: false
+	},
+	shared: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
+	},
+	uid: {
+		type: Sequelize.STRING({ length: 32 }),
+		allowNull: false
+	}
+}, {
+	sequelize: db,
+	modelName: 'loadout',
+	hooks: {
+		afterCreate: applyHook((loadout) => {
+			// Saves doing a pointless join, helps the client see theres no 
+			// weapons without any type checking
+			loadout.weapons = []
+		}),
+		afterFind: applyHook(orderLoadoutItems)
+	}
+})
+
+class LoadoutWeapon extends Sequelize.Model { }
+LoadoutWeapon.init({
+	// If we don't force the ID here, the associations remove it
+	id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		primaryKey: true,
+		defaultValue: ''
+	},
+	loadout_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		references: {
+			model: Loadout,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	},
+	weapon_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		references: {
+			model: Weapon,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	}
+}, { 
+	sequelize: db, 
+	modelName: 'loadout_weapon' 
+})
+
+class LoadoutGear extends Sequelize.Model { }
+LoadoutGear.init({
+	id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		primaryKey: true,
+		defaultValue: ''
+	},
+	loadout_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		references: {
+			model: Loadout,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	},
+	gear_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		references: {
+			model: Gear,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	}
+}, { 
+	sequelize: db,
+	modelName: 'loadout_gear',
+	freezeTableName: true 
+})
+
+class LoadoutClothing extends Sequelize.Model { }
+LoadoutClothing.init({
+	id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		primaryKey: true,
+		defaultValue: ''
+	},
+	loadout_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		references: {
+			model: Loadout,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	},
+	clothing_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		references: {
+			model: Clothing,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	}
+}, { 
+	sequelize: db,
+	modelName: 'loadout_clothing',
+	freezeTableName: true 
+})
+
+class LoadoutWeaponAttachment extends Sequelize.Model { }
+LoadoutWeaponAttachment.init({
+	loadout_weapon_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		primaryKey: true,
+		allowNull: false,
+		references: {
+			model: Weapon,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	},
+	// Hacky way to get joins to work
+	loadout_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		primaryKey: true,
+		allowNull: false,
+		references: {
+			model: Loadout,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	},
+	weapon_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		primaryKey: true,
+		allowNull: false,
+		references: {
+			model: Weapon,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	},
+	attachment_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		primaryKey: true,
+		allowNull: false,
+		references: {
+			model: Attachment,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	}
+}, {
+	sequelize: db,
+	modelName: 'loadout_weapon_attachment'
+})
+
+class Event extends Sequelize.Model { }
+Event.init({
+	id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		primaryKey: true,
+		defaultValue: ''
+	},
+	name: {
+		type: Sequelize.STRING({ length: 256 }),
+		allowNull: false
+	},
+	location: {
+		type: Sequelize.STRING({ length: 256 }),
+		allowNull: false
+	},
+	date: {
+		type: 'TIMESTAMP'
+	},		
+	organiser_uid: {
+		type: Sequelize.STRING({ length: 32 }),
+		allowNull: false
+	},
+	public: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
+	}
+}, {
+	sequelize: db,
+	modelName: 'event',
+	hooks: {
+		afterFind: applyHook((event) => {
+			if (event.users) {
+				event.users.forEach(user => orderLoadoutItems(user.loadout))
+			}
+		})
+	}
+})
+
+class EventUser extends Sequelize.Model { }
+EventUser.init({
+	id: {
+		type: Sequelize.STRING({ length: 14 }),
+		allowNull: false,
+		primaryKey: true,
+		defaultValue: ''
+	},
+	uid: {
+		type: Sequelize.STRING({ length: 32 }),
+		allowNull: false
+	},
+	event_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		references: {
+			model: Event,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	},
+	loadout_id: {
+		type: Sequelize.STRING({ length: 14 }),
+		references: {
+			model: Loadout,
+			key: 'id',
+			deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+		}
+	}
+}, { 
+	sequelize: db,
+	modelName: 'event_user'
+})
+
+// Event User association
+Event.hasMany(EventUser, { foreignKey: 'event_id', as: 'users' })
+
+// Loadout Event user association
+EventUser.belongsTo(Loadout, { foreignKey: 'loadout_id' })
+
+// Loadout Weapon Associations
+Loadout.belongsToMany(Weapon, { through: LoadoutWeapon, foreignKey: 'loadout_id' })
+Weapon.belongsToMany(Loadout, { through: LoadoutWeapon, foreignKey: 'weapon_id' })
+
+// Loadout Weapon Attachments Associations
+Weapon.belongsToMany(Attachment, { through: { model: LoadoutWeaponAttachment, unique: false }, foreignKey: 'weapon_id' })
+Attachment.belongsToMany(Weapon, { through: { model: LoadoutWeaponAttachment, unique: false }, foreignKey: 'attachment_id' })
+
+// Loadout Gear Associations
+Loadout.belongsToMany(Gear, { through: LoadoutGear, foreignKey: 'loadout_id', as: 'gear'})
+Gear.belongsToMany(Loadout, { through: LoadoutGear, foreignKey: 'gear_id' })
+
+// Loadout Clothing Associations
+Loadout.belongsToMany(Clothing, { through: LoadoutClothing, foreignKey: 'loadout_id', as: 'clothing'})
+Clothing.belongsToMany(Loadout, { through: LoadoutClothing, foreignKey: 'clothing_id' })
+
+module.exports = {
+	Weapon,
+	Attachment,
+	Gear,
+	Clothing,
+	Loadout,
+	LoadoutWeapon,
+	LoadoutWeaponAttachment,
+	LoadoutGear,
+	LoadoutClothing,
+	Event,
+	EventUser
 }
