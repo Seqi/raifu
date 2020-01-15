@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 // Can't do inline keyframes without styled-components!
@@ -15,7 +15,15 @@ let fadeStyle = {
 const StaggeredFadeAnimation = ({ minInterval, maxDuration, children }) => {
 	let childCount = React.Children.count(children)
 
+	let hasRendered = useRef(false)
+	useEffect(() => { hasRendered.current = true }, [])
+
 	let getAnimationDelay = useCallback((childIndex) => {
+		// Once the initial animation has played out, we don't want to stagger anymore
+		if (hasRendered.current) {
+			return 0
+		}
+
 		let interval = minInterval
 
 		// If no max duration is specified, we can simply stagger without worrying
