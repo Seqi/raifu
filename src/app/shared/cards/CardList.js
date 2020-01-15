@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
+import StaggeredFadeAnimation from 'app/shared/animations/StaggeredFadeAnimation'
 import { AddCard, ArmoryCard, LoadoutCard } from '.'
 
 class CardList extends Component {
@@ -37,34 +38,15 @@ class CardList extends Component {
 			.then(() => this.handleDialogClose())
 	}
 
-	getAnimationDelay = (index, count) => {
-		let maxAnimationLength = 1
-		let standardInterval = 0.2
-
-		// If no count is supplied, assume the index number is the last item
-		count = count || index
-
-		if (this.loaded) {
-			return '0s'
-		}
-
-		let interval = count * standardInterval > maxAnimationLength ? 
-			maxAnimationLength / count : 
-			standardInterval
-
-		return `${interval * index}s`
-	}
-
 	renderItems = (items) => {
 		let { onCardClick, canDelete, cardType } = this.props
 
-		let renderItem = (item, idx) => {
+		let renderItem = (item) => {
 			let sharedProps = {
 				key: item.id,
 				canDelete: canDelete,
 				onClick: () => onCardClick(item),
 				onDelete: (e) => this.handleDialogOpen(e, item.id, item.getTitle()),
-				style: { animationDelay: this.getAnimationDelay(idx, items.length) }
 			}
 	
 			if (['weapons', 'attachments', 'gear', 'clothing'].indexOf(cardType) > -1) {
@@ -94,15 +76,12 @@ class CardList extends Component {
 
 		return (
 			<div className='card-list'>
-				{this.renderItems(items)}
+				<StaggeredFadeAnimation maxDuration={ 1 }>
+					{this.renderItems(items)}
 
-				{canAdd && (
-					<AddCard
-						style={ { animationDelay: this.getAnimationDelay(Object.keys(items || {}).length) } }
-						onClick={ onAdd }
-						cardType={ mappedCardType }
-					/>
-				)}
+					{canAdd && <AddCard onClick={ onAdd } cardType={ mappedCardType } />}
+				</StaggeredFadeAnimation>
+				
 
 				{this.state.isDialogOpen && (
 					<ConfirmDeleteDialog
