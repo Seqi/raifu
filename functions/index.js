@@ -5,23 +5,22 @@ let cors = require('cors')
 let express = require('express')
 let app = express()
 
+let createArmoryRoute = require('./src/routes/armoryRoute')
 let armoryRoutes = require('./src/routes/armory')
-let weaponRoutes = require('./src/routes/weapon')
-let attachmentRoutes = require('./src/routes/attachment')
-let gearRoutes = require('./src/routes/gear')
-let clothingRoutes = require('./src/routes/clothing')
 let loadoutRoutes = require('./src/routes/loadout')
 let eventRoutes = require('./src/routes/event')
 let authMiddleware = require('./src/middleware/firebase-auth-middleware')
+
+let { Weapon, Attachment, Gear, Clothing } = require('./src/data/database/entities')
 
 app.use(cors())
 app.use(bodyParser.json())
 
 app.use('/armory', authMiddleware(), armoryRoutes)
-app.use('/weapons', authMiddleware(), weaponRoutes)
-app.use('/attachments', authMiddleware(), attachmentRoutes)
-app.use('/gear', authMiddleware(), gearRoutes)
-app.use('/clothing', authMiddleware(), clothingRoutes)
+app.use('/weapons', authMiddleware(), createArmoryRoute(Weapon))
+app.use('/attachments', authMiddleware(), createArmoryRoute(Attachment))
+app.use('/gear', authMiddleware(), createArmoryRoute(Gear))
+app.use('/clothing', authMiddleware(), createArmoryRoute(Clothing))
 app.use('/loadouts', loadoutRoutes) // Configure auth at a more granular level
 app.use('/events', authMiddleware(), eventRoutes)
 
