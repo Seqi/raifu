@@ -6,7 +6,7 @@ import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutClothingList from './ClothingList/LoadoutClothingList'
 import LoadoutSeparator from './LoadoutSeparator'
-import LoadoutContextProvider from './LoadoutContextProvider'
+import { LoadoutContextProvider } from './LoadoutContext'
 
 let LoadoutView = ({ loadout, editable }) => {		
 	return (
@@ -30,10 +30,6 @@ LoadoutView.propTypes = {
 	loadout: PropTypes.shape({
 		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired,
-		gear: PropTypes.arrayOf(PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			getTitle: PropTypes.func.isRequired,
-		})),
 		weapons: PropTypes.arrayOf(PropTypes.shape({
 			id: PropTypes.string.isRequired,
 			getTitle: PropTypes.func.isRequired,
@@ -41,7 +37,15 @@ LoadoutView.propTypes = {
 				id: PropTypes.string.isRequired,
 				getTitle: PropTypes.func.isRequired,
 			}))
-		}))
+		})),		
+		gear: PropTypes.arrayOf(PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			getTitle: PropTypes.func.isRequired,
+		})),
+		clothing: PropTypes.arrayOf(PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			getTitle: PropTypes.func.isRequired,
+		})),
 	}).isRequired,
 	editable: PropTypes.bool
 }
