@@ -1,4 +1,4 @@
-const { LoadoutWeapon, Loadout, Weapon } = require('./database/entities')
+const { LoadoutWeapon, Loadout, Weapon, Attachment } = require('./database/entities')
 const errors = require('../utils/errors')
 
 let hasPermission = async (weaponId, loadoutId, authId) => {
@@ -48,7 +48,9 @@ module.exports = {
 			})
 		}
 
-		return await Weapon.findByPk(weaponId)
+		return await Weapon.findByPk(weaponId, {
+			include: Attachment
+		})
 	},
 
 	delete: async (weaponId, loadoutId, user) => {
