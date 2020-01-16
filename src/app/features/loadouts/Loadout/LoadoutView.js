@@ -7,21 +7,24 @@ import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutClothingList from './ClothingList/LoadoutClothingList'
 import LoadoutSeparator from './LoadoutSeparator'
 import { LoadoutContextProvider } from './LoadoutContext'
+import { AvailableArmoryContextProvider } from './AvailableArmoryContext'
 
 let LoadoutView = ({ loadout, editable }) => {		
 	return (
 		<LoadoutContextProvider loadout={ loadout } editable={ editable }>
-			<LoadoutWeaponList />
+			<AvailableArmoryContextProvider>
+				<LoadoutWeaponList />
 
-			<LoadoutSeparator>
-				<ReactiveTitle variant='h4' mobileVariant='h5'>Gear</ReactiveTitle>
-				<LoadoutGearList />
-			</LoadoutSeparator>
+				<LoadoutSeparator>
+					<ReactiveTitle variant='h4' mobileVariant='h5'>Gear</ReactiveTitle>
+					<LoadoutGearList />
+				</LoadoutSeparator>
 
-			<LoadoutSeparator>
-				<ReactiveTitle variant='h4' mobileVariant='h5'>Clothing</ReactiveTitle>
-				<LoadoutClothingList />
-			</LoadoutSeparator>
+				<LoadoutSeparator>
+					<ReactiveTitle variant='h4' mobileVariant='h5'>Clothing</ReactiveTitle>
+					<LoadoutClothingList />
+				</LoadoutSeparator>
+			</AvailableArmoryContextProvider>
 		</LoadoutContextProvider>
 	)
 }
