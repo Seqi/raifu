@@ -3,10 +3,11 @@ import React, { useContext } from 'react'
 import { LoadoutContext } from 'app/features/loadouts'
 import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
-import database from '../../../../../firebase/database'
+import AvailableArmoryContext from '../AvailableArmoryContext'
 
 let LoadoutClothingList = () => {
 	let { loadout, addClothing, deleteClothing } = useContext(LoadoutContext)
+	let { clothing } = useContext(AvailableArmoryContext)
 
 	return (
 		<LoadoutResourceList
@@ -17,9 +18,8 @@ let LoadoutClothingList = () => {
 			renderAddDialog={ (isOpen, onClose, onSave) => (
 				<AddResourceDialog 
 					title='Add clothing to loadout'
+					items={ clothing || [] }
 					category='clothing'
-					itemLoadFunc={ database.clothing.get }
-					filterIds={ (loadout.clothing || []).map(g => g.id) }
 					allowMultiple={ true }
 					isOpen={ isOpen } 
 					onSave={ onSave }
