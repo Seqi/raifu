@@ -1,4 +1,7 @@
 export { default as AddCard } from './AddCard'
 export { default as CardList } from './CardList'
-export { default as ArmoryCard } from './entities/ArmoryCard'
+export { default as WeaponCard } from './entities/WeaponCard'
+export { default as AttachmentCard } from './entities/AttachmentCard'
+export { default as GearCard } from './entities/GearCard'
+export { default as ClothingCard } from './entities/ClothingCard'
 export { default as LoadoutCard } from './entities/LoadoutCard'

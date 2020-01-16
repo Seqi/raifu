@@ -3,7 +3,7 @@ import PropType from 'prop-types'
 
 import { useTheme } from '@material-ui/core'
 
-import { ArmoryCard } from 'app/shared/cards'
+import ArmoryCard from 'app/shared/cards/entities/ArmoryCard'
 import './ResourceSelect.css'
 
 function ResourceSelect ({ items, category, selectedItemIds, onItemSelected }) {

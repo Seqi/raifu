@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 
 import { Error, Loading } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
+import { LoadoutCard } from 'app/shared/cards'
 import AddLoadoutDialog from './AddLoadoutDialog'
+
 import database from '../../../../firebase/database'
 
 let LoadoutList = ({ history, location }) => {
@@ -31,9 +33,8 @@ let LoadoutList = ({ history, location }) => {
 	return (
 		<ResourceList
 			items={ loadouts }
-			showTitle={ false }
 			resource={ database.loadouts }
-			resourceType='loadout'
+			cardType={ LoadoutCard }
 			onResourceClick={ viewLoadout }
 			renderAddDialog={ (isOpen, onClose, onSave) => (
 				<AddLoadoutDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />

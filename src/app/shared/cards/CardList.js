@@ -1,14 +1,13 @@
-import './Cards.css'
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
 import StaggeredFadeAnimation from 'app/shared/animations/StaggeredFadeAnimation'
-import { AddCard, ArmoryCard, LoadoutCard } from '.'
+import AddCard from './AddCard'
+
+import './Cards.css'
 
 class CardList extends Component {
-
 	constructor(props) {
 		super(props)
 
@@ -17,11 +16,6 @@ class CardList extends Component {
 			dialogKey: '',
 			dialogTitle: ''
 		}
-	}
-
-	componentDidMount() {
-		// Ensure we don't delay the animations once the component loaded
-		this.loaded = true
 	}
 
 	handleDialogOpen(e, key, title) {
@@ -38,48 +32,25 @@ class CardList extends Component {
 			.then(() => this.handleDialogClose())
 	}
 
-	renderItems = (items) => {
-		let { onCardClick, canDelete, cardType } = this.props
-
-		let renderItem = (item) => {
-			let sharedProps = {
-				key: item.id,
-				canDelete: canDelete,
-				onClick: () => onCardClick(item),
-				onDelete: (e) => this.handleDialogOpen(e, item.id, item.getTitle()),
-			}
-	
-			if (['weapons', 'attachments', 'gear', 'clothing'].indexOf(cardType) > -1) {
-				return <ArmoryCard item={ item } category={ cardType } { ...sharedProps } />
-			}
-
-			else if (cardType === 'loadout') {
-				return <LoadoutCard loadout={ item } { ...sharedProps }	/>
-			}
-
-			throw Error('Unsupported card type')
-		}
-
-		return items.map(renderItem)
-	}
-
 	render() {
-		let { items, canAdd, onAdd, cardType } = this.props
-
-		let mappedCardType
-
-		if (['weapons', 'attachments', 'gear', 'clothing'].indexOf(cardType) > -1) { 
-			mappedCardType = 'armory'
-		} else {
-			mappedCardType = cardType
-		}
+		let { items, canAdd, onAdd, onCardClick, canDelete, cardType } = this.props
 
 		return (
 			<div className='card-list'>
 				<StaggeredFadeAnimation maxDuration={ 1 }>
-					{this.renderItems(items)}
+					{
+						items.map((item) => 
+							React.createElement(cardType, {
+								key: item.id,
+								resource: item,
+								canDelete: canDelete,
+								onClick: () => onCardClick(item),
+								onDelete: (e) => this.handleDialogOpen(e, item.id, item.getTitle()),
+							})
+						)
+					}
 
-					{canAdd && <AddCard onClick={ onAdd } cardType={ mappedCardType } />}
+					{ canAdd && <AddCard onClick={ onAdd } /> }
 				</StaggeredFadeAnimation>
 				
 
@@ -98,7 +69,7 @@ class CardList extends Component {
 
 CardList.propTypes = {
 	items: PropTypes.array,
-	cardType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing', 'loadout']).isRequired,
+	cardType: PropTypes.elementType.isRequired,
 	canAdd: PropTypes.bool,
 	canDelete: PropTypes.bool,
 	onAdd: PropTypes.func,
