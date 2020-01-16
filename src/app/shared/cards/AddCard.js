@@ -3,13 +3,16 @@ import PropTypes from 'prop-types'
 
 import Card from '@material-ui/core/Card'
 
+import LoadoutCard from './entities/LoadoutCard'
 import AddButton from '../buttons/AddButton'
 
 export default class AddCard extends PureComponent {
 	render() {
-		let { className,  onClick, cardType, style } = this.props
+		let { onClick, cardType, style } = this.props
+
+		let addCardtype = cardType === LoadoutCard ? 'loadout-card' : 'armory-card'
 		return (
-			<Card style={ style } className={ `${className} card add-card ${cardType}-card` }>
+			<Card style={ style } className={ addCardtype }>
 				<AddButton onClick={ onClick } />
 			</Card>
 		)
@@ -17,14 +20,11 @@ export default class AddCard extends PureComponent {
 }
 
 AddCard.propTypes = {
-	className: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
 	style: PropTypes.object,
-	cardType: PropTypes.oneOf(['armory', 'loadout'])
+	cardType: PropTypes.elementType.isRequired
 }
 
 AddCard.defaultProps = {
-	className: '',
 	style: {},
-	cardType: 'armory'
 }

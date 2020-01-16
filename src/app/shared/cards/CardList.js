@@ -50,7 +50,7 @@ class CardList extends Component {
 						)
 					}
 
-					{ canAdd && <AddCard onClick={ onAdd } /> }
+					{ canAdd && <AddCard cardType={ cardType } onClick={ onAdd } /> }
 				</StaggeredFadeAnimation>
 				
 
