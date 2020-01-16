@@ -53,7 +53,14 @@ module.exports = {
 					attributes: {
 						exclude: ['uid']
 					},
-					include: [ Attachment ],
+					include: [ {
+						model: Attachment,
+						through: {
+							where: {
+								loadout_id: id
+							}
+						}
+					}],
 				},
 				{
 					model: Gear,
