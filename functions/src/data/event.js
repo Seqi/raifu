@@ -88,7 +88,7 @@ let getById = async (id, user) => {
 
 	// Populate each event user with a hydrated user object for display purposes
 	// No need to do the current user, we alredy have that
-	eventUsers[0].displayName = user.name
+	eventUsers[0].displayName = user.name || user.email
 
 	let fbAuth = firebase.auth()
 	let fbUsers = await Promise.all(
@@ -98,8 +98,8 @@ let getById = async (id, user) => {
 			.map((uid) => fbAuth.getUser(uid))
 	)
 
-	fbUsers.forEach((fbUser) => 
-		eventUsers.find((u) => u.uid === fbUser.uid).displayName = fbUser.displayName
+	fbUsers.forEach(
+		(fbUser) => (eventUsers.find((u) => u.uid === fbUser.uid).displayName = fbUser.displayName || fbUser.email)
 	)
 
 	// Add back
