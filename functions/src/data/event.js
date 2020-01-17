@@ -3,7 +3,8 @@ const Op = require('sequelize').Op
 
 const errors = require('../utils/errors')
 const database = require('./database/database')
-const { Event, EventUser, Loadout, Weapon, Attachment, Gear, Clothing } = require('./database/entities')
+const loadout = require('./loadout')
+const { Event, EventUser, Loadout, Weapon } = require('./database/entities')
 
 let getAll = async (user) => {
 	let events = await Event.findAll({
@@ -15,25 +16,25 @@ let getAll = async (user) => {
 				uid: user.uid
 			},
 			include: {
-				model: Loadout,				
+				model: Loadout,
 				attributes: {
 					exclude: ['uid']
 				},
 				include: {
-					model: Weapon,	
+					model: Weapon,
 					attributes: {
 						exclude: ['uid']
 					}
 				}
-			}, 				
+			},
 			attributes: {
 				exclude: ['uid', 'loadout_id', 'event_id']
-			},
+			}
 		},
 		order: ['createdAt']
 	})
-	
-	return events.map(event => event.toJSON())	
+
+	return events.map((event) => event.toJSON())
 }
 
 let getById = async (id, user) => {
@@ -53,45 +54,9 @@ let getById = async (id, user) => {
 				}
 			},
 			attributes: {
-				exclude: [ 'id', 'event_id', 'loadout_id' ]
-			},
-			include: {
-				model: Loadout,				
-				attributes: {
-					exclude: ['uid']
-				},
-				include: [
-					{
-						model: Weapon,
-						attributes: {
-							exclude: ['uid']
-						},
-						include: [
-							{
-								model: Attachment,
-								attributes: {
-									exclude: ['uid']
-								}
-							}
-						]
-					},					
-					{
-						model: Gear,
-						as: 'gear',
-						attributes: {
-							exclude: ['uid']
-						}
-					},					
-					{
-						model: Clothing,
-						as: 'clothing',
-						attributes: {
-							exclude: ['uid']
-						}
-					}
-				],
+				exclude: ['id', 'event_id']
 			}
-		}, 
+		},
 		attributes: {
 			exclude: ['uid', 'loadout_id']
 		}
@@ -105,7 +70,7 @@ let getById = async (id, user) => {
 
 	// Always put the calling user's event first
 	// TODO: have this as a hook?
-	let currUserIdx = eventJson.users.findIndex(u => u.uid === user.uid)
+	let currUserIdx = eventJson.users.findIndex((u) => u.uid === user.uid)
 
 	// If its a public event where the user doesnt exist on it, don't show the users info
 	if (currUserIdx < 0) {
@@ -115,7 +80,7 @@ let getById = async (id, user) => {
 
 	// Create a copy of the event users and the one to move
 	let currUserEvent = eventJson.users[currUserIdx]
-	let eventUsers = [ ...eventJson.users ]
+	let eventUsers = [...eventJson.users]
 
 	// Remove the user and place at the start
 	eventUsers.splice(currUserIdx, 1)
@@ -124,48 +89,63 @@ let getById = async (id, user) => {
 	// Populate each event user with a hydrated user object for display purposes
 	// No need to do the current user, we alredy have that
 	eventUsers[0].displayName = user.name
-		
+
 	let fbAuth = firebase.auth()
 	let fbUsers = await Promise.all(
-		eventUsers.slice(1)
-			.map(user => user.uid)
-			.map(uid => fbAuth.getUser(uid))
+		eventUsers
+			.slice(1)
+			.map((user) => user.uid)
+			.map((uid) => fbAuth.getUser(uid))
 	)
 
-	fbUsers.forEach(fbUser => 
-		eventUsers.find(u => u.uid === fbUser.uid).displayName = fbUser.displayName
+	fbUsers.forEach((fbUser) => 
+		eventUsers.find((u) => u.uid === fbUser.uid).displayName = fbUser.displayName
 	)
 
 	// Add back
 	eventJson.users = eventUsers
 
-	return eventJson	
+	// Populate the loadouts. Temporary solution to the sequelize association problem
+	await Promise.all(
+		eventJson.users
+			.filter((user) => !!user.loadout_id)
+			.map((user) =>
+				loadout.getById(user.loadout_id, user)
+					.then((loadout) => user.loadout = loadout)
+			)
+	)
+
+	return eventJson
 }
 
 let add = async (data, user) => {
 	try {
 		// Overwrite any attempts to hijack the id or uid
-		delete data.id 
+		delete data.id
 
 		let event = {
 			...data,
 			organiser_uid: user.uid,
-			users: [{
-				uid: user.uid
-			}]
+			users: [
+				{
+					uid: user.uid
+				}
+			]
 		}
 
 		// Transction is necessary as this is multiple db calls to create event and event user
-		let response = await database.transaction(t =>  
+		let response = await database.transaction((t) =>
 			Event.create(event, {
-				include: [{
-					model: EventUser,
-					as: 'users'
-				}],
+				include: [
+					{
+						model: EventUser,
+						as: 'users'
+					}
+				],
 				transaction: t
 			})
-		)			
-		
+		)
+
 		return response.toJSON()
 	} catch (e) {
 		// Validation errors are contained in an array, so pick them out
@@ -190,7 +170,7 @@ let canEdit = async (id, user) => {
 		attributes: ['organiser_uid']
 	})
 
-	return event.organiser_uid === user.uid	
+	return event.organiser_uid === user.uid
 }
 
 let edit = async (id, event, user) => {
@@ -274,16 +254,15 @@ let setLoadout = async (eventId, loadoutId, user) => {
 	}
 
 	// Update the event user and return the full event object back
-	let rowsUpdated = await EventUser
-		.update(
-			{ loadout_id: loadoutId },
-			{
-				where: {
-					uid: user.uid,
-					event_id: eventId
-				}
+	let rowsUpdated = await EventUser.update(
+		{ loadout_id: loadoutId },
+		{
+			where: {
+				uid: user.uid,
+				event_id: eventId
 			}
-		)	
+		}
+	)
 
 	if (rowsUpdated === 0) {
 		throw new Error('No rows were updated')
