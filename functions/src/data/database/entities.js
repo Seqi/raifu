@@ -302,6 +302,10 @@ Weapon.belongsToMany(Loadout, { through: LoadoutWeapon, foreignKey: 'weapon_id' 
 Weapon.belongsToMany(Attachment, { through: { model: LoadoutWeaponAttachment, unique: false }, foreignKey: 'weapon_id' })
 Attachment.belongsToMany(Weapon, { through: { model: LoadoutWeaponAttachment, unique: false }, foreignKey: 'attachment_id' })
 
+// This is necessary for the hasPermission query which joins LoadoutWeapon to Loadout and Weapon
+LoadoutWeapon.belongsTo(Weapon, { foreignKey: 'weapon_id' })
+LoadoutWeapon.belongsTo(Loadout, { foreignKey: 'loadout_id' })
+
 // Loadout Gear Associations
 Loadout.belongsToMany(Gear, { through: LoadoutGear, foreignKey: 'loadout_id', as: 'gear'})
 Gear.belongsToMany(Loadout, { through: LoadoutGear, foreignKey: 'gear_id' })
