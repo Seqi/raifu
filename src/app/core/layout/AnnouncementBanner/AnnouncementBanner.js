@@ -7,15 +7,11 @@ import announcements from './announcements'
 
 import './AnnouncementBanner.css'
 
-const getAnnouncements = (seen) => {
-	if (!seen) {
-		return announcements
-	}
-
+const getAnnouncements = (lastSeenId) => {
 	// Only take 2, don't wanna spam
 	return announcements
-		.filter(announcement => !seen.ids.find(id => id === announcement.id))
-		.sort((a, b) => a.id > b.id ? -1 : 1)
+		.filter(announcement => lastSeenId ? announcement.id > lastSeenId : true)
+		.reverse()
 		.slice(0, 2)
 }
 
@@ -45,15 +41,9 @@ let AnnouncementBanner = ({ theme }) => {
 		// Remove the banner
 		setAnnouncements(announcements.filter(a => a.id !== bannerItem.id))
 
-		// Update the cookies
-		let cookie = cookies[cookieName]
-
-		if (cookie) {
-			setCookie(cookieName, { ids: [ ...cookie.ids, bannerItem.id]}, cookieOptions)
-		} else {
-			setCookie(cookieName, { ids: [ bannerItem.id ] }, cookieOptions)
-		}
-	}, [announcements, cookies, setCookie])
+		// Set the cookie
+		setCookie(cookieName, bannerItem.id, cookieOptions)
+	}, [announcements, setCookie])
 
 	if (announcements.length === 0) {
 		return null
@@ -61,7 +51,10 @@ let AnnouncementBanner = ({ theme }) => {
 
 	return (
 		<div className='slide-up' style={ containerStyle }>
-			{ announcements.map((announcement, i) => <AnnouncementBannerItem key={ i } onClose={ onBannerClose } announcement={ announcement } />)}			
+			{ 
+				announcements.map((announcement, i) => 
+					<AnnouncementBannerItem key={ i } onClose={ onBannerClose } announcement={ announcement } />)
+			}			
 		</div>
 	)
 }
