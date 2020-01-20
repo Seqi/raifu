@@ -7,7 +7,7 @@ import { LoadoutContext } from 'app/features/loadouts'
 import LoadoutResourceItem from './LoadoutResourceItem'
 import './LoadoutResourceList.css'
 
-let LoadoutResourceList = ({ resourceType, items, addItem, deleteItem, renderAddDialog }) => {
+let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, renderAddDialog }) => {
 	let [dialog, setDialog] = useState(null)
 	let { editable } = useContext(LoadoutContext)
 
@@ -31,14 +31,14 @@ let LoadoutResourceList = ({ resourceType, items, addItem, deleteItem, renderAdd
 					)) 
 				}
 
-				{ editable && 
+				{ editable && canAdd &&
 					<div className='loadout-resource-list-item'>
 						<AddButton onClick={ () => setDialog('add') } />
 					</div>
 				}
 			</div>
 
-			{editable && 
+			{editable && canAdd &&
 				renderAddDialog(
 					// Is Open
 					dialog === 'add',
@@ -57,6 +57,7 @@ LoadoutResourceList.propTypes = {
 	items: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.string.isRequired,
 	})).isRequired,
+	canAdd: PropTypes.bool.isRequired,
 	addItem: PropTypes.func.isRequired,
 	deleteItem: PropTypes.func.isRequired,
 	renderAddDialog: PropTypes.func.isRequired

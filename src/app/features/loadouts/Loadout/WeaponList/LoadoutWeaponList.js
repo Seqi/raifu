@@ -3,12 +3,12 @@ import React, { useState, useContext, useCallback } from 'react'
 import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/loadouts'
 import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
-
-import database from '../../../../../firebase/database'
+import AvailableArmoryContext from '../AvailableArmoryContext'
 
 let LoadoutWeaponList = () => {
 	let [dialog, setDialog] = useState(null)
 	let { loadout, editable, addWeapon } = useContext(LoadoutContext)
+	let { weapons: availableWeapons } = useContext(AvailableArmoryContext)
 
 	let saveWeapon = useCallback(async (weaponId) => {
 		await addWeapon(weaponId)
@@ -25,7 +25,7 @@ let LoadoutWeaponList = () => {
 				))
 			}
 
-			{ editable && 
+			{ editable && (availableWeapons || []).length > 0 &&
 					<React.Fragment>
 						<LoadoutSeparator>
 							<LoadoutAdd onClick={ () => setDialog('add') } />
@@ -33,9 +33,8 @@ let LoadoutWeaponList = () => {
 
 						<AddResourceDialog
 							title='Add weapon to loadout'
+							items={ availableWeapons || [] }
 							category='weapons'
-							itemLoadFunc={ database.weapons.get }
-							filterIds={ (loadout.weapons || []).map((w) => w.id) }
 							isOpen={ dialog === 'add' }
 							onSave={ saveWeapon }
 							onClose={ () => setDialog(null) }

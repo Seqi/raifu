@@ -5,11 +5,12 @@ import { LoadoutContext } from 'app/features/loadouts'
 import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import AddButton from 'app/shared/buttons/AddButton'
 import LoadoutWeaponAttachment from './Attachment/LoadoutWeaponAttachment'
-import database from '../../../../../../../firebase/database'
+import AvailableArmoryContext from '../../../AvailableArmoryContext'
 
 let LoadoutWeaponAttachmentList = ({ weapon }) => {
 	let [dialog, setDialog] = useState(null)
-	let { loadout, editable, addWeaponAttachments } = useContext(LoadoutContext)
+	let { editable, addWeaponAttachments } = useContext(LoadoutContext)
+	let { attachments: availableAttachments } = useContext(AvailableArmoryContext)
 
 	let addAttachments = useCallback(async (attachmentIds) => {
 		await addWeaponAttachments(weapon.id, attachmentIds)
@@ -27,22 +28,18 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 					))
 				}
 
-				{ editable && 
+				{ editable && (availableAttachments || []).length > 0 && 
 					<div className='loadout-weapon-attachment-item'>
 						<AddButton onClick={ () => setDialog('add') } />   
 					</div> 
 				}
 			</div>
 
-			{ editable && <AddResourceDialog
+			{ editable && (availableAttachments || []).length > 0 && <AddResourceDialog
 				title={ `Add attachments to ${weapon.getTitle()}` }
+				items={ availableAttachments || [] }
 				category='attachments'
 				allowMultiple={ true }
-				itemLoadFunc={ database.attachments.get }
-				filterIds={ loadout.weapons
-					.flatMap(w => w.attachments || [])
-					.map(a => a.id) 
-				}
 				isOpen={ dialog === 'add' }
 				onClose={ () => setDialog(null) }
 				onSave={ addAttachments }
