@@ -20,9 +20,7 @@ class AddResourceDialog extends Component {
 		}
 	}
 
-	componentWillUnmount() {
-		this.unmounted = true
-	}
+	componentWillUnmount = () => this.isUnmounted = true	
 
 	onItemSelected(itemId) {
 		this.setState(({ selectedIds }) => {
@@ -56,8 +54,8 @@ class AddResourceDialog extends Component {
 
 		this.setState({ loading: true, error: false }, () => {
 			this.props.onSave(data)
-				.then(() => this.unmounted || this.setState({ selectedIds: [], loading: false }))
-				.catch(err => this.unmounted || this.setState({ loading: false, error: `An error occurred while saving ${this.props.category}.` }))
+				.then(() => !this.isUnmounted && this.setState({ selectedIds: [], loading: false }))
+				.catch(err => !this.isUnmounted && this.setState({ loading: false, error: `An error occurred while saving ${this.props.category}.` }))
 		})
 	}
 

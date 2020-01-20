@@ -1,4 +1,4 @@
-const { LoadoutWeapon, Loadout, Weapon, Attachment } = require('./database/entities')
+const { LoadoutWeapon, Loadout, Weapon } = require('./database/entities')
 const errors = require('../utils/errors')
 
 let hasPermission = async (weaponId, loadoutId, authId) => {
