@@ -116,7 +116,7 @@ export default {
 	},
 	gear: {
 		protection: ['Glasses', 'Goggles', 'Fast Helmet', 'Full Face Helmet', 'Half Face Mask', 'Shemagh', 'Knee Pads', 'Elbow Pads'],
-		carriers: ['Chest Rig', 'Plate Carrier', 'Belt'],
+		carriers: ['Chest Rig', 'Plate Carrier', 'Belt', 'Pouch'],
 		grenades: ['TRMR', 'Storm 360', 'Pyro/Strike', 'Claymore'],
 		holsters: ['Leg Holster', 'Retention Holster', 'Scabbard', 'Sling'],
 		communication: ['Radio', 'Headset'],
