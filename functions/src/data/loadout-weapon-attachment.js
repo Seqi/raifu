@@ -1,19 +1,19 @@
-const entities = require('./database/entities')
+const { LoadoutWeaponAttachment, LoadoutWeapon, Weapon, Loadout, Attachment } = require('./database/entities')
 const errors = require('../utils/errors')
 
 let hasPermission = async (weaponId, attachmentId, loadoutId, authId) => {
-	let ownsLoadoutWeapon = entities().loadoutWeapon.count({
+	let ownsLoadoutWeapon = LoadoutWeapon.count({
 		where: {
 			weapon_id: weaponId,
 			loadout_id: loadoutId
 		},
 		include: [
-			{ model: entities().weapon, where: { uid: authId } },
-			{ model: entities().loadout, where: { uid: authId } }
+			{ model: Weapon, where: { uid: authId } },
+			{ model: Loadout, where: { uid: authId } }
 		]
 	})
 
-	let ownsAttachment = entities().attachment.count({
+	let ownsAttachment = Attachment.count({
 		where: {
 			id: attachmentId,
 			uid: authId
@@ -25,7 +25,7 @@ let hasPermission = async (weaponId, attachmentId, loadoutId, authId) => {
 }
 
 let count = async (weaponId, attachmentId, loadoutId) => {
-	return await entities().loadoutWeaponAttachment.count({
+	return await LoadoutWeaponAttachment.count({
 		where: {
 			loadout_id: loadoutId,
 			weapon_id: weaponId,
@@ -36,16 +36,15 @@ let count = async (weaponId, attachmentId, loadoutId) => {
 
 let add = async (weaponId, attachmentId, loadoutId) => {
 	// Find the loadout_weapon id to add
-	const loadoutWeapon = await entities().loadoutWeapon.findOne({
+	const loadoutWeapon = await LoadoutWeapon.findOne({
 		where: {
 			weapon_id: weaponId,
 			loadout_id: loadoutId
 		},
-		attributes: ['id'],
-		raw: true
+		attributes: ['id']
 	})
 
-	await entities().loadoutWeaponAttachment.create({
+	await LoadoutWeaponAttachment.create({
 		loadout_weapon_id: loadoutWeapon.id,
 		loadout_id: loadoutId,
 		weapon_id: weaponId,
@@ -55,81 +54,41 @@ let add = async (weaponId, attachmentId, loadoutId) => {
 
 module.exports = {
 	add: async (weaponId, attachmentId, loadoutId, user) => {
-		// Validate
-		if (!weaponId || !loadoutId || !attachmentId) {
-			throw new errors.BadRequestError(`WeaponId, LoadoutId & AttachmentId missing by ${user.uid}`)
-		}
-
 		// Ensure this user owns weapon, attachment and loadout
-		try {
-			let canAdd = await hasPermission(weaponId, attachmentId, loadoutId, user.uid)
+		let canAdd = await hasPermission(weaponId, attachmentId, loadoutId, user.uid)
 
-			if (!canAdd) {
-				throw new errors.NotFoundError('Loadout, weapon or attachment not found')
-			}
-		} catch (e) {
-			console.log('Error retrieving permission to add loadout weapon attachment', e.message, user.uid)
-			throw e
+		if (!canAdd) {
+			throw new errors.NotFoundError('Loadout, weapon or attachment not found')
+		}		
+
+		let exists = await count(weaponId, attachmentId, loadoutId)
+
+		if (!exists) {
+			await add(weaponId, attachmentId, loadoutId)
 		}
 
-		try {
-			let exists = await count(weaponId, attachmentId, loadoutId)
-
-			if (!exists) {			
-				console.log(`Adding loadout weapon attachment. 
-					LoadoutId: ${loadoutId}. 
-					WeaponId: ${weaponId}
-					AttachmentId: ${attachmentId}`)
-
-				await add(weaponId, attachmentId, loadoutId)
-			}
-
-			return await entities().attachment.findByPk(attachmentId, { raw: true })
-		} catch (e) {			
-			console.log('Error adding loadout weapon attachment to database', e.message)
-			throw e
-		}
+		return await Attachment.findByPk(attachmentId)		
 	},
 
 	delete: async (weaponId, attachmentId, loadoutId, user) => {
-		// Validate
-		if (!weaponId || !loadoutId || !attachmentId) {
-			throw new errors.BadRequestError(`WeaponId, LoadoutId & AttachmentId missing by ${user.uid}`)
-		}
-
 		// Ensure this user owns both weapon and loadout
-		try {
-			let canDelete = await hasPermission(weaponId, attachmentId, loadoutId, user.uid)
+		let canDelete = await hasPermission(weaponId, attachmentId, loadoutId, user.uid)
 
-			if (!canDelete) {
-				throw new errors.NotFoundError('Loadout, weapon or attachment not found')
-			}
-		} catch (e) {
-			console.log('Error retrieving permission to remove loadout weapon attachment', e.message, user.uid)
-			throw e
+		if (!canDelete) {
+			throw new errors.NotFoundError('Loadout, weapon or attachment not found')
 		}
 
 		// Remove
-		try {
-			console.log(`Removing loadout weapon attachment. 
-				LoadoutId: ${loadoutId}. 
-				WeaponId: ${weaponId}
-				AttachmentId: ${attachmentId}`)
-
-			let result = await entities().loadoutWeaponAttachment.destroy({
-				where: {
-					loadout_id: loadoutId,
-					weapon_id: weaponId,
-					attachment_id: attachmentId
-				}
-			})
+		let result = await LoadoutWeaponAttachment.destroy({
+			where: {
+				loadout_id: loadoutId,
+				weapon_id: weaponId,
+				attachment_id: attachmentId
+			}
+		})
 			
-			if (result === 0) {
-				throw new errors.NotFoundError('Loadout or weapon not found')
-			}	
-		} catch (e) {	
-			console.log('Error removing loadout weapon attachment to database', e.message)
-			throw e	
+		if (result === 0) {
+			throw new errors.NotFoundError('Loadout or weapon not found')
 		}
 	}
 }

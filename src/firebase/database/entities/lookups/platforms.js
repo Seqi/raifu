@@ -116,16 +116,26 @@ export default {
 	},
 	gear: {
 		protection: ['Glasses', 'Goggles', 'Fast Helmet', 'Full Face Helmet', 'Half Face Mask', 'Shemagh', 'Knee Pads', 'Elbow Pads'],
-		carriers: ['Chest Rig', 'Plate Carrier', 'Belt'],
+		carriers: ['Chest Rig', 'Plate Carrier', 'Belt', 'Pouch'],
 		grenades: ['TRMR', 'Storm 360', 'Pyro/Strike', 'Claymore'],
 		holsters: ['Leg Holster', 'Retention Holster', 'Scabbard', 'Sling'],
 		communication: ['Radio', 'Headset'],
-		misc: ['GoPro', 'Knife']
+		misc: ['GoPro', 'Knife', 'Battery']
 	},
 	attachments: {
 		sights: ['Red Dot', 'Reflex', 'Holographic', 'Telescopic', 'Iron Sights'],
 		barrel: ['Surpressor', 'Flash Hider', 'Tracer Unit'],
 		illumination: ['Pistol Torch', 'Flashlight', 'PEQ Box'],
-		underbarrel: ['Vertical Foregrip', 'Angled Foregrip', 'Bipod', 'Grenade Launcher']
+		underbarrel: ['Vertical Foregrip', 'Angled Foregrip', 'Bipod', 'Grenade Launcher'],
+		externals: ['Stock', 'Grip', 'Rail Riser', 'Rail System', 'Conversion Kit', 'Handguard Panel']
+	},
+	clothing: {
+		footwear: ['Boots', 'Shoes'],
+		hands: ['Gloves'],
+		hats: ['Cap'],
+		jackets: ['Hoodie', 'Jacket', 'Smock', 'Sweatshirt'],
+		legs: ['Pants', 'Shorts'],
+		shirts: ['T-Shirt', 'Ubacs'],
+		suits: ['Gorka']
 	}
 }

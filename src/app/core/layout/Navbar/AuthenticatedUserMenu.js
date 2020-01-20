@@ -1,95 +1,67 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-
-import auth from '../../../../firebase/auth'
+import { Menu, MenuItem, Avatar, Button } from '@material-ui/core'
 
 import './AuthenticatedUserMenu.css'
+import { AuthContext, UserContext } from 'app/core/auth/contexts'
 
-class AuthenticatedUserMenu extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			anchor: null
-		}
-	}
+let isHomePage = () => {
+	return window.location.pathname.indexOf('app') === -1
+}
 
-	get isHomePage() {
-		return window.location.pathname.indexOf('app') === -1
-	}
+let AuthenticatedUserMenu = () => {
+	let auth = useContext(AuthContext)
+	let user = useContext(UserContext)
+	let history = useHistory()
+	let [anchor, setAnchor] = useState(null)
 
-	handleMenu = (event) => {
-		this.setState({ anchor: event.currentTarget })
-	}
-
-	handleClose = () => {
-		this.setState({ anchor: null })
-	}
-
-	goToApp() {
-		this.props.history.push('/app')
-	}
-
-	logout() {
-		this.handleClose()
-		auth.logout()
-			.then(() => this.props.history.push('/login'))
-	}
-
-	render() {
-		let { anchor } = this.state
-		let { user } = this.props
-		let isOpen = !!anchor
-
-		return (
-			<React.Fragment>
-				{ this.isHomePage && (
-					<div style={ {flex: 1} }>
-						<Button onClick={ () => this.goToApp() } variant='outlined' color='primary'>Go to app</Button>
-					</div>
-				)}
-
-				<div className='user-profile'>
-					<span className='user-name'>{user.displayName || user.email}</span>
-				
-					<button type='button' className='avatar-button' onClick={ this.handleMenu }>
-						{user.photoURL ? (
-							<Avatar
-								alt={ user.displayName || user.email }
-								src={ user.photoURL }
-								aria-owns={ isOpen ? 'auth-menu' : undefined }
-								aria-haspopup='true'
-							/>
-						) : (
-							<i className='avatar-icon fa fa-user' />
-						)}
-					</button>
-
-					<Menu
-						id='auth-menu'
-						anchorEl={ anchor }
-						open={ isOpen }
-						onClose={ this.handleClose }
-						anchorOrigin={ {
-							vertical: 'top',
-							horizontal: 'right'
-						} }
-						transformOrigin={ {
-							vertical: 'top',
-							horizontal: 'right'
-						} }
-					>
-						<MenuItem onClick={ () => this.logout() }>Logout</MenuItem>
-					</Menu>
+	let isOpen = !!anchor 
+	return (
+		<React.Fragment>
+			{ isHomePage() && (
+				<div style={ {flex: 1} }>
+					<Button onClick={ () => history.push('/app') } variant='outlined' color='primary'>Go to app</Button>
 				</div>
-			</React.Fragment>
-		)
-	}
+			)}
+
+			<div className='user-profile'>
+				<span className='user-name'>{user.displayName || user.email}</span>
+				
+				<button type='button' className='avatar-button' onClick={ evt => setAnchor(evt.currentTarget) }>
+					{user.photoURL ? (
+						<Avatar
+							alt={ user.displayName || user.email }
+							src={ user.photoURL }
+							aria-owns={ isOpen ? 'auth-menu' : undefined }
+							aria-haspopup='true'
+						/>
+					) : (
+						<i className='avatar-icon fa fa-user' />
+					)}
+				</button>
+
+				<Menu
+					id='auth-menu'
+					anchorEl={ anchor }
+					open={ isOpen }
+					onClose={ () => setAnchor(null) }
+					anchorOrigin={ {
+						vertical: 'top',
+						horizontal: 'right'
+					} }
+					transformOrigin={ {
+						vertical: 'top',
+						horizontal: 'right'
+					} }
+				>
+					<MenuItem onClick={ auth.logout }>Logout
+					</MenuItem>
+				</Menu>
+			</div>
+		</React.Fragment>
+	)	
 }
 
 AuthenticatedUserMenu.propTypes = {
@@ -100,4 +72,4 @@ AuthenticatedUserMenu.propTypes = {
 	}).isRequired
 }
 
-export default withRouter(AuthenticatedUserMenu)
+export default AuthenticatedUserMenu

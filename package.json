@@ -1,11 +1,12 @@
 {
 	"name": "raifu",
-	"version": "0.1.0",
+	"version": "1.2.0",
 	"private": true,
 	"dependencies": {
 		"@date-io/moment": "^1.3.11",
 		"@material-ui/core": "^4.5.0",
 		"@material-ui/pickers": "^3.2.6",
+		"change-case": "^4.1.0",
 		"core-js": "^2.6.9",
 		"firebase": "^7.2.0",
 		"moment": "^2.24.0",
@@ -14,22 +15,20 @@
 		"react-cookie": "^4.0.1",
 		"react-dom": "^16.10.2",
 		"react-router-dom": "^5.1.2",
-		"react-scripts": "^3.2.0",
+		"react-scripts": "3.2.0",
 		"whatwg-fetch": "^3.0.0"
 	},
 	"devDependencies": {
 		"concurrently": "^4.1.2",
-		"enzyme": "^3.10.0",
-		"enzyme-adapter-react-16": "^1.15.1",
-		"eslint": "^6.5.1",
+		"eslint": "~6.5.1",
 		"eslint-plugin-react": "^7.16.0",
-		"prettier": "^1.18.2"
+		"prettier": "^1.19.1"
 	},
 	"scripts": {
 		"start": "concurrently -c \"green.bold,red.bold\" --kill-others \"npm:server\" \"npm:functions\"",
 		"server": "react-scripts start",
 		"functions": "firebase serve --only functions",
-		"build": "react-scripts build",
+		"build": "CI=true && react-scripts build",
 		"test": "react-scripts test",
 		"deploy": "firebase deploy",
 		"eject": "react-scripts eject",

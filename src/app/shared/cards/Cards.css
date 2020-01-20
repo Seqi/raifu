@@ -1,0 +1,40 @@
+.card-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.card .card-header {
+	padding-bottom: 0px;
+}
+
+.card .card-content {
+	position: relative;
+	flex-grow: 1;
+}
+
+.card:not(.loadout-card) .card-content img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%) !important;
+
+	max-height: 98%;
+	max-width: 98%;
+}
+
+/* Shrink the loadout card images for mobiles */
+@media(max-width: 768px){
+	.card-list {
+		justify-content: space-around
+	}
+	
+	.loadout-card .card-content img {
+		height: 150px;
+	}
+}

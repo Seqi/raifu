@@ -4,7 +4,10 @@
 	"printWidth": 120,
 	"proseWrap": "always",
 	"semi": false,
-	"singleQuote": false,
+	"singleQuote": true,
 	"useTabs": true,
-	"arrowParens": "always"
+	"arrowParens": "always",
+	"bracketSpacing": true,
+	"jsxBracketSameLine": false,
+	"jsxSingleQuote": true
 }

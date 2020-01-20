@@ -1,7 +1,0 @@
-/* Ideally we'd do this with a hook and change the Typography varian
-but i'm lazy and would require a functional component zzzz */
-@media (max-width: 768px) {
-	.section-container > h3 {
-		font-size: 2rem;	
-	}
-}

@@ -9,8 +9,17 @@ const announcements = [
 				You can now invite other people to your events and plan your loadouts together! 
 				Check the <Link color='textPrimary' target='_blank' style={ { textDecoration: 'underline' } } href='https://github.com/Seqi/raifu/releases/tag/1.1.0'> Release Notes</Link> for more info!
 			</div>
-		))
-	}
+		)),
+	},
+	{
+		id: 2,
+		display: createElement(() => (
+			<div>
+				Clothing has been added to the armory. Add your smocks to your loadouts!
+				See the <Link color='textPrimary' target='_blank' style={ { textDecoration: 'underline' } } href='https://github.com/Seqi/raifu/releases/tag/1.2.0'> Release Notes</Link> for all changes.
+			</div>
+		)),
+	},
 ]
 
 export default announcements
