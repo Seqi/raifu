@@ -7,18 +7,19 @@ import AvailableArmoryContext from '../AvailableArmoryContext'
 
 let LoadoutClothingList = () => {
 	let { loadout, addClothing, deleteClothing } = useContext(LoadoutContext)
-	let { clothing } = useContext(AvailableArmoryContext)
+	let { clothing: availableClothing } = useContext(AvailableArmoryContext)
 
 	return (
 		<LoadoutResourceList
 			resourceType='clothing'
 			items={ loadout.clothing || [] }
+			canAdd={ (availableClothing || []).length > 0 }
 			addItem={ addClothing }
 			deleteItem={ deleteClothing }
 			renderAddDialog={ (isOpen, onClose, onSave) => (
 				<AddResourceDialog 
 					title='Add clothing to loadout'
-					items={ clothing || [] }
+					items={ availableClothing || [] }
 					category='clothing'
 					allowMultiple={ true }
 					isOpen={ isOpen } 

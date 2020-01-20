@@ -8,7 +8,7 @@ import AvailableArmoryContext from '../AvailableArmoryContext'
 let LoadoutWeaponList = () => {
 	let [dialog, setDialog] = useState(null)
 	let { loadout, editable, addWeapon } = useContext(LoadoutContext)
-	let { weapons } = useContext(AvailableArmoryContext)
+	let { weapons: availableWeapons } = useContext(AvailableArmoryContext)
 
 	let saveWeapon = useCallback(async (weaponId) => {
 		await addWeapon(weaponId)
@@ -25,7 +25,7 @@ let LoadoutWeaponList = () => {
 				))
 			}
 
-			{ editable && 
+			{ editable && (availableWeapons || []).length > 0 &&
 					<React.Fragment>
 						<LoadoutSeparator>
 							<LoadoutAdd onClick={ () => setDialog('add') } />
@@ -33,7 +33,7 @@ let LoadoutWeaponList = () => {
 
 						<AddResourceDialog
 							title='Add weapon to loadout'
-							items={ weapons || [] }
+							items={ availableWeapons || [] }
 							category='weapons'
 							isOpen={ dialog === 'add' }
 							onSave={ saveWeapon }

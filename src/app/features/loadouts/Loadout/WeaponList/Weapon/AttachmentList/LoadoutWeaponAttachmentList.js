@@ -10,7 +10,7 @@ import AvailableArmoryContext from '../../../AvailableArmoryContext'
 let LoadoutWeaponAttachmentList = ({ weapon }) => {
 	let [dialog, setDialog] = useState(null)
 	let { editable, addWeaponAttachments } = useContext(LoadoutContext)
-	let { attachments } = useContext(AvailableArmoryContext)
+	let { attachments: availableAttachments } = useContext(AvailableArmoryContext)
 
 	let addAttachments = useCallback(async (attachmentIds) => {
 		await addWeaponAttachments(weapon.id, attachmentIds)
@@ -28,16 +28,16 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 					))
 				}
 
-				{ editable && 
+				{ editable && (availableAttachments || []).length > 0 && 
 					<div className='loadout-weapon-attachment-item'>
 						<AddButton onClick={ () => setDialog('add') } />   
 					</div> 
 				}
 			</div>
 
-			{ editable && <AddResourceDialog
+			{ editable && (availableAttachments || []).length > 0 && <AddResourceDialog
 				title={ `Add attachments to ${weapon.getTitle()}` }
-				items={ attachments || [] }
+				items={ availableAttachments || [] }
 				category='attachments'
 				allowMultiple={ true }
 				isOpen={ dialog === 'add' }
