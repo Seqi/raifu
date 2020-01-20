@@ -29,11 +29,11 @@ let AvailableArmoryContextProvider = ({ children }) => {
 	let [armory, setArmory] = useState()
 
 	useEffect(() => {
-		if (editable) {
+		if (editable && !armory) {
 			database.armory.get()
 				.then((userArmory) => setArmory(userArmory))
 		}
-	}, [editable])
+	}, [armory, editable])
 
 	let unusedArmoryItems = getUnusedArmoryItems(loadout, armory)
 
