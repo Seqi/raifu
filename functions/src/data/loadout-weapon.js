@@ -48,9 +48,7 @@ module.exports = {
 			})
 		}
 
-		return await Weapon.findByPk(weaponId, {
-			include: Attachment
-		})
+		return await Weapon.findByPk(weaponId)
 	},
 
 	delete: async (weaponId, loadoutId, user) => {

@@ -12,7 +12,7 @@ let getUnusedArmoryItems = (loadout, armory) => {
 
 	// Flatten the attachments on the loadout to match the armory format
 	let loadoutCopy = { ...loadout }
-	loadoutCopy.attachments = loadoutCopy.weapons.flatMap(weapon => weapon.attachments)
+	loadoutCopy.attachments = loadoutCopy.weapons.flatMap(weapon => weapon.attachments || [])
 
 	return Object.keys(armory)
 		.reduce((obj, key) => {
