@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
-import Button from '@material-ui/core/Button'
+import { 
+	Dialog,
+	DialogTitle,
+	DialogContentText,
+	DialogContent,
+	DialogActions,
+	Button
+} from '@material-ui/core'
 
 import { Loading, Error } from 'app/shared'
 import ResourceSelect from './ResourceSelect'
@@ -61,7 +64,7 @@ class AddResourceDialog extends Component {
 
 	render() {
 		let { selectedIds, loading, error } = this.state
-		let { items, title, category, isOpen, onClose } = this.props
+		let { items, title, category, isOpen, onClose, allowMultiple } = this.props
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
@@ -71,6 +74,10 @@ class AddResourceDialog extends Component {
 					{ loading && <Loading /> }
 
 					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+
+					{ allowMultiple && selectedIds.length > 0 && 
+						<DialogContentText>{ selectedIds.length } items selected.</DialogContentText> 
+					}
 
 					<ResourceSelect
 						items={ items } 
