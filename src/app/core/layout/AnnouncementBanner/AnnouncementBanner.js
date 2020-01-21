@@ -42,8 +42,11 @@ let AnnouncementBanner = ({ theme }) => {
 		setAnnouncements(announcements.filter(a => a.id !== bannerItem.id))
 
 		// Set the cookie
-		setCookie(cookieName, bannerItem.id, cookieOptions)
-	}, [announcements, setCookie])
+		let bannerLastSeenId = cookies[cookieName]
+		if (!bannerLastSeenId || bannerLastSeenId < bannerItem.id) {
+			setCookie(cookieName, bannerItem.id, cookieOptions)
+		}
+	}, [announcements, cookies, setCookie])
 
 	if (announcements.length === 0) {
 		return null
