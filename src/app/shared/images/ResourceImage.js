@@ -18,7 +18,6 @@ export default function ResourceImage({ resourceType, resource, rotate, style })
 			setImage(img)
 		} catch (e) {
 			console.warn(e)
-			return ''
 		}
 	}, [resourceType, resource])
 
