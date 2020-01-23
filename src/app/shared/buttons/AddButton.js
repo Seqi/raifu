@@ -3,12 +3,24 @@ import PropTypes from 'prop-types'
 
 import { withTheme } from '@material-ui/core'
 
-import './AddButton.css'
+const buttonStyle = {
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	transform: 'translateX(-50%) translateY(-50%)',
+
+	backgroundColor: 'inherit',
+	cursor: 'pointer',
+	border: '0',
+	borderRadius: '50%',
+
+	fontSize: '4rem',
+}
 
 function AddButton({ theme, onClick }) {
 	return (
-		<div className='add-button-wrapper'>
-			<button onClick={ onClick } type='button' className='add-button'>
+		<div style={ { position: 'relative', height: '100%' } }>
+			<button onClick={ onClick } type='button' style={ buttonStyle }>
 				<i style={ { color: theme.palette.primary.main } } className='fa fa-plus' />
 			</button>
 		</div>

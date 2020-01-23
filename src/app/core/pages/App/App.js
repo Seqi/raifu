@@ -1,13 +1,15 @@
-import React, { useState, useCallback } from 'react'
+import React, { lazy, Suspense, useState, useCallback } from 'react'
 import { BrowserRouter as Router, Link, Switch, Redirect } from 'react-router-dom'
 
 import { Tabs, Tab } from '@material-ui/core'
 
+import Loading from 'app/shared/Loading'
 import AuthenticatedRoute from 'app/shared/auth/AuthenticatedRoute'
-import Armory from 'app/features/armory'
-import LoadoutRouter from 'app/features/loadouts/LoadoutRouter'
-import EventRouter from 'app/features/events/EventRouter'
 import './App.css'
+
+const Armory = lazy(() => import('app/features/armory'))
+const LoadoutRouter = lazy(() => import('app/features/loadouts/LoadoutRouter'))
+const EventRouter = lazy(() => import('app/features/events/EventRouter'))
 
 let App = ({ location, history }) => {
 	let [tabIndex, setTabIndex] = useState(() => {
@@ -41,12 +43,14 @@ let App = ({ location, history }) => {
 				</Tabs>
 
 				<div className='app-window'>
-					<Switch>
-						<AuthenticatedRoute path='/armory' component={ Armory } onFail={ onAuthFailure } />
-						<AuthenticatedRoute path='/loadouts' component={ LoadoutRouter } onFail={ onAuthFailure }  />
-						<AuthenticatedRoute path='/events' component={ EventRouter } onFail={ onAuthFailure }  />
-						<Redirect from='/' to='/armory' />
-					</Switch>
+					<Suspense fallback={ Loading }>
+						<Switch>
+							<AuthenticatedRoute path='/armory' component={ Armory } onFail={ onAuthFailure } />
+							<AuthenticatedRoute path='/loadouts' component={ LoadoutRouter } onFail={ onAuthFailure }  />
+							<AuthenticatedRoute path='/events' component={ EventRouter } onFail={ onAuthFailure }  />
+							<Redirect from='/' to='/armory' />
+						</Switch>
+					</Suspense>
 				</div>
 			</React.Fragment>
 		</Router>
