@@ -1,8 +1,8 @@
 import React from 'react'
 
 import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
-import Logo from 'app/core/layout/Logo'
 import HomePageSegment from './HomePageSegment'
+import Logo from '../../layout/Logo'
 
 import ArmoryImage from 'assets/home/armory.png'
 import LoadoutImage from 'assets/home/loadout.png'
@@ -39,15 +39,14 @@ export default function HomePage() {
 
 	return (
 		<React.Fragment>
-			<div className='logo-container'>
-				<Logo height={ isMobileMode ? '300px' : '400px' } subtitle='Airsoft loadout management' />
-			</div>
+			<Logo />
 
 			{ segments.map((segment, i) => 
 				<HomePageSegment key={ i } 
 					title={ segment.title } 
 					text={ segment.text } 
 					image={ segment.image } 
+					showBorder={ i > 0 }
 					flip={ i % 2 === 0 }
 					isMobileMode={ isMobileMode }
 				/>
