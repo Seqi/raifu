@@ -7,7 +7,7 @@ import ResourceImage from 'app/shared/images/ResourceImage'
 import DeleteButton from 'app/shared/buttons/DeleteButton'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
-import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
+import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
 import './LoadoutWeapon.css'
 
 let LoadoutWeapon = ({ weapon }) => {
@@ -19,7 +19,7 @@ let LoadoutWeapon = ({ weapon }) => {
 	return (
 		<React.Fragment>	
 			<div className='loadout-weapon-item-container'>
-				<div className='loadout-weapon-item'>
+				<div style={ { flex: '1' } } className='loadout-weapon-item' >
 					<ReactiveTitle variant='h4' mobileVariant='h5' style={ { zIndex: 1 } }>
 						{ weapon.getTitle() }
 							
@@ -33,7 +33,9 @@ let LoadoutWeapon = ({ weapon }) => {
 					/>
 				</div>	
 
-				<LoadoutWeaponAttachmentList weapon={ weapon } />
+				<div style={ { flex: 2 } }>
+					<LoadoutWeaponAttachmentList weapon={ weapon } />
+				</div>
 			</div>	
 				
 			{ editable && <ConfirmDeleteDialog

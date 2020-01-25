@@ -29,7 +29,7 @@ export default function LoadoutResourceItem ({ resourceType, item, canDelete, on
 }
 
 LoadoutResourceItem.propTypes = {
-	resourceType: PropTypes.oneOf(['clothing', 'gear']).isRequired,
+	resourceType: PropTypes.oneOf(['clothing', 'gear', 'attachments']).isRequired,
 	item: PropTypes.shape({
 		id: PropTypes.string.isRequired,
 		getTitle: PropTypes.func.isRequired

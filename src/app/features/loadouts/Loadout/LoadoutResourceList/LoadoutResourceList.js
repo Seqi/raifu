@@ -53,7 +53,7 @@ let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, r
 }
 
 LoadoutResourceList.propTypes = {
-	resourceType: PropTypes.oneOf(['clothing', 'gear']).isRequired,
+	resourceType: PropTypes.oneOf(['clothing', 'gear', 'attachments']).isRequired,
 	items: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.string.isRequired,
 	})).isRequired,
