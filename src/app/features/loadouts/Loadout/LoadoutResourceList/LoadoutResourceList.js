@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import AddButton from 'app/shared/buttons/AddButton'
 
 import { LoadoutContext } from 'app/features/loadouts'
-import LoadoutResourceItem from './LoadoutResourceItem'
+import LoadoutResourceItemContainer from './LoadoutResourceItemContainer'
 import './LoadoutResourceList.css'
 
 let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, renderAddDialog }) => {
@@ -22,7 +22,7 @@ let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, r
 				{ 
 					items.map(item => (
 						<div key={ item.id } className='loadout-resource-list-item'>
-							<LoadoutResourceItem
+							<LoadoutResourceItemContainer
 								resourceType={ resourceType } 
 								item={ item }
 								canDelete={ editable }
@@ -53,7 +53,7 @@ let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, r
 }
 
 LoadoutResourceList.propTypes = {
-	resourceType: PropTypes.oneOf(['clothing', 'gear']).isRequired,
+	resourceType: PropTypes.oneOf(['clothing', 'gear', 'attachments']).isRequired,
 	items: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.string.isRequired,
 	})).isRequired,

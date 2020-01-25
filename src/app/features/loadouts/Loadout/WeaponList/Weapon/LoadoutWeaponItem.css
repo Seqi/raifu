@@ -1,0 +1,26 @@
+.loadout-weapon-item {
+	position: relative;
+}
+
+.loadout-weapon-item h4 {
+	position: absolute;
+}
+
+.loadout-weapon-item h5 {
+	position: initial;
+}
+
+.center-loadout-item {
+	height: 100%;
+	display: flex;
+}
+
+.center-loadout-item > * {
+	flex: 1;
+}
+
+@media (max-width: 768px) {
+	.loadout-weapon-item img {
+		max-height: 300px;
+	}
+}
