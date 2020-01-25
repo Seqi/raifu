@@ -1,52 +1,22 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import { LoadoutContext } from 'app/features/loadouts'
-import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
-import ResourceImage from 'app/shared/images/ResourceImage'
-import DeleteButton from 'app/shared/buttons/DeleteButton'
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
-
+import LoadoutWeaponItem from './LoadoutWeaponItem'
 import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
+
 import './LoadoutWeapon.css'
 
 let LoadoutWeapon = ({ weapon }) => {
-	let [dialog, setDialog] = useState(null)
-	let { editable, deleteWeapon } = useContext(LoadoutContext)	
-
-	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
-
 	return (
-		<React.Fragment>	
-			<div className='loadout-weapon-item-container'>
-				<div style={ { flex: '1' } } className='loadout-weapon-item' >
-					<ReactiveTitle variant='h4' mobileVariant='h5' style={ { zIndex: 1 } }>
-						{ weapon.getTitle() }
-							
-						{ editable && <DeleteButton style={ {position: 'initial'} } onClick={ () => setDialog('delete') } /> }
-					</ReactiveTitle>
-
-					<div className='center-loadout-item'>
-						<ResourceImage 
-							style={ { width: '100%', height: '100%'	} }
-							resource={ weapon }
-							resourceType='weapons'
-						/>
-					</div>
-				</div>	
-
-				<div style={ { flex: 2 } }>
-					<LoadoutWeaponAttachmentList weapon={ weapon } />
-				</div>
+		<div className='loadout-weapon-item-container'>
+			<div style={ { flex: '1' } } >
+				<LoadoutWeaponItem weapon={ weapon } />
 			</div>	
-				
-			{ editable && <ConfirmDeleteDialog
-				title={ weapon.getTitle() }
-				isOpen={ dialog === 'delete' }
-				onClose={ () => setDialog(null) }
-				onConfirm={ deleteNewWeapon }
-			/> }
-		</React.Fragment>
+
+			<div style={ { flex: 2 } }>
+				<LoadoutWeaponAttachmentList weapon={ weapon } />
+			</div>
+		</div>
 	)
 }
 

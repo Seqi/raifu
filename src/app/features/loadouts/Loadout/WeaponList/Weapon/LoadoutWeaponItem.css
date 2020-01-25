@@ -1,0 +1,39 @@
+.loadout-weapon-item {
+	position: relative;
+}
+
+.loadout-weapon-item h2, 
+.loadout-weapon-item h3, 
+.loadout-weapon-item h4, 
+.loadout-weapon-item h5,
+.loadout-weapon-item h6  {
+	position: absolute;
+}
+
+.center-loadout-item {
+	height: 100%;
+	display: flex;
+}
+
+.center-loadout-item > * {
+	flex: 1;
+}
+
+@media (max-width: 768px) {
+	.loadout-weapon-item {		
+		max-height: initial;
+		max-width: initial;
+	}
+
+	.loadout-weapon-item img {
+		max-height: 300px;
+	}
+
+	.loadout-weapon-item h2, 
+	.loadout-weapon-item h3, 
+	.loadout-weapon-item h4, 
+	.loadout-weapon-item h5,
+	.loadout-weapon-item h6  {
+		position: initial;
+	}
+}
