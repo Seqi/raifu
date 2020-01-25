@@ -11,14 +11,18 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, style, children }) => {
 		<React.Fragment>
 			{ children }
 
-			{ canDelete && <DeleteButton style={ style } onClick={ () => setIsDialogOpen(true) } /> }
+			{ canDelete && (
+				<React.Fragment>
+					<DeleteButton style={ style } onClick={ () => setIsDialogOpen(true) } /> 
 
-			{ canDelete && <ConfirmDeleteDialog 
-				isOpen={ isDialogOpen }
-				title={ dialogTitle  }
-				onConfirm={ onDelete }
-				onClose={ () => setIsDialogOpen(false) }
-			/> }
+					<ConfirmDeleteDialog 
+						isOpen={ isDialogOpen }
+						title={ dialogTitle  }
+						onConfirm={ onDelete }
+						onClose={ () => setIsDialogOpen(false) }
+					/> 
+				</React.Fragment>
+			)}
 		</React.Fragment>
 	)
 }
