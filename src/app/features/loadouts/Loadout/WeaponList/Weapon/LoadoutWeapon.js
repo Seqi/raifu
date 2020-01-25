@@ -1,14 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
+
 import LoadoutWeaponItem from './LoadoutWeaponItem'
 import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
 
-import './LoadoutWeapon.css'
-
 let LoadoutWeapon = ({ weapon }) => {
+	let isMobileMode = useIsMobileMode()
+
 	return (
-		<div className='loadout-weapon-item-container'>
+		<div style={ { display: 'flex', flexDirection: isMobileMode ? 'column': 'row' } }>
 			<div style={ { flex: '1' } } >
 				<LoadoutWeaponItem weapon={ weapon } />
 			</div>	
