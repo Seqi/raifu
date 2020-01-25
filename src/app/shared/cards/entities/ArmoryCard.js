@@ -5,21 +5,21 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 
+import Deletable from 'app/shared/actions/Deletable'
 import ResourceImage from 'app/shared/images/ResourceImage'
-import DeleteButton from 'app/shared/buttons/DeleteButton'
 
 import './ArmoryCard.css'
 
 export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, style, className }) {
 	return (
-		<Card style={ style } onClick={ onClick } className={ `${className} card armory-card` } >
-			{ canDelete && <DeleteButton onClick={ onDelete } /> }
-			
-			<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header'/>
+		<Card style={ style } onClick={ onClick } className={ `${className} card armory-card` }>
+			<Deletable canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ item.getTitle() }>
+				<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header'/>
 
-			<CardContent className='card-content'>
-				<ResourceImage resource={ item } resourceType={ category } />
-			</CardContent>
+				<CardContent className='card-content'>
+					<ResourceImage resource={ item } resourceType={ category } />
+				</CardContent>
+			</Deletable>
 		</Card>
 	)
 }

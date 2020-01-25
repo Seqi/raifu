@@ -1,47 +1,40 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import ResourceImage from 'app/shared/images/ResourceImage'
-import DeleteButton from 'app/shared/buttons/DeleteButton'
-import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
+import Deletable from 'app/shared/actions/Deletable'
 
 import { LoadoutContext } from 'app/features/loadouts'
 
 import './LoadoutWeaponItem.css'
 
 let LoadoutWeaponItem = ({ weapon }) => {
-	let [dialog, setDialog] = useState(null)
-	let { editable, deleteWeapon } = useContext(LoadoutContext)	
+	let { editable, deleteWeapon } = useContext(LoadoutContext)
 
 	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
 
 	return (
-		<React.Fragment>
-			<div className='loadout-weapon-item' >
-				<ReactiveTitle variant='h4' mobileVariant='h5' style={ { zIndex: 1 } }>
+		<div className='loadout-weapon-item' >
+			<ReactiveTitle variant='h4' mobileVariant='h5' style={ { zIndex: 1 } }>
+				<Deletable 
+					dialogTitle={ weapon.getTitle() } 
+					canDelete={ editable } 
+					onDelete={ deleteNewWeapon }
+					style={ { position: 'initial'} }
+				>
 					{ weapon.getTitle() }
-							
-					{ editable && <DeleteButton style={ {position: 'initial'} } onClick={ () => setDialog('delete') } /> }
-				</ReactiveTitle>
+				</Deletable>
+			</ReactiveTitle>				
 
-				<div className='center-loadout-item'>
-					<ResourceImage 
-						style={ { width: '100%', height: '100%'	} }
-						resource={ weapon }
-						resourceType='weapons'
-					/>
-				</div>
-			</div>			
-				
-			{ editable && <ConfirmDeleteDialog
-				title={ weapon.getTitle() }
-				isOpen={ dialog === 'delete' }
-				onClose={ () => setDialog(null) }
-				onConfirm={ deleteNewWeapon }
-			/>
-			}
-		</React.Fragment>
+			<div className='center-loadout-item'>
+				<ResourceImage 
+					style={ { width: '100%', height: '100%'	} }
+					resource={ weapon }
+					resourceType='weapons'
+				/>
+			</div>
+		</div>
 	)
 }
 
