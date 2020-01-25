@@ -6,6 +6,15 @@
 	position: relative;
 }
 
+.center-loadout-item {
+	height: 100%;
+	display: flex;
+}
+
+.center-loadout-item > * {
+	flex: 1;
+}
+
 .loadout-weapon-item h2, 
 .loadout-weapon-item h3, 
 .loadout-weapon-item h4, 

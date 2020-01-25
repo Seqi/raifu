@@ -26,11 +26,13 @@ let LoadoutWeapon = ({ weapon }) => {
 						{ editable && <DeleteButton style={ {position: 'initial'} } onClick={ () => setDialog('delete') } /> }
 					</ReactiveTitle>
 
-					<ResourceImage 
-						style={ { width: '100%', height: '100%'	} }
-						resource={ weapon }
-						resourceType='weapons'
-					/>
+					<div className='center-loadout-item'>
+						<ResourceImage 
+							style={ { width: '100%', height: '100%'	} }
+							resource={ weapon }
+							resourceType='weapons'
+						/>
+					</div>
 				</div>	
 
 				<div style={ { flex: 2 } }>
