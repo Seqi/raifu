@@ -2,6 +2,10 @@
 	display: flex;
 }
 
+.loadout-weapon-item {
+	position: relative;
+}
+
 .loadout-weapon-item h2, 
 .loadout-weapon-item h3, 
 .loadout-weapon-item h4, 
