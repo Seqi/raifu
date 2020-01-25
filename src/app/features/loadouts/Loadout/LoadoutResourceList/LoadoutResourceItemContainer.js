@@ -12,7 +12,7 @@ export default function LoadoutResourceItemContainer ({ resourceType, item, canD
 			<Deletable 
 				canDelete={ canDelete } 
 				onDelete={ () => onDelete(item.id) }
-				title={ item.getTitle() }
+				dialogTitle={ item.getTitle() }
 			>
 				<LoadoutResourceItem item={ item } resourceType={ resourceType } />
 			</Deletable>

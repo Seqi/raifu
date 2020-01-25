@@ -13,6 +13,10 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 	let addAttachments = useCallback(async (attachmentIds) => {
 		await addWeaponAttachments(weapon.id, attachmentIds)
 	}, [addWeaponAttachments, weapon])
+
+	let deleteAttachment = useCallback(async (attachmentId) => {
+		await deleteWeaponAttachment(weapon.id, attachmentId)
+	}, [deleteWeaponAttachment, weapon])
 	
 	return (
 		<LoadoutResourceList
@@ -20,7 +24,7 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 			items={ weapon.attachments || [] }
 			canAdd={ (availableAttachments || []).length > 0 }
 			addItem={ addAttachments }
-			deleteItem={ deleteWeaponAttachment }
+			deleteItem={ deleteAttachment }
 			renderAddDialog={ (isOpen, onClose, onSave) => (
 				<AddResourceDialog 
 					title='Add attachments to loadout'
