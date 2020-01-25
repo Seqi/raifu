@@ -9,8 +9,6 @@ import LoadoutImage from 'assets/home/loadout.png'
 import EventsImage from 'assets/home/events.png'
 import EventLoadoutsImage from 'assets/home/eventloadouts.png'
 
-import './HomePage.css'
-
 const segments = [
 	{
 		title: 'Inventory Management',
