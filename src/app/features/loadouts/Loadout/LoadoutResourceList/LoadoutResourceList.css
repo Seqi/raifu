@@ -1,9 +1,6 @@
 .loadout-resource-list-container {
-	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	margin-left: 2rem;
-	margin-right: 2rem;
 }
 
 .loadout-resource-list-item {
@@ -18,15 +15,12 @@
 }
 
 @media (max-width: 768px) {
-	.loadout-resource-list-container {
-		margin-left: 0;
-		margin-right: 0;
-	}
-
 	.loadout-resource-list-item {	
 		min-width: 150px;
 		max-width: 50%;
 		min-height: 100px;
 		max-height: 200px;
+
+		padding: 0.4rem 1rem;
 	}
 }

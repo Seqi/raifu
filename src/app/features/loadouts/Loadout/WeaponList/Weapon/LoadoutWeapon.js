@@ -21,10 +21,7 @@ let LoadoutWeapon = ({ weapon }) => {
 }
 
 LoadoutWeapon.propTypes = {
-	weapon: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		getTitle: PropTypes.func.isRequired
-	}).isRequired
+	weapon: PropTypes.object.isRequired,
 }
 
 export default LoadoutWeapon

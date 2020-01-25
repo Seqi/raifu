@@ -4,15 +4,9 @@
 
 .loadout-weapon-attachment-list-container {
 	flex: 2;
-	margin-left: 5%;
 }
 
 @media (max-width: 768px) {
-	.loadout-weapon-attachment-list-container {
-		justify-content: space-between;
-		margin-left: 0;
-	}
-
 	.loadout-weapon-item-container {
 		flex-direction: column;
 	}

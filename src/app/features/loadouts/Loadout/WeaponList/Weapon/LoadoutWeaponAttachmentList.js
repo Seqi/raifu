@@ -39,7 +39,6 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 LoadoutWeaponAttachmentList.propTypes = {
 	weapon: PropTypes.shape({
 		id: PropTypes.string.isRequired,
-		getTitle: PropTypes.func.isRequired,
 		attachments: PropTypes.array
 	}).isRequired
 }
