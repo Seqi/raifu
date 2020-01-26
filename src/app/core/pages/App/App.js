@@ -43,7 +43,7 @@ let App = ({ location, history }) => {
 				</Tabs>
 
 				<div className='app-window'>
-					<Suspense fallback={ Loading }>
+					<Suspense fallback={ <Loading /> }>
 						<Switch>
 							<AuthenticatedRoute path='/armory' component={ Armory } onFail={ onAuthFailure } />
 							<AuthenticatedRoute path='/loadouts' component={ LoadoutRouter } onFail={ onAuthFailure }  />

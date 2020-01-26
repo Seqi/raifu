@@ -25,7 +25,7 @@ let Site = () => {
 							<Route path='/' render={ () => 
 								<React.Fragment>
 									<NavBar />
-									<Suspense fallback={ Loading }>
+									<Suspense fallback={ <Loading /> }>
 										<Switch>
 											<Route path='/' component={ HomePage } exact={ true } />
 											<Route path='/app' component={ App } />
