@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 
-import { Error, Loading } from 'app/shared'
+import { Error, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import AddLoadoutDialog from './AddLoadoutDialog'
 import database from '../../../../firebase/database'
@@ -21,7 +21,7 @@ let LoadoutList = ({ history, location }) => {
 	let viewLoadout = useCallback((loadout) => history.push(`${location.pathname}/${loadout.id}`), [history, location])
 
 	if (loading) {
-		return <Loading />
+		return <LoadingOverlay />
 	}
 
 	if (error) {

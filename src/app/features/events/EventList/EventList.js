@@ -7,7 +7,7 @@ import { withTheme, Fab } from '@material-ui/core'
 import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarComponents'
 import EditEventDialog from './EditEventDialog'
 
-import { Loading, Error } from 'app/shared'
+import { Error, LoadingOverlay } from 'app/shared'
 
 import database from '../../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -101,7 +101,7 @@ class Events extends React.Component {
 		let { loading, error, events, view, activeTimeslot, isAddDialogOpen } = this.state
 
 		if (loading) {
-			return <Loading />
+			return <LoadingOverlay />
 		}
 
 		if (error) {

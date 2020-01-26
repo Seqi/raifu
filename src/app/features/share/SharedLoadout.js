@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { LoadingOverlay, Error } from 'app/shared'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import { LoadoutView } from 'app/features/loadouts'
 import SharedNotFound from './SharedNotFound'
@@ -37,7 +37,7 @@ export default class SharedLoadout extends React.Component {
 	render() {
 		let { loadout: data, error, loading } = this.state
 		if (loading) {
-			return <Loading />
+			return <LoadingOverlay />
 		}
 	
 		if (error) {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { Error, LoadingOverlay } from 'app/shared'
 
 import EventHeader from './EventHeader'
 import EventLoadout from './EventLoadout'
@@ -131,7 +131,7 @@ class Event extends React.Component {
 		let { loading, error, event, activeUserIndex } = this.state
 
 		if (loading) {			
-			return <Loading />
+			return <LoadingOverlay />
 		}
 	
 		if (error) {

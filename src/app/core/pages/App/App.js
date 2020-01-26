@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link, Switch, Redirect } from 'react-router-do
 
 import { Tabs, Tab } from '@material-ui/core'
 
-import Loading from 'app/shared/Loading'
+import LoadingOverlay from 'app/shared/LoadingOverlay'
 import AuthenticatedRoute from 'app/shared/auth/AuthenticatedRoute'
 import './App.css'
 
@@ -43,7 +43,7 @@ let App = ({ location, history }) => {
 				</Tabs>
 
 				<div className='app-window'>
-					<Suspense fallback={ <Loading /> }>
+					<Suspense fallback={ <LoadingOverlay /> }>
 						<Switch>
 							<AuthenticatedRoute path='/armory' component={ Armory } onFail={ onAuthFailure } />
 							<AuthenticatedRoute path='/loadouts' component={ LoadoutRouter } onFail={ onAuthFailure }  />

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { LoadingOverlay, Error } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
@@ -65,7 +65,7 @@ class LoadoutPage extends React.Component {
 		let { loading, error, loadout, activeDialog } = this.state
 
 		if (loading) {			
-			return <Loading />
+			return <LoadingOverlay />
 		}
 		
 		if (error) {

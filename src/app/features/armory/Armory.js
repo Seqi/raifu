@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { Error, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
 import database from '../../../firebase/database'
@@ -25,7 +25,7 @@ let Armory = () => {
 	useEffect(() => { loadArmory() }, [loadArmory])
 
 	if (loading) {
-		return <Loading />
+		return <LoadingOverlay />
 	}
 
 	if (error) {

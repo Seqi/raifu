@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@material-ui/core'
 
-import { Loading } from 'app/shared'
+import { LoadingOverlay } from 'app/shared'
 
 import database from '../../../../firebase/database'
 
@@ -18,7 +18,7 @@ const EventInvite = ({ event, onJoin }) => {
 	}
 
 	if (loading) {
-		return <Loading />
+		return <LoadingOverlay />
 	}
 
 	return (
