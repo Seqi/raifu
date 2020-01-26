@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { LoadingOverlay, Error } from 'app/shared'
+import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
@@ -14,7 +14,7 @@ class LoadoutPage extends React.Component {
 			loadout: null,
 			activeDialog: null,
 			loading: true,
-			error: null
+			error: false
 		}
 	}
 
@@ -27,14 +27,16 @@ class LoadoutPage extends React.Component {
 	}
 	
 	loadLoadout() {
-		database.loadouts
-			.getById(this.props.match.params.id)
-			.then((loadout) => {
-				if (!this.isUnmounted) {
-					this.setState({ loadout, error: null, loading: false })
-				}
-			})
-			.catch((err) => this.setState({ error: 'An error occurred while loading loadout.', loading: false }))
+		this.setState({ loading: true, error: false }, () => {
+			database.loadouts
+				.getById(this.props.match.params.id)
+				.then((loadout) => {
+					if (!this.isUnmounted) {
+						this.setState({ loadout, loading: false })
+					}
+				})
+				.catch((err) => this.setState({ error: true, loading: false }))
+		})
 	}
 
 	setDialog(id) {
@@ -69,7 +71,7 @@ class LoadoutPage extends React.Component {
 		}
 		
 		if (error) {
-			return <Error error={ error } onRetry={ () => this.loadLoadout() } />
+			return <ErrorOverlay error='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 
 		return (

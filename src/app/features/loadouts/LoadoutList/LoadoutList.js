@@ -1,22 +1,28 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 
-import { Error, LoadingOverlay } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import AddLoadoutDialog from './AddLoadoutDialog'
 import database from '../../../../firebase/database'
 
+const defaultState = {loadouts: null, loading: true, error: false}
+
 let LoadoutList = ({ history, location }) => {
-	let [{ loadouts, loading, error }, setLoadout] = useState({loadouts: null, loading: true, error: false})
+	let [{ loadouts, loading, error }, setLoadout] = useState(defaultState)
 
 	let mounted = useRef(true)
 
-	useEffect(() => {
+	useEffect(() => () => mounted.current = false, [])
+
+	let loadLoadout = useCallback(() => {
+		setLoadout(defaultState)
+		
 		database.loadouts.get()
 			.then(result => mounted.current && setLoadout({ loadouts: result, loading: false, error: false }))			
 			.catch(e => mounted.current && setLoadout({ loadouts: null, loading: false, error: true }))
-
-		return () => mounted.current = false
 	}, [])
+
+	useEffect(() => { loadLoadout() }, [loadLoadout])
 
 	let viewLoadout = useCallback((loadout) => history.push(`${location.pathname}/${loadout.id}`), [history, location])
 
@@ -25,7 +31,7 @@ let LoadoutList = ({ history, location }) => {
 	}
 
 	if (error) {
-		return <Error error='Could not load armory' />
+		return <ErrorOverlay error='Could not load loadouts.' onRetry={ loadLoadout } />
 	}
 	
 	return (

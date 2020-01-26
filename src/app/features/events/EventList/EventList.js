@@ -7,7 +7,7 @@ import { withTheme, Fab } from '@material-ui/core'
 import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarComponents'
 import EditEventDialog from './EditEventDialog'
 
-import { Error, LoadingOverlay } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 
 import database from '../../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -23,7 +23,7 @@ class Events extends React.Component {
 			events: [],
 			view: 'month',
 			loading: true,
-			error: null,
+			error: false,
 			activeTimeslot: null,
 			isAddDialogOpen: false
 		}
@@ -43,16 +43,17 @@ class Events extends React.Component {
 		if (this.unmounted) {
 			return
 		}
-		this.setState({ loading: true, error: null }, () => {
+
+		this.setState({ loading: true, error: false }, () => {
 			database.events.get()
 				.then(events => {
 					if (!this.unmounted) {
-						this.setState({ events: events, error: null, loading: false })
+						this.setState({ events: events, error: false, loading: false })
 					}
 				})
 				.catch(err => {
 					if (!this.unmounted) {
-						this.setState({ error: 'An error occurred while loading events.', loading: false})
+						this.setState({ error: true, loading: false})
 					}
 				})			
 		})
@@ -105,7 +106,7 @@ class Events extends React.Component {
 		}
 
 		if (error) {
-			return <Error message={ error } onRetry={ () => this.loadEvents() } />
+			return <ErrorOverlay error={ 'Could not load events.' } onRetry={ () => this.loadEvents() } />
 		}
 
 		return (

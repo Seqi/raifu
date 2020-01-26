@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Error, LoadingOverlay } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 
 import EventHeader from './EventHeader'
 import EventLoadout from './EventLoadout'
@@ -16,7 +16,7 @@ class Event extends React.Component {
 
 		this.state = {
 			loading: true,
-			error: null,
+			error: false,
 			event: null,
 			activeUserIndex: 0
 		}
@@ -61,7 +61,7 @@ class Event extends React.Component {
 	}
 
 	loadEvent() {
-		this.setState({loading: true, error: null}, () => {
+		this.setState({ loading: true, error: false }, () => {
 			database.events.getById(this.props.match.params.id)
 				// Convert from JSON date format
 				.then(this.formatEvent)
@@ -72,7 +72,7 @@ class Event extends React.Component {
 				})
 				.catch(err => {
 					if (!this.isUnmounted) {
-						this.setState({ error: 'An error occurred while loading event.', loading: false})
+						this.setState({ error: true, loading: false})
 					}
 				})
 		})
@@ -135,7 +135,7 @@ class Event extends React.Component {
 		}
 	
 		if (error) {
-			return <Error error={ error } onRetry={ () => this.loadEvent() } />
+			return <ErrorOverlay error='Could not load event.' onRetry={ () => this.loadEvent() } />
 		}
 
 		return (

@@ -12,7 +12,7 @@
 }
 
 @media (max-width: 768px) {	
-	.aresource-select-card {
+	.resource-select-card {
 		height: 170px;
 		width: 45%;
 	}

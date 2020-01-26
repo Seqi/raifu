@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { LoadingOverlay, Error } from 'app/shared'
+import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import { LoadoutView } from 'app/features/loadouts'
 import SharedNotFound from './SharedNotFound'
@@ -13,7 +13,7 @@ export default class SharedLoadout extends React.Component {
 
 		this.state = {
 			loadout: null,
-			error: null,
+			error: false,
 			loading: true
 		}
 	}
@@ -23,36 +23,36 @@ export default class SharedLoadout extends React.Component {
 	componentWillUnmount = () => this.unmounted = true
 
 	loadLoadout = () => {
-		this.setState({ error: null, loading: true }, () => {
+		this.setState({ error: false, loading: true }, () => {
 			database.loadouts.getById(this.props.match.params.loadoutId)
 				.then((loadout) => {
-					!this.unmounted && this.setState({ loadout: loadout, loading: false, error: null })
+					!this.unmounted && this.setState({ loadout: loadout, loading: false })
 				})
 				.catch((err) => {
-					!this.unmounted && this.setState({ loadout: null, loading: false, error: 'Could not retrieve loadout' })
+					!this.unmounted && this.setState({ loadout: null, loading: false, error: true })
 				})
 		})	
 	}
 
 	render() {
-		let { loadout: data, error, loading } = this.state
+		let { loadout, error, loading } = this.state
 		if (loading) {
 			return <LoadingOverlay />
 		}
 	
 		if (error) {
-			return <Error error={ error } onRetry={ () => this.loadLoadout() } />
+			return <ErrorOverlay error='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 	
-		if (!data) {
+		if (!loadout) {
 			return <SharedNotFound entityName={ 'Loadout' } />
 		}
 	
 		return (
 			<React.Fragment>
-				<ReactiveTitle>{ data.name }</ReactiveTitle>
+				<ReactiveTitle>{ loadout.name }</ReactiveTitle>
 	
-				<LoadoutView loadout={ data } editable={ false }/>
+				<LoadoutView loadout={ loadout } editable={ false }/>
 			</React.Fragment>
 		)
 	}
