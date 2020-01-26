@@ -16,7 +16,7 @@ function ErrorOverlay({ icon, error, onRetry }) {
 							fontSize: '10rem',
 							color: theme.palette.background.paper
 						} } 
-						className={ `far ${icon}` }
+						className={ icon }
 					/>
 				</div>
 			
@@ -37,7 +37,7 @@ ErrorOverlay.propTypes = {
 }
 
 ErrorOverlay.defaultProps = {
-	icon: 'fa-dizzy',
+	icon: 'far fa-dizzy',
 	error: '',
 	onRetry: null,
 }
