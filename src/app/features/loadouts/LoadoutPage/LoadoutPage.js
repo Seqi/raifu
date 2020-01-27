@@ -14,7 +14,7 @@ class LoadoutPage extends React.Component {
 			loadout: null,
 			activeDialog: null,
 			loading: true,
-			error: false
+			error: null
 		}
 	}
 
@@ -27,7 +27,7 @@ class LoadoutPage extends React.Component {
 	}
 	
 	loadLoadout() {
-		this.setState({ loading: true, error: false }, () => {
+		this.setState({ loading: true, error: null }, () => {
 			database.loadouts
 				.getById(this.props.match.params.id)
 				.then((loadout) => {
@@ -35,7 +35,11 @@ class LoadoutPage extends React.Component {
 						this.setState({ loadout, loading: false })
 					}
 				})
-				.catch((err) => this.setState({ error: true, loading: false }))
+				.catch((err) => {
+					if (!this.isUnmounted) {
+						this.setState({ error: err, loading: false })
+					}
+				})
 		})
 	}
 
@@ -71,7 +75,11 @@ class LoadoutPage extends React.Component {
 		}
 		
 		if (error) {
-			return <ErrorOverlay error='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
+			if (error.status === 404) {
+				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
+			}
+
+			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 
 		return (

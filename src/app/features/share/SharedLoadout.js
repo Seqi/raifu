@@ -3,7 +3,6 @@ import React from 'react'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import { LoadoutView } from 'app/features/loadouts'
-import SharedNotFound from './SharedNotFound'
 import database from '../../../firebase/database'
 
 export default class SharedLoadout extends React.Component {
@@ -13,7 +12,7 @@ export default class SharedLoadout extends React.Component {
 
 		this.state = {
 			loadout: null,
-			error: false,
+			error: null,
 			loading: true
 		}
 	}
@@ -23,13 +22,13 @@ export default class SharedLoadout extends React.Component {
 	componentWillUnmount = () => this.unmounted = true
 
 	loadLoadout = () => {
-		this.setState({ error: false, loading: true }, () => {
+		this.setState({ loadout: null, error: null, loading: true }, () => {
 			database.loadouts.getById(this.props.match.params.loadoutId)
 				.then((loadout) => {
 					!this.unmounted && this.setState({ loadout: loadout, loading: false })
 				})
 				.catch((err) => {
-					!this.unmounted && this.setState({ loadout: null, loading: false, error: true })
+					!this.unmounted && this.setState({ loading: false, error: err })
 				})
 		})	
 	}
@@ -41,11 +40,11 @@ export default class SharedLoadout extends React.Component {
 		}
 	
 		if (error) {
-			return <ErrorOverlay error='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
-		}
-	
-		if (!loadout) {
-			return <SharedNotFound entityName={ 'Loadout' } />
+			if (error.status === 404) {
+				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
+			}
+
+			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 	
 		return (

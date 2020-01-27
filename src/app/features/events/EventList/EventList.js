@@ -106,7 +106,7 @@ class Events extends React.Component {
 		}
 
 		if (error) {
-			return <ErrorOverlay error={ 'Could not load events.' } onRetry={ () => this.loadEvents() } />
+			return <ErrorOverlay message='Could not load events.' onRetry={ () => this.loadEvents() } />
 		}
 
 		return (

@@ -31,7 +31,7 @@ let LoadoutList = ({ history, location }) => {
 	}
 
 	if (error) {
-		return <ErrorOverlay error='Could not load loadouts.' onRetry={ loadLoadout } />
+		return <ErrorOverlay message='Could not load loadouts.' onRetry={ loadLoadout } />
 	}
 	
 	return (

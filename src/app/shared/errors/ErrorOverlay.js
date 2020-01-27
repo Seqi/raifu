@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Button, useTheme } from '@material-ui/core'
 import AppOverlay from '../utils/AppOverlay'
 
-function ErrorOverlay({ icon, error, onRetry }) {
+function ErrorOverlay({ icon, message, onRetry }) {
 	let theme = useTheme()
 
 	return (
@@ -21,7 +21,7 @@ function ErrorOverlay({ icon, error, onRetry }) {
 				</div>
 			
 				<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>
-					{ error || 'An error occurred.' }
+					{ message || 'An error occurred.' }
 				</div>
 
 				{ onRetry && <Button variant='outlined' color='primary' onClick={ onRetry }>Retry</Button> }
@@ -32,13 +32,13 @@ function ErrorOverlay({ icon, error, onRetry }) {
 
 ErrorOverlay.propTypes = {
 	icon: PropTypes.string,
-	error: PropTypes.string,
+	message: PropTypes.string,
 	onRetry: PropTypes.func,
 }
 
 ErrorOverlay.defaultProps = {
 	icon: 'far fa-dizzy',
-	error: '',
+	message: '',
 	onRetry: null,
 }
 

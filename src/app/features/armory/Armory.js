@@ -29,7 +29,7 @@ let Armory = () => {
 	}
 
 	if (error) {
-		return <ErrorOverlay error='Could not load armory.' onRetry={ loadArmory } />
+		return <ErrorOverlay message='Could not load armory.' onRetry={ loadArmory } />
 	}
 
 	return (
