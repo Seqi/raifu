@@ -2,7 +2,7 @@ import './Site.css'
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import Loading from 'app/shared/Loading'
+import LoadingOverlay from 'app/shared/LoadingOverlay'
 import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 import NavBar from './layout/Navbar/Navbar'
 import AnnouncementBanner from './layout/AnnouncementBanner'
@@ -25,7 +25,7 @@ let Site = () => {
 							<Route path='/' render={ () => 
 								<React.Fragment>
 									<NavBar />
-									<Suspense fallback={ <Loading /> }>
+									<Suspense fallback={ <LoadingOverlay /> }>
 										<Switch>
 											<Route path='/' component={ HomePage } exact={ true } />
 											<Route path='/app' component={ App } />

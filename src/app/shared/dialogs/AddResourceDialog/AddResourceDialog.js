@@ -67,7 +67,7 @@ class AddResourceDialog extends Component {
 		let { items, title, category, isOpen, onClose, allowMultiple } = this.props
 
 		return (
-			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
+			<Dialog fullScreen={ true } fullWidth={ true } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>{ title } </DialogTitle>
 
 				<DialogContent>

@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useRef } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { Loading } from 'app/shared'
+import { LoadingOverlay } from 'app/shared'
 import { UserContext } from 'app/core/auth/contexts'
 
 function AuthenticatedRoute({ onFail, waitFor, ...props }) {
@@ -22,7 +22,7 @@ function AuthenticatedRoute({ onFail, waitFor, ...props }) {
 	}, [onFail, user, waitFor])
 
 	if (!user) {
-		return <Loading />
+		return <LoadingOverlay />
 	}
 
 	return <Route { ...props } />

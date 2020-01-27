@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 
 import EventHeader from './EventHeader'
 import EventLoadout from './EventLoadout'
@@ -61,7 +61,7 @@ class Event extends React.Component {
 	}
 
 	loadEvent() {
-		this.setState({loading: true, error: null}, () => {
+		this.setState({ event: null, loading: true, error: null }, () => {
 			database.events.getById(this.props.match.params.id)
 				// Convert from JSON date format
 				.then(this.formatEvent)
@@ -72,7 +72,7 @@ class Event extends React.Component {
 				})
 				.catch(err => {
 					if (!this.isUnmounted) {
-						this.setState({ error: 'An error occurred while loading event.', loading: false})
+						this.setState({ error: err, loading: false})
 					}
 				})
 		})
@@ -131,11 +131,15 @@ class Event extends React.Component {
 		let { loading, error, event, activeUserIndex } = this.state
 
 		if (loading) {			
-			return <Loading />
+			return <LoadingOverlay />
 		}
 	
 		if (error) {
-			return <Error error={ error } onRetry={ () => this.loadEvent() } />
+			if (error.status === 404) {
+				return <ErrorOverlay message='Event not found.' icon='fa fa-crosshairs' />
+			}
+
+			return <ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
 		}
 
 		return (
@@ -157,7 +161,7 @@ class Event extends React.Component {
 						<EventLoadout event={ event } activeUserIndex={ activeUserIndex } removeLoadout={ () => this.removeLoadout() } /> :
 						this.currentUserIsSelf ? 
 							<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } /> :
-							<div style={ {textAlign: 'center' } }>User has not added a loadout to this event.</div>
+							<ErrorOverlay icon='fas fa-crosshairs' message='User has not added a loadout to this event.' />
 				}
 			</React.Fragment>
 		)

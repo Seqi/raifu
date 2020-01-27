@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
@@ -27,14 +27,20 @@ class LoadoutPage extends React.Component {
 	}
 	
 	loadLoadout() {
-		database.loadouts
-			.getById(this.props.match.params.id)
-			.then((loadout) => {
-				if (!this.isUnmounted) {
-					this.setState({ loadout, error: null, loading: false })
-				}
-			})
-			.catch((err) => this.setState({ error: 'An error occurred while loading loadout.', loading: false }))
+		this.setState({ loading: true, error: null }, () => {
+			database.loadouts
+				.getById(this.props.match.params.id)
+				.then((loadout) => {
+					if (!this.isUnmounted) {
+						this.setState({ loadout, loading: false })
+					}
+				})
+				.catch((err) => {
+					if (!this.isUnmounted) {
+						this.setState({ error: err, loading: false })
+					}
+				})
+		})
 	}
 
 	setDialog(id) {
@@ -65,11 +71,15 @@ class LoadoutPage extends React.Component {
 		let { loading, error, loadout, activeDialog } = this.state
 
 		if (loading) {			
-			return <Loading />
+			return <LoadingOverlay />
 		}
 		
 		if (error) {
-			return <Error error={ error } onRetry={ () => this.loadLoadout() } />
+			if (error.status === 404) {
+				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
+			}
+
+			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 
 		return (

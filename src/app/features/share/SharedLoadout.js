@@ -1,9 +1,8 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import { LoadoutView } from 'app/features/loadouts'
-import SharedNotFound from './SharedNotFound'
 import database from '../../../firebase/database'
 
 export default class SharedLoadout extends React.Component {
@@ -23,36 +22,36 @@ export default class SharedLoadout extends React.Component {
 	componentWillUnmount = () => this.unmounted = true
 
 	loadLoadout = () => {
-		this.setState({ error: null, loading: true }, () => {
+		this.setState({ loadout: null, error: null, loading: true }, () => {
 			database.loadouts.getById(this.props.match.params.loadoutId)
 				.then((loadout) => {
-					!this.unmounted && this.setState({ loadout: loadout, loading: false, error: null })
+					!this.unmounted && this.setState({ loadout: loadout, loading: false })
 				})
 				.catch((err) => {
-					!this.unmounted && this.setState({ loadout: null, loading: false, error: 'Could not retrieve loadout' })
+					!this.unmounted && this.setState({ loading: false, error: err })
 				})
 		})	
 	}
 
 	render() {
-		let { loadout: data, error, loading } = this.state
+		let { loadout, error, loading } = this.state
 		if (loading) {
-			return <Loading />
+			return <LoadingOverlay />
 		}
 	
 		if (error) {
-			return <Error error={ error } onRetry={ () => this.loadLoadout() } />
-		}
-	
-		if (!data) {
-			return <SharedNotFound entityName={ 'Loadout' } />
+			if (error.status === 404) {
+				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
+			}
+
+			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 	
 		return (
 			<React.Fragment>
-				<ReactiveTitle>{ data.name }</ReactiveTitle>
+				<ReactiveTitle>{ loadout.name }</ReactiveTitle>
 	
-				<LoadoutView loadout={ data } editable={ false }/>
+				<LoadoutView loadout={ loadout } editable={ false }/>
 			</React.Fragment>
 		)
 	}
