@@ -1,6 +1,6 @@
 import React from 'react'
 
-import LogoImage from 'assets/home/logo.svg'
+import LogoImage from 'assets/home/logo.png'
 import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
 let Logo = () => {
@@ -9,7 +9,6 @@ let Logo = () => {
 	return (
 		<div
 			style={ {
-				display: 'flex',
 				maxWidth: '750px',
 				width: '95%',
 				margin: '0 auto',
@@ -17,7 +16,7 @@ let Logo = () => {
 				paddingBottom: '24px',
 			} }
 		>
-			<img style={ { width: '100%' } } src={ LogoImage } alt='a' />
+			<img style={ { width: '100%' } } src={ LogoImage } alt='Raifu Airsoft Loadout Management' />
 		</div>
 	)
 }
