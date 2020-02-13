@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 
-import Tooltip from '@material-ui/core/Tooltip'
+import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 
 import EditEventDialog from '../EventList/EditEventDialog'
 import EventChecklist from './EventChecklist'
@@ -16,56 +16,71 @@ let getMyLoadout = (event) => {
 	return event.users[0].loadout
 }
 
-function EventActions( { event, updateEvent, deleteEvent }) {
-	let [ activeDialog, setActiveDialog] = useState()
+function EventActions( { event, updateEvent, deleteEvent, open, onOpen, onClose }) {
+	let [ dialog, setDialog] = useState()
 	let user = useContext(UserContext)
 
 	return (
 		<React.Fragment>
 			{/* Actions */}
-			{ isMyEvent(user, event) && (
-				<React.Fragment>
-					<Tooltip title='Edit' aria-label='edit'>
-						<i onClick={ () => setActiveDialog('edit') } className='fa fa-pen icon-action' /> 
-					</Tooltip>						
-						
-					<Tooltip title='Delete' aria-label='delete'>
-						<i onClick={ () => setActiveDialog('delete') } className='fa fa-trash icon-action' />
-					</Tooltip>
-				</React.Fragment>
-			)}
+			<SpeedDial 
+				ariaLabel='Loadout Actions' 
+				icon={ <i className='fa fa-pen' /> }
+				onOpen={ onOpen }
+				onClose={ onClose }
+				open={ open }
+				hidden={ event.users.length === 0 }
+			>
+				<SpeedDialAction 
+					hidden={ isMyEvent(user, event) }
+					icon={ <i className='fa fa-pen' /> }
+					onClick={ () => setDialog('edit') }
+					tooltipTitle='Edit'
+					tooltipOpen={ true }
+				/>
 
-			{ getMyLoadout(event) && (					
-				<Tooltip title='Checklist' aria-label='checklist'>
-					<i onClick={ () => setActiveDialog('checklist') } className='fa fa-clipboard icon-action' /> 
-				</Tooltip>
-			)}
+				<SpeedDialAction 
+					hidden={ isMyEvent(user, event) }
+					icon={ <i className='fa fa-trash' /> }
+					onClick={ () => setDialog('delete') }
+					tooltipTitle='Delete'
+					tooltipOpen={ true }
+				/>		
+
+				<SpeedDialAction 
+					hidden={ !!getMyLoadout(event) }
+					icon={ <i className='fa fa-clipboard' /> }
+					onClick={  () => setDialog('checklist') }
+					tooltipTitle='Checklist'
+					tooltipOpen={ true }
+				/>
+			</SpeedDial>
 
 			{/* Dialogs */}
 			<EditEventDialog 
 				event={ event }
-				isOpen={ activeDialog === 'edit' }
+				isOpen={ dialog === 'edit' }
 				onSave={ (event) => updateEvent(event)
-					.then(() => setActiveDialog(null)) 
+					.then(() => setDialog(null)) 
 				}
-				onClose={ () => setActiveDialog(null) } />
+				onClose={ () => setDialog(null) } />
 
 			<ConfirmDeleteDialog 
 				verb='Delete'
 				title={ event.getTitle() }
-				isOpen={ activeDialog === 'delete' }
+				isOpen={ dialog === 'delete' }
 				onConfirm={ () => deleteEvent()
-					.then(() => setActiveDialog(null)) 
+					.then(() => setDialog(null)) 
 				}
-				onClose={ () => setActiveDialog(null) }
+				onClose={ () => setDialog(null) }
 			/>
 
 			{ getMyLoadout(event) && 
 				<EventChecklist
 					title={ event.getTitle() }
 					loadout={ getMyLoadout(event) }
-					isOpen={ activeDialog === 'checklist' }
-					onClose={ () => setActiveDialog(null) }
+					isOpen={ dialog === 'checklist' }
+					onClose={ () => setDialog(null) }
 				/>
 			}
 		</React.Fragment>
@@ -78,4 +93,8 @@ EventActions.propTypes = {
 	event: PropTypes.object.isRequired,
 	updateEvent: PropTypes.func.isRequired,
 	deleteEvent: PropTypes.func.isRequired,
+
+	open: PropTypes.bool.isRequired,
+	onOpen: PropTypes.func.isRequired,
+	onClose: PropTypes.func.isRequired,
 }

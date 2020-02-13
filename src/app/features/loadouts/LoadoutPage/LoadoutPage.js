@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
+
 import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
@@ -14,7 +16,8 @@ class LoadoutPage extends React.Component {
 			loadout: null,
 			activeDialog: null,
 			loading: true,
-			error: null
+			error: null,
+			speedDialOpen: false
 		}
 	}
 
@@ -47,6 +50,10 @@ class LoadoutPage extends React.Component {
 		this.setState({ activeDialog: id })
 	}
 
+	setSpeedDial(open) {
+		this.setState({ speedDialOpen: open })
+	}
+
 	editLoadout(updatedLoadout) {
 		let { loadout } = this.state
 
@@ -68,7 +75,7 @@ class LoadoutPage extends React.Component {
 	}
 
 	render() {
-		let { loading, error, loadout, activeDialog } = this.state
+		let { loading, error, loadout, activeDialog, speedDialOpen } = this.state
 
 		if (loading) {			
 			return <LoadingOverlay />
@@ -84,21 +91,39 @@ class LoadoutPage extends React.Component {
 
 		return (
 			<React.Fragment>
-				<ReactiveTitle>
-					{ loadout.name }					
-					<i onClick={ () => this.setDialog('edit') } className='fa fa-pen icon-action' />
-					<i onClick={ () => this.setDialog('share') } className='fa fa-link icon-action' />
-				</ReactiveTitle>
+				<ReactiveTitle>{ loadout.name }</ReactiveTitle>
 
 				<div className='separator-padding'>
 					<LoadoutView loadout={ loadout } editable={ true } />
 				</div>
 
+				<SpeedDial 
+					ariaLabel='Loadout Actions' 
+					icon={ <i className='fa fa-pen' /> }
+					onOpen={ () => this.setSpeedDial(true) }
+					onClose={ () => this.setSpeedDial(false) }
+					open={ speedDialOpen }
+				>
+					<SpeedDialAction 
+						icon={ <i className='fa fa-pen' /> }
+						onClick={  () => this.setDialog('edit') }
+						tooltipTitle='Edit'
+						tooltipOpen={ true }
+					/>
+
+					<SpeedDialAction 
+						icon={ <i className='fa fa-link' /> }
+						onClick={ () => this.setDialog('share') }
+						tooltipTitle='Share'
+						tooltipOpen={ true }
+					/>
+				</SpeedDial>
+
 				<EditLoadoutDialog
 					name={ loadout.name }
 					isOpen={ activeDialog === 'edit' }
 					onSave={ (name) => this.editLoadout(name) }
-					onClose={ () => this.setDialog() }
+					onClose={ () => this.setDialog(null) }
 				/>
 
 				<SetShareableDialog

@@ -4,10 +4,12 @@ import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 
 import EventHeader from './EventHeader'
 import EventLoadout from './EventLoadout'
-import database from '../../../../firebase/database'
 import EventLoadoutSelect from './EventLoadoutSelect'
 import EventInvite from './EventInvite'
 import EventUserSelect from './EventUserSelect'
+import EventActions from './EventActions' 
+
+import database from '../../../../firebase/database'
 
 class Event extends React.Component {
 
@@ -18,7 +20,8 @@ class Event extends React.Component {
 			loading: true,
 			error: null,
 			event: null,
-			activeUserIndex: 0
+			activeUserIndex: 0,
+			actionsMenuOpen: false,
 		}
 	}
 
@@ -126,9 +129,13 @@ class Event extends React.Component {
 	onActiveUserChange(userIndex) {
 		this.setState({ activeUserIndex: userIndex })
 	}
+
+	openActionsMenu(open) {
+		this.setState({ actionsMenuOpen: open })
+	}
 	
 	render() {
-		let { loading, error, event, activeUserIndex } = this.state
+		let { loading, error, event, activeUserIndex, actionsMenuOpen } = this.state
 
 		if (loading) {			
 			return <LoadingOverlay />
@@ -144,25 +151,48 @@ class Event extends React.Component {
 
 		return (
 			<React.Fragment>
-				<EventHeader 
-					event={ event } 
-					updateEvent={ (event) => this.updateEvent(event) }
-					deleteEvent={ () => this.deleteEvent() }
-				/>
+				{/* Event Details */}
+				<EventHeader event={ event } />
 
-				{ event.users.length > 1 && 
-					<EventUserSelect event={ event } userIndex={ activeUserIndex } onUserIndexChange={ (idx) => this.onActiveUserChange(idx) } />
-				}
+				{/* Event Invite */}
+				{ event.users.length === 0 && (
+					<EventInvite event={ event } onJoin={ () => this.loadEvent() } /> 
+				)}
 
-				{	event.users.length === 0 ? 
-					<EventInvite event={ event } onJoin={ () => this.loadEvent() } /> :
+				{/* User Select */}
+				{ event.users.length > 1 && (
+					<EventUserSelect
+						users={ event.users }
+						userIndex={ activeUserIndex }
+						onUserIndexChange={ (idx) => this.onActiveUserChange(idx) } 
+					/>
+				)}
+
+				{/* User Event Content */}
+				{	event.users.length > 0 &&
 
 					this.currentUsersEvent.loadout ?
-						<EventLoadout event={ event } activeUserIndex={ activeUserIndex } removeLoadout={ () => this.removeLoadout() } /> :
-						this.currentUserIsSelf ? 
-							<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } /> :
-							<ErrorOverlay icon='fas fa-crosshairs' message='User has not added a loadout to this event.' />
+
+					<EventLoadout
+						event={ event }
+						activeUserIndex={ activeUserIndex }
+						removeLoadout={ () => this.removeLoadout() } 
+					/> :
+
+					this.currentUserIsSelf ? 
+						<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } /> :
+						<ErrorOverlay icon='fas fa-crosshairs' message='User has not added a loadout to this event.' />
 				}
+
+				{/* Event Actions */}
+				<EventActions 
+					event={ event } 
+					updateEvent={ evt => this.updateEvent(evt) } 
+					deleteEvent={ () => this.deleteEvent() }
+					open={ actionsMenuOpen }
+					onOpen={ () => this.openActionsMenu(true) }
+					onClose={ () => this.openActionsMenu(false) }
+				/>
 			</React.Fragment>
 		)
 	}
