@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
+import { LoadoutContextProvider } from './LoadoutContext'
+import { AvailableArmoryContextProvider } from './AvailableArmoryContext'
+
 import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutClothingList from './ClothingList/LoadoutClothingList'
 import LoadoutSeparator from './LoadoutSeparator'
-import { LoadoutContextProvider } from './LoadoutContext'
-import { AvailableArmoryContextProvider } from './AvailableArmoryContext'
 
 let LoadoutView = ({ loadout, editable }) => {		
 	return (
@@ -15,15 +15,17 @@ let LoadoutView = ({ loadout, editable }) => {
 			<AvailableArmoryContextProvider>
 				<LoadoutWeaponList />
 
-				<LoadoutSeparator>
-					<ReactiveTitle variant='h4' mobileVariant='h5'>Gear</ReactiveTitle>
-					<LoadoutGearList />
-				</LoadoutSeparator>
+				{ (loadout.gear.length > 0 || editable) && (
+					<LoadoutSeparator>
+						<LoadoutGearList /> 
+					</LoadoutSeparator>
+				)}
 
-				<LoadoutSeparator>
-					<ReactiveTitle variant='h4' mobileVariant='h5'>Clothing</ReactiveTitle>
-					<LoadoutClothingList />
-				</LoadoutSeparator>
+				{ (loadout.clothing.length > 0 || editable) && (
+					<LoadoutSeparator>
+						<LoadoutClothingList />
+					</LoadoutSeparator>
+				)}
 			</AvailableArmoryContextProvider>
 		</LoadoutContextProvider>
 	)
