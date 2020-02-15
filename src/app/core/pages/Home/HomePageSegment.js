@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useTheme } from '@material-ui/core'
+import { useTheme, Typography } from '@material-ui/core'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import './HomePageSegment.css'
@@ -18,19 +18,15 @@ function HomePageSegment({ title, text, image, showBorder, flip, isMobileMode })
 			</div>
 
 			<div className='segment-text-container'>
-				<div>
-					<ReactiveTitle 
-						variant={ 'h3' } 
-						mobileVariant={ 'h4' }
-						style={ { padding: isMobileMode ? '16px' : '24px' } }
-					>
-						{ title }
-					</ReactiveTitle>
+				<ReactiveTitle 
+					variant={ 'h2' } 
+					mobileVariant={ 'h4' }
+					style={ { padding: isMobileMode ? '16px' : '24px' } }
+				>
+					{ title }
+				</ReactiveTitle>
 
-					<span className='segment-text'>
-						{ text }
-					</span>
-				</div>
+				<Typography variant='span'>{ text }</Typography>
 			</div>
 		</div>
 	)

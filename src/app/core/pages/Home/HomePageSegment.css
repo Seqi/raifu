@@ -23,12 +23,18 @@ img.segment-image {
 .segment-text-container {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	text-align: center;
 }
 
 .segment-text-container > * {
-	margin: auto;
-	text-align: center;
 	width: 75%;
+}
+
+.segment-text-container > span {
+	font-size: 1.4rem;
 }
 
 @media (max-width: 768px) {
