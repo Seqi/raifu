@@ -13,7 +13,10 @@ export default createMuiTheme({
 	},
 	typography: {
 		useNextVariants: true,
-		fontFamily: ['Hind Siliguri', 'sans-serif'].join(',')
+		fontFamily: ['Alata', 'sans-serif'].join(','),
+		h2: {
+			fontSize: '4rem',
+		}
 	},
 	overrides: {
 		MuiCardHeader: {
