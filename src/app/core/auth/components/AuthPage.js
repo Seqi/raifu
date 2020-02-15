@@ -19,10 +19,8 @@ function AuthPage({ history }) {
 	}, [user, history])
 
 	return (
-		<div className='auth-container'>
-			<div>
-				<Logo />
-			</div>
+		<div className='auth-container'>		
+			<Logo width='500px' />
 
 			<div style={ { 
 				position: 'absolute',
