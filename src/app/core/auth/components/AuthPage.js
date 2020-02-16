@@ -19,17 +19,25 @@ function AuthPage({ history }) {
 	}, [user, history])
 
 	return (
-		<div className='auth-container'>
-			<div className='auth-logo-container'>
-				<Logo height='250px' subtitle='Airsoft loadout management' />
-			</div>
+		<div className='auth-container'>		
+			<Logo width='500px' />
 
-			<Router basename='/login'>
-				<Switch>
-					<Route path='/signup' component={ SignupPage } />
-					<Route path='/' component={ LoginPage } />
-				</Switch>
-			</Router>
+			<div style={ { 
+				position: 'absolute',
+				top: '50%',
+				left: '50%',
+				transform: 'translate(-50%, -50%)',
+				margin: 'auto',
+				width: '90%',
+				maxWidth: '600px'
+			} }>
+				<Router basename='/login'>
+					<Switch>
+						<Route path='/signup' component={ SignupPage } />
+						<Route path='/' component={ LoginPage } />
+					</Switch>
+				</Router>
+			</div>
 		</div>
 	)
 }

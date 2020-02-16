@@ -1,12 +1,16 @@
-import React from 'react'
+import './Site.css'
+import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
+import LoadingOverlay from 'app/shared/LoadingOverlay'
 import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 import NavBar from './layout/Navbar/Navbar'
 import AnnouncementBanner from './layout/AnnouncementBanner'
 import AuthPage from './auth/components/AuthPage'
-import { HomePage, App, Shared } from './pages'
-import './Site.css'
+
+import HomePage from './pages/Home'
+const App = lazy(() => import('./pages/App'))
+const Shared = lazy(() => import('./pages/Shared'))
 
 let showAnnouncements = process.env.NODE_ENV !== 'development'
 
@@ -21,11 +25,13 @@ let Site = () => {
 							<Route path='/' render={ () => 
 								<React.Fragment>
 									<NavBar />
-									<Switch>
-										<Route path='/' component={ HomePage } exact={ true } />
-										<Route path='/app' component={ App } />
-										<Route path='/share' component={ Shared } />
-									</Switch>
+									<Suspense fallback={ <LoadingOverlay /> }>
+										<Switch>
+											<Route path='/' component={ HomePage } exact={ true } />
+											<Route path='/app' component={ App } />
+											<Route path='/share' component={ Shared } />
+										</Switch>
+									</Suspense>
 								</React.Fragment>
 							} />
 						</Switch>

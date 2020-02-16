@@ -1,44 +1,41 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
-import LoadoutItem from 'app/shared/images/LoadoutItem'
+import ResourceImage from 'app/shared/images/ResourceImage'
 
-export default function LoadoutResourceItem ({ resourceType, item, canDelete, onDelete }) {	
-	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
+const fillParent = {
+	display: 'flex',
+	width: '100%',
+	height: '100%'
+}
 
+const cornerText = {	
+	position: 'absolute',
+	bottom: '10px', 
+	right: 0, 
+	fontSize: '16px',
+}
+
+export default function LoadoutResourceItem({ item, resourceType }) {
 	return (
-		<React.Fragment>
-			<LoadoutItem
-				key={ item.id } 
-				item={ item } 
-				category={ resourceType }
-				canDelete={ canDelete }
-				onDelete={ () => setIsDialogOpen(true) }
-				textStyle={ { bottom: '-10px' } }
-			/>	
-					
-			{ canDelete && <ConfirmDeleteDialog 
-				isOpen={ isDialogOpen }
-				title={ item.getTitle() }
-				onConfirm={ () => onDelete(item.id) }
-				onClose={ () => setIsDialogOpen(false) }
-			/> }
-		</React.Fragment>
+		<div style={ fillParent }>
+			<ResourceImage 
+				style={ fillParent } 
+				resource={ item } 
+				resourceType={ resourceType }
+				rotate={ resourceType === 'attachments' } 
+			/>
+
+			<span style={ cornerText }>
+				{ item.getTitle() }
+			</span>
+		</div>
 	)
 }
 
 LoadoutResourceItem.propTypes = {
-	resourceType: PropTypes.oneOf(['clothing', 'gear']).isRequired,
+	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	item: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		getTitle: PropTypes.func.isRequired
+		getTitle: PropTypes.func.isRequired,
 	}).isRequired,
-	canDelete: PropTypes.bool,
-	onDelete: PropTypes.func
-}
-
-LoadoutResourceItem.defaultProps = {
-	canDelete: false,
-	onDelete: (itemId) => {}
 }

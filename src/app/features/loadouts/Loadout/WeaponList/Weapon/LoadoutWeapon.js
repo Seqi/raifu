@@ -1,56 +1,29 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import { LoadoutContext } from 'app/features/loadouts'
-import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
-import ResourceImage from 'app/shared/images/ResourceImage'
-import DeleteButton from 'app/shared/buttons/DeleteButton'
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
+import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
-import LoadoutWeaponAttachmentList from './AttachmentList/LoadoutWeaponAttachmentList'
-import './LoadoutWeapon.css'
+import LoadoutWeaponItem from './LoadoutWeaponItem'
+import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
 
 let LoadoutWeapon = ({ weapon }) => {
-	let [dialog, setDialog] = useState(null)
-	let { editable, deleteWeapon } = useContext(LoadoutContext)	
-
-	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
+	let isMobileMode = useIsMobileMode()
 
 	return (
-		<React.Fragment>	
-			<div className='loadout-weapon-item-container'>
-				<div className='loadout-weapon-item'>
-					<ReactiveTitle variant='h4' mobileVariant='h5' style={ { zIndex: 1 } }>
-						{ weapon.getTitle() }
-							
-						{ editable && <DeleteButton style={ {position: 'initial'} } onClick={ () => setDialog('delete') } /> }
-					</ReactiveTitle>
-
-					<ResourceImage 
-						style={ { width: '100%', height: '100%'	} }
-						resource={ weapon }
-						resourceType='weapons'
-					/>
-				</div>	
-
-				<LoadoutWeaponAttachmentList weapon={ weapon } />
+		<div style={ { display: 'flex', flexDirection: isMobileMode ? 'column': 'row' } }>
+			<div style={ { flex: '1' } } >
+				<LoadoutWeaponItem weapon={ weapon } />
 			</div>	
-				
-			{ editable && <ConfirmDeleteDialog
-				title={ weapon.getTitle() }
-				isOpen={ dialog === 'delete' }
-				onClose={ () => setDialog(null) }
-				onConfirm={ deleteNewWeapon }
-			/> }
-		</React.Fragment>
+
+			<div style={ { flex: 2 } }>
+				<LoadoutWeaponAttachmentList weapon={ weapon } />
+			</div>
+		</div>
 	)
 }
 
 LoadoutWeapon.propTypes = {
-	weapon: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		getTitle: PropTypes.func.isRequired
-	}).isRequired
+	weapon: PropTypes.object.isRequired,
 }
 
 export default LoadoutWeapon

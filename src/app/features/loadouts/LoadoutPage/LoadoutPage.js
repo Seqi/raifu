@@ -1,44 +1,41 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
-import { EditLoadoutDialog, SetShareableDialog } from './dialogs'
 import database from '../../../../firebase/database'
+import LoadoutActions from './LoadoutActions'
 
 class LoadoutPage extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			loadout: null,
-			activeDialog: null,
 			loading: true,
-			error: null
+			error: null,
 		}
 	}
 
 	componentDidMount() {
 		this.loadLoadout()
 	}
-
-	componentWillUnmount() {
-		this.isUnmounted = true
-	}
 	
 	loadLoadout() {
-		database.loadouts
-			.getById(this.props.match.params.id)
-			.then((loadout) => {
-				if (!this.isUnmounted) {
-					this.setState({ loadout, error: null, loading: false })
-				}
-			})
-			.catch((err) => this.setState({ error: 'An error occurred while loading loadout.', loading: false }))
-	}
-
-	setDialog(id) {
-		this.setState({ activeDialog: id })
+		this.setState({ loading: true, error: null }, () => {
+			database.loadouts
+				.getById(this.props.match.params.id)
+				.then((loadout) => {
+					if (!this.isUnmounted) {
+						this.setState({ loadout, loading: false })
+					}
+				})
+				.catch((err) => {
+					if (!this.isUnmounted) {
+						this.setState({ error: err, loading: false })
+					}
+				})
+		})
 	}
 
 	editLoadout(updatedLoadout) {
@@ -62,40 +59,32 @@ class LoadoutPage extends React.Component {
 	}
 
 	render() {
-		let { loading, error, loadout, activeDialog } = this.state
+		let { loading, error, loadout } = this.state
 
 		if (loading) {			
-			return <Loading />
+			return <LoadingOverlay />
 		}
 		
 		if (error) {
-			return <Error error={ error } onRetry={ () => this.loadLoadout() } />
+			if (error.status === 404) {
+				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
+			}
+
+			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 
 		return (
 			<React.Fragment>
-				<ReactiveTitle>
-					{ loadout.name }					
-					<i onClick={ () => this.setDialog('edit') } className='fa fa-pen icon-action' />
-					<i onClick={ () => this.setDialog('share') } className='fa fa-link icon-action' />
-				</ReactiveTitle>
+				<ReactiveTitle>{ loadout.name }</ReactiveTitle>
 
-				<div className='separator-padding'>
+				<div>
 					<LoadoutView loadout={ loadout } editable={ true } />
 				</div>
 
-				<EditLoadoutDialog
-					name={ loadout.name }
-					isOpen={ activeDialog === 'edit' }
-					onSave={ (name) => this.editLoadout(name) }
-					onClose={ () => this.setDialog() }
-				/>
-
-				<SetShareableDialog
+				<LoadoutActions
 					loadout={ loadout }
-					isOpen={ activeDialog === 'share' }
-					onShare={ (isShared) => this.onLoadoutUpdated({...loadout, shared: isShared }) }
-					onClose={ () => this.setDialog(null) }
+					editLoadout={ loadout => this.editLoadout(loadout) } 
+					onLoadoutUpdated={ loadout => this.onLoadoutUpdated(loadout) }
 				/>
 			</React.Fragment>
 		)

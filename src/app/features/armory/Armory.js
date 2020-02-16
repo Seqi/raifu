@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
 import database from '../../../firebase/database'
@@ -18,18 +18,18 @@ let Armory = () => {
 		setArmory(defaultState)
 
 		database.armory.get()
-			.then(result => mounted && setArmory({ armory: result, loading: false, error: false }))			
-			.catch(e => mounted && setArmory({ armory: null, loading: false, error: true }))
+			.then(result => mounted && setArmory({ armory: result, loading: false }))			
+			.catch(e => mounted && setArmory({ error: true, loading: false }))
 	}, [])
 
 	useEffect(() => { loadArmory() }, [loadArmory])
 
 	if (loading) {
-		return <Loading />
+		return <LoadingOverlay />
 	}
 
 	if (error) {
-		return <Error error='Could not load armory' onRetry={ loadArmory } />
+		return <ErrorOverlay message='Could not load armory.' onRetry={ loadArmory } />
 	}
 
 	return (

@@ -1,14 +1,8 @@
-.auth-container {
-	margin: 5% auto;
-	max-width: 600px;
+.login-form {
+	display: flex;
+	flex-direction: column;
 }
 
-.auth-logo-container {
-	margin-bottom: 24px;
-}
-
-@media(max-width: 768px) {
-	.auth-logo-container {
-		margin-top: 24px;
-	}	
+.login-form > *:not(:first-child) {
+	margin-top: 10px;
 }

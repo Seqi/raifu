@@ -13,7 +13,10 @@ export default createMuiTheme({
 	},
 	typography: {
 		useNextVariants: true,
-		fontFamily: ['Hind Siliguri', 'sans-serif'].join(',')
+		fontFamily: ['Alata', 'sans-serif'].join(','),
+		h2: {
+			fontSize: '4rem',
+		}
 	},
 	overrides: {
 		MuiCardHeader: {
@@ -22,6 +25,10 @@ export default createMuiTheme({
 					paddingLeft: '16px',
 					paddingRight: '16px'
 				}
+			},
+			content: {
+				borderBottom: '2px solid #CA054D',
+				paddingBottom: '5px',
 			},
 			title: {
 				textTransform: 'uppercase',
@@ -37,14 +44,13 @@ export default createMuiTheme({
 				'@media (max-width: 767px)': {
 					fontSize: '0.6rem'
 				},
-				paddingTop: '-5px',
-				paddingBottom: '5px',
-				borderBottom: '2px solid #CA054D'
 			}
 		},
-		MuiCardContent: {
+		MuiSpeedDial: {
 			root: {
-				wordBreak: 'break-all'
+				position: 'fixed',
+				bottom: '2%',
+				right: '3%',
 			}
 		}
 	}

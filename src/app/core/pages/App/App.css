@@ -1,12 +1,8 @@
-.app {
-	padding: 40px 60px;
-}
-
 .app-window {
 	margin-top: 1.1rem;
 }
 
-.section-container:not(:first-child) {
+section:not(:first-child) {
 	margin-top: 1.1rem;
 }
 
@@ -19,15 +15,13 @@
 	padding-bottom: 24px;
 }
 
-.icon-action {
-	margin-left: 10px;
-	font-size: 1rem;
-	cursor: pointer;
+.separator-padding:last-child {
+	padding-bottom: 0px;
 }
 
 @media (max-width: 767px) {
-	.app {
-		padding: 20px;
+	.app-window {
+		margin-top: 0.5rem;
 	}
 
 	.separator-padding {

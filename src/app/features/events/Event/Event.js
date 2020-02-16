@@ -1,13 +1,15 @@
 import React from 'react'
 
-import { Loading, Error } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 
 import EventHeader from './EventHeader'
 import EventLoadout from './EventLoadout'
-import database from '../../../../firebase/database'
 import EventLoadoutSelect from './EventLoadoutSelect'
 import EventInvite from './EventInvite'
 import EventUserSelect from './EventUserSelect'
+import EventActions from './EventActions' 
+
+import database from '../../../../firebase/database'
 
 class Event extends React.Component {
 
@@ -18,7 +20,7 @@ class Event extends React.Component {
 			loading: true,
 			error: null,
 			event: null,
-			activeUserIndex: 0
+			activeUserIndex: 0,
 		}
 	}
 
@@ -61,7 +63,7 @@ class Event extends React.Component {
 	}
 
 	loadEvent() {
-		this.setState({loading: true, error: null}, () => {
+		this.setState({ event: null, loading: true, error: null }, () => {
 			database.events.getById(this.props.match.params.id)
 				// Convert from JSON date format
 				.then(this.formatEvent)
@@ -72,7 +74,7 @@ class Event extends React.Component {
 				})
 				.catch(err => {
 					if (!this.isUnmounted) {
-						this.setState({ error: 'An error occurred while loading event.', loading: false})
+						this.setState({ error: err, loading: false})
 					}
 				})
 		})
@@ -131,34 +133,58 @@ class Event extends React.Component {
 		let { loading, error, event, activeUserIndex } = this.state
 
 		if (loading) {			
-			return <Loading />
+			return <LoadingOverlay />
 		}
 	
 		if (error) {
-			return <Error error={ error } onRetry={ () => this.loadEvent() } />
+			if (error.status === 404) {
+				return <ErrorOverlay message='Event not found.' icon='fa fa-crosshairs' />
+			}
+
+			return <ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
 		}
 
 		return (
 			<React.Fragment>
-				<EventHeader 
-					event={ event } 
-					updateEvent={ (event) => this.updateEvent(event) }
-					deleteEvent={ () => this.deleteEvent() }
-				/>
+				{/* Event Details */}
+				<EventHeader event={ event } />
 
-				{ event.users.length > 1 && 
-					<EventUserSelect event={ event } userIndex={ activeUserIndex } onUserIndexChange={ (idx) => this.onActiveUserChange(idx) } />
-				}
+				{/* Event Invite */}
+				{ event.users.length === 0 && (
+					<EventInvite event={ event } onJoin={ () => this.loadEvent() } /> 
+				)}
 
-				{	event.users.length === 0 ? 
-					<EventInvite event={ event } onJoin={ () => this.loadEvent() } /> :
+				{/* User Select */}
+				{ event.users.length > 1 && (
+					<EventUserSelect
+						users={ event.users }
+						userIndex={ activeUserIndex }
+						onUserIndexChange={ (idx) => this.onActiveUserChange(idx) } 
+					/>
+				)}
+
+				{/* User Event Content */}
+				{	event.users.length > 0 &&
 
 					this.currentUsersEvent.loadout ?
-						<EventLoadout event={ event } activeUserIndex={ activeUserIndex } removeLoadout={ () => this.removeLoadout() } /> :
-						this.currentUserIsSelf ? 
-							<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } /> :
-							<div style={ {textAlign: 'center' } }>User has not added a loadout to this event.</div>
+
+					<EventLoadout
+						event={ event }
+						activeUserIndex={ activeUserIndex }
+						removeLoadout={ () => this.removeLoadout() } 
+					/> :
+
+					this.currentUserIsSelf ? 
+						<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } /> :
+						<ErrorOverlay icon='fas fa-crosshairs' message='User has not added a loadout to this event.' />
 				}
+
+				{/* Event Actions */}
+				<EventActions 
+					event={ event } 
+					updateEvent={ evt => this.updateEvent(evt) } 
+					deleteEvent={ () => this.deleteEvent() }
+				/>
 			</React.Fragment>
 		)
 	}
