@@ -93,7 +93,7 @@ class LoadoutPage extends React.Component {
 			<React.Fragment>
 				<ReactiveTitle>{ loadout.name }</ReactiveTitle>
 
-				<div className='separator-padding'>
+				<div>
 					<LoadoutView loadout={ loadout } editable={ true } />
 				</div>
 
