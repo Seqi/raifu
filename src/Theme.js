@@ -16,6 +16,20 @@ export default createMuiTheme({
 		fontFamily: ['Alata', 'sans-serif'].join(','),
 		h2: {
 			fontSize: '4rem',
+		},
+		subtitle1: {
+			fontSize: '1.4rem',
+			'@media (max-width: 767px)': {
+				fontSize: '1.05rem',
+			}
+		}
+
+	},
+	props: {
+		MuiTypography: {
+			variantMapping: {
+				subtitle1: 'span',
+			}
 		}
 	},
 	overrides: {
@@ -24,7 +38,7 @@ export default createMuiTheme({
 				'@media (max-width: 767px)': {
 					paddingLeft: '16px',
 					paddingRight: '16px'
-				}
+				},
 			},
 			content: {
 				borderBottom: '2px solid #CA054D',
