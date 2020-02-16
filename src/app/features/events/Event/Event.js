@@ -21,7 +21,6 @@ class Event extends React.Component {
 			error: null,
 			event: null,
 			activeUserIndex: 0,
-			actionsMenuOpen: false,
 		}
 	}
 
@@ -129,13 +128,9 @@ class Event extends React.Component {
 	onActiveUserChange(userIndex) {
 		this.setState({ activeUserIndex: userIndex })
 	}
-
-	openActionsMenu(open) {
-		this.setState({ actionsMenuOpen: open })
-	}
 	
 	render() {
-		let { loading, error, event, activeUserIndex, actionsMenuOpen } = this.state
+		let { loading, error, event, activeUserIndex } = this.state
 
 		if (loading) {			
 			return <LoadingOverlay />
@@ -189,9 +184,6 @@ class Event extends React.Component {
 					event={ event } 
 					updateEvent={ evt => this.updateEvent(evt) } 
 					deleteEvent={ () => this.deleteEvent() }
-					open={ actionsMenuOpen }
-					onOpen={ () => this.openActionsMenu(true) }
-					onClose={ () => this.openActionsMenu(false) }
 				/>
 			</React.Fragment>
 		)
