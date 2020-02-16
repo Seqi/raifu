@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 
 import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 
-import EditEventDialog from '../EventList/EditEventDialog'
-import EventChecklist from './EventChecklist'
 import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
+import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { UserContext } from 'app/core/auth/contexts'
+
+import EventChecklist from './EventChecklist'
+import EditEventDialog from '../EventList/EditEventDialog'
 
 let isMyEvent = (user, event) => {
 	return event.organiser_uid === user.uid
@@ -16,20 +18,24 @@ let getMyLoadout = (event) => {
 	return event.users[0].loadout
 }
 
-function EventActions( { event, updateEvent, deleteEvent, open, onOpen, onClose }) {
+function EventActions( { event, updateEvent, deleteEvent }) {
 	let [ dialog, setDialog] = useState()
+	let [ speedDialOpen, setSpeedDialOpen ] = useState(false)
+
 	let user = useContext(UserContext)
+
+	let isAtBottom = useIsPageAtBottom()
 
 	return (
 		<React.Fragment>
 			{/* Actions */}
 			<SpeedDial 
-				ariaLabel='Loadout Actions' 
+				ariaLabel='Event Actions' 
 				icon={ <i className='fa fa-pen' /> }
-				onOpen={ onOpen }
-				onClose={ onClose }
-				open={ open }
-				hidden={ event.users.length === 0 }
+				onOpen={ () => setSpeedDialOpen(true) }
+				onClose={ () => setSpeedDialOpen(false) }
+				open={ speedDialOpen }
+				hidden={ event.users.length === 0 || isAtBottom }
 			>
 				<SpeedDialAction 
 					hidden={ isMyEvent(user, event) }
@@ -93,8 +99,4 @@ EventActions.propTypes = {
 	event: PropTypes.object.isRequired,
 	updateEvent: PropTypes.func.isRequired,
 	deleteEvent: PropTypes.func.isRequired,
-
-	open: PropTypes.bool.isRequired,
-	onOpen: PropTypes.func.isRequired,
-	onClose: PropTypes.func.isRequired,
 }
