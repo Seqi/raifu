@@ -23,7 +23,7 @@ const cookieOptions = {
 let AnnouncementBanner = ({ theme }) => {
 	const containerStyle = {
 		width: '100%',
-		position: 'absolute',
+		position: 'fixed',
 		bottom: 0,
 		left: 0,
 		zIndex: 100,
