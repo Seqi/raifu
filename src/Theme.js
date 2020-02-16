@@ -26,6 +26,10 @@ export default createMuiTheme({
 					paddingRight: '16px'
 				}
 			},
+			content: {
+				borderBottom: '2px solid #CA054D',
+				paddingBottom: '5px',
+			},
 			title: {
 				textTransform: 'uppercase',
 				fontSize: '1.1rem',
@@ -40,14 +44,6 @@ export default createMuiTheme({
 				'@media (max-width: 767px)': {
 					fontSize: '0.6rem'
 				},
-				paddingTop: '-5px',
-				paddingBottom: '5px',
-				borderBottom: '2px solid #CA054D'
-			}
-		},
-		MuiCardContent: {
-			root: {
-				wordBreak: 'break-all'
 			}
 		}
 	}
