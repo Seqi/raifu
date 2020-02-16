@@ -4,26 +4,21 @@ import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
-import { EditLoadoutDialog, SetShareableDialog } from './dialogs'
 import database from '../../../../firebase/database'
+import LoadoutActions from './LoadoutActions'
 
 class LoadoutPage extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			loadout: null,
-			activeDialog: null,
 			loading: true,
-			error: null
+			error: null,
 		}
 	}
 
 	componentDidMount() {
 		this.loadLoadout()
-	}
-
-	componentWillUnmount() {
-		this.isUnmounted = true
 	}
 	
 	loadLoadout() {
@@ -41,10 +36,6 @@ class LoadoutPage extends React.Component {
 					}
 				})
 		})
-	}
-
-	setDialog(id) {
-		this.setState({ activeDialog: id })
 	}
 
 	editLoadout(updatedLoadout) {
@@ -68,7 +59,7 @@ class LoadoutPage extends React.Component {
 	}
 
 	render() {
-		let { loading, error, loadout, activeDialog } = this.state
+		let { loading, error, loadout } = this.state
 
 		if (loading) {			
 			return <LoadingOverlay />
@@ -84,28 +75,16 @@ class LoadoutPage extends React.Component {
 
 		return (
 			<React.Fragment>
-				<ReactiveTitle>
-					{ loadout.name }					
-					<i onClick={ () => this.setDialog('edit') } className='fa fa-pen icon-action' />
-					<i onClick={ () => this.setDialog('share') } className='fa fa-link icon-action' />
-				</ReactiveTitle>
+				<ReactiveTitle>{ loadout.name }</ReactiveTitle>
 
-				<div className='separator-padding'>
+				<div>
 					<LoadoutView loadout={ loadout } editable={ true } />
 				</div>
 
-				<EditLoadoutDialog
-					name={ loadout.name }
-					isOpen={ activeDialog === 'edit' }
-					onSave={ (name) => this.editLoadout(name) }
-					onClose={ () => this.setDialog() }
-				/>
-
-				<SetShareableDialog
+				<LoadoutActions
 					loadout={ loadout }
-					isOpen={ activeDialog === 'share' }
-					onShare={ (isShared) => this.onLoadoutUpdated({...loadout, shared: isShared }) }
-					onClose={ () => this.setDialog(null) }
+					editLoadout={ loadout => this.editLoadout(loadout) } 
+					onLoadoutUpdated={ loadout => this.onLoadoutUpdated(loadout) }
 				/>
 			</React.Fragment>
 		)

@@ -45,6 +45,13 @@ export default createMuiTheme({
 					fontSize: '0.6rem'
 				},
 			}
+		},
+		MuiSpeedDial: {
+			root: {
+				position: 'fixed',
+				bottom: '2%',
+				right: '3%',
+			}
 		}
 	}
 })

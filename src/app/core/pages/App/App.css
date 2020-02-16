@@ -10,15 +10,13 @@ section:not(:first-child) {
 	margin: 0.8rem 0rem 0.2rem;
 }
 
-.icon-action {
-	margin-left: 10px;
-	font-size: 1rem;
-	cursor: pointer;
-}
-
 .separator-padding {
 	padding-top: 24px;
 	padding-bottom: 24px;
+}
+
+.separator-padding:last-child {
+	padding-bottom: 0px;
 }
 
 @media (max-width: 767px) {
