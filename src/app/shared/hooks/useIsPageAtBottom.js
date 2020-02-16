@@ -18,9 +18,7 @@ function useIsPageAtBottom() {
 
 		window.addEventListener('scroll', listener)
 
-		return () => {
-			window.removeEventListener('scroll', listener)
-		}
+		return () => window.removeEventListener('scroll', listener)
 	}, [isAtBottom])
 
 	return isAtBottom
