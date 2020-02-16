@@ -1,32 +1,24 @@
 import React from 'react'
 
-import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
-
 import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
-import { EditLoadoutDialog, SetShareableDialog } from './dialogs'
 import database from '../../../../firebase/database'
+import LoadoutActions from './LoadoutActions'
 
 class LoadoutPage extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			loadout: null,
-			activeDialog: null,
 			loading: true,
 			error: null,
-			speedDialOpen: false
 		}
 	}
 
 	componentDidMount() {
 		this.loadLoadout()
-	}
-
-	componentWillUnmount() {
-		this.isUnmounted = true
 	}
 	
 	loadLoadout() {
@@ -44,14 +36,6 @@ class LoadoutPage extends React.Component {
 					}
 				})
 		})
-	}
-
-	setDialog(id) {
-		this.setState({ activeDialog: id })
-	}
-
-	setSpeedDial(open) {
-		this.setState({ speedDialOpen: open })
 	}
 
 	editLoadout(updatedLoadout) {
@@ -75,7 +59,7 @@ class LoadoutPage extends React.Component {
 	}
 
 	render() {
-		let { loading, error, loadout, activeDialog, speedDialOpen } = this.state
+		let { loading, error, loadout } = this.state
 
 		if (loading) {			
 			return <LoadingOverlay />
@@ -97,40 +81,10 @@ class LoadoutPage extends React.Component {
 					<LoadoutView loadout={ loadout } editable={ true } />
 				</div>
 
-				<SpeedDial 
-					ariaLabel='Loadout Actions' 
-					icon={ <i className='fa fa-pen' /> }
-					onOpen={ () => this.setSpeedDial(true) }
-					onClose={ () => this.setSpeedDial(false) }
-					open={ speedDialOpen }
-				>
-					<SpeedDialAction 
-						icon={ <i className='fa fa-pen' /> }
-						onClick={  () => this.setDialog('edit') }
-						tooltipTitle='Edit'
-						tooltipOpen={ true }
-					/>
-
-					<SpeedDialAction 
-						icon={ <i className='fa fa-link' /> }
-						onClick={ () => this.setDialog('share') }
-						tooltipTitle='Share'
-						tooltipOpen={ true }
-					/>
-				</SpeedDial>
-
-				<EditLoadoutDialog
-					name={ loadout.name }
-					isOpen={ activeDialog === 'edit' }
-					onSave={ (name) => this.editLoadout(name) }
-					onClose={ () => this.setDialog(null) }
-				/>
-
-				<SetShareableDialog
+				<LoadoutActions
 					loadout={ loadout }
-					isOpen={ activeDialog === 'share' }
-					onShare={ (isShared) => this.onLoadoutUpdated({...loadout, shared: isShared }) }
-					onClose={ () => this.setDialog(null) }
+					editLoadout={ loadout => this.editLoadout(loadout) } 
+					onLoadoutUpdated={ loadout => this.onLoadoutUpdated(loadout) }
 				/>
 			</React.Fragment>
 		)
