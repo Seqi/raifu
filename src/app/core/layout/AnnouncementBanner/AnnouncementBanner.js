@@ -12,7 +12,7 @@ const getAnnouncements = (lastSeenId) => {
 	return announcements
 		.filter(announcement => lastSeenId ? announcement.id > lastSeenId : true)
 		.reverse()
-		.slice(0, 2)
+		.slice(0, 1)
 }
 
 const cookieName = 'announcement-last-seen'
