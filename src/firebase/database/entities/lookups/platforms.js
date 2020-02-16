@@ -79,7 +79,8 @@ export default {
 			'MSR',
 			'STRIKER',
 			'SVD',
-			'VSR'
+			'VSR',
+			'VSS',
 		],
 		shotguns: ['AA-12', 'Benelli M4', 'KSG', 'M1014', 'M870', 'SAS-12', 'SPAS-12', 'STF-12'],
 		pistols: [
