@@ -22,6 +22,10 @@ section:not(:first-child) {
 }
 
 @media (max-width: 767px) {
+	.app-window {
+		margin-top: 0.5rem;
+	}
+
 	.separator-padding {
 		padding-top: 16px;
 		padding-bottom: 16px;
