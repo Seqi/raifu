@@ -33,10 +33,6 @@ img.segment-image {
 	width: 75%;
 }
 
-.segment-text-container > span {
-	font-size: 1.4rem;
-}
-
 @media (max-width: 768px) {
 	.segment-container {
 		padding: 24px 0;

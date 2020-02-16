@@ -26,7 +26,7 @@ function HomePageSegment({ title, text, image, showBorder, flip, isMobileMode })
 					{ title }
 				</ReactiveTitle>
 
-				<Typography variant='span'>{ text }</Typography>
+				<Typography variant='subtitle1'>{ text }</Typography>
 			</div>
 		</div>
 	)
