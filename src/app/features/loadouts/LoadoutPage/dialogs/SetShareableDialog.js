@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
-import TextField from '@material-ui/core/TextField'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Button from '@material-ui/core/Button'
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	TextField,
+	Checkbox,
+	FormControlLabel,
+	Button, 
+	Tooltip
+} from '@material-ui/core' 
 
 import { Error } from 'app/shared'
 import database from '../../../../../firebase/database'
@@ -17,16 +20,17 @@ class SetShareableDialog extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			loadout: {
-				shared: this.props.loadout.shared
-			},
+			shared: this.props.loadout.shared,
+			copied: false,
 			loading: false,
 			error: null
 		}
+
+		this.inputRef = React.createRef()
 	}
 
 	get shareableLink() {
-		return `${window.location.origin}/share/loadout/${this.props.loadout.id}`
+		return `${window.location.host}/share/loadout/${this.props.loadout.id}`
 	}
 
 	handleShare(isShared) {
@@ -34,19 +38,32 @@ class SetShareableDialog extends Component {
 
 		this.setState({loading: true, error: null }, () => {
 			database.loadouts.edit(loadout.id, { ...loadout, shared: isShared})
-				.then(() => this.setState({ loading: false, error: null, loadout: { shared: isShared } }))
+				.then(() => this.setState({ loading: false, error: null, shared: isShared }))
 				.then(() => this.props.onShare(isShared))
 				.catch(err => this.setState({ 
 					error: 'An error occurred while making loadout shareable.', 
 					loading: false, 
-					loadout: { shared: !isShared } 
+					shared: !isShared,
 				}))
+		})
+	}
+
+	copy() {
+		// Re-do the animation if necessary
+		this.setState({copied: false}, () => {
+			let input = this.inputRef.current
+	
+			input.disabled = false
+			input.select()
+			document.execCommand('copy')
+			input.disabled = true
+			this.setState({ copied: true })
 		})
 	}
 
 	render() {
 		let { isOpen, onClose } = this.props
-		let { loading, error, loadout } = this.state
+		let { loading, error, shared, copied } = this.state
 
 		return (
 			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
@@ -55,19 +72,36 @@ class SetShareableDialog extends Component {
 				<DialogContent>					
 					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
 
-					<TextField
-						fullWidth={ true }
-						label='URL'
-						value={ loadout.shared ? this.shareableLink : 'Share this loadout to get a shareable URL' }
-						disabled={ true }
-					/>
+					{ shared ? (
+						<TextField
+							fullWidth={ true }
+							label='Your URL'
+							value={ this.shareableLink }
+							disabled={ true }
+							inputRef={ this.inputRef }
+							InputProps={ {
+								endAdornment: (
+									<Tooltip title='Copy link'>
+										<i 
+											onClick={ el => this.copy(el) }
+											style={ {marginLeft: '8px', fontSize: '1rem', cursor: 'pointer'} } 
+											className='fa fa-link'
+										/>
+									</Tooltip>
+								)
+							} }
+						/>
+					) :
+						<div>Share this loadout to get a shareable URL.</div>
+					}
 
 					<div>
+						{ copied && <span className='fade-in-short'>Copied!</span> }
 						<FormControlLabel 
 							style={ {float:'right'} }
 							label='Share'
 							onChange={ e => this.handleShare(e.target.checked) }
-							control={ <Checkbox disabled={ loading } checked={ loadout.shared } /> }
+							control={ <Checkbox disabled={ loading } checked={ shared } /> }
 						/>
 					</div>
 				</DialogContent>
