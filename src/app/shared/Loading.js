@@ -19,7 +19,7 @@ export default function Loading() {
 			<div className='lds-dual-ring' />
 
 			{ showReassurance && (
-				<div className='reassurance-text'>
+				<div className='reassurance-text fade-in'>
 					{ REASSURANCE_MESSAGE }
 				</div>
 			)}

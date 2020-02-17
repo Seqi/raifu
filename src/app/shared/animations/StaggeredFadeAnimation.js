@@ -1,9 +1,6 @@
 import React, { useCallback, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-// Can't do inline keyframes without styled-components!
-import './Fade.css'
-
 let fadeStyle = {
 	'opacity': 0,
 	'animationFillMode': 'forwards',
