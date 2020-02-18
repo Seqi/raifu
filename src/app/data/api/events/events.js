@@ -1,5 +1,5 @@
 import base from '../base-entity'
-import { toEntity } from '../entity.model'
+import { toEntity } from '../models/entity.model'
 import { CloudFunction } from '../../../functions'
 
 export default {

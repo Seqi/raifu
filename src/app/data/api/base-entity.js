@@ -1,23 +1,22 @@
-import { toEntity } from './entity.model'
 import { CloudFunction } from '../../functions'
 
-export default (entityName) => {
+export default (entityName, Entity) => {
 	return {
 		get: () =>
 			new CloudFunction()
 				.path(entityName)
 				.get()
-				.then((result) => result.map(toEntity)),
+				.then((result) => result.map(Entity)),
 		getById: (id) =>
 			new CloudFunction()
 				.path(`${entityName}/${id}`)
 				.get()
-				.then(toEntity),
+				.then(Entity),
 		add: (props) =>
 			new CloudFunction()
 				.path(entityName)
 				.post(props)
-				.then(toEntity),
+				.then(Entity),
 		edit: (id, props) =>
 			new CloudFunction()
 				.path(`${entityName}/${id}`)

@@ -6,7 +6,7 @@ import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 function EventHeader( { event }) {
 	return (
 		<React.Fragment>
-			<ReactiveTitle>{ event.name }</ReactiveTitle>
+			<ReactiveTitle>{ event.getTitle() }</ReactiveTitle>
 
 			<ReactiveTitle variant='h4' mobileVariant='h5'>
 				{ event.location } @ { event.date.toLocaleString() }
@@ -21,6 +21,7 @@ EventHeader.propTypes = {
 	event: PropTypes.shape({
 		name: PropTypes.string.isRequired,
 		location: PropTypes.string.isRequired,
-		date: PropTypes.object.isRequired
+		date: PropTypes.object.isRequired,
+		getTitle: PropTypes.func.isRequired,
 	}).isRequired,
 }

@@ -3,7 +3,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
-import database from '../../../firebase/database'
+
+import { armory as armoryService } from 'app/data/api'
 
 const defaultState = {armory: null, loading: true, error: false}
 
@@ -17,7 +18,7 @@ let Armory = () => {
 	let loadArmory = useCallback(() => {
 		setArmory(defaultState)
 
-		database.armory.get()
+		armoryService.get()
 			.then(result => mounted && setArmory({ armory: result, loading: false }))			
 			.catch(e => mounted && setArmory({ error: true, loading: false }))
 	}, [])
