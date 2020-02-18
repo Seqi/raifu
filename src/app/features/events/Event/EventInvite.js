@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { Button } from '@material-ui/core'
 
 import { LoadingOverlay } from 'app/shared'
-
-import database from '../../../../firebase/database'
+import { events } from 'app/data/api'
 
 const EventInvite = ({ event, onJoin }) => {
 	let [loading, setLoading] = useState(false)
@@ -12,7 +11,7 @@ const EventInvite = ({ event, onJoin }) => {
 	let joinEvent = () => {
 		setLoading(true)
 		
-		database.events.join(event.id)
+		events.join(event.id)
 			.then(() => setLoading(false))
 			.then(onJoin)
 	}

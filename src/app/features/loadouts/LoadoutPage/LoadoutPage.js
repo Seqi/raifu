@@ -1,10 +1,10 @@
 import React from 'react'
 
+import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
-import database from '../../../../firebase/database'
 import LoadoutActions from './LoadoutActions'
 
 class LoadoutPage extends React.Component {
@@ -23,7 +23,7 @@ class LoadoutPage extends React.Component {
 	
 	loadLoadout() {
 		this.setState({ loading: true, error: null }, () => {
-			database.loadouts
+			loadouts
 				.getById(this.props.match.params.id)
 				.then((loadout) => {
 					if (!this.isUnmounted) {
@@ -41,7 +41,7 @@ class LoadoutPage extends React.Component {
 	editLoadout(updatedLoadout) {
 		let { loadout } = this.state
 
-		return database.loadouts
+		return loadouts
 			.edit(loadout.id, { ...updatedLoadout })
 			.then(() => this.onLoadoutUpdated(updatedLoadout))
 			.then(() => this.setDialog(null))

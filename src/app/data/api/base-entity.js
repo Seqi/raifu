@@ -1,4 +1,4 @@
-import { CloudFunction } from '../../functions'
+import CloudFunction from './cloud-function'
 
 export default (entityName, Entity) => {
 	return {

@@ -4,7 +4,7 @@ import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
 
-import {  } from 'app/data/api'
+import { armory as armoryService, weapons, attachments, gear, clothing } from 'app/data/api'
 
 const defaultState = {armory: null, loading: true, error: false}
 
@@ -39,7 +39,7 @@ let Armory = () => {
 				<div className='section-container'>
 					<ResourceList
 						items={ armory.weapons }
-						resource={ database.weapons }
+						resource={ weapons }
 						resourceType='weapons'
 						renderAddDialog={ (isOpen, onClose, onSave) => (
 							<AddWeaponDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
@@ -52,7 +52,7 @@ let Armory = () => {
 				<div className='section-container'>
 					<ResourceList
 						items={ armory.attachments }
-						resource={ database.attachments }
+						resource={ attachments }
 						resourceType='attachments'
 						renderAddDialog={ (isOpen, onClose, onSave) => (
 							<AddAttachmentDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
@@ -65,7 +65,7 @@ let Armory = () => {
 				<div className='section-container'>
 					<ResourceList
 						items={ armory.gear }
-						resource={ database.gear }
+						resource={ gear }
 						resourceType='gear'
 						renderAddDialog={ (isOpen, onClose, onSave) => (
 							<AddGearDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
@@ -78,7 +78,7 @@ let Armory = () => {
 				<div className='section-container'>
 					<ResourceList
 						items={ armory.clothing }
-						resource={ database.clothing }
+						resource={ clothing }
 						resourceType='clothing'
 						renderAddDialog={ (isOpen, onClose, onSave) => (
 							<AddClothingDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />

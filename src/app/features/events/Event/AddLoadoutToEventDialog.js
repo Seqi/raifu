@@ -11,9 +11,8 @@ import {
 	Button
 } from '@material-ui/core'
 
+import { loadouts as loadoutService } from 'app/data/api'
 import { Loading, Error } from 'app/shared'
-
-import database from '../../../../firebase/database'
 
 export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onClose}) {
 	let [loadouts, setLoadouts] = useState({ data: [], loading: true, error: null })
@@ -25,7 +24,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 	let loadLoadouts = () => {
 		setLoadouts(prevLoadout => ({ ...prevLoadout, error: null, loading: true }))
 		
-		database.loadouts
+		loadoutService
 			.get()
 			.then((loadouts) => {
 				setLoadouts({ data: loadouts, loading: false, error: null })

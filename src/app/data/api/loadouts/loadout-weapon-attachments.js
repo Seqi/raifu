@@ -1,5 +1,5 @@
 import CloudFunction from '../cloud-function'
-import { toEntity } from '../models/entity.model'
+import { toEntity } from '../../models/entity.model'
 
 export default (loadoutId, weaponId) => ({
 	add: (attachmentId) =>
