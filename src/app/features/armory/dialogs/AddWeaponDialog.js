@@ -84,7 +84,7 @@ class AddWeaponDialog extends React.Component {
 					
 					<CascadingSelect
 						onChange={ (e) => this.handleInputChange(e) }
-						options={ platforms.weapon }
+						options={ platforms.weapons }
 						formatValues={ true }
 						labels={ ['Type', 'Platform'] }
 						names={ ['type', 'platform'] }

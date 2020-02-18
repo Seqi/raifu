@@ -1,5 +1,5 @@
 import CloudFunction from '../cloud-function'
-import ArmoryItem from '../../models/armory-item.model'
+import { toEntity } from 'app/data/models/entity.model'
 
 export default {
 	get: () =>
@@ -9,7 +9,7 @@ export default {
 			.then((result) => 
 				Object.keys(result)
 					.reduce((current, key) => {						
-						current[key] = result[key].map(e => new ArmoryItem(e))
+						current[key] = result[key].map(toEntity)
 						return current
 					}, {})
 			)

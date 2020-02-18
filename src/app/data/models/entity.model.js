@@ -2,20 +2,6 @@ class Entity {
 	constructor(entity) {
 		Object.keys(entity)
 			.forEach(key => this[key] = entity[key])
-
-		// Inefficient but gives us intellisense
-
-		// All
-		this.name = entity.name
-
-		// Armory Resource
-		this.nickname = entity.nickname
-		this.platform = entity.platform
-		this.model = entity.model
-		this.brand = entity.brand
-
-		// Event
-		this.date = entity.date
 	}
 
 	getTitle = () => {

@@ -3,10 +3,8 @@ import loadoutWeapons from './loadout-weapons'
 import loadoutGear from './loadout-gear'
 import loadoutClothing from './loadout-clothing'
 
-import Loadout from '../../models/loadout.model'
-
 export default {
-	...base('loadouts', Loadout),
+	...base('loadouts'),
 	loadout: (loadoutId) => ({
 		weapons: loadoutWeapons(loadoutId),
 		gear: loadoutGear(loadoutId),

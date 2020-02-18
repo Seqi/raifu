@@ -86,7 +86,7 @@ class AddAttachmentDialog extends React.Component {
 										
 					<CascadingSelect
 						onChange={ (e) => this.handleInputChange(e) }
-						options={ platforms.attachment }
+						options={ platforms.attachments }
 						formatValues={ true }
 						labels={ ['Type', 'Attachment'] }
 						names={ ['type', 'platform'] }
