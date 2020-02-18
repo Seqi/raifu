@@ -1,4 +1,4 @@
-import app from '../index'
+import app from '../../../firebase/index'
 
 const DEFAULT_REGION = 'us-central1'
 
@@ -19,7 +19,7 @@ function buildLocalUrl(region, path) {
 }
 
 class CloudFunction {
-	static useLocal = false
+	static useLocal = process.env.NODE_ENV === 'development'
 
 	constructor(region) {
 		this.region = region || DEFAULT_REGION

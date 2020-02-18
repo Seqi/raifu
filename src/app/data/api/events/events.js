@@ -1,6 +1,6 @@
 import base from '../base-entity'
 import { toEntity } from '../models/entity.model'
-import { CloudFunction } from '../../../functions'
+import CloudFunction from '../cloud-function'
 
 export default {
 	...base('events'),

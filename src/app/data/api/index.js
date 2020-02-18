@@ -1,26 +1,7 @@
-import armory from './armory/armory'
-import loadouts from './loadouts/loadouts'
-import events from './events/events'
-import brands from '../constants/brands'
-import platforms from '../constants/platforms'
-
-import base from './entities/base-entity'
-
-import ArmoryItem from '../models/armory-item.model'
-
-export default {
-	armory,
-	weapons: base('weapons', ArmoryItem),
-	attachments: base('attachments', ArmoryItem),
-	gear: base('gear', ArmoryItem),
-	clothing: base('clothing', ArmoryItem),
-	loadouts,
-	events,
-	brands,
-	platforms: {
-		weapon: platforms.weapons,
-		gear: platforms.gear,
-		attachment: platforms.attachments,
-		clothing: platforms.clothing
-	}
-}
+export { default as armory } from './armory'
+export { default as weapons } from './armory/weapons'
+export { default as attachments } from './armory/attachments'
+export { default as gear } from './armory/gear'
+export { default as clothing } from './armory/clothing'
+export { default as loadouts } from './loadouts/loadouts'
+export { default as events } from './events/events'

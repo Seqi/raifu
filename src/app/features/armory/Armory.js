@@ -4,7 +4,7 @@ import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
 
-import { armory as armoryService } from 'app/data/api'
+import {  } from 'app/data/api'
 
 const defaultState = {armory: null, loading: true, error: false}
 
