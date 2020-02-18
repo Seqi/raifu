@@ -5,6 +5,7 @@ class ArmoryItem {
 		this.platform = item.platform
 		this.model = item.model
 		this.brand = item.brand
+		this.type = item.type
 	}
 
 	getTitle = () => {

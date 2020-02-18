@@ -9,7 +9,7 @@ export default {
 			.then((result) => 
 				Object.keys(result)
 					.reduce((current, key) => {						
-						current[key] = result[key].map(ArmoryItem)
+						current[key] = result[key].map(e => new ArmoryItem(e))
 						return current
 					}, {})
 			)

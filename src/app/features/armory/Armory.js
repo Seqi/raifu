@@ -20,7 +20,7 @@ let Armory = () => {
 
 		armoryService.get()
 			.then(result => mounted && setArmory({ armory: result, loading: false }))			
-			.catch(e => mounted && setArmory({ error: true, loading: false }))
+			.catch(e => mounted && console.log(e) &&  setArmory({ error: true, loading: false }))
 	}, [])
 
 	useEffect(() => { loadArmory() }, [loadArmory])

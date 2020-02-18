@@ -6,17 +6,17 @@ export default (entityName, Entity) => {
 			new CloudFunction()
 				.path(entityName)
 				.get()
-				.then((result) => result.map(Entity)),
+				.then((result) => result.map(e => new Entity(e))),
 		getById: (id) =>
 			new CloudFunction()
 				.path(`${entityName}/${id}`)
 				.get()
-				.then(Entity),
+				.then(e => new Entity(e)),
 		add: (props) =>
 			new CloudFunction()
 				.path(entityName)
 				.post(props)
-				.then(Entity),
+				.then(e => new Entity(e)),
 		edit: (id, props) =>
 			new CloudFunction()
 				.path(`${entityName}/${id}`)
