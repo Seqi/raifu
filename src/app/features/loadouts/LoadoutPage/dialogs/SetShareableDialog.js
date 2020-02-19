@@ -13,8 +13,8 @@ import {
 	Tooltip
 } from '@material-ui/core' 
 
+import { loadouts } from 'app/data/api'
 import { Error } from 'app/shared'
-import database from '../../../../../firebase/database'
 
 class SetShareableDialog extends Component {
 	constructor(props) {
@@ -37,7 +37,7 @@ class SetShareableDialog extends Component {
 		let { loadout } = this.props 
 
 		this.setState({loading: true, error: null }, () => {
-			database.loadouts.edit(loadout.id, { ...loadout, shared: isShared})
+			loadouts.edit(loadout.id, { ...loadout, shared: isShared})
 				.then(() => this.setState({ loading: false, error: null, shared: isShared }))
 				.then(() => this.props.onShare(isShared))
 				.catch(err => this.setState({ 

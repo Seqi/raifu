@@ -4,12 +4,11 @@ import moment from 'moment'
 
 import { withTheme, Fab } from '@material-ui/core'
 
+import { events } from 'app/data/api'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarComponents'
 import EditEventDialog from './EditEventDialog'
 
-import { ErrorOverlay, LoadingOverlay } from 'app/shared'
-
-import database from '../../../../firebase/database'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendarComponents/Calendar.css'
 import './EventList.css'
@@ -45,7 +44,7 @@ class Events extends React.Component {
 		}
 
 		this.setState({ loading: true, error: false }, () => {
-			database.events.get()
+			events.get()
 				.then(events => {
 					if (!this.unmounted) {
 						this.setState({ events: events, error: false, loading: false })
@@ -80,7 +79,7 @@ class Events extends React.Component {
 			event.date = event.date.toISOString()
 		}
 
-		return database.events
+		return events
 			.add(event)
 			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
 			.then(() => this.closeDialog())

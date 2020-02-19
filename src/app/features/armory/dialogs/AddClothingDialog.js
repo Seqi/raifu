@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button'
 import { Error } from 'app/shared'
 import { CascadingSelect } from 'app/shared/selects'
 
-import database from '../../../../firebase/database'
+import { platforms } from 'app/data/constants'
 
 class AddClothingDialog extends React.Component {
 	constructor(props) {
@@ -84,7 +84,7 @@ class AddClothingDialog extends React.Component {
 					
 					<CascadingSelect
 						onChange={ (e) => this.handleInputChange(e) }
-						options={ database.platforms.clothing }
+						options={ platforms.clothing }
 						formatValues={ true }
 						labels={ ['Type', 'Clothing'] }
 						names={ ['type', 'platform'] }

@@ -13,7 +13,7 @@ import {
 import { Error } from 'app/shared'
 import { CascadingSelect } from 'app/shared/selects'
 
-import database from '../../../../firebase/database'
+import { platforms } from 'app/data/constants'
 
 class AddAttachmentDialog extends React.Component {
 	constructor(props) {
@@ -86,7 +86,7 @@ class AddAttachmentDialog extends React.Component {
 										
 					<CascadingSelect
 						onChange={ (e) => this.handleInputChange(e) }
-						options={ database.platforms.attachment }
+						options={ platforms.attachments }
 						formatValues={ true }
 						labels={ ['Type', 'Attachment'] }
 						names={ ['type', 'platform'] }

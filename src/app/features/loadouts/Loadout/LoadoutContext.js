@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import database from '../../../../firebase/database'
+import { loadouts } from 'app/data/api'
 
 let LoadoutContext = React.createContext()
 
@@ -13,7 +13,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	let addWeapon = useCallback(
 		async (weaponId) => {
 			// Save
-			const weapon = await database.loadouts.loadout(currentLoadout.id).weapons.add(weaponId)
+			const weapon = await loadouts.loadout(currentLoadout.id).weapons.add(weaponId)
 
 			// Update
 			setLoadout((currentLoadout) => ({
@@ -27,7 +27,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	let deleteWeapon = useCallback(
 		async (weaponId) => {
 			// Save
-			await database.loadouts.loadout(currentLoadout.id).weapons.delete(weaponId)
+			await loadouts.loadout(currentLoadout.id).weapons.delete(weaponId)
 
 			// Update
 			setLoadout((currentLoadout) => ({
@@ -42,7 +42,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 		async (weaponId, attachmentIds) => {
 			// Save
 			let addToDbPromises = attachmentIds.map((attachmentId) => {
-				return database.loadouts
+				return loadouts
 					.loadout(currentLoadout.id)
 					.weapons.weapon(weaponId)
 					.attachments.add(attachmentId)
@@ -73,7 +73,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	let deleteWeaponAttachment = useCallback(
 		async (weaponId, attachmentId) => {
 			// Save
-			await database.loadouts
+			await loadouts
 				.loadout(currentLoadout.id)
 				.weapons.weapon(weaponId)
 				.attachments.delete(attachmentId)
@@ -102,7 +102,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 		async (ids) => {
 			// Save
 			let promises = ids.map((gearId) => {
-				return database.loadouts.loadout(currentLoadout.id).gear.add(gearId)
+				return loadouts.loadout(currentLoadout.id).gear.add(gearId)
 			})
 
 			let newGear = await Promise.all(promises)
@@ -119,7 +119,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	let deleteGear = useCallback(
 		async (gearId) => {
 			// Save
-			await database.loadouts.loadout(currentLoadout.id).gear.delete(gearId)
+			await loadouts.loadout(currentLoadout.id).gear.delete(gearId)
 
 			// Update
 			setLoadout((currentLoadout) => ({
@@ -134,7 +134,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 		async (ids) => {
 			// Save
 			let promises = ids.map((clothingId) => {
-				return database.loadouts.loadout(currentLoadout.id).clothing.add(clothingId)
+				return loadouts.loadout(currentLoadout.id).clothing.add(clothingId)
 			})
 
 			let newClothing = await Promise.all(promises)
@@ -151,7 +151,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	let deleteClothing = useCallback(
 		async (clothingId) => {
 			// Save
-			await database.loadouts.loadout(currentLoadout.id).clothing.delete(clothingId)
+			await loadouts.loadout(currentLoadout.id).clothing.delete(clothingId)
 
 			// Update
 			setLoadout((currentLoadout) => ({

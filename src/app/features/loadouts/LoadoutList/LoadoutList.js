@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 
+import { loadouts as loadoutService } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
 import AddLoadoutDialog from './AddLoadoutDialog'
-import database from '../../../../firebase/database'
 
 const defaultState = {loadouts: null, loading: true, error: false}
 
@@ -17,7 +17,7 @@ let LoadoutList = ({ history, location }) => {
 	let loadLoadout = useCallback(() => {
 		setLoadout(defaultState)
 		
-		database.loadouts.get()
+		loadoutService.get()
 			.then(result => mounted.current && setLoadout({ loadouts: result, loading: false, error: false }))			
 			.catch(e => mounted.current && setLoadout({ loadouts: null, loading: false, error: true }))
 	}, [])
@@ -38,7 +38,7 @@ let LoadoutList = ({ history, location }) => {
 		<ResourceList
 			items={ loadouts }
 			showTitle={ false }
-			resource={ database.loadouts }
+			resource={ loadoutService }
 			resourceType='loadout'
 			onResourceClick={ viewLoadout }
 			renderAddDialog={ (isOpen, onClose, onSave) => (

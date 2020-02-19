@@ -1,5 +1,5 @@
-import { toEntity } from './entity.model'
-import { CloudFunction } from '../../functions'
+import CloudFunction from './cloud-function'
+import { toEntity } from '../models/entity.model'
 
 export default (entityName) => {
 	return {

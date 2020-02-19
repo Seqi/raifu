@@ -1,28 +1,33 @@
-let Entity = (entity) => ({
-	...entity,
-	getTitle: () => {
-		if (entity.name) {
-			return entity.name
+class Entity {
+	constructor(entity) {
+		Object.keys(entity)
+			.forEach(key => this[key] = entity[key])
+	}
+
+	getTitle = () => {
+		if (this.name) {
+			return this.name
 		}
 
-		return entity.nickname || `${entity.platform} ${entity.model}`
-	},
-	getSubtitle() {
+		return this.nickname || `${this.platform} ${this.model}`
+	}
+
+	getSubtitle = () => {
 		// Armory items
-		if (entity.brand) {
-			return entity.brand
+		if (this.brand) {
+			return this.brand
 		}
 
 		// Event items
-		if (entity.date) {
-			let d = new Date(entity.date)
-			return `${entity.location} @ ${d.toLocaleString()}`
+		if (this.date) {
+			let d = new Date(this.date)
+			return `${this.location} @ ${d.toLocaleString()}`
 		}
 
 		// Loadout items
 		return ''
 	}
-})
+}
 
 let toEntity = (entity) => {
 	// Don't convert any non-objects

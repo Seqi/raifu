@@ -1,5 +1,5 @@
-import { CloudFunction } from '../../../functions'
-import { toEntity } from '../entity.model'
+import CloudFunction from '../cloud-function'
+import { toEntity } from '../../models/entity.model'
 import loadoutWeaponAttachments from './loadout-weapon-attachments'
 
 export default (loadoutId) => ({

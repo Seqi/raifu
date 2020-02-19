@@ -9,10 +9,9 @@ import EventInvite from './EventInvite'
 import EventUserSelect from './EventUserSelect'
 import EventActions from './EventActions' 
 
-import database from '../../../../firebase/database'
+import { events } from 'app/data/api'
 
 class Event extends React.Component {
-
 	constructor(props) {
 		super(props)
 
@@ -64,7 +63,7 @@ class Event extends React.Component {
 
 	loadEvent() {
 		this.setState({ event: null, loading: true, error: null }, () => {
-			database.events.getById(this.props.match.params.id)
+			events.getById(this.props.match.params.id)
 				// Convert from JSON date format
 				.then(this.formatEvent)
 				.then(event => {
@@ -91,7 +90,7 @@ class Event extends React.Component {
 			updatedEvent.date = updatedEvent.date.toISOString()
 		}
 
-		return database.events.edit(this.state.event.id, updatedEvent)
+		return events.edit(this.state.event.id, updatedEvent)
 			.then(() => this.setState((prevState) => {
 				return {
 					event: {
@@ -105,14 +104,14 @@ class Event extends React.Component {
 	}
 
 	deleteEvent() {
-		return database.events.delete(this.state.event.id)
+		return events.delete(this.state.event.id)
 			.then(() => this.props.history.push('/events'))
 	}
 
 	setLoadout(loadoutId) {
 		let eventId = this.state.event.id
 
-		return database.events.setLoadout(eventId, loadoutId)
+		return events.setLoadout(eventId, loadoutId)
 			.then(this.formatEvent)
 			.then(event => this.setState({ event }))
 	}
@@ -120,7 +119,7 @@ class Event extends React.Component {
 	removeLoadout() {
 		let eventId = this.state.event.id
 
-		return database.events.removeLoadout(eventId)
+		return events.removeLoadout(eventId)
 			.then(this.formatEvent)
 			.then(event => this.setState({ event }))
 	}

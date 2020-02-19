@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 
 import LoadoutContext from './LoadoutContext'
-import database from '../../../../firebase/database'
+import { armory as armoryService } from 'app/data/api'
 
 let AvailableArmoryContext = React.createContext()
 
@@ -30,7 +30,7 @@ let AvailableArmoryContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (editable && !armory) {
-			database.armory.get()
+			armoryService.get()
 				.then((userArmory) => setArmory(userArmory))
 		}
 	}, [armory, editable])
