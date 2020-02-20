@@ -2,23 +2,18 @@ import './Cards.css'
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { styles } from '@material-ui/core'
 
 import StaggeredFadeAnimation from 'app/shared/animations/StaggeredFadeAnimation'
 import { AddCard, ArmoryCard, LoadoutCard } from '.'
 
 class CardList extends Component {
-	componentDidMount() {
-		// Ensure we don't delay the animations once the component loaded
-		this.loaded = true
-	}
-
 	renderItems = (items, mappedCardType) => {
-		let { onCardClick, canDelete, onCardDelete, cardType } = this.props
+		let { onCardClick, onCardDelete, cardType } = this.props
 
 		let renderItem = (item) => {
 			let sharedProps = {
 				key: item.id,
-				canDelete: canDelete,
 				onClick: () => onCardClick(item),
 				onDelete: (e) => onCardDelete(item.id),
 			}
@@ -38,7 +33,7 @@ class CardList extends Component {
 	}
 
 	render() {
-		let { items, canAdd, onAdd, cardType } = this.props
+		let { items, onAdd, cardType } = this.props
 
 		let mappedCardType
 
@@ -53,7 +48,7 @@ class CardList extends Component {
 				<StaggeredFadeAnimation maxDuration={ 1 }>
 					{this.renderItems(items, mappedCardType)}
 
-					{canAdd && <AddCard onClick={ onAdd } cardType={ mappedCardType } />}
+					<AddCard onClick={ onAdd } cardType={ mappedCardType } />
 				</StaggeredFadeAnimation>
 			</div>
 		)
@@ -63,8 +58,6 @@ class CardList extends Component {
 CardList.propTypes = {
 	items: PropTypes.array,
 	cardType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing', 'loadout']).isRequired,
-	canAdd: PropTypes.bool,
-	canDelete: PropTypes.bool,
 	onAdd: PropTypes.func,
 	onCardClick: PropTypes.func,
 	onCardDelete: PropTypes.func
@@ -72,8 +65,6 @@ CardList.propTypes = {
 
 CardList.defaultProps = {
 	items: [],
-	canAdd: true,
-	canDelete: true,
 	onAdd: () => {},
 	onCardClick: () => {},
 	onCardDelete: () => {}
