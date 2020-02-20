@@ -1,4 +1,8 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme, } from '@material-ui/core/styles'
+
+const breakpoints = {
+	md: '@media (max-width: 767px)'
+}
 
 export default createMuiTheme({
 	palette: {
@@ -12,18 +16,16 @@ export default createMuiTheme({
 		}
 	},
 	typography: {
-		useNextVariants: true,
 		fontFamily: ['Alata', 'sans-serif'].join(','),
 		h2: {
 			fontSize: '4rem',
 		},
 		subtitle1: {
 			fontSize: '1.4rem',
-			'@media (max-width: 767px)': {
+			[breakpoints.md]: {
 				fontSize: '1.05rem',
 			}
 		}
-
 	},
 	props: {
 		MuiTypography: {
