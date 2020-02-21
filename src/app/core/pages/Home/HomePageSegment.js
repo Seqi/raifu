@@ -23,7 +23,6 @@ let SegmentContainer = styled(Box)(({ theme }) => ({
 let SegmentTextContainer = styled(Box)(({ theme }) => ({
 	textAlign: 'center',
 	'& *': {
-		display: 'block',
 		margin: 'auto',
 		maxWidth: '75%',
 		[theme.breakpoints.down('sm')]: {
@@ -39,6 +38,7 @@ let SegmentTitle = styled(Typography)(({ theme }) => ({
 		padding: theme.spacing(2)
 	},
 	[theme.breakpoints.down('sm')]: {
+		paddingTop: 0, // Space evenly between title/top border & image/bottom
 		fontSize: '2.2rem',
 	}
 }))
@@ -63,17 +63,16 @@ let SegmentImageContainer = styled(Box)(({ theme }) => ({
 
 function HomePageSegment({ title, text, image }) {
 	return (
-		<SegmentContainer display='flex' alignItems='center' paddingY={ { xs: 3, sm: 9 } }>
+		<SegmentContainer display='flex' alignItems='center' paddingY={ { xs: 6, sm: 9 } }>
 			<SegmentTextContainer>
 				<SegmentTitle variant='h2'>{ title }</SegmentTitle> 
-				<SegmentSubtitle variant='subtitle1'>{ text }</SegmentSubtitle>
+				<SegmentSubtitle variant='h5'>{ text }</SegmentSubtitle>
 			</SegmentTextContainer>
 			
 			<SegmentImageContainer>
 				<img alt={ title } src={ image } />
 			</SegmentImageContainer>
-		</SegmentContainer>
-			
+		</SegmentContainer>		
 	)
 }
 

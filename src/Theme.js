@@ -1,4 +1,4 @@
-import { createMuiTheme, } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
 
 export default createMuiTheme({
 	palette: {
@@ -9,14 +9,14 @@ export default createMuiTheme({
 		background: {
 			default: '#282b35',
 			paper: '#3B3E47'
-		}
+		},	
 	},
 	typography: {
 		fontFamily: ['Alata', 'sans-serif'].join(','),
 		h2: {
 			fontSize: '4rem',
 		},
-		subtitle1: {
+		h5: {
 			fontSize: '1.4rem'
 		}
 	},
@@ -27,13 +27,6 @@ export default createMuiTheme({
 			md: 960,
 			lg: 1280,
 			xl: 1600,
-		}
-	},
-	props: {
-		MuiTypography: {
-			variantMapping: {
-				subtitle1: 'span',
-			}
 		}
 	},
 	overrides: {
