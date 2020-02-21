@@ -1,48 +1,85 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useTheme, Typography } from '@material-ui/core'
+import { Typography, styled, Box } from '@material-ui/core'
 
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
-import './HomePageSegment.css'
+let SegmentContainer = styled(Box)(({ theme }) => ({
+	flexDirection: 'row',
+	'& *': {
+		flex: 1
+	},
+	'&:nth-child(even)': {
+		flexDirection: 'row-reverse'
+	},
+	'&:not(:first-child)': {
+		borderTop: `3px solid ${theme.palette.primary.main}`,
+	},
+	// Column takes precedence, if we're in sm mode, we don't
+	// want it setting the even elements to row-reverse
+	[theme.breakpoints.down('xs')]: {
+		flexDirection: 'column!important'
+	},
+}))
 
-function HomePageSegment({ title, text, image, showBorder, flip, isMobileMode }) {
-	let theme = useTheme()
-	
+let SegmentTextContainer = styled(Box)(({ theme }) => ({
+	textAlign: 'center',
+	'& *': {
+		flex: 1,
+		maxWidth: '75%',
+		[theme.breakpoints.down('sm')]: {
+			maxWidth: '90%'
+		}
+	},
+}))
+
+let SegmentTitle = styled(Typography)(({ theme }) => ({
+	padding: theme.spacing(3),
+	[theme.breakpoints.down('md')]: {
+		fontSize: '3rem',
+		padding: theme.spacing(2)
+	},
+	[theme.breakpoints.down('sm')]: {
+		fontSize: '2.2rem',
+	}
+}))
+
+let SegmentSubtitle = styled(Typography)(({ theme }) => ({	
+	[theme.breakpoints.down('sm')]: {
+		fontSize: '1.05rem',
+	}
+}))
+
+let SegmentImageContainer = styled(Box)(({ theme }) => ({
+	[theme.breakpoints.down('xs')]: {
+		paddingTop: theme.spacing(2)
+	},
+	'& img': {
+		display: 'block',
+		margin: '0 auto',
+		maxWidth: '80%',
+		maxHeight: '450px'
+	}
+}))
+
+function HomePageSegment({ title, text, image }) {
 	return (
-		<div className='segment-container' style={ { 
-			flexDirection: flip ? 'row-reverse' : 'row',
-			borderTop: showBorder ? `3px solid ${theme.palette.primary.main}` : null
-		} }>
-			<div>
-				<img className='segment-image' alt='Inventory management' src={ image } />
-			</div>
-
-			<div className='segment-text-container'>
-				<ReactiveTitle 
-					variant={ 'h2' } 
-					mobileVariant={ 'h4' }
-					style={ { padding: isMobileMode ? '16px' : '24px' } }
-				>
-					{ title }
-				</ReactiveTitle>
-
-				<Typography variant='subtitle1'>{ text }</Typography>
-			</div>
-		</div>
+		<SegmentContainer display='flex' alignItems='center' paddingY={ { xs: 3, sm: 9 } }>
+			<SegmentTextContainer display='flex' flexDirection='column' alignItems='center'>
+				<SegmentTitle variant='h2'>{ title }</SegmentTitle> 
+				<SegmentSubtitle variant='subtitle1'>{ text }</SegmentSubtitle>
+			</SegmentTextContainer>
+			
+			<SegmentImageContainer>
+				<img alt={ title } src={ image } />
+			</SegmentImageContainer>
+		</SegmentContainer>
+			
 	)
 }
 
 HomePageSegment.propTypes = {
 	title: PropTypes.string.isRequired,
 	text: PropTypes.string.isRequired,
-	image: PropTypes.any.isRequired, // Temp any,
-	showBorder: PropTypes.bool.isRequired,
-	flip: PropTypes.bool,
-	isMobileMode: PropTypes.bool.isRequired
-}
-
-HomePageSegment.defaultProps = {
-	flip: false
+	image: PropTypes.string.isRequired,
 }
 
 export default HomePageSegment

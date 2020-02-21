@@ -1,9 +1,5 @@
 import { createMuiTheme, } from '@material-ui/core/styles'
 
-const breakpoints = {
-	md: '@media (max-width: 767px)'
-}
-
 export default createMuiTheme({
 	palette: {
 		type: 'dark',
@@ -21,10 +17,16 @@ export default createMuiTheme({
 			fontSize: '4rem',
 		},
 		subtitle1: {
-			fontSize: '1.4rem',
-			[breakpoints.md]: {
-				fontSize: '1.05rem',
-			}
+			fontSize: '1.4rem'
+		}
+	},
+	breakpoints: {
+		values: {
+			xs: 0,
+			sm: 600,
+			md: 960,
+			lg: 1280,
+			xl: 1600,
 		}
 	},
 	props: {

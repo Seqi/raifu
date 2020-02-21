@@ -1,6 +1,7 @@
 import React from 'react'
 
-import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
+import { Container } from '@material-ui/core'
+
 import HomePageSegment from './HomePageSegment'
 import Logo from '../../layout/Logo'
 
@@ -33,22 +34,20 @@ const segments = [
 ]
 
 export default function HomePage() {
-	let isMobileMode = useIsMobileMode(768)
-
 	return (
-		<React.Fragment>
+		<Container maxWidth='xl' fixed={ true }>
 			<Logo />
 
-			{ segments.map((segment, i) => 
-				<HomePageSegment key={ i } 
-					title={ segment.title } 
-					text={ segment.text } 
-					image={ segment.image } 
-					showBorder={ i > 0 }
-					flip={ i % 2 === 0 }
-					isMobileMode={ isMobileMode }
-				/>
-			) }
-		</React.Fragment>
+			<div>
+				{ segments.map((segment, i) => 
+					<HomePageSegment key={ i } 
+						title={ segment.title } 
+						text={ segment.text } 
+						image={ segment.image } 
+						showBorder={ i > 0 }
+					/>
+				) }
+			</div>
+		</Container>
 	)
 }
