@@ -73,7 +73,7 @@ class AddResourceDialog extends Component {
 				<DialogContent>
 					{ loading && <Loading /> }
 
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 
 					{ allowMultiple && selectedIds.length > 0 && 
 						<DialogContentText>{ selectedIds.length } items selected.</DialogContentText> 

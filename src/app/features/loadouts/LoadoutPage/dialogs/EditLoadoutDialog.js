@@ -59,7 +59,7 @@ class EditLoadoutNameDialog extends Component {
 				<DialogTitle>Change loadout name</DialogTitle>
 
 				<DialogContent>					
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 
 					<TextField
 						label='Name'
