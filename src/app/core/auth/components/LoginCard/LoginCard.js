@@ -33,7 +33,7 @@ let LoginCard = () => {
 				<LoginForm onSubmit={ loginWithEmail } />
 
 				<Box textAlign='center' marginTop={ 1.5 }>
-					<div>Or sign in with..</div>					
+					<div>OR SIGN IN WITH</div>					
 					<LoginProviders loginWithTwitter={ loginWithTwitter } loginWithGoogle={ loginWithGoogle } />
 				</Box>
 			</AuthCardContent>
