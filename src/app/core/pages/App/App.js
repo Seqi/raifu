@@ -36,7 +36,7 @@ let App = ({ location, history }) => {
 	return (
 		<Router basename='/app'>
 			<React.Fragment>
-				<Tabs centered={ true } value={ tabIndex } onChange={ (evt, idx) => setTabIndex(idx) }>
+				<Tabs width='100%' variant='fullWidth' centered={ true } value={ tabIndex } onChange={ (evt, idx) => setTabIndex(idx) }>
 					<Tab label='Armory' component={ Link } to='/armory' />
 					<Tab label='Loadouts' component={ Link } to='/loadouts' />
 					<Tab label='Events' component={ Link } to='/events' />
