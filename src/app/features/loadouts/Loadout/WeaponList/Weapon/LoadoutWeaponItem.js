@@ -21,7 +21,7 @@ let LoadoutWeaponItem = ({ weapon }) => {
 					dialogTitle={ weapon.getTitle() } 
 					canDelete={ editable } 
 					onDelete={ deleteNewWeapon }
-					style={ { position: 'initial'} }
+					absolute={ false }
 				>
 					{ weapon.getTitle() }
 				</Deletable>

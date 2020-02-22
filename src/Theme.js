@@ -9,7 +9,7 @@ export default createMuiTheme({
 		background: {
 			default: '#282b35',
 			paper: '#3B3E47'
-		},	
+		},
 	},
 	typography: {
 		fontFamily: ['Alata', 'sans-serif'].join(','),
