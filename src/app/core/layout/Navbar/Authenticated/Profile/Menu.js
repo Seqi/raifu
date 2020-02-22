@@ -31,7 +31,7 @@ const AuthenticatedUserMenu = ({ anchor, onClose }) => {
 }
 
 AuthenticatedUserMenu.propTypes = {
-	anchor: PropTypes.element,
+	anchor: PropTypes.any,
 	onClose: PropTypes.func.isRequired,
 }
 
