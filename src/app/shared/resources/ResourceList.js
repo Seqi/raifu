@@ -1,29 +1,20 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import CardList from 'app/shared/cards/CardList'
 
 const ResourceList = ({
-	showTitle,
 	items,
 	addResource,
 	deleteResource,
 	resourceType,
 	onResourceClick,
-	renderAddDialog
+	addDialog
 }) => {
 	let [dialog, setDialog] = useState(null)
 
 	return (
 		<React.Fragment>
-			{ showTitle && 
-				<ReactiveTitle>
-					{ /* eslint-disable-next-line newline-per-chained-call */ }
-					{ resourceType.charAt(0).toUpperCase() + resourceType.slice(1) }
-				</ReactiveTitle>
-			}
-
 			<CardList
 				items={ items }
 				cardType={ resourceType }
@@ -32,35 +23,31 @@ const ResourceList = ({
 				onCardDelete={ deleteResource }
 			/>						
 
-			{ renderAddDialog(
+			{ React.createElement(addDialog, {
 				// Is Open
-				dialog === 'add',
+				isOpen: dialog === 'add',
 				// OnClose
-				() => setDialog(null),
+				onClose: () => setDialog(null),
 				// OnSave
-				addResource
-			)}
+				onSave: addResource
+			}) }
 		</React.Fragment>
 	)
 }
 
 ResourceList.propTypes = {
-	showTitle: PropTypes.bool,
 	resourceType: PropTypes.oneOf([
 		'weapons', 'attachments', 'gear', 'clothing', 'loadout'
 	]).isRequired,
 	onResourceClick: PropTypes.func,
-	renderAddDialog: PropTypes.func.isRequired,
+	addDialog: PropTypes.func.isRequired,
 
 	items: PropTypes.array.isRequired,
-	loading: PropTypes.bool.isRequired,
-	error: PropTypes.bool.isRequired,
 	addResource: PropTypes.func.isRequired,
 	deleteResource: PropTypes.func.isRequired,
 }
 
 ResourceList.defaultProps = {
-	showTitle: true,
 	onResourceClick: (id) => { }
 }
 
