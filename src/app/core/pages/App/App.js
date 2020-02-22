@@ -47,7 +47,7 @@ let App = ({ location, history }) => {
 				</Container>
 
 				<Container maxWidth={ false }>
-					<Box pt={ 2 }>
+					<Box paddingY={ 2 }>
 						<Suspense fallback={ <LoadingOverlay /> }>
 							<Switch>
 								<AuthenticatedRoute path='/armory' component={ Armory } onFail={ onAuthFailure } />
