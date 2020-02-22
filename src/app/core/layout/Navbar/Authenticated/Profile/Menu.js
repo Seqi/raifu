@@ -31,8 +31,12 @@ const AuthenticatedUserMenu = ({ anchor, onClose }) => {
 }
 
 AuthenticatedUserMenu.propTypes = {
-	anchor: PropTypes.element.isRequired,
+	anchor: PropTypes.element,
 	onClose: PropTypes.func.isRequired,
+}
+
+AuthenticatedUserMenu.defaultProps = {
+	anchor: null
 }
 
 export default AuthenticatedUserMenu
