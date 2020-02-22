@@ -1,19 +1,18 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { withTheme } from '@material-ui/core'
 
-class AuthError extends PureComponent {
-	render() {
-		return (
-			<div style={ { color: this.props.theme.palette.primary.main, textAlign: 'center' } } className='auth-error'>
-				{this.props.message}
-			</div>
-		)
-	}
+import { Typography } from '@material-ui/core'
+
+const AuthError = ({ message }) => {
+	return (
+		<Typography color='primary' align='center' variant='h6'>
+			{ message }
+		</Typography>
+	)
 }
 
 AuthError.propTypes = {
 	message: PropTypes.string.isRequired
 }
 
-export default withTheme(AuthError)
+export default AuthError

@@ -1,23 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withTheme } from '@material-ui/core'
-import CardHeader from '@material-ui/core/CardHeader'
+import { withStyles, CardHeader } from '@material-ui/core'
 
-class AuthCardHeader extends Component {
-	getStyle() {
-		return {
-			textAlign: 'center',
-			backgroundColor: this.props.theme.palette.primary.main
-		}
+const AuthCardHeader = withStyles(theme => ({
+	root: {
+		backgroundColor: theme.palette.primary.main,
+		textAlign: 'center',
+	},
+	title: {
+		fontSize: '1.1rem !important',
+		fontWeight: 700
 	}
+}))(CardHeader)
 
-	render() {
-		return <CardHeader style={ this.getStyle() } title={ this.props.title } />
-	}
-}
-
-AuthCardHeader.propTypes = {
-	title: PropTypes.string.isRequired
-}
-
-export default withTheme(AuthCardHeader)
+export default AuthCardHeader
