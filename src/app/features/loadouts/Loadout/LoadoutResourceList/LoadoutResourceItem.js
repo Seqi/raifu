@@ -1,41 +1,57 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { Box, styled } from '@material-ui/core'
+
+import Deletable from 'app/shared/actions/Deletable'
 import ResourceImage from 'app/shared/images/ResourceImage'
 
-const fillParent = {
-	display: 'flex',
-	width: '100%',
-	height: '100%'
-}
+const RelativeContainer = styled(Box)({
+	position: 'relative',
+	height: '100%',
+})
 
-const cornerText = {	
+const ResourceImageTitle = styled(Box)({
 	position: 'absolute',
 	bottom: '10px', 
 	right: 0, 
-	fontSize: '16px',
-}
+	fontSize: '16px',	
+})
 
-export default function LoadoutResourceItem({ item, resourceType }) {
+
+export default function LoadoutResourceItem({ resourceType, item, canDelete, onDelete }) {
 	return (
-		<div style={ fillParent }>
-			<ResourceImage 
-				style={ fillParent } 
-				resource={ item } 
-				resourceType={ resourceType }
-				rotate={ resourceType === 'attachments' } 
-			/>
+		<RelativeContainer>
+			<Deletable 
+				canDelete={ canDelete } 
+				onDelete={ () => onDelete(item.id) }
+				dialogTitle={ item.getTitle() }
+			>
+				<ResourceImage
+					resource={ item } 
+					resourceType={ resourceType }
+					rotate={ resourceType === 'attachments' } 
+				/>
 
-			<span style={ cornerText }>
-				{ item.getTitle() }
-			</span>
-		</div>
+				<ResourceImageTitle>
+					{ item.getTitle() }
+				</ResourceImageTitle>
+			</Deletable>
+		</RelativeContainer>
 	)
 }
 
 LoadoutResourceItem.propTypes = {
-	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
+	resourceType: PropTypes.oneOf(['attachments', 'gear', 'clothing']).isRequired,
 	item: PropTypes.shape({
-		getTitle: PropTypes.func.isRequired,
+		id: PropTypes.string.isRequired,
+		getTitle: PropTypes.func.isRequired
 	}).isRequired,
+	canDelete: PropTypes.bool,
+	onDelete: PropTypes.func
+}
+
+LoadoutResourceItem.defaultProps = {
+	canDelete: false,
+	onDelete: (itemId) => {}
 }
