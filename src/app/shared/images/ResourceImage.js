@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import RotatedImage from './RotatedImage'
 
-export default function ResourceImage({ resourceType, resource, rotate, style }) {
+export default function ResourceImage({ resourceType, resource, rotate }) {
 	let [ image, setImage ] = useState()
 
 	useEffect(() => {
@@ -22,14 +22,13 @@ export default function ResourceImage({ resourceType, resource, rotate, style })
 	}, [resourceType, resource])
 
 	if (image) {
-		return <RotatedImage style={ style } image={ image } rotateBy={ rotate ? 45 : 0 } />
-	} else {
-		return <div />
+		return <RotatedImage image={ image } rotateBy={ rotate ? 45 : 0 } />
 	}
+	
+	return <div />	
 }
 
 ResourceImage.propTypes = {
-	style: PropTypes.object,
 	rotate: PropTypes.bool,
 	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	resource: PropTypes.shape({
@@ -39,6 +38,5 @@ ResourceImage.propTypes = {
 }
 
 ResourceImage.defaultProps = {
-	style: {},
 	rotate: false
 }

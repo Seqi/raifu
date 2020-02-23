@@ -1,6 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles({
+	fill: {
+		width: '100%',
+		height: '100%'
+	}
+})
+
 function calculateAddedXMargin(width, height, rotateBy) {
 	// Calculate the new width when the box is rotated
 	let newWidth = calculateBoundingBoxWidth(width, height, rotateBy)
@@ -21,7 +30,7 @@ function calculateBoundingBoxWidth(width, height, rotateBy) {
 	return Math.abs(width * Math.cos(rads)) + Math.abs(height * Math.sin(rads))
 }
 
-function RotatedImage({image, rotateBy, style}) {
+function RotatedImage({ image, rotateBy }) {
 	let [containerRef] = useState(React.createRef())
 	let [xMargin, setXMargin] = useState(0)
 	
@@ -39,12 +48,15 @@ function RotatedImage({image, rotateBy, style}) {
 
 		return () => window.removeEventListener('resize', setNewXMargin)
 	}, [setNewXMargin])
+
+	let classes = useStyles()
 	
 	return (
-		<div className='rotated-image-container' ref={ containerRef } style={ { paddingLeft: xMargin, paddingRight: xMargin } }>
+		<div className={ classes.fill } ref={ containerRef } style={ { paddingLeft: xMargin, paddingRight: xMargin } }>
 			<img alt=''
 				src={ image }
-				style={ { ...style, transform: `rotate(${rotateBy}deg)` } }
+				className={ classes.fill }
+				style={ { transform: `rotate(${rotateBy}deg)` } }
 				onLoad={ setNewXMargin } 
 			/>
 		</div>
@@ -54,12 +66,10 @@ function RotatedImage({image, rotateBy, style}) {
 RotatedImage.propTypes = {
 	image: PropTypes.string.isRequired,
 	rotateBy: PropTypes.number,
-	style: PropTypes.object
 }
 
 RotatedImage.defaultProps = {
 	rotateBy: 0,
-	style: {}
 }
 
 export default RotatedImage
