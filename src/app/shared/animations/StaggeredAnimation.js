@@ -34,7 +34,7 @@ const StaggeredAnimation = ({ minInterval, maxDuration, children }) => {
 	return (
 		React.Children.map(children, (child, index) => 
 			React.cloneElement(child, {
-				style: { animationDelay: `${getAnimationDelay(index)}s` }
+				style: { transitionDelay: `${getAnimationDelay(index)}s` }
 			})
 		)
 	)

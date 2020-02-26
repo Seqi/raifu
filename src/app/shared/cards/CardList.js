@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Grid } from '@material-ui/core'
+import { Grid, Fade } from '@material-ui/core'
 
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 
@@ -41,17 +41,21 @@ class CardList extends Component {
 
 		return (
 			<Grid container={ true } spacing={ 2 }>
-				<StaggeredAnimation maxDuration={ 1000 }>
+				<StaggeredAnimation maxDuration={ 1 }>
 
 					{ items.map(item => (
-						<Grid key={ item.id } item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
-							{ this.renderItem(item, mappedCardType) }
-						</Grid>
+						<Fade key={ item.id } in={ true } timeout={ 1000 }>
+							<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
+								{ this.renderItem(item, mappedCardType) }
+							</Grid>
+						</Fade>
 					))}
 					
-					<Grid key='add' item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
-						<AddCard onClick={ onAdd } cardType={ mappedCardType } />
-					</Grid>
+					<Fade key='add' in={ true } timeout={ 1000 }>
+						<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
+							<AddCard onClick={ onAdd } cardType={ mappedCardType } />
+						</Grid>
+					</Fade>
 				</StaggeredAnimation>
 			</Grid>
 		)
