@@ -12,6 +12,7 @@ class CardList extends Component {
 		let { onCardClick, onCardDelete, cardType } = this.props
 		let sharedProps = {
 			key: item.id,
+			canDelete: true,
 			onClick: () => onCardClick(item),
 			onDelete: (e) => onCardDelete(item.id),
 		}
