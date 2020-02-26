@@ -18,9 +18,9 @@ const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	}
 }))
 
-export default function ArmoryCard({ item, category, canDelete, onClick, onDelete }) {
+export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, className }) {
 	return (
-		<ArmoryCardContainer onClick={ onClick }>
+		<ArmoryCardContainer className={ className } onClick={ onClick }>
 			<Deletable canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ item.getTitle() }>
 				<ResourceCardHeader resource={ item } />
 
@@ -43,10 +43,13 @@ ArmoryCard.propTypes = {
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,
+	// Allows us to use styled components to style the ArmoryCard further
+	className: PropTypes.string,
 }
 
 ArmoryCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},
+	className: null
 }
