@@ -11,6 +11,9 @@ import { ResourceCard, ResourceCardHeader, ResourceCardContent } from './Resourc
 const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	width: '220px',
 	height: '300px',
+	'&:hover': {
+		transform: 'scale(1.05)',
+	},
 
 	[theme.breakpoints.down('xs')]: {
 		height: '200px',

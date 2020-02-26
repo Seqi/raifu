@@ -12,6 +12,9 @@ const LoadoutCardContainer = styled(ResourceCard)({
 	// For cards with non-height-affecting content (i.e. add card),
 	// give it some height
 	minHeight: '175px',
+	'&:hover': {
+		transform: 'scale(1.005)',
+	},
 })
 
 const LoadoutCardContent = styled(ResourceCardContent)({

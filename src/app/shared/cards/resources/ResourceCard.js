@@ -7,9 +7,6 @@ const ResourceCard = styled(Card)({
 	position: 'relative',
 		
 	transition: 'transform ease-in 0.15s',
-	'&:hover': {
-		transform: 'scale(1.05)',
-	},
 })
 
 // Use withStyles here as its easier to override the style rules for the inner elements
