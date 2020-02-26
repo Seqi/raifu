@@ -32,6 +32,8 @@ export default function ArmoryCard({ item, category, canDelete, onClick, onDelet
 	)
 }
 
+export { ArmoryCardContainer, ArmoryCard }
+
 ArmoryCard.propTypes = {
 	item: PropTypes.shape({
 		platform: PropTypes.string.isRequired,

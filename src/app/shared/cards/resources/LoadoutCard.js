@@ -8,13 +8,19 @@ import WeaponDisplay from 'app/shared/images/WeaponDisplay'
 
 import { ResourceCard, ResourceCardHeader, ResourceCardContent } from './ResourceCard'
 
+const LoadoutCardContainer = styled(ResourceCard)({
+	// For cards with non-height-affecting content (i.e. add card),
+	// give it some height
+	minHeight: '175px',
+})
+
 const LoadoutCardContent = styled(ResourceCardContent)({
 	overflow: 'unset'
 })
 
 export default function LoadoutCard({loadout, canDelete, onClick, onDelete }) {	
 	return (
-		<ResourceCard onClick={ onClick } >
+		<LoadoutCardContainer onClick={ onClick } >
 			<Deletable canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ loadout.getTitle() }>
 				<ResourceCardHeader resource={ loadout } />
 			
@@ -22,9 +28,11 @@ export default function LoadoutCard({loadout, canDelete, onClick, onDelete }) {
 					<WeaponDisplay weapons={ loadout.weapons } />
 				</LoadoutCardContent>
 			</Deletable>
-		</ResourceCard>
+		</LoadoutCardContainer>
 	)
 }
+
+export { LoadoutCardContainer, LoadoutCardContent, LoadoutCard }
 
 LoadoutCard.propTypes = {
 	loadout: PropTypes.shape({

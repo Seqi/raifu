@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { withTheme } from '@material-ui/core'
+import { Box, withTheme, IconButton } from '@material-ui/core'
 
 const buttonStyle = {
 	position: 'absolute',
@@ -19,11 +19,11 @@ const buttonStyle = {
 
 function AddButton({ theme, onClick }) {
 	return (
-		<div style={ { position: 'relative', height: '100%' } }>
-			<button onClick={ onClick } type='button' style={ buttonStyle }>
+		<Box display='flex' flex='1' height='100%' position='relative'>
+			<IconButton onClick={ onClick } type='button' style={ buttonStyle }>
 				<i style={ { color: theme.palette.primary.main } } className='fa fa-plus' />
-			</button>
-		</div>
+			</IconButton>
+		</Box>
 	)
 }
 

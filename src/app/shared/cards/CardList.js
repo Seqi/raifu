@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
 
 import StaggeredFadeAnimation from 'app/shared/animations/StaggeredFadeAnimation'
+
 import { AddCard, ArmoryCard, LoadoutCard } from '.'
 
 class CardList extends Component {
@@ -46,8 +47,10 @@ class CardList extends Component {
 							{ this.renderItem(item, mappedCardType) }
 						</Grid>
 					))}
-
-					<AddCard onClick={ onAdd } cardType={ mappedCardType } />
+					
+					<Grid key='add' item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
+						<AddCard onClick={ onAdd } cardType={ mappedCardType } />
+					</Grid>
 				</StaggeredFadeAnimation>
 			</Grid>
 		)
