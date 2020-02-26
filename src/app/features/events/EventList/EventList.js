@@ -2,7 +2,7 @@ import React from 'react'
 import BigCalendar from 'react-big-calendar' 
 import moment from 'moment'
 
-import { withTheme, Fab } from '@material-ui/core'
+import { Fab, Box, styled, withTheme } from '@material-ui/core'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared'
@@ -11,7 +11,20 @@ import EditEventDialog from './EditEventDialog'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendarComponents/Calendar.css'
-import './EventList.css'
+
+const EventListContainer = styled(Box)(({ theme }) => ({
+	height: '80vh',
+	
+	[theme.breakpoints.down('xs')]: {
+		height: '70vh',
+	},
+}))
+
+const EventFab = styled(Fab)({	
+	position: 'fixed',
+	bottom: '2%',
+	right: '3%',
+})
 
 class Events extends React.Component {
 
@@ -110,7 +123,7 @@ class Events extends React.Component {
 
 		return (
 			<React.Fragment>
-				<div className='event-list'>
+				<EventListContainer>
 					<BigCalendar 
 						localizer={ this.localizer } 
 						components={ {
@@ -139,11 +152,11 @@ class Events extends React.Component {
 						onSelectEvent={ event => this.view(event) }
 						eventPropGetter={ this.styleEvent }
 					/>
-				</div>
+				</EventListContainer>
 
-				<Fab onClick={ () => this.addEvent() } className='fab-add-event' color='primary' aria-label='Add'>
+				<EventFab onClick={ () => this.addEvent() } color='primary' aria-label='Add'>
 					<i className='fa fa-plus' />
-				</Fab>
+				</EventFab>
 
 				{ activeTimeslot && <EditEventDialog 
 					date={ activeTimeslot }

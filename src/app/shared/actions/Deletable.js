@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import DeleteButton from 'app/shared/buttons/DeleteButton'
 import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
 
-let Deletable = ({ dialogTitle, canDelete, onDelete, style, children }) => {
+let Deletable = ({ dialogTitle, canDelete, onDelete, absolute, children }) => {
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
 
 	return (
@@ -13,7 +13,7 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, style, children }) => {
 
 			{ canDelete && (
 				<React.Fragment>
-					<DeleteButton style={ style } onClick={ () => setIsDialogOpen(true) } /> 
+					<DeleteButton absolute={ absolute } onClick={ () => setIsDialogOpen(true) } /> 
 
 					<ConfirmDeleteDialog 
 						isOpen={ isDialogOpen }
@@ -28,6 +28,7 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, style, children }) => {
 }
 
 Deletable.propTypes = {
+	absolute: PropTypes.bool,
 	dialogTitle: PropTypes.string.isRequired,
 	canDelete: PropTypes.bool,
 	onDelete: PropTypes.func.isRequired,
@@ -35,6 +36,7 @@ Deletable.propTypes = {
 }
 
 Deletable.defaultProps = {
+	absolute: true,
 	canDelete: false,
 	style: {}
 }

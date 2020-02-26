@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Button, useTheme } from '@material-ui/core'
 
-function ErrorTextAlert({ error, onRetry, fillBackground, style }) {
+function ErrorTextAlert({ error, onRetry, fillBackground }) {
 	let theme = useTheme()
 	
 	return (
@@ -17,7 +17,8 @@ function ErrorTextAlert({ error, onRetry, fillBackground, style }) {
 			fontFamily: theme.typography.fontFamily,
 			fontSize: '1.2rem',
 			color: theme.palette.text.primary,
-			...style
+			padding: '8px 0',
+			marginBottom: '8px',
 		} }>
 			<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>
 				{ error || 'An error occurred.' }
@@ -32,14 +33,12 @@ ErrorTextAlert.propTypes = {
 	error: PropTypes.string,
 	onRetry: PropTypes.func,
 	fillBackground: PropTypes.bool,
-	style: PropTypes.object
 }
 
 ErrorTextAlert.defaultProps = {
 	error: '',
 	onRetry: null,
 	fillBackground: false,
-	style: {}
 }
 
 export default ErrorTextAlert

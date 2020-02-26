@@ -1,34 +1,41 @@
 import React from 'react'
 import PropType from 'prop-types'
 
-import { useTheme } from '@material-ui/core'
+import { Grid, styled } from '@material-ui/core'
 
 import { ArmoryCard } from 'app/shared/cards'
-import './ResourceSelect.css'
+
+const ResourceSelectCard = styled(
+	({ active, ...other }) => <ArmoryCard { ...other } />
+)(({ theme, active }) => ({	
+	height: '220px',
+	width: '161px',
+
+	[theme.breakpoints.down('xs')]: {
+		height: '170px',
+		width: '124px'
+	},
+	
+	transform: active ? 'scale(1.05)' : 'initial',
+	border: active ? `1px solid ${theme.palette.primary.main}` : 'initial',
+}))
 
 function ResourceSelect ({ items, category, selectedItemIds, onItemSelected }) {
-	let theme = useTheme()
-
-	const selectedCardStyle = {
-		transform: 'scale(1.05)',
-		border: `1px solid ${theme.palette.primary.main}`
-	}
-
 	return (
-		<div className='resource-select-list'>
+		<Grid container={ true } spacing={ 2 } justify='space-around'>
 			{ 
-				items.map(item => 
-					<ArmoryCard 
-						key={ item.id } 
-						category={ category }
-						item={ item } 
-						onClick={ () => onItemSelected(item.id) }
-						className='resource-select-card'
-						style={ selectedItemIds.find(id => id === item.id) ? selectedCardStyle : {} }
-					/>
-				)
+				items.map(item => (
+					<Grid key={ item.id } xs={ 6 } sm='auto' item={ true }>
+						<ResourceSelectCard
+							category={ category }
+							item={ item } 
+							onClick={ () => onItemSelected(item.id) }
+							active={ !!selectedItemIds.find(id => id === item.id) }
+						/>
+					</Grid>
+				))
 			}
-		</div>
+		</Grid>
 	)
 }
 

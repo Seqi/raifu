@@ -1,41 +1,34 @@
 import React, { useState, useCallback } from 'react'
 import { useCookies } from 'react-cookie'
-import { withTheme } from '@material-ui/styles'
+
+import { Slide, Box, styled } from '@material-ui/core'
 
 import AnnouncementBannerItem from './AnnouncementBannerItem'
-import announcements from './announcements'
-
-import './AnnouncementBanner.css'
-
-const getAnnouncements = (lastSeenId) => {
-	// Only take 2, don't wanna spam
-	return announcements
-		.filter(announcement => lastSeenId ? announcement.id > lastSeenId : true)
-		.reverse()
-		.slice(0, 1)
-}
+import announcementList from './announcements'
 
 const cookieName = 'announcement-last-seen'
-const cookieOptions = {
-	path: '/'
-}
+const cookieOptions = {	path: '/' }
 
-let AnnouncementBanner = ({ theme }) => {
-	const containerStyle = {
-		width: '100%',
-		position: 'fixed',
-		bottom: 0,
-		left: 0,
-		zIndex: 100,
+let AnnouncementBannerContainer = styled(Box)(({ theme }) => ({
+	width: '100%',
+	position: 'fixed',
+	bottom: 0,
+	zIndex: 100,
 		
-		textAlign: 'center',
-		padding: '0.3rem',
-		backgroundColor: theme.palette.primary.main,
-		color: theme.palette.text.primary
-	}
-	
+	textAlign: 'center',
+	padding: theme.spacing(1),
+	backgroundColor: theme.palette.primary.main,
+}))
+
+let AnnouncementBanner = () => {	
 	let [ cookies, setCookie ] = useCookies()
-	let [ announcements, setAnnouncements ] = useState(getAnnouncements(cookies[cookieName]))
+	let [ announcements, setAnnouncements ] = useState(() => {
+		let lastSeenAnnouncementId = cookies[cookieName]
+		return announcementList
+			.filter(announcement => !lastSeenAnnouncementId || announcement.id > lastSeenAnnouncementId)
+			.reverse()
+			.slice(0, 1)
+	})
 
 	let onBannerClose = useCallback((bannerItem) => {
 		// Remove the banner
@@ -53,13 +46,14 @@ let AnnouncementBanner = ({ theme }) => {
 	}
 
 	return (
-		<div className='slide-up' style={ containerStyle }>
-			{ 
-				announcements.map((announcement, i) => 
+		<Slide direction='up' in={ true }>
+			<AnnouncementBannerContainer>
+				{ announcements.map((announcement, i) => 
 					<AnnouncementBannerItem key={ i } onClose={ onBannerClose } announcement={ announcement } />)
-			}			
-		</div>
+				}			
+			</AnnouncementBannerContainer>
+		</Slide>
 	)
 }
 
-export default withTheme(AnnouncementBanner)
+export default AnnouncementBanner

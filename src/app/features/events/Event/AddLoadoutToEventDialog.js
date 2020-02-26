@@ -48,7 +48,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 
 				{ loadouts.error && !loadouts.loading && <Error error={ loadouts.error } onRetry={ loadLoadouts } /> }
 				{ loadouts.loading && !loadouts.error && <Loading /> }
-				{ saveError && <Error error={ saveError } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+				{ saveError && <Error error={ saveError } fillBackground={ true } /> }
 
 				{ !loadouts.error && !loadouts.loading && (
 					<TextField

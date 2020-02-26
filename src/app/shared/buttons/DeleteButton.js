@@ -1,23 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './DeleteButton.css'
+import { IconButton, styled } from '@material-ui/core'
 
-const DeleteButton = ({ onClick, style }) => {
+const DeleteButtonContainer = styled(
+	({ absolute, ...other }) => <IconButton { ...other } />
+)(({ theme, absolute }) => ({
+	position: absolute ? 'absolute' : 'initial',
+	top: 0,
+	right: 0,
+	fontSize: '1.1rem',
+	color: theme.palette.text.secondary
+}))
+
+const DeleteButton = ({ absolute, onClick }) => {
 	return (
-		<button type='button' className='avatar-button delete-button' style={ style } onClick={ onClick }>
+		<DeleteButtonContainer absolute={ absolute } onClick={ onClick }>
 			<i className='fa fa-times' />
-		</button>
+		</DeleteButtonContainer>
 	)
 }
 
 DeleteButton.propTypes = {
+	absolute: PropTypes.bool,
 	onClick: PropTypes.func.isRequired,
-	style: PropTypes.object
 }
 
 DeleteButton.defaultProps = {
-	style: {}
+	absolute: true
 }
 
 export default DeleteButton

@@ -1,32 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { Box } from '@material-ui/core'
+
 import LogoImage from 'assets/home/logo.png'
 
-let Logo = ({ width, maxWidth }) => {
+let Logo = ({ width }) => {
 	return (
-		<div
-			style={ {
-				maxWidth: maxWidth,
-				width: width,
-				margin: '0 auto',
-				paddingTop: '36px',
-				paddingBottom: '0px',
-			} }
-		>
+		<Box width={ width } maxWidth='95%' marginX='auto' pt={ 4 }>
 			<img style={ { width: '100%' } } src={ LogoImage } alt='Raifu Airsoft Loadout Management' />
-		</div>
+		</Box>
 	)
 }
 
 Logo.propTypes = {
 	width: PropTypes.string,
-	maxWidth: PropTypes.string,
 }
 
 Logo.defaultProps = {
 	width: '750px',
-	maxWidth: '95%'
 }
 
 export default Logo

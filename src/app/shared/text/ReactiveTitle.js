@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography'
 
-import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
+import { Typography, useMediaQuery } from '@material-ui/core'
 
 function ReactiveTitle({children, variant, mobileVariant, style}) {
-	let isMobileMode = useIsMobileMode()
+	let isMobileMode = useMediaQuery(theme => theme.breakpoints.down('xs'))
 
 	return (
 		<Typography style={ style } variant={ isMobileMode ? mobileVariant : variant }>

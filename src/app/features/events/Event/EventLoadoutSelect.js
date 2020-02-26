@@ -9,11 +9,9 @@ const EventLoadoutSelect = ({ event, setLoadout }) => {
 
 	return (
 		<React.Fragment>
-			<div style={ { paddingTop: '24px' } }>
-				<LoadoutSeparator showBottom={ true }>
-					<LoadoutAdd onClick={ () => setActiveDialog('add') } />
-				</LoadoutSeparator>
-			</div>
+			<LoadoutSeparator showBottom={ true }>
+				<LoadoutAdd onClick={ () => setActiveDialog('add') } />
+			</LoadoutSeparator>
 
 			<AddLoadoutToEventDialog 
 				eventTitle={ event.getTitle() }

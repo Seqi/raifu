@@ -37,13 +37,10 @@ let LoadoutList = ({ history, location }) => {
 	return (
 		<ResourceList
 			items={ loadouts }
-			showTitle={ false }
 			resource={ loadoutService }
 			resourceType='loadout'
 			onResourceClick={ viewLoadout }
-			renderAddDialog={ (isOpen, onClose, onSave) => (
-				<AddLoadoutDialog isOpen={ isOpen } onClose={ onClose } onSave={ onSave } />
-			) } 
+			addDialog={ AddLoadoutDialog } 
 		/>
 	)
 }
