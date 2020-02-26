@@ -33,28 +33,7 @@ export default createMuiTheme({
 		MuiCardHeader: {
 			root: {
 				textTransform: 'uppercase',
-				'@media (max-width: 767px)': {
-					paddingLeft: '16px',
-					paddingRight: '16px'
-				},
 			},
-			// content: {
-			// 	borderBottom: '2px solid #CA054D',
-			// 	paddingBottom: '5px',
-			// },
-			// title: {
-			// 	fontSize: '1.1rem',
-			// 	fontWeight: '700',
-			// 	'@media (max-width: 767px)': {
-			// 		fontSize: '0.8rem'
-			// 	}
-			// },
-			subheader: {
-				fontSize: '0.8rem',
-				'@media (max-width: 767px)': {
-					fontSize: '0.6rem'
-				},
-			}
 		},
 		MuiSpeedDial: {
 			root: {

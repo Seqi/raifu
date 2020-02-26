@@ -7,9 +7,9 @@ import AddButton from '../buttons/AddButton'
 
 export default class AddCard extends PureComponent {
 	render() {
-		let { className,  onClick, cardType, style } = this.props
+		let { className, onClick, cardType } = this.props
 		return (
-			<Card style={ style } className={ `${className} card add-card ${cardType}-card` }>
+			<Card className={ `${className} card add-card ${cardType}-card` }>
 				<AddButton onClick={ onClick } />
 			</Card>
 		)
@@ -19,12 +19,10 @@ export default class AddCard extends PureComponent {
 AddCard.propTypes = {
 	className: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
-	style: PropTypes.object,
 	cardType: PropTypes.oneOf(['armory', 'loadout'])
 }
 
 AddCard.defaultProps = {
 	className: '',
-	style: {},
 	cardType: 'armory'
 }

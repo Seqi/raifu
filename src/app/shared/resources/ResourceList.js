@@ -21,6 +21,7 @@ const ResourceList = ({
 				onAdd={ () => setDialog('add') }
 				onCardClick={ onResourceClick }
 				onCardDelete={ deleteResource }
+				fullWidth={ resourceType === 'loadout' }
 			/>						
 
 			{ React.createElement(addDialog, {

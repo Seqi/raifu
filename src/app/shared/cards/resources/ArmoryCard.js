@@ -1,26 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
+import { styled } from '@material-ui/core'
 
 import Deletable from 'app/shared/actions/Deletable'
 import ResourceImage from 'app/shared/images/ResourceImage'
 
-import './ArmoryCard.css'
+import { ResourceCard, ResourceCardHeader, ResourceCardContent } from './ResourceCard'
 
-export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, style, className }) {
+const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
+	width: '220px',
+	height: '300px',
+
+	[theme.breakpoints.down('xs')]: {
+		height: '200px',
+		width: '147px',
+	}
+}))
+
+export default function ArmoryCard({ item, category, canDelete, onClick, onDelete }) {
 	return (
-		<Card style={ style } onClick={ onClick } className={ `${className} card armory-card` }>
+		<ArmoryCardContainer onClick={ onClick }>
 			<Deletable canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ item.getTitle() }>
-				<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header'/>
+				<ResourceCardHeader resource={ item } />
 
-				<CardContent className='card-content'>
+				<ResourceCardContent>
 					<ResourceImage resource={ item } resourceType={ category } />
-				</CardContent>
+				</ResourceCardContent>
 			</Deletable>
-		</Card>
+		</ArmoryCardContainer>
 	)
 }
 
@@ -35,14 +43,10 @@ ArmoryCard.propTypes = {
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,
-	style: PropTypes.object,
-	className: PropTypes.string
 }
 
 ArmoryCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},
-	style: {},
-	className: ''
 }
