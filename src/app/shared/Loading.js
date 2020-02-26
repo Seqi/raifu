@@ -6,7 +6,7 @@ import { Box, Fade, Typography, styled } from '@material-ui/core'
 // falling back to css file for now...
 import './Loading.css'
 
-const REASSURANCE_TIME = 50
+const REASSURANCE_TIME = 3000
 const REASSURANCE_MESSAGE = 'Hold tight! This won\'t take a second.'
 
 const LoadingContainer = styled(Box)(({ theme }) => ({
