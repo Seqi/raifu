@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Grid } from '@material-ui/core'
 
-import StaggeredFadeAnimation from 'app/shared/animations/StaggeredFadeAnimation'
+import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 
 import { AddCard, ArmoryCard, LoadoutCard } from '.'
 
@@ -41,7 +41,7 @@ class CardList extends Component {
 
 		return (
 			<Grid container={ true } spacing={ 2 }>
-				<StaggeredFadeAnimation maxDuration={ 1000 }>
+				<StaggeredAnimation maxDuration={ 1000 }>
 
 					{ items.map(item => (
 						<Grid key={ item.id } item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
@@ -52,7 +52,7 @@ class CardList extends Component {
 					<Grid key='add' item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
 						<AddCard onClick={ onAdd } cardType={ mappedCardType } />
 					</Grid>
-				</StaggeredFadeAnimation>
+				</StaggeredAnimation>
 			</Grid>
 		)
 	}

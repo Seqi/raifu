@@ -1,15 +1,7 @@
 import React, { useCallback, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-let fadeStyle = {
-	'opacity': 0,
-	'animationFillMode': 'forwards',
-	'animationDuration': '1s',
-	'animationIterationCount': 1,
-	'animationName': 'fadein',
-}
-
-const StaggeredFadeAnimation = ({ minInterval, maxDuration, children }) => {
+const StaggeredAnimation = ({ minInterval, maxDuration, children }) => {
 	let childCount = React.Children.count(children)
 
 	let hasRendered = useRef(false)
@@ -30,9 +22,9 @@ const StaggeredFadeAnimation = ({ minInterval, maxDuration, children }) => {
 
 		// If the animation with the min interval will exceed the max duration,
 		// cut the interval length to fit
-		let animationWillExceedDuration = childCount * minInterval > maxDuration
+		let animationWillExceedMaxDuration = childCount * minInterval > maxDuration
 
-		if (animationWillExceedDuration) {
+		if (animationWillExceedMaxDuration) {
 			interval = maxDuration / childCount
 		}
 
@@ -42,23 +34,20 @@ const StaggeredFadeAnimation = ({ minInterval, maxDuration, children }) => {
 	return (
 		React.Children.map(children, (child, index) => 
 			React.cloneElement(child, {
-				style: {
-					...fadeStyle,
-					animationDelay: `${getAnimationDelay(index)}s`
-				}
+				style: { animationDelay: `${getAnimationDelay(index)}s` }
 			})
 		)
 	)
 }
 
-StaggeredFadeAnimation.propTypes = {
+StaggeredAnimation.propTypes = {
 	minInterval: PropTypes.number,
 	maxDuration: PropTypes.number,
 }
 
-StaggeredFadeAnimation.defaultProps = {
+StaggeredAnimation.defaultProps = {
 	minInterval: 0.2,
 	maxDuration: 0
 }
 
-export default StaggeredFadeAnimation
+export default StaggeredAnimation
