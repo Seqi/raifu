@@ -10,6 +10,7 @@ import { LoadoutContext } from 'app/features/loadouts'
 
 const LoadoutWeaponItemTitle = styled(Typography)(({ theme }) => ({
 	position: 'absolute',
+	zIndex: 1,
 	
 	[theme.breakpoints.down('xs')]: {
 		position: 'initial'
