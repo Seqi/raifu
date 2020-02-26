@@ -70,7 +70,7 @@ class SetShareableDialog extends Component {
 				<DialogTitle>Share loadout</DialogTitle>
 
 				<DialogContent>					
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 
 					{ shared ? (
 						<TextField

@@ -80,7 +80,7 @@ class AddGearDialog extends React.Component {
 				<DialogTitle>Add gear</DialogTitle>
 
 				<DialogContent>
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 					
 					<CascadingSelect
 						onChange={ (e) => this.handleInputChange(e) }

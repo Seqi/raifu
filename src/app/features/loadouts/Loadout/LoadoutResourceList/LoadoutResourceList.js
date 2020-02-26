@@ -1,11 +1,31 @@
 import React, { useState, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 
+import { Grid, Box, styled } from '@material-ui/core'
+
 import AddButton from 'app/shared/buttons/AddButton'
 
 import { LoadoutContext } from 'app/features/loadouts'
-import LoadoutResourceItemContainer from './LoadoutResourceItemContainer'
-import './LoadoutResourceList.css'
+import LoadoutResourceItem from './LoadoutResourceItem'
+
+const LoadoutResourceItemContainer = styled(Box)(({ theme }) => ({
+	flex: '1 1 auto',
+	minWidth: '250px',
+	maxWidth: '33%',
+	minHeight: '200px',
+	maxHeight: '300px',
+
+	padding: '1rem 1.5rem',
+	
+	[theme.breakpoints.down('xs')]: {
+		minWidth: '150px',
+		maxWidth: '50%',
+		minHeight: '100px',
+		maxHeight: '200px',
+	
+		padding: '0.4rem 1rem',
+	}
+}))
 
 let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, renderAddDialog }) => {
 	let [dialog, setDialog] = useState(null)
@@ -18,25 +38,25 @@ let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, r
 
 	return (
 		<React.Fragment>
-			<div className='loadout-resource-list-container'>				
+			<Grid container={ true }>
 				{ 
 					items.map(item => (
-						<div key={ item.id } className='loadout-resource-list-item'>
-							<LoadoutResourceItemContainer
+						<LoadoutResourceItemContainer key={ item.id }>
+							<LoadoutResourceItem
 								resourceType={ resourceType } 
 								item={ item }
 								canDelete={ editable }
 								onDelete={ deleteItem } />
-						</div>
+						</LoadoutResourceItemContainer>
 					)) 
 				}
 
 				{ editable && canAdd &&
-					<div className='loadout-resource-list-item'>
-						<AddButton onClick={ () => setDialog('add') } />
-					</div>
+				<LoadoutResourceItemContainer>
+					<AddButton onClick={ () => setDialog('add') } />
+				</LoadoutResourceItemContainer>
 				}
-			</div>
+			</Grid>			
 
 			{editable && canAdd &&
 				renderAddDialog(

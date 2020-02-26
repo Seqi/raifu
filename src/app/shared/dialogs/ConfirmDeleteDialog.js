@@ -46,7 +46,7 @@ class ConfirmDeleteDialog extends React.PureComponent {
 
 				{ error && (
 					<DialogContent style={ {paddingTop: 0, paddingBottom: 0} }>
-						<Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> 
+						<Error error={ error } fillBackground={ true } /> 
 					</DialogContent>
 				)}
 

@@ -20,9 +20,11 @@ let WeaponDisplay = ({ weapons }) => {
 	return (
 		<div style={ weaponDisplayContainerStyle }>
 			{
-				weapons.map((weapon) => 
-					<ResourceImage key={ weapon.id } resourceType='weapons' resource={ weapon } rotate={ true } />
-				)
+				weapons.map((weapon) => (
+					<div key={ weapon.id }>
+						<ResourceImage resourceType='weapons' resource={ weapon } rotate={ true } />
+					</div>
+				))
 			}
 		</div>
 	)

@@ -19,8 +19,8 @@ class LoginForm extends Component {
 	}
 
 	handleSubmit(evt) {
-		evt.preventDefault()
 		this.props.onSubmit(this.state.email, this.state.password)
+		evt.preventDefault()
 	}
 
 	formValid() {
@@ -29,25 +29,29 @@ class LoginForm extends Component {
 
 	render() {
 		return (
-			<form onSubmit={ (evt) => this.handleSubmit(evt) } className='login-form'>
+			<form onSubmit={ (evt) => this.handleSubmit(evt) }>
 				<TextField
 					id='email'
 					label='E-mail'
 					value={ this.state.email }
 					autoComplete={ 'email' }
 					onChange={ (evt) => this.handleChange(evt) }
+					fullWidth={ true }
 					autoFocus={ true }
 				/>
+				
 				<TextField
 					id='password'
 					label='Password'
 					type='password'
-					autoComplete={ 'current-password' }
+					margin='normal'
 					value={ this.state.password }
+					autoComplete={ 'current-password' }
 					onChange={ (evt) => this.handleChange(evt) }
+					fullWidth={ true }
 				/>
 
-				<Button disabled={ this.formValid() } variant='contained' color='primary' type='submit'>
+				<Button fullWidth={ true } disabled={ this.formValid() } variant='contained' color='primary' type='submit'>
 					Sign in
 				</Button>
 			</form>

@@ -22,12 +22,10 @@ const ResourceListContainer = ({ resource, items, ...props }) => {
 
 	return (
 		<ResourceList
-			{ ...props }
 			items={ currentItems }
-			loading={ false }
-			error={ false }
 			addResource={ addResource }
 			deleteResource={ deleteResource }
+			{ ...props }
 		/>
 	)
 }
@@ -35,7 +33,6 @@ const ResourceListContainer = ({ resource, items, ...props }) => {
 ResourceListContainer.propTypes = {
 	items: PropTypes.array.isRequired,
 	resource: PropTypes.shape({
-		get: PropTypes.func.isRequired,
 		add: PropTypes.func.isRequired,
 		delete: PropTypes.func.isRequired,
 	}).isRequired

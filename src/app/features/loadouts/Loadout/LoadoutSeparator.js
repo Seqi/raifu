@@ -1,28 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { Box, styled } from '@material-ui/core'
 
-import { useTheme } from '@material-ui/core'
+let LoadoutSeparator = styled(Box)(({ theme }) => ({	
+	borderTop: '1px solid',
+	borderColor: theme.palette.primary.main,
+	padding: theme.spacing(3, 0),
 
-let LoadoutSeparator = ({ children, showBottom }) => {
-	let theme = useTheme()
-
-	return (
-		<div className='separator-padding' style={ {
-			borderTop: '1px solid',
-			borderBottom: showBottom && '1px solid',
-			borderColor: theme.palette.primary.main
-		} }>
-			{ children }
-		</div>
-	)
-}		
-
-LoadoutSeparator.propTypes = {
-	showBottom: PropTypes.bool
-}
-
-LoadoutSeparator.defaultProps = {
-	showBottom: false
-}
+	[theme.breakpoints.down('xs')]: {
+		padding: theme.spacing(2, 0),
+	}
+}))
 
 export default LoadoutSeparator

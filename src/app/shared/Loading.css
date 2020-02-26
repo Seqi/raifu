@@ -1,6 +1,4 @@
 .load-icon {
-	font-size: 10rem;
-
 	animation: move 1.5s infinite ease;
 }
 
@@ -10,10 +8,6 @@
 }
 
 @media (max-width: 768px) {	
-	.load-icon {
-		font-size: 7rem;
-	}
-	
 	@keyframes move {
 		33% { transform: translateX(-50px); }
 		66% { transform: translateX(50px); }

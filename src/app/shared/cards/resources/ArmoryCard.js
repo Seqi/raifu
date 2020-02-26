@@ -1,28 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
+import { styled } from '@material-ui/core'
 
 import Deletable from 'app/shared/actions/Deletable'
 import ResourceImage from 'app/shared/images/ResourceImage'
 
-import './ArmoryCard.css'
+import { ResourceCard, ResourceCardHeader, ResourceCardContent } from './ResourceCard'
 
-export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, style, className }) {
+const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
+	width: '220px',
+	height: '300px',
+	'&:hover': {
+		transform: 'scale(1.05)',
+	},
+
+	[theme.breakpoints.down('xs')]: {
+		height: '200px',
+		width: '147px',
+	}
+}))
+
+export default function ArmoryCard({ item, category, canDelete, onClick, onDelete, className }) {
 	return (
-		<Card style={ style } onClick={ onClick } className={ `${className} card armory-card` }>
+		<ArmoryCardContainer className={ className } onClick={ onClick }>
 			<Deletable canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ item.getTitle() }>
-				<CardHeader title={ item.getTitle() } subheader={ item.getSubtitle() } className='card-header'/>
+				<ResourceCardHeader resource={ item } />
 
-				<CardContent className='card-content'>
+				<ResourceCardContent>
 					<ResourceImage resource={ item } resourceType={ category } />
-				</CardContent>
+				</ResourceCardContent>
 			</Deletable>
-		</Card>
+		</ArmoryCardContainer>
 	)
 }
+
+export { ArmoryCardContainer, ArmoryCard }
 
 ArmoryCard.propTypes = {
 	item: PropTypes.shape({
@@ -35,14 +48,13 @@ ArmoryCard.propTypes = {
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
 	onDelete: PropTypes.func,
-	style: PropTypes.object,
-	className: PropTypes.string
+	// Allows us to use styled components to style the ArmoryCard further
+	className: PropTypes.string,
 }
 
 ArmoryCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},
-	style: {},
-	className: ''
+	className: null
 }

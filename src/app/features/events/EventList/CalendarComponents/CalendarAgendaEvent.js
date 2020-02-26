@@ -2,15 +2,16 @@ import React from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { withTheme } from '@material-ui/core'
+import { useMediaQuery, useTheme } from '@material-ui/core'
 
 import WeaponDisplay from 'app/shared/images/WeaponDisplay'
-import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
 
-function CalendarAgendaEvent ({ event, theme }) {
+function CalendarAgendaEvent ({ event }) {
 	let location = useLocation()
 	let history = useHistory()
-	let isMobileMode = useIsMobileMode()
+
+	let theme = useTheme()
+	let isMobileMode = useMediaQuery(theme.breakpoints.down('xs'))
 
 	// TODO: remove this, temp solution
 	function findUsersLoadout(eventLoadouts) {
@@ -43,4 +44,4 @@ CalendarAgendaEvent.propTypes = {
 	event: PropTypes.object.isRequired
 }
 
-export default withTheme(CalendarAgendaEvent)
+export default CalendarAgendaEvent

@@ -20,8 +20,8 @@ class LoginForm extends Component {
 	}
 
 	handleSubmit(evt) {
-		evt.preventDefault()
 		this.props.onSubmit(this.state.email, this.state.password)
+		evt.preventDefault()
 	}
 
 	formValid() {
@@ -41,25 +41,30 @@ class LoginForm extends Component {
 					value={ this.state.email }
 					onChange={ (evt) => this.handleChange(evt) }
 					autoFocus={ true }
-					autoComplete={ 'off' }
+					fullWidth={ true }
+					autoComplete='off'
 					error={ this.state.email.length === 0 }
 				/>
 				<TextField
 					id='password'
 					label='Password'
 					type='password'
+					margin='normal'
 					value={ this.state.password }
 					onChange={ (evt) => this.handleChange(evt) }
-					autoComplete={ 'off' }
+					fullWidth={ true }
+					autoComplete='off'
 					helperText='Minimum of six characters'
 				/>
 				<TextField
 					id='confirmPassword'
 					label='Confirm password'
 					type='password'
+					margin='dense'
 					value={ this.state.confirmPassword }
 					onChange={ (evt) => this.handleChange(evt) }
-					autoComplete={ 'off' }
+					fullWidth={ true }
+					autoComplete='off'
 					error={ this.state.password !== this.state.confirmPassword }
 				/>
 

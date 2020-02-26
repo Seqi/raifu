@@ -1,4 +1,3 @@
-import './Site.css'
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
@@ -16,7 +15,7 @@ let showAnnouncements = process.env.NODE_ENV !== 'development'
 
 let Site = () => {
 	return (
-		<div className='app'>
+		<React.Fragment>
 			<Router>
 				<AuthContextProvider>
 					<UserContextProvider>
@@ -40,7 +39,7 @@ let Site = () => {
 			</Router>
 				
 			{ showAnnouncements && <AnnouncementBanner /> }
-		</div>
+		</React.Fragment>
 	)
 }
 
