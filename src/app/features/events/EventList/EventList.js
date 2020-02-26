@@ -20,6 +20,12 @@ const EventListContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
+const EventFab = styled(Fab)({	
+	position: 'fixed',
+	bottom: '2%',
+	right: '3%',
+})
+
 class Events extends React.Component {
 
 	constructor() {
@@ -148,9 +154,9 @@ class Events extends React.Component {
 					/>
 				</EventListContainer>
 
-				<Fab onClick={ () => this.addEvent() } className='fab-add-event' color='primary' aria-label='Add'>
+				<EventFab onClick={ () => this.addEvent() } color='primary' aria-label='Add'>
 					<i className='fa fa-plus' />
-				</Fab>
+				</EventFab>
 
 				{ activeTimeslot && <EditEventDialog 
 					date={ activeTimeslot }

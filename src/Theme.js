@@ -41,13 +41,6 @@ export default createMuiTheme({
 				bottom: '2%',
 				right: '3%',
 			}
-		},
-		MuiFab: {
-			root: {
-				position: 'fixed',
-				bottom: '2%',
-				right: '3%',
-			}
 		}
 	}
 })
