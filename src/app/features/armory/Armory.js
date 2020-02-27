@@ -2,33 +2,38 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Box, Typography, styled } from '@material-ui/core'
 
+import { armory as armoryService, weapons, attachments, gear, clothing } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared'
 import { ResourceList } from 'app/shared/resources'
-import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
+import { WeaponCard, AttachmentCard, GearCard, ClothingCard } from 'app/shared/cards'
 
-import { armory as armoryService, weapons, attachments, gear, clothing } from 'app/data/api'
+import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
 
 const defaultState = {armory: null, loading: true, error: false}
 
 const armorySections = [
 	{
 		resource: weapons,
-		resourceType: 'weapons',
+		resourceKey: 'weapons',
+		card: WeaponCard,
 		renderDialog: AddWeaponDialog,
 	},
 	{
 		resource: attachments,
-		resourceType: 'attachments',
+		resourceKey: 'attachments',
+		card: AttachmentCard,
 		renderDialog: AddAttachmentDialog
 	},
 	{
 		resource: gear,
-		resourceType: 'gear',
+		resourceKey: 'gear',
+		card: GearCard,
 		renderDialog: AddGearDialog
 	},
 	{
 		resource: clothing,
-		resourceType: 'clothing',
+		resourceKey: 'clothing',
+		card: ClothingCard,
 		renderDialog: AddClothingDialog
 	},
 ]
@@ -47,7 +52,7 @@ let ResourceTitle = styled(Typography)(({ theme }) => ({
 	},
 }))
 
-let Armory = () => {
+export default function Armory() {
 	let [{ armory, loading, error }, setArmory] = useState(defaultState)
 
 	let mounted = useRef(true)
@@ -71,19 +76,17 @@ let Armory = () => {
 	}
 
 	return armorySections.map(armorySection => (
-		<ResourceListContainer component='section' key={ armorySection.resourceType }>
+		<ResourceListContainer component='section' key={ armorySection.resourceKey }>
 			<ResourceTitle variant='h3'>
-				{ armorySection.resourceType }
+				{ armorySection.resourceKey }
 			</ResourceTitle>
 					
 			<ResourceList
-				items={ armory[armorySection.resourceType] }
+				items={ armory[armorySection.resourceKey] }
 				resource={ armorySection.resource }
-				resourceType={ armorySection.resourceType }
+				card={ armorySection.card }
 				addDialog={ armorySection.renderDialog } 
 			/>
 		</ResourceListContainer>
 	))
 }
-
-export default Armory
