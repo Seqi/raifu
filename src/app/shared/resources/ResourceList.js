@@ -1,35 +1,49 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import CardList from 'app/shared/cards/CardList'
+import { Grid } from '@material-ui/core'
+
+import StaggeredFadeAnimation from 'app/shared/animations/StaggeredFadeAnimation'
+import AddButton from 'app/shared/buttons/AddButton'
 
 const ResourceList = ({
+	addDialog,
 	items,
+	card,
+	onResourceClick,
 	addResource,
 	deleteResource,
-	resourceType,
-	onResourceClick,
-	addDialog
+	fullWidth,
 }) => {
 	let [dialog, setDialog] = useState(null)
 
 	return (
 		<React.Fragment>
-			<CardList
-				items={ items }
-				cardType={ resourceType }
-				onAdd={ () => setDialog('add') }
-				onCardClick={ onResourceClick }
-				onCardDelete={ deleteResource }
-				fullWidth={ resourceType === 'loadout' }
-			/>						
+			<Grid container={ true } spacing={ 2 }>
+				<StaggeredFadeAnimation maxDuration={ 1 }>
+
+					{ items.map(item => (
+						<Grid key={ item.id } item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>								
+							{ React.createElement(card, {
+								item: item,
+								canDelete: true,
+								onClick: () => onResourceClick(item),
+								onDelete: (e) => deleteResource(item.id)}
+							)}
+						</Grid>
+					))}
+					
+					<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
+						{ React.createElement(card.template, {}, (
+							<AddButton onClick={ addResource } />
+						)) }
+					</Grid>
+				</StaggeredFadeAnimation>
+			</Grid>
 
 			{ React.createElement(addDialog, {
-				// Is Open
 				isOpen: dialog === 'add',
-				// OnClose
 				onClose: () => setDialog(null),
-				// OnSave
 				onSave: addResource
 			}) }
 		</React.Fragment>
@@ -37,19 +51,19 @@ const ResourceList = ({
 }
 
 ResourceList.propTypes = {
-	resourceType: PropTypes.oneOf([
-		'weapons', 'attachments', 'gear', 'clothing', 'loadout'
-	]).isRequired,
-	onResourceClick: PropTypes.func,
 	addDialog: PropTypes.func.isRequired,
-
+	
 	items: PropTypes.array.isRequired,
+	card: PropTypes.func.isRequired,
+	onResourceClick: PropTypes.func,
 	addResource: PropTypes.func.isRequired,
 	deleteResource: PropTypes.func.isRequired,
+	fullWidth: PropTypes.bool,
 }
 
 ResourceList.defaultProps = {
-	onResourceClick: (id) => { }
+	onResourceClick: (id) => { },
+	fullWidth: false,
 }
 
 export default ResourceList

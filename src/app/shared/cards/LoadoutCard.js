@@ -6,7 +6,7 @@ import { styled } from '@material-ui/core'
 import Deletable from 'app/shared/actions/Deletable'
 import WeaponDisplay from 'app/shared/images/WeaponDisplay'
 
-import { ResourceCard, ResourceCardHeader, ResourceCardContent } from './ResourceCard'
+import { ResourceCard, ResourceCardHeader, ResourceCardContent } from './base/ResourceCard'
 
 const LoadoutCardContainer = styled(ResourceCard)({
 	// For cards with non-height-affecting content (i.e. add card),
@@ -21,7 +21,7 @@ const LoadoutCardContent = styled(ResourceCardContent)({
 	overflow: 'unset'
 })
 
-export default function LoadoutCard({loadout, canDelete, onClick, onDelete }) {	
+const LoadoutCard = ({ item: loadout, canDelete, onClick, onDelete }) => {	
 	return (
 		<LoadoutCardContainer onClick={ onClick } >
 			<Deletable canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ loadout.getTitle() }>
@@ -35,10 +35,13 @@ export default function LoadoutCard({loadout, canDelete, onClick, onDelete }) {
 	)
 }
 
+LoadoutCard.template = LoadoutCardContainer
+
 export { LoadoutCardContainer, LoadoutCardContent, LoadoutCard }
+export default LoadoutCard
 
 LoadoutCard.propTypes = {
-	loadout: PropTypes.shape({
+	item: PropTypes.shape({
 		getTitle: PropTypes.func.isRequired,
 		getSubtitle: PropTypes.func.isRequired,
 		weapons: PropTypes.array
