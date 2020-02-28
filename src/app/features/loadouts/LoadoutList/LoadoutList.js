@@ -26,7 +26,7 @@ let LoadoutList = ({ history, location }) => {
 
 	useEffect(() => { loadLoadout() }, [loadLoadout])
 
-	let viewLoadout = useCallback((loadout) => history.push(`${location.pathname}/${loadout.id}`), [history, location])
+	let viewLoadout = useCallback((loadout) => { history.push(`${location.pathname}/${loadout.id}`) }, [history, location])
 
 	if (loading) {
 		return <LoadingOverlay />
