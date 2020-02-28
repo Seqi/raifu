@@ -10,7 +10,7 @@ import {
 	Button
 } from '@material-ui/core'
 
-import { Loading, Error } from 'app/shared'
+import { Loading, Error } from 'app/shared/state'
 import ResourceSelect from './ResourceSelect'
 
 class AddResourceDialog extends Component {

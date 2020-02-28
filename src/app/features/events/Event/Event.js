@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ErrorOverlay, LoadingOverlay } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 
 import EventHeader from './EventHeader'
 import EventLoadout from './EventLoadout'

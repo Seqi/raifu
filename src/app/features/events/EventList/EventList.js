@@ -5,7 +5,7 @@ import moment from 'moment'
 import { Fab, Box, styled, withTheme } from '@material-ui/core'
 
 import { events } from 'app/data/api'
-import { ErrorOverlay, LoadingOverlay } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarComponents'
 import EditEventDialog from './EditEventDialog'
 

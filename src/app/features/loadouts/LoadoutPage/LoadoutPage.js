@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { loadouts } from 'app/data/api'
-import { LoadingOverlay, ErrorOverlay } from 'app/shared'
+import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
 import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 

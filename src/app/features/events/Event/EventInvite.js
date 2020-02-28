@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@material-ui/core'
 
-import { LoadingOverlay } from 'app/shared'
+import { LoadingOverlay } from 'app/shared/state'
 import { events } from 'app/data/api'
 
 const EventInvite = ({ event, onJoin }) => {

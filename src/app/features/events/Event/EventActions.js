@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 
-import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
+import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { UserContext } from 'app/core/auth/contexts'
 

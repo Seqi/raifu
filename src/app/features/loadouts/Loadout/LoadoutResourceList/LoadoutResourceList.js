@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Grid, Box, styled } from '@material-ui/core'
 
-import AddButton from 'app/shared/buttons/AddButton'
+import AddButton from 'app/shared/actions/add/AddButton'
 
 import { LoadoutContext } from 'app/features/loadouts'
 import LoadoutResourceItem from './LoadoutResourceItem'

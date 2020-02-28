@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { Error } from 'app/shared'
+import { Error } from 'app/shared/state'
 
 class AddLoadoutDialog extends React.Component {
 	constructor(props) {

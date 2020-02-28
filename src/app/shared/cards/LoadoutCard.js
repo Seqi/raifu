@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { styled } from '@material-ui/core'
 
-import Deletable from 'app/shared/actions/Deletable'
+import { DeletableOverlay } from 'app/shared/actions/delete'
 import WeaponDisplay from 'app/shared/images/WeaponDisplay'
 
 import { ResourceCard, ResourceCardHeader, ResourceCardContent } from './base/ResourceCard'
@@ -24,13 +24,13 @@ const LoadoutCardContent = styled(ResourceCardContent)({
 const LoadoutCard = ({ item: loadout, canDelete, onClick, onDelete }) => {	
 	return (
 		<LoadoutCardContainer onClick={ onClick } >
-			<Deletable canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ loadout.getTitle() }>
+			<DeletableOverlay canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ loadout.getTitle() }>
 				<ResourceCardHeader resource={ loadout } />
 			
 				<LoadoutCardContent>
 					<WeaponDisplay weapons={ loadout.weapons } />
 				</LoadoutCardContent>
-			</Deletable>
+			</DeletableOverlay>
 		</LoadoutCardContainer>
 	)
 }

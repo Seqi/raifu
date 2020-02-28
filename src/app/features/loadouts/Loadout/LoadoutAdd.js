@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Box } from '@material-ui/core'
 
-import AddButton from 'app/shared/buttons/AddButton'
+import AddButton from 'app/shared/actions/add/AddButton'
 
 export default function LoadoutAdd({ onClick }) {
 	return (

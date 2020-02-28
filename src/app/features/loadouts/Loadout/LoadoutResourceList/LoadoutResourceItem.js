@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Box, styled } from '@material-ui/core'
 
-import Deletable from 'app/shared/actions/Deletable'
+import { DeletableOverlay } from 'app/shared/actions/delete'
 import ResourceImage from 'app/shared/images/ResourceImage'
 
 const RelativeContainer = styled(Box)({
@@ -22,7 +22,7 @@ const ResourceImageTitle = styled(Box)({
 export default function LoadoutResourceItem({ resourceType, item, canDelete, onDelete }) {
 	return (
 		<RelativeContainer>
-			<Deletable 
+			<DeletableOverlay 
 				canDelete={ canDelete } 
 				onDelete={ () => onDelete(item.id) }
 				dialogTitle={ item.getTitle() }
@@ -36,7 +36,7 @@ export default function LoadoutResourceItem({ resourceType, item, canDelete, onD
 				<ResourceImageTitle>
 					{ item.getTitle() }
 				</ResourceImageTitle>
-			</Deletable>
+			</DeletableOverlay>
 		</RelativeContainer>
 	)
 }

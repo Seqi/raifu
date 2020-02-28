@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
 
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
-import AddButton from 'app/shared/buttons/AddButton'
+import AddButton from 'app/shared/actions/add/AddButton'
 
 const ResourceList = ({
 	addDialog,

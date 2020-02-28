@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core' 
 
 import { loadouts } from 'app/data/api'
-import { Error } from 'app/shared'
+import { Error } from 'app/shared/state'
 
 class SetShareableDialog extends Component {
 	constructor(props) {

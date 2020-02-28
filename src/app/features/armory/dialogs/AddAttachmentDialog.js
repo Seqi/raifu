@@ -10,7 +10,7 @@ import {
 	Button,
 } from '@material-ui/core'
 
-import { Error } from 'app/shared'
+import { Error } from 'app/shared/state'
 import { CascadingSelect } from 'app/shared/selects'
 
 import { platforms } from 'app/data/constants'

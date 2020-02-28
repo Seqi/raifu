@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Button, useTheme } from '@material-ui/core'
-import AppOverlay from '../utils/AppOverlay'
+import AppOverlay from '../../utils/AppOverlay'
 
 function ErrorOverlay({ icon, message, onRetry }) {
 	let theme = useTheme()

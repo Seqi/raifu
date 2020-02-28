@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import DeleteButton from 'app/shared/buttons/DeleteButton'
-import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
+import { Box } from '@material-ui/core'
 
-let Deletable = ({ dialogTitle, canDelete, onDelete, absolute, children }) => {
+import { DeleteButton, ConfirmDeleteDialog } from 'app/shared/actions/delete'
+
+let Deletable = ({ dialogTitle, canDelete, onDelete, children }) => {
 	let [ isDialogOpen, setIsDialogOpen ] = useState(false)
 
 	return (
@@ -12,8 +13,8 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, absolute, children }) => {
 			{ children }
 
 			{ canDelete && (
-				<React.Fragment>
-					<DeleteButton absolute={ absolute } onClick={ () => setIsDialogOpen(true) } /> 
+				<Box position='absolute' top={ 0 } right={ 0 }>
+					<DeleteButton onClick={ () => setIsDialogOpen(true) } /> 
 
 					<ConfirmDeleteDialog 
 						isOpen={ isDialogOpen }
@@ -21,14 +22,13 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, absolute, children }) => {
 						onConfirm={ onDelete }
 						onClose={ () => setIsDialogOpen(false) }
 					/> 
-				</React.Fragment>
+				</Box>
 			)}
 		</React.Fragment>
 	)
 }
 
 Deletable.propTypes = {
-	absolute: PropTypes.bool,
 	dialogTitle: PropTypes.string.isRequired,
 	canDelete: PropTypes.bool,
 	onDelete: PropTypes.func.isRequired,
@@ -36,7 +36,6 @@ Deletable.propTypes = {
 }
 
 Deletable.defaultProps = {
-	absolute: true,
 	canDelete: false,
 	style: {}
 }

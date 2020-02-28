@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Box, Typography, styled } from '@material-ui/core'
 
 import { armory as armoryService, weapons, attachments, gear, clothing } from 'app/data/api'
-import { ErrorOverlay, LoadingOverlay } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import { ResourceList } from 'app/shared/resources'
 import { WeaponCard, AttachmentCard, GearCard, ClothingCard } from 'app/shared/cards'
 

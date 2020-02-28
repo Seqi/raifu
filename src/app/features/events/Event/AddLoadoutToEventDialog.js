@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 
 import { loadouts as loadoutService } from 'app/data/api'
-import { Loading, Error } from 'app/shared'
+import { Loading, Error } from 'app/shared/state'
 
 export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onClose}) {
 	let [loadouts, setLoadouts] = useState({ data: [], loading: true, error: null })

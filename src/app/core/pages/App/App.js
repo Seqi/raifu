@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link, Switch, Redirect } from 'react-router-do
 
 import { Box, Container, Tabs, Tab, useMediaQuery, useTheme } from '@material-ui/core'
 
-import LoadingOverlay from 'app/shared/LoadingOverlay'
+import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
 import AuthenticatedRoute from '../../auth/AuthenticatedRoute'
 
 const Armory = lazy(() => import('app/features/armory'))

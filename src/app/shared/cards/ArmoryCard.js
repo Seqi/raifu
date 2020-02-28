@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { styled } from '@material-ui/core'
 
-import Deletable from 'app/shared/actions/Deletable'
+import { DeletableOverlay } from 'app/shared/actions/delete'
 import ResourceImage from 'app/shared/images/ResourceImage'
 
 import { ResourceCard, ResourceCardHeader, ResourceCardContent } from './base/ResourceCard'
@@ -24,13 +24,13 @@ const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 
 const ArmoryCard = ({ item, category, canDelete, onClick, onDelete, className }) => (
 	<ArmoryCardContainer className={ className } onClick={ onClick }>
-		<Deletable canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ item.getTitle() }>
+		<DeletableOverlay canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ item.getTitle() }>
 			<ResourceCardHeader resource={ item } />
 
 			<ResourceCardContent>
 				<ResourceImage resource={ item } resourceType={ category } />
 			</ResourceCardContent>
-		</Deletable>
+		</DeletableOverlay>
 	</ArmoryCardContainer>
 )
 

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 
 import { loadouts as loadoutService } from 'app/data/api'
-import { ErrorOverlay, LoadingOverlay } from 'app/shared'
+import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import { ResourceList } from 'app/shared/resources'
 import { LoadoutCard } from 'app/shared/cards'
 

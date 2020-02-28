@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 
 import { LoadoutView } from 'app/features/loadouts'
-import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
+import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 
 const EventLoadout = ({ event, activeUserIndex, removeLoadout }) => {
 	let [ activeDialog, setActiveDialog ] = useState() 

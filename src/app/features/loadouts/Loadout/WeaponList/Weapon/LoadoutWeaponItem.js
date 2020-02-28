@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Box, Typography, styled } from '@material-ui/core'
 
 import ResourceImage from 'app/shared/images/ResourceImage'
-import Deletable from 'app/shared/actions/Deletable'
+import { DeleteButton } from 'app/shared/actions/delete'
 
 import { LoadoutContext } from 'app/features/loadouts'
 
@@ -37,22 +37,21 @@ let LoadoutWeaponItem = ({ weapon }) => {
 	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
 
 	return (
-		<Box position='relative' height='100%'>
+		<React.Fragment>
 			<LoadoutWeaponItemTitle variant='h4'>
-				<Deletable 
+				{ weapon.getTitle() }
+					
+				<DeleteButton 
 					dialogTitle={ weapon.getTitle() } 
 					canDelete={ editable } 
 					onDelete={ deleteNewWeapon }
-					absolute={ false }
-				>
-					{ weapon.getTitle() }
-				</Deletable>
+				/>
 			</LoadoutWeaponItemTitle>				
 
 			<LoadoutWeaponItemImageContainer>
 				<ResourceImage resource={ weapon } resourceType='weapons'/>
 			</LoadoutWeaponItemImageContainer>
-		</Box>
+		</React.Fragment>
 	)
 }
 
