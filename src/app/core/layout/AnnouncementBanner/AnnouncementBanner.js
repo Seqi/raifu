@@ -7,7 +7,7 @@ import AnnouncementBannerItem from './AnnouncementBannerItem'
 import announcementList from './announcements'
 
 const cookieName = 'announcement-last-seen'
-const cookieOptions = {	path: '/' }
+const cookieOptions = {	path: '/', maxAge: 60 * 60 * 24 * 365 * 5 }
 
 let AnnouncementBannerContainer = styled(Box)(({ theme }) => ({
 	width: '100%',
