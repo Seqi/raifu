@@ -1,10 +1,10 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import { Box, Typography, styled } from '@material-ui/core'
 
 import ResourceImage from 'app/shared/images/ResourceImage'
-import { DeleteButton } from 'app/shared/actions/delete'
+import { DeleteButton, ConfirmDeleteDialog } from 'app/shared/actions/delete'
 
 import { LoadoutContext } from 'app/features/loadouts'
 
@@ -34,6 +34,7 @@ const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
 
 let LoadoutWeaponItem = ({ weapon }) => {
 	let { editable, deleteWeapon } = useContext(LoadoutContext)
+	let [ dialog, setDialog ] = useState()
 
 	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
 
@@ -42,16 +43,22 @@ let LoadoutWeaponItem = ({ weapon }) => {
 			<LoadoutWeaponItemTitle variant='h4'>
 				{ weapon.getTitle() }
 					
-				<DeleteButton 
+				{ editable && <DeleteButton 
 					dialogTitle={ weapon.getTitle() } 
-					canDelete={ editable } 
-					onClick={ deleteNewWeapon }
-				/>
+					onClick={ () => setDialog('delete') }
+				/> }
 			</LoadoutWeaponItemTitle>				
 
 			<LoadoutWeaponItemImageContainer>
 				<ResourceImage resource={ weapon } resourceType='weapons'/>
 			</LoadoutWeaponItemImageContainer>
+
+			<ConfirmDeleteDialog 
+				isOpen={ dialog === 'delete' }
+				title={  weapon.getTitle() }
+				onConfirm={ deleteNewWeapon }
+				onClose={ () => setDialog(null) }
+			/> 
 		</React.Fragment>
 	)
 }
