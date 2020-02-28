@@ -42,7 +42,8 @@ function LoadoutActions( { loadout, editLoadout, onLoadoutUpdated }) {
 			<EditLoadoutDialog
 				name={ loadout.name }
 				isOpen={ dialog === 'edit' }
-				onSave={ (name) => editLoadout(name) }
+				onSave={ (name) => editLoadout(name)
+					.then(() => setDialog(null)) }
 				onClose={ () => setDialog(null) }
 			/>
 

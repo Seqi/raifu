@@ -44,7 +44,6 @@ class LoadoutPage extends React.Component {
 		return loadouts
 			.edit(loadout.id, { ...updatedLoadout })
 			.then(() => this.onLoadoutUpdated(updatedLoadout))
-			.then(() => this.setDialog(null))
 	}
 	
 	onLoadoutUpdated(updatedLoadout) {
