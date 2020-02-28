@@ -41,6 +41,11 @@ export default createMuiTheme({
 				bottom: '2%',
 				right: '3%',
 			}
+		},
+		MuiChip: {
+			root: {
+				textTransform: 'uppercase'
+			}
 		}
 	}
 })

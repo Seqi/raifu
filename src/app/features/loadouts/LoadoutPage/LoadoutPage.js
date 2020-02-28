@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Chip, Tooltip, Box } from '@material-ui/core'
+
 import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
 import { LoadoutView } from 'app/features/loadouts'
@@ -74,7 +76,16 @@ class LoadoutPage extends React.Component {
 
 		return (
 			<React.Fragment>
-				<ReactiveTitle>{ loadout.name }</ReactiveTitle>
+				<ReactiveTitle>
+					{ loadout.name }
+					{ loadout.shared && 
+						<Box component='span' paddingLeft={ 1 }>
+							<Tooltip placement='right' title='Loadout has been shared!'>
+								<Chip label='Shared' size='small' color='primary' />
+							</Tooltip>
+						</Box> 
+					}
+				</ReactiveTitle>
 
 				<div>
 					<LoadoutView loadout={ loadout } editable={ true } />
