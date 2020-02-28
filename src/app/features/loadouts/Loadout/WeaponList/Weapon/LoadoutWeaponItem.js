@@ -21,13 +21,14 @@ const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
 	height: '100%',
 	'& img': {
 		maxHeight: '700px',
+		
+		[theme.breakpoints.down('xs')]: {
+			maxHeight: '300px',
+		}
 	},
 
 	[theme.breakpoints.down('xs')]: {
-		position: 'initial',		
-		'& img': {
-			maxHeight: '300px',
-		}
+		position: 'initial',
 	}
 }))
 
