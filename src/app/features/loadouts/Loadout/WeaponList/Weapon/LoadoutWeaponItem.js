@@ -44,7 +44,7 @@ let LoadoutWeaponItem = ({ weapon }) => {
 				<DeleteButton 
 					dialogTitle={ weapon.getTitle() } 
 					canDelete={ editable } 
-					onDelete={ deleteNewWeapon }
+					onClick={ deleteNewWeapon }
 				/>
 			</LoadoutWeaponItemTitle>				
 
