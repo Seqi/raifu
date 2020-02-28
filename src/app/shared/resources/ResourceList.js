@@ -35,7 +35,7 @@ const ResourceList = ({
 					
 					<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
 						{ React.createElement(card.template, {}, (
-							<AddButton onClick={ addResource } />
+							<AddButton onClick={ () => setDialog('add') } />
 						)) }
 					</Grid>
 				</StaggeredAnimation>
