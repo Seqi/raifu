@@ -16,7 +16,7 @@ const EventLoadout = ({ event, activeUserIndex, removeLoadout }) => {
 
 	return (
 		<div>
-			{ viewingAuthenticatedUser ?
+			{ viewingAuthenticatedUser &&
 				<Button 
 					color='primary' 
 					variant='outlined'
@@ -27,10 +27,7 @@ const EventLoadout = ({ event, activeUserIndex, removeLoadout }) => {
 					onClick={ () => setActiveDialog('remove') }
 				>
 					Remove Loadout ({ activeLoadout.getTitle() })
-				</Button> :
-
-				// Lazy way to get the lines to match
-				<div style={ {marginTop: '24px'} }/>
+				</Button>
 			}
 					
 			<LoadoutView loadout={ activeLoadout } editable={ false }/>

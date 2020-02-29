@@ -163,16 +163,12 @@ class Event extends React.Component {
 				)}
 
 				{/* User Event Content */}
-				{	event.users.length > 0 &&
-
-					this.currentUsersEvent.loadout ?
-
+				{	event.users.length === 0 ? null : this.currentUsersEvent.loadout ? (
 					<EventLoadout
 						event={ event }
 						activeUserIndex={ activeUserIndex }
 						removeLoadout={ () => this.removeLoadout() } 
-					/> :
-
+					/>) :
 					this.currentUserIsSelf ? 
 						<EventLoadoutSelect event={ event } setLoadout={ (loadoutId) => this.setLoadout(loadoutId) } /> :
 						<ErrorOverlay icon='fas fa-crosshairs' message='User has not added a loadout to this event.' />

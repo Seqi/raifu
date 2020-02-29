@@ -43,7 +43,7 @@ let App = ({ location, history }) => {
 		<Router basename='/app'>
 			<React.Fragment>				
 				<PaddedContainer disableGutters={ isMobile } maxWidth={ false }>
-					<Tabs width='100%' variant='fullWidth' centered={ true } value={ tabIndex } onChange={ (evt, idx) => setTabIndex(idx) }>
+					<Tabs variant='fullWidth' centered={ true } value={ tabIndex } onChange={ (evt, idx) => setTabIndex(idx) }>
 						<Tab label='Armory' component={ Link } to='/armory' />
 						<Tab label='Loadouts' component={ Link } to='/loadouts' />
 						<Tab label='Events' component={ Link } to='/events' />

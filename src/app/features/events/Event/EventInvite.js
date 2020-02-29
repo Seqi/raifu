@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core'
 
 import { LoadingOverlay } from 'app/shared/state'
 import { events } from 'app/data/api'
@@ -21,11 +21,11 @@ const EventInvite = ({ event, onJoin }) => {
 	}
 
 	return (
-		<div className='separator-padding'>
+		<Box paddingTop={ 2 }>
 			<Button onClick={ joinEvent } variant='outlined' color='primary' style={ { width: '100%'} }>
 					Join event!
 			</Button>
-		</div>
+		</Box>
 	)
 }
 

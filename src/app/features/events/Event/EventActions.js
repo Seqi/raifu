@@ -15,7 +15,7 @@ let isMyEvent = (user, event) => {
 }
 
 let getMyLoadout = (event) => {
-	return event.users[0].loadout
+	return event.users.length > 0 && event.users[0].loadout
 }
 
 function EventActions( { event, updateEvent, deleteEvent }) {
@@ -37,7 +37,7 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 				open={ speedDialOpen }
 				hidden={ event.users.length === 0 || isAtBottom }
 			>
-				<SpeedDialAction 
+				<SpeedDialAction
 					hidden={ isMyEvent(user, event) }
 					icon={ <i className='fa fa-pen' /> }
 					onClick={ () => setDialog('edit') }
