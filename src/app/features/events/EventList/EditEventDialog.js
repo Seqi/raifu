@@ -149,7 +149,8 @@ EditEventDialog.defaultProps = {
 	event: {
 		name: '',
 		location: '',
-		date: null
+		date: null,
+		public: false
 	}
 }
 
