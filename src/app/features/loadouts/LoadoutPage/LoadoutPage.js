@@ -14,6 +14,7 @@ class LoadoutPage extends React.Component {
 		super(props)
 		this.state = {
 			loadout: null,
+			shared: false,
 			loading: true,
 			error: null,
 		}
@@ -29,7 +30,7 @@ class LoadoutPage extends React.Component {
 				.getById(this.props.match.params.id)
 				.then((loadout) => {
 					if (!this.isUnmounted) {
-						this.setState({ loadout, loading: false })
+						this.setState({ loadout, shared: loadout.shared, loading: false })
 					}
 				})
 				.catch((err) => {
@@ -47,20 +48,13 @@ class LoadoutPage extends React.Component {
 			.edit(loadout.id, { ...updatedLoadout })
 			.then(() => this.onLoadoutUpdated(updatedLoadout))
 	}
-	
-	onLoadoutUpdated(updatedLoadout) {
-		this.setState((prevState) => {
-			let newLoadout = {
-				...prevState.loadout,
-				...updatedLoadout
-			}
 
-			return { loadout: newLoadout }
-		})
+	setShared(shared) {
+		this.setState({ shared })
 	}
 
 	render() {
-		let { loading, error, loadout } = this.state
+		let { loading, error, loadout, shared } = this.state
 
 		if (loading) {			
 			return <LoadingOverlay />
@@ -78,7 +72,7 @@ class LoadoutPage extends React.Component {
 			<React.Fragment>
 				<ReactiveTitle>
 					{ loadout.name }
-					{ loadout.shared && 
+					{ shared && 
 						<Box component='span' paddingLeft={ 1 }>
 							<Tooltip placement='right' title='Loadout has been shared!'>
 								<Chip label='Shared' size='small' color='primary' />
@@ -94,7 +88,7 @@ class LoadoutPage extends React.Component {
 				<LoadoutActions
 					loadout={ loadout }
 					editLoadout={ loadout => this.editLoadout(loadout) } 
-					onLoadoutUpdated={ loadout => this.onLoadoutUpdated(loadout) }
+					onSharedChanged={ shared => this.setShared(shared) }
 				/>
 			</React.Fragment>
 		)

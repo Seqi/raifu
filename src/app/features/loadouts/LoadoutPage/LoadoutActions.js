@@ -6,7 +6,7 @@ import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { EditLoadoutDialog, SetShareableDialog } from './dialogs'
 
-function LoadoutActions( { loadout, editLoadout, onLoadoutUpdated }) {
+function LoadoutActions( { loadout, editLoadout, onSharedChanged }) {
 	let [ dialog, setDialog] = useState()
 	let [ speedDialOpen, setSpeedDialOpen ] = useState(false)
 
@@ -50,7 +50,7 @@ function LoadoutActions( { loadout, editLoadout, onLoadoutUpdated }) {
 			<SetShareableDialog
 				loadout={ loadout }
 				isOpen={ dialog === 'share' }
-				onShare={ (isShared) => onLoadoutUpdated({...loadout, shared: isShared }) }
+				onShare={ onSharedChanged }
 				onClose={ () => setDialog(null) }
 			/>
 		</React.Fragment>
@@ -62,5 +62,5 @@ export default LoadoutActions
 LoadoutActions.propTypes = {
 	loadout: PropTypes.object.isRequired,
 	editLoadout: PropTypes.func.isRequired,
-	onLoadoutUpdated: PropTypes.func.isRequired
+	onSharedChanged: PropTypes.func.isRequired
 }
