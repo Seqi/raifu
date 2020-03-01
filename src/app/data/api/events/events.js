@@ -1,20 +1,20 @@
 import base from '../base-entity'
-import { Entity, toEntity } from '../../models/entity.model'
+import Event from '../../models/event.model'
 import CloudFunction from '../cloud-function'
 
 export default {
-	...base('events', Entity),
+	...base('events', Event),
 	setLoadout: (eventId, loadoutId) => 
 		new CloudFunction()
 			.path(`events/${eventId}/loadout/${loadoutId}`)
 			.post()
-			.then(toEntity),
+			.then(result => new Event(result)),
 
 	removeLoadout: (eventId) => 
 		new CloudFunction()
 			.path(`events/${eventId}/loadout/remove`)
 			.post()
-			.then(toEntity),
+			.then(result => new Event(result)),
 
 	join: (eventId) => 
 		new CloudFunction()
