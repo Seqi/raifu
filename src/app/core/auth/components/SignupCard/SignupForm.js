@@ -68,7 +68,7 @@ class LoginForm extends Component {
 					error={ this.state.password !== this.state.confirmPassword }
 				/>
 
-				<Button disabled={ !this.formValid() } variant='contained' color='primary' type='submit'>
+				<Button disabled={ !this.formValid() } fullWidth='true' variant='contained' color='primary' type='submit'>
 					Sign up
 				</Button>
 			</form>
