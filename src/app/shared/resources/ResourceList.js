@@ -62,7 +62,7 @@ ResourceList.propTypes = {
 }
 
 ResourceList.defaultProps = {
-	onResourceClick: (id) => { },
+	onResourceClick: (resource) => { },
 	fullWidth: false,
 }
 

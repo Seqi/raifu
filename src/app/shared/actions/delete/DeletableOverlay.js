@@ -13,16 +13,6 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, children }) => {
 		setIsDialogOpen(true)
 	}, [])
 
-	let onDeleteConfirmed = useCallback((event) => {
-		event.stopPropagation()
-		onDelete()
-	}, [onDelete])
-
-	let onDeleteCancel = useCallback((event) => {
-		event.stopPropagation()
-		setIsDialogOpen(false)
-	}, [])
-
 	return (
 		<React.Fragment>
 			{ children }
@@ -30,12 +20,12 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, children }) => {
 			{ canDelete && (
 				<Box position='absolute' top={ 0 } right={ 0 }>
 					<DeleteButton onClick={ onDeleteClicked } /> 
-
+					
 					<ConfirmDeleteDialog 
 						isOpen={ isDialogOpen }
 						title={ dialogTitle  }
-						onConfirm={ onDeleteConfirmed }
-						onClose={ onDeleteCancel }
+						onConfirm={ onDelete }
+						onClose={ () => setIsDialogOpen(false) }
 					/> 
 				</Box>
 			)}

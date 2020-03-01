@@ -41,7 +41,8 @@ class ConfirmDeleteDialog extends React.PureComponent {
 		let { error, loading } = this.state
 
 		return (
-			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
+			// No idea why we have to stop event propagation here on click? I may have messed something up
+			<Dialog fullWidth={ true } onClick={ e => e.stopPropagation() } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>{ verb } { title }?</DialogTitle>
 
 				{ error && (
