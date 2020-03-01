@@ -7,7 +7,7 @@ import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { UserContext } from 'app/core/auth/contexts'
 
-import EventChecklist from './EventChecklist'
+import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import EditEventDialog from '../EventList/EditEventDialog'
 
 let isMyEvent = (user, event) => {
@@ -82,7 +82,7 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 			/>
 
 			{ getMyLoadout(event) && 
-				<EventChecklist
+				<EventChecklistDialog
 					title={ event.getTitle() }
 					loadout={ getMyLoadout(event) }
 					isOpen={ dialog === 'checklist' }

@@ -22,8 +22,8 @@ const EventInvite = ({ event, onJoin }) => {
 
 	return (
 		<Box paddingTop={ 2 }>
-			<Button onClick={ joinEvent } variant='outlined' color='primary' style={ { width: '100%'} }>
-					Join event!
+			<Button onClick={ joinEvent } variant='outlined' color='primary' fullWidth={ true }>
+				Join event!
 			</Button>
 		</Box>
 	)

@@ -18,7 +18,7 @@ let checkboxListStyle = {
 	flexDirection: 'column'
 }
 
-const EventChecklist = ({ title, loadout, isOpen, onClose }) => {
+const EventChecklistDialog = ({ title, loadout, isOpen, onClose }) => {
 	function getAllWeapons(loadout) {
 		return loadout.weapons || []
 	}
@@ -87,11 +87,11 @@ const EventChecklist = ({ title, loadout, isOpen, onClose }) => {
 	)
 }
 
-EventChecklist.propTypes = {
+EventChecklistDialog.propTypes = {
 	title: PropTypes.string.isRequired,
 	loadout: PropTypes.object.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired
 }
 
-export default EventChecklist
+export default EventChecklistDialog
