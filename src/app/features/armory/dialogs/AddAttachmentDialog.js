@@ -10,10 +10,10 @@ import {
 	Button,
 } from '@material-ui/core'
 
-import { Error } from 'app/shared'
+import { Error } from 'app/shared/state'
 import { CascadingSelect } from 'app/shared/selects'
 
-import database from '../../../../firebase/database'
+import { platforms } from 'app/data/constants'
 
 class AddAttachmentDialog extends React.Component {
 	constructor(props) {
@@ -82,11 +82,11 @@ class AddAttachmentDialog extends React.Component {
 				<DialogTitle>Add attachment</DialogTitle>
 
 				<DialogContent>
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 										
 					<CascadingSelect
 						onChange={ (e) => this.handleInputChange(e) }
-						options={ database.platforms.attachment }
+						options={ platforms.attachments }
 						formatValues={ true }
 						labels={ ['Type', 'Attachment'] }
 						names={ ['type', 'platform'] }

@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { Error } from 'app/shared'
+import { Error } from 'app/shared/state'
 
 class EditLoadoutNameDialog extends Component {
 	constructor(props) {
@@ -59,7 +59,7 @@ class EditLoadoutNameDialog extends Component {
 				<DialogTitle>Change loadout name</DialogTitle>
 
 				<DialogContent>					
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 
 					<TextField
 						label='Name'

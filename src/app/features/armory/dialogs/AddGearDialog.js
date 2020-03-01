@@ -8,10 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { Error } from 'app/shared'
+import { Error } from 'app/shared/state'
 import { CascadingSelect } from 'app/shared/selects'
 
-import database from '../../../../firebase/database'
+import { platforms } from 'app/data/constants'
 
 class AddGearDialog extends React.Component {
 	constructor(props) {
@@ -80,11 +80,11 @@ class AddGearDialog extends React.Component {
 				<DialogTitle>Add gear</DialogTitle>
 
 				<DialogContent>
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 					
 					<CascadingSelect
 						onChange={ (e) => this.handleInputChange(e) }
-						options={ database.platforms.gear }
+						options={ platforms.gear }
 						formatValues={ true }
 						labels={ ['Type', 'Gear'] }
 						names={ ['type', 'platform'] }

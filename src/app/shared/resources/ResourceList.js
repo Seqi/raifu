@@ -1,67 +1,69 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
-import CardList from 'app/shared/cards/CardList'
+import { Grid } from '@material-ui/core'
+
+import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
+import AddButton from 'app/shared/actions/add/AddButton'
 
 const ResourceList = ({
-	showTitle,
+	addDialog,
 	items,
+	card,
+	onResourceClick,
 	addResource,
 	deleteResource,
-	resourceType,
-	onResourceClick,
-	renderAddDialog
+	fullWidth,
 }) => {
 	let [dialog, setDialog] = useState(null)
 
 	return (
 		<React.Fragment>
-			{ showTitle && 
-				<ReactiveTitle>
-					{ /* eslint-disable-next-line newline-per-chained-call */ }
-					{ resourceType.charAt(0).toUpperCase() + resourceType.slice(1) }
-				</ReactiveTitle>
-			}
+			<Grid container={ true } spacing={ 2 }>
+				<StaggeredAnimation maxDuration={ 1 }>
 
-			<CardList
-				items={ items }
-				cardType={ resourceType }
-				onAdd={ () => setDialog('add') }
-				onCardClick={ onResourceClick }
-				onCardDelete={ deleteResource }
-			/>						
+					{ items.map(item => (
+						<Grid key={ item.id } item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>								
+							{ React.createElement(card, {
+								item: item,
+								canDelete: true,
+								onClick: () => onResourceClick(item),
+								onDelete: (e) => deleteResource(item.id)}
+							)}
+						</Grid>
+					))}
+					
+					<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
+						{ React.createElement(card.template, {}, (
+							<AddButton onClick={ () => setDialog('add') } />
+						)) }
+					</Grid>
+				</StaggeredAnimation>
+			</Grid>
 
-			{ renderAddDialog(
-				// Is Open
-				dialog === 'add',
-				// OnClose
-				() => setDialog(null),
-				// OnSave
-				addResource
-			)}
+			{ React.createElement(addDialog, {
+				isOpen: dialog === 'add',
+				onClose: () => setDialog(null),
+				onSave: addResource
+			}) }
 		</React.Fragment>
 	)
 }
 
 ResourceList.propTypes = {
-	showTitle: PropTypes.bool,
-	resourceType: PropTypes.oneOf([
-		'weapons', 'attachments', 'gear', 'clothing', 'loadout'
-	]).isRequired,
-	onResourceClick: PropTypes.func,
-	renderAddDialog: PropTypes.func.isRequired,
-
+	addDialog: PropTypes.func.isRequired,
+	
 	items: PropTypes.array.isRequired,
-	loading: PropTypes.bool.isRequired,
-	error: PropTypes.bool.isRequired,
+	card: PropTypes.func.isRequired,
+	onResourceClick: PropTypes.func,
 	addResource: PropTypes.func.isRequired,
 	deleteResource: PropTypes.func.isRequired,
+	fullWidth: PropTypes.bool,
 }
 
 ResourceList.defaultProps = {
-	showTitle: true,
-	onResourceClick: (id) => { }
+	onResourceClick: (resource) => { },
+	fullWidth: false,
 }
 
 export default ResourceList

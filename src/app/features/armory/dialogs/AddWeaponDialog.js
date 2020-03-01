@@ -8,10 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { Error } from 'app/shared'
+import { Error } from 'app/shared/state'
 import { CascadingSelect } from 'app/shared/selects'
 
-import database from '../../../../firebase/database'
+import { brands, platforms } from 'app/data/constants'
 
 class AddWeaponDialog extends React.Component {
 	constructor(props) {
@@ -80,11 +80,11 @@ class AddWeaponDialog extends React.Component {
 				<DialogTitle>Add weapon</DialogTitle>
 
 				<DialogContent>
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 					
 					<CascadingSelect
 						onChange={ (e) => this.handleInputChange(e) }
-						options={ database.platforms.weapon }
+						options={ platforms.weapons }
 						formatValues={ true }
 						labels={ ['Type', 'Platform'] }
 						names={ ['type', 'platform'] }
@@ -93,7 +93,7 @@ class AddWeaponDialog extends React.Component {
 					<CascadingSelect
 						labels={ ['Brand'] }
 						names={ ['brand'] }
-						options={ database.brands }
+						options={ brands }
 						onChange={ (e) => this.handleInputChange(e) }
 						value={ this.state.weapon.brand }
 					/>

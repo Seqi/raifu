@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { LoadingOverlay, ErrorOverlay } from 'app/shared'
+import { loadouts } from 'app/data/api'
+import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import { LoadoutView } from 'app/features/loadouts'
-import database from '../../../firebase/database'
 
 export default class SharedLoadout extends React.Component {
 
@@ -23,7 +23,7 @@ export default class SharedLoadout extends React.Component {
 
 	loadLoadout = () => {
 		this.setState({ loadout: null, error: null, loading: true }, () => {
-			database.loadouts.getById(this.props.match.params.loadoutId)
+			loadouts.getById(this.props.match.params.loadoutId)
 				.then((loadout) => {
 					!this.unmounted && this.setState({ loadout: loadout, loading: false })
 				})

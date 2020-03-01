@@ -1,40 +1,65 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
+import { Box, Typography, styled } from '@material-ui/core'
+
 import ResourceImage from 'app/shared/images/ResourceImage'
-import Deletable from 'app/shared/actions/Deletable'
+import { DeleteButton, ConfirmDeleteDialog } from 'app/shared/actions/delete'
 
 import { LoadoutContext } from 'app/features/loadouts'
 
-import './LoadoutWeaponItem.css'
+const LoadoutWeaponItemTitle = styled(Typography)(({ theme }) => ({
+	position: 'absolute',
+	zIndex: 1,
+	
+	[theme.breakpoints.down('xs')]: {
+		position: 'initial'
+	}
+}))
+
+const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
+	height: '100%',
+	'& img': {
+		maxHeight: '700px',
+		
+		[theme.breakpoints.down('xs')]: {
+			maxHeight: '300px',
+		}
+	},
+
+	[theme.breakpoints.down('xs')]: {
+		position: 'initial',
+	}
+}))
 
 let LoadoutWeaponItem = ({ weapon }) => {
 	let { editable, deleteWeapon } = useContext(LoadoutContext)
+	let [ dialog, setDialog ] = useState()
 
 	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
 
 	return (
-		<div className='loadout-weapon-item' >
-			<ReactiveTitle variant='h4' mobileVariant='h5' style={ { zIndex: 1 } }>
-				<Deletable 
+		<React.Fragment>
+			<LoadoutWeaponItemTitle variant='h4'>
+				{ weapon.getTitle() }
+					
+				{ editable && <DeleteButton 
 					dialogTitle={ weapon.getTitle() } 
-					canDelete={ editable } 
-					onDelete={ deleteNewWeapon }
-					style={ { position: 'initial'} }
-				>
-					{ weapon.getTitle() }
-				</Deletable>
-			</ReactiveTitle>				
+					onClick={ () => setDialog('delete') }
+				/> }
+			</LoadoutWeaponItemTitle>				
 
-			<div className='center-loadout-item'>
-				<ResourceImage 
-					style={ { width: '100%', height: '100%'	} }
-					resource={ weapon }
-					resourceType='weapons'
-				/>
-			</div>
-		</div>
+			<LoadoutWeaponItemImageContainer>
+				<ResourceImage resource={ weapon } resourceType='weapons'/>
+			</LoadoutWeaponItemImageContainer>
+
+			<ConfirmDeleteDialog 
+				isOpen={ dialog === 'delete' }
+				title={  weapon.getTitle() }
+				onConfirm={ deleteNewWeapon }
+				onClose={ () => setDialog(null) }
+			/> 
+		</React.Fragment>
 	)
 }
 

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 
-import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import { LoadoutContext } from 'app/features/loadouts'
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
+import AddResourceDialog from '../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 
 let LoadoutClothingList = () => {

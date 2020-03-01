@@ -1,8 +1,7 @@
-import './Site.css'
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import LoadingOverlay from 'app/shared/LoadingOverlay'
+import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
 import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 import NavBar from './layout/Navbar/Navbar'
 import AnnouncementBanner from './layout/AnnouncementBanner'
@@ -16,7 +15,7 @@ let showAnnouncements = process.env.NODE_ENV !== 'development'
 
 let Site = () => {
 	return (
-		<div className='app'>
+		<React.Fragment>
 			<Router>
 				<AuthContextProvider>
 					<UserContextProvider>
@@ -40,7 +39,7 @@ let Site = () => {
 			</Router>
 				
 			{ showAnnouncements && <AnnouncementBanner /> }
-		</div>
+		</React.Fragment>
 	)
 }
 

@@ -2,8 +2,8 @@ import React, { useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import { LoadoutContext } from 'app/features/loadouts'
-import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import LoadoutResourceList from '../../LoadoutResourceList/LoadoutResourceList'
+import AddResourceDialog from '../../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../../AvailableArmoryContext'
 
 let LoadoutWeaponAttachmentList = ({ weapon }) => {

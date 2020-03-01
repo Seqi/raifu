@@ -1,8 +1,8 @@
 import React, { useState, useContext, useCallback } from 'react'
 
 import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/loadouts'
-import AddResourceDialog from 'app/shared/dialogs/AddResourceDialog'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
+import AddResourceDialog from '../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 
 let LoadoutWeaponList = () => {

@@ -76,8 +76,10 @@ router.put('/:id', authMiddleware(), async (req, res) => {
 			.send('Loadout id is required')
 	}
 
+	req.body.id = loadoutId
+
 	try {
-		let item = await loadout.edit(loadoutId, req.user)
+		let item = await loadout.edit(req.body, req.user)
 
 		console.log(`[${req.user.uid}]: Updated loadout ${JSON.stringify(item)}`)
 

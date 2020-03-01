@@ -1,6 +1,6 @@
 {
 	"name": "raifu",
-	"version": "1.2.3",
+	"version": "1.2.4",
 	"private": true,
 	"dependencies": {
 		"@date-io/moment": "^1.3.11",

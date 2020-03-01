@@ -1,19 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AddButton from 'app/shared/buttons/AddButton'
-import useIsMobileMode from 'app/shared/hooks/useIsMobileMode'
+import { Box } from '@material-ui/core'
+
+import AddButton from 'app/shared/actions/add/AddButton'
 
 export default function LoadoutAdd({ onClick }) {
-	let isMobileMode = useIsMobileMode()
-
 	return (
-		<div style={ {
-			width: '100%',
-			height: isMobileMode ? '125px' : '250px',
-		} }>
+		<Box width='100%' paddingY={ { xs: 12, sm: 18 } }>
 			<AddButton onClick={ onClick } />
-		</div>
+		</Box>
 	)
 }
 

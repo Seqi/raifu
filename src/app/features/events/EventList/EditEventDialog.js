@@ -16,7 +16,7 @@ import {
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 
-import { Error } from 'app/shared'
+import { Error } from 'app/shared/state'
 
 class EditEventDialog extends Component {
 	constructor(props) {
@@ -72,7 +72,7 @@ class EditEventDialog extends Component {
 				<DialogTitle>{ this.props.event.date ? 'Edit' : 'Add' } event</DialogTitle>
 
 				<DialogContent>
-					{ error && <Error error={ error } fillBackground={ true } style={ { padding: '8px 0', marginBottom: '8px' } } /> }
+					{ error && <Error error={ error } fillBackground={ true } /> }
 
 					<TextField
 						id='name'

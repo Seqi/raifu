@@ -1,0 +1,15 @@
+.load-icon {
+	animation: move 1.5s infinite ease;
+}
+
+@keyframes move {
+	33% { transform: translateX(-100px); }
+	66% { transform: translateX(100px); }
+}
+
+@media (max-width: 768px) {	
+	@keyframes move {
+		33% { transform: translateX(-50px); }
+		66% { transform: translateX(50px); }
+	}
+}

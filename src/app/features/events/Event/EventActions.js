@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 
 import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 
-import ConfirmDeleteDialog from 'app/shared/dialogs/ConfirmDeleteDialog'
+import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { UserContext } from 'app/core/auth/contexts'
 
-import EventChecklist from './EventChecklist'
+import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import EditEventDialog from '../EventList/EditEventDialog'
 
 let isMyEvent = (user, event) => {
@@ -15,7 +15,7 @@ let isMyEvent = (user, event) => {
 }
 
 let getMyLoadout = (event) => {
-	return event.users[0].loadout
+	return event.users.length > 0 && event.users[0].loadout
 }
 
 function EventActions( { event, updateEvent, deleteEvent }) {
@@ -37,7 +37,7 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 				open={ speedDialOpen }
 				hidden={ event.users.length === 0 || isAtBottom }
 			>
-				<SpeedDialAction 
+				<SpeedDialAction
 					hidden={ isMyEvent(user, event) }
 					icon={ <i className='fa fa-pen' /> }
 					onClick={ () => setDialog('edit') }
@@ -82,7 +82,7 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 			/>
 
 			{ getMyLoadout(event) && 
-				<EventChecklist
+				<EventChecklistDialog
 					title={ event.getTitle() }
 					loadout={ getMyLoadout(event) }
 					isOpen={ dialog === 'checklist' }
