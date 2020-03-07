@@ -76,12 +76,52 @@ router.put('/:id', authMiddleware(), async (req, res) => {
 			.send('Loadout id is required')
 	}
 
-	req.body.id = loadoutId
-
 	try {
-		let item = await loadout.edit(req.body, req.user)
+		let item = await loadout.edit(loadoutId, req.body, req.user)
 
 		console.log(`[${req.user.uid}]: Updated loadout ${JSON.stringify(item)}`)
+
+		return res.status(204)
+			.end()
+	} 
+	catch (e) {
+		if (e instanceof errors.BadRequestError) {
+			console.warn(`[${req.user.uid}]: Bad request when updating loadout ${e.message}`)
+			return res.status(400)
+				.json({ errors: e })
+		}
+
+		if (e instanceof errors.NotFoundError) {
+			console.warn(`[${req.user.uid}]: Attempted to update loadout that does not exist (${loadoutId})`)
+			return res.status(404)
+				.end()
+		}
+
+		console.error(`[${req.user.uid}]: Error updating loadout with id ${loadoutId}`, e)
+		return res.status(500)
+			.end()
+	}
+})
+
+router.post('/:id/share', authMiddleware(), async (req, res) => {
+	let loadoutId = req.params.id
+
+	if (!loadoutId) {
+		return res.status(400)
+			.send('Loadout id is required')
+	}
+
+	let isShared = req.body.shared
+
+	if (isShared == null) {
+		return res.status(400)
+			.send('\'Shared\' property is required')
+	}
+
+	try {
+		let item = await loadout.share(loadoutId, isShared, req.user)
+
+		console.log(`[${req.user.uid}]: Set loadout is shared to ${isShared}`)
 
 		return res.json(item)
 	} 

@@ -37,7 +37,8 @@ class SetShareableDialog extends Component {
 		let { loadout } = this.props 
 
 		this.setState({loading: true, error: null }, () => {
-			loadouts.edit(loadout.id, { ...loadout, shared: isShared})
+			loadouts.loadout(loadout.id)
+				.share(isShared)
 				.then(() => this.setState({ loading: false, error: null, shared: isShared }))
 				.then(() => this.props.onShare(isShared))
 				.catch(err => this.setState({ 

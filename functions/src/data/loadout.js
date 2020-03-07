@@ -88,4 +88,68 @@ module.exports = {
 
 		return loadout.toJSON()
 	},
+
+	edit: async (id, data, user) => {
+		try {
+			// Ensure this id exists and belongs to the user
+			let exists = (await Loadout.count({
+				where: {
+					id: id,
+					uid: user.uid
+				}
+			})) === 1
+
+			if (!exists) {
+				throw new errors.NotFoundError()
+			}
+
+			let updateFields = {
+				name: data.name
+			}
+
+			let [rowsUpdated, [newLoadout]] = await Loadout.update(updateFields, {
+				where: {
+					id: id,
+					uid: user.uid
+				},
+				returning: true,
+			})
+
+			if (rowsUpdated === 0) {
+				throw new Error('No rows affected')
+			}
+
+			return newLoadout
+		} catch (e) {
+			// Validation errors are contained in an array, so pick them out
+			let message = e.errors && e.errors.map((error) => error.message)
+
+			if (message) {
+				throw new errors.BadRequestError(message)
+			} else {
+				throw e
+			}
+		}
+	},
+
+	share: async (id, isShared, user) => {
+		// Ensure this id exists and belongs to the user
+		let exists = (await Loadout.count({
+			where: {
+				id: id,
+				uid: user.uid
+			}
+		})) === 1
+
+		if (!exists) {
+			throw new errors.NotFoundError()
+		}
+
+		return await Loadout.update({ shared: isShared }, {
+			where: {
+				id: id,
+				uid: user.uid
+			}
+		})
+	},
 }

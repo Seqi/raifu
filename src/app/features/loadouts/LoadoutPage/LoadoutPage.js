@@ -46,7 +46,15 @@ class LoadoutPage extends React.Component {
 
 		return loadouts
 			.edit(loadout.id, { ...updatedLoadout })
-			.then(() => this.onLoadoutUpdated(updatedLoadout))
+			.then(() => this.setState(({ loadout }) => {
+				let newLoadout = Object.keys(updatedLoadout)
+					.reduce((obj, key) => ({
+						...obj,
+						[key]: updatedLoadout[key]
+					}), loadout)
+
+				return { loadout: newLoadout }
+			}))
 	}
 
 	setShared(shared) {
