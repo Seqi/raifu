@@ -36,7 +36,7 @@ const ResourceCardHeader = withStyles(theme => ({
 
 const ResourceCardContent = styled(CardContent)({
 	flex: 1,
-	overflow: 'auto',
+	overflow: 'hidden',
 	padding: '4px!important', // Mui has a :last-child to put extra padding on, don't want it!
 })
 
