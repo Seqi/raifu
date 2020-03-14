@@ -4,6 +4,7 @@ import { Box, Typography, styled } from '@material-ui/core'
 
 import { armory as armoryService, weapons, attachments, gear, clothing } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
+import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { ResourceList } from 'app/shared/resources'
 import { WeaponCard, AttachmentCard, GearCard, ClothingCard } from 'app/shared/cards'
 
@@ -67,6 +68,9 @@ export default function Armory() {
 	}, [])
 	useEffect(() => { loadArmory() }, [loadArmory])
 
+	let analytics = useAnalytics()
+	useEffect(() => { analytics.logEvent('view_armory_list')}, [analytics])
+
 	if (loading) {
 		return <LoadingOverlay />
 	}
@@ -84,6 +88,7 @@ export default function Armory() {
 			<ResourceList
 				items={ armory[armorySection.resourceKey] }
 				resource={ armorySection.resource }
+				resourceName={ armorySection.resourceKey }
 				card={ armorySection.card }
 				addDialog={ armorySection.renderDialog } 
 			/>

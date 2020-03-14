@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import { 
@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
+import useAnalytics from 'app/shared/hooks/useAnalytics'
 
 let checkboxListStyle = {
 	display: 'flex',
@@ -19,6 +20,9 @@ let checkboxListStyle = {
 }
 
 const EventChecklistDialog = ({ title, loadout, isOpen, onClose }) => {
+	let analytics = useAnalytics()
+	useEffect(() => { analytics.logEvent('view_event_checklist')}, [analytics])
+
 	function getAllWeapons(loadout) {
 		return loadout.weapons || []
 	}

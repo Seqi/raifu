@@ -8,9 +8,12 @@ import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarComponents'
 import EditEventDialog from './EditEventDialog'
+import firebase from '../../../../firebase'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendarComponents/Calendar.css'
+
+let analytics = firebase.analytics()
 
 const EventListContainer = styled(Box)(({ theme }) => ({
 	height: '80vh',
@@ -95,6 +98,7 @@ class Events extends React.Component {
 		return events
 			.add(event)
 			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
+			.then(() => analytics.logEvent('event_added'))
 			.then(() => this.closeDialog())
 	}
 

@@ -1,12 +1,15 @@
 import React from 'react'
 
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
+import firebase from '../../../../firebase'
 
 import EventHeader from './EventHeader'
 import EventContent from './EventContent'
 import EventActions from './EventActions' 
 
 import { events } from 'app/data/api'
+
+let analytics = firebase.analytics()
 
 class Event extends React.Component {
 	constructor(props) {
@@ -81,10 +84,24 @@ class Event extends React.Component {
 					}
 				}
 			}))
+			.then(() => {
+				let event
+				if (!this.state.event.public && event.public) {
+					event = 'event_public'
+				}
+				else if (this.state.event.public && !event.public) {
+					event = 'event_private'
+				} else {
+					event = 'event_updated'
+				}
+				
+				analytics.logEvent(event)
+			})
 	}
 
 	deleteEvent() {
 		return events.delete(this.state.event.id)
+			.then(() => analytics.logEvent('event_deleted'))
 			.then(() => this.props.history.push('/events'))
 	}
 
@@ -92,6 +109,7 @@ class Event extends React.Component {
 		let eventId = this.state.event.id
 
 		return events.setLoadout(eventId, loadoutId)
+			.then(() => analytics.logEvent('event_loadout_added'))
 			.then(event => this.setState({ event }))
 	}
 
@@ -99,6 +117,7 @@ class Event extends React.Component {
 		let eventId = this.state.event.id
 
 		return events.removeLoadout(eventId)
+			.then(() => analytics.logEvent('event_loadout_removed'))
 			.then(event => this.setState({ event }))
 	}
 	
