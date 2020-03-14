@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 
 import { LoadoutContextProvider } from './LoadoutContext'
 import { AvailableArmoryContextProvider } from './AvailableArmoryContext'
-
 import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutClothingList from './ClothingList/LoadoutClothingList'
 import LoadoutSeparator from './LoadoutSeparator'
 
-let LoadoutView = ({ loadout, editable }) => {		
+let LoadoutView = ({ loadout, editable }) => {
 	return (
 		<LoadoutContextProvider loadout={ loadout } editable={ editable }>
 			<AvailableArmoryContextProvider>

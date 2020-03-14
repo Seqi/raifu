@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
+import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { loadouts } from 'app/data/api'
 
 let LoadoutContext = React.createContext()
 
 const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	let [currentLoadout, setLoadout] = useState(loadout)
+	let analytics = useAnalytics()
 
 	useEffect(() => setLoadout(loadout), [loadout])
 
@@ -15,13 +17,15 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Save
 			const weapon = await loadouts.loadout(currentLoadout.id).weapons.add(weaponId)
 
+			analytics.logEvent('loadout_weapon_added')
+
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
 				weapons: [...currentLoadout.weapons, weapon]
 			}))
 		},
-		[currentLoadout]
+		[analytics, currentLoadout.id]
 	)
 
 	let deleteWeapon = useCallback(
@@ -29,13 +33,15 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Save
 			await loadouts.loadout(currentLoadout.id).weapons.delete(weaponId)
 
+			analytics.logEvent('loadout_weapon_deleted')
+
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
 				weapons: currentLoadout.weapons.filter((w) => w.id !== weaponId)
 			}))
 		},
-		[currentLoadout]
+		[analytics, currentLoadout.id]
 	)
 
 	let addWeaponAttachments = useCallback(
@@ -49,6 +55,8 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			})
 
 			let newAttachments = await Promise.all(addToDbPromises)
+
+			attachmentIds.forEach(_ => analytics.logEvent('loadout_attachment_added'))
 
 			// Update
 			setLoadout((currentLoadout) => {
@@ -67,7 +75,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 				return { ...currentLoadout, weapons: newWeapons }
 			})
 		},
-		[currentLoadout]
+		[analytics, currentLoadout.id]
 	)
 
 	let deleteWeaponAttachment = useCallback(
@@ -77,6 +85,8 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 				.loadout(currentLoadout.id)
 				.weapons.weapon(weaponId)
 				.attachments.delete(attachmentId)
+
+			analytics.logEvent('loadout_attachment_deleted')
 
 			// Update
 			setLoadout((currentLoadout) => {
@@ -95,7 +105,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 				return { ...currentLoadout, weapons: newWeapons }
 			})
 		},
-		[currentLoadout]
+		[analytics, currentLoadout.id]
 	)
 
 	let addGear = useCallback(
@@ -107,13 +117,15 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 
 			let newGear = await Promise.all(promises)
 
+			ids.forEach(_ => analytics.logEvent('loadout_gear_added'))
+
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
 				gear: [...currentLoadout.gear, ...newGear]
 			}))
 		},
-		[currentLoadout]
+		[analytics, currentLoadout.id]
 	)
 
 	let deleteGear = useCallback(
@@ -121,13 +133,15 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Save
 			await loadouts.loadout(currentLoadout.id).gear.delete(gearId)
 
+			analytics.logEvent('loadout_gear_deleted')
+
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
 				gear: currentLoadout.gear.filter((g) => g.id !== gearId)
 			}))
 		},
-		[currentLoadout]
+		[analytics, currentLoadout.id]
 	)
 
 	let addClothing = useCallback(
@@ -139,13 +153,15 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 
 			let newClothing = await Promise.all(promises)
 
+			ids.forEach(_ => analytics.logEvent('loadout_clothing_added'))
+
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
 				clothing: [...currentLoadout.clothing, ...newClothing]
 			}))
 		},
-		[currentLoadout]
+		[analytics, currentLoadout.id]
 	)
 
 	let deleteClothing = useCallback(
@@ -153,13 +169,15 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Save
 			await loadouts.loadout(currentLoadout.id).clothing.delete(clothingId)
 
+			analytics.logEvent('loadout_clothing_deleted')
+
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
 				clothing: currentLoadout.clothing.filter((c) => c.id !== clothingId)
 			}))
 		},
-		[currentLoadout]
+		[analytics, currentLoadout.id]
 	)
 
 	return (

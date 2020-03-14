@@ -22,8 +22,7 @@ let LoadoutList = ({ history, location }) => {
 		loadoutService.get()
 			.then(result => mounted.current && setLoadout({ loadouts: result, loading: false, error: false }))			
 			.catch(e => mounted.current && setLoadout({ loadouts: null, loading: false, error: true }))
-	}, [])
-
+	}, [])	
 	useEffect(() => { loadLoadout() }, [loadLoadout])
 
 	let viewLoadout = useCallback((loadout) => { history.push(`${location.pathname}/${loadout.id}`) }, [history, location])
@@ -40,6 +39,7 @@ let LoadoutList = ({ history, location }) => {
 		<ResourceList
 			items={ loadouts }
 			resource={ loadoutService }
+			resourceName='loadout'
 			card={ LoadoutCard }
 			onResourceClick={ viewLoadout }
 			addDialog={ AddLoadoutDialog }

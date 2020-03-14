@@ -4,6 +4,9 @@ import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import { LoadoutView } from 'app/features/loadouts'
+import firebase from '../../../firebase'
+
+let analytics = firebase.analytics()
 
 export default class SharedLoadout extends React.Component {
 
@@ -17,7 +20,10 @@ export default class SharedLoadout extends React.Component {
 		}
 	}
 
-	componentDidMount = () => this.loadLoadout()
+	componentDidMount = () => {
+		analytics.logEvent('view_shared_loadout')
+		this.loadLoadout()
+	}
 
 	componentWillUnmount = () => this.unmounted = true
 

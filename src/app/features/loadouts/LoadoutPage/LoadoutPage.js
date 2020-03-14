@@ -8,6 +8,9 @@ import { LoadoutView } from 'app/features/loadouts'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import LoadoutActions from './LoadoutActions'
+import firebase from '../../../../firebase'
+
+let analytics = firebase.analytics()
 
 class LoadoutPage extends React.Component {
 	constructor(props) {
@@ -55,9 +58,11 @@ class LoadoutPage extends React.Component {
 
 				return { loadout: newLoadout }
 			}))
+			.then(() => analytics.logEvent('loadout_updated'))
 	}
 
 	setShared(shared) {
+		shared ? analytics.logEvent('loadout_shared') : analytics.logEvent('loadout_unshared')
 		this.setState({ shared })
 	}
 

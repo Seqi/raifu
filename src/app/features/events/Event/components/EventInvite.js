@@ -4,15 +4,18 @@ import { Box, Button } from '@material-ui/core'
 
 import { LoadingOverlay } from 'app/shared/state'
 import { events } from 'app/data/api'
+import useAnalytics from 'app/shared/hooks/useAnalytics'
 
 const EventInvite = ({ event, onJoin }) => {
 	let [loading, setLoading] = useState(false)
+	let analytics = useAnalytics()
 
 	let joinEvent = () => {
 		setLoading(true)
 		
 		events.join(event.id)
 			.then(() => setLoading(false))
+			.then(() => analytics.logEvent('event_joined'))
 			.then(onJoin)
 	}
 
