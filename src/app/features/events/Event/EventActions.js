@@ -25,6 +25,12 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 	let user = useContext(UserContext)
 
 	let isAtBottom = useIsPageAtBottom()
+	let isInvite = event.users.length === 0
+	let canModify = isMyEvent(user, event)
+	let canViewChecklist = event.users.length > 0 && event.users[0].loadout != null
+
+	// Hide the entire speed dial if no actions are available
+	let hasAvailableActions = canModify || canViewChecklist
 
 	return (
 		<React.Fragment>
@@ -35,43 +41,41 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 				onOpen={ () => setSpeedDialOpen(true) }
 				onClose={ () => setSpeedDialOpen(false) }
 				open={ speedDialOpen }
-				hidden={ event.users.length === 0 || isAtBottom }
+				hidden={ isAtBottom || isInvite || !hasAvailableActions }
 			>
-				<SpeedDialAction
-					hidden={ isMyEvent(user, event) }
+				{ canModify && <SpeedDialAction
 					icon={ <i className='fa fa-pen' /> }
 					onClick={ () => setDialog('edit') }
 					tooltipTitle='Edit'
 					tooltipOpen={ true }
-				/>
+				/> }
 
-				<SpeedDialAction 
-					hidden={ isMyEvent(user, event) }
+				{ canModify && <SpeedDialAction
 					icon={ <i className='fa fa-trash' /> }
 					onClick={ () => setDialog('delete') }
 					tooltipTitle='Delete'
 					tooltipOpen={ true }
-				/>		
+				/> }
 
-				<SpeedDialAction 
-					hidden={ !!getMyLoadout(event) }
+				{ canViewChecklist && <SpeedDialAction
 					icon={ <i className='fa fa-clipboard' /> }
 					onClick={  () => setDialog('checklist') }
 					tooltipTitle='Checklist'
 					tooltipOpen={ true }
-				/>
+				/> }
 			</SpeedDial>
 
 			{/* Dialogs */}
-			<EditEventDialog 
+			{ canModify && <EditEventDialog 
 				event={ event }
 				isOpen={ dialog === 'edit' }
 				onSave={ (event) => updateEvent(event)
 					.then(() => setDialog(null)) 
 				}
 				onClose={ () => setDialog(null) } />
+			}
 
-			<ConfirmDeleteDialog 
+			{ canModify && <ConfirmDeleteDialog 
 				verb='Delete'
 				title={ event.getTitle() }
 				isOpen={ dialog === 'delete' }
@@ -79,9 +83,9 @@ function EventActions( { event, updateEvent, deleteEvent }) {
 					.then(() => setDialog(null)) 
 				}
 				onClose={ () => setDialog(null) }
-			/>
+			/> }
 
-			{ getMyLoadout(event) && 
+			{ canViewChecklist && 
 				<EventChecklistDialog
 					title={ event.getTitle() }
 					loadout={ getMyLoadout(event) }
