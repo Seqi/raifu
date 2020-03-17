@@ -290,6 +290,7 @@ EventUser.init({
 
 // Event User association
 Event.hasMany(EventUser, { foreignKey: 'event_id', as: 'users' })
+EventUser.belongsTo(Event, { foreignKey: 'event_id' })
 
 // Loadout Event user association
 EventUser.belongsTo(Loadout, { foreignKey: 'loadout_id' })

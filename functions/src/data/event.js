@@ -42,17 +42,28 @@ let getById = async (id, user) => {
 		throw new errors.NotFoundError()
 	}
 
+	let canViewEvent = (await EventUser.count({
+		where: {
+			event_id: id,
+			[Op.or]: {
+				uid: user.uid,
+				'$event.public$': true
+			}
+		},
+		include: [ Event ]
+	})) > 0
+
+	if (!canViewEvent) {
+		throw new errors.NotFoundError()
+	}
+
 	let event = await Event.findOne({
+		where: {
+			id: id
+		},
 		include: {
 			model: EventUser,
 			as: 'users',
-			where: {
-				event_id: id,
-				[Op.or]: {
-					uid: user.uid,
-					'$event.public$': true
-				}
-			},
 			attributes: {
 				exclude: ['id', 'event_id']
 			}
