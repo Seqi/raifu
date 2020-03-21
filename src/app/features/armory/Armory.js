@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/display-name */
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Box, Typography, styled } from '@material-ui/core'
@@ -8,7 +10,7 @@ import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { ResourceList } from 'app/shared/resources'
 import { WeaponCard, AttachmentCard, GearCard, ClothingCard } from 'app/shared/cards'
 
-import { AddWeaponDialog, AddAttachmentDialog, AddGearDialog, AddClothingDialog } from './dialogs'
+import AddArmoryItemDialog from './AddArmoryItemDialog'
 
 const defaultState = {armory: null, loading: true, error: false}
 
@@ -17,25 +19,49 @@ const armorySections = [
 		resource: weapons,
 		resourceKey: 'weapons',
 		card: WeaponCard,
-		renderDialog: AddWeaponDialog,
+		renderDialog: props => (
+			<AddArmoryItemDialog 
+				{ ...props } 
+				resourceTitle='weapon' 
+				resourceKey='weapons' 
+				resourceName='Weapon' />
+		),
 	},
 	{
 		resource: attachments,
 		resourceKey: 'attachments',
 		card: AttachmentCard,
-		renderDialog: AddAttachmentDialog
+		renderDialog: props => (
+			<AddArmoryItemDialog 
+				{ ...props } 
+				resourceTitle='attachment' 
+				resourceKey='attachments' 
+				resourceName='Attachment' />
+		),
 	},
 	{
 		resource: gear,
 		resourceKey: 'gear',
 		card: GearCard,
-		renderDialog: AddGearDialog
+		renderDialog: props => (
+			<AddArmoryItemDialog 
+				{ ...props } 
+				resourceTitle='gear' 
+				resourceKey='gear' 
+				resourceName='Gear' />
+		),
 	},
 	{
 		resource: clothing,
 		resourceKey: 'clothing',
 		card: ClothingCard,
-		renderDialog: AddClothingDialog
+		renderDialog: props => (
+			<AddArmoryItemDialog 
+				{ ...props } 
+				resourceTitle='clothing' 
+				resourceKey='clothing' 
+				resourceName='Clothing' />
+		),
 	},
 ]
 
@@ -90,7 +116,7 @@ export default function Armory() {
 				resource={ armorySection.resource }
 				resourceName={ armorySection.resourceKey }
 				card={ armorySection.card }
-				addDialog={ armorySection.renderDialog } 
+				renderAddDialog={ armorySection.renderDialog } 
 			/>
 		</ResourceListContainer>
 	))

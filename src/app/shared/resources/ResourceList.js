@@ -7,7 +7,7 @@ import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 import AddButton from 'app/shared/actions/add/AddButton'
 
 const ResourceList = ({
-	addDialog,
+	renderAddDialog,
 	items,
 	card,
 	onResourceClick,
@@ -44,17 +44,17 @@ const ResourceList = ({
 				</StaggeredAnimation>
 			</Grid>
 
-			{ React.createElement(addDialog, {
+			{ renderAddDialog({
 				isOpen: dialog === 'add',
 				onClose: () => setDialog(null),
 				onSave: addResource
-			}) }
+			})}
 		</React.Fragment>
 	)
 }
 
 ResourceList.propTypes = {
-	addDialog: PropTypes.func.isRequired,
+	renderAddDialog: PropTypes.func.isRequired,
 	
 	items: PropTypes.array.isRequired,
 	card: PropTypes.func.isRequired,
