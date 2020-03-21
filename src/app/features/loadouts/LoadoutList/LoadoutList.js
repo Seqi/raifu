@@ -42,7 +42,7 @@ let LoadoutList = ({ history, location }) => {
 			resourceName='loadout'
 			card={ LoadoutCard }
 			onResourceClick={ viewLoadout }
-			addDialog={ AddLoadoutDialog }
+			renderAddDialog={ props => <AddLoadoutDialog { ...props } /> }
 			fullWidth={ true }
 		/>
 	)
