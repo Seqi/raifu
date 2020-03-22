@@ -68,7 +68,9 @@ class AddArmoryItemDialog extends React.Component {
 		this.updateResource(key, val)
 	}
 
-	handleSave() {
+	handleSave(e) {
+		e.preventDefault()
+		
 		this.setState({loading: true, error: null}, () => {
 			this.props.onSave(this.state.resource)
 				.then(() => this.handleClose())
@@ -91,59 +93,61 @@ class AddArmoryItemDialog extends React.Component {
 		
 		return (
 			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ () => this.handleClose() }>
-				<DialogTitle>Add {resourceTitle}</DialogTitle>
+				<form onSubmit={ (e) => this.handleSave(e) }>
+					<DialogTitle>Add {resourceTitle}</DialogTitle>
 
-				<DialogContent>
-					{ error && <Error error={ error } fillBackground={ true } /> }
+					<DialogContent>
+						{ error && <Error error={ error } fillBackground={ true } /> }
 
-					<ResourceSelect
-						resourceOptions={ platforms[resourceKey] } 
-						getOptionLabel={ option => option.resource }
-						groupBy={ option => option.type }
-						onChange={ (value) => this.handleResourceChange(value) }
-						renderInput={ params => (
-							<TextField { ...params } fullWidth={ true } label={ resourceName } />
-						) }
-					/>
+						<ResourceSelect
+							resourceOptions={ platforms[resourceKey] } 
+							getOptionLabel={ option => option.resource }
+							groupBy={ option => option.type }
+							onChange={ (value) => this.handleResourceChange(value) }
+							renderInput={ params => (
+								<TextField { ...params } fullWidth={ true } label={ resourceName } />
+							) }
+						/>
 
-					<Autocomplete
-						options={ brands }
-						freeSolo={ true }
-						onInputChange={ (evt, val) => this.updateResource('brand', val) }
-						renderInput={ params => (
-							<TextField { ...params } fullWidth={ true } label='Brand'/>
-						) }
-					/>
+						<Autocomplete
+							options={ brands }
+							freeSolo={ true }
+							onInputChange={ (evt, val) => this.updateResource('brand', val) }
+							renderInput={ params => (
+								<TextField { ...params } fullWidth={ true } label='Brand'/>
+							) }
+						/>
 
-					<TextField
-						id='model'
-						label='Model'
-						type='text'
-						fullWidth={ true }
-						onChange={ (e) => this.handleInputChange(e) }
-						helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
-					/>
+						<TextField
+							id='model'
+							label='Model'
+							type='text'
+							fullWidth={ true }
+							onChange={ (e) => this.handleInputChange(e) }
+							helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
+						/>
 
-					<TextField
-						id='nickname'
-						label='Nickname'
-						type='text'
-						fullWidth={ true }
-						onChange={ (e) => this.handleInputChange(e) }
-					/>
-				</DialogContent>
+						<TextField
+							id='nickname'
+							label='Nickname'
+							type='text'
+							fullWidth={ true }
+							onChange={ (e) => this.handleInputChange(e) }
+						/>
+					</DialogContent>
 
-				<DialogActions>
-					<Button onClick={ () => this.handleClose() }>Cancel</Button>
-					<Button
-						disabled={ !this.formValid() || loading }
-						variant='contained'
-						color='primary'
-						onClick={ () => this.handleSave() }
-					>
+					<DialogActions>
+						<Button onClick={ () => this.handleClose() }>Cancel</Button>
+						<Button
+							type='submit'
+							disabled={ !this.formValid() || loading }
+							variant='contained'
+							color='primary'
+						>
 						Save
-					</Button>
-				</DialogActions>
+						</Button>
+					</DialogActions>
+				</form>
 			</Dialog>
 		)
 	}
