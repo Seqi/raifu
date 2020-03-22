@@ -102,7 +102,7 @@ class AddArmoryItemDialog extends React.Component {
 						groupBy={ option => option.type }
 						onChange={ (value) => this.handleResourceChange(value) }
 						renderInput={ params => (
-							<TextField { ...params } fullWidth={ true } label={ resourceName } placeholder='Resource' />
+							<TextField { ...params } fullWidth={ true } label={ resourceName } />
 						) }
 					/>
 
@@ -111,7 +111,7 @@ class AddArmoryItemDialog extends React.Component {
 						freeSolo={ true }
 						onInputChange={ (evt, val) => this.updateResource('brand', val) }
 						renderInput={ params => (
-							<TextField { ...params } fullWidth={ true } label='Brand' placeholder='Brand' />
+							<TextField { ...params } fullWidth={ true } label='Brand'/>
 						) }
 					/>
 
