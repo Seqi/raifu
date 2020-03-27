@@ -3,10 +3,10 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import App from './App'
 
-function AppRouter() {
+function AppRouter(props) {
 	return (
 		<Router basename='app'>
-			<App />
+			<App { ...props } />
 		</Router>
 	)
 }

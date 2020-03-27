@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useCallback } from 'react'
-import { Link, Switch, Redirect, useHistory, useLocation } from 'react-router-dom'
+import { Link, Switch, Redirect } from 'react-router-dom'
 import { Box, Container, Tabs, Tab, useMediaQuery, styled } from '@material-ui/core'
 
 import useRouteAnalytics from 'app/shared/hooks/useRouteAnalytics'
@@ -16,9 +16,7 @@ let PaddedContainer = styled(Container)(({ theme }) => ({
 	}
 }))
 
-let App = () => {
-	let history = useHistory()
-	let location = useLocation()
+let App = ({ history, location }) => {
 	useRouteAnalytics()
 	
 	let [tabIndex, setTabIndex] = useState(() => {
