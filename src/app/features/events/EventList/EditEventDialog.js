@@ -41,7 +41,7 @@ let EditEventDialog = ({ event, date, isOpen, onSave, onClose }) => {
 	return (
 		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 			<form onSubmit={ handleSubmit(handleSave) }>
-				<DialogTitle>{ event ? 'Edit' : 'Add' } event</DialogTitle>
+				<DialogTitle>{ event.name ? 'Edit' : 'Add' } event</DialogTitle>
 
 				<DialogContent>
 					{ error && <Error error={ error } fillBackground={ true } /> }
