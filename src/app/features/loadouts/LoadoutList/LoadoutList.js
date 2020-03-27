@@ -5,7 +5,7 @@ import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import { ResourceList } from 'app/shared/resources'
 import { LoadoutCard } from 'app/shared/cards'
 
-import AddLoadoutDialog from './AddLoadoutDialog'
+import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
 
 const defaultState = {loadouts: null, loading: true, error: false}
 
@@ -42,7 +42,7 @@ let LoadoutList = ({ history, location }) => {
 			resourceName='loadout'
 			card={ LoadoutCard }
 			onResourceClick={ viewLoadout }
-			renderAddDialog={ props => <AddLoadoutDialog { ...props } /> }
+			renderAddDialog={ props => <EditLoadoutDialog action='Add' { ...props } /> }
 			fullWidth={ true }
 		/>
 	)

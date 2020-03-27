@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useForm } from 'react-hook-form'
 
 import { 
 	Dialog,
@@ -9,7 +10,6 @@ import {
 	TextField,
 	Button
 } from '@material-ui/core'
-
 import { Autocomplete } from '@material-ui/lab'
 
 import { Error } from 'app/shared/state'
@@ -17,140 +17,86 @@ import ResourceSelect from 'app/shared/resources/ResourceSelect'
 
 import { brands, platforms } from 'app/data/constants'
 
-class AddArmoryItemDialog extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = this.defaultState
-	}
+let AddArmoryItemDialog = ({resourceTitle, resourceKey, resourceName, isOpen, onSave, onClose}) => {
+	let [error, setError] = useState(null)
+	let { register, unregister, setValue, handleSubmit, formState } = useForm({ mode: 'onChange' })
 
-	get defaultState() {
-		return {
-			resource: { 
-				brand: null,
-				type: null,
-				platform: null,
-				model: null,
-				nickname: null
-			},
-			loading: false,
-			error: null
-		}
-	}
+	// Necessary to register the two form type/platform values
+	useEffect(() => {
+		register({ name: 'type', value: '' }, { required: true })
+		register({ name: 'platform', value: '' }, { required: true })
 
-	updateResource(key, val) {
-		this.setState(prevState => {
-			let resource = {
-				...prevState.resource,
-				[key]: val
-			}
+		// Reset the value if the dialog closes
+		return () => unregister(['type', 'platform'])
+	}, [register, unregister, isOpen])
 
-			return { resource }
-		})
-	}
+	// Reset state when form closes
+	useEffect(() => { !isOpen && setError(null) }, [isOpen])
 
-	handleResourceChange(resource) {
-		this.setState(prevState => {
-			let updatedResource = {
-				...prevState.resource,
-				type: resource && resource.type,
-				platform: resource && resource.platform
-			}
+	let handleSave = useCallback((resource) => {
+		return onSave(resource)
+			.then(onClose)
+			.catch(err => setError('An error occurred while adding.'))
+	}, [onClose, onSave])
 
-			return { resource: updatedResource }
-		})
-	}
+	return (
+		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
+			<form onSubmit={ handleSubmit(handleSave) }>
+				<DialogTitle>Add {resourceTitle}</DialogTitle>
 
-	handleInputChange(e) {
-		// Synthetic event data is lost when callback occurs so store
-		let key = e.target.id || e.target.name
-		let val = e.target.value
+				<DialogContent>
+					{ error && <Error error={ error } fillBackground={ true } /> }
 
-		this.updateResource(key, val)
-	}
+					<ResourceSelect
+						resourceOptions={ platforms[resourceKey] } 
+						getOptionLabel={ option => option.resource }
+						groupBy={ option => option.type }
+						onChange={ value => setValue([ { type: value.type }, { platform: value.platform }], true) }
+						renderInput={ params => (
+							<TextField { ...params } fullWidth={ true } label={ resourceName } />
+						) }
+					/>
 
-	handleSave(e) {
-		e.preventDefault()
-		
-		this.setState({loading: true, error: null}, () => {
-			this.props.onSave(this.state.resource)
-				.then(() => this.handleClose())
-				.catch(err => this.setState({ error: 'An error occurred while adding.', loading: false }))
-		})		
-	}
+					<Autocomplete
+						options={ brands }
+						freeSolo={ true }
+						renderInput={ params => (
+							<TextField name='brand' inputRef={ register } { ...params } fullWidth={ true } label='Brand' />
+						) }
+					/>
 
-	handleClose() {
-		this.setState(this.defaultState, () => this.props.onClose())
-	}
+					<TextField
+						name='model'
+						label='Model'
+						type='text'
+						fullWidth={ true }
+						inputRef={ register } 
+						helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
+					/>
 
-	formValid() {
-		let { platform, nickname } = this.state.resource
-		return platform || nickname
-	}
+					<TextField
+						name='nickname'
+						label='Nickname'
+						type='text'
+						fullWidth={ true }
+						inputRef={ register } 
+					/>
+				</DialogContent>
 
-	render() {
-		let { error, loading } = this.state
-		let { resourceTitle, resourceKey, resourceName } = this.props
-		
-		return (
-			<Dialog fullWidth={ true } open={ this.props.isOpen } onClose={ () => this.handleClose() }>
-				<form onSubmit={ (e) => this.handleSave(e) }>
-					<DialogTitle>Add {resourceTitle}</DialogTitle>
-
-					<DialogContent>
-						{ error && <Error error={ error } fillBackground={ true } /> }
-
-						<ResourceSelect
-							resourceOptions={ platforms[resourceKey] } 
-							getOptionLabel={ option => option.resource }
-							groupBy={ option => option.type }
-							onChange={ (value) => this.handleResourceChange(value) }
-							renderInput={ params => (
-								<TextField { ...params } fullWidth={ true } label={ resourceName } />
-							) }
-						/>
-
-						<Autocomplete
-							options={ brands }
-							freeSolo={ true }
-							onInputChange={ (evt, val) => this.updateResource('brand', val) }
-							renderInput={ params => (
-								<TextField { ...params } fullWidth={ true } label='Brand'/>
-							) }
-						/>
-
-						<TextField
-							id='model'
-							label='Model'
-							type='text'
-							fullWidth={ true }
-							onChange={ (e) => this.handleInputChange(e) }
-							helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
-						/>
-
-						<TextField
-							id='nickname'
-							label='Nickname'
-							type='text'
-							fullWidth={ true }
-							onChange={ (e) => this.handleInputChange(e) }
-						/>
-					</DialogContent>
-
-					<DialogActions>
-						<Button onClick={ () => this.handleClose() }>Cancel</Button>
-						<Button
-							type='submit'
-							disabled={ !this.formValid() || loading }
-							variant='contained'
-							color='primary'
-						>
+				<DialogActions>
+					<Button onClick={ onClose }>Cancel</Button>
+					<Button
+						disabled={ formState.isSubmitting || !formState.isValid }
+						type='submit'
+						variant='contained'
+						color='primary'
+					>
 						Save
-						</Button>
-					</DialogActions>
-				</form>
-			</Dialog>
-		)
-	}
+					</Button>
+				</DialogActions>
+			</form>
+		</Dialog>
+	)
 }
 
 AddArmoryItemDialog.propTypes = {

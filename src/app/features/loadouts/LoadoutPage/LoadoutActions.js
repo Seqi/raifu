@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
-import { EditLoadoutDialog, SetShareableDialog } from './dialogs'
+import { EditLoadoutDialog, SetShareableDialog } from '../dialogs'
 
 function LoadoutActions( { loadout, editLoadout, onSharedChanged }) {
 	let [ dialog, setDialog] = useState()
@@ -40,6 +40,7 @@ function LoadoutActions( { loadout, editLoadout, onSharedChanged }) {
 
 			{/* Dialogs */}
 			<EditLoadoutDialog
+				action='Edit'
 				name={ loadout.name }
 				isOpen={ dialog === 'edit' }
 				onSave={ (name) => editLoadout(name)

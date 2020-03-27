@@ -16,7 +16,7 @@ let LoginCard = () => {
 	let { login } = useContext(AuthContext)
 	let [error, setError] = useState()
 
-	let loginWithEmail = useCallback((email, pass) => login.withEmail(email, pass)
+	let loginWithEmail = useCallback(({ email, password }) => login.withEmail(email, password)
 		.catch((err) => setError(err.message)), [login])
 	let loginWithTwitter = useCallback(() => login.withTwitter()
 		.catch((err) => setError(err.message)), [login])

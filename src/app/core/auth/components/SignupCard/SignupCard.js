@@ -13,7 +13,7 @@ let SignupCard = () => {
 	let { signup } = useContext(AuthContext)
 	let [error, setError] = useState()
 
-	let signupWithEmail = useCallback((email, pass) => signup.withEmail(email, pass)
+	let signupWithEmail = useCallback(({email, password}) => signup.withEmail(email, password)
 		.catch((err) => setError(err.message)), [signup])
 
 	return (
