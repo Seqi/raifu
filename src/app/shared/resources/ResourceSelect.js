@@ -11,7 +11,6 @@ const AutoCompletePopper = styled(Popper)({
 })
 
 let ResourceSelect = ({ resourceOptions, onChange, renderInput }) => {
-
 	let getOptions = useCallback(() => {
 		return Object.keys(resourceOptions)
 			.reduce((allOptions, type) => {
