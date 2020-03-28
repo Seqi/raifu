@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { Box, styled, Button, IconButton, Badge, Tooltip } from '@material-ui/core'
@@ -6,6 +6,7 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 
 import { UserContext } from 'app/core/auth/contexts'
 import UserProfile from './Profile'
+import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
 let NavbarContainer = styled(Box)(({ theme }) => ({
 	padding: theme.spacing(5, 7, 0),
@@ -20,6 +21,7 @@ let NavbarContainer = styled(Box)(({ theme }) => ({
 }))
 
 let Navbar = () => {
+	let [dialogOpen, setDialogOpen] = useState(false)
 	let user = useContext(UserContext)
 	let history = useHistory()
 	let location = useLocation()
@@ -28,7 +30,7 @@ let Navbar = () => {
 	let isHomePage = location.pathname === '/'
 
 	return (
-		<NavbarContainer display='flex' alignItems='center'>
+		<NavbarContainer display='flex'>
 			{/* Left side */}
 			{ isHomePage && (
 				<Button onClick={ () => history.push('/app') } variant='outlined' color='primary'>
@@ -38,8 +40,8 @@ let Navbar = () => {
 
 			{/* Right Side */}
 			<Box display='flex' marginLeft='auto'>
-				<Tooltip title='View updates'>
-					<IconButton>
+				<Tooltip title='View change log'>
+					<IconButton onClick={ _ => setDialogOpen(true) }>
 						<Badge badgeContent={ null } color='primary'>
 							<InfoOutlinedIcon />
 						</Badge>
@@ -60,6 +62,8 @@ let Navbar = () => {
 					}
 				</Box>
 			</Box>
+
+			<ViewChangeLogDialog isOpen={ dialogOpen } onClose={ _ => setDialogOpen(false) } />
 		</NavbarContainer>
 	)
 }
