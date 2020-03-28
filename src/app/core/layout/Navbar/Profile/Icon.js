@@ -7,7 +7,7 @@ const ProfileIcon = ({ user, ...props }) =>
 	<IconButton { ...props }>
 		{user.photoURL ?
 			<Avatar alt={ user.displayName || user.email } src={ user.photoURL } /> :
-			<i className='avatar-icon fa fa-user' />
+			<i className='fa fa-user' />
 		}
 	</IconButton>
 

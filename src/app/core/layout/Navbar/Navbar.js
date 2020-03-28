@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { Box, styled, Button } from '@material-ui/core'
+import { Box, styled, Button, IconButton, Badge, Tooltip } from '@material-ui/core'
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 
 import { UserContext } from 'app/core/auth/contexts'
 import UserProfile from './Profile'
@@ -36,18 +37,28 @@ let Navbar = () => {
 			)}
 
 			{/* Right Side */}
-			<Box marginLeft='auto'>
-				{ isAuthenticated ? 
-					<UserProfile user={ user } /> :
-					<Button
-						variant='outlined'
-						color='primary'
-						size='large' 
-						onClick={ _ => history.push('/login') }
-					>
+			<Box display='flex' marginLeft='auto'>
+				<Tooltip title='View updates'>
+					<IconButton>
+						<Badge badgeContent={ null } color='primary'>
+							<InfoOutlinedIcon />
+						</Badge>
+					</IconButton>
+				</Tooltip>
+
+				<Box marginLeft={ 1.5 }>
+					{ isAuthenticated ? 
+						<UserProfile user={ user } /> :
+						<Button
+							variant='outlined'
+							color='primary'
+							size='large' 
+							onClick={ _ => history.push('/login') }
+						>
 						Log in
-					</Button>
-				}
+						</Button>
+					}
+				</Box>
 			</Box>
 		</NavbarContainer>
 	)
