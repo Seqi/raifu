@@ -16,6 +16,7 @@ const cookieOptions = {	path: '/', maxAge: 60 * 60 * 24 * 365 * 5 }
 
 const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 	let [response, setResponse] = useState({ releases: null, error: false })
+	let [updates, setUpdates] = useState([])
 	let [cookies, setCookie] = useCookies()
 	
 	useEffect(() => {
@@ -25,31 +26,27 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 			.catch(_ => setResponse({ releases: null, error: true }))
 	}, [])
 
-	// If there are new releases, notify the parent
+	// Calculate which releases are new
 	useEffect(() => {
 		if (response.releases) {
-			let latestReleaseId = response.releases[0].id
 			let lastSeenReleaseId = cookies[releaseCookieName]
 
-			if (!lastSeenReleaseId || latestReleaseId > lastSeenReleaseId) {
+			let updates = response.releases.filter(release => !lastSeenReleaseId || release.id > lastSeenReleaseId)
+
+			if (updates.length > 0) {
+				setUpdates(updates)
 				onHasUpdates(true)
 			}
 		}
 	}, [cookies, onHasUpdates, response.releases])
 
-	// When opened, update the cookie
+	// When opened, update the cookie and clear notifications
 	useEffect(() => {
-		if (isOpen && response.releases) {
+		if (isOpen && updates.length > 0) {
 			onHasUpdates(false)
-
-			let latestReleaseId = response.releases[0].id
-			let lastSeenReleaseId = cookies[releaseCookieName]
-
-			if (!lastSeenReleaseId || latestReleaseId > lastSeenReleaseId) {
-				setCookie(releaseCookieName, latestReleaseId, cookieOptions)
-			}
+			setCookie(releaseCookieName, updates[0].id, cookieOptions)
 		}
-	}, [cookies, isOpen, onHasUpdates, response.releases, setCookie])
+	}, [isOpen, onHasUpdates, setCookie, updates])
 
 	return (
 		<Dialog maxWidth='md' open={ isOpen } onBackdropClick={ onClose }>
