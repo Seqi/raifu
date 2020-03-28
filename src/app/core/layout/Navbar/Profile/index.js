@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 import { Box, styled } from '@material-ui/core'
 
-import AuthenticatedUserIcon from './Icon'
-import AuthenticatedUserMenu from './Menu'
+import ProfileIcon from './Icon'
+import ProfileMenu from './Menu'
 
-let ProfileDisplayName = styled(Box)({
+let ProfileName = styled(Box)({
 	fontSize: '1.2rem'
 })
 
@@ -16,10 +16,10 @@ const AuthenticatedUserProfile = ({ user }) => {
 	return (
 		<Box display='flex' alignItems='center'>
 			{/* Use half measures because the iconbutton gives us unwanted half-measure padding */}
-			<ProfileDisplayName marginRight={ { xs: 0.5, sm: 1.5 } }>{ user.displayName || user.email }</ProfileDisplayName>
-			<AuthenticatedUserIcon user={ user } onClick={ evt => setMenuAnchor(evt.currentTarget) } />
+			<ProfileName marginRight={ { xs: 0.5, sm: 1.5 } }>{ user.displayName || user.email }</ProfileName>
+			<ProfileIcon user={ user } onClick={ evt => setMenuAnchor(evt.currentTarget) } />
 			
-			<AuthenticatedUserMenu anchor={ menuAnchor } onClose={ _ => setMenuAnchor(null) } />			
+			<ProfileMenu anchor={ menuAnchor } onClose={ _ => setMenuAnchor(null) } />			
 		</Box>
 	)
 }
