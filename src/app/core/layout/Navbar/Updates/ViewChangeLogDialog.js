@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie'
 import PropTypes from 'prop-types'
 import marked from 'marked'
 
@@ -10,9 +11,13 @@ let ChangeLogItemContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const ViewChangeLogDialog = ({ isOpen, onClose }) => {
-	let [response, setResponse] = useState({ releases: null, error: false })
+const releaseCookieName = 'release-last-seen'
+const cookieOptions = {	path: '/', maxAge: 60 * 60 * 24 * 365 * 5 }
 
+const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
+	let [response, setResponse] = useState({ releases: null, error: false })
+	let [cookies, setCookie] = useCookies()
+	
 	useEffect(() => {
 		fetch('https://api.github.com/repos/seqi/raifu/releases')
 			.then(res => res.json())
@@ -20,14 +25,40 @@ const ViewChangeLogDialog = ({ isOpen, onClose }) => {
 			.catch(_ => setResponse({ releases: null, error: true }))
 	}, [])
 
+	// If there are new releases, notify the parent
+	useEffect(() => {
+		if (response.releases) {
+			let latestReleaseId = response.releases[0].id
+			let lastSeenReleaseId = cookies[releaseCookieName]
+
+			if (!lastSeenReleaseId || latestReleaseId > lastSeenReleaseId) {
+				onHasUpdates(true)
+			}
+		}
+	}, [cookies, onHasUpdates, response.releases])
+
+	// When opened, update the cookie
+	useEffect(() => {
+		if (isOpen && response.releases) {
+			onHasUpdates(false)
+
+			let latestReleaseId = response.releases[0].id
+			let lastSeenReleaseId = cookies[releaseCookieName]
+
+			if (!lastSeenReleaseId || latestReleaseId > lastSeenReleaseId) {
+				setCookie(releaseCookieName, latestReleaseId, cookieOptions)
+			}
+		}
+	}, [cookies, isOpen, onHasUpdates, response.releases, setCookie])
+
 	return (
-		<Dialog maxWidth='md' open={ isOpen }>
+		<Dialog maxWidth='md' open={ isOpen } onBackdropClick={ onClose }>
 			<DialogContent>
 				{ response.releases ? 
 					response.releases.map((release) => (
 						<ChangeLogItemContainer 
 							key={ release.id } 
-							angerouslySetInnerHTML={ { __html: marked(release.body) } } 
+							dangerouslySetInnerHTML={ { __html: marked(release.body) } } 
 						/>
 					)) :
 					<div>Loading...</div>
@@ -44,6 +75,7 @@ const ViewChangeLogDialog = ({ isOpen, onClose }) => {
 }
 
 ViewChangeLogDialog.propTypes = {
+	onHasUpdates: PropTypes.func.isRequired,	
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 }

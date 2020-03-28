@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useCallback } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { Box, styled, Button, IconButton, Badge, Tooltip } from '@material-ui/core'
@@ -22,6 +22,7 @@ let NavbarContainer = styled(Box)(({ theme }) => ({
 
 let Navbar = () => {
 	let [dialogOpen, setDialogOpen] = useState(false)
+	let [hasUpdates, setHasUpdates] = useState(false)
 	let user = useContext(UserContext)
 	let history = useHistory()
 	let location = useLocation()
@@ -42,7 +43,7 @@ let Navbar = () => {
 			<Box display='flex' marginLeft='auto'>
 				<Tooltip title='View change log'>
 					<IconButton onClick={ _ => setDialogOpen(true) }>
-						<Badge badgeContent={ null } color='primary'>
+						<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
 							<InfoOutlinedIcon />
 						</Badge>
 					</IconButton>
@@ -63,7 +64,11 @@ let Navbar = () => {
 				</Box>
 			</Box>
 
-			<ViewChangeLogDialog isOpen={ dialogOpen } onClose={ _ => setDialogOpen(false) } />
+			<ViewChangeLogDialog 
+				onHasUpdates={ setHasUpdates } 
+				isOpen={ dialogOpen } 
+				onClose={ _ => setDialogOpen(false) } 
+			/>
 		</NavbarContainer>
 	)
 }
