@@ -17,7 +17,7 @@ import { Loading, Error } from 'app/shared/state'
 export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onClose}) {
 	let [loadouts, setLoadouts] = useState({ data: [], loading: true, error: null })
 	let [loadoutId, setLoadoutId] = useState('')
-	let [saveError, setSaveError] = useState(null)
+	let [submitState, setSubmitState] = useState({ submitting: false, error: false })
 
 	useEffect(() => { loadLoadouts() }, [])
 
@@ -35,10 +35,10 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 	}
 
 	let save = () => {
-		setSaveError(false)
+		setSubmitState({ submitting: true, error: null })
 
 		onSave(loadoutId)
-			.catch(err => setSaveError('An error occurred while adding loadout to event.'))
+			.catch(err => setSubmitState({ submitting: false, error: true }))
 	}
 
 	return (
@@ -48,7 +48,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 
 				{ loadouts.error && !loadouts.loading && <Error error={ loadouts.error } onRetry={ loadLoadouts } /> }
 				{ loadouts.loading && !loadouts.error && <Loading /> }
-				{ saveError && <Error error={ saveError } fillBackground={ true } /> }
+				{ submitState.error && <Error error={ 'An error occurred while adding loadout to event.' } fillBackground={ true } /> }
 
 				{ !loadouts.error && !loadouts.loading && (
 					<TextField
@@ -71,7 +71,7 @@ export default function AddLoadoutToEventDialog({eventTitle, isOpen, onSave, onC
 			<DialogActions>
 				<Button onClick={ onClose }>Cancel</Button>
 				<Button
-					disabled={ !loadoutId || loadouts.loading }
+					disabled={ !loadoutId || loadouts.loading || submitState.submitting }
 					variant='contained'
 					onClick={ save }
 					color='primary'
