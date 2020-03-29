@@ -5,7 +5,7 @@ import { Menu, MenuItem } from '@material-ui/core'
 
 import { AuthContext } from 'app/core/auth/contexts'
 
-const AuthenticatedUserMenu = ({ anchor, onClose }) => {
+const ProfileMenu = ({ anchor, onClose }) => {
 	let auth = useContext(AuthContext)
 
 	return (
@@ -30,13 +30,13 @@ const AuthenticatedUserMenu = ({ anchor, onClose }) => {
 	)
 }
 
-AuthenticatedUserMenu.propTypes = {
+ProfileMenu.propTypes = {
 	anchor: PropTypes.any,
 	onClose: PropTypes.func.isRequired,
 }
 
-AuthenticatedUserMenu.defaultProps = {
+ProfileMenu.defaultProps = {
 	anchor: null
 }
 
-export default AuthenticatedUserMenu
+export default ProfileMenu

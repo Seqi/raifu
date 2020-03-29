@@ -4,14 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
 import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 import NavBar from './layout/Navbar/Navbar'
-import AnnouncementBanner from './layout/AnnouncementBanner'
 import AuthPage from './auth/components/AuthPage'
 
 import HomePage from './pages/Home'
 const App = lazy(() => import('./pages/App'))
 const Shared = lazy(() => import('./pages/Shared'))
-
-let showAnnouncements = process.env.NODE_ENV !== 'development'
 
 let Site = () => {
 	return (
@@ -37,8 +34,6 @@ let Site = () => {
 					</UserContextProvider>
 				</AuthContextProvider>
 			</Router>
-				
-			{ showAnnouncements && <AnnouncementBanner /> }
 		</React.Fragment>
 	)
 }
