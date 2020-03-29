@@ -31,7 +31,7 @@ let Navbar = () => {
 	let isHomePage = location.pathname === '/'
 
 	return (
-		<NavbarContainer display='flex'>
+		<NavbarContainer display='flex' alignItems='center'>
 			{/* Left side */}
 			{ isHomePage && (
 				<Button onClick={ () => history.push('/app') } variant='outlined' color='primary'>
