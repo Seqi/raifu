@@ -34,12 +34,14 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 	let [cookies, setCookie] = useCookies()
 	let analytics = useAnalytics()
 
+	// Send analytics on open
 	useEffect(() => {
 		if (isOpen) {
 			analytics.logEvent('change_log_opened')
 		}
 	}, [analytics, isOpen])
 	
+	// Fetch change logs
 	useEffect(() => {
 		fetch('https://api.github.com/repos/seqi/raifu/releases')
 			.then(res => res.json())
@@ -56,10 +58,30 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 
 			if (newChangeLogs.length > 0) {
 				setNewChangeLogs(newChangeLogs)
-				onHasUpdates(true)
 			}
 		}
-	}, [cookies, onHasUpdates, response.releases])
+	}, [cookies, response.releases])
+
+	// Notify of updates if there are any
+	useEffect(() => {
+		if (newChangeLogs.length > 0) {
+			onHasUpdates(true)
+		}
+	}, [newChangeLogs, onHasUpdates])
+
+	// Clear updates on open
+	useEffect(() => {
+		if (isOpen && newChangeLogs.length > 0) {
+			onHasUpdates(false)
+		}
+	}, [isOpen, newChangeLogs, onHasUpdates])
+
+	// Set cookie value to latest update on open
+	useEffect(() => {
+		if (isOpen && newChangeLogs.length > 0) {
+			setCookie(releaseCookieName, newChangeLogs[0].id, cookieOptions)
+		}
+	}, [isOpen, newChangeLogs, setCookie])
 
 	// Apply the new-alert class to any updates and generate the markdown
 	// to visibly display which releases are new to the user
@@ -84,15 +106,6 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 			setFormattedChangeLogs(formattedChangeLogs)
 		}
 	}, [newChangeLogs, response.releases])
-
-	// When opened from a 'has updates'notification, 
-	// update the cookie and clear notifications
-	useEffect(() => {
-		if (isOpen && newChangeLogs.length > 0) {
-			onHasUpdates(false)
-			setCookie(releaseCookieName, newChangeLogs[0].id, cookieOptions)
-		}
-	}, [isOpen, newChangeLogs, onHasUpdates, setCookie])
 
 	return (
 		<Dialog maxWidth='md' open={ isOpen } onBackdropClick={ onClose }>
