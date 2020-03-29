@@ -6,6 +6,7 @@ import marked from 'marked'
 import { Dialog, DialogContent, DialogActions, Button, Box, styled } from '@material-ui/core'
 
 import useAnalytics from 'app/shared/hooks/useAnalytics'
+import { Error } from 'app/shared/state'
 
 let ChangeLogItemContainer = styled(Box)(({ theme }) => ({
 	'& h1': {
@@ -28,9 +29,8 @@ const releaseCookieName = 'release-last-seen'
 const cookieOptions = {	path: '/', maxAge: 60 * 60 * 24 * 365 * 5 }
 
 const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
-	let [response, setResponse] = useState({ releases: null, error: false })
+	let [response, setResponse] = useState({ changelogs: null, error: false })
 	let [newChangeLogs, setNewChangeLogs] = useState([])
-	let [formattedChangeLogs, setFormattedChangeLogs] = useState([])
 	let [cookies, setCookie] = useCookies()
 	let analytics = useAnalytics()
 
@@ -41,36 +41,28 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 	useEffect(() => {
 		fetch('https://api.github.com/repos/seqi/raifu/releases')
 			.then(res => res.json())
-			.then(data => setResponse({ releases: data, error: false }))
-			.catch(_ => setResponse({ releases: null, error: true }))
+			.then(data => setResponse({ changelogs: data, error: false }))
+			.catch(_ => setResponse({ changelogs: null, error: true }))
 	}, [])
 
 	// Calculate which releases are new
 	useEffect(() => {
-		if (response.releases) {
+		if (response.changelogs) {
 			let lastSeenReleaseId = cookies[releaseCookieName]
 
-			let newChangeLogs = response.releases.filter(release => !lastSeenReleaseId || release.id > lastSeenReleaseId)
+			let newChangeLogs = response.changelogs.filter(release => !lastSeenReleaseId || release.id > lastSeenReleaseId)
 
 			if (newChangeLogs.length > 0) {
 				setNewChangeLogs(newChangeLogs)
 			}
 		}
-	}, [cookies, response.releases])
+	}, [cookies, response.changelogs])
 
 	// Notify of updates if there are any
-	useEffect(() => {
-		if (newChangeLogs.length > 0) {
-			onHasUpdates(true)
-		}
-	}, [newChangeLogs, onHasUpdates])
+	useEffect(() => { newChangeLogs.length > 0 && onHasUpdates(true) }, [newChangeLogs, onHasUpdates])
 
 	// Clear updates on open
-	useEffect(() => {
-		if (isOpen && newChangeLogs.length > 0) {
-			onHasUpdates(false)
-		}
-	}, [isOpen, newChangeLogs, onHasUpdates])
+	useEffect(() => { isOpen && newChangeLogs.length > 0 && onHasUpdates(false) }, [isOpen, newChangeLogs, onHasUpdates])
 
 	// Set cookie value to latest update on open
 	useEffect(() => {
@@ -79,41 +71,35 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 		}
 	}, [isOpen, newChangeLogs, setCookie])
 
-	// Apply the new-alert class to any updates and generate the markdown
-	// to visibly display which releases are new to the user
-	useEffect(() => {
-		if (response.releases) {
-			let formattedChangeLogs = response.releases.map(update => {
-				// Convert markdown to html
-				let updateHtml = marked(update.body)
+	let formatChangelog = (changelog) => {
+		let isNewChangelog = !!newChangeLogs.find(newLog => newLog.id === changelog.id)
 
-				// Add new-alert class to the first <h1> tag if this change log is new
-				if (newChangeLogs.find(log => log.id === update.id)) {
-					updateHtml = updateHtml.replace( /(h1 id=".+?")/, '$1 class="new-alert"')
-				}
+		let html = marked(changelog.body)
 
-				return {
-					...update,
-					body: updateHtml
-				}
-				
-			})
-
-			setFormattedChangeLogs(formattedChangeLogs)
+		if (isNewChangelog) {
+			// Add new-alert class to the first <h1> tag if this change log is new
+			return html.replace( /(h1 id=".+?")/, '$1 class="new-alert"')
+		} else {
+			return html
 		}
-	}, [newChangeLogs, response.releases])
+	}
 
 	return (
 		<Dialog maxWidth='md' open={ isOpen } onBackdropClick={ onClose }>
 			<DialogContent>
-				{ formattedChangeLogs ? 
-					formattedChangeLogs.map((release) => (
-						<ChangeLogItemContainer 
-							key={ release.id } 
-							dangerouslySetInnerHTML={ { __html: release.body } } 
-						/>
-					)) :
-					<div>Loading...</div>
+				{ 
+					response.error ? 
+						<Error error='Could not load change logs. Please try again later.' /> :
+
+						response.changelogs ? 
+							response.changelogs.map((changelog) => (
+								<ChangeLogItemContainer 
+									key={ changelog.id } 
+									dangerouslySetInnerHTML={ { __html: formatChangelog(changelog) } } 
+								/>
+							)) :
+
+							<div>Loading...</div>
 				}
 			</DialogContent>
 
