@@ -35,11 +35,7 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 	let analytics = useAnalytics()
 
 	// Send analytics on open
-	useEffect(() => {
-		if (isOpen) {
-			analytics.logEvent('change_log_opened')
-		}
-	}, [analytics, isOpen])
+	useEffect(() => { isOpen && analytics.logEvent('change_log_opened') }, [analytics, isOpen])
 	
 	// Fetch change logs
 	useEffect(() => {
