@@ -5,6 +5,8 @@ import marked from 'marked'
 
 import { Dialog, DialogContent, DialogActions, Button, Box, styled } from '@material-ui/core'
 
+import useAnalytics from 'app/shared/hooks/useAnalytics'
+
 let ChangeLogItemContainer = styled(Box)(({ theme }) => ({
 	'& h1': {
 		borderBottom: `1px solid ${theme.palette.primary.main}`,
@@ -30,6 +32,13 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 	let [newChangeLogs, setNewChangeLogs] = useState([])
 	let [formattedChangeLogs, setFormattedChangeLogs] = useState([])
 	let [cookies, setCookie] = useCookies()
+	let analytics = useAnalytics()
+
+	useEffect(() => {
+		if (isOpen) {
+			analytics.logEvent('change_log_opened')
+		}
+	}, [analytics, isOpen])
 	
 	useEffect(() => {
 		fetch('https://api.github.com/repos/seqi/raifu/releases')
@@ -52,7 +61,8 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 		}
 	}, [cookies, onHasUpdates, response.releases])
 
-	// Apply the new-alert class to any updates and generate the markdown 
+	// Apply the new-alert class to any updates and generate the markdown
+	// to visibly display which releases are new to the user
 	useEffect(() => {
 		if (response.releases) {
 			let formattedChangeLogs = response.releases.map(update => {
@@ -64,7 +74,6 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 					updateHtml = updateHtml.replace( /(h1 id=".+?")/, '$1 class="new-alert"')
 				}
 
-				// find the first <h1> tag and add the 'new-alert' class
 				return {
 					...update,
 					body: updateHtml
@@ -76,7 +85,8 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 		}
 	}, [newChangeLogs, response.releases])
 
-	// When opened, update the cookie and clear notifications
+	// When opened from a 'has updates'notification, 
+	// update the cookie and clear notifications
 	useEffect(() => {
 		if (isOpen && newChangeLogs.length > 0) {
 			onHasUpdates(false)
