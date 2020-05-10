@@ -54,7 +54,13 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 
 			<Box display='flex' flexDirection='column'>
 				{weekRange.map((day) => (
-					<EventDay key={+day} events={getEventsForDay(day)} day={day} />
+					<EventDay
+						key={+day}
+						events={getEventsForDay(day)}
+						day={day}
+						onEventSelected={onEventSelected}
+						onSlotSelected={onSlotSelected}
+					/>
 				))}
 			</Box>
 		</div>

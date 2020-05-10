@@ -4,26 +4,19 @@ import PropTypes from 'prop-types'
 import * as moment from 'moment'
 import { Box, styled } from '@material-ui/core'
 
+import EventItem from './EventItem'
+
 const EventDayContainer = styled(Box)(({ theme }) => ({
 	minHeight: '75px'
 }))
 
-const EventContainer = styled(Box)(({ theme }) => ({
-	padding: '5px',
-	borderColor: theme.palette.primary.main,
-	borderRadius: '5px',
-	borderStyle: 'solid',
-	borderWidth: '1px 1px 1px 1px'
-}))
-
 const EventDay = ({ events, day, onEventSelected, onSlotSelected }) => {
 	return (
-		<EventDayContainer fontSize='0.9rem' paddingTop={1}>
+		<EventDayContainer onClick={(e) => onSlotSelected(day)} fontSize='0.9rem' paddingTop={1}>
 			<Box textAlign='right'>{day.format('ddd Do')}</Box>
+
 			{events.map((event) => (
-				<EventContainer>
-					{event.getTitle()} @ {event.location} ({moment(event.date).format('HH:mm')})
-				</EventContainer>
+				<EventItem key={event.id} event={event} onClick={(_) => onEventSelected(event)} />
 			))}
 		</EventDayContainer>
 	)
