@@ -2,15 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import * as moment from 'moment'
-import { Box } from '@material-ui/core'
+import { Box, styled } from '@material-ui/core'
+
+const EventDayContainer = styled(Box)(({ theme }) => ({
+	minHeight: '75px'
+}))
+
+const EventContainer = styled(Box)(({ theme }) => ({
+	padding: '5px',
+	borderColor: theme.palette.primary.main,
+	borderRadius: '5px',
+	borderStyle: 'solid',
+	borderWidth: '1px 1px 1px 1px'
+}))
 
 const EventDay = ({ events, day, onEventSelected, onSlotSelected }) => {
-	console.log(events)
 	return (
-		<Box paddingTop={2}>
+		<EventDayContainer fontSize='0.9rem' paddingTop={1}>
 			<Box textAlign='right'>{day.format('ddd Do')}</Box>
-			{events.map((event) => event.name)}
-		</Box>
+			{events.map((event) => (
+				<EventContainer>
+					{event.getTitle()} @ {event.location} ({moment(event.date).format('HH:mm')})
+				</EventContainer>
+			))}
+		</EventDayContainer>
 	)
 }
 
