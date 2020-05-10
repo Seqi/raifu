@@ -12,13 +12,13 @@ const EventRouter = lazy(() => import('app/features/events/EventRouter'))
 
 let PaddedContainer = styled(Container)(({ theme }) => ({
 	[theme.breakpoints.up('lg')]: {
-		padding: theme.spacing(0, 5)
-	}
+		padding: theme.spacing(0, 5),
+	},
 }))
 
 let App = ({ history, location }) => {
 	useRouteAnalytics()
-	
+
 	let [tabIndex, setTabIndex] = useState(() => {
 		// Fixes active tab on direct navigations
 		let idxMap = [
@@ -26,39 +26,39 @@ let App = ({ history, location }) => {
 			{ path: '/loadouts', idx: 1 },
 			{ path: '/events', idx: 2 },
 		]
-	
+
 		let currPath = location.pathname
-	
+
 		for (let map of idxMap) {
 			if (currPath.indexOf(map.path) > -1) {
 				return map.idx
 			}
 		}
-	
+
 		return 0
 	})
 
 	let onAuthFailure = useCallback(() => history.push('/login'), [history])
 
-	let isMobile = useMediaQuery(theme => theme.breakpoints.down('xs'))
+	let isMobile = useMediaQuery((theme) => theme.breakpoints.down('xs'))
 
 	return (
-		<React.Fragment>				
-			<PaddedContainer disableGutters={ isMobile } maxWidth={ false }>
-				<Tabs variant='fullWidth' centered={ true } value={ tabIndex } onChange={ (evt, idx) => setTabIndex(idx) }>
-					<Tab label='Armory' component={ Link } to='/armory' />
-					<Tab label='Loadouts' component={ Link } to='/loadouts' />
-					<Tab label='Events' component={ Link } to='/events' />
+		<React.Fragment>
+			<PaddedContainer disableGutters={isMobile} maxWidth={false}>
+				<Tabs variant='fullWidth' centered={true} value={tabIndex} onChange={(evt, idx) => setTabIndex(idx)}>
+					<Tab label='Armory' component={Link} to='/armory' />
+					<Tab label='Loadouts' component={Link} to='/loadouts' />
+					<Tab label='Events' component={Link} to='/events' />
 				</Tabs>
 			</PaddedContainer>
 
-			<PaddedContainer maxWidth={ false }>
-				<Box paddingY={ 2 }>
-					<Suspense fallback={ <LoadingOverlay /> }>
+			<PaddedContainer maxWidth={false}>
+				<Box paddingY={2}>
+					<Suspense fallback={<LoadingOverlay />}>
 						<Switch>
-							<AuthenticatedRoute path='/armory' component={ Armory } onFail={ onAuthFailure } />
-							<AuthenticatedRoute path='/loadouts' component={ LoadoutRouter } onFail={ onAuthFailure }  />
-							<AuthenticatedRoute path='/events' component={ EventRouter } onFail={ onAuthFailure }  />
+							<AuthenticatedRoute path='/armory' component={Armory} onFail={onAuthFailure} />
+							<AuthenticatedRoute path='/loadouts' component={LoadoutRouter} onFail={onAuthFailure} />
+							<AuthenticatedRoute path='/events' component={EventRouter} onFail={onAuthFailure} />
 							<Redirect from='/' to='/armory' />
 						</Switch>
 					</Suspense>

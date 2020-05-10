@@ -9,14 +9,13 @@ import firebase from '../../../firebase'
 let analytics = firebase.analytics()
 
 export default class SharedLoadout extends React.Component {
-
 	constructor(props) {
 		super(props)
 
 		this.state = {
 			loadout: null,
 			error: null,
-			loading: true
+			loading: true,
 		}
 	}
 
@@ -25,18 +24,19 @@ export default class SharedLoadout extends React.Component {
 		this.loadLoadout()
 	}
 
-	componentWillUnmount = () => this.unmounted = true
+	componentWillUnmount = () => (this.unmounted = true)
 
 	loadLoadout = () => {
 		this.setState({ loadout: null, error: null, loading: true }, () => {
-			loadouts.getById(this.props.match.params.loadoutId)
+			loadouts
+				.getById(this.props.match.params.loadoutId)
 				.then((loadout) => {
 					!this.unmounted && this.setState({ loadout: loadout, loading: false })
 				})
 				.catch((err) => {
 					!this.unmounted && this.setState({ loading: false, error: err })
 				})
-		})	
+		})
 	}
 
 	render() {
@@ -44,20 +44,20 @@ export default class SharedLoadout extends React.Component {
 		if (loading) {
 			return <LoadingOverlay />
 		}
-	
+
 		if (error) {
 			if (error.status === 404) {
 				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
 			}
 
-			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
+			return <ErrorOverlay message='Could not load loadout.' onRetry={() => this.loadLoadout()} />
 		}
-	
+
 		return (
 			<React.Fragment>
-				<ReactiveTitle>{ loadout.name }</ReactiveTitle>
-	
-				<LoadoutView loadout={ loadout } editable={ false }/>
+				<ReactiveTitle>{loadout.name}</ReactiveTitle>
+
+				<LoadoutView loadout={loadout} editable={false} />
 			</React.Fragment>
 		)
 	}

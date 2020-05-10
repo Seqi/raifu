@@ -5,12 +5,12 @@ const ResourceCard = styled(Card)({
 	display: 'flex',
 	flexDirection: 'column',
 	position: 'relative',
-		
+
 	transition: 'transform ease-in 0.15s',
 })
 
 // Use withStyles here as its easier to override the style rules for the inner elements
-const ResourceCardHeader = withStyles(theme => ({
+const ResourceCardHeader = withStyles((theme) => ({
 	root: {
 		paddingBottom: 0,
 		[theme.breakpoints.down('xs')]: {
@@ -30,9 +30,11 @@ const ResourceCardHeader = withStyles(theme => ({
 		fontSize: '0.8rem',
 		[theme.breakpoints.down('xs')]: {
 			fontSize: '0.6rem',
-		}
-	}
-}))(({ resource, ...props }) => <CardHeader title={ resource.getTitle() } subheader={ resource.getSubtitle() } { ...props } />)
+		},
+	},
+}))(({ resource, ...props }) => (
+	<CardHeader title={resource.getTitle()} subheader={resource.getSubtitle()} {...props} />
+))
 
 const ResourceCardContent = styled(CardContent)({
 	flex: 1,

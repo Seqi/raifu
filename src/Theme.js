@@ -4,11 +4,11 @@ export default createMuiTheme({
 	palette: {
 		type: 'dark',
 		primary: {
-			main: '#CA054D'
+			main: '#CA054D',
 		},
 		background: {
 			default: '#282b35',
-			paper: '#3B3E47'
+			paper: '#3B3E47',
 		},
 	},
 	typography: {
@@ -17,8 +17,8 @@ export default createMuiTheme({
 			fontSize: '4rem',
 		},
 		h5: {
-			fontSize: '1.4rem'
-		}
+			fontSize: '1.4rem',
+		},
 	},
 	breakpoints: {
 		values: {
@@ -27,7 +27,7 @@ export default createMuiTheme({
 			md: 960,
 			lg: 1280,
 			xl: 1600,
-		}
+		},
 	},
 	overrides: {
 		MuiCardHeader: {
@@ -40,12 +40,12 @@ export default createMuiTheme({
 				position: 'fixed',
 				bottom: '2%',
 				right: '3%',
-			}
+			},
 		},
 		MuiChip: {
 			root: {
-				textTransform: 'uppercase'
-			}
-		}
-	}
+				textTransform: 'uppercase',
+			},
+		},
+	},
 })

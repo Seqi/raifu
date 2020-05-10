@@ -6,13 +6,13 @@ import { Typography } from '@material-ui/core'
 const AuthError = ({ message }) => {
 	return (
 		<Typography color='primary' align='center' variant='h6'>
-			{ message }
+			{message}
 		</Typography>
 	)
 }
 
 AuthError.propTypes = {
-	message: PropTypes.string.isRequired
+	message: PropTypes.string.isRequired,
 }
 
 export default AuthError

@@ -4,20 +4,17 @@ import CloudFunction from '../cloud-function'
 
 export default {
 	...base('events', Event),
-	setLoadout: (eventId, loadoutId) => 
+	setLoadout: (eventId, loadoutId) =>
 		new CloudFunction()
 			.path(`events/${eventId}/loadout/${loadoutId}`)
 			.post()
-			.then(result => new Event(result)),
+			.then((result) => new Event(result)),
 
-	removeLoadout: (eventId) => 
+	removeLoadout: (eventId) =>
 		new CloudFunction()
 			.path(`events/${eventId}/loadout/remove`)
 			.post()
-			.then(result => new Event(result)),
+			.then((result) => new Event(result)),
 
-	join: (eventId) => 
-		new CloudFunction()
-			.path(`events/${eventId}/join`)
-			.post()		
+	join: (eventId) => new CloudFunction().path(`events/${eventId}/join`).post(),
 }

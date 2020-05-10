@@ -28,11 +28,15 @@ class ConfirmDeleteDialog extends React.PureComponent {
 		if (this.isUnmounted) {
 			return
 		}
-		
-		this.setState({ loading: true, error: null}, () => {
-			this.props.onConfirm()
+
+		this.setState({ loading: true, error: null }, () => {
+			this.props
+				.onConfirm()
 				.then(() => !this.isUnmounted && this.setState({ loading: false }))
-				.catch((err) => !this.isUnmounted && this.setState({ loading: false, error: 'An error ocurred while deleting' }))
+				.catch(
+					(err) =>
+						!this.isUnmounted && this.setState({ loading: false, error: 'An error ocurred while deleting' })
+				)
 		})
 	}
 
@@ -42,24 +46,21 @@ class ConfirmDeleteDialog extends React.PureComponent {
 
 		return (
 			// No idea why we have to stop event propagation here on click? I may have messed something up
-			<Dialog fullWidth={ true } onClick={ e => e.stopPropagation() } open={ isOpen } onClose={ onClose }>
-				<DialogTitle>{ verb } { title }?</DialogTitle>
+			<Dialog fullWidth={true} onClick={(e) => e.stopPropagation()} open={isOpen} onClose={onClose}>
+				<DialogTitle>
+					{verb} {title}?
+				</DialogTitle>
 
-				{ error && (
-					<DialogContent style={ {paddingTop: 0, paddingBottom: 0} }>
-						<Error error={ error } fillBackground={ true } /> 
+				{error && (
+					<DialogContent style={{ paddingTop: 0, paddingBottom: 0 }}>
+						<Error error={error} fillBackground={true} />
 					</DialogContent>
 				)}
 
 				<DialogActions>
-					<Button onClick={ onClose }>Cancel</Button>
-					<Button
-						variant='contained'
-						onClick={ () => this.delete() }
-						color='primary'
-						disabled={ loading }
-					>
-						{ verb }
+					<Button onClick={onClose}>Cancel</Button>
+					<Button variant='contained' onClick={() => this.delete()} color='primary' disabled={loading}>
+						{verb}
 					</Button>
 				</DialogActions>
 			</Dialog>
@@ -72,11 +73,11 @@ ConfirmDeleteDialog.propTypes = {
 	verb: PropTypes.oneOf(['Delete', 'Remove']),
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onConfirm: PropTypes.func.isRequired
+	onConfirm: PropTypes.func.isRequired,
 }
 
 ConfirmDeleteDialog.defaultProps = {
-	verb: 'Delete'
+	verb: 'Delete',
 }
 
 export default ConfirmDeleteDialog

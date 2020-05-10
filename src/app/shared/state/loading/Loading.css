@@ -3,13 +3,21 @@
 }
 
 @keyframes move {
-	33% { transform: translateX(-100px); }
-	66% { transform: translateX(100px); }
+	33% {
+		transform: translateX(-100px);
+	}
+	66% {
+		transform: translateX(100px);
+	}
 }
 
-@media (max-width: 768px) {	
+@media (max-width: 768px) {
 	@keyframes move {
-		33% { transform: translateX(-50px); }
-		66% { transform: translateX(50px); }
+		33% {
+			transform: translateX(-50px);
+		}
+		66% {
+			transform: translateX(50px);
+		}
 	}
 }

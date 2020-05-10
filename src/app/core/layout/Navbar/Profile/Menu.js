@@ -1,4 +1,4 @@
-import React, { useContext }  from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import { Menu, MenuItem } from '@material-ui/core'
@@ -11,21 +11,19 @@ const ProfileMenu = ({ anchor, onClose }) => {
 	return (
 		<Menu
 			id='auth-menu'
-			anchorEl={ anchor }
-			open={ !!anchor }
-			onClose={ onClose }
-			anchorOrigin={ {
+			anchorEl={anchor}
+			open={!!anchor}
+			onClose={onClose}
+			anchorOrigin={{
 				vertical: 'top',
-				horizontal: 'right'
-			} }
-			transformOrigin={ {
+				horizontal: 'right',
+			}}
+			transformOrigin={{
 				vertical: 'top',
-				horizontal: 'right'
-			} }
+				horizontal: 'right',
+			}}
 		>
-			<MenuItem onClick={ auth.logout }>
-				Logout
-			</MenuItem>
+			<MenuItem onClick={auth.logout}>Logout</MenuItem>
 		</Menu>
 	)
 }
@@ -36,7 +34,7 @@ ProfileMenu.propTypes = {
 }
 
 ProfileMenu.defaultProps = {
-	anchor: null
+	anchor: null,
 }
 
 export default ProfileMenu

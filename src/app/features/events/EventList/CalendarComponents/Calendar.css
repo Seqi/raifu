@@ -27,7 +27,7 @@
 	.rbc-agenda-view {
 		font-size: 0.8rem;
 	}
-	
+
 	/* Hide the table header as it doesnt scale well */
 	.rbc-agenda-table > thead {
 		display: none;

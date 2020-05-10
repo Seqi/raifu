@@ -2,26 +2,26 @@ const errors = require('../utils/errors')
 
 module.exports = (entities) => ({
 	getAll: async (user) => {
-		let result =  await entities.findAll({
+		let result = await entities.findAll({
 			where: {
-				uid: user.uid
+				uid: user.uid,
 			},
 			attributes: {
-				exclude: ['uid']
+				exclude: ['uid'],
 			},
-			order: ['createdAt']
+			order: ['createdAt'],
 		})
 
-		return result.map(item => item.toJSON())
+		return result.map((item) => item.toJSON())
 	},
 
 	add: async (data, user) => {
 		try {
 			// Overwrite any attempts to hijack the id or uid
-			delete data.id 
+			delete data.id
 			let entity = {
 				...data,
-				uid: user.uid
+				uid: user.uid,
 			}
 
 			return (await entities.create(entity)).toJSON()
@@ -36,17 +36,17 @@ module.exports = (entities) => ({
 			}
 		}
 	},
-	
+
 	delete: async (id, user) => {
 		let result = await entities.destroy({
 			where: {
 				id: id,
-				uid: user.uid
-			}
+				uid: user.uid,
+			},
 		})
 
 		if (result === 0) {
 			throw new errors.NotFoundError()
 		}
-	}
+	},
 })

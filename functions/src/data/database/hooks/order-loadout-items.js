@@ -4,27 +4,27 @@ function dateSortByKey(key) {
 
 module.exports = function orderLoadoutItems(loadout) {
 	if (!loadout) {
-		return 
+		return
 	}
 
 	loadout.weapons.sort(dateSortByKey('loadout_weapon'))
 
 	if (loadout.gear) {
-		loadout.gear.sort(dateSortByKey('loadout_gear'))	
-		loadout.gear.forEach(gear => delete gear.loadout_gear)
+		loadout.gear.sort(dateSortByKey('loadout_gear'))
+		loadout.gear.forEach((gear) => delete gear.loadout_gear)
 	}
 
 	if (loadout.clothing) {
-		loadout.clothing.sort(dateSortByKey('loadout_clothing'))	
-		loadout.gear.forEach(gear => delete gear.loadout_clothing)
+		loadout.clothing.sort(dateSortByKey('loadout_clothing'))
+		loadout.gear.forEach((gear) => delete gear.loadout_clothing)
 	}
-	
-	loadout.weapons.forEach(weapon => {
+
+	loadout.weapons.forEach((weapon) => {
 		delete weapon.loadout_weapon
 
 		if (weapon.attachments) {
 			weapon.attachments.sort(dateSortByKey('loadout_weapon_attachment'))
-			weapon.attachments.forEach(attachment => delete attachment.loadout_weapon_attachment)
+			weapon.attachments.forEach((attachment) => delete attachment.loadout_weapon_attachment)
 		}
 	})
 }

@@ -12,26 +12,28 @@ let LoadoutGearList = () => {
 	let { gear: availableGear } = useContext(AvailableArmoryContext)
 
 	return (
-		<React.Fragment>			
-			<ReactiveTitle variant='h4' mobileVariant='h5'>Gear</ReactiveTitle>
-			
+		<React.Fragment>
+			<ReactiveTitle variant='h4' mobileVariant='h5'>
+				Gear
+			</ReactiveTitle>
+
 			<LoadoutResourceList
 				resourceType='gear'
-				items={ loadout.gear || [] }
-				canAdd={ (availableGear || []).length > 0 }
-				addItem={ addGear }
-				deleteItem={ deleteGear }
-				renderAddDialog={ (isOpen, onClose, onSave) => (
-					<AddResourceDialog 
+				items={loadout.gear || []}
+				canAdd={(availableGear || []).length > 0}
+				addItem={addGear}
+				deleteItem={deleteGear}
+				renderAddDialog={(isOpen, onClose, onSave) => (
+					<AddResourceDialog
 						title='Add gear to loadout'
-						items={ availableGear || [] }
+						items={availableGear || []}
 						category='gear'
-						allowMultiple={ true }
-						isOpen={ isOpen } 
-						onSave={ onSave }
-						onClose={ onClose } 
+						allowMultiple={true}
+						isOpen={isOpen}
+						onSave={onSave}
+						onClose={onClose}
 					/>
-				) }
+				)}
 			/>
 		</React.Fragment>
 	)

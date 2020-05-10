@@ -26,7 +26,7 @@ class LoadoutPage extends React.Component {
 	componentDidMount() {
 		this.loadLoadout()
 	}
-	
+
 	loadLoadout() {
 		this.setState({ loading: true, error: null }, () => {
 			loadouts
@@ -49,15 +49,19 @@ class LoadoutPage extends React.Component {
 
 		return loadouts
 			.edit(loadout.id, { ...updatedLoadout })
-			.then(() => this.setState(({ loadout }) => {
-				let newLoadout = Object.keys(updatedLoadout)
-					.reduce((obj, key) => ({
-						...obj,
-						[key]: updatedLoadout[key]
-					}), loadout)
+			.then(() =>
+				this.setState(({ loadout }) => {
+					let newLoadout = Object.keys(updatedLoadout).reduce(
+						(obj, key) => ({
+							...obj,
+							[key]: updatedLoadout[key],
+						}),
+						loadout
+					)
 
-				return { loadout: newLoadout }
-			}))
+					return { loadout: newLoadout }
+				})
+			)
 			.then(() => analytics.logEvent('loadout_updated'))
 	}
 
@@ -69,44 +73,43 @@ class LoadoutPage extends React.Component {
 	render() {
 		let { loading, error, loadout, shared } = this.state
 
-		if (loading) {			
+		if (loading) {
 			return <LoadingOverlay />
 		}
-		
+
 		if (error) {
 			if (error.status === 404) {
 				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
 			}
 
-			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
+			return <ErrorOverlay message='Could not load loadout.' onRetry={() => this.loadLoadout()} />
 		}
 
 		return (
 			<React.Fragment>
 				<ReactiveTitle>
-					{ loadout.name }
-					{ shared && 
-						<Box component='span' paddingLeft={ 1 }>
+					{loadout.name}
+					{shared && (
+						<Box component='span' paddingLeft={1}>
 							<Tooltip placement='right' title='Loadout has been shared!'>
 								<Chip label='Shared' size='small' color='primary' />
 							</Tooltip>
-						</Box> 
-					}
+						</Box>
+					)}
 				</ReactiveTitle>
 
 				<div>
-					<LoadoutView loadout={ loadout } editable={ true } />
+					<LoadoutView loadout={loadout} editable={true} />
 				</div>
 
 				<LoadoutActions
-					loadout={ loadout }
-					editLoadout={ loadout => this.editLoadout(loadout) } 
-					onSharedChanged={ shared => this.setShared(shared) }
+					loadout={loadout}
+					editLoadout={(loadout) => this.editLoadout(loadout)}
+					onSharedChanged={(shared) => this.setShared(shared)}
 				/>
 			</React.Fragment>
 		)
 	}
 }
-
 
 export default LoadoutPage

@@ -12,7 +12,7 @@ export default function useRouteAnalytics() {
 			return
 		}
 
-		let parts =  location.pathname.split('/')
+		let parts = location.pathname.split('/')
 
 		// Helps grouping the events in firebase
 		let prefix = 'view'

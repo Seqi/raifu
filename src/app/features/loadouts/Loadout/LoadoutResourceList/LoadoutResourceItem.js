@@ -13,29 +13,18 @@ const RelativeContainer = styled(Box)({
 
 const ResourceImageTitle = styled(Box)({
 	position: 'absolute',
-	bottom: '10px', 
-	right: 0, 
-	fontSize: '16px',	
+	bottom: '10px',
+	right: 0,
+	fontSize: '16px',
 })
-
 
 export default function LoadoutResourceItem({ resourceType, item, canDelete, onDelete }) {
 	return (
 		<RelativeContainer>
-			<DeletableOverlay 
-				canDelete={ canDelete } 
-				onDelete={ () => onDelete(item.id) }
-				dialogTitle={ item.getTitle() }
-			>
-				<ResourceImage
-					resource={ item } 
-					resourceType={ resourceType }
-					rotate={ resourceType === 'attachments' } 
-				/>
+			<DeletableOverlay canDelete={canDelete} onDelete={() => onDelete(item.id)} dialogTitle={item.getTitle()}>
+				<ResourceImage resource={item} resourceType={resourceType} rotate={resourceType === 'attachments'} />
 
-				<ResourceImageTitle>
-					{ item.getTitle() }
-				</ResourceImageTitle>
+				<ResourceImageTitle>{item.getTitle()}</ResourceImageTitle>
 			</DeletableOverlay>
 		</RelativeContainer>
 	)
@@ -45,13 +34,13 @@ LoadoutResourceItem.propTypes = {
 	resourceType: PropTypes.oneOf(['attachments', 'gear', 'clothing']).isRequired,
 	item: PropTypes.shape({
 		id: PropTypes.string.isRequired,
-		getTitle: PropTypes.func.isRequired
+		getTitle: PropTypes.func.isRequired,
 	}).isRequired,
 	canDelete: PropTypes.bool,
-	onDelete: PropTypes.func
+	onDelete: PropTypes.func,
 }
 
 LoadoutResourceItem.defaultProps = {
 	canDelete: false,
-	onDelete: (itemId) => {}
+	onDelete: (itemId) => {},
 }

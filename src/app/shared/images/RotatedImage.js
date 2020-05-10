@@ -6,8 +6,8 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles({
 	fill: {
 		width: '100%',
-		height: '100%'
-	}
+		height: '100%',
+	},
 })
 
 function calculateAddedXMargin(width, height, rotateBy) {
@@ -33,7 +33,7 @@ function calculateBoundingBoxWidth(width, height, rotateBy) {
 function RotatedImage({ image, rotateBy }) {
 	let [containerRef] = useState(React.createRef())
 	let [xMargin, setXMargin] = useState(0)
-	
+
 	let setNewXMargin = useCallback(() => {
 		if (containerRef.current) {
 			let ref = containerRef.current
@@ -50,14 +50,15 @@ function RotatedImage({ image, rotateBy }) {
 	}, [setNewXMargin])
 
 	let classes = useStyles()
-	
+
 	return (
-		<div className={ classes.fill } ref={ containerRef } style={ { paddingLeft: xMargin, paddingRight: xMargin } }>
-			<img alt=''
-				src={ image }
-				className={ classes.fill }
-				style={ { transform: `rotate(${rotateBy}deg)` } }
-				onLoad={ setNewXMargin } 
+		<div className={classes.fill} ref={containerRef} style={{ paddingLeft: xMargin, paddingRight: xMargin }}>
+			<img
+				alt=''
+				src={image}
+				className={classes.fill}
+				style={{ transform: `rotate(${rotateBy}deg)` }}
+				onLoad={setNewXMargin}
 			/>
 		</div>
 	)

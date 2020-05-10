@@ -15,23 +15,25 @@ let AuthFormContainer = styled(Box)({
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
 	width: '90%',
-	maxWidth: '600px'
+	maxWidth: '600px',
 })
 
 function AuthPage({ history }) {
 	let user = useContext(UserContext)
 
-	useEffect(() => { user && history.push('/app') }, [user, history])
+	useEffect(() => {
+		user && history.push('/app')
+	}, [user, history])
 
 	return (
-		<div>		
+		<div>
 			<Logo width='500px' />
 
 			<AuthFormContainer>
 				<Router basename='/login'>
 					<Switch>
-						<Route path='/signup' component={ SignupCard } />
-						<Route path='/' component={ LoginCard } />
+						<Route path='/signup' component={SignupCard} />
+						<Route path='/' component={LoginCard} />
 					</Switch>
 				</Router>
 			</AuthFormContainer>

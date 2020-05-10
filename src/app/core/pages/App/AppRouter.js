@@ -6,7 +6,7 @@ import App from './App'
 function AppRouter(props) {
 	return (
 		<Router basename='app'>
-			<App { ...props } />
+			<App {...props} />
 		</Router>
 	)
 }

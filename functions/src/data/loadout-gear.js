@@ -5,15 +5,15 @@ let hasPermission = async (gearId, loadoutId, authId) => {
 	let ownsGear = Gear.count({
 		where: {
 			id: gearId,
-			uid: authId
-		}
+			uid: authId,
+		},
 	})
 
 	let ownsLoadout = Loadout.count({
 		where: {
 			id: loadoutId,
-			uid: authId
-		}
+			uid: authId,
+		},
 	})
 
 	let result = await Promise.all([ownsGear, ownsLoadout])
@@ -24,8 +24,8 @@ let count = async (gearId, loadoutId) => {
 	return await LoadoutGear.count({
 		where: {
 			loadout_id: loadoutId,
-			gear_id: gearId
-		}
+			gear_id: gearId,
+		},
 	})
 }
 
@@ -42,11 +42,11 @@ module.exports = {
 		if (!exists) {
 			await LoadoutGear.create({
 				loadout_id: loadoutId,
-				gear_id: gearId
+				gear_id: gearId,
 			})
 		}
 
-		return await Gear.findByPk(gearId)		
+		return await Gear.findByPk(gearId)
 	},
 
 	delete: async (gearId, loadoutId, user) => {
@@ -56,16 +56,16 @@ module.exports = {
 		if (!canDelete) {
 			throw new errors.NotFoundError('Loadout or gear not found')
 		}
-		
+
 		let result = await LoadoutGear.destroy({
 			where: {
 				loadout_id: loadoutId,
-				gear_id: gearId
-			}
+				gear_id: gearId,
+			},
 		})
 
 		if (result === 0) {
 			throw new errors.NotFoundError('Loadout or gear not found')
-		}			
-	}
+		}
+	},
 }

@@ -7,34 +7,35 @@ import EventInvite from './components/EventInvite'
 import EventUserSelect from './components/EventUserSelect'
 
 const EventContent = ({ event, onEventJoined, onLoadoutRemoved, onLoadoutAdded }) => {
-	let [ selectedUserIndex, setSelectedUserIndex ] = useState(0)
+	let [selectedUserIndex, setSelectedUserIndex] = useState(0)
 
 	const selectedUser = event.users[selectedUserIndex]
 	const amISelected = selectedUserIndex === 0
 
 	if (event.users.length === 0) {
-		return ( <EventInvite event={ event } onJoin={ onEventJoined } /> )
+		return <EventInvite event={event} onJoin={onEventJoined} />
 	}
 
 	return (
 		<React.Fragment>
-			{ event.users.length > 1 && (
+			{event.users.length > 1 && (
 				<EventUserSelect
-					users={ event.users }
-					userIndex={ selectedUserIndex }
-					onUserIndexChange={ setSelectedUserIndex } 
+					users={event.users}
+					userIndex={selectedUserIndex}
+					onUserIndexChange={setSelectedUserIndex}
 				/>
 			)}
 
-			{ amISelected ? 
+			{amISelected ? (
 				<EventMyLoadout
-					event={ event }
-					user={ selectedUser }
-					addLoadout={ onLoadoutAdded }
-					removeLoadout={ onLoadoutRemoved } 
-				/> :
-				<EventGuestLoadout user={ selectedUser } /> 
-			}
+					event={event}
+					user={selectedUser}
+					addLoadout={onLoadoutAdded}
+					removeLoadout={onLoadoutRemoved}
+				/>
+			) : (
+				<EventGuestLoadout user={selectedUser} />
+			)}
 		</React.Fragment>
 	)
 }

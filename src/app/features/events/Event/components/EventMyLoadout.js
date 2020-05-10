@@ -8,35 +8,34 @@ import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import EventLoadoutSelect from './EventLoadoutSelect'
 
 const SpacedButton = styled(Button)(({ theme }) => ({
-	margin: theme.spacing(1, 0)
+	margin: theme.spacing(1, 0),
 }))
 
 const EventMyLoadout = ({ event, user, addLoadout, removeLoadout }) => {
-	let [ activeDialog, setActiveDialog ] = useState()
+	let [activeDialog, setActiveDialog] = useState()
 
 	let onDelete = useCallback(() => {
-		return removeLoadout()
-			.then(() => setActiveDialog(null))
+		return removeLoadout().then(() => setActiveDialog(null))
 	}, [removeLoadout])
 
 	if (!user.loadout) {
-		return <EventLoadoutSelect event={ event } setLoadout={ addLoadout } />
+		return <EventLoadoutSelect event={event} setLoadout={addLoadout} />
 	}
 
 	return (
 		<React.Fragment>
-			<SpacedButton color='primary' variant='outlined' fullWidth={ true } onClick={ () => setActiveDialog('remove') }>
-				Remove Loadout ({ user.loadout.getTitle() })
+			<SpacedButton color='primary' variant='outlined' fullWidth={true} onClick={() => setActiveDialog('remove')}>
+				Remove Loadout ({user.loadout.getTitle()})
 			</SpacedButton>
-					
-			<LoadoutView loadout={ user.loadout } editable={ false }/>
 
-			<ConfirmDeleteDialog 
+			<LoadoutView loadout={user.loadout} editable={false} />
+
+			<ConfirmDeleteDialog
 				verb='Remove'
-				title={ `${user.loadout.getTitle()} from ${event.getTitle()}` }
-				isOpen={ activeDialog === 'remove' }
-				onClose={ () => setActiveDialog(null) }
-				onConfirm={ onDelete }
+				title={`${user.loadout.getTitle()} from ${event.getTitle()}`}
+				isOpen={activeDialog === 'remove'}
+				onClose={() => setActiveDialog(null)}
+				onConfirm={onDelete}
 			/>
 		</React.Fragment>
 	)
