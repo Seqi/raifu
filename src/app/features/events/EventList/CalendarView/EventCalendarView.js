@@ -65,7 +65,9 @@ EventCalendarView.propTypes = {
 			name: PropTypes.string.isRequired,
 			date: PropTypes.instanceOf(Date)
 		})
-	).isRequired
+	).isRequired,
+	onEventSelected: PropTypes.func.isRequired,
+	onSlotSelected: PropTypes.func.isRequired
 }
 
 export default EventCalendarView

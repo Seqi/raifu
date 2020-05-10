@@ -7,6 +7,7 @@ import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import EditEventDialog from './EditEventDialog'
 import firebase from '../../../../firebase'
 import EventCalendarView from './CalendarView/EventCalendarView'
+import EventWeeklyView from './WeeklyView/EventWeeklyView'
 
 let analytics = firebase.analytics()
 
@@ -108,11 +109,12 @@ class Events extends React.Component {
 		return (
 			<React.Fragment>
 				<EventListContainer>
-					<EventCalendarView
+					{/* <EventCalendarView
 						events={events}
 						onEventSelected={(event) => this.view(event)}
 						onSlotSelected={(event) => this.addEvent(event.end)}
-					/>
+					/> */}
+					<EventWeeklyView />
 				</EventListContainer>
 
 				<EventFab onClick={() => this.addEvent()} color='primary' aria-label='Add'>
