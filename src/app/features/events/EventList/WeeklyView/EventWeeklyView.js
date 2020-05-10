@@ -13,22 +13,26 @@ import { useCallback } from 'react'
 // really wanna drag moment in until we hit the event stuff
 extendMoment(moment)
 
+let getWeekRange = (weekOffset) => {
+	let start = moment()
+		.add('weeks', weekOffset)
+		.startOf('week')
+
+	let end = moment()
+		.add('weeks', weekOffset)
+		.endOf('week')
+
+	let range = moment.range(start, end).by('days')
+
+	return Array.from(range)
+}
+
 const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
-	let getWeekRange = useCallback((weekOffset) => {
-		let start = moment()
-			.add('weeks', weekOffset)
-			.startOf('week')
-
-		let end = moment()
-			.add('weeks', weekOffset)
-			.endOf('week')
-
-		let range = moment.range(start, end).by('days')
-
-		return Array.from(range)
-	}, [])
-
 	let [weekOffset, setWeekOffset] = useState(0)
+
+	let getEventsForDay = useCallback((day) => {
+		return events.filter((event) => moment(event.date).isSame(day, 'day'))
+	})
 
 	let weekRange = getWeekRange(weekOffset)
 
@@ -50,7 +54,7 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 
 			<Box display='flex' flexDirection='column'>
 				{weekRange.map((day) => (
-					<EventDay key={+day} day={day} />
+					<EventDay key={+day} events={getEventsForDay(day)} day={day} />
 				))}
 			</Box>
 		</div>

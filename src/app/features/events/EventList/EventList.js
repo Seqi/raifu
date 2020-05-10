@@ -114,7 +114,7 @@ class Events extends React.Component {
 						onEventSelected={(event) => this.view(event)}
 						onSlotSelected={(event) => this.addEvent(event.end)}
 					/> */}
-					<EventWeeklyView />
+					<EventWeeklyView events={events} />
 				</EventListContainer>
 
 				<EventFab onClick={() => this.addEvent()} color='primary' aria-label='Add'>
