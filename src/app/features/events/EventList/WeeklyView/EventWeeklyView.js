@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as moment from 'moment'
 import { extendMoment } from 'moment-range'
 
-import { Box, styled } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 
 import EventDay from './EventDay'
 import { useState } from 'react'
@@ -12,10 +12,6 @@ import { useCallback } from 'react'
 // This'll fire every time we mount this component, but I don't
 // really wanna drag moment in until we hit the event stuff
 extendMoment(moment)
-
-const DayContainer = styled(Box)(({ theme }) => ({
-	border: '1px solid white'
-}))
 
 const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 	let getWeekRange = useCallback((weekOffset) => {
@@ -31,11 +27,11 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 		return Array.from(range)
 	}, [])
 
-	let [weekRange, setWeekRange] = useState(getWeekRange(0))
+	let [weekOffset, setWeekOffset] = useState(getWeekRange(0))
 
 	return (
 		<Box display='flex' flexDirection='column'>
-			{weekRange.map((day) => (
+			{getWeekRange(weekOffset).map((day) => (
 				<EventDay key={+day} day={day} />
 			))}
 		</Box>
