@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as moment from 'moment'
 import { extendMoment } from 'moment-range'
 
-import { Box } from '@material-ui/core'
+import { Box, IconButton } from '@material-ui/core'
 
 import EventDay from './EventDay'
 import { useState } from 'react'
@@ -18,6 +18,7 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 		let start = moment()
 			.add('weeks', weekOffset)
 			.startOf('week')
+
 		let end = moment()
 			.add('weeks', weekOffset)
 			.endOf('week')
@@ -27,14 +28,32 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 		return Array.from(range)
 	}, [])
 
-	let [weekOffset, setWeekOffset] = useState(getWeekRange(0))
+	let [weekOffset, setWeekOffset] = useState(0)
+
+	let weekRange = getWeekRange(weekOffset)
 
 	return (
-		<Box display='flex' flexDirection='column'>
-			{getWeekRange(weekOffset).map((day) => (
-				<EventDay key={+day} day={day} />
-			))}
-		</Box>
+		<div>
+			<Box display='flex'>
+				<IconButton size='small' onClick={(_) => setWeekOffset(weekOffset - 1)}>
+					<i className='fa fa-chevron-left' />
+				</IconButton>
+
+				<Box flex={1} textAlign='center'>
+					{weekRange[0].format('MMM YYYY')}
+				</Box>
+
+				<IconButton size='small' onClick={(_) => setWeekOffset(weekOffset + 1)}>
+					<i className='fa fa-chevron-right' />
+				</IconButton>
+			</Box>
+
+			<Box display='flex' flexDirection='column'>
+				{weekRange.map((day) => (
+					<EventDay key={+day} day={day} />
+				))}
+			</Box>
+		</div>
 	)
 }
 
