@@ -9,20 +9,21 @@ import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { Error } from 'app/shared/state'
 
 let ChangeLogItemContainer = styled(Box)(({ theme }) => ({
+	lineHeight: 2,
 	'& h1': {
-		borderBottom: `1px solid ${theme.palette.primary.main}`,
+		borderBottom: `1px solid ${theme.palette.primary.main}`
 	},
 
 	'& .new-alert::after': {
 		content: '"*New! "',
 		fontSize: '1rem',
 		fontWeight: 500,
-		paddingLeft: theme.spacing(0.5),
+		paddingLeft: theme.spacing(0.5)
 	},
 
 	'& p, li': {
-		fontSize: '1rem',
-	},
+		fontSize: '1rem'
+	}
 }))
 
 const releaseCookieName = 'release-last-seen'
@@ -121,7 +122,7 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 ViewChangeLogDialog.propTypes = {
 	onHasUpdates: PropTypes.func.isRequired,
 	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired,
+	onClose: PropTypes.func.isRequired
 }
 
 export default ViewChangeLogDialog
