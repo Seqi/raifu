@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { Fab, Box, styled, withTheme } from '@material-ui/core'
+import { Fab, Box, styled, withTheme, withWidth } from '@material-ui/core'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import EditEventDialog from './EditEventDialog'
-import firebase from '../../../../firebase'
-import EventCalendarView from './CalendarView/EventCalendarView'
 import EventWeeklyView from './WeeklyView/EventWeeklyView'
+import EventCalendarView from './CalendarView/EventCalendarView'
+import firebase from '../../../../firebase'
 
 let analytics = firebase.analytics()
 
@@ -97,6 +97,7 @@ class Events extends React.Component {
 
 	render() {
 		let { loading, error, events, activeTimeslot, isAddDialogOpen } = this.state
+		let { width } = this.props
 
 		if (loading) {
 			return <LoadingOverlay />
@@ -109,16 +110,19 @@ class Events extends React.Component {
 		return (
 			<React.Fragment>
 				<EventListContainer>
-					{/* <EventCalendarView
-						events={events}
-						onEventSelected={(event) => this.view(event)}
-						onSlotSelected={(event) => this.addEvent(event.end)}
-					/> */}
-					<EventWeeklyView
-						events={events}
-						onEventSelected={(event) => this.view(event)}
-						onSlotSelected={(event) => this.addEvent(event.end)}
-					/>
+					{width === 'xs' ? (
+						<EventWeeklyView
+							events={events}
+							onEventSelected={(event) => this.view(event)}
+							onSlotSelected={(event) => this.addEvent(event.end)}
+						/>
+					) : (
+						<EventCalendarView
+							events={events}
+							onEventSelected={(event) => this.view(event)}
+							onSlotSelected={(event) => this.addEvent(event.end)}
+						/>
+					)}
 				</EventListContainer>
 
 				<EventFab onClick={() => this.addEvent()} color='primary' aria-label='Add'>
@@ -138,4 +142,4 @@ class Events extends React.Component {
 	}
 }
 
-export default withTheme(Events)
+export default withWidth()(withTheme(Events))
