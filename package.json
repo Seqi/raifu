@@ -19,13 +19,14 @@
 		"react-dom": "^16.10.2",
 		"react-hook-form": "^5.1.1",
 		"react-router-dom": "^5.1.2",
-		"react-scripts": "3.2.0",
+		"react-scripts": "^3.4.3",
 		"whatwg-fetch": "^3.0.0"
 	},
 	"devDependencies": {
 		"concurrently": "^4.1.2",
-		"eslint": "~6.5.1",
+		"eslint": "^6.6.0",
 		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-prettier": "^3.1.4",
 		"eslint-plugin-react": "^7.16.0",
 		"prettier": "^1.19.1"
 	},
