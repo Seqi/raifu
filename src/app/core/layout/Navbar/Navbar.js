@@ -12,12 +12,12 @@ let NavbarContainer = styled(Box)(({ theme }) => ({
 	padding: theme.spacing(5, 7, 0),
 
 	[theme.breakpoints.down('sm')]: {
-		padding: theme.spacing(3, 4, 0),
+		padding: theme.spacing(3, 4, 0)
 	},
 
 	[theme.breakpoints.down('xs')]: {
-		padding: theme.spacing(2, 1, 0),
-	},
+		padding: theme.spacing(2, 1, 0)
+	}
 }))
 
 let Navbar = () => {
@@ -33,8 +33,8 @@ let Navbar = () => {
 	return (
 		<NavbarContainer display='flex' alignItems='center'>
 			{/* Left side */}
-			{isHomePage && (
-				<Button onClick={() => history.push('/app')} variant='outlined' color='primary'>
+			{isHomePage && isAuthenticated && (
+				<Button onClick={ () => history.push('/app') } variant='outlined' color='primary'>
 					Go to app
 				</Button>
 			)}
@@ -42,18 +42,18 @@ let Navbar = () => {
 			{/* Right Side */}
 			<Box display='flex' marginLeft='auto'>
 				<Tooltip title='View change log'>
-					<IconButton onClick={(_) => setDialogOpen(true)}>
-						<Badge badgeContent={hasUpdates ? '!' : null} color='primary'>
+					<IconButton onClick={ (_) => setDialogOpen(true) }>
+						<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
 							<InfoOutlinedIcon />
 						</Badge>
 					</IconButton>
 				</Tooltip>
 
-				<Box marginLeft={1.5}>
+				<Box marginLeft={ 1.5 }>
 					{isAuthenticated ? (
-						<UserProfile user={user} />
+						<UserProfile user={ user } />
 					) : (
-						<Button variant='outlined' color='primary' size='large' onClick={(_) => history.push('/login')}>
+						<Button variant='outlined' color='primary' size='large' onClick={ (_) => history.push('/login') }>
 							Log in
 						</Button>
 					)}
@@ -61,9 +61,9 @@ let Navbar = () => {
 			</Box>
 
 			<ViewChangeLogDialog
-				onHasUpdates={setHasUpdates}
-				isOpen={dialogOpen}
-				onClose={(_) => setDialogOpen(false)}
+				onHasUpdates={ setHasUpdates }
+				isOpen={ dialogOpen }
+				onClose={ (_) => setDialogOpen(false) }
 			/>
 		</NavbarContainer>
 	)
