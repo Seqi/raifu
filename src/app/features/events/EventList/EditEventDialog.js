@@ -12,7 +12,7 @@ import {
 	FormHelperText,
 	TextField,
 	Button,
-	Checkbox,
+	Checkbox
 } from '@material-ui/core'
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
@@ -26,52 +26,58 @@ let EditEventDialog = ({ event, date, isOpen, onSave, onClose }) => {
 			name: event.name,
 			location: event.location,
 			date: date || event.date,
-			public: event.public,
+			public: event.public
 		},
-		mode: 'onChange',
+		mode: 'onChange'
 	})
 
 	let handleSave = useCallback(
 		(updatedEvent) => {
 			setError(null)
 
-			onSave(updatedEvent).catch((err) => setError('An error occurred while saving event.'))
+			onSave(updatedEvent)
+				.catch((err) => {
+					setError('An error occurred while saving event.')
+				})
 		},
 		[onSave]
 	)
 
+	// Required to read here due to formState being wrapped with Proxy
+	const { dirty, isValid, isSubmitting } = formState
+
 	return (
-		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
-			<form onSubmit={handleSubmit(handleSave)}>
+		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
+			<form onSubmit={ handleSubmit(handleSave) }>
 				<DialogTitle>{event.name ? 'Edit' : 'Add'} event</DialogTitle>
 
 				<DialogContent>
-					{error && <Error error={error} fillBackground={true} />}
+					{error && <Error error={ error } fillBackground={ true } />}
 
 					<TextField
-						inputRef={register({ required: true })}
+						inputRef={ register({ required: true }) }
 						name='name'
 						label='Name'
 						type='text'
-						fullWidth={true}
+						fullWidth={ true }
 					/>
 
 					<TextField
-						inputRef={register({ required: true })}
+						inputRef={ register({ required: true }) }
 						name='location'
 						label='Location'
 						type='text'
-						fullWidth={true}
+						fullWidth={ true }
 					/>
 
-					<MuiPickersUtilsProvider utils={MomentUtils}>
+					<MuiPickersUtilsProvider utils={ MomentUtils }>
 						<Controller
 							name='date'
-							rules={{ required: true }}
-							as={DateTimePicker}
-							control={control}
-							onChange={([date]) => date.toDate()}
-							fullWidth={true}
+							rules={ { required: true } }
+							as={ DateTimePicker }
+							control={ control }
+							onChange={ ([date]) => date.toDate() }
+							fullWidth={ true }
 							label='Date'
 						/>
 					</MuiPickersUtilsProvider>
@@ -79,7 +85,7 @@ let EditEventDialog = ({ event, date, isOpen, onSave, onClose }) => {
 					<FormControl>
 						<FormControlLabel
 							label='Make this event public'
-							control={<Checkbox inputRef={register} name='public' />}
+							control={ <Checkbox inputRef={ register } name='public' /> }
 						/>
 						<FormHelperText>
 							If public, users with the event link will be able to add themselves to the event and add
@@ -89,9 +95,9 @@ let EditEventDialog = ({ event, date, isOpen, onSave, onClose }) => {
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={onClose}>Cancel</Button>
+					<Button onClick={ onClose }>Cancel</Button>
 					<Button
-						disabled={!formState.isValid || formState.isSubmitting}
+						disabled={ !dirty || !isValid || isSubmitting }
 						variant='contained'
 						color='primary'
 						type='submit'
@@ -113,8 +119,8 @@ EditEventDialog.propTypes = {
 		name: PropTypes.string.isRequired,
 		date: PropTypes.object,
 		location: PropTypes.string.isRequired,
-		public: PropTypes.bool.isRequired,
-	}),
+		public: PropTypes.bool.isRequired
+	})
 }
 
 EditEventDialog.defaultProps = {
@@ -123,8 +129,8 @@ EditEventDialog.defaultProps = {
 		name: '',
 		location: '',
 		date: null,
-		public: false,
-	},
+		public: false
+	}
 }
 
 export default EditEventDialog
