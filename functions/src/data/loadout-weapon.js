@@ -5,15 +5,15 @@ let hasPermission = async (weaponId, loadoutId, authId) => {
 	let ownsWeapon = Weapon.count({
 		where: {
 			id: weaponId,
-			uid: authId
-		}
+			uid: authId,
+		},
 	})
 
 	let ownsLoadout = Loadout.count({
 		where: {
 			id: loadoutId,
-			uid: authId
-		}
+			uid: authId,
+		},
 	})
 
 	let result = await Promise.all([ownsWeapon, ownsLoadout])
@@ -24,8 +24,8 @@ let count = async (weaponId, loadoutId) => {
 	return await LoadoutWeapon.count({
 		where: {
 			loadout_id: loadoutId,
-			weapon_id: weaponId
-		}
+			weapon_id: weaponId,
+		},
 	})
 }
 
@@ -44,7 +44,7 @@ module.exports = {
 		if (!exists) {
 			await LoadoutWeapon.create({
 				loadout_id: loadoutId,
-				weapon_id: weaponId
+				weapon_id: weaponId,
 			})
 		}
 
@@ -57,17 +57,17 @@ module.exports = {
 
 		if (!canDelete) {
 			throw new errors.NotFoundError('Loadout or weapon not found')
-		}		
+		}
 
 		let result = await LoadoutWeapon.destroy({
 			where: {
 				loadout_id: loadoutId,
-				weapon_id: weaponId
-			}
+				weapon_id: weaponId,
+			},
 		})
 
 		if (result === 0) {
 			throw new errors.NotFoundError('Loadout or weapon not found')
-		}			
-	}
+		}
+	},
 }

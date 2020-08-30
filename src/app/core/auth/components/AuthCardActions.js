@@ -7,14 +7,9 @@ import { Box, Button, Link } from '@material-ui/core'
 let AuthCardActions = ({ to, text }) => {
 	return (
 		<Box marginLeft='auto'>
-			<Button size='small' >
-				<Link 
-					to={ to }
-					underline='none' 
-					color='textPrimary' 
-					component={ RouterLink } 
-				>
-					{ text }
+			<Button size='small'>
+				<Link to={to} underline='none' color='textPrimary' component={RouterLink}>
+					{text}
 				</Link>
 			</Button>
 		</Box>

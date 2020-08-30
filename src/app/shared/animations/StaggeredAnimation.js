@@ -5,38 +5,41 @@ const StaggeredAnimation = ({ minInterval, maxDuration, children }) => {
 	let childCount = React.Children.count(children)
 
 	let hasRendered = useRef(false)
-	useEffect(() => { hasRendered.current = true }, [])
+	useEffect(() => {
+		hasRendered.current = true
+	}, [])
 
-	let getAnimationDelay = useCallback((childIndex) => {
-		// Once the initial animation has played out, we don't want to stagger anymore
-		if (hasRendered.current) {
-			return 0
-		}
+	let getAnimationDelay = useCallback(
+		(childIndex) => {
+			// Once the initial animation has played out, we don't want to stagger anymore
+			if (hasRendered.current) {
+				return 0
+			}
 
-		let interval = minInterval
+			let interval = minInterval
 
-		// If no max duration is specified, we can simply stagger without worrying
-		if (!maxDuration) {
+			// If no max duration is specified, we can simply stagger without worrying
+			if (!maxDuration) {
+				return interval * childIndex
+			}
+
+			// If the animation with the min interval will exceed the max duration,
+			// cut the interval length to fit
+			let animationWillExceedMaxDuration = childCount * minInterval > maxDuration
+
+			if (animationWillExceedMaxDuration) {
+				interval = maxDuration / childCount
+			}
+
 			return interval * childIndex
-		}
+		},
+		[minInterval, maxDuration, childCount]
+	)
 
-		// If the animation with the min interval will exceed the max duration,
-		// cut the interval length to fit
-		let animationWillExceedMaxDuration = childCount * minInterval > maxDuration
-
-		if (animationWillExceedMaxDuration) {
-			interval = maxDuration / childCount
-		}
-
-		return interval * childIndex
-	}, [minInterval, maxDuration, childCount])
-
-	return (
-		React.Children.map(children, (child, index) => 
-			React.cloneElement(child, {
-				style: { transitionDelay: `${getAnimationDelay(index)}s` }
-			})
-		)
+	return React.Children.map(children, (child, index) =>
+		React.cloneElement(child, {
+			style: { transitionDelay: `${getAnimationDelay(index)}s` },
+		})
 	)
 }
 
@@ -47,7 +50,7 @@ StaggeredAnimation.propTypes = {
 
 StaggeredAnimation.defaultProps = {
 	minInterval: 0.2,
-	maxDuration: 0
+	maxDuration: 0,
 }
 
 export default StaggeredAnimation

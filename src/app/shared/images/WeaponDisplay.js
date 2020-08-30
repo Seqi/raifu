@@ -18,20 +18,18 @@ let WeaponDisplay = ({ weapons }) => {
 	}
 
 	return (
-		<div style={ weaponDisplayContainerStyle }>
-			{
-				weapons.map((weapon) => (
-					<div key={ weapon.id }>
-						<ResourceImage resourceType='weapons' resource={ weapon } rotate={ true } />
-					</div>
-				))
-			}
+		<div style={weaponDisplayContainerStyle}>
+			{weapons.map((weapon) => (
+				<div key={weapon.id}>
+					<ResourceImage resourceType='weapons' resource={weapon} rotate={true} />
+				</div>
+			))}
 		</div>
 	)
 }
 
 WeaponDisplay.propTypes = {
-	weapons: PropTypes.array.isRequired
+	weapons: PropTypes.array.isRequired,
 }
 
 export default WeaponDisplay

@@ -4,15 +4,19 @@ import { Box, Button } from '@material-ui/core'
 
 import { LoadingOverlay } from 'app/shared/state'
 import { events } from 'app/data/api'
+import useAnalytics from 'app/shared/hooks/useAnalytics'
 
 const EventInvite = ({ event, onJoin }) => {
 	let [loading, setLoading] = useState(false)
+	let analytics = useAnalytics()
 
 	let joinEvent = () => {
 		setLoading(true)
-		
-		events.join(event.id)
+
+		events
+			.join(event.id)
 			.then(() => setLoading(false))
+			.then(() => analytics.logEvent('event_joined'))
 			.then(onJoin)
 	}
 
@@ -21,8 +25,8 @@ const EventInvite = ({ event, onJoin }) => {
 	}
 
 	return (
-		<Box paddingTop={ 2 }>
-			<Button onClick={ joinEvent } variant='outlined' color='primary' fullWidth={ true }>
+		<Box paddingTop={2}>
+			<Button onClick={joinEvent} variant='outlined' color='primary' fullWidth={true}>
 				Join event!
 			</Button>
 		</Box>
@@ -33,6 +37,5 @@ export default EventInvite
 
 EventInvite.propTypes = {
 	event: PropTypes.object.isRequired,
-	onJoin: PropTypes.func.isRequired
+	onJoin: PropTypes.func.isRequired,
 }
-	

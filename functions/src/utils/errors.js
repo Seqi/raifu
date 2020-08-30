@@ -5,5 +5,5 @@ class ForbidError extends Error {}
 module.exports = {
 	NotFoundError,
 	BadRequestError,
-	ForbidError
+	ForbidError,
 }

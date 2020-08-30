@@ -16,49 +16,52 @@ const LoadoutResourceItemContainer = styled(Box)(({ theme }) => ({
 	maxHeight: '300px',
 
 	padding: '1rem 1.5rem',
-	
+
 	[theme.breakpoints.down('xs')]: {
 		minWidth: '150px',
 		maxWidth: '50%',
 		minHeight: '100px',
 		maxHeight: '200px',
-	
+
 		padding: '0.4rem 1rem',
-	}
+	},
 }))
 
 let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, renderAddDialog }) => {
 	let [dialog, setDialog] = useState(null)
 	let { editable } = useContext(LoadoutContext)
 
-	let addItemToLoadout = useCallback(async (itemIds) => {
-		await addItem(itemIds)
-		setDialog(null)
-	}, [addItem])
+	let addItemToLoadout = useCallback(
+		async (itemIds) => {
+			await addItem(itemIds)
+			setDialog(null)
+		},
+		[addItem]
+	)
 
 	return (
 		<React.Fragment>
-			<Grid container={ true }>
-				{ 
-					items.map(item => (
-						<LoadoutResourceItemContainer key={ item.id }>
-							<LoadoutResourceItem
-								resourceType={ resourceType } 
-								item={ item }
-								canDelete={ editable }
-								onDelete={ deleteItem } />
-						</LoadoutResourceItemContainer>
-					)) 
-				}
+			<Grid container={true}>
+				{items.map((item) => (
+					<LoadoutResourceItemContainer key={item.id}>
+						<LoadoutResourceItem
+							resourceType={resourceType}
+							item={item}
+							canDelete={editable}
+							onDelete={deleteItem}
+						/>
+					</LoadoutResourceItemContainer>
+				))}
 
-				{ editable && canAdd &&
-				<LoadoutResourceItemContainer>
-					<AddButton onClick={ () => setDialog('add') } />
-				</LoadoutResourceItemContainer>
-				}
-			</Grid>			
+				{editable && canAdd && (
+					<LoadoutResourceItemContainer>
+						<AddButton onClick={() => setDialog('add')} />
+					</LoadoutResourceItemContainer>
+				)}
+			</Grid>
 
-			{editable && canAdd &&
+			{editable &&
+				canAdd &&
 				renderAddDialog(
 					// Is Open
 					dialog === 'add',
@@ -66,21 +69,22 @@ let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, r
 					() => setDialog(null),
 					// OnSave
 					addItemToLoadout
-				)
-			}
+				)}
 		</React.Fragment>
 	)
 }
 
 LoadoutResourceList.propTypes = {
 	resourceType: PropTypes.oneOf(['clothing', 'gear', 'attachments']).isRequired,
-	items: PropTypes.arrayOf(PropTypes.shape({
-		id: PropTypes.string.isRequired,
-	})).isRequired,
+	items: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.string.isRequired,
+		})
+	).isRequired,
 	canAdd: PropTypes.bool.isRequired,
 	addItem: PropTypes.func.isRequired,
 	deleteItem: PropTypes.func.isRequired,
-	renderAddDialog: PropTypes.func.isRequired
+	renderAddDialog: PropTypes.func.isRequired,
 }
 
 export default LoadoutResourceList

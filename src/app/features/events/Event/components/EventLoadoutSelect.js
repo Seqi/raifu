@@ -10,14 +10,15 @@ const EventLoadoutSelect = ({ event, setLoadout }) => {
 	return (
 		<React.Fragment>
 			<LoadoutSeparator>
-				<LoadoutAdd onClick={ () => setActiveDialog('add') } />
+				<LoadoutAdd onClick={() => setActiveDialog('add')} />
 			</LoadoutSeparator>
 
-			<AddLoadoutToEventDialog 
-				eventTitle={ event.getTitle() }
-				isOpen={ activeDialog === 'add' }
-				onSave={ setLoadout }
-				onClose={ () => setActiveDialog(null) } />
+			<AddLoadoutToEventDialog
+				eventTitle={event.getTitle()}
+				isOpen={activeDialog === 'add'}
+				onSave={setLoadout}
+				onClose={() => setActiveDialog(null)}
+			/>
 		</React.Fragment>
 	)
 }

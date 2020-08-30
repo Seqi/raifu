@@ -5,15 +5,15 @@ let hasPermission = async (clothingId, loadoutId, authId) => {
 	let ownsClothing = Clothing.count({
 		where: {
 			id: clothingId,
-			uid: authId
-		}
+			uid: authId,
+		},
 	})
 
 	let ownsLoadout = Loadout.count({
 		where: {
 			id: loadoutId,
-			uid: authId
-		}
+			uid: authId,
+		},
 	})
 
 	let result = await Promise.all([ownsClothing, ownsLoadout])
@@ -24,8 +24,8 @@ let count = async (clothingId, loadoutId) => {
 	return await LoadoutClothing.count({
 		where: {
 			loadout_id: loadoutId,
-			clothing_id: clothingId
-		}
+			clothing_id: clothingId,
+		},
 	})
 }
 
@@ -36,7 +36,7 @@ module.exports = {
 
 		if (!canAdd) {
 			throw new errors.NotFoundError('Loadout or clothing not found')
-		}		
+		}
 
 		// Ensure this combination doesnt already exist
 		let exists = await count(clothingId, loadoutId)
@@ -44,11 +44,11 @@ module.exports = {
 		if (!exists) {
 			await LoadoutClothing.create({
 				loadout_id: loadoutId,
-				clothing_id: clothingId
+				clothing_id: clothingId,
 			})
 		}
 
-		return await Clothing.findByPk(clothingId)		
+		return await Clothing.findByPk(clothingId)
 	},
 
 	delete: async (clothingId, loadoutId, user) => {
@@ -57,17 +57,17 @@ module.exports = {
 
 		if (!canDelete) {
 			throw new errors.NotFoundError('Loadout or clothing not found')
-		}		
+		}
 
 		let result = await LoadoutClothing.destroy({
 			where: {
 				loadout_id: loadoutId,
-				clothing_id: clothingId
-			}
+				clothing_id: clothingId,
+			},
 		})
 
 		if (result === 0) {
 			throw new errors.NotFoundError('Loadout or clothing not found')
-		}		
-	}
+		}
+	},
 }

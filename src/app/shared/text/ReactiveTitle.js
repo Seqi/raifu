@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 
 import { Typography, useMediaQuery } from '@material-ui/core'
 
-function ReactiveTitle({children, variant, mobileVariant, style}) {
-	let isMobileMode = useMediaQuery(theme => theme.breakpoints.down('xs'))
+function ReactiveTitle({ children, variant, mobileVariant, style }) {
+	let isMobileMode = useMediaQuery((theme) => theme.breakpoints.down('xs'))
 
 	return (
-		<Typography style={ style } variant={ isMobileMode ? mobileVariant : variant }>
-			{ children }
+		<Typography style={style} variant={isMobileMode ? mobileVariant : variant}>
+			{children}
 		</Typography>
 	)
 }
@@ -22,7 +22,7 @@ ReactiveTitle.propTypes = {
 ReactiveTitle.defaultProps = {
 	variant: 'h3',
 	mobileVariant: 'h4',
-	style: { }
+	style: {},
 }
 
 export default ReactiveTitle

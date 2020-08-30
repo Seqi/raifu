@@ -1,66 +1,49 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { useForm } from 'react-hook-form'
 
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
-class LoginForm extends Component {
-	constructor(props) {
-		super(props)
+let LoginForm = ({ onSubmit }) => {
+	let { register, handleSubmit, formState } = useForm({ mode: 'onChange' })
 
-		this.state = {
-			email: '',
-			password: ''
-		}
-	}
+	return (
+		<form onSubmit={handleSubmit(onSubmit)}>
+			<TextField
+				inputRef={register({ required: true })}
+				name='email'
+				label='E-mail'
+				autoComplete='email'
+				fullWidth={true}
+				autoFocus={true}
+			/>
 
-	handleChange(evt) {
-		this.setState({ [evt.target.id]: evt.target.value })
-	}
+			<TextField
+				inputRef={register({ required: true })}
+				name='password'
+				label='Password'
+				type='password'
+				margin='normal'
+				autoComplete={'current-password'}
+				fullWidth={true}
+			/>
 
-	handleSubmit(evt) {
-		this.props.onSubmit(this.state.email, this.state.password)
-		evt.preventDefault()
-	}
-
-	formValid() {
-		return this.state.email.length === 0 || this.state.password.length === 0
-	}
-
-	render() {
-		return (
-			<form onSubmit={ (evt) => this.handleSubmit(evt) }>
-				<TextField
-					id='email'
-					label='E-mail'
-					value={ this.state.email }
-					autoComplete={ 'email' }
-					onChange={ (evt) => this.handleChange(evt) }
-					fullWidth={ true }
-					autoFocus={ true }
-				/>
-				
-				<TextField
-					id='password'
-					label='Password'
-					type='password'
-					margin='normal'
-					value={ this.state.password }
-					autoComplete={ 'current-password' }
-					onChange={ (evt) => this.handleChange(evt) }
-					fullWidth={ true }
-				/>
-
-				<Button fullWidth={ true } disabled={ this.formValid() } variant='contained' color='primary' type='submit'>
-					Sign in
-				</Button>
-			</form>
-		)
-	}
+			<Button
+				fullWidth={true}
+				disabled={!formState.isValid || formState.isSubmitting}
+				variant='contained'
+				color='primary'
+				type='submit'
+			>
+				Sign in
+			</Button>
+		</form>
+	)
 }
 
 LoginForm.propTypes = {
-	onSubmit: PropTypes.func.isRequired
+	onSubmit: PropTypes.func.isRequired,
 }
 
 export default LoginForm

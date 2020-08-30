@@ -18,77 +18,87 @@ let getMyLoadout = (event) => {
 	return event.users.length > 0 && event.users[0].loadout
 }
 
-function EventActions( { event, updateEvent, deleteEvent }) {
-	let [ dialog, setDialog] = useState()
-	let [ speedDialOpen, setSpeedDialOpen ] = useState(false)
+function EventActions({ event, updateEvent, deleteEvent }) {
+	let [dialog, setDialog] = useState()
+	let [speedDialOpen, setSpeedDialOpen] = useState(false)
 
 	let user = useContext(UserContext)
 
 	let isAtBottom = useIsPageAtBottom()
+	let isInvite = event.users.length === 0
+	let canModify = isMyEvent(user, event)
+	let canViewChecklist = event.users.length > 0 && event.users[0].loadout != null
+
+	// Hide the entire speed dial if no actions are available
+	let hasAvailableActions = canModify || canViewChecklist
 
 	return (
 		<React.Fragment>
 			{/* Actions */}
-			<SpeedDial 
-				ariaLabel='Event Actions' 
-				icon={ <i className='fa fa-pen' /> }
-				onOpen={ () => setSpeedDialOpen(true) }
-				onClose={ () => setSpeedDialOpen(false) }
-				open={ speedDialOpen }
-				hidden={ event.users.length === 0 || isAtBottom }
+			<SpeedDial
+				ariaLabel='Event Actions'
+				icon={<i className='fa fa-pen' />}
+				onOpen={() => setSpeedDialOpen(true)}
+				onClose={() => setSpeedDialOpen(false)}
+				open={speedDialOpen}
+				hidden={isAtBottom || isInvite || !hasAvailableActions}
 			>
-				<SpeedDialAction
-					hidden={ isMyEvent(user, event) }
-					icon={ <i className='fa fa-pen' /> }
-					onClick={ () => setDialog('edit') }
-					tooltipTitle='Edit'
-					tooltipOpen={ true }
-				/>
+				{canModify && (
+					<SpeedDialAction
+						icon={<i className='fa fa-pen' />}
+						onClick={() => setDialog('edit')}
+						tooltipTitle='Edit'
+						tooltipOpen={true}
+					/>
+				)}
 
-				<SpeedDialAction 
-					hidden={ isMyEvent(user, event) }
-					icon={ <i className='fa fa-trash' /> }
-					onClick={ () => setDialog('delete') }
-					tooltipTitle='Delete'
-					tooltipOpen={ true }
-				/>		
+				{canModify && (
+					<SpeedDialAction
+						icon={<i className='fa fa-trash' />}
+						onClick={() => setDialog('delete')}
+						tooltipTitle='Delete'
+						tooltipOpen={true}
+					/>
+				)}
 
-				<SpeedDialAction 
-					hidden={ !!getMyLoadout(event) }
-					icon={ <i className='fa fa-clipboard' /> }
-					onClick={  () => setDialog('checklist') }
-					tooltipTitle='Checklist'
-					tooltipOpen={ true }
-				/>
+				{canViewChecklist && (
+					<SpeedDialAction
+						icon={<i className='fa fa-clipboard' />}
+						onClick={() => setDialog('checklist')}
+						tooltipTitle='Checklist'
+						tooltipOpen={true}
+					/>
+				)}
 			</SpeedDial>
 
 			{/* Dialogs */}
-			<EditEventDialog 
-				event={ event }
-				isOpen={ dialog === 'edit' }
-				onSave={ (event) => updateEvent(event)
-					.then(() => setDialog(null)) 
-				}
-				onClose={ () => setDialog(null) } />
-
-			<ConfirmDeleteDialog 
-				verb='Delete'
-				title={ event.getTitle() }
-				isOpen={ dialog === 'delete' }
-				onConfirm={ () => deleteEvent()
-					.then(() => setDialog(null)) 
-				}
-				onClose={ () => setDialog(null) }
-			/>
-
-			{ getMyLoadout(event) && 
-				<EventChecklistDialog
-					title={ event.getTitle() }
-					loadout={ getMyLoadout(event) }
-					isOpen={ dialog === 'checklist' }
-					onClose={ () => setDialog(null) }
+			{canModify && (
+				<EditEventDialog
+					event={event}
+					isOpen={dialog === 'edit'}
+					onSave={(event) => updateEvent(event).then(() => setDialog(null))}
+					onClose={() => setDialog(null)}
 				/>
-			}
+			)}
+
+			{canModify && (
+				<ConfirmDeleteDialog
+					verb='Delete'
+					title={event.getTitle()}
+					isOpen={dialog === 'delete'}
+					onConfirm={() => deleteEvent().then(() => setDialog(null))}
+					onClose={() => setDialog(null)}
+				/>
+			)}
+
+			{canViewChecklist && (
+				<EventChecklistDialog
+					title={event.getTitle()}
+					loadout={getMyLoadout(event)}
+					isOpen={dialog === 'checklist'}
+					onClose={() => setDialog(null)}
+				/>
+			)}
 		</React.Fragment>
 	)
 }

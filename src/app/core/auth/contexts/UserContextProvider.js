@@ -12,15 +12,11 @@ let UserContextProvider = ({ children }) => {
 	let [user, setUser] = useState(auth.user)
 
 	useEffect(() => {
-		let authUnsubscribe = auth.onAuthChanged(u => setUser(u))
-		return authUnsubscribe 
+		let authUnsubscribe = auth.onAuthChanged((u) => setUser(u))
+		return authUnsubscribe
 	}, [auth])
 
-	return (
-		<UserContext.Provider value={ user }>
-			{ children }
-		</UserContext.Provider>
-	)
+	return <UserContext.Provider value={user}>{children}</UserContext.Provider>
 }
 
 export default UserContextProvider

@@ -9,22 +9,24 @@ function ErrorOverlay({ icon, message, onRetry }) {
 
 	return (
 		<AppOverlay>
-			<div style={ { textAlign: 'center' } }>
-				<div style={ { paddingBottom: '24px' } }>
-					<i 
-						style={ { 
+			<div style={{ textAlign: 'center' }}>
+				<div style={{ paddingBottom: '24px' }}>
+					<i
+						style={{
 							fontSize: '10rem',
-							color: theme.palette.background.paper
-						} } 
-						className={ icon }
+							color: theme.palette.background.paper,
+						}}
+						className={icon}
 					/>
 				</div>
-			
-				<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>
-					{ message || 'An error occurred.' }
-				</div>
 
-				{ onRetry && <Button variant='outlined' color='primary' onClick={ onRetry }>Retry</Button> }
+				<div style={{ paddingBottom: onRetry ? '8px' : '0' }}>{message || 'An error occurred.'}</div>
+
+				{onRetry && (
+					<Button variant='outlined' color='primary' onClick={onRetry}>
+						Retry
+					</Button>
+				)}
 			</div>
 		</AppOverlay>
 	)

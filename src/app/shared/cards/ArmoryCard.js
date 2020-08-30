@@ -19,16 +19,16 @@ const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	[theme.breakpoints.down('xs')]: {
 		height: '200px',
 		width: '147px',
-	}
+	},
 }))
 
 const ArmoryCard = ({ item, category, canDelete, onClick, onDelete, className }) => (
-	<ArmoryCardContainer className={ className } onClick={ onClick }>
-		<DeletableOverlay canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ item.getTitle() }>
-			<ResourceCardHeader resource={ item } />
+	<ArmoryCardContainer className={className} onClick={onClick}>
+		<DeletableOverlay canDelete={canDelete} onDelete={onDelete} dialogTitle={item.getTitle()}>
+			<ResourceCardHeader resource={item} />
 
 			<ResourceCardContent>
-				<ResourceImage resource={ item } resourceType={ category } />
+				<ResourceImage resource={item} resourceType={category} />
 			</ResourceCardContent>
 		</DeletableOverlay>
 	</ArmoryCardContainer>
@@ -58,5 +58,5 @@ ArmoryCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
 	onDelete: () => {},
-	className: null
+	className: null,
 }

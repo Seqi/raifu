@@ -6,14 +6,10 @@ import { ErrorOverlay } from 'app/shared/state'
 
 const EventMyLoadout = ({ user }) => {
 	if (!user.loadout) {
-		return (
-			<ErrorOverlay icon='fas fa-crosshairs' message='User has not added a loadout to this event.' />
-		)
+		return <ErrorOverlay icon='fas fa-crosshairs' message='User has not added a loadout to this event.' />
 	}
 
-	return (					
-		<LoadoutView loadout={ user.loadout } editable={ false }/>
-	)
+	return <LoadoutView loadout={user.loadout} editable={false} />
 }
 
 export default EventMyLoadout

@@ -6,9 +6,9 @@ import LoadoutPage from './LoadoutPage/LoadoutPage'
 
 let LoadoutRouter = () => (
 	<Switch>
-		<Route path='/loadouts/:id' component={ LoadoutPage } />
-		<Route path='/loadouts' component={ LoadoutList } />
+		<Route path='/loadouts/:id' component={LoadoutPage} />
+		<Route path='/loadouts' component={LoadoutList} />
 	</Switch>
 )
-	
+
 export default LoadoutRouter

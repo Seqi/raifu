@@ -7,9 +7,9 @@ export default class Shared extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Router basename='/share' >
+				<Router basename='/share'>
 					<Switch>
-						<Route path='/loadout/:loadoutId' component={ SharedLoadout } />
+						<Route path='/loadout/:loadoutId' component={SharedLoadout} />
 					</Switch>
 				</Router>
 			</React.Fragment>

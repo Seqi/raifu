@@ -13,25 +13,25 @@ let getAll = async (user) => {
 			model: EventUser,
 			as: 'users',
 			where: {
-				uid: user.uid
+				uid: user.uid,
 			},
 			include: {
 				model: Loadout,
 				attributes: {
-					exclude: ['uid']
+					exclude: ['uid'],
 				},
 				include: {
 					model: Weapon,
 					attributes: {
-						exclude: ['uid']
-					}
-				}
+						exclude: ['uid'],
+					},
+				},
 			},
 			attributes: {
-				exclude: ['uid', 'loadout_id', 'event_id']
-			}
+				exclude: ['uid', 'loadout_id', 'event_id'],
+			},
 		},
-		order: ['createdAt']
+		order: ['createdAt'],
 	})
 
 	return events.map((event) => event.toJSON())
@@ -42,24 +42,36 @@ let getById = async (id, user) => {
 		throw new errors.NotFoundError()
 	}
 
-	let event = await Event.findOne({
-		include: {
-			model: EventUser,
-			as: 'users',
+	let canViewEvent =
+		(await EventUser.count({
 			where: {
 				event_id: id,
 				[Op.or]: {
 					uid: user.uid,
-					'$event.public$': true
-				}
+					'$event.public$': true,
+				},
 			},
+			include: [Event],
+		})) > 0
+
+	if (!canViewEvent) {
+		throw new errors.NotFoundError()
+	}
+
+	let event = await Event.findOne({
+		where: {
+			id: id,
+		},
+		include: {
+			model: EventUser,
+			as: 'users',
 			attributes: {
-				exclude: ['id', 'event_id']
-			}
+				exclude: ['id', 'event_id'],
+			},
 		},
 		attributes: {
-			exclude: ['uid', 'loadout_id']
-		}
+			exclude: ['uid', 'loadout_id'],
+		},
 	})
 
 	if (!event) {
@@ -109,10 +121,7 @@ let getById = async (id, user) => {
 	await Promise.all(
 		eventJson.users
 			.filter((user) => !!user.loadout_id)
-			.map((user) =>
-				loadout.getById(user.loadout_id, user)
-					.then((loadout) => user.loadout = loadout)
-			)
+			.map((user) => loadout.getById(user.loadout_id, user).then((loadout) => (user.loadout = loadout)))
 	)
 
 	return eventJson
@@ -128,9 +137,9 @@ let add = async (data, user) => {
 			organiser_uid: user.uid,
 			users: [
 				{
-					uid: user.uid
-				}
-			]
+					uid: user.uid,
+				},
+			],
 		}
 
 		// Transction is necessary as this is multiple db calls to create event and event user
@@ -139,10 +148,10 @@ let add = async (data, user) => {
 				include: [
 					{
 						model: EventUser,
-						as: 'users'
-					}
+						as: 'users',
+					},
 				],
-				transaction: t
+				transaction: t,
 			})
 		)
 
@@ -167,7 +176,7 @@ let canEdit = async (id, user) => {
 	// Ensure this id exists and belongs to the user
 	let event = await Event.findOne({
 		where: { id },
-		attributes: ['organiser_uid']
+		attributes: ['organiser_uid'],
 	})
 
 	return event.organiser_uid === user.uid
@@ -176,12 +185,13 @@ let canEdit = async (id, user) => {
 let edit = async (id, event, user) => {
 	try {
 		// Ensure this id exists and belongs to the user
-		let exists = (await Event.count({
-			where: {
-				id: id,
-				organiser_uid: user.uid
-			}
-		})) === 1
+		let exists =
+			(await Event.count({
+				where: {
+					id: id,
+					organiser_uid: user.uid,
+				},
+			})) === 1
 
 		if (!exists) {
 			throw new errors.NotFoundError()
@@ -192,14 +202,14 @@ let edit = async (id, event, user) => {
 			name: event.name,
 			location: event.location,
 			date: event.date,
-			public: event.public
+			public: event.public,
 		}
 
 		await Event.update(newEvent, {
 			where: {
 				id: id,
-				organiser_uid: user.uid
-			}
+				organiser_uid: user.uid,
+			},
 		})
 
 		return newEvent
@@ -219,8 +229,8 @@ let remove = async (id, user) => {
 	let result = await Event.destroy({
 		where: {
 			id: id,
-			organiser_uid: user.uid
-		}
+			organiser_uid: user.uid,
+		},
 	})
 
 	if (result === 0) {
@@ -233,8 +243,8 @@ let setLoadout = async (eventId, loadoutId, user) => {
 	let hasEvent = await EventUser.count({
 		where: {
 			uid: user.uid,
-			event_id: eventId
-		}
+			event_id: eventId,
+		},
 	})
 
 	if (!hasEvent) {
@@ -245,7 +255,7 @@ let setLoadout = async (eventId, loadoutId, user) => {
 	if (loadoutId != null) {
 		let hasLoadout = Loadout.count({
 			id: loadoutId,
-			uid: user.uid
+			uid: user.uid,
 		})
 
 		if (!hasLoadout) {
@@ -259,8 +269,8 @@ let setLoadout = async (eventId, loadoutId, user) => {
 		{
 			where: {
 				uid: user.uid,
-				event_id: eventId
-			}
+				event_id: eventId,
+			},
 		}
 	)
 
@@ -276,8 +286,8 @@ let join = async (eventId, user) => {
 	let joinable = await Event.count({
 		where: {
 			id: eventId,
-			public: true
-		}
+			public: true,
+		},
 	})
 
 	if (!joinable) {
@@ -285,12 +295,13 @@ let join = async (eventId, user) => {
 	}
 
 	// Check the user isn't already part of this event
-	let alreadyInEvent = await EventUser.count({
-		where: {
-			event_id: eventId,
-			uid: user.uid
-		}
-	}) > 0
+	let alreadyInEvent =
+		(await EventUser.count({
+			where: {
+				event_id: eventId,
+				uid: user.uid,
+			},
+		})) > 0
 
 	if (alreadyInEvent) {
 		throw new errors.BadRequestError('User already in event')
@@ -299,7 +310,7 @@ let join = async (eventId, user) => {
 	// Add the user
 	await EventUser.create({
 		event_id: eventId,
-		uid: user.uid
+		uid: user.uid,
 	})
 }
 
@@ -311,5 +322,5 @@ module.exports = {
 	remove,
 	canEdit,
 	setLoadout,
-	join
+	join,
 }

@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - 8.9.4
+    - 10.13.0
 cache:
     directories:
         - node_modules
@@ -17,5 +17,6 @@ deploy:
     project: raifu-prod
 after_deploy:
     # This is necessary due to firebase cli not being installed in before_deploy
-    - firebase functions:config:set db.user=$DB_USER db.password=$DB_PASSWORD db.name=$DB_NAME db.host=$DB_HOST --project raifu-prod
+    - firebase functions:config:set db.user=$DB_USER db.password=$DB_PASSWORD db.name=$DB_NAME db.host=$DB_HOST
+      --project raifu-prod
     - firebase deploy --only functions --project raifu-prod
