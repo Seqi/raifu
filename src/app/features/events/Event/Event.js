@@ -18,7 +18,7 @@ class Event extends React.Component {
 		this.state = {
 			loading: true,
 			error: null,
-			event: null,
+			event: null
 		}
 	}
 
@@ -26,16 +26,17 @@ class Event extends React.Component {
 		let event = this.state.event
 
 		// Filter out any functions or joins before passing back up to api
-		return Object.keys(event).reduce(
-			(p, c) => {
-				if (typeof event[c] !== 'function' && typeof event[c] !== 'object' && c !== 'loadout') {
-					p[c] = event[c]
-				}
+		return Object.keys(event)
+			.reduce(
+				(p, c) => {
+					if (typeof event[c] !== 'function' && typeof event[c] !== 'object' && c !== 'loadout') {
+						p[c] = event[c]
+					}
 
-				return p
-			},
-			{ loadout_id: event.loadout ? event.loadout.id : null }
-		)
+					return p
+				},
+				{ loadout_id: event.loadout ? event.loadout.id : null }
+			)
 	}
 
 	componentDidMount() {
@@ -67,13 +68,9 @@ class Event extends React.Component {
 
 	updateEvent(event) {
 		let updatedEvent = {
-			...this.rawEvent,
 			...event,
-		}
-
-		// Firebase functions don't like date objects...
-		if (updatedEvent.date) {
-			updatedEvent.date = updatedEvent.date.toISOString()
+			// Firebase functions don't like date objects...
+			date: event.date && event.date.toISOString()
 		}
 
 		return events
@@ -85,22 +82,24 @@ class Event extends React.Component {
 							...prevState.event,
 							...event,
 							date: new Date(event.date),
-							loadout: prevState.event.loadout,
-						},
+							loadout: prevState.event.loadout
+						}
 					}
 				})
 			)
 			.then(() => {
-				let event
-				if (!this.state.event.public && event.public) {
-					event = 'event_public'
-				} else if (this.state.event.public && !event.public) {
-					event = 'event_private'
+				let analyticsEvent
+				let prevEvent = this.state.event
+
+				if (!prevEvent.public && updatedEvent.public) {
+					analyticsEvent = 'event_public'
+				} else if (prevEvent.public && !updatedEvent.public) {
+					analyticsEvent = 'event_private'
 				} else {
-					event = 'event_updated'
+					analyticsEvent = 'event_updated'
 				}
 
-				analytics.logEvent(event)
+				analytics.logEvent(analyticsEvent)
 			})
 	}
 
@@ -141,24 +140,24 @@ class Event extends React.Component {
 				return <ErrorOverlay message='Event not found.' icon='fa fa-crosshairs' />
 			}
 
-			return <ErrorOverlay message='Could not load event.' onRetry={() => this.loadEvent()} />
+			return <ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
 		}
 
 		return (
 			<React.Fragment>
-				<EventHeader event={event} />
+				<EventHeader event={ event } />
 
 				<EventContent
-					event={event}
-					onEventJoined={() => this.loadEvent()}
-					onLoadoutAdded={(loadoutId) => this.setLoadout(loadoutId)}
-					onLoadoutRemoved={() => this.removeLoadout()}
+					event={ event }
+					onEventJoined={ () => this.loadEvent() }
+					onLoadoutAdded={ (loadoutId) => this.setLoadout(loadoutId) }
+					onLoadoutRemoved={ () => this.removeLoadout() }
 				/>
 
 				<EventActions
-					event={event}
-					updateEvent={(evt) => this.updateEvent(evt)}
-					deleteEvent={() => this.deleteEvent()}
+					event={ event }
+					updateEvent={ (evt) => this.updateEvent(evt) }
+					deleteEvent={ () => this.deleteEvent() }
 				/>
 			</React.Fragment>
 		)
