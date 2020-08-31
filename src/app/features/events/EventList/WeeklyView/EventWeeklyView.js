@@ -2,10 +2,16 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import * as moment from 'moment'
 
-import { Box } from '@material-ui/core'
+import { styled, Box } from '@material-ui/core'
 
 import EventWeekSelect from './EventWeekSelect'
 import EventDay from './EventDay'
+
+const EventWeeklyViewContainer = styled(Box)({
+	display: 'flex',
+	flexDirection: 'column',
+	height: '100%'
+})
 
 const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 	let [week, setWeek] = useState([])
@@ -16,10 +22,10 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 	])
 
 	return (
-		<React.Fragment>
+		<EventWeeklyViewContainer>
 			<EventWeekSelect onWeekChange={ (newWeek) => setWeek(newWeek) } />
 
-			<Box display='flex' flexDirection='column'>
+			<Box display='flex' flexDirection='column' flex={ 1 } paddingTop={ 2 }>
 				{week.map((day) => (
 					<EventDay
 						key={ +day }
@@ -30,7 +36,7 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 					/>
 				))}
 			</Box>
-		</React.Fragment>
+		</EventWeeklyViewContainer>
 	)
 }
 

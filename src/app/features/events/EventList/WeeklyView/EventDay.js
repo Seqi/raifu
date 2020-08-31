@@ -7,13 +7,14 @@ import { Box, styled } from '@material-ui/core'
 import EventItem from './EventItem'
 
 const EventDayContainer = styled(Box)(({ theme }) => ({
-	minHeight: '75px'
+	flex: 1,
+	fontSize: '0.9rem'
 }))
 
 const EventDay = ({ events, day, onEventSelected, onSlotSelected }) => {
 	return (
-		<EventDayContainer onClick={ (e) => onSlotSelected(day) } fontSize='0.9rem' paddingTop={ 1 }>
-			<Box textAlign='right'>{day.format('ddd Do')}</Box>
+		<EventDayContainer onClick={ (e) => onSlotSelected(day) }>
+			<Box textAlign='left'>{day.format('ddd Do')}</Box>
 
 			{events.map((event) => (
 				<EventItem key={ event.id } event={ event } onClick={ (_) => onEventSelected(event) } />

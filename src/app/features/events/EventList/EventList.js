@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { Fab, Box, styled, withTheme, withWidth } from '@material-ui/core'
 
@@ -12,13 +13,9 @@ import firebase from '../../../../firebase'
 
 let analytics = firebase.analytics()
 
-const EventListContainer = styled(Box)(({ theme }) => ({
-	height: '80vh',
-
-	[theme.breakpoints.down('xs')]: {
-		height: '70vh'
-	}
-}))
+const EventListContainer = styled(Box)({
+	height: '80vh'
+})
 
 const EventFab = styled(Fab)({
 	position: 'fixed',
@@ -26,7 +23,7 @@ const EventFab = styled(Fab)({
 	right: '3%'
 })
 
-class Events extends React.Component {
+class EventList extends React.Component {
 	constructor() {
 		super()
 
@@ -108,22 +105,16 @@ class Events extends React.Component {
 			return <ErrorOverlay message='Could not load events.' onRetry={ () => this.loadEvents() } />
 		}
 
+		const EventListView = width === 'xs' ? EventWeeklyView : EventCalendarView
+
 		return (
 			<React.Fragment>
 				<EventListContainer>
-					{width === 'xs' ? (
-						<EventWeeklyView
-							events={ events }
-							onEventSelected={ (event) => this.view(event) }
-							onSlotSelected={ (event) => this.addEvent(event.end) }
-						/>
-					) : (
-						<EventCalendarView
-							events={ events }
-							onEventSelected={ (event) => this.view(event) }
-							onSlotSelected={ (event) => this.addEvent(event.end) }
-						/>
-					)}
+					<EventListView
+						events={ events }
+						onEventSelected={ (event) => this.view(event) }
+						onSlotSelected={ (event) => this.addEvent(event.end) }
+					/>
 				</EventListContainer>
 
 				<EventFab onClick={ () => this.addEvent() } color='primary' aria-label='Add'>
@@ -143,4 +134,8 @@ class Events extends React.Component {
 	}
 }
 
-export default withWidth()(withTheme(Events))
+EventList.propTypes = {
+	width: PropTypes.string.isRequired
+}
+
+export default withWidth()(withTheme(EventList))
