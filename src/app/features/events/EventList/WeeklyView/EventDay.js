@@ -8,17 +8,24 @@ import EventItem from './EventItem'
 
 const EventDayContainer = styled(Box)(({ theme }) => ({
 	flex: 1,
-	fontSize: '0.9rem'
+	fontSize: '0.9rem',
+
+	'& span': {
+		borderBottom: `1px solid ${theme.palette.primary.main}`,
+		marginBottom: theme.spacing(1)
+	}
 }))
 
 const EventDay = ({ events, day, onEventSelected, onSlotSelected }) => {
 	return (
 		<EventDayContainer onClick={ (e) => onSlotSelected(day) }>
-			<Box textAlign='left'>{day.format('ddd Do')}</Box>
+			<span>{day.format('ddd Do')}</span>
 
-			{events.map((event) => (
-				<EventItem key={ event.id } event={ event } onClick={ (_) => onEventSelected(event) } />
-			))}
+			<Box marginTop={ 0.5 }>
+				{events.map((event) => (
+					<EventItem key={ event.id } event={ event } onClick={ (_) => onEventSelected(event) } />
+				))}
+			</Box>
 		</EventDayContainer>
 	)
 }
