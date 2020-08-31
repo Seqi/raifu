@@ -1,69 +1,36 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import * as moment from 'moment'
-import { extendMoment } from 'moment-range'
 
-import { Box, IconButton } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 
+import EventWeekSelect from './EventWeekSelect'
 import EventDay from './EventDay'
-import { useState } from 'react'
-import { useCallback } from 'react'
-
-// This'll fire every time we mount this component, but I don't
-// really wanna drag moment in until we hit the event stuff
-extendMoment(moment)
-
-let getWeekRange = (weekOffset) => {
-	let start = moment()
-		.add('weeks', weekOffset)
-		.startOf('week')
-
-	let end = moment()
-		.add('weeks', weekOffset)
-		.endOf('week')
-
-	let range = moment.range(start, end).by('days')
-
-	return Array.from(range)
-}
 
 const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
-	let [weekOffset, setWeekOffset] = useState(0)
+	let [week, setWeek] = useState([])
 
-	let getEventsForDay = useCallback((day) => {
-		return events.filter((event) => moment(event.date).isSame(day, 'day'))
-	})
-
-	let weekRange = getWeekRange(weekOffset)
+	const getEventsForDay = useCallback((day) => events.filter((event) => moment(event.date)
+		.isSame(day, 'day')), [
+		events
+	])
 
 	return (
-		<div>
-			<Box display='flex'>
-				<IconButton size='small' onClick={(_) => setWeekOffset(weekOffset - 1)}>
-					<i className='fa fa-chevron-left' />
-				</IconButton>
-
-				<Box flex={1} textAlign='center'>
-					{weekRange[0].format('MMM YYYY')}
-				</Box>
-
-				<IconButton size='small' onClick={(_) => setWeekOffset(weekOffset + 1)}>
-					<i className='fa fa-chevron-right' />
-				</IconButton>
-			</Box>
+		<React.Fragment>
+			<EventWeekSelect onWeekChange={ (newWeek) => setWeek(newWeek) } />
 
 			<Box display='flex' flexDirection='column'>
-				{weekRange.map((day) => (
+				{week.map((day) => (
 					<EventDay
-						key={+day}
-						events={getEventsForDay(day)}
-						day={day}
-						onEventSelected={onEventSelected}
-						onSlotSelected={onSlotSelected}
+						key={ +day }
+						events={ getEventsForDay(day) }
+						day={ day }
+						onEventSelected={ onEventSelected }
+						onSlotSelected={ onSlotSelected }
 					/>
 				))}
 			</Box>
-		</div>
+		</React.Fragment>
 	)
 }
 
@@ -73,7 +40,9 @@ EventWeeklyView.propTypes = {
 			name: PropTypes.string.isRequired,
 			date: PropTypes.instanceOf(Date)
 		})
-	).isRequired
+	).isRequired,
+	onEventSelected: PropTypes.func.isRequired,
+	onSlotSelected: PropTypes.func.isRequired
 }
 
 export default EventWeeklyView
