@@ -8,7 +8,7 @@ import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { UserContext } from 'app/core/auth/contexts'
 
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
-import EditEventDialog from '../EventList/EditEventDialog'
+import EditEventDialog from '../EditEventDialog'
 
 let isMyEvent = (user, event) => {
 	return event.organiser_uid === user.uid
@@ -37,36 +37,36 @@ function EventActions({ event, updateEvent, deleteEvent }) {
 			{/* Actions */}
 			<SpeedDial
 				ariaLabel='Event Actions'
-				icon={<i className='fa fa-pen' />}
-				onOpen={() => setSpeedDialOpen(true)}
-				onClose={() => setSpeedDialOpen(false)}
-				open={speedDialOpen}
-				hidden={isAtBottom || isInvite || !hasAvailableActions}
+				icon={ <i className='fa fa-pen' /> }
+				onOpen={ () => setSpeedDialOpen(true) }
+				onClose={ () => setSpeedDialOpen(false) }
+				open={ speedDialOpen }
+				hidden={ isAtBottom || isInvite || !hasAvailableActions }
 			>
 				{canModify && (
 					<SpeedDialAction
-						icon={<i className='fa fa-pen' />}
-						onClick={() => setDialog('edit')}
+						icon={ <i className='fa fa-pen' /> }
+						onClick={ () => setDialog('edit') }
 						tooltipTitle='Edit'
-						tooltipOpen={true}
+						tooltipOpen={ true }
 					/>
 				)}
 
 				{canModify && (
 					<SpeedDialAction
-						icon={<i className='fa fa-trash' />}
-						onClick={() => setDialog('delete')}
+						icon={ <i className='fa fa-trash' /> }
+						onClick={ () => setDialog('delete') }
 						tooltipTitle='Delete'
-						tooltipOpen={true}
+						tooltipOpen={ true }
 					/>
 				)}
 
 				{canViewChecklist && (
 					<SpeedDialAction
-						icon={<i className='fa fa-clipboard' />}
-						onClick={() => setDialog('checklist')}
+						icon={ <i className='fa fa-clipboard' /> }
+						onClick={ () => setDialog('checklist') }
 						tooltipTitle='Checklist'
-						tooltipOpen={true}
+						tooltipOpen={ true }
 					/>
 				)}
 			</SpeedDial>
@@ -74,29 +74,31 @@ function EventActions({ event, updateEvent, deleteEvent }) {
 			{/* Dialogs */}
 			{canModify && (
 				<EditEventDialog
-					event={event}
-					isOpen={dialog === 'edit'}
-					onSave={(event) => updateEvent(event).then(() => setDialog(null))}
-					onClose={() => setDialog(null)}
+					event={ event }
+					isOpen={ dialog === 'edit' }
+					onSave={ (event) => updateEvent(event)
+						.then(() => setDialog(null)) }
+					onClose={ () => setDialog(null) }
 				/>
 			)}
 
 			{canModify && (
 				<ConfirmDeleteDialog
 					verb='Delete'
-					title={event.getTitle()}
-					isOpen={dialog === 'delete'}
-					onConfirm={() => deleteEvent().then(() => setDialog(null))}
-					onClose={() => setDialog(null)}
+					title={ event.getTitle() }
+					isOpen={ dialog === 'delete' }
+					onConfirm={ () => deleteEvent()
+						.then(() => setDialog(null)) }
+					onClose={ () => setDialog(null) }
 				/>
 			)}
 
 			{canViewChecklist && (
 				<EventChecklistDialog
-					title={event.getTitle()}
-					loadout={getMyLoadout(event)}
-					isOpen={dialog === 'checklist'}
-					onClose={() => setDialog(null)}
+					title={ event.getTitle() }
+					loadout={ getMyLoadout(event) }
+					isOpen={ dialog === 'checklist' }
+					onClose={ () => setDialog(null) }
 				/>
 			)}
 		</React.Fragment>
@@ -108,5 +110,5 @@ export default EventActions
 EventActions.propTypes = {
 	event: PropTypes.object.isRequired,
 	updateEvent: PropTypes.func.isRequired,
-	deleteEvent: PropTypes.func.isRequired,
+	deleteEvent: PropTypes.func.isRequired
 }

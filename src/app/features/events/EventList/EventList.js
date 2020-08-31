@@ -4,9 +4,10 @@ import { Fab, Box, styled, withTheme, withWidth } from '@material-ui/core'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
-import EditEventDialog from './EditEventDialog'
 import EventWeeklyView from './WeeklyView/EventWeeklyView'
 import EventCalendarView from './CalendarView/EventCalendarView'
+import EditEventDialog from '../EditEventDialog'
+
 import firebase from '../../../../firebase'
 
 let analytics = firebase.analytics()
@@ -104,7 +105,7 @@ class Events extends React.Component {
 		}
 
 		if (error) {
-			return <ErrorOverlay message='Could not load events.' onRetry={() => this.loadEvents()} />
+			return <ErrorOverlay message='Could not load events.' onRetry={ () => this.loadEvents() } />
 		}
 
 		return (
@@ -112,29 +113,29 @@ class Events extends React.Component {
 				<EventListContainer>
 					{width === 'xs' ? (
 						<EventWeeklyView
-							events={events}
-							onEventSelected={(event) => this.view(event)}
-							onSlotSelected={(event) => this.addEvent(event.end)}
+							events={ events }
+							onEventSelected={ (event) => this.view(event) }
+							onSlotSelected={ (event) => this.addEvent(event.end) }
 						/>
 					) : (
 						<EventCalendarView
-							events={events}
-							onEventSelected={(event) => this.view(event)}
-							onSlotSelected={(event) => this.addEvent(event.end)}
+							events={ events }
+							onEventSelected={ (event) => this.view(event) }
+							onSlotSelected={ (event) => this.addEvent(event.end) }
 						/>
 					)}
 				</EventListContainer>
 
-				<EventFab onClick={() => this.addEvent()} color='primary' aria-label='Add'>
+				<EventFab onClick={ () => this.addEvent() } color='primary' aria-label='Add'>
 					<i className='fa fa-plus' />
 				</EventFab>
 
 				{activeTimeslot && (
 					<EditEventDialog
-						date={activeTimeslot}
-						onSave={(value) => this.save(value)}
-						onClose={() => this.closeDialog()}
-						isOpen={isAddDialogOpen}
+						date={ activeTimeslot }
+						onSave={ (value) => this.save(value) }
+						onClose={ () => this.closeDialog() }
+						isOpen={ isAddDialogOpen }
 					/>
 				)}
 			</React.Fragment>
