@@ -15,10 +15,10 @@ extendMoment(moment)
 // of days
 const getWeekDayRange = (weekOffset) => {
 	let start = moment()
-		.add('weeks', weekOffset)
+		.add(weekOffset, 'weeks')
 		.startOf('week')
 	let end = moment()
-		.add('weeks', weekOffset)
+		.add(weekOffset, 'weeks')
 		.endOf('week')
 
 	let range = moment.range(start, end)
