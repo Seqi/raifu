@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-const StaggeredAnimation = ({ minInterval, maxDuration, children }) => {
+const StaggeredAnimation = ({ minInterval, maxDuration, freezeAfterInitial, children }) => {
 	let childCount = React.Children.count(children)
 
 	let hasRendered = useRef(false)
@@ -11,8 +11,8 @@ const StaggeredAnimation = ({ minInterval, maxDuration, children }) => {
 
 	let getAnimationDelay = useCallback(
 		(childIndex) => {
-			// Once the initial animation has played out, we don't want to stagger anymore
-			if (hasRendered.current) {
+			// If requested, once the initial animation has played out, we don't want to stagger anymore
+			if (freezeAfterInitial && hasRendered.current) {
 				return 0
 			}
 
@@ -33,12 +33,12 @@ const StaggeredAnimation = ({ minInterval, maxDuration, children }) => {
 
 			return interval * childIndex
 		},
-		[minInterval, maxDuration, childCount]
+		[freezeAfterInitial, minInterval, maxDuration, childCount]
 	)
 
 	return React.Children.map(children, (child, index) =>
 		React.cloneElement(child, {
-			style: { transitionDelay: `${getAnimationDelay(index)}s` },
+			style: { transitionDelay: `${getAnimationDelay(index)}s` }
 		})
 	)
 }
@@ -46,11 +46,13 @@ const StaggeredAnimation = ({ minInterval, maxDuration, children }) => {
 StaggeredAnimation.propTypes = {
 	minInterval: PropTypes.number,
 	maxDuration: PropTypes.number,
+	freezeAfterInitial: PropTypes.bool.isRequired
 }
 
 StaggeredAnimation.defaultProps = {
 	minInterval: 0.2,
 	maxDuration: 0,
+	freezeAfterInitial: true
 }
 
 export default StaggeredAnimation
