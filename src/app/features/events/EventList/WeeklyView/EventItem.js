@@ -13,17 +13,21 @@ const EventContainer = styled(Box)(({ theme }) => ({
 }))
 
 const EventItem = ({ event, onClick }) => {
+	const date = moment(event.date)
+
 	return (
-		<EventContainer key={event.id} onClick={(_) => onClick(event)}>
-			{event.getTitle()} @ {event.location} ({moment(event.date).format('HH:mm')})
+		<EventContainer key={ event.id } onClick={ (_) => onClick(event) }>
+			{event.getTitle()} @ {event.location} ({date.format('HH:mm')})
 		</EventContainer>
 	)
 }
 
 EventItem.propTypes = {
 	event: PropTypes.shape({
-		name: PropTypes.string.isRequired,
-		date: PropTypes.instanceOf(Date).isRequired
+		id: PropTypes.string.isRequired,
+		location: PropTypes.string.isRequired,
+		date: PropTypes.instanceOf(Date).isRequired,
+		getTitle: PropTypes.func.isRequired
 	}).isRequired,
 	onClick: PropTypes.func.isRequired
 }
