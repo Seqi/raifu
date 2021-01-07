@@ -37,6 +37,15 @@ const AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen,
 		[onClose, onSave]
 	)
 
+	let setResource = (resource) => {
+		if (!resource) {
+			setValue({ type: null, platform: null }, true)
+		} else {
+			const { type, platform } = resource
+			setValue([{ type }, { platform }], true)
+		}
+	}
+
 	return (
 		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 			<form onSubmit={ handleSubmit(handleSave) }>
@@ -45,11 +54,7 @@ const AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen,
 				<DialogContent>
 					{error && <Error error={ error } fillBackground={ true } />}
 
-					<ResourceSelect
-						inputLabel={ resourceName }
-						resourceType={ resourceKey }
-						onChange={ (value) => setValue([{ type: value.type }, { platform: value.platform }], true) }
-					/>
+					<ResourceSelect inputLabel={ resourceName } resourceType={ resourceKey } onChange={ setResource } />
 
 					<Autocomplete
 						options={ brands }
