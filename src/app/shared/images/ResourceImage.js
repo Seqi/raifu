@@ -4,13 +4,22 @@ import PropTypes from 'prop-types'
 import RotatedImage from './RotatedImage'
 
 const defaults = {
-	rifles: 'm4',
-	smgs: 'mp5',
-	shotguns: 'spas-12',
-	pistols: '1911',
-	launchers: 'gl06',
-	snipers: 'l96',
-	support: 'm249'
+	weapons: {
+		rifles: 'm4',
+		smgs: 'mp5',
+		shotguns: 'spas-12',
+		pistols: '1911',
+		launchers: 'gl06',
+		snipers: 'l96',
+		support: 'm249'
+	},
+	attachments: {
+		barrel: 'surpressor',
+		externals: 'stock',
+		illumination: 'flashlight',
+		sights: 'red-dot',
+		underbarrel: 'vertical-foregrip'
+	}
 }
 
 const loadImage = (resourceCategory, resourceType, resourcePlatform) => {
@@ -33,7 +42,7 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 
 		let img =
 			loadImage(resourceType, resource.type, formattedPlatform) ??
-			loadImage(resourceType, resource.type, defaults[resource.type])
+			loadImage(resourceType, resource.type, defaults[resourceType][resource.type])
 
 		if (!img) {
 			console.warn(`Could not find image for ${resource.type} ${resource.platform}`)
