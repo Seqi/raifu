@@ -3,6 +3,24 @@ import PropTypes from 'prop-types'
 
 import RotatedImage from './RotatedImage'
 
+const defaults = {
+	rifles: 'm4',
+	smgs: 'mp5',
+	shotguns: 'spas-12',
+	pistols: '1911',
+	launchers: 'gl06',
+	snipers: 'l96',
+	support: 'm249'
+}
+
+const loadImage = (resourceCategory, resourceType, resourcePlatform) => {
+	try {
+		return require(`assets/outlines/${resourceCategory}/${resourceType}/${resourcePlatform}.svg`)
+	} catch {
+		return undefined
+	}
+}
+
 export default function ResourceImage({ resourceType, resource, rotate }) {
 	let [image, setImage] = useState()
 
@@ -13,16 +31,19 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 			.replace(/\s/g, '-')
 			.replace(/\//g, '-')
 
-		try {
-			let img = require(`assets/outlines/${resourceType}/${resource.type}/${formattedPlatform}.svg`)
-			setImage(img)
-		} catch (e) {
-			console.warn(e)
+		let img =
+			loadImage(resourceType, resource.type, formattedPlatform) ??
+			loadImage(resourceType, resource.type, defaults[resource.type])
+
+		if (!img) {
+			console.warn(`Could not find image for ${resource.type} ${resource.platform}`)
 		}
+
+		setImage(img)
 	}, [resourceType, resource])
 
 	if (image) {
-		return <RotatedImage image={image} rotateBy={rotate ? 45 : 0} />
+		return <RotatedImage image={ image } rotateBy={ rotate ? 45 : 0 } />
 	}
 
 	return <div />
@@ -33,10 +54,10 @@ ResourceImage.propTypes = {
 	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	resource: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
-		type: PropTypes.string.isRequired,
-	}).isRequired,
+		type: PropTypes.string.isRequired
+	}).isRequired
 }
 
 ResourceImage.defaultProps = {
-	rotate: false,
+	rotate: false
 }
