@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { styled, Popper, TextField } from '@material-ui/core'
+import { styled, Popper, TextField, MenuItem } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 
 import { platforms } from 'app/data/constants'
@@ -14,6 +14,10 @@ const AutoCompletePopper = styled(Popper)({
 
 const ResourceSelect = ({ resourceType, inputLabel, onChange }) => {
 	let [options, setOptions] = useState([])
+
+	// For when an option isnt selected and the user is adding a non-listed
+	let [showTypes, setShowTypes] = useState(false)
+	let [overrideValue, setOverrideValue] = useState(null)
 
 	useEffect(() => {
 		// { rifles: []..., smgs: []... }
@@ -33,23 +37,61 @@ const ResourceSelect = ({ resourceType, inputLabel, onChange }) => {
 		setOptions(allOptions)
 	}, [resourceType])
 
+	// Show override fields if an override value is set
+	useEffect(() => setShowTypes(overrideValue !== null), [overrideValue])
+
+	// Push changes of override back to parent if valid
+	useEffect(() => {
+		if (overrideValue && overrideValue.platform && overrideValue.type) {
+			onChange(overrideValue)
+		}
+	}, [onChange, overrideValue])
+
+	function platformSelected(evt, value) {
+		onChange(value)
+		setOverrideValue(null)
+	}
+
+	function inputChanged(evt) {
+		setOverrideValue({ ...(overrideValue || {}), platform: evt.target.value })
+	}
+
+	function typeSelected(evt) {
+		setOverrideValue({ ...(overrideValue || {}), type: evt.target.value })
+	}
+
 	return (
-		<Autocomplete
-			options={ options }
-			getOptionLabel={ (option) => option.platform }
-			groupBy={ (option) => option.type }
-			onChange={ (evt, value) => onChange(value) }
-			renderInput={ (params) => <TextField { ...params } fullWidth={ true } label={ inputLabel } /> }
-			autoHighlight={ true }
-			PopperComponent={ AutoCompletePopper }
-		/>
+		<React.Fragment>
+			<Autocomplete
+				freeSolo={ true }
+				options={ options }
+				getOptionLabel={ (option) => option.platform }
+				groupBy={ (option) => option.type }
+				onChange={ platformSelected }
+				renderInput={ (params) => (
+					<TextField { ...params } fullWidth={ true } label={ inputLabel } onChange={ inputChanged } />
+				) }
+				autoHighlight={ true }
+				PopperComponent={ AutoCompletePopper }
+			/>
+
+			{showTypes && (
+				<TextField label='Type' fullWidth={ true } defaultValue={ '' } onChange={ typeSelected } select={ true }>
+					{Object.keys(platforms[resourceType])
+						.map((type) => (
+							<MenuItem key={ type } value={ type }>
+								{type}
+							</MenuItem>
+						))}
+				</TextField>
+			)}
+		</React.Fragment>
 	)
 }
 
 ResourceSelect.propTypes = {
 	inputLabel: PropTypes.string.isRequired,
 	resourceType: PropTypes.string.isRequired,
-	resourceOptions: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired
 }
 

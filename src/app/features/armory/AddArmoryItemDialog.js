@@ -37,14 +37,14 @@ const AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen,
 		[onClose, onSave]
 	)
 
-	let setResource = (resource) => {
+	let setResource = useCallback((resource) => {
 		if (!resource) {
-			setValue({ type: null, platform: null }, true)
+			setValue([{ type: '' }, { platform: '' }], true)
 		} else {
 			const { type, platform } = resource
 			setValue([{ type }, { platform }], true)
 		}
-	}
+	}, [setValue])
 
 	return (
 		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
