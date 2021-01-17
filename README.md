@@ -30,27 +30,20 @@ REACT_APP_FIREBASE_AUTH_DOMAIN=myauthdomain
 REACT_APP_FIREBASE_PROJECT_ID=myprojectid
 ```
 
-Next, install the `firebase-tools` package from npm with `npm i -g firebase-tools`. Then run `firebase login` to login
-with your Google account linked to your firebase project. This will link your local running code with your Firebase
-project for use with features like Firebase authentication.
-
-You will also need to enable authentication providers in your Firebase project to log in to the application. These may
-require third party API keys (such as Twitter). For basic usage, enable the Email/Password provider in your Firebase
-project `Authentication -> Sign-in Method -> Enable Email/Password`.
+Next, install the `firebase-tools` package from npm with `npm i -g firebase-tools`. This contains the emulator to spin up a local firebase development backend. Then run `firebase login` to login
+with your Google account linked to your firebase project.
 
 Finally, replace the existing project id with your Firebase project id in `.firebaserc`.
 
 #### Database
 
 Raifu uses PostgreSQL for data storage and requires a connection to run. If you don't have an existing PostgreSQL
-instance, it is recommended to use Docker to spin one up. Once configured, create a database and run the migration
+instance, it is recommended to use Docker to spin one up using the docker-compose file inside `sql/docker`. Once configured, create a database and run the migration
 script in `sql/create_tables`.
 
 #### Cloud Functions Config
 
-To run the cloud functions, you will need to install the
-[Firebase CLI Tools](https://github.com/firebase/firebase-tools) containing the Cloud Functions Emulator. Additionally,
-you will need to connect up to your PostgreSQL database, To point the cloud functions to the database, create a
+With the emulator installed, and the database spun up, cloud functions need to know where the database is. To point the cloud functions to the database, create a
 `.runtimeconfig.json` file in the `functions` directory containing the database credentials:
 
 ```
