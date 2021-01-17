@@ -10,7 +10,7 @@
 		"@material-ui/pickers": "^3.2.6",
 		"change-case": "^4.1.0",
 		"core-js": "^2.6.9",
-		"firebase": "^7.2.0",
+		"firebase": "^8.2.2",
 		"marked": "^0.8.2",
 		"moment": "^2.24.0",
 		"react": "^16.10.2",
