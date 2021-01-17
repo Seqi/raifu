@@ -31,11 +31,11 @@
 		"prettier": "^1.19.1"
 	},
 	"scripts": {
-		"start": "concurrently -c \"green.bold,red.bold\" --kill-others \"npm:server\" \"npm:functions\"",
+		"start": "concurrently -c \"green.bold,red.bold\" --kill-others \"npm:server\" \"npm:firebase\"",
 		"server": "react-scripts start",
-		"functions": "firebase serve --only functions",
-		"build": "CI=true && react-scripts build",
+		"build": "react-scripts build",
 		"test": "react-scripts test",
+		"firebase": "firebase emulators:start",
 		"deploy": "firebase deploy",
 		"eject": "react-scripts eject",
 		"lint": "eslint src/**/*.js",
