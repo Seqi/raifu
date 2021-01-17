@@ -64,6 +64,7 @@ const ResourceSelect = ({ resourceType, inputLabel, onChange }) => {
 		<React.Fragment>
 			<Autocomplete
 				freeSolo={ true }
+				disableClearable={ true }
 				options={ options }
 				getOptionLabel={ (option) => option.platform }
 				groupBy={ (option) => option.type }
