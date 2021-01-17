@@ -40,9 +40,9 @@ const ResourceSelect = ({ resourceType, inputLabel, onChange }) => {
 	// Show override fields if an override value is set
 	useEffect(() => setShowTypes(overrideValue !== null), [overrideValue])
 
-	// Push changes of override back to parent if valid
+	// Push changes of override back to parent
 	useEffect(() => {
-		if (overrideValue && overrideValue.platform && overrideValue.type) {
+		if (overrideValue) {
 			onChange(overrideValue)
 		}
 	}, [onChange, overrideValue])
