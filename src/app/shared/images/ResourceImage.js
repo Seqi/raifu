@@ -15,10 +15,27 @@ const defaults = {
 	},
 	attachments: {
 		barrel: 'surpressor',
-		externals: 'stock',
+		externals: 'grip',
 		illumination: 'flashlight',
 		sights: 'red-dot',
 		underbarrel: 'vertical-foregrip'
+	},
+	clothing: {
+		footwear: 'boots',
+		hands: 'gloves',
+		hats: 'cap',
+		jackets: 'smock',
+		legs: 'pants',
+		shirts: 'ubacs',
+		suits: 'gorka'
+	},
+	gear: {
+		carriers: 'plate-carrier',
+		communication: 'radio',
+		grenades: 'storm-360',
+		holsters: 'retention-holster',
+		misc: 'knife',
+		protection: 'fast-helmet'
 	}
 }
 
