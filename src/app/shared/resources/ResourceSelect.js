@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { titleCase } from 'title-case'
 
 import { styled, Popper, TextField, MenuItem } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
@@ -81,7 +82,7 @@ const ResourceSelect = ({ resourceType, inputLabel, onChange }) => {
 					{Object.keys(platforms[resourceType])
 						.map((type) => (
 							<MenuItem key={ type } value={ type }>
-								{type}
+								{titleCase(type)}
 							</MenuItem>
 						))}
 				</TextField>
