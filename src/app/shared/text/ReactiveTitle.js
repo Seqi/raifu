@@ -7,7 +7,7 @@ function ReactiveTitle({ children, variant, mobileVariant, style }) {
 	let isMobileMode = useMediaQuery((theme) => theme.breakpoints.down('xs'))
 
 	return (
-		<Typography style={style} variant={isMobileMode ? mobileVariant : variant}>
+		<Typography style={ style } variant={ isMobileMode ? mobileVariant : variant }>
 			{children}
 		</Typography>
 	)
@@ -16,13 +16,13 @@ function ReactiveTitle({ children, variant, mobileVariant, style }) {
 ReactiveTitle.propTypes = {
 	variant: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']),
 	mobileVariant: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']),
-	style: PropTypes.object,
+	style: PropTypes.object
 }
 
 ReactiveTitle.defaultProps = {
 	variant: 'h3',
 	mobileVariant: 'h4',
-	style: {},
+	style: {}
 }
 
 export default ReactiveTitle

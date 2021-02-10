@@ -21,24 +21,24 @@ let LoadoutWeaponList = () => {
 	return (
 		<React.Fragment>
 			{(loadout.weapons || []).map((weapon) => (
-				<LoadoutSeparator key={weapon.id}>
-					<LoadoutWeapon weapon={weapon} />
+				<LoadoutSeparator key={ weapon.id }>
+					<LoadoutWeapon weapon={ weapon } />
 				</LoadoutSeparator>
 			))}
 
 			{editable && (availableWeapons || []).length > 0 && (
 				<React.Fragment>
 					<LoadoutSeparator>
-						<LoadoutAdd onClick={() => setDialog('add')} />
+						<LoadoutAdd onClick={ () => setDialog('add') } />
 					</LoadoutSeparator>
 
 					<AddResourceDialog
 						title='Add weapon to loadout'
-						items={availableWeapons || []}
+						items={ availableWeapons || [] }
 						category='weapons'
-						isOpen={dialog === 'add'}
-						onSave={saveWeapon}
-						onClose={() => setDialog(null)}
+						isOpen={ dialog === 'add' }
+						onSave={ saveWeapon }
+						onClose={ () => setDialog(null) }
 					/>
 				</React.Fragment>
 			)}

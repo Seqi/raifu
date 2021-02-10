@@ -8,7 +8,7 @@ function ErrorTextAlert({ error, onRetry, fillBackground }) {
 
 	return (
 		<div
-			style={{
+			style={ {
 				textAlign: 'center',
 				borderRadius: '5px',
 				backgroundColor: fillBackground ? theme.palette.primary.main : 'inherit',
@@ -19,13 +19,13 @@ function ErrorTextAlert({ error, onRetry, fillBackground }) {
 				fontSize: '1.2rem',
 				color: theme.palette.text.primary,
 				padding: '8px 0',
-				marginBottom: '8px',
-			}}
+				marginBottom: '8px'
+			} }
 		>
-			<div style={{ paddingBottom: onRetry ? '8px' : '0' }}>{error || 'An error occurred.'}</div>
+			<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>{error || 'An error occurred.'}</div>
 
 			{onRetry && (
-				<Button variant='outlined' color='primary' onClick={onRetry}>
+				<Button variant='outlined' color='primary' onClick={ onRetry }>
 					Retry
 				</Button>
 			)}
@@ -36,13 +36,13 @@ function ErrorTextAlert({ error, onRetry, fillBackground }) {
 ErrorTextAlert.propTypes = {
 	error: PropTypes.string,
 	onRetry: PropTypes.func,
-	fillBackground: PropTypes.bool,
+	fillBackground: PropTypes.bool
 }
 
 ErrorTextAlert.defaultProps = {
 	error: '',
 	onRetry: null,
-	fillBackground: false,
+	fillBackground: false
 }
 
 export default ErrorTextAlert

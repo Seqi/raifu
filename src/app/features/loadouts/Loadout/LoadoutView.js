@@ -10,7 +10,7 @@ import LoadoutSeparator from './LoadoutSeparator'
 
 let LoadoutView = ({ loadout, editable }) => {
 	return (
-		<LoadoutContextProvider loadout={loadout} editable={editable}>
+		<LoadoutContextProvider loadout={ loadout } editable={ editable }>
 			<AvailableArmoryContextProvider>
 				<LoadoutWeaponList />
 
@@ -41,29 +41,29 @@ LoadoutView.propTypes = {
 				attachments: PropTypes.arrayOf(
 					PropTypes.shape({
 						id: PropTypes.string.isRequired,
-						getTitle: PropTypes.func.isRequired,
+						getTitle: PropTypes.func.isRequired
 					})
-				),
+				)
 			})
 		),
 		gear: PropTypes.arrayOf(
 			PropTypes.shape({
 				id: PropTypes.string.isRequired,
-				getTitle: PropTypes.func.isRequired,
+				getTitle: PropTypes.func.isRequired
 			})
 		),
 		clothing: PropTypes.arrayOf(
 			PropTypes.shape({
 				id: PropTypes.string.isRequired,
-				getTitle: PropTypes.func.isRequired,
+				getTitle: PropTypes.func.isRequired
 			})
-		),
+		)
 	}).isRequired,
-	editable: PropTypes.bool,
+	editable: PropTypes.bool
 }
 
 LoadoutView.defaultProps = {
-	editable: false,
+	editable: false
 }
 
 export default LoadoutView

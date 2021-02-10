@@ -17,21 +17,21 @@ let Site = () => {
 				<AuthContextProvider>
 					<UserContextProvider>
 						<Switch>
-							<Route path='/login' component={AuthPage} />
+							<Route path='/login' component={ AuthPage } />
 							<Route
 								path='/'
-								render={() => (
+								render={ () => (
 									<React.Fragment>
 										<NavBar />
-										<Suspense fallback={<LoadingOverlay />}>
+										<Suspense fallback={ <LoadingOverlay /> }>
 											<Switch>
-												<Route path='/' component={HomePage} exact={true} />
-												<Route path='/app' component={App} />
-												<Route path='/share' component={Shared} />
+												<Route path='/' component={ HomePage } exact={ true } />
+												<Route path='/app' component={ App } />
+												<Route path='/share' component={ Shared } />
 											</Switch>
 										</Suspense>
 									</React.Fragment>
-								)}
+								) }
 							/>
 						</Switch>
 					</UserContextProvider>

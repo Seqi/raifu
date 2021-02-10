@@ -38,7 +38,7 @@ class CloudFunction {
 		let url = buildUrl(this.region, this.path, CloudFunction.useLocal)
 
 		let requestHeaders = {
-			'Content-Type': 'application/json',
+			'Content-Type': 'application/json'
 		}
 
 		if (app.auth().currentUser) {
@@ -49,29 +49,32 @@ class CloudFunction {
 		return await fetch(url, {
 			method: method,
 			headers: requestHeaders,
-			body: JSON.stringify(data),
-		}).then((result) => {
-			if (!result.ok) {
-				return Promise.reject({
-					status: result.status,
-					statusText: result.statusText,
-				})
-			} else {
-				return result
-			}
+			body: JSON.stringify(data)
 		})
+			.then((result) => {
+				if (!result.ok) {
+					return Promise.reject({
+						status: result.status,
+						statusText: result.statusText
+					})
+				} else {
+					return result
+				}
+			})
 	}
 
 	async get() {
-		return this.call(undefined, 'GET').then((result) => result.json())
+		return this.call(undefined, 'GET')
+			.then((result) => result.json())
 	}
 
 	async post(data) {
-		return this.call(data, 'POST').then((result) => {
-			if (result.status !== 204) {
-				return result.json()
-			}
-		})
+		return this.call(data, 'POST')
+			.then((result) => {
+				if (result.status !== 204) {
+					return result.json()
+				}
+			})
 	}
 
 	async put(data) {

@@ -14,13 +14,14 @@ let getUnusedArmoryItems = (loadout, armory) => {
 	let loadoutCopy = { ...loadout }
 	loadoutCopy.attachments = loadoutCopy.weapons.flatMap((weapon) => weapon.attachments || [])
 
-	return Object.keys(armory).reduce((obj, key) => {
-		obj[key] = armory[key].filter(
-			(armoryItem) => loadoutCopy[key].findIndex((loadoutItem) => loadoutItem.id === armoryItem.id) < 0
-		)
+	return Object.keys(armory)
+		.reduce((obj, key) => {
+			obj[key] = armory[key].filter(
+				(armoryItem) => loadoutCopy[key].findIndex((loadoutItem) => loadoutItem.id === armoryItem.id) < 0
+			)
 
-		return obj
-	}, {})
+			return obj
+		}, {})
 }
 
 let AvailableArmoryContextProvider = ({ children }) => {
@@ -29,13 +30,14 @@ let AvailableArmoryContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (editable && !armory) {
-			armoryService.get().then((userArmory) => setArmory(userArmory))
+			armoryService.get()
+				.then((userArmory) => setArmory(userArmory))
 		}
 	}, [armory, editable])
 
 	let unusedArmoryItems = getUnusedArmoryItems(loadout, armory)
 
-	return <AvailableArmoryContext.Provider value={unusedArmoryItems}>{children}</AvailableArmoryContext.Provider>
+	return <AvailableArmoryContext.Provider value={ unusedArmoryItems }>{children}</AvailableArmoryContext.Provider>
 }
 
 export default AvailableArmoryContext

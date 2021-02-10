@@ -18,7 +18,11 @@ export default (entityName, EntityModel) => {
 				.path(entityName)
 				.post(props)
 				.then((r) => (EntityModel ? new EntityModel(r) : toEntity(r))),
-		edit: (id, props) => new CloudFunction().path(`${entityName}/${id}`).put(props),
-		delete: (id) => new CloudFunction().path(`${entityName}/${id}`).delete(),
+		edit: (id, props) => new CloudFunction()
+			.path(`${entityName}/${id}`)
+			.put(props),
+		delete: (id) => new CloudFunction()
+			.path(`${entityName}/${id}`)
+			.delete()
 	}
 }

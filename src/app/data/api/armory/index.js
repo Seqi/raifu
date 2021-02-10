@@ -7,9 +7,10 @@ export default {
 			.path('armory')
 			.get()
 			.then((result) =>
-				Object.keys(result).reduce((current, key) => {
-					current[key] = result[key].map(toEntity)
-					return current
-				}, {})
-			),
+				Object.keys(result)
+					.reduce((current, key) => {
+						current[key] = result[key].map(toEntity)
+						return current
+					}, {})
+			)
 }

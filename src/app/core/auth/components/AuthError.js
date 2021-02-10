@@ -12,7 +12,7 @@ const AuthError = ({ message }) => {
 }
 
 AuthError.propTypes = {
-	message: PropTypes.string.isRequired,
+	message: PropTypes.string.isRequired
 }
 
 export default AuthError

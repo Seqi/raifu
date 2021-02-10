@@ -11,5 +11,5 @@ export default (loadoutId, weaponId) => ({
 		new CloudFunction()
 			.path(`/loadouts/${loadoutId}/weapons/${weaponId}/attachments/${attachmentId}`)
 			.delete()
-			.then(toEntity),
+			.then(toEntity)
 })

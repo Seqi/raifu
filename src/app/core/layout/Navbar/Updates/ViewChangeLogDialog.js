@@ -94,15 +94,15 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 	}
 
 	return (
-		<Dialog maxWidth='md' open={isOpen} onBackdropClick={onClose}>
+		<Dialog maxWidth='md' open={ isOpen } onBackdropClick={ onClose }>
 			<DialogContent>
 				{response.error ? (
 					<Error error='Could not load change logs. Please try again later.' />
 				) : response.changelogs ? (
 					response.changelogs.map((changelog) => (
 						<ChangeLogItemContainer
-							key={changelog.id}
-							dangerouslySetInnerHTML={{ __html: formatChangelog(changelog) }}
+							key={ changelog.id }
+							dangerouslySetInnerHTML={ { __html: formatChangelog(changelog) } }
 						/>
 					))
 				) : (
@@ -111,7 +111,7 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 			</DialogContent>
 
 			<DialogActions>
-				<Button variant='contained' color='primary' onClick={onClose}>
+				<Button variant='contained' color='primary' onClick={ onClose }>
 					Close
 				</Button>
 			</DialogActions>

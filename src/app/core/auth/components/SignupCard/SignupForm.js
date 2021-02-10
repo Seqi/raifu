@@ -9,50 +9,50 @@ let LoginForm = ({ onSubmit }) => {
 	let { register, watch, handleSubmit, formState, errors } = useForm({ mode: 'onChange' })
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={ handleSubmit(onSubmit) }>
 			<TextField
-				inputRef={register({ required: true })}
+				inputRef={ register({ required: true }) }
 				name='email'
 				label='E-mail'
-				autoFocus={true}
-				fullWidth={true}
+				autoFocus={ true }
+				fullWidth={ true }
 				autoComplete='off'
-				error={!!errors.email}
-				helperText={errors.email && 'Email is required'}
+				error={ !!errors.email }
+				helperText={ errors.email && 'Email is required' }
 			/>
 
 			<TextField
-				inputRef={register({
+				inputRef={ register({
 					required: true,
-					minLength: 6,
-				})}
+					minLength: 6
+				}) }
 				name='password'
 				label='Password'
 				type='password'
 				margin='normal'
-				fullWidth={true}
+				fullWidth={ true }
 				autoComplete='off'
-				error={!!errors.password}
-				helperText={errors.password && 'Minimum of six characters'}
+				error={ !!errors.password }
+				helperText={ errors.password && 'Minimum of six characters' }
 			/>
 
 			<TextField
-				inputRef={register({
-					validate: (value) => value === watch('password'),
-				})}
+				inputRef={ register({
+					validate: (value) => value === watch('password')
+				}) }
 				name='confirmPassword'
 				label='Confirm password'
 				type='password'
 				margin='dense'
-				fullWidth={true}
+				fullWidth={ true }
 				autoComplete='off'
-				error={!!errors.confirmPassword}
-				helperText={errors.confirmPassword && 'Passwords must match'}
+				error={ !!errors.confirmPassword }
+				helperText={ errors.confirmPassword && 'Passwords must match' }
 			/>
 
 			<Button
-				disabled={!formState.isValid || formState.isSubmitting}
-				fullWidth={true}
+				disabled={ !formState.isValid || formState.isSubmitting }
+				fullWidth={ true }
 				variant='contained'
 				color='primary'
 				type='submit'
@@ -64,7 +64,7 @@ let LoginForm = ({ onSubmit }) => {
 }
 
 LoginForm.propTypes = {
-	onSubmit: PropTypes.func.isRequired,
+	onSubmit: PropTypes.func.isRequired
 }
 
 export default LoginForm

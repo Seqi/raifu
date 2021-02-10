@@ -12,7 +12,7 @@ class AddResourceDialog extends Component {
 		this.state = {
 			selectedIds: [],
 			loading: false,
-			error: null,
+			error: null
 		}
 	}
 
@@ -57,7 +57,7 @@ class AddResourceDialog extends Component {
 						!this.isUnmounted &&
 						this.setState({
 							loading: false,
-							error: `An error occurred while saving ${this.props.category}.`,
+							error: `An error occurred while saving ${this.props.category}.`
 						})
 				)
 		})
@@ -68,32 +68,32 @@ class AddResourceDialog extends Component {
 		let { items, title, category, isOpen, onClose, allowMultiple } = this.props
 
 		return (
-			<Dialog open={isOpen} onClose={onClose}>
+			<Dialog open={ isOpen } onClose={ onClose }>
 				<DialogTitle>{title}</DialogTitle>
 
 				<DialogContent>
 					{loading && <Loading />}
 
-					{error && <Error error={error} fillBackground={true} />}
+					{error && <Error error={ error } fillBackground={ true } />}
 
 					{allowMultiple && selectedIds.length > 0 && (
 						<DialogContentText>{selectedIds.length} items selected.</DialogContentText>
 					)}
 
 					<ResourceSelect
-						items={items}
-						category={category}
-						selectedItemIds={selectedIds}
-						onItemSelected={(itemId) => this.onItemSelected(itemId)}
+						items={ items }
+						category={ category }
+						selectedItemIds={ selectedIds }
+						onItemSelected={ (itemId) => this.onItemSelected(itemId) }
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={onClose}>Cancel</Button>
+					<Button onClick={ onClose }>Cancel</Button>
 					<Button
-						disabled={!this.formValid() || loading}
+						disabled={ !this.formValid() || loading }
 						variant='contained'
-						onClick={() => this.onSave(selectedIds)}
+						onClick={ () => this.onSave(selectedIds) }
 						color='primary'
 					>
 						Save
@@ -108,18 +108,18 @@ AddResourceDialog.propTypes = {
 	title: PropTypes.string.isRequired,
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
-			id: PropTypes.string.isRequired,
+			id: PropTypes.string.isRequired
 		})
 	).isRequired,
 	category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	allowMultiple: PropTypes.bool,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired,
+	onSave: PropTypes.func.isRequired
 }
 
 AddResourceDialog.defaultProps = {
-	allowMultiple: false,
+	allowMultiple: false
 }
 
 export default AddResourceDialog

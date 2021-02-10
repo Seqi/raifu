@@ -22,7 +22,7 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 	}, [resourceType, resource])
 
 	if (image) {
-		return <RotatedImage image={image} rotateBy={rotate ? 45 : 0} />
+		return <RotatedImage image={ image } rotateBy={ rotate ? 45 : 0 } />
 	}
 
 	return <div />
@@ -33,10 +33,10 @@ ResourceImage.propTypes = {
 	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
 	resource: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
-		type: PropTypes.string.isRequired,
-	}).isRequired,
+		type: PropTypes.string.isRequired
+	}).isRequired
 }
 
 ResourceImage.defaultProps = {
-	rotate: false,
+	rotate: false
 }

@@ -14,7 +14,8 @@ let SignupCard = () => {
 	let [error, setError] = useState()
 
 	let signupWithEmail = useCallback(
-		({ email, password }) => signup.withEmail(email, password).catch((err) => setError(err.message)),
+		({ email, password }) => signup.withEmail(email, password)
+			.catch((err) => setError(err.message)),
 		[signup]
 	)
 
@@ -23,9 +24,9 @@ let SignupCard = () => {
 			<AuthCardHeader title='Sign up' />
 
 			<CardContent>
-				{error && <AuthError message={error} />}
+				{error && <AuthError message={ error } />}
 
-				<SignupForm onSubmit={signupWithEmail} />
+				<SignupForm onSubmit={ signupWithEmail } />
 			</CardContent>
 
 			<CardActions>

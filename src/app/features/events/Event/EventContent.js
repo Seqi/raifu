@@ -13,28 +13,28 @@ const EventContent = ({ event, onEventJoined, onLoadoutRemoved, onLoadoutAdded }
 	const amISelected = selectedUserIndex === 0
 
 	if (event.users.length === 0) {
-		return <EventInvite event={event} onJoin={onEventJoined} />
+		return <EventInvite event={ event } onJoin={ onEventJoined } />
 	}
 
 	return (
 		<React.Fragment>
 			{event.users.length > 1 && (
 				<EventUserSelect
-					users={event.users}
-					userIndex={selectedUserIndex}
-					onUserIndexChange={setSelectedUserIndex}
+					users={ event.users }
+					userIndex={ selectedUserIndex }
+					onUserIndexChange={ setSelectedUserIndex }
 				/>
 			)}
 
 			{amISelected ? (
 				<EventMyLoadout
-					event={event}
-					user={selectedUser}
-					addLoadout={onLoadoutAdded}
-					removeLoadout={onLoadoutRemoved}
+					event={ event }
+					user={ selectedUser }
+					addLoadout={ onLoadoutAdded }
+					removeLoadout={ onLoadoutRemoved }
 				/>
 			) : (
-				<EventGuestLoadout user={selectedUser} />
+				<EventGuestLoadout user={ selectedUser } />
 			)}
 		</React.Fragment>
 	)
@@ -42,12 +42,12 @@ const EventContent = ({ event, onEventJoined, onLoadoutRemoved, onLoadoutAdded }
 
 EventContent.propTypes = {
 	event: PropTypes.shape({
-		users: PropTypes.array.isRequired,
+		users: PropTypes.array.isRequired
 	}).isRequired,
 
 	onEventJoined: PropTypes.func.isRequired,
 	onLoadoutAdded: PropTypes.func.isRequired,
-	onLoadoutRemoved: PropTypes.func.isRequired,
+	onLoadoutRemoved: PropTypes.func.isRequired
 }
 
 export default EventContent

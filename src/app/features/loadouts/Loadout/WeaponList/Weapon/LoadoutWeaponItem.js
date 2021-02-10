@@ -13,8 +13,8 @@ const LoadoutWeaponItemTitle = styled(Typography)(({ theme }) => ({
 	zIndex: 1,
 
 	[theme.breakpoints.down('xs')]: {
-		position: 'initial',
-	},
+		position: 'initial'
+	}
 }))
 
 const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
@@ -23,13 +23,13 @@ const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
 		maxHeight: '700px',
 
 		[theme.breakpoints.down('xs')]: {
-			maxHeight: '300px',
-		},
+			maxHeight: '300px'
+		}
 	},
 
 	[theme.breakpoints.down('xs')]: {
-		position: 'initial',
-	},
+		position: 'initial'
+	}
 }))
 
 let LoadoutWeaponItem = ({ weapon }) => {
@@ -43,18 +43,18 @@ let LoadoutWeaponItem = ({ weapon }) => {
 			<LoadoutWeaponItemTitle variant='h4'>
 				{weapon.getTitle()}
 
-				{editable && <DeleteButton dialogTitle={weapon.getTitle()} onClick={() => setDialog('delete')} />}
+				{editable && <DeleteButton dialogTitle={ weapon.getTitle() } onClick={ () => setDialog('delete') } />}
 			</LoadoutWeaponItemTitle>
 
 			<LoadoutWeaponItemImageContainer>
-				<ResourceImage resource={weapon} resourceType='weapons' />
+				<ResourceImage resource={ weapon } resourceType='weapons' />
 			</LoadoutWeaponItemImageContainer>
 
 			<ConfirmDeleteDialog
-				isOpen={dialog === 'delete'}
-				title={weapon.getTitle()}
-				onConfirm={deleteNewWeapon}
-				onClose={() => setDialog(null)}
+				isOpen={ dialog === 'delete' }
+				title={ weapon.getTitle() }
+				onConfirm={ deleteNewWeapon }
+				onClose={ () => setDialog(null) }
 			/>
 		</React.Fragment>
 	)
@@ -63,8 +63,8 @@ let LoadoutWeaponItem = ({ weapon }) => {
 LoadoutWeaponItem.propTypes = {
 	weapon: PropTypes.shape({
 		id: PropTypes.string.isRequired,
-		getTitle: PropTypes.func.isRequired,
-	}).isRequired,
+		getTitle: PropTypes.func.isRequired
+	}).isRequired
 }
 
 export default LoadoutWeaponItem

@@ -10,27 +10,27 @@ function CalendarToolbar({ label, view, onNavigate, onView, theme }) {
 		cursor: 'pointer',
 		border: 0,
 		color: theme.palette.text.primary,
-		fontSize: '1.3rem',
+		fontSize: '1.3rem'
 	}
 
 	const activeButton = {
-		color: theme.palette.primary.main,
+		color: theme.palette.primary.main
 	}
 
 	return (
-		<div style={{ display: 'flex', marginBottom: '16px' }}>
+		<div style={ { display: 'flex', marginBottom: '16px' } }>
 			<ReactiveTitle>{label}</ReactiveTitle>
 
-			<div style={{ display: 'flex', flex: '1', marginLeft: '12px', fontSize: '1.5rem' }}>
+			<div style={ { display: 'flex', flex: '1', marginLeft: '12px', fontSize: '1.5rem' } }>
 				<button
 					type='button'
-					style={{ ...blankButton, marginRight: '8px' }}
-					onClick={(_) => onNavigate('PREV')}
+					style={ { ...blankButton, marginRight: '8px' } }
+					onClick={ (_) => onNavigate('PREV') }
 				>
 					<i className='fa fa-chevron-left' />
 				</button>
 
-				<button type='button' style={blankButton} onClick={(_) => onNavigate('NEXT')}>
+				<button type='button' style={ blankButton } onClick={ (_) => onNavigate('NEXT') }>
 					<i className='fa fa-chevron-right' />
 				</button>
 			</div>
@@ -38,12 +38,12 @@ function CalendarToolbar({ label, view, onNavigate, onView, theme }) {
 			<button
 				title='Event View'
 				type='button'
-				onClick={() => onView('month')}
-				style={{
+				onClick={ () => onView('month') }
+				style={ {
 					...blankButton,
 					marginLeft: '8px',
-					...(view === 'month' ? activeButton : {}),
-				}}
+					...(view === 'month' ? activeButton : {})
+				} }
 			>
 				<i className='far fa-calendar' />
 			</button>
@@ -51,12 +51,12 @@ function CalendarToolbar({ label, view, onNavigate, onView, theme }) {
 			<button
 				title='Schedule View'
 				type='button'
-				onClick={() => onView('agenda')}
-				style={{
+				onClick={ () => onView('agenda') }
+				style={ {
 					...blankButton,
 					marginLeft: '8px',
-					...(view === 'agenda' ? activeButton : {}),
-				}}
+					...(view === 'agenda' ? activeButton : {})
+				} }
 			>
 				<i className='far fa-clipboard' />
 			</button>
@@ -68,7 +68,7 @@ CalendarToolbar.propTypes = {
 	view: PropTypes.string.isRequired,
 	onView: PropTypes.func.isRequired,
 	label: PropTypes.string.isRequired,
-	onNavigate: PropTypes.func.isRequired,
+	onNavigate: PropTypes.func.isRequired
 }
 
 export default withTheme(CalendarToolbar)

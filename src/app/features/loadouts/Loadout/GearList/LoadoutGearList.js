@@ -19,21 +19,21 @@ let LoadoutGearList = () => {
 
 			<LoadoutResourceList
 				resourceType='gear'
-				items={loadout.gear || []}
-				canAdd={(availableGear || []).length > 0}
-				addItem={addGear}
-				deleteItem={deleteGear}
-				renderAddDialog={(isOpen, onClose, onSave) => (
+				items={ loadout.gear || [] }
+				canAdd={ (availableGear || []).length > 0 }
+				addItem={ addGear }
+				deleteItem={ deleteGear }
+				renderAddDialog={ (isOpen, onClose, onSave) => (
 					<AddResourceDialog
 						title='Add gear to loadout'
-						items={availableGear || []}
+						items={ availableGear || [] }
 						category='gear'
-						allowMultiple={true}
-						isOpen={isOpen}
-						onSave={onSave}
-						onClose={onClose}
+						allowMultiple={ true }
+						isOpen={ isOpen }
+						onSave={ onSave }
+						onClose={ onClose }
 					/>
-				)}
+				) }
 			/>
 		</React.Fragment>
 	)

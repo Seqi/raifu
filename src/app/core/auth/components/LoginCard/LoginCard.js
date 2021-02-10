@@ -17,24 +17,27 @@ let LoginCard = () => {
 	let [error, setError] = useState()
 
 	let loginWithEmail = useCallback(
-		({ email, password }) => login.withEmail(email, password).catch((err) => setError(err.message)),
+		({ email, password }) => login.withEmail(email, password)
+			.catch((err) => setError(err.message)),
 		[login]
 	)
-	let loginWithTwitter = useCallback(() => login.withTwitter().catch((err) => setError(err.message)), [login])
-	let loginWithGoogle = useCallback(() => login.withGoogle().catch((err) => setError(err.message)), [login])
+	let loginWithTwitter = useCallback(() => login.withTwitter()
+		.catch((err) => setError(err.message)), [login])
+	let loginWithGoogle = useCallback(() => login.withGoogle()
+		.catch((err) => setError(err.message)), [login])
 
 	return (
 		<Card>
 			<AuthCardHeader title='Sign in' />
 
 			<AuthCardContent>
-				{error && <AuthError message={error} />}
+				{error && <AuthError message={ error } />}
 
-				<LoginForm onSubmit={loginWithEmail} />
+				<LoginForm onSubmit={ loginWithEmail } />
 
-				<Box textAlign='center' marginTop={1.5}>
+				<Box textAlign='center' marginTop={ 1.5 }>
 					<div>OR SIGN IN WITH</div>
-					<LoginProviders loginWithTwitter={loginWithTwitter} loginWithGoogle={loginWithGoogle} />
+					<LoginProviders loginWithTwitter={ loginWithTwitter } loginWithGoogle={ loginWithGoogle } />
 				</Box>
 			</AuthCardContent>
 

@@ -1,6 +1,7 @@
 class Entity {
 	constructor(entity) {
-		Object.keys(entity).forEach((key) => (this[key] = entity[key]))
+		Object.keys(entity)
+			.forEach((key) => (this[key] = entity[key]))
 	}
 
 	getTitle = () => {
@@ -37,15 +38,16 @@ let toEntity = (entity) => {
 	let e = new Entity(entity)
 
 	// Convert any children
-	Object.keys(e).forEach((key) => {
-		let prop = e[key]
+	Object.keys(e)
+		.forEach((key) => {
+			let prop = e[key]
 
-		if (Array.isArray(prop)) {
-			e[key] = prop.map(toEntity)
-		} else {
-			e[key] = toEntity(prop)
-		}
-	})
+			if (Array.isArray(prop)) {
+				e[key] = prop.map(toEntity)
+			} else {
+				e[key] = toEntity(prop)
+			}
+		})
 
 	return e
 }
