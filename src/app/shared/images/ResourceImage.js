@@ -57,9 +57,19 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 			.replace(/\s/g, '-')
 			.replace(/\//g, '-')
 
-		let img =
-			loadImage(resourceType, resource.type, formattedPlatform) ??
-			loadImage(resourceType, resource.type, defaults[resourceType][resource.type])
+		let img = loadImage(resourceType, resource.type, formattedPlatform)
+
+		// Try fetch a default for the provided options
+		if (!img) {
+			const resourceTypeDefaults = defaults[resourceType]
+
+			if (!resourceTypeDefaults) {
+				console.warn(`Type ${resourceType} is not a valid resource type.`)
+			} else {
+				const defaultPlatform = resourceTypeDefaults[resource.type]
+				img = loadImage(resourceType, resource.type, defaultPlatform)
+			}
+		}
 
 		if (!img) {
 			console.warn(`Could not find image for ${resource.type} ${resource.platform}`)
@@ -69,7 +79,7 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 	}, [resourceType, resource])
 
 	if (image) {
-		return <RotatedImage image={ image } rotateBy={ rotate ? 45 : 0 } />
+		return <RotatedImage image={image} rotateBy={rotate ? 45 : 0} />
 	}
 
 	return <div />
