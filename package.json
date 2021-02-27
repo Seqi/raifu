@@ -12,6 +12,7 @@
 		"firebase": "^8.2.2",
 		"marked": "^0.8.2",
 		"moment": "^2.24.0",
+		"moment-range": "^4.0.2",
 		"react": "^16.10.2",
 		"react-big-calendar": "^0.21.0",
 		"react-cookie": "^4.0.1",

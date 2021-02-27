@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import * as moment from 'moment'
 
 import { Box, Tooltip, Chip } from '@material-ui/core'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 function EventHeader({ event }) {
+	const eventDate = moment(event.date)
+
 	return (
 		<React.Fragment>
 			<ReactiveTitle>
@@ -25,7 +28,10 @@ function EventHeader({ event }) {
 			</ReactiveTitle>
 
 			<ReactiveTitle variant='h4' mobileVariant='h5'>
-				{event.location} @ {event.date.toLocaleString()}
+				{event.location}
+				<Tooltip placement='bottom' title={ event.date.toLocaleString() }>
+					<span> {eventDate.fromNow()}</span>
+				</Tooltip>
 			</ReactiveTitle>
 		</React.Fragment>
 	)

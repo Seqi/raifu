@@ -8,7 +8,7 @@ import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { UserContext } from 'app/core/auth/contexts'
 
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
-import EditEventDialog from '../EventList/EditEventDialog'
+import EditEventDialog from '../EditEventDialog'
 
 let isMyEvent = (user, event) => {
 	return event.organiser_uid === user.uid

@@ -1,26 +1,20 @@
 import React from 'react'
-import BigCalendar from 'react-big-calendar'
-import moment from 'moment'
+import PropTypes from 'prop-types'
 
-import { Fab, Box, styled, withTheme } from '@material-ui/core'
+import { Fab, Box, styled, withTheme, withWidth, isWidthDown } from '@material-ui/core'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
-import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarComponents'
-import EditEventDialog from './EditEventDialog'
-import firebase from '../../../../firebase'
+import EventWeeklyView from './WeeklyView/EventWeeklyView'
+import EventCalendarView from './CalendarView/EventCalendarView'
+import EditEventDialog from '../EditEventDialog'
 
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-import './CalendarComponents/Calendar.css'
+import firebase from '../../../../firebase'
 
 let analytics = firebase.analytics()
 
 const EventListContainer = styled(Box)(({ theme }) => ({
-	height: '80vh',
-
-	[theme.breakpoints.down('xs')]: {
-		height: '70vh'
-	}
+	height: '80vh'
 }))
 
 const EventFab = styled(Fab)({
@@ -29,20 +23,17 @@ const EventFab = styled(Fab)({
 	right: '3%'
 })
 
-class Events extends React.Component {
+class EventList extends React.Component {
 	constructor() {
 		super()
 
 		this.state = {
 			events: [],
-			view: 'month',
 			loading: true,
 			error: false,
 			activeTimeslot: null,
 			isAddDialogOpen: false
 		}
-
-		this.localizer = BigCalendar.momentLocalizer(moment)
 	}
 
 	componentDidMount() {
@@ -102,20 +93,9 @@ class Events extends React.Component {
 			.then(() => this.closeDialog())
 	}
 
-	styleEvent = (e) => {
-		// Only give month events the accented border as agenda views don't show this right
-		if (this.state.view === 'month') {
-			return {
-				style: {
-					border: `1px solid ${this.props.theme.palette.primary.main}`,
-					background: 'inherit'
-				}
-			}
-		}
-	}
-
 	render() {
-		let { loading, error, events, view, activeTimeslot, isAddDialogOpen } = this.state
+		let { loading, error, events, activeTimeslot, isAddDialogOpen } = this.state
+		let { width } = this.props
 
 		if (loading) {
 			return <LoadingOverlay />
@@ -125,36 +105,15 @@ class Events extends React.Component {
 			return <ErrorOverlay message='Could not load events.' onRetry={ () => this.loadEvents() } />
 		}
 
+		const EventListView = isWidthDown('sm', width) ? EventWeeklyView : EventCalendarView
+
 		return (
 			<React.Fragment>
 				<EventListContainer>
-					<BigCalendar
-						localizer={ this.localizer }
-						components={ {
-							toolbar: CalendarToolbar,
-							event: CalendarEvent,
-							agenda: {
-								event: CalendarAgendaEvent
-							}
-						} }
-						style={ {
-							color: this.props.theme.palette.text.primary
-						} }
-						titleAccessor={ (e) => e.name }
-						startAccessor={ (e) => e.date }
-						endAccessor={ (e) => e.date }
-						defaultView={ view }
-						onView={ (view) => this.setState({ view }) }
-						views={ ['month', 'agenda'] }
-						// Don't use a drilldown view
-						getDrilldownView={ (_) => null }
-						// Show entire year in agenda view
-						length={ 365 }
-						selectable={ true }
-						onSelectSlot={ (slot) => this.addEvent(slot.end) }
+					<EventListView
 						events={ events }
-						onSelectEvent={ (event) => this.view(event) }
-						eventPropGetter={ this.styleEvent }
+						onEventSelected={ (event) => this.view(event) }
+						onSlotSelected={ (event) => this.addEvent(event.end) }
 					/>
 				</EventListContainer>
 
@@ -175,4 +134,8 @@ class Events extends React.Component {
 	}
 }
 
-export default withTheme(Events)
+EventList.propTypes = {
+	width: PropTypes.string.isRequired
+}
+
+export default withWidth()(withTheme(EventList))
