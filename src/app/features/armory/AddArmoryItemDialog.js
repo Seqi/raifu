@@ -8,9 +8,9 @@ import { Autocomplete } from '@material-ui/lab'
 import { Error } from 'app/shared/state'
 import ResourceSelect from 'app/shared/resources/ResourceSelect'
 
-import { brands, platforms } from 'app/data/constants'
+import { brands } from 'app/data/constants'
 
-let AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen, onSave, onClose }) => {
+const AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen, onSave, onClose }) => {
 	let [error, setError] = useState(null)
 	let { register, unregister, setValue, handleSubmit, formState } = useForm({ mode: 'onChange' })
 
@@ -37,6 +37,18 @@ let AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen, o
 		[onClose, onSave]
 	)
 
+	let setResource = useCallback(
+		(resource) => {
+			if (!resource) {
+				setValue([{ type: '' }, { platform: '' }], true)
+			} else {
+				const { type, platform } = resource
+				setValue([{ type }, { platform }], true)
+			}
+		},
+		[setValue]
+	)
+
 	return (
 		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 			<form onSubmit={ handleSubmit(handleSave) }>
@@ -45,13 +57,7 @@ let AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen, o
 				<DialogContent>
 					{error && <Error error={ error } fillBackground={ true } />}
 
-					<ResourceSelect
-						resourceOptions={ platforms[resourceKey] }
-						getOptionLabel={ (option) => option.resource }
-						groupBy={ (option) => option.type }
-						onChange={ (value) => setValue([{ type: value.type }, { platform: value.platform }], true) }
-						renderInput={ (params) => <TextField { ...params } fullWidth={ true } label={ resourceName } /> }
-					/>
+					<ResourceSelect inputLabel={ resourceName } resourceType={ resourceKey } onChange={ setResource } />
 
 					<Autocomplete
 						options={ brands }
