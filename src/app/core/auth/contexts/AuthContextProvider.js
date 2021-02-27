@@ -6,6 +6,12 @@ import client from '../../../../firebase'
 
 let auth = client.auth()
 
+const useEmulator = process.env.NODE_ENV === 'development'
+
+if (useEmulator) {
+	auth.useEmulator('http://localhost:9099')
+}
+
 let providers = {
 	email: new firebase.auth.EmailAuthProvider(),
 	google: new firebase.auth.GoogleAuthProvider(),

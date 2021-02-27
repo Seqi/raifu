@@ -10,7 +10,7 @@
 		"@material-ui/pickers": "^3.2.6",
 		"change-case": "^4.1.0",
 		"core-js": "^2.6.9",
-		"firebase": "^7.2.0",
+		"firebase": "^8.2.2",
 		"marked": "^0.8.2",
 		"moment": "^2.24.0",
 		"react": "^16.10.2",
@@ -30,11 +30,11 @@
 		"prettier-eslint": "^11.0.0"
 	},
 	"scripts": {
-		"start": "concurrently -c \"green.bold,red.bold\" --kill-others \"npm:server\" \"npm:functions\"",
+		"start": "concurrently -c \"green.bold,red.bold\" --kill-others \"npm:server\" \"npm:firebase\"",
 		"server": "react-scripts start",
-		"functions": "firebase serve --only functions",
-		"build": "CI=true && react-scripts build",
+		"build": "react-scripts build",
 		"test": "react-scripts test",
+		"firebase": "firebase emulators:start",
 		"deploy": "firebase deploy",
 		"eject": "react-scripts eject",
 		"lint": "eslint src/**/*.js",

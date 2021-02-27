@@ -15,7 +15,7 @@ function buildCloudUrl(region, path) {
 }
 
 function buildLocalUrl(region, path) {
-	return `http://localhost:5000/${app.options.projectId}/${region}/api/${path}`
+	return `http://localhost:5001/${app.options.projectId}/${region}/api/${path}`
 }
 
 class CloudFunction {
