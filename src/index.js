@@ -10,11 +10,13 @@ import Theme from './Theme'
 import Site from 'app/core/Site'
 
 ReactDOM.render(
-	<MuiThemeProvider theme={ Theme }>
-		<CssBaseline />
-		<Typography component='div'>
-			<Site />
-		</Typography>
-	</MuiThemeProvider>,
+	<React.StrictMode>
+		<MuiThemeProvider theme={ Theme }>
+			<CssBaseline />
+			<Typography component='div'>
+				<Site />
+			</Typography>
+		</MuiThemeProvider>
+	</React.StrictMode>,
 	document.getElementById('root')
 )
