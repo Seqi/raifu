@@ -48,13 +48,23 @@ const ResourceSelect = ({ resourceType, inputLabel, onChange }) => {
 		}
 	}, [onChange, overrideValue])
 
-	function platformSelected(evt, value) {
+	function platformSelected(value) {
 		onChange(value)
 		setOverrideValue(null)
 	}
 
 	function inputChanged(evt) {
-		setOverrideValue({ ...(overrideValue || {}), platform: evt.target.value })
+		const input = evt.target.value
+
+		// First check to see if what they've typed exists
+		const option = options.find((o) => o.platform === input)
+
+		// If it matches a resource, emit that
+		if (option) {
+			return platformSelected(option)
+		} else {
+			setOverrideValue({ ...(overrideValue || {}), platform: input })
+		}
 	}
 
 	function typeSelected(evt) {
@@ -69,7 +79,7 @@ const ResourceSelect = ({ resourceType, inputLabel, onChange }) => {
 				options={ options }
 				getOptionLabel={ (option) => option.platform }
 				groupBy={ (option) => option.type }
-				onChange={ platformSelected }
+				onChange={ (_, val) => platformSelected(val) }
 				renderInput={ (params) => (
 					<TextField { ...params } fullWidth={ true } label={ inputLabel } onChange={ inputChanged } />
 				) }
