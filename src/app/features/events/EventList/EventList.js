@@ -14,11 +14,7 @@ import firebase from '../../../../firebase'
 let analytics = firebase.analytics()
 
 const EventListContainer = styled(Box)(({ theme }) => ({
-	height: '80vh',
-
-	[theme.breakpoints.down('xs')]: {
-		height: '70vh'
-	}
+	height: '80vh'
 }))
 
 const EventFab = styled(Fab)({
