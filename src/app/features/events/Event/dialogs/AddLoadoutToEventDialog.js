@@ -31,30 +31,31 @@ export default function AddLoadoutToEventDialog({ eventTitle, isOpen, onSave, on
 	let save = () => {
 		setSubmitState({ submitting: true, error: null })
 
-		onSave(loadoutId).catch((err) => setSubmitState({ submitting: false, error: true }))
+		onSave(loadoutId)
+			.catch((err) => setSubmitState({ submitting: false, error: true }))
 	}
 
 	return (
-		<Dialog fullWidth={true} open={isOpen}>
+		<Dialog fullWidth={ true } open={ isOpen }>
 			<DialogTitle>Set loadout for {eventTitle}</DialogTitle>
 			<DialogContent>
-				{loadouts.error && !loadouts.loading && <Error error={loadouts.error} onRetry={loadLoadouts} />}
+				{loadouts.error && !loadouts.loading && <Error error={ loadouts.error } onRetry={ loadLoadouts } />}
 				{loadouts.loading && !loadouts.error && <Loading />}
 				{submitState.error && (
-					<Error error={'An error occurred while adding loadout to event.'} fillBackground={true} />
+					<Error error={ 'An error occurred while adding loadout to event.' } fillBackground={ true } />
 				)}
 
 				{!loadouts.error && !loadouts.loading && (
 					<TextField
 						label='Loadout'
-						fullWidth={true}
-						value={loadoutId}
-						onChange={(e) => setLoadoutId(e.target.value)}
-						select={true}
-						SelectProps={{ name: 'loadoutId' }}
+						fullWidth={ true }
+						value={ loadoutId }
+						onChange={ (e) => setLoadoutId(e.target.value) }
+						select={ true }
+						SelectProps={ { name: 'loadoutId' } }
 					>
 						{loadouts.data.map((loadout) => (
-							<MenuItem key={loadout.id} value={loadout.id}>
+							<MenuItem key={ loadout.id } value={ loadout.id }>
 								{loadout.getTitle()}
 							</MenuItem>
 						))}
@@ -63,11 +64,11 @@ export default function AddLoadoutToEventDialog({ eventTitle, isOpen, onSave, on
 			</DialogContent>
 
 			<DialogActions>
-				<Button onClick={onClose}>Cancel</Button>
+				<Button onClick={ onClose }>Cancel</Button>
 				<Button
-					disabled={!loadoutId || loadouts.loading || submitState.submitting}
+					disabled={ !loadoutId || loadouts.loading || submitState.submitting }
 					variant='contained'
-					onClick={save}
+					onClick={ save }
 					color='primary'
 				>
 					Save
@@ -81,5 +82,5 @@ AddLoadoutToEventDialog.propTypes = {
 	eventTitle: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired,
+	onSave: PropTypes.func.isRequired
 }

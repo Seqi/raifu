@@ -18,8 +18,6 @@ node_modules
 /build
 
 # misc
-.firebase/
-.vscode
 .DS_Store
 .env.local
 .env.development.local
@@ -30,3 +28,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 firebase-debug.log*
+
+#firebase
+.firebase/
+ui-debug.log

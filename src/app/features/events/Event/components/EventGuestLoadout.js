@@ -9,13 +9,13 @@ const EventMyLoadout = ({ user }) => {
 		return <ErrorOverlay icon='fas fa-crosshairs' message='User has not added a loadout to this event.' />
 	}
 
-	return <LoadoutView loadout={user.loadout} editable={false} />
+	return <LoadoutView loadout={ user.loadout } editable={ false } />
 }
 
 export default EventMyLoadout
 
 EventMyLoadout.propTypes = {
 	user: PropTypes.shape({
-		loadout: PropTypes.object,
-	}).isRequired,
+		loadout: PropTypes.object
+	}).isRequired
 }

@@ -16,7 +16,7 @@ let UserContextProvider = ({ children }) => {
 		return authUnsubscribe
 	}, [auth])
 
-	return <UserContext.Provider value={user}>{children}</UserContext.Provider>
+	return <UserContext.Provider value={ user }>{children}</UserContext.Provider>
 }
 
 export default UserContextProvider

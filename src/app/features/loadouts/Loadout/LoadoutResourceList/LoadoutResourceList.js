@@ -23,8 +23,8 @@ const LoadoutResourceItemContainer = styled(Box)(({ theme }) => ({
 		minHeight: '100px',
 		maxHeight: '200px',
 
-		padding: '0.4rem 1rem',
-	},
+		padding: '0.4rem 1rem'
+	}
 }))
 
 let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, renderAddDialog }) => {
@@ -41,21 +41,21 @@ let LoadoutResourceList = ({ resourceType, items, canAdd, addItem, deleteItem, r
 
 	return (
 		<React.Fragment>
-			<Grid container={true}>
+			<Grid container={ true }>
 				{items.map((item) => (
-					<LoadoutResourceItemContainer key={item.id}>
+					<LoadoutResourceItemContainer key={ item.id }>
 						<LoadoutResourceItem
-							resourceType={resourceType}
-							item={item}
-							canDelete={editable}
-							onDelete={deleteItem}
+							resourceType={ resourceType }
+							item={ item }
+							canDelete={ editable }
+							onDelete={ deleteItem }
 						/>
 					</LoadoutResourceItemContainer>
 				))}
 
 				{editable && canAdd && (
 					<LoadoutResourceItemContainer>
-						<AddButton onClick={() => setDialog('add')} />
+						<AddButton onClick={ () => setDialog('add') } />
 					</LoadoutResourceItemContainer>
 				)}
 			</Grid>
@@ -78,13 +78,13 @@ LoadoutResourceList.propTypes = {
 	resourceType: PropTypes.oneOf(['clothing', 'gear', 'attachments']).isRequired,
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
-			id: PropTypes.string.isRequired,
+			id: PropTypes.string.isRequired
 		})
 	).isRequired,
 	canAdd: PropTypes.bool.isRequired,
 	addItem: PropTypes.func.isRequired,
 	deleteItem: PropTypes.func.isRequired,
-	renderAddDialog: PropTypes.func.isRequired,
+	renderAddDialog: PropTypes.func.isRequired
 }
 
 export default LoadoutResourceList

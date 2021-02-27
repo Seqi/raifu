@@ -19,21 +19,21 @@ let LoadoutClothingList = () => {
 
 			<LoadoutResourceList
 				resourceType='clothing'
-				items={loadout.clothing || []}
-				canAdd={(availableClothing || []).length > 0}
-				addItem={addClothing}
-				deleteItem={deleteClothing}
-				renderAddDialog={(isOpen, onClose, onSave) => (
+				items={ loadout.clothing || [] }
+				canAdd={ (availableClothing || []).length > 0 }
+				addItem={ addClothing }
+				deleteItem={ deleteClothing }
+				renderAddDialog={ (isOpen, onClose, onSave) => (
 					<AddResourceDialog
 						title='Add clothing to loadout'
-						items={availableClothing || []}
+						items={ availableClothing || [] }
 						category='clothing'
-						allowMultiple={true}
-						isOpen={isOpen}
-						onSave={onSave}
-						onClose={onClose}
+						allowMultiple={ true }
+						isOpen={ isOpen }
+						onSave={ onSave }
+						onClose={ onClose }
 					/>
-				)}
+				) }
 			/>
 		</React.Fragment>
 	)

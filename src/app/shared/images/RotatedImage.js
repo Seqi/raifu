@@ -6,8 +6,8 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles({
 	fill: {
 		width: '100%',
-		height: '100%',
-	},
+		height: '100%'
+	}
 })
 
 function calculateAddedXMargin(width, height, rotateBy) {
@@ -52,13 +52,13 @@ function RotatedImage({ image, rotateBy }) {
 	let classes = useStyles()
 
 	return (
-		<div className={classes.fill} ref={containerRef} style={{ paddingLeft: xMargin, paddingRight: xMargin }}>
+		<div className={ classes.fill } ref={ containerRef } style={ { paddingLeft: xMargin, paddingRight: xMargin } }>
 			<img
 				alt=''
-				src={image}
-				className={classes.fill}
-				style={{ transform: `rotate(${rotateBy}deg)` }}
-				onLoad={setNewXMargin}
+				src={ image }
+				className={ classes.fill }
+				style={ { transform: `rotate(${rotateBy}deg)` } }
+				onLoad={ setNewXMargin }
 			/>
 		</div>
 	)
@@ -66,11 +66,11 @@ function RotatedImage({ image, rotateBy }) {
 
 RotatedImage.propTypes = {
 	image: PropTypes.string.isRequired,
-	rotateBy: PropTypes.number,
+	rotateBy: PropTypes.number
 }
 
 RotatedImage.defaultProps = {
-	rotateBy: 0,
+	rotateBy: 0
 }
 
 export default RotatedImage

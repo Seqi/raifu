@@ -13,22 +13,22 @@ const LoadoutCardContainer = styled(ResourceCard)({
 	// give it some height
 	minHeight: '175px',
 	'&:hover': {
-		transform: 'scale(1.005)',
-	},
+		transform: 'scale(1.005)'
+	}
 })
 
 const LoadoutCardContent = styled(ResourceCardContent)({
-	overflow: 'unset',
+	overflow: 'unset'
 })
 
 const LoadoutCard = ({ item: loadout, canDelete, onClick, onDelete }) => {
 	return (
-		<LoadoutCardContainer onClick={onClick}>
-			<DeletableOverlay canDelete={canDelete} onDelete={onDelete} dialogTitle={loadout.getTitle()}>
-				<ResourceCardHeader resource={loadout} />
+		<LoadoutCardContainer onClick={ onClick }>
+			<DeletableOverlay canDelete={ canDelete } onDelete={ onDelete } dialogTitle={ loadout.getTitle() }>
+				<ResourceCardHeader resource={ loadout } />
 
 				<LoadoutCardContent>
-					<WeaponDisplay weapons={loadout.weapons} />
+					<WeaponDisplay weapons={ loadout.weapons } />
 				</LoadoutCardContent>
 			</DeletableOverlay>
 		</LoadoutCardContainer>
@@ -44,15 +44,15 @@ LoadoutCard.propTypes = {
 	item: PropTypes.shape({
 		getTitle: PropTypes.func.isRequired,
 		getSubtitle: PropTypes.func.isRequired,
-		weapons: PropTypes.array,
+		weapons: PropTypes.array
 	}).isRequired,
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func,
-	onDelete: PropTypes.func,
+	onDelete: PropTypes.func
 }
 
 LoadoutCard.defaultProps = {
 	canDelete: false,
 	onClick: () => {},
-	onDelete: () => {},
+	onDelete: () => {}
 }

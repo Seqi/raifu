@@ -17,7 +17,6 @@
 			"version": "16.6.0"
 		}
 	},
-	"plugins": ["prettier"],
 	"rules": {
 		"indent": ["error", "tab"],
 		"quotes": ["error", "single"],

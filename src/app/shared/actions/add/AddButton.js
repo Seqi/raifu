@@ -12,18 +12,18 @@ const AddIconButton = styled(IconButton)(({ theme }) => ({
 	fontSize: '4rem',
 
 	'& i': {
-		color: theme.palette.primary.main,
+		color: theme.palette.primary.main
 	},
 	// Disable ripple properly
 	'&:hover': {
-		backgroundColor: 'initial',
-	},
+		backgroundColor: 'initial'
+	}
 }))
 
 function AddButton({ onClick }) {
 	return (
 		<Box display='flex' flex='1' height='100%' position='relative'>
-			<AddIconButton onClick={onClick}>
+			<AddIconButton onClick={ onClick }>
 				<i className='fa fa-plus' />
 			</AddIconButton>
 		</Box>
@@ -31,11 +31,11 @@ function AddButton({ onClick }) {
 }
 
 AddButton.propTypes = {
-	onClick: PropTypes.func,
+	onClick: PropTypes.func
 }
 
 AddButton.defaultProps = {
-	onClick: () => {},
+	onClick: () => {}
 }
 
 export default AddButton

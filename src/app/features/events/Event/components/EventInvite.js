@@ -25,8 +25,8 @@ const EventInvite = ({ event, onJoin }) => {
 	}
 
 	return (
-		<Box paddingTop={2}>
-			<Button onClick={joinEvent} variant='outlined' color='primary' fullWidth={true}>
+		<Box paddingTop={ 2 }>
+			<Button onClick={ joinEvent } variant='outlined' color='primary' fullWidth={ true }>
 				Join event!
 			</Button>
 		</Box>
@@ -37,5 +37,5 @@ export default EventInvite
 
 EventInvite.propTypes = {
 	event: PropTypes.object.isRequired,
-	onJoin: PropTypes.func.isRequired,
+	onJoin: PropTypes.func.isRequired
 }

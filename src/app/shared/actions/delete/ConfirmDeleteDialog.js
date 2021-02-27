@@ -46,20 +46,20 @@ class ConfirmDeleteDialog extends React.PureComponent {
 
 		return (
 			// No idea why we have to stop event propagation here on click? I may have messed something up
-			<Dialog fullWidth={true} onClick={(e) => e.stopPropagation()} open={isOpen} onClose={onClose}>
+			<Dialog fullWidth={ true } onClick={ (e) => e.stopPropagation() } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>
 					{verb} {title}?
 				</DialogTitle>
 
 				{error && (
-					<DialogContent style={{ paddingTop: 0, paddingBottom: 0 }}>
-						<Error error={error} fillBackground={true} />
+					<DialogContent style={ { paddingTop: 0, paddingBottom: 0 } }>
+						<Error error={ error } fillBackground={ true } />
 					</DialogContent>
 				)}
 
 				<DialogActions>
-					<Button onClick={onClose}>Cancel</Button>
-					<Button variant='contained' onClick={() => this.delete()} color='primary' disabled={loading}>
+					<Button onClick={ onClose }>Cancel</Button>
+					<Button variant='contained' onClick={ () => this.delete() } color='primary' disabled={ loading }>
 						{verb}
 					</Button>
 				</DialogActions>
@@ -73,11 +73,11 @@ ConfirmDeleteDialog.propTypes = {
 	verb: PropTypes.oneOf(['Delete', 'Remove']),
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onConfirm: PropTypes.func.isRequired,
+	onConfirm: PropTypes.func.isRequired
 }
 
 ConfirmDeleteDialog.defaultProps = {
-	verb: 'Delete',
+	verb: 'Delete'
 }
 
 export default ConfirmDeleteDialog
