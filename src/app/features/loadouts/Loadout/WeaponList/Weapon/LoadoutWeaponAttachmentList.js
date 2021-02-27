@@ -27,21 +27,21 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 	return (
 		<LoadoutResourceList
 			resourceType='attachments'
-			items={weapon.attachments || []}
-			canAdd={(availableAttachments || []).length > 0}
-			addItem={addAttachments}
-			deleteItem={deleteAttachment}
-			renderAddDialog={(isOpen, onClose, onSave) => (
+			items={ weapon.attachments || [] }
+			canAdd={ (availableAttachments || []).length > 0 }
+			addItem={ addAttachments }
+			deleteItem={ deleteAttachment }
+			renderAddDialog={ (isOpen, onClose, onSave) => (
 				<AddResourceDialog
 					title='Add attachments to loadout'
-					items={availableAttachments || []}
+					items={ availableAttachments || [] }
 					category='attachments'
-					allowMultiple={true}
-					isOpen={isOpen}
-					onSave={onSave}
-					onClose={onClose}
+					allowMultiple={ true }
+					isOpen={ isOpen }
+					onSave={ onSave }
+					onClose={ onClose }
 				/>
-			)}
+			) }
 		/>
 	)
 }
@@ -49,8 +49,8 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 LoadoutWeaponAttachmentList.propTypes = {
 	weapon: PropTypes.shape({
 		id: PropTypes.string.isRequired,
-		attachments: PropTypes.array,
-	}).isRequired,
+		attachments: PropTypes.array
+	}).isRequired
 }
 
 export default LoadoutWeaponAttachmentList

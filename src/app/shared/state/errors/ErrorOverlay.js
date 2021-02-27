@@ -9,21 +9,21 @@ function ErrorOverlay({ icon, message, onRetry }) {
 
 	return (
 		<AppOverlay>
-			<div style={{ textAlign: 'center' }}>
-				<div style={{ paddingBottom: '24px' }}>
+			<div style={ { textAlign: 'center' } }>
+				<div style={ { paddingBottom: '24px' } }>
 					<i
-						style={{
+						style={ {
 							fontSize: '10rem',
-							color: theme.palette.background.paper,
-						}}
-						className={icon}
+							color: theme.palette.background.paper
+						} }
+						className={ icon }
 					/>
 				</div>
 
-				<div style={{ paddingBottom: onRetry ? '8px' : '0' }}>{message || 'An error occurred.'}</div>
+				<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>{message || 'An error occurred.'}</div>
 
 				{onRetry && (
-					<Button variant='outlined' color='primary' onClick={onRetry}>
+					<Button variant='outlined' color='primary' onClick={ onRetry }>
 						Retry
 					</Button>
 				)}
@@ -35,13 +35,13 @@ function ErrorOverlay({ icon, message, onRetry }) {
 ErrorOverlay.propTypes = {
 	icon: PropTypes.string,
 	message: PropTypes.string,
-	onRetry: PropTypes.func,
+	onRetry: PropTypes.func
 }
 
 ErrorOverlay.defaultProps = {
 	icon: 'far fa-dizzy',
 	message: '',
-	onRetry: null,
+	onRetry: null
 }
 
 export default ErrorOverlay

@@ -11,8 +11,8 @@ let EditLoadoutDialog = ({ loadout, action, isOpen, onSave, onClose }) => {
 	let { register, handleSubmit, formState, errors } = useForm({
 		mode: 'onChange',
 		defaultValues: {
-			name: loadout.name,
-		},
+			name: loadout.name
+		}
 	})
 
 	let handleSave = useCallback(
@@ -31,28 +31,28 @@ let EditLoadoutDialog = ({ loadout, action, isOpen, onSave, onClose }) => {
 	}, [isOpen])
 
 	return (
-		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
-			<form onSubmit={handleSubmit(handleSave)}>
+		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
+			<form onSubmit={ handleSubmit(handleSave) }>
 				<DialogTitle>{action} loadout</DialogTitle>
 
 				<DialogContent>
-					{error && <Error error={error} fillBackground={true} />}
+					{error && <Error error={ error } fillBackground={ true } />}
 
 					<TextField
-						inputRef={register({ required: true })}
+						inputRef={ register({ required: true }) }
 						name='name'
 						label='Name'
 						type='text'
-						fullWidth={true}
-						error={!!errors.name}
-						helperText={errors.name && 'Name is required.'}
+						fullWidth={ true }
+						error={ !!errors.name }
+						helperText={ errors.name && 'Name is required.' }
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={onClose}>Cancel</Button>
+					<Button onClick={ onClose }>Cancel</Button>
 					<Button
-						disabled={!formState.isValid || formState.isSubmitting}
+						disabled={ !formState.isValid || formState.isSubmitting }
 						variant='contained'
 						color='primary'
 						type='submit'
@@ -67,16 +67,16 @@ let EditLoadoutDialog = ({ loadout, action, isOpen, onSave, onClose }) => {
 
 EditLoadoutDialog.propTypes = {
 	loadout: PropTypes.shape({
-		name: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired
 	}),
 	action: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired,
+	onSave: PropTypes.func.isRequired
 }
 
 EditLoadoutDialog.defaultProps = {
-	loadout: { name: '' },
+	loadout: { name: '' }
 }
 
 export default EditLoadoutDialog

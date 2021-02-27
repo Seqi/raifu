@@ -38,19 +38,19 @@ const StaggeredAnimation = ({ minInterval, maxDuration, children }) => {
 
 	return React.Children.map(children, (child, index) =>
 		React.cloneElement(child, {
-			style: { transitionDelay: `${getAnimationDelay(index)}s` },
+			style: { transitionDelay: `${getAnimationDelay(index)}s` }
 		})
 	)
 }
 
 StaggeredAnimation.propTypes = {
 	minInterval: PropTypes.number,
-	maxDuration: PropTypes.number,
+	maxDuration: PropTypes.number
 }
 
 StaggeredAnimation.defaultProps = {
 	minInterval: 0.2,
-	maxDuration: 0,
+	maxDuration: 0
 }
 
 export default StaggeredAnimation

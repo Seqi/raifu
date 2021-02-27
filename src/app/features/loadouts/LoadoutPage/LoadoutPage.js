@@ -19,7 +19,7 @@ class LoadoutPage extends React.Component {
 			loadout: null,
 			shared: false,
 			loading: true,
-			error: null,
+			error: null
 		}
 	}
 
@@ -51,13 +51,14 @@ class LoadoutPage extends React.Component {
 			.edit(loadout.id, { ...updatedLoadout })
 			.then(() =>
 				this.setState(({ loadout }) => {
-					let newLoadout = Object.keys(updatedLoadout).reduce(
-						(obj, key) => ({
-							...obj,
-							[key]: updatedLoadout[key],
-						}),
-						loadout
-					)
+					let newLoadout = Object.keys(updatedLoadout)
+						.reduce(
+							(obj, key) => ({
+								...obj,
+								[key]: updatedLoadout[key]
+							}),
+							loadout
+						)
 
 					return { loadout: newLoadout }
 				})
@@ -82,7 +83,7 @@ class LoadoutPage extends React.Component {
 				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
 			}
 
-			return <ErrorOverlay message='Could not load loadout.' onRetry={() => this.loadLoadout()} />
+			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 
 		return (
@@ -90,7 +91,7 @@ class LoadoutPage extends React.Component {
 				<ReactiveTitle>
 					{loadout.name}
 					{shared && (
-						<Box component='span' paddingLeft={1}>
+						<Box component='span' paddingLeft={ 1 }>
 							<Tooltip placement='right' title='Loadout has been shared!'>
 								<Chip label='Shared' size='small' color='primary' />
 							</Tooltip>
@@ -99,13 +100,13 @@ class LoadoutPage extends React.Component {
 				</ReactiveTitle>
 
 				<div>
-					<LoadoutView loadout={loadout} editable={true} />
+					<LoadoutView loadout={ loadout } editable={ true } />
 				</div>
 
 				<LoadoutActions
-					loadout={loadout}
-					editLoadout={(loadout) => this.editLoadout(loadout)}
-					onSharedChanged={(shared) => this.setShared(shared)}
+					loadout={ loadout }
+					editLoadout={ (loadout) => this.editLoadout(loadout) }
+					onSharedChanged={ (shared) => this.setShared(shared) }
 				/>
 			</React.Fragment>
 		)

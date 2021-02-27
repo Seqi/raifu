@@ -44,7 +44,7 @@ export default {
 			'Type 95',
 			'Type 97',
 			'UAR',
-			'VZ.58',
+			'VZ.58'
 		],
 		smgs: [
 			'MP5',
@@ -64,7 +64,7 @@ export default {
 			'Scorpion EVO 3',
 			'Sterling',
 			'Thompson',
-			'Vityaz-SN',
+			'Vityaz-SN'
 		],
 		snipers: [
 			'ASW338LM',
@@ -80,7 +80,7 @@ export default {
 			'STRIKER',
 			'SVD',
 			'VSR',
-			'VSS',
+			'VSS'
 		],
 		shotguns: ['AA-12', 'Benelli M4', 'KSG', 'M1014', 'M870', 'SAS-12', 'SPAS-12', 'STF-12'],
 		pistols: [
@@ -110,10 +110,10 @@ export default {
 			'TT-33',
 			'USP',
 			'XDM',
-			'XP18',
+			'XP18'
 		],
 		support: ['M249', 'MG42', 'PKP', 'Trident LMG', 'Stoner', 'ZB26'],
-		launchers: ['Bazooka', 'GL06', 'GLM', 'M052', 'M79', 'RPG-7'],
+		launchers: ['Bazooka', 'GL06', 'GLM', 'M052', 'M79', 'RPG-7']
 	},
 	gear: {
 		protection: [
@@ -124,20 +124,20 @@ export default {
 			'Half Face Mask',
 			'Shemagh',
 			'Knee Pads',
-			'Elbow Pads',
+			'Elbow Pads'
 		],
 		carriers: ['Chest Rig', 'Plate Carrier', 'Belt', 'Pouch'],
 		grenades: ['TRMR', 'Storm 360', 'Pyro/Strike', 'Claymore'],
 		holsters: ['Leg Holster', 'Retention Holster', 'Scabbard', 'Sling'],
 		communication: ['Radio', 'Headset'],
-		misc: ['GoPro', 'Knife', 'Battery'],
+		misc: ['GoPro', 'Knife', 'Battery']
 	},
 	attachments: {
 		sights: ['Red Dot', 'Reflex', 'Holographic', 'Telescopic', 'Iron Sights'],
 		barrel: ['Surpressor', 'Flash Hider', 'Tracer Unit'],
 		illumination: ['Pistol Torch', 'Flashlight', 'PEQ Box'],
 		underbarrel: ['Vertical Foregrip', 'Angled Foregrip', 'Bipod', 'Grenade Launcher'],
-		externals: ['Stock', 'Grip', 'Rail Riser', 'Rail System', 'Conversion Kit', 'Handguard Panel'],
+		externals: ['Stock', 'Grip', 'Rail Riser', 'Rail System', 'Conversion Kit', 'Handguard Panel']
 	},
 	clothing: {
 		footwear: ['Boots', 'Shoes'],
@@ -146,6 +146,6 @@ export default {
 		jackets: ['Hoodie', 'Jacket', 'Smock', 'Sweatshirt'],
 		legs: ['Pants', 'Shorts'],
 		shirts: ['T-Shirt', 'Ubacs'],
-		suits: ['Gorka'],
-	},
+		suits: ['Gorka']
+	}
 }

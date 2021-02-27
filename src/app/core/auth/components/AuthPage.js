@@ -15,7 +15,7 @@ let AuthFormContainer = styled(Box)({
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
 	width: '90%',
-	maxWidth: '600px',
+	maxWidth: '600px'
 })
 
 function AuthPage({ history }) {
@@ -32,8 +32,8 @@ function AuthPage({ history }) {
 			<AuthFormContainer>
 				<Router basename='/login'>
 					<Switch>
-						<Route path='/signup' component={SignupCard} />
-						<Route path='/' component={LoginCard} />
+						<Route path='/signup' component={ SignupCard } />
+						<Route path='/' component={ LoginCard } />
 					</Switch>
 				</Router>
 			</AuthFormContainer>

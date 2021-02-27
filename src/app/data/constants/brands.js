@@ -65,5 +65,5 @@ export default [
 	'Wei-E Tech',
 	'Well',
 	'Western Arms',
-	'WinGun',
+	'WinGun'
 ]

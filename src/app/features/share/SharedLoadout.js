@@ -15,7 +15,7 @@ export default class SharedLoadout extends React.Component {
 		this.state = {
 			loadout: null,
 			error: null,
-			loading: true,
+			loading: true
 		}
 	}
 
@@ -50,14 +50,14 @@ export default class SharedLoadout extends React.Component {
 				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
 			}
 
-			return <ErrorOverlay message='Could not load loadout.' onRetry={() => this.loadLoadout()} />
+			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
 		}
 
 		return (
 			<React.Fragment>
 				<ReactiveTitle>{loadout.name}</ReactiveTitle>
 
-				<LoadoutView loadout={loadout} editable={false} />
+				<LoadoutView loadout={ loadout } editable={ false } />
 			</React.Fragment>
 		)
 	}

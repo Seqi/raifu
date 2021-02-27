@@ -9,7 +9,7 @@ const weaponDisplayContainerStyle = {
 	alignItems: 'center',
 
 	marginTop: '-30px',
-	marginBottom: '-30px',
+	marginBottom: '-30px'
 }
 
 let WeaponDisplay = ({ weapons }) => {
@@ -18,10 +18,10 @@ let WeaponDisplay = ({ weapons }) => {
 	}
 
 	return (
-		<div style={weaponDisplayContainerStyle}>
+		<div style={ weaponDisplayContainerStyle }>
 			{weapons.map((weapon) => (
-				<div key={weapon.id}>
-					<ResourceImage resourceType='weapons' resource={weapon} rotate={true} />
+				<div key={ weapon.id }>
+					<ResourceImage resourceType='weapons' resource={ weapon } rotate={ true } />
 				</div>
 			))}
 		</div>
@@ -29,7 +29,7 @@ let WeaponDisplay = ({ weapons }) => {
 }
 
 WeaponDisplay.propTypes = {
-	weapons: PropTypes.array.isRequired,
+	weapons: PropTypes.array.isRequired
 }
 
 export default WeaponDisplay

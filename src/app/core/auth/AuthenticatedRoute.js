@@ -25,16 +25,16 @@ function AuthenticatedRoute({ onFail, waitFor, ...props }) {
 		return <LoadingOverlay />
 	}
 
-	return <Route {...props} />
+	return <Route { ...props } />
 }
 
 AuthenticatedRoute.propTypes = {
 	waitFor: PropTypes.number,
-	onFail: PropTypes.func.isRequired,
+	onFail: PropTypes.func.isRequired
 }
 
 AuthenticatedRoute.defaultProps = {
-	waitFor: 1000,
+	waitFor: 1000
 }
 
 export default AuthenticatedRoute

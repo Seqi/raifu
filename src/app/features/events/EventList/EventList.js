@@ -19,14 +19,14 @@ const EventListContainer = styled(Box)(({ theme }) => ({
 	height: '80vh',
 
 	[theme.breakpoints.down('xs')]: {
-		height: '70vh',
-	},
+		height: '70vh'
+	}
 }))
 
 const EventFab = styled(Fab)({
 	position: 'fixed',
 	bottom: '2%',
-	right: '3%',
+	right: '3%'
 })
 
 class Events extends React.Component {
@@ -39,7 +39,7 @@ class Events extends React.Component {
 			loading: true,
 			error: false,
 			activeTimeslot: null,
-			isAddDialogOpen: false,
+			isAddDialogOpen: false
 		}
 
 		this.localizer = BigCalendar.momentLocalizer(moment)
@@ -108,8 +108,8 @@ class Events extends React.Component {
 			return {
 				style: {
 					border: `1px solid ${this.props.theme.palette.primary.main}`,
-					background: 'inherit',
-				},
+					background: 'inherit'
+				}
 			}
 		}
 	}
@@ -122,52 +122,52 @@ class Events extends React.Component {
 		}
 
 		if (error) {
-			return <ErrorOverlay message='Could not load events.' onRetry={() => this.loadEvents()} />
+			return <ErrorOverlay message='Could not load events.' onRetry={ () => this.loadEvents() } />
 		}
 
 		return (
 			<React.Fragment>
 				<EventListContainer>
 					<BigCalendar
-						localizer={this.localizer}
-						components={{
+						localizer={ this.localizer }
+						components={ {
 							toolbar: CalendarToolbar,
 							event: CalendarEvent,
 							agenda: {
-								event: CalendarAgendaEvent,
-							},
-						}}
-						style={{
-							color: this.props.theme.palette.text.primary,
-						}}
-						titleAccessor={(e) => e.name}
-						startAccessor={(e) => e.date}
-						endAccessor={(e) => e.date}
-						defaultView={view}
-						onView={(view) => this.setState({ view })}
-						views={['month', 'agenda']}
+								event: CalendarAgendaEvent
+							}
+						} }
+						style={ {
+							color: this.props.theme.palette.text.primary
+						} }
+						titleAccessor={ (e) => e.name }
+						startAccessor={ (e) => e.date }
+						endAccessor={ (e) => e.date }
+						defaultView={ view }
+						onView={ (view) => this.setState({ view }) }
+						views={ ['month', 'agenda'] }
 						// Don't use a drilldown view
-						getDrilldownView={(_) => null}
+						getDrilldownView={ (_) => null }
 						// Show entire year in agenda view
-						length={365}
-						selectable={true}
-						onSelectSlot={(slot) => this.addEvent(slot.end)}
-						events={events}
-						onSelectEvent={(event) => this.view(event)}
-						eventPropGetter={this.styleEvent}
+						length={ 365 }
+						selectable={ true }
+						onSelectSlot={ (slot) => this.addEvent(slot.end) }
+						events={ events }
+						onSelectEvent={ (event) => this.view(event) }
+						eventPropGetter={ this.styleEvent }
 					/>
 				</EventListContainer>
 
-				<EventFab onClick={() => this.addEvent()} color='primary' aria-label='Add'>
+				<EventFab onClick={ () => this.addEvent() } color='primary' aria-label='Add'>
 					<i className='fa fa-plus' />
 				</EventFab>
 
 				{activeTimeslot && (
 					<EditEventDialog
-						date={activeTimeslot}
-						onSave={(value) => this.save(value)}
-						onClose={() => this.closeDialog()}
-						isOpen={isAddDialogOpen}
+						date={ activeTimeslot }
+						onSave={ (value) => this.save(value) }
+						onClose={ () => this.closeDialog() }
+						isOpen={ isAddDialogOpen }
 					/>
 				)}
 			</React.Fragment>

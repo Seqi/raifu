@@ -7,8 +7,8 @@ import Event from './Event'
 let EventRouter = () => {
 	return (
 		<Switch>
-			<Route path='/events/:id' component={Event} />
-			<Route path='/events' component={EventList} />
+			<Route path='/events/:id' component={ Event } />
+			<Route path='/events' component={ EventList } />
 		</Switch>
 	)
 }

@@ -30,16 +30,16 @@ const ResourceListContainer = ({ resource, resourceName, items, ...props }) => {
 		[analytics, resource, resourceName]
 	)
 
-	return <ResourceList items={currentItems} addResource={addResource} deleteResource={deleteResource} {...props} />
+	return <ResourceList items={ currentItems } addResource={ addResource } deleteResource={ deleteResource } { ...props } />
 }
 
 ResourceListContainer.propTypes = {
 	items: PropTypes.array.isRequired,
 	resource: PropTypes.shape({
 		add: PropTypes.func.isRequired,
-		delete: PropTypes.func.isRequired,
+		delete: PropTypes.func.isRequired
 	}).isRequired,
-	resourceName: PropTypes.string.isRequired,
+	resourceName: PropTypes.string.isRequired
 }
 
 export default ResourceListContainer

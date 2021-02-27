@@ -6,8 +6,8 @@ let LoadoutSeparator = styled(Box)(({ theme }) => ({
 	padding: theme.spacing(3, 0),
 
 	[theme.breakpoints.down('xs')]: {
-		padding: theme.spacing(2, 0),
-	},
+		padding: theme.spacing(2, 0)
+	}
 }))
 
 export default LoadoutSeparator
