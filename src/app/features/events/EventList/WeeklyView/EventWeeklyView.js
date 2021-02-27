@@ -31,7 +31,7 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 			<EventWeekSelect onWeekChange={ (newWeek) => setWeek(newWeek) } />
 
 			<Box display='flex' flexDirection='column' flex={ 1 } paddingTop={ 2 }>
-				<StaggeredAnimation minInterval={ 0.1 } freezeAfterInitial={ false }>
+				<StaggeredAnimation minInterval={ 0.025 } freezeAfterInitial={ false }>
 					{week.map((day) => (
 						<Fade key={ +day } timeout={ 1000 } in={ true }>
 							{/* Necessary for animation to work */}
