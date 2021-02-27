@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Fab, Box, styled, withTheme, withWidth } from '@material-ui/core'
+import { Fab, Box, styled, withTheme, withWidth, isWidthDown } from '@material-ui/core'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
@@ -105,7 +105,7 @@ class EventList extends React.Component {
 			return <ErrorOverlay message='Could not load events.' onRetry={ () => this.loadEvents() } />
 		}
 
-		const EventListView = width === 'xs' ? EventWeeklyView : EventCalendarView
+		const EventListView = isWidthDown('sm', width) ? EventWeeklyView : EventCalendarView
 
 		return (
 			<React.Fragment>
