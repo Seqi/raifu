@@ -29,32 +29,32 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 
 	return (
 		<BigCalendar
-			events={events}
-			localizer={localizer.current}
-			components={{
+			events={ events }
+			localizer={ localizer.current }
+			components={ {
 				toolbar: CalendarToolbar,
 				event: CalendarEvent,
 				agenda: {
 					event: CalendarAgendaEvent
 				}
-			}}
-			style={{
+			} }
+			style={ {
 				color: theme.palette.text.primary
-			}}
-			titleAccessor={(e) => e.name}
-			startAccessor={(e) => e.date}
-			endAccessor={(e) => e.date}
-			defaultView={view}
-			onView={(view) => setView(view)}
-			views={['month', 'agenda']}
+			} }
+			titleAccessor={ (e) => e.name }
+			startAccessor={ (e) => e.date }
+			endAccessor={ (e) => e.date }
+			defaultView={ view }
+			onView={ (view) => setView(view) }
+			views={ ['month', 'agenda'] }
 			// Don't use a drilldown view
-			getDrilldownView={(_) => null}
+			getDrilldownView={ (_) => null }
 			// Show entire year in agenda view
-			length={365}
-			selectable={true}
-			onSelectSlot={onSlotSelected}
-			onSelectEvent={onEventSelected}
-			eventPropGetter={styleEvent}
+			length={ 365 }
+			selectable={ true }
+			onSelectSlot={ onSlotSelected }
+			onSelectEvent={ onEventSelected }
+			eventPropGetter={ styleEvent }
 		/>
 	)
 }
