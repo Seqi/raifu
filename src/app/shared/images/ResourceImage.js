@@ -79,7 +79,7 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 	}, [resourceType, resource])
 
 	if (image) {
-		return <RotatedImage image={image} rotateBy={rotate ? 45 : 0} />
+		return <RotatedImage image={ image } rotateBy={ rotate ? 45 : 0 } />
 	}
 
 	return <div />

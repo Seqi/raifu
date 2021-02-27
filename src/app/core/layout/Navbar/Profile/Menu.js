@@ -11,30 +11,30 @@ const ProfileMenu = ({ anchor, onClose }) => {
 	return (
 		<Menu
 			id='auth-menu'
-			anchorEl={anchor}
-			open={!!anchor}
-			onClose={onClose}
-			anchorOrigin={{
+			anchorEl={ anchor }
+			open={ !!anchor }
+			onClose={ onClose }
+			anchorOrigin={ {
 				vertical: 'top',
-				horizontal: 'right',
-			}}
-			transformOrigin={{
+				horizontal: 'right'
+			} }
+			transformOrigin={ {
 				vertical: 'top',
-				horizontal: 'right',
-			}}
+				horizontal: 'right'
+			} }
 		>
-			<MenuItem onClick={auth.logout}>Logout</MenuItem>
+			<MenuItem onClick={ auth.logout }>Logout</MenuItem>
 		</Menu>
 	)
 }
 
 ProfileMenu.propTypes = {
 	anchor: PropTypes.any,
-	onClose: PropTypes.func.isRequired,
+	onClose: PropTypes.func.isRequired
 }
 
 ProfileMenu.defaultProps = {
-	anchor: null,
+	anchor: null
 }
 
 export default ProfileMenu

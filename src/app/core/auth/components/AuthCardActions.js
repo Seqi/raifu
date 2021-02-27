@@ -8,7 +8,7 @@ let AuthCardActions = ({ to, text }) => {
 	return (
 		<Box marginLeft='auto'>
 			<Button size='small'>
-				<Link to={to} underline='none' color='textPrimary' component={RouterLink}>
+				<Link to={ to } underline='none' color='textPrimary' component={ RouterLink }>
 					{text}
 				</Link>
 			</Button>
@@ -18,7 +18,7 @@ let AuthCardActions = ({ to, text }) => {
 
 AuthCardActions.propTypes = {
 	to: PropTypes.string.isRequired,
-	text: PropTypes.string.isRequired,
+	text: PropTypes.string.isRequired
 }
 
 export default AuthCardActions

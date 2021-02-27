@@ -11,7 +11,7 @@ function EventHeader({ event }) {
 			<ReactiveTitle>
 				{event.getTitle()}
 
-				<Box component='span' paddingLeft={1}>
+				<Box component='span' paddingLeft={ 1 }>
 					{event.public ? (
 						<Tooltip placement='right' title='Event can be joined by others!'>
 							<Chip label='Public' size='small' color='primary' />
@@ -39,6 +39,6 @@ EventHeader.propTypes = {
 		public: PropTypes.bool.isRequired,
 		location: PropTypes.string.isRequired,
 		date: PropTypes.object.isRequired,
-		getTitle: PropTypes.func.isRequired,
-	}).isRequired,
+		getTitle: PropTypes.func.isRequired
+	}).isRequired
 }

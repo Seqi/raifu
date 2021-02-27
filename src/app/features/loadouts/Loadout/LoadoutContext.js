@@ -22,7 +22,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				weapons: [...currentLoadout.weapons, weapon],
+				weapons: [...currentLoadout.weapons, weapon]
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -38,7 +38,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				weapons: currentLoadout.weapons.filter((w) => w.id !== weaponId),
+				weapons: currentLoadout.weapons.filter((w) => w.id !== weaponId)
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -48,7 +48,10 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 		async (weaponId, attachmentIds) => {
 			// Save
 			let addToDbPromises = attachmentIds.map((attachmentId) => {
-				return loadouts.loadout(currentLoadout.id).weapons.weapon(weaponId).attachments.add(attachmentId)
+				return loadouts
+					.loadout(currentLoadout.id)
+					.weapons.weapon(weaponId)
+					.attachments.add(attachmentId)
 			})
 
 			let newAttachments = await Promise.all(addToDbPromises)
@@ -78,7 +81,10 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	let deleteWeaponAttachment = useCallback(
 		async (weaponId, attachmentId) => {
 			// Save
-			await loadouts.loadout(currentLoadout.id).weapons.weapon(weaponId).attachments.delete(attachmentId)
+			await loadouts
+				.loadout(currentLoadout.id)
+				.weapons.weapon(weaponId)
+				.attachments.delete(attachmentId)
 
 			analytics.logEvent('loadout_attachment_deleted')
 
@@ -116,7 +122,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				gear: [...currentLoadout.gear, ...newGear],
+				gear: [...currentLoadout.gear, ...newGear]
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -132,7 +138,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				gear: currentLoadout.gear.filter((g) => g.id !== gearId),
+				gear: currentLoadout.gear.filter((g) => g.id !== gearId)
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -152,7 +158,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				clothing: [...currentLoadout.clothing, ...newClothing],
+				clothing: [...currentLoadout.clothing, ...newClothing]
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -168,7 +174,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				clothing: currentLoadout.clothing.filter((c) => c.id !== clothingId),
+				clothing: currentLoadout.clothing.filter((c) => c.id !== clothingId)
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -176,7 +182,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 
 	return (
 		<LoadoutContext.Provider
-			value={{
+			value={ {
 				loadout: currentLoadout,
 				editable,
 				addWeapon,
@@ -186,8 +192,8 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 				addGear,
 				deleteGear,
 				addClothing,
-				deleteClothing,
-			}}
+				deleteClothing
+			} }
 		>
 			{children}
 		</LoadoutContext.Provider>
@@ -196,11 +202,11 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 
 LoadoutContextProvider.propTypes = {
 	loadout: PropTypes.object.isRequired,
-	editable: PropTypes.bool,
+	editable: PropTypes.bool
 }
 
 LoadoutContextProvider.defaultProps = {
-	editable: false,
+	editable: false
 }
 
 export default LoadoutContext

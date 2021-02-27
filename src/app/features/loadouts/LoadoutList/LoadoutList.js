@@ -40,18 +40,18 @@ let LoadoutList = ({ history, location }) => {
 	}
 
 	if (error) {
-		return <ErrorOverlay message='Could not load loadouts.' onRetry={loadLoadout} />
+		return <ErrorOverlay message='Could not load loadouts.' onRetry={ loadLoadout } />
 	}
 
 	return (
 		<ResourceList
-			items={loadouts}
-			resource={loadoutService}
+			items={ loadouts }
+			resource={ loadoutService }
 			resourceName='loadout'
-			card={LoadoutCard}
-			onResourceClick={viewLoadout}
-			renderAddDialog={(props) => <EditLoadoutDialog action='Add' {...props} />}
-			fullWidth={true}
+			card={ LoadoutCard }
+			onResourceClick={ viewLoadout }
+			renderAddDialog={ (props) => <EditLoadoutDialog action='Add' { ...props } /> }
+			fullWidth={ true }
 		/>
 	)
 }

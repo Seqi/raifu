@@ -17,41 +17,42 @@ function LoadoutActions({ loadout, editLoadout, onSharedChanged }) {
 			{/* Actions */}
 			<SpeedDial
 				ariaLabel='Loadout Actions'
-				icon={<i className='fa fa-pen' />}
-				onOpen={() => setSpeedDialOpen(true)}
-				onClose={() => setSpeedDialOpen(false)}
-				open={speedDialOpen}
-				hidden={isAtBottom}
+				icon={ <i className='fa fa-pen' /> }
+				onOpen={ () => setSpeedDialOpen(true) }
+				onClose={ () => setSpeedDialOpen(false) }
+				open={ speedDialOpen }
+				hidden={ isAtBottom }
 			>
 				<SpeedDialAction
-					icon={<i className='fa fa-pen' />}
-					onClick={() => setDialog('edit')}
+					icon={ <i className='fa fa-pen' /> }
+					onClick={ () => setDialog('edit') }
 					tooltipTitle='Edit'
-					tooltipOpen={true}
+					tooltipOpen={ true }
 				/>
 
 				<SpeedDialAction
-					icon={<i className='fa fa-link' />}
-					onClick={() => setDialog('share')}
+					icon={ <i className='fa fa-link' /> }
+					onClick={ () => setDialog('share') }
 					tooltipTitle='Share'
-					tooltipOpen={true}
+					tooltipOpen={ true }
 				/>
 			</SpeedDial>
 
 			{/* Dialogs */}
 			<EditLoadoutDialog
 				action='Edit'
-				name={loadout.name}
-				isOpen={dialog === 'edit'}
-				onSave={(name) => editLoadout(name).then(() => setDialog(null))}
-				onClose={() => setDialog(null)}
+				name={ loadout.name }
+				isOpen={ dialog === 'edit' }
+				onSave={ (name) => editLoadout(name)
+					.then(() => setDialog(null)) }
+				onClose={ () => setDialog(null) }
 			/>
 
 			<SetShareableDialog
-				loadout={loadout}
-				isOpen={dialog === 'share'}
-				onShare={onSharedChanged}
-				onClose={() => setDialog(null)}
+				loadout={ loadout }
+				isOpen={ dialog === 'share' }
+				onShare={ onSharedChanged }
+				onClose={ () => setDialog(null) }
 			/>
 		</React.Fragment>
 	)
@@ -62,5 +63,5 @@ export default LoadoutActions
 LoadoutActions.propTypes = {
 	loadout: PropTypes.object.isRequired,
 	editLoadout: PropTypes.func.isRequired,
-	onSharedChanged: PropTypes.func.isRequired,
+	onSharedChanged: PropTypes.func.isRequired
 }

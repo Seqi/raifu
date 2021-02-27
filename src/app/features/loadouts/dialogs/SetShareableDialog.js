@@ -10,7 +10,7 @@ import {
 	Checkbox,
 	FormControlLabel,
 	Button,
-	Tooltip,
+	Tooltip
 } from '@material-ui/core'
 
 import { loadouts } from 'app/data/api'
@@ -23,7 +23,7 @@ class SetShareableDialog extends Component {
 			shared: this.props.loadout.shared,
 			copied: false,
 			loading: false,
-			error: null,
+			error: null
 		}
 
 		this.inputRef = React.createRef()
@@ -46,7 +46,7 @@ class SetShareableDialog extends Component {
 					this.setState({
 						error: 'An error occurred while making loadout shareable.',
 						loading: false,
-						shared: !isShared,
+						shared: !isShared
 					})
 				)
 		})
@@ -70,30 +70,30 @@ class SetShareableDialog extends Component {
 		let { loading, error, shared, copied } = this.state
 
 		return (
-			<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
+			<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
 				<DialogTitle>Share loadout</DialogTitle>
 
 				<DialogContent>
-					{error && <Error error={error} fillBackground={true} />}
+					{error && <Error error={ error } fillBackground={ true } />}
 
 					{shared ? (
 						<TextField
-							fullWidth={true}
+							fullWidth={ true }
 							label='Your URL'
-							value={this.shareableLink}
-							disabled={true}
-							inputRef={this.inputRef}
-							InputProps={{
+							value={ this.shareableLink }
+							disabled={ true }
+							inputRef={ this.inputRef }
+							InputProps={ {
 								endAdornment: (
 									<Tooltip title='Copy link'>
 										<i
-											onClick={(el) => this.copy(el)}
-											style={{ marginLeft: '8px', fontSize: '1rem', cursor: 'pointer' }}
+											onClick={ (el) => this.copy(el) }
+											style={ { marginLeft: '8px', fontSize: '1rem', cursor: 'pointer' } }
 											className='fa fa-link'
 										/>
 									</Tooltip>
-								),
-							}}
+								)
+							} }
 						/>
 					) : (
 						<div>Share this loadout to get a shareable URL.</div>
@@ -102,16 +102,16 @@ class SetShareableDialog extends Component {
 					<div>
 						{copied && <span className='fade-in-short'>Copied!</span>}
 						<FormControlLabel
-							style={{ float: 'right' }}
+							style={ { float: 'right' } }
 							label='Share'
-							onChange={(e) => this.handleShare(e.target.checked)}
-							control={<Checkbox disabled={loading} checked={shared} />}
+							onChange={ (e) => this.handleShare(e.target.checked) }
+							control={ <Checkbox disabled={ loading } checked={ shared } /> }
 						/>
 					</div>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={onClose} color='primary'>
+					<Button onClick={ onClose } color='primary'>
 						Close
 					</Button>
 				</DialogActions>
@@ -123,11 +123,11 @@ class SetShareableDialog extends Component {
 SetShareableDialog.propTypes = {
 	loadout: PropTypes.shape({
 		id: PropTypes.string.isRequired,
-		shared: PropTypes.bool.isRequired,
+		shared: PropTypes.bool.isRequired
 	}).isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onShare: PropTypes.func.isRequired,
+	onShare: PropTypes.func.isRequired
 }
 
 export default SetShareableDialog

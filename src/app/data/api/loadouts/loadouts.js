@@ -8,9 +8,11 @@ import loadoutClothing from './loadout-clothing'
 export default {
 	...base('loadouts'),
 	loadout: (loadoutId) => ({
-		share: (isShared) => new CloudFunction().path(`/loadouts/${loadoutId}/share`).post({ shared: isShared }),
+		share: (isShared) => new CloudFunction()
+			.path(`/loadouts/${loadoutId}/share`)
+			.post({ shared: isShared }),
 		weapons: loadoutWeapons(loadoutId),
 		gear: loadoutGear(loadoutId),
-		clothing: loadoutClothing(loadoutId),
-	}),
+		clothing: loadoutClothing(loadoutId)
+	})
 }

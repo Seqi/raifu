@@ -18,14 +18,14 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, children }) => {
 			{children}
 
 			{canDelete && (
-				<Box position='absolute' top={0} right={0}>
-					<DeleteButton onClick={onDeleteClicked} />
+				<Box position='absolute' top={ 0 } right={ 0 }>
+					<DeleteButton onClick={ onDeleteClicked } />
 
 					<ConfirmDeleteDialog
-						isOpen={isDialogOpen}
-						title={dialogTitle}
-						onConfirm={onDelete}
-						onClose={() => setIsDialogOpen(false)}
+						isOpen={ isDialogOpen }
+						title={ dialogTitle }
+						onConfirm={ onDelete }
+						onClose={ () => setIsDialogOpen(false) }
 					/>
 				</Box>
 			)}
@@ -37,12 +37,12 @@ Deletable.propTypes = {
 	dialogTitle: PropTypes.string.isRequired,
 	canDelete: PropTypes.bool,
 	onDelete: PropTypes.func.isRequired,
-	style: PropTypes.object,
+	style: PropTypes.object
 }
 
 Deletable.defaultProps = {
 	canDelete: false,
-	style: {},
+	style: {}
 }
 
 export default Deletable

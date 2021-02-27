@@ -16,5 +16,7 @@ export default {
 			.post()
 			.then((result) => new Event(result)),
 
-	join: (eventId) => new CloudFunction().path(`events/${eventId}/join`).post(),
+	join: (eventId) => new CloudFunction()
+		.path(`events/${eventId}/join`)
+		.post()
 }
