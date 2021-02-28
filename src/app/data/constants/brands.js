@@ -1,4 +1,4 @@
-export default [
+const brands = [
 	'6 mm Proshop',
 	'A&K',
 	'AGM',
@@ -67,3 +67,5 @@ export default [
 	'Western Arms',
 	'WinGun'
 ]
+
+export default brands

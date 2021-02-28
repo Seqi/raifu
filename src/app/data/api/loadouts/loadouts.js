@@ -5,7 +5,7 @@ import loadoutWeapons from './loadout-weapons'
 import loadoutGear from './loadout-gear'
 import loadoutClothing from './loadout-clothing'
 
-export default {
+const loadouts = {
 	...base('loadouts'),
 	loadout: (loadoutId) => ({
 		share: (isShared) => new CloudFunction()
@@ -16,3 +16,5 @@ export default {
 		clothing: loadoutClothing(loadoutId)
 	})
 }
+
+export default loadouts

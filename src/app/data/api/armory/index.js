@@ -1,7 +1,7 @@
 import CloudFunction from '../cloud-function'
 import { toEntity } from 'app/data/models/entity.model'
 
-export default {
+const armory = {
 	get: () =>
 		new CloudFunction()
 			.path('armory')
@@ -14,3 +14,5 @@ export default {
 					}, {})
 			)
 }
+
+export default armory

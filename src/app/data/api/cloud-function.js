@@ -87,5 +87,4 @@ class CloudFunction {
 }
 
 export { CloudFunction }
-
 export default CloudFunction

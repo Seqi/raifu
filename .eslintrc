@@ -36,6 +36,7 @@
 				"ignoreChainWithDepth": 1
 			}
 		],
+		"space-before-function-paren": ["error", { "named": "never" }],
 		"react/button-has-type": "warn",
 		"react/no-access-state-in-setstate": "error",
 		"react/no-deprecated": "error",

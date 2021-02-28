@@ -2,7 +2,7 @@ import base from '../base-entity'
 import Event from '../../models/event.model'
 import CloudFunction from '../cloud-function'
 
-export default {
+const events = {
 	...base('events', Event),
 	setLoadout: (eventId, loadoutId) =>
 		new CloudFunction()
@@ -20,3 +20,5 @@ export default {
 		.path(`events/${eventId}/join`)
 		.post()
 }
+
+export default events

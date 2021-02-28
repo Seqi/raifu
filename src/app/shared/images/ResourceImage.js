@@ -64,6 +64,7 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 			const resourceTypeDefaults = defaults[resourceType]
 
 			if (!resourceTypeDefaults) {
+				// eslint-disable-next-line no-console
 				console.warn(`Type ${resourceType} is not a valid resource type.`)
 			} else {
 				const defaultPlatform = resourceTypeDefaults[resource.type]
@@ -72,6 +73,7 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 		}
 
 		if (!img) {
+			// eslint-disable-next-line no-console
 			console.warn(`Could not find image for ${resource.type} ${resource.platform}`)
 		}
 

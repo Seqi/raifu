@@ -1,4 +1,4 @@
-export default {
+const platforms = {
 	weapons: {
 		rifles: [
 			'M4',
@@ -149,3 +149,5 @@ export default {
 		suits: ['Gorka']
 	}
 }
+
+export default platforms
