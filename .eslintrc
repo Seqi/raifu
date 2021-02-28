@@ -1,6 +1,7 @@
 {
 	"extends": [
 		"react-app",
+		"plugin:react/recommended",
 		"eslint:recommended"
 		// Uncomment once we add jest testing with testing-library
 		// "react-app/jest"
@@ -14,7 +15,7 @@
 		"no-console": "warn",
 		"no-useless-escape": "error",
 		"no-useless-return": "error",
-		"no-unused-vars": "error",
+		"no-unused-vars": "warn",
 		"jsx-quotes": ["error", "prefer-single"],
 		"comma-spacing": [
 			"error",
