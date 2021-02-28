@@ -11,14 +11,14 @@ const defaults = {
 		pistols: '1911',
 		launchers: 'gl06',
 		snipers: 'l96',
-		support: 'm249'
+		support: 'm249',
 	},
 	attachments: {
 		barrel: 'surpressor',
 		externals: 'grip',
 		illumination: 'flashlight',
 		sights: 'red-dot',
-		underbarrel: 'vertical-foregrip'
+		underbarrel: 'vertical-foregrip',
 	},
 	clothing: {
 		footwear: 'boots',
@@ -27,7 +27,7 @@ const defaults = {
 		jackets: 'smock',
 		legs: 'pants',
 		shirts: 'ubacs',
-		suits: 'gorka'
+		suits: 'gorka',
 	},
 	gear: {
 		carriers: 'plate-carrier',
@@ -35,13 +35,14 @@ const defaults = {
 		grenades: 'storm-360',
 		holsters: 'retention-holster',
 		misc: 'knife',
-		protection: 'fast-helmet'
-	}
+		protection: 'fast-helmet',
+	},
 }
 
 const loadImage = (resourceCategory, resourceType, resourcePlatform) => {
 	try {
 		return require(`assets/outlines/${resourceCategory}/${resourceType}/${resourcePlatform}.svg`)
+			.default
 	} catch {
 		return undefined
 	}
@@ -89,13 +90,14 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 
 ResourceImage.propTypes = {
 	rotate: PropTypes.bool,
-	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
+	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'])
+		.isRequired,
 	resource: PropTypes.shape({
 		platform: PropTypes.string.isRequired,
-		type: PropTypes.string.isRequired
-	}).isRequired
+		type: PropTypes.string.isRequired,
+	}).isRequired,
 }
 
 ResourceImage.defaultProps = {
-	rotate: false
+	rotate: false,
 }
