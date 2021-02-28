@@ -1,22 +1,10 @@
 {
-	"env": {
-		"browser": true,
-		"es6": true,
-		"node": true
-	},
-	"extends": ["react-app", "eslint:recommended", "plugin:react/recommended"],
-	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"ecmaVersion": 2018,
-		"sourceType": "module"
-	},
-	"settings": {
-		"react": {
-			"version": "16.6.0"
-		}
-	},
+	"extends": [
+		"react-app",
+		"eslint:recommended"
+		// Uncomment once we add jest testing with testing-library
+		// "react-app/jest"
+	],
 	"rules": {
 		"indent": ["error", "tab"],
 		"quotes": ["error", "single"],
@@ -28,17 +16,26 @@
 		"no-useless-return": "error",
 		"no-unused-vars": "error",
 		"jsx-quotes": ["error", "prefer-single"],
-		"comma-spacing": ["error", {
-			"before": false,
-			"after": true
-		}],
-		"keyword-spacing": ["warn", {
-			"before": true,
-			"after": true
-		}],
-		"newline-per-chained-call": ["error", {
-			"ignoreChainWithDepth": 1
-		}],
+		"comma-spacing": [
+			"error",
+			{
+				"before": false,
+				"after": true
+			}
+		],
+		"keyword-spacing": [
+			"warn",
+			{
+				"before": true,
+				"after": true
+			}
+		],
+		"newline-per-chained-call": [
+			"error",
+			{
+				"ignoreChainWithDepth": 1
+			}
+		],
 		"react/button-has-type": "warn",
 		"react/no-access-state-in-setstate": "error",
 		"react/no-deprecated": "error",
@@ -48,18 +45,19 @@
 		"react/no-multi-comp": "error",
 		"react/no-redundant-should-component-update": "error",
 		"react/no-render-return-value": "error",
-		"react/no-typos": "error",
 		"react/no-this-in-sfc": "error",
 		"react/prefer-es6-class": "error",
 		"react/no-unused-state": "error",
 		"react/no-unsafe": "error",
 		"react/no-unknown-property": "error",
 		"react/react-in-jsx-scope": "error",
-		"react/prop-types": ["error", {
-			"ignore": ["children", "theme", "history", "match", "location"]
-		}],
+		"react/prop-types": [
+			"error",
+			{
+				"ignore": ["children", "theme", "history", "match", "location"]
+			}
+		],
 		"react/require-default-props": "error",
-		"react/require-render-return": "error",
 		"react/self-closing-comp": [
 			"error",
 			{
@@ -74,7 +72,6 @@
 		"react/jsx-curly-spacing": ["error", "always"],
 		"react/jsx-equals-spacing": ["error", "never"],
 		"react/jsx-indent-props": ["warn", "tab"],
-		"react/jsx-no-undef": "error",
 		"react/jsx-no-duplicate-props": "error",
 		"react/jsx-pascal-case": "error",
 		"react/jsx-props-no-multi-spaces": "error"
