@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import * as moment from 'moment'
@@ -14,12 +14,10 @@ extendMoment(moment)
 // Fetch the entire week for the offset
 // i.e. for offset of 0, will get monday-sunday of current week as an array
 // of days
-const getWeekDayRange = (weekOffset) => {
-	let start = moment()
-		.add(weekOffset, 'weeks')
+const getWeekDayRange = (date) => {
+	let start = moment(date)
 		.startOf('week')
-	let end = moment()
-		.add(weekOffset, 'weeks')
+	let end = moment(date)
 		.endOf('week')
 
 	let range = moment.range(start, end)
@@ -29,38 +27,41 @@ const getWeekDayRange = (weekOffset) => {
 }
 
 function EventWeekSelect({ onWeekChange }) {
-	let [date] = useEventDate()
-	let [weekOffset, setWeekOffset] = useState(0)
-	let weekRange = getWeekDayRange(weekOffset)
+	let [date, setDate] = useEventDate()
+	let [weekRange, setWeekRange] = useState([])
 
-	useEffect(() => {
-		onWeekChange(weekRange)
-		// Really don't want week range to trigger this again
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [weekOffset])
+	const addWeek = useCallback(
+		(count) => {
+			const newDate = moment(date)
+				.add(count, 'week')
 
-	// Find the offset when date changes
+			setDate(newDate)
+		},
+		[date, setDate]
+	)
+
 	useEffect(() => {
 		if (date) {
-			const now = moment()
-				.startOf('day')
-
-			const newWeekOffset = date.diff(now, 'week', true)
-			setWeekOffset(newWeekOffset)
+			const weekRange = getWeekDayRange(date)
+			setWeekRange(weekRange)
 		}
 	}, [date])
 
+	useEffect(() => {
+		onWeekChange(weekRange)
+	}, [onWeekChange, weekRange])
+
 	return (
 		<Box display='flex'>
-			<IconButton size='small' onClick={ (_) => setWeekOffset(weekOffset - 1) }>
+			<IconButton size='small' onClick={ (_) => addWeek(-1) }>
 				<i className='fa fa-chevron-left' />
 			</IconButton>
 
 			<Box flex={ 1 } textAlign='center'>
-				{weekRange[0].format('MMM YYYY')}
+				{weekRange[0] && weekRange[0].format('MMM YYYY')}
 			</Box>
 
-			<IconButton size='small' onClick={ (_) => setWeekOffset(weekOffset + 1) }>
+			<IconButton size='small' onClick={ (_) => addWeek(1) }>
 				<i className='fa fa-chevron-right' />
 			</IconButton>
 		</Box>

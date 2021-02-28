@@ -49,13 +49,14 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 			endAccessor={ (e) => e.date }
 			defaultView={ view }
 			onView={ (view) => setView(view) }
+			onNavigate={ (date) => setDate(moment(date)) }
 			views={ ['month', 'agenda'] }
 			// Don't use a drilldown view
 			getDrilldownView={ (_) => null }
 			// Show entire year in agenda view
 			length={ 365 }
 			selectable={ true }
-			onSelectSlot={ onSlotSelected }
+			onSelectSlot={ (slot) => onSlotSelected(slot.end) }
 			onSelectEvent={ onEventSelected }
 			eventPropGetter={ styleEvent }
 		/>
