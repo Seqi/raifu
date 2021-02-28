@@ -57,14 +57,7 @@ With the emulator installed, and the database spun up, cloud functions need to k
 }
 ```
 
-Finish the setup by installing all required packages.
-
-```
-npm i
-cd functions
-npm i
-cd ..
-```
+Finish the setup by running `npm run init` to install all required packages in both the web client and the cloud functions.
 
 You should now be ready to run the project locally, using `npm start`. This will spin up both the React development
 server and the Cloud Functions emulator.
