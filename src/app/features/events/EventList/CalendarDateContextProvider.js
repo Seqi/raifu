@@ -1,9 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router'
 import * as qs from 'qs'
 import moment from 'moment'
 
-export default function useEventDate() {
+import CalendarDateContext from './CalendarDateContext'
+
+export default function useEventDate(props) {
 	const location = useLocation()
 	const history = useHistory()
 
@@ -44,5 +46,9 @@ export default function useEventDate() {
 	}, [location.search, setDateState])
 
 	// Re-call moment to clone so we're not mutating
-	return [date, setDate]
+	return (
+		<CalendarDateContext.Provider value={ { date, setDate } }>
+			{props.children}
+		</CalendarDateContext.Provider>
+	)
 }

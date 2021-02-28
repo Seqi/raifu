@@ -8,6 +8,7 @@ import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import EventWeeklyView from './WeeklyView/EventWeeklyView'
 import EventCalendarView from './CalendarView/EventCalendarView'
 import EditEventDialog from '../EditEventDialog'
+import CalendarDateContextProvider from './CalendarDateContextProvider'
 
 import firebase from '../../../../firebase'
 
@@ -117,11 +118,13 @@ class EventList extends React.Component {
 		return (
 			<React.Fragment>
 				<EventListContainer>
-					<EventListView
-						events={ events }
-						onEventSelected={ (event) => this.view(event) }
-						onSlotSelected={ (date) => this.addEvent(date) }
-					/>
+					<CalendarDateContextProvider>
+						<EventListView
+							events={ events }
+							onEventSelected={ (event) => this.view(event) }
+							onSlotSelected={ (date) => this.addEvent(date) }
+						/>
+					</CalendarDateContextProvider>
 				</EventListContainer>
 
 				<EventFab onClick={ () => this.addEvent() } color='primary' aria-label='Add'>

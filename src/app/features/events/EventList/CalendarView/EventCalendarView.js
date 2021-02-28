@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext } from 'react'
 import PropTypes from 'prop-types'
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment'
@@ -8,12 +8,12 @@ import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarC
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendarComponents/Calendar.css'
-import useEventDate from '../useEventDate'
+import CalendarDateContext from '../CalendarDateContext'
 
 const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 	let theme = useTheme()
 	let [view, setView] = useState('month')
-	let [date, setDate] = useEventDate()
+	let { date, setDate } = useContext(CalendarDateContext)
 
 	let localizer = useRef(BigCalendar.momentLocalizer(moment))
 

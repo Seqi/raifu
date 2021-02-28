@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import * as moment from 'moment'
 import { extendMoment } from 'moment-range'
 
 import { Box, IconButton } from '@material-ui/core'
-import useEventDate from '../useEventDate'
+import CalendarDateContext from '../CalendarDateContext'
 
 // This'll fire every time we mount this component, but I don't
 // really wanna drag moment in until we hit the event stuff
@@ -27,7 +27,7 @@ const getWeekDayRange = (date) => {
 }
 
 function EventWeekSelect({ onWeekChange }) {
-	let [date, setDate] = useEventDate()
+	let { date, setDate } = useContext(CalendarDateContext)
 	let [weekRange, setWeekRange] = useState([])
 
 	const addWeek = useCallback(
