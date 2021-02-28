@@ -8,10 +8,12 @@ import { CalendarToolbar, CalendarEvent, CalendarAgendaEvent } from './CalendarC
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendarComponents/Calendar.css'
+import useEventDate from '../useEventDate'
 
 const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 	let theme = useTheme()
 	let [view, setView] = useState('month')
+	let [date, setDate] = useEventDate()
 
 	let localizer = useRef(BigCalendar.momentLocalizer(moment))
 
@@ -21,8 +23,8 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 			return {
 				style: {
 					border: `1px solid ${theme.palette.primary.main}`,
-					background: 'inherit'
-				}
+					background: 'inherit',
+				},
 			}
 		}
 	}
@@ -30,16 +32,17 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 	return (
 		<BigCalendar
 			events={ events }
+			date={ date && date.toDate() }
 			localizer={ localizer.current }
 			components={ {
 				toolbar: CalendarToolbar,
 				event: CalendarEvent,
 				agenda: {
-					event: CalendarAgendaEvent
-				}
+					event: CalendarAgendaEvent,
+				},
 			} }
 			style={ {
-				color: theme.palette.text.primary
+				color: theme.palette.text.primary,
 			} }
 			titleAccessor={ (e) => e.name }
 			startAccessor={ (e) => e.date }
@@ -63,11 +66,11 @@ EventCalendarView.propTypes = {
 	events: PropTypes.arrayOf(
 		PropTypes.shape({
 			name: PropTypes.string.isRequired,
-			date: PropTypes.instanceOf(Date)
+			date: PropTypes.instanceOf(Date),
 		})
 	).isRequired,
 	onEventSelected: PropTypes.func.isRequired,
-	onSlotSelected: PropTypes.func.isRequired
+	onSlotSelected: PropTypes.func.isRequired,
 }
 
 export default EventCalendarView
