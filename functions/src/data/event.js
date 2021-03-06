@@ -111,7 +111,9 @@ let getById = async (id, user) => {
 	)
 
 	fbUsers.forEach(
-		(fbUser) => (eventUsers.find((u) => u.uid === fbUser.uid).displayName = fbUser.displayName || fbUser.email)
+		(fbUser) =>
+			(eventUsers.find((u) => u.uid === fbUser.uid).displayName =
+				fbUser.displayName || fbUser.email)
 	)
 
 	// Add back
@@ -121,8 +123,17 @@ let getById = async (id, user) => {
 	await Promise.all(
 		eventJson.users
 			.filter((user) => !!user.loadout_id)
-			.map((user) => loadout.getById(user.loadout_id, user).then((loadout) => (user.loadout = loadout)))
+			.map((user) =>
+				loadout.getById(user.loadout_id, user)
+					.then((loadout) => (user.loadout = loadout))
+			)
 	)
+
+	// Add some additional properties to help the client
+	eventJson.owner = event.organiser_uid === user.uid
+
+	// TODO: Can make this a hook/getter of some kind?
+	eventJson.isGroup = eventUsers.length > 1
 
 	return eventJson
 }
