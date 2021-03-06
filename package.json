@@ -32,7 +32,7 @@
 		"server": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"firebase": "firebase emulators:start --inspect-functions",
+		"firebase": "firebase emulators:start --inspect-functions --export-on-exit --import .emulator-data",
 		"deploy": "firebase deploy",
 		"eject": "react-scripts eject",
 		"lint": "eslint src/**/*.js",
