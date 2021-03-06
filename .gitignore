@@ -32,3 +32,4 @@ firebase-debug.log*
 #firebase
 .firebase/
 ui-debug.log
+.emulator-data
