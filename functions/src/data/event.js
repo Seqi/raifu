@@ -306,24 +306,30 @@ let join = async (eventId, user) => {
 		throw errors.NotFoundError('Could not find a joinable event')
 	}
 
-	// Check the user isn't already part of this event
-	let alreadyInEvent =
-		(await EventUser.count({
-			where: {
-				event_id: eventId,
-				uid: user.uid,
-			},
-		})) > 0
+	// Try and grab this user in the event to see if they're either
+	// already apart of it - or have been before but left anad are rejoining
+	let eventUser = await EventUser.findOne({
+		where: {
+			event_id: eventId,
+			uid: user.uid,
+		},
+		paranoid: false,
+	})
 
-	if (alreadyInEvent) {
+	if (eventUser && !eventUser.isSoftDeleted()) {
 		throw new errors.BadRequestError('User already in event')
 	}
 
-	// Add the user
-	await EventUser.create({
-		event_id: eventId,
-		uid: user.uid,
-	})
+	// Reactivate if it exists, otherwise create
+	if (eventUser) {
+		await eventUser.restore()
+	} else {
+		// Add the user
+		await EventUser.create({
+			event_id: eventId,
+			uid: user.uid,
+		})
+	}
 }
 
 let leave = async (eventId, user) => {
