@@ -8,19 +8,20 @@ import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import EventWeeklyView from './WeeklyView/EventWeeklyView'
 import EventCalendarView from './CalendarView/EventCalendarView'
 import EditEventDialog from '../EditEventDialog'
+import CalendarDateContextProvider from './CalendarDateContextProvider'
 
 import firebase from '../../../../firebase'
 
 let analytics = firebase.analytics()
 
 const EventListContainer = styled(Box)(({ theme }) => ({
-	height: '80vh'
+	height: '80vh',
 }))
 
 const EventFab = styled(Fab)({
 	position: 'fixed',
 	bottom: '2%',
-	right: '3%'
+	right: '3%',
 })
 
 class EventList extends React.Component {
@@ -32,7 +33,7 @@ class EventList extends React.Component {
 			loading: true,
 			error: false,
 			activeTimeslot: null,
-			isAddDialogOpen: false
+			isAddDialogOpen: false,
 		}
 	}
 
@@ -88,7 +89,9 @@ class EventList extends React.Component {
 
 		return events
 			.add(event)
-			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
+			.then((event) =>
+				this.setState((prevState) => ({ events: prevState.events.concat(event) }))
+			)
 			.then(() => analytics.logEvent('event_added'))
 			.then(() => this.closeDialog())
 	}
@@ -102,7 +105,12 @@ class EventList extends React.Component {
 		}
 
 		if (error) {
-			return <ErrorOverlay message='Could not load events.' onRetry={ () => this.loadEvents() } />
+			return (
+				<ErrorOverlay
+					message='Could not load events.'
+					onRetry={ () => this.loadEvents() }
+				/>
+			)
 		}
 
 		const EventListView = isWidthDown('sm', width) ? EventWeeklyView : EventCalendarView
@@ -110,11 +118,13 @@ class EventList extends React.Component {
 		return (
 			<React.Fragment>
 				<EventListContainer>
-					<EventListView
-						events={ events }
-						onEventSelected={ (event) => this.view(event) }
-						onSlotSelected={ (event) => this.addEvent(event.end) }
-					/>
+					<CalendarDateContextProvider>
+						<EventListView
+							events={ events }
+							onEventSelected={ (event) => this.view(event) }
+							onSlotSelected={ (date) => this.addEvent(date) }
+						/>
+					</CalendarDateContextProvider>
 				</EventListContainer>
 
 				<EventFab onClick={ () => this.addEvent() } color='primary' aria-label='Add'>
@@ -135,7 +145,7 @@ class EventList extends React.Component {
 }
 
 EventList.propTypes = {
-	width: PropTypes.string.isRequired
+	width: PropTypes.string.isRequired,
 }
 
 export default withWidth()(withTheme(EventList))
