@@ -18,7 +18,11 @@ const events = {
 
 	join: (eventId) => new CloudFunction()
 		.path(`events/${eventId}/join`)
-		.post()
+		.post(),
+
+	leave: (id) => new CloudFunction()
+		.path(`events/${id}/leave`)
+		.post(),
 }
 
 export default events

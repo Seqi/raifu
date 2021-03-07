@@ -10,6 +10,8 @@ class Event {
 		this.public = entity.public
 		this.createdAt = new Date(entity.createdAt)
 		this.updatedAt = new Date(entity.updatedAt)
+		this.owner = entity.owner
+		this.isGroup = entity.isGroup
 
 		this.users = entity.users.map(toEntity)
 	}

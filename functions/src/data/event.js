@@ -154,6 +154,7 @@ let add = async (data, user) => {
 		}
 
 		// Transction is necessary as this is multiple db calls to create event and event user
+		// TODO: Do i need to manage this transaction w/ errors?
 		let response = await database.transaction((t) =>
 			Event.create(event, {
 				include: [
@@ -325,6 +326,28 @@ let join = async (eventId, user) => {
 	})
 }
 
+let leave = async (eventId, user) => {
+	const eventUser = await EventUser.findOne({
+		where: {
+			event_id: eventId,
+			uid: user.uid,
+		},
+		include: {
+			model: Event,
+		},
+	})
+
+	if (!eventUser) {
+		throw errors.NotFoundError('Could not find event for this user.')
+	}
+
+	if (eventUser.event.organiser_uid === user.uid) {
+		throw new errors.BadRequestError('Cannot leave an event you are the organiser of.')
+	}
+
+	await eventUser.destroy()
+}
+
 module.exports = {
 	getAll,
 	getById,
@@ -334,4 +357,5 @@ module.exports = {
 	canEdit,
 	setLoadout,
 	join,
+	leave,
 }

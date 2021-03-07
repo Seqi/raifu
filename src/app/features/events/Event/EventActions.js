@@ -13,7 +13,7 @@ let getMyLoadout = (event) => {
 	return event.users.length > 0 && event.users[0].loadout
 }
 
-function EventActions({ event, updateEvent, deleteEvent }) {
+function EventActions({ event, updateEvent, deleteEvent, leaveEvent }) {
 	let [dialog, setDialog] = useState()
 	let [speedDialOpen, setSpeedDialOpen] = useState(false)
 
@@ -53,6 +53,15 @@ function EventActions({ event, updateEvent, deleteEvent }) {
 					/>
 				)}
 
+				{!event.owner && (
+					<SpeedDialAction
+						icon={ <i className='fa fa-sign-out-alt' /> }
+						onClick={ () => setDialog('leave') }
+						tooltipTitle='Leave'
+						tooltipOpen={ true }
+					/>
+				)}
+
 				{canViewChecklist && (
 					<SpeedDialAction
 						icon={ <i className='fa fa-clipboard' /> }
@@ -85,6 +94,17 @@ function EventActions({ event, updateEvent, deleteEvent }) {
 				/>
 			)}
 
+			{!event.owner && (
+				<ConfirmDeleteDialog
+					verb='Leave'
+					title={ event.getTitle() }
+					isOpen={ dialog === 'leave' }
+					onConfirm={ () => leaveEvent()
+						.then(() => setDialog(null)) }
+					onClose={ () => setDialog(null) }
+				/>
+			)}
+
 			{canViewChecklist && (
 				<EventChecklistDialog
 					title={ event.getTitle() }
@@ -103,4 +123,5 @@ EventActions.propTypes = {
 	event: PropTypes.object.isRequired,
 	updateEvent: PropTypes.func.isRequired,
 	deleteEvent: PropTypes.func.isRequired,
+	leaveEvent: PropTypes.func.isRequired,
 }
