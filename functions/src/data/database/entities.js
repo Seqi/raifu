@@ -37,7 +37,11 @@ class Gear extends Sequelize.Model {}
 Gear.init(armoryTableSchema, { sequelize: db, modelName: 'gear', freezeTableName: true })
 
 class Clothing extends Sequelize.Model {}
-Clothing.init(armoryTableSchema, { sequelize: db, modelName: 'clothing', freezeTableName: true })
+Clothing.init(armoryTableSchema, {
+	sequelize: db,
+	modelName: 'clothing',
+	freezeTableName: true,
+})
 
 class Loadout extends Sequelize.Model {}
 Loadout.init(
@@ -306,6 +310,7 @@ EventUser.init(
 	{
 		sequelize: db,
 		modelName: 'event_user',
+		paranoid: true,
 	}
 )
 
@@ -335,11 +340,19 @@ LoadoutWeapon.belongsTo(Weapon, { foreignKey: 'weapon_id' })
 LoadoutWeapon.belongsTo(Loadout, { foreignKey: 'loadout_id' })
 
 // Loadout Gear Associations
-Loadout.belongsToMany(Gear, { through: LoadoutGear, foreignKey: 'loadout_id', as: 'gear' })
+Loadout.belongsToMany(Gear, {
+	through: LoadoutGear,
+	foreignKey: 'loadout_id',
+	as: 'gear',
+})
 Gear.belongsToMany(Loadout, { through: LoadoutGear, foreignKey: 'gear_id' })
 
 // Loadout Clothing Associations
-Loadout.belongsToMany(Clothing, { through: LoadoutClothing, foreignKey: 'loadout_id', as: 'clothing' })
+Loadout.belongsToMany(Clothing, {
+	through: LoadoutClothing,
+	foreignKey: 'loadout_id',
+	as: 'clothing',
+})
 Clothing.belongsToMany(Loadout, { through: LoadoutClothing, foreignKey: 'clothing_id' })
 
 module.exports = {

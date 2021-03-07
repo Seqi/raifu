@@ -18,7 +18,7 @@ class Event extends React.Component {
 		this.state = {
 			loading: true,
 			error: null,
-			event: null
+			event: null,
 		}
 	}
 
@@ -29,7 +29,11 @@ class Event extends React.Component {
 		return Object.keys(event)
 			.reduce(
 				(p, c) => {
-					if (typeof event[c] !== 'function' && typeof event[c] !== 'object' && c !== 'loadout') {
+					if (
+						typeof event[c] !== 'function' &&
+					typeof event[c] !== 'object' &&
+					c !== 'loadout'
+					) {
 						p[c] = event[c]
 					}
 
@@ -70,7 +74,7 @@ class Event extends React.Component {
 		let updatedEvent = {
 			...event,
 			// Firebase functions don't like date objects...
-			date: event.date && event.date.toISOString()
+			date: event.date && event.date.toISOString(),
 		}
 
 		return events
@@ -82,8 +86,8 @@ class Event extends React.Component {
 							...prevState.event,
 							...event,
 							date: new Date(event.date),
-							loadout: prevState.event.loadout
-						}
+							loadout: prevState.event.loadout,
+						},
 					}
 				})
 			)
@@ -107,6 +111,13 @@ class Event extends React.Component {
 		return events
 			.delete(this.state.event.id)
 			.then(() => analytics.logEvent('event_deleted'))
+			.then(() => this.props.history.push('/events'))
+	}
+
+	leaveEvent() {
+		return events
+			.leave(this.state.event.id)
+			.then(() => analytics.logEvent('event_left'))
 			.then(() => this.props.history.push('/events'))
 	}
 
@@ -140,7 +151,9 @@ class Event extends React.Component {
 				return <ErrorOverlay message='Event not found.' icon='fa fa-crosshairs' />
 			}
 
-			return <ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
+			return (
+				<ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
+			)
 		}
 
 		return (
@@ -158,6 +171,7 @@ class Event extends React.Component {
 					event={ event }
 					updateEvent={ (evt) => this.updateEvent(evt) }
 					deleteEvent={ () => this.deleteEvent() }
+					leaveEvent={ () => this.leaveEvent() }
 				/>
 			</React.Fragment>
 		)

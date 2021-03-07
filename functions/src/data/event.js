@@ -111,7 +111,9 @@ let getById = async (id, user) => {
 	)
 
 	fbUsers.forEach(
-		(fbUser) => (eventUsers.find((u) => u.uid === fbUser.uid).displayName = fbUser.displayName || fbUser.email)
+		(fbUser) =>
+			(eventUsers.find((u) => u.uid === fbUser.uid).displayName =
+				fbUser.displayName || fbUser.email)
 	)
 
 	// Add back
@@ -121,8 +123,17 @@ let getById = async (id, user) => {
 	await Promise.all(
 		eventJson.users
 			.filter((user) => !!user.loadout_id)
-			.map((user) => loadout.getById(user.loadout_id, user).then((loadout) => (user.loadout = loadout)))
+			.map((user) =>
+				loadout.getById(user.loadout_id, user)
+					.then((loadout) => (user.loadout = loadout))
+			)
 	)
+
+	// Add some additional properties to help the client
+	eventJson.owner = event.organiser_uid === user.uid
+
+	// TODO: Can make this a hook/getter of some kind?
+	eventJson.isGroup = eventUsers.length > 1
 
 	return eventJson
 }
@@ -143,6 +154,7 @@ let add = async (data, user) => {
 		}
 
 		// Transction is necessary as this is multiple db calls to create event and event user
+		// TODO: Do i need to manage this transaction w/ errors?
 		let response = await database.transaction((t) =>
 			Event.create(event, {
 				include: [
@@ -294,24 +306,52 @@ let join = async (eventId, user) => {
 		throw errors.NotFoundError('Could not find a joinable event')
 	}
 
-	// Check the user isn't already part of this event
-	let alreadyInEvent =
-		(await EventUser.count({
-			where: {
-				event_id: eventId,
-				uid: user.uid,
-			},
-		})) > 0
+	// Try and grab this user in the event to see if they're either
+	// already apart of it - or have been before but left anad are rejoining
+	let eventUser = await EventUser.findOne({
+		where: {
+			event_id: eventId,
+			uid: user.uid,
+		},
+		paranoid: false,
+	})
 
-	if (alreadyInEvent) {
+	if (eventUser && !eventUser.isSoftDeleted()) {
 		throw new errors.BadRequestError('User already in event')
 	}
 
-	// Add the user
-	await EventUser.create({
-		event_id: eventId,
-		uid: user.uid,
+	// Reactivate if it exists, otherwise create
+	if (eventUser) {
+		await eventUser.restore()
+	} else {
+		// Add the user
+		await EventUser.create({
+			event_id: eventId,
+			uid: user.uid,
+		})
+	}
+}
+
+let leave = async (eventId, user) => {
+	const eventUser = await EventUser.findOne({
+		where: {
+			event_id: eventId,
+			uid: user.uid,
+		},
+		include: {
+			model: Event,
+		},
 	})
+
+	if (!eventUser) {
+		throw errors.NotFoundError('Could not find event for this user.')
+	}
+
+	if (eventUser.event.organiser_uid === user.uid) {
+		throw new errors.BadRequestError('Cannot leave an event you are the organiser of.')
+	}
+
+	await eventUser.destroy()
 }
 
 module.exports = {
@@ -323,4 +363,5 @@ module.exports = {
 	canEdit,
 	setLoadout,
 	join,
+	leave,
 }

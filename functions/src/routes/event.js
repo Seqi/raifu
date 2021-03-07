@@ -14,7 +14,8 @@ router.get('/', async (req, res) => {
 	} catch (e) {
 		console.error(`[${req.user.uid}]: Error retrieving events`, e)
 
-		res.status(500).end()
+		res.status(500)
+			.end()
 	}
 })
 
@@ -23,7 +24,8 @@ router.get('/:id', async (req, res) => {
 
 	try {
 		if (!req.params.id) {
-			res.status(400).json({ error: 'Id is required' })
+			res.status(400)
+				.json({ error: 'Id is required' })
 		}
 
 		let item = await event.getById(eventId, req.user)
@@ -34,11 +36,13 @@ router.get('/:id', async (req, res) => {
 	} catch (e) {
 		if (e instanceof errors.NotFoundError) {
 			console.warn(`[${req.user.uid}]: Could not find event with id (${req.params.id})`)
-			return res.status(404).end()
+			return res.status(404)
+				.end()
 		}
 
 		console.error(`[${req.user.uid}]: Error retrieving event with id ${eventId}`, e)
-		return res.status(500).end()
+		return res.status(500)
+			.end()
 	}
 })
 
@@ -52,11 +56,13 @@ router.post('/', async (req, res) => {
 	} catch (e) {
 		if (e instanceof errors.BadRequestError) {
 			console.warn(`[${req.user.uid}]: Bad request when creating event ${e.message}`)
-			return res.status(400).json({ errors: e.message.split(',') })
+			return res.status(400)
+				.json({ errors: e.message.split(',') })
 		}
 
 		console.error(`[${req.user.uid}]: Error creating event`, e)
-		return res.status(500).end()
+		return res.status(500)
+			.end()
 	}
 })
 
@@ -64,33 +70,41 @@ router.put('/:id', async (req, res) => {
 	let eventId = req.params.id
 
 	if (!eventId) {
-		return res.status(400).send('Event id is required')
+		return res.status(400)
+			.send('Event id is required')
 	}
 
 	try {
 		let canEdit = await event.canEdit(eventId, req.user)
 		if (!canEdit) {
-			return res.status(401).end()
+			return res.status(401)
+				.end()
 		}
 
 		let item = await event.edit(eventId, req.body, req.user)
 
 		console.log(`[${req.user.uid}]: Updated event ${JSON.stringify(item)}`)
 
-		return res.status(204).end()
+		return res.status(204)
+			.end()
 	} catch (e) {
 		if (e instanceof errors.BadRequestError) {
 			console.warn(`[${req.user.uid}]: Bad request when updating event ${e.message}`)
-			return res.status(400).json({ errors: e })
+			return res.status(400)
+				.json({ errors: e })
 		}
 
 		if (e instanceof errors.NotFoundError) {
-			console.warn(`[${req.user.uid}]: Could not find event to update with id (${eventId})`)
-			return res.status(404).end()
+			console.warn(
+				`[${req.user.uid}]: Could not find event to update with id (${eventId})`
+			)
+			return res.status(404)
+				.end()
 		}
 
 		console.error(`[${req.user.uid}]: Error updating event`, e)
-		return res.status(500).end()
+		return res.status(500)
+			.end()
 	}
 })
 
@@ -100,23 +114,29 @@ router.delete('/:id', async (req, res) => {
 	try {
 		let canEdit = await event.canEdit(eventId, req.user)
 		if (!canEdit) {
-			return res.status(401).end()
+			return res.status(401)
+				.end()
 		}
 
 		await event.remove(eventId, req.user)
 
 		console.log(`[${req.user.uid}]: Deleted event`, eventId)
 
-		return res.status(204).end()
+		return res.status(204)
+			.end()
 	} catch (e) {
 		if (e instanceof errors.NotFoundError) {
-			console.warn(`[${req.user.uid}]: Attempted to delete event that does not exist (${eventId})`)
+			console.warn(
+				`[${req.user.uid}]: Attempted to delete event that does not exist (${eventId})`
+			)
 
-			return res.status(404).end()
+			return res.status(404)
+				.end()
 		}
 
 		console.error(`[${req.user.uid}]: Error deleting event`, e)
-		return res.status(500).end()
+		return res.status(500)
+			.end()
 	}
 })
 
@@ -134,11 +154,13 @@ router.post('/:eventId/loadout/remove', async (req, res) => {
 				`[${req.user.uid}]: Attempted to remove loadout on event that does not exist (eventId: ${eventId})`
 			)
 
-			return res.status(404).end()
+			return res.status(404)
+				.end()
 		}
 
 		console.error(`[${req.user.uid}]: Error removing loadout from event`, e)
-		return res.status(500).end()
+		return res.status(500)
+			.end()
 	}
 })
 
@@ -156,11 +178,13 @@ router.post('/:eventId/loadout/:loadoutId', async (req, res) => {
 			console.warn(
 				`[${req.user.uid}]: Attempted to add loadout on event that does not exist (eventId: ${eventId} loadoutId: ${loadoutId})`
 			)
-			return res.status(404).end()
+			return res.status(404)
+				.end()
 		}
 
 		console.error(`[${req.user.uid}]: Error adding loadout to event`, e)
-		return res.status(500).end()
+		return res.status(500)
+			.end()
 	}
 })
 
@@ -171,21 +195,54 @@ router.post('/:eventId/join', async (req, res) => {
 		await event.join(eventId, req.user)
 		console.log(`[${req.user.uid}]: Joined event ${eventId}`)
 
-		return res.status(204).end()
+		return res.status(204)
+			.end()
 	} catch (e) {
-		console.log('Error adding loadout to event', e)
+		console.log('Error joining event', e)
 		if (e instanceof errors.BadRequestError) {
 			console.warn(`[${req.user.uid}]: Tried to join an event they're already in`)
-			return res.status(400).end(e.message)
+			return res.status(400)
+				.end(e.message)
 		}
 
 		if (e instanceof errors.NotFoundError) {
-			console.warn(`[${req.user.uid}]: Attempted to join an event that does not exist (${eventId})`)
-			return res.status(404).end()
+			console.warn(
+				`[${req.user.uid}]: Attempted to join an event that does not exist (${eventId})`
+			)
+			return res.status(404)
+				.end()
 		}
 
 		console.error(`[${req.user.uid}]: Error joining event`, e)
-		return res.status(500).end()
+		return res.status(500)
+			.end()
+	}
+})
+
+router.post('/:eventId/leave', async (req, res) => {
+	let eventId = req.params.eventId
+
+	try {
+		await event.leave(eventId, req.user)
+		console.log(`[${req.user.uid}]: Left event ${eventId}`)
+
+		return res.status(204)
+			.end()
+	} catch (e) {
+		console.log('Error leaving event', e)
+
+		if (e instanceof errors.NotFoundError) {
+			console.warn(
+				`[${req.user.uid}]: Attempted to leave an event that does not exist or user has no access to (${eventId})`
+			)
+
+			return res.status(404)
+				.end()
+		}
+
+		console.error(`[${req.user.uid}]: Error leaving event`, e)
+		return res.status(500)
+			.end()
 	}
 })
 

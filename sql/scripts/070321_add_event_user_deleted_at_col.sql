@@ -1,0 +1,1 @@
+ALTER TABLE event_users ADD COLUMN "deletedAt" date;
