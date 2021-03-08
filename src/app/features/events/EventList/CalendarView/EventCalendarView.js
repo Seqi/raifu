@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from 'react'
 import PropTypes from 'prop-types'
-import BigCalendar from 'react-big-calendar'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 
 import { useTheme } from '@material-ui/core'
@@ -15,7 +15,7 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 	let [view, setView] = useState('month')
 	let { date, setDate } = useContext(CalendarDateContext)
 
-	let localizer = useRef(BigCalendar.momentLocalizer(moment))
+	let localizer = useRef(momentLocalizer(moment))
 
 	let styleEvent = () => {
 		// Only give month events the accented border as agenda views don't show this right
@@ -30,7 +30,7 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 	}
 
 	return (
-		<BigCalendar
+		<Calendar
 			events={ events }
 			date={ date && date.toDate() }
 			localizer={ localizer.current }
