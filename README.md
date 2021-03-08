@@ -20,6 +20,7 @@ with a few settings. Set these in your `.env` file with the following keys:
 REACT_APP_FIREBASE_APIKEY
 REACT_APP_FIREBASE_AUTH_DOMAIN
 REACT_APP_FIREBASE_PROJECT_ID
+REACT_APP_FIREBASE_APP_ID
 ```
 
 Your `.env` file should now look something like this:
@@ -28,6 +29,7 @@ Your `.env` file should now look something like this:
 REACT_APP_FIREBASE_APIKEY=myapikey
 REACT_APP_FIREBASE_AUTH_DOMAIN=myauthdomain
 REACT_APP_FIREBASE_PROJECT_ID=myprojectid
+REACT_APP_FIREBASE_APP_ID=my:app:id
 ```
 
 Next, install the `firebase-tools` package from npm with `npm i -g firebase-tools`. This contains the emulator to spin up a local firebase development backend. Then run `firebase login` to login
