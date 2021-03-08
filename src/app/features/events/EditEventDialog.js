@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useForm, Controller } from 'react-hook-form'
 
@@ -21,15 +21,19 @@ import { Error } from 'app/shared/state'
 
 let EditEventDialog = ({ event, date, isOpen, onSave, onClose }) => {
 	let [error, setError] = useState()
-	let { register, handleSubmit, formState, control } = useForm({
-		defaultValues: {
+	let { register, handleSubmit, formState, control, reset } = useForm({
+		mode: 'onChange',
+	})
+
+	// If an updated event comes in, reset the form to reflect it
+	useEffect(() => {
+		reset({
 			name: event.name,
 			location: event.location,
 			date: date || event.date,
 			public: event.public,
-		},
-		mode: 'onChange',
-	})
+		})
+	}, [event, date, reset])
 
 	let handleSave = useCallback(
 		(updatedEvent) => {
