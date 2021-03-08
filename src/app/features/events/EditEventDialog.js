@@ -12,7 +12,7 @@ import {
 	FormHelperText,
 	TextField,
 	Button,
-	Checkbox
+	Checkbox,
 } from '@material-ui/core'
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
@@ -26,9 +26,9 @@ let EditEventDialog = ({ event, date, isOpen, onSave, onClose }) => {
 			name: event.name,
 			location: event.location,
 			date: date || event.date,
-			public: event.public
+			public: event.public,
 		},
-		mode: 'onChange'
+		mode: 'onChange',
 	})
 
 	let handleSave = useCallback(
@@ -44,7 +44,7 @@ let EditEventDialog = ({ event, date, isOpen, onSave, onClose }) => {
 	)
 
 	// Required to read here due to formState being wrapped with Proxy
-	const { dirty, isValid, isSubmitting } = formState
+	const { isDirty, isValid, isSubmitting } = formState
 
 	return (
 		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
@@ -74,30 +74,49 @@ let EditEventDialog = ({ event, date, isOpen, onSave, onClose }) => {
 						<Controller
 							name='date'
 							rules={ { required: true } }
-							as={ DateTimePicker }
 							control={ control }
-							onChange={ ([date]) => date.toDate() }
-							fullWidth={ true }
-							label='Date'
+							render={ ({ onChange, onBlur, value, ref }) => (
+								<DateTimePicker
+									inputRef={ ref }
+									onBlur={ onBlur }
+									onChange={ (e) => onChange(e.toDate()) }
+									label='Date'
+									fullWidth={ true }
+									value={ value }
+								/>
+							) }
 						/>
 					</MuiPickersUtilsProvider>
 
-					<FormControl>
-						<FormControlLabel
-							label='Make this event public'
-							control={ <Checkbox inputRef={ register } name='public' /> }
-						/>
-						<FormHelperText>
-							If public, users with the event link will be able to add themselves to the event and add
-							their own loadouts.
-						</FormHelperText>
-					</FormControl>
+					<Controller
+						name='public'
+						control={ control }
+						render={ ({ ref, onChange, onBlur, value, ...props }) => (
+							<FormControl>
+								<FormControlLabel
+									label='Make this event public'
+									control={
+										<Checkbox
+											{ ...props }
+											inputRef={ ref }
+											checked={ value }
+											onChange={ (e) => onChange(e.target.checked) }
+										/>
+									}
+								/>
+								<FormHelperText>
+									If public, users with the event link will be able to add themselves to
+									the event and add their own loadouts.
+								</FormHelperText>
+							</FormControl>
+						) }
+					/>
 				</DialogContent>
 
 				<DialogActions>
 					<Button onClick={ onClose }>Cancel</Button>
 					<Button
-						disabled={ !dirty || !isValid || isSubmitting }
+						disabled={ !isDirty || !isValid || isSubmitting }
 						variant='contained'
 						color='primary'
 						type='submit'
@@ -119,8 +138,8 @@ EditEventDialog.propTypes = {
 		name: PropTypes.string.isRequired,
 		date: PropTypes.object,
 		location: PropTypes.string.isRequired,
-		public: PropTypes.bool.isRequired
-	})
+		public: PropTypes.bool.isRequired,
+	}),
 }
 
 EditEventDialog.defaultProps = {
@@ -129,8 +148,8 @@ EditEventDialog.defaultProps = {
 		name: '',
 		location: '',
 		date: null,
-		public: false
-	}
+		public: false,
+	},
 }
 
 export default EditEventDialog

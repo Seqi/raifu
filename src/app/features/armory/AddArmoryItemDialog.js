@@ -2,7 +2,14 @@ import React, { useState, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@material-ui/core'
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	TextField,
+	Button,
+} from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 
 import { Error } from 'app/shared/state'
@@ -10,9 +17,18 @@ import ResourceSelect from 'app/shared/resources/ResourceSelect'
 
 import { brands } from 'app/data/constants'
 
-const AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen, onSave, onClose }) => {
+const AddArmoryItemDialog = ({
+	resourceTitle,
+	resourceKey,
+	resourceName,
+	isOpen,
+	onSave,
+	onClose,
+}) => {
 	let [error, setError] = useState(null)
-	let { register, unregister, setValue, handleSubmit, formState } = useForm({ mode: 'onChange' })
+	let { register, unregister, setValue, handleSubmit, formState } = useForm({
+		mode: 'onChange',
+	})
 
 	// Necessary to register the two form type/platform values
 	useEffect(() => {
@@ -39,12 +55,12 @@ const AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen,
 
 	let setResource = useCallback(
 		(resource) => {
-			if (!resource) {
-				setValue([{ type: '' }, { platform: '' }], true)
-			} else {
-				const { type, platform } = resource
-				setValue([{ type }, { platform }], true)
-			}
+			['type', 'platform'].forEach((key) =>
+				setValue(key, resource ? resource[key] : '', {
+					shouldDirty: true,
+					shouldValidate: true,
+				})
+			)
 		},
 		[setValue]
 	)
@@ -57,13 +73,23 @@ const AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen,
 				<DialogContent>
 					{error && <Error error={ error } fillBackground={ true } />}
 
-					<ResourceSelect inputLabel={ resourceName } resourceType={ resourceKey } onChange={ setResource } />
+					<ResourceSelect
+						inputLabel={ resourceName }
+						resourceType={ resourceKey }
+						onChange={ setResource }
+					/>
 
 					<Autocomplete
 						options={ brands }
 						freeSolo={ true }
 						renderInput={ (params) => (
-							<TextField name='brand' inputRef={ register } { ...params } fullWidth={ true } label='Brand' />
+							<TextField
+								name='brand'
+								inputRef={ register }
+								{ ...params }
+								fullWidth={ true }
+								label='Brand'
+							/>
 						) }
 					/>
 
@@ -76,7 +102,13 @@ const AddArmoryItemDialog = ({ resourceTitle, resourceKey, resourceName, isOpen,
 						helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
 					/>
 
-					<TextField name='nickname' label='Nickname' type='text' fullWidth={ true } inputRef={ register } />
+					<TextField
+						name='nickname'
+						label='Nickname'
+						type='text'
+						fullWidth={ true }
+						inputRef={ register }
+					/>
 				</DialogContent>
 
 				<DialogActions>
@@ -101,7 +133,7 @@ AddArmoryItemDialog.propTypes = {
 	resourceName: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired
+	onSave: PropTypes.func.isRequired,
 }
 
 export default AddArmoryItemDialog

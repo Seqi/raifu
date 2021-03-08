@@ -18,7 +18,7 @@
 		"react-big-calendar": "^0.21.0",
 		"react-cookie": "^4.0.1",
 		"react-dom": "^17.0.1",
-		"react-hook-form": "^5.1.1",
+		"react-hook-form": "^6.15.4",
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "^4.0.3",
 		"title-case": "^3.0.3",
