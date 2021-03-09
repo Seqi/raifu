@@ -16,7 +16,7 @@ function CalendarEvent({ event }) {
 }
 
 CalendarEvent.propTypes = {
-	event: PropTypes.object.isRequired
+	event: PropTypes.object.isRequired,
 }
 
 export default CalendarEvent

@@ -36,7 +36,8 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 			onNavigate={ (date) => setDate(moment(date)) }
 			onSelectSlot={ (slot) => onSlotSelected(slot.end) }
 			onSelectEvent={ onEventSelected }
-			eventPropGetter={ () => ({
+			popup={ true }
+			eventPropGetter={ (_) => ({
 				style: {
 					border: `1px solid ${theme.palette.primary.main}`,
 				},

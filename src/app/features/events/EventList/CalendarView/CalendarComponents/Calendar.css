@@ -12,7 +12,19 @@
 
 /* Style event itself */
 .rbc-event {
-	font-size: 0.8rem;
+	font-size: 0.9rem;
 	text-overflow: ellipsis;
 	background: inherit;
+	/* Static height is necessary to ge the '+ X More' to show */
+	height: 50px;
+	margin-bottom: 2px;
+}
+
+.rbc-show-more {
+	background-color: inherit;
+	color: white;
+}
+
+.rbc-overlay {
+	background-color: inherit;
 }
