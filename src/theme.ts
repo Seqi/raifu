@@ -1,5 +1,9 @@
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles'
 
+// Necessary for fixing the types to include lab stuff
+// It should be 'import type '@material-ui...' but not working for some reason
+import type {} from '@material-ui/lab/themeAugmentation'
+
 export default createMuiTheme({
 	palette: {
 		type: 'dark',
