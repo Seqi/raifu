@@ -4,7 +4,13 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Box, Typography, styled } from '@material-ui/core'
 
-import { armory as armoryService, weapons, attachments, gear, clothing } from 'app/data/api'
+import {
+	armory as armoryService,
+	weapons,
+	attachments,
+	gear,
+	clothing,
+} from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { ResourceList } from 'app/shared/resources'
@@ -20,8 +26,13 @@ const armorySections = [
 		resourceKey: 'weapons',
 		card: WeaponCard,
 		renderDialog: (props) => (
-			<AddArmoryItemDialog { ...props } resourceTitle='weapon' resourceKey='weapons' resourceName='Weapon' />
-		)
+			<AddArmoryItemDialog
+				{ ...props }
+				resourceTitle='weapon'
+				resourceKey='weapons'
+				resourceName='Weapon'
+			/>
+		),
 	},
 	{
 		resource: attachments,
@@ -34,38 +45,48 @@ const armorySections = [
 				resourceKey='attachments'
 				resourceName='Attachment'
 			/>
-		)
+		),
 	},
 	{
 		resource: gear,
 		resourceKey: 'gear',
 		card: GearCard,
 		renderDialog: (props) => (
-			<AddArmoryItemDialog { ...props } resourceTitle='gear' resourceKey='gear' resourceName='Gear' />
-		)
+			<AddArmoryItemDialog
+				{ ...props }
+				resourceTitle='gear'
+				resourceKey='gear'
+				resourceName='Gear'
+			/>
+		),
 	},
 	{
 		resource: clothing,
 		resourceKey: 'clothing',
 		card: ClothingCard,
 		renderDialog: (props) => (
-			<AddArmoryItemDialog { ...props } resourceTitle='clothing' resourceKey='clothing' resourceName='Clothing' />
-		)
-	}
+			<AddArmoryItemDialog
+				{ ...props }
+				resourceTitle='clothing'
+				resourceKey='clothing'
+				resourceName='Clothing'
+			/>
+		),
+	},
 ]
 
 let ResourceListContainer = styled(Box)(({ theme }) => ({
 	'&:not(:first-child)': {
-		marginTop: theme.spacing(3)
-	}
+		marginTop: theme.spacing(3),
+	},
 }))
 
 let ResourceTitle = styled(Typography)(({ theme }) => ({
 	textTransform: 'capitalize',
 
 	[theme.breakpoints.down('sm')]: {
-		fontSize: '2rem'
-	}
+		fontSize: '2rem',
+	},
 }))
 
 export default function Armory() {
@@ -82,6 +103,7 @@ export default function Armory() {
 			.then((result) => mounted && setArmory({ armory: result, loading: false }))
 			.catch((e) => mounted && setArmory({ error: true, loading: false }))
 	}, [])
+
 	useEffect(() => {
 		loadArmory()
 	}, [loadArmory])
@@ -99,17 +121,21 @@ export default function Armory() {
 		return <ErrorOverlay message='Could not load armory.' onRetry={ loadArmory } />
 	}
 
-	return armorySections.map((armorySection) => (
-		<ResourceListContainer component='section' key={ armorySection.resourceKey }>
-			<ResourceTitle variant='h3'>{armorySection.resourceKey}</ResourceTitle>
+	return (
+		<React.Fragment>
+			{armorySections.map((armorySection) => (
+				<ResourceListContainer component='section' key={ armorySection.resourceKey }>
+					<ResourceTitle variant='h3'>{armorySection.resourceKey}</ResourceTitle>
 
-			<ResourceList
-				items={ armory[armorySection.resourceKey] }
-				resource={ armorySection.resource }
-				resourceName={ armorySection.resourceKey }
-				card={ armorySection.card }
-				renderAddDialog={ armorySection.renderDialog }
-			/>
-		</ResourceListContainer>
-	))
+					<ResourceList
+						items={ armory[armorySection.resourceKey] }
+						resource={ armorySection.resource }
+						resourceName={ armorySection.resourceKey }
+						card={ armorySection.card }
+						renderAddDialog={ armorySection.renderDialog }
+					/>
+				</ResourceListContainer>
+			))}
+		</React.Fragment>
+	)
 }
