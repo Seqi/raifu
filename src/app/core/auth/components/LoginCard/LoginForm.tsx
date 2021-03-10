@@ -1,12 +1,23 @@
-import React from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
-let LoginForm = ({ onSubmit }) => {
-	let { register, handleSubmit, formState } = useForm({ mode: 'onChange' })
+export type LoginFormFields = {
+	email: string
+	password: string
+}
+
+type LoginFormProps = {
+	onSubmit: SubmitHandler<LoginFormFields>
+}
+
+const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
+	let { register, handleSubmit, formState } = useForm<LoginFormFields>({
+		mode: 'onChange',
+	})
 
 	return (
 		<form onSubmit={ handleSubmit(onSubmit) }>
@@ -43,7 +54,7 @@ let LoginForm = ({ onSubmit }) => {
 }
 
 LoginForm.propTypes = {
-	onSubmit: PropTypes.func.isRequired
+	onSubmit: PropTypes.func.isRequired,
 }
 
 export default LoginForm

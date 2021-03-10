@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { FC, lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
@@ -10,7 +10,7 @@ import HomePage from './pages/Home'
 const App = lazy(() => import('./pages/App'))
 const Shared = lazy(() => import('./pages/Shared'))
 
-let Site = () => {
+let Site: FC = () => {
 	return (
 		<React.Fragment>
 			<Router>

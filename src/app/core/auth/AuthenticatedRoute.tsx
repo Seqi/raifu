@@ -1,13 +1,22 @@
-import React, { useEffect, useContext, useRef } from 'react'
+import { useEffect, useContext, useRef, FC } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { LoadingOverlay } from 'app/shared/state'
 import { UserContext } from 'app/core/auth/contexts'
 
-function AuthenticatedRoute({ onFail, waitFor, ...props }) {
+type AuthenticatedRouteProps = {
+	onFail: () => void
+	waitFor?: number
+}
+
+const AuthenticatedRoute: FC<AuthenticatedRouteProps> = ({
+	onFail,
+	waitFor,
+	...props
+}) => {
 	let user = useContext(UserContext)
-	let timer = useRef(null)
+	let timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
 	useEffect(() => {
 		// If we don't have a user, wait to see the specified amount before throwing out
@@ -18,7 +27,11 @@ function AuthenticatedRoute({ onFail, waitFor, ...props }) {
 		}
 
 		// Clear any existing timeout if rerendering
-		return () => clearTimeout(timer.current)
+		return () => {
+			if (timer.current) {
+				clearTimeout(timer.current)
+			}
+		}
 	}, [onFail, user, waitFor])
 
 	if (!user) {
@@ -30,11 +43,11 @@ function AuthenticatedRoute({ onFail, waitFor, ...props }) {
 
 AuthenticatedRoute.propTypes = {
 	waitFor: PropTypes.number,
-	onFail: PropTypes.func.isRequired
+	onFail: PropTypes.func.isRequired,
 }
 
 AuthenticatedRoute.defaultProps = {
-	waitFor: 1000
+	waitFor: 1000,
 }
 
 export default AuthenticatedRoute

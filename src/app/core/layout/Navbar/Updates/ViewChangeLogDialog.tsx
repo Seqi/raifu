@@ -1,39 +1,62 @@
-import React, { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import PropTypes from 'prop-types'
-import marked from 'marked'
 
-import { Dialog, DialogContent, DialogActions, Button, Box, styled } from '@material-ui/core'
+import {
+	Dialog,
+	DialogContent,
+	DialogActions,
+	Button,
+	Box,
+	styled,
+} from '@material-ui/core'
 
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { Error } from 'app/shared/state'
+import { ChangeLog, format } from './ChangeLog'
 
-let ChangeLogItemContainer = styled(Box)(({ theme }) => ({
+const ChangeLogItemContainer = styled(Box)(({ theme }) => ({
 	lineHeight: 2,
 	'& h1': {
-		borderBottom: `1px solid ${theme.palette.primary.main}`
+		borderBottom: `1px solid ${theme.palette.primary.main}`,
 	},
 
 	'& .new-alert::after': {
 		content: '"*New! "',
 		fontSize: '1rem',
 		fontWeight: 500,
-		paddingLeft: theme.spacing(0.5)
+		paddingLeft: theme.spacing(0.5),
 	},
 
 	'& p, li': {
-		fontSize: '1rem'
-	}
+		fontSize: '1rem',
+	},
 }))
 
 const releaseCookieName = 'release-last-seen'
 const cookieOptions = { path: '/', maxAge: 60 * 60 * 24 * 365 * 5 }
 
-const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
-	let [response, setResponse] = useState({ changelogs: null, error: false })
-	let [newChangeLogs, setNewChangeLogs] = useState([])
-	let [cookies, setCookie] = useCookies()
-	let analytics = useAnalytics()
+type ViewChangeLogDialogProps = {
+	onHasUpdates: (hasUpdates: boolean) => any
+	isOpen: boolean
+	onClose: () => void
+}
+
+const ViewChangeLogDialog: FC<ViewChangeLogDialogProps> = ({
+	onHasUpdates,
+	isOpen,
+	onClose,
+}) => {
+	const [response, setResponse] = useState<{
+		changelogs: ChangeLog[] | null
+		error: boolean
+	}>({
+		changelogs: null,
+		error: false,
+	})
+	const [newChangeLogs, setNewChangeLogs] = useState<ChangeLog[]>([])
+	const [cookies, setCookie] = useCookies()
+	const analytics = useAnalytics()
 
 	// Send analytics on open
 	useEffect(() => {
@@ -44,7 +67,7 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 	useEffect(() => {
 		fetch('https://api.github.com/repos/seqi/raifu/releases')
 			.then((res) => res.json())
-			.then((data) => setResponse({ changelogs: data, error: false }))
+			.then((data: ChangeLog[]) => setResponse({ changelogs: data, error: false }))
 			.catch((_) => setResponse({ changelogs: null, error: true }))
 	}, [])
 
@@ -80,19 +103,6 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 		}
 	}, [isOpen, newChangeLogs, setCookie])
 
-	let formatChangelog = (changelog) => {
-		let isNewChangelog = !!newChangeLogs.find((newLog) => newLog.id === changelog.id)
-
-		let html = marked(changelog.body)
-
-		if (isNewChangelog) {
-			// Add new-alert class to the first <h1> tag if this change log is new
-			return html.replace(/(h1 id=".+?")/, '$1 class="new-alert"')
-		} else {
-			return html
-		}
-	}
-
 	return (
 		<Dialog maxWidth='md' open={ isOpen } onBackdropClick={ onClose }>
 			<DialogContent>
@@ -102,7 +112,7 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 					response.changelogs.map((changelog) => (
 						<ChangeLogItemContainer
 							key={ changelog.id }
-							dangerouslySetInnerHTML={ { __html: formatChangelog(changelog) } }
+							dangerouslySetInnerHTML={ { __html: format(changelog, newChangeLogs) } }
 						/>
 					))
 				) : (
@@ -122,7 +132,7 @@ const ViewChangeLogDialog = ({ onHasUpdates, isOpen, onClose }) => {
 ViewChangeLogDialog.propTypes = {
 	onHasUpdates: PropTypes.func.isRequired,
 	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired
+	onClose: PropTypes.func.isRequired,
 }
 
 export default ViewChangeLogDialog

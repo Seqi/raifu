@@ -1,12 +1,24 @@
-import React from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
-let LoginForm = ({ onSubmit }) => {
-	let { register, watch, handleSubmit, formState, errors } = useForm({ mode: 'onChange' })
+export type SignupFormFields = {
+	email: string
+	password: string
+	confirmPassword: string
+}
+
+type SignupFormProps = {
+	onSubmit: (val: SignupFormFields) => Promise<any>
+}
+
+export const SignupForm: FC<SignupFormProps> = ({ onSubmit }) => {
+	let { register, watch, handleSubmit, formState, errors } = useForm<SignupFormFields>({
+		mode: 'onChange',
+	})
 
 	return (
 		<form onSubmit={ handleSubmit(onSubmit) }>
@@ -24,7 +36,7 @@ let LoginForm = ({ onSubmit }) => {
 			<TextField
 				inputRef={ register({
 					required: true,
-					minLength: 6
+					minLength: 6,
 				}) }
 				name='password'
 				label='Password'
@@ -38,7 +50,7 @@ let LoginForm = ({ onSubmit }) => {
 
 			<TextField
 				inputRef={ register({
-					validate: (value) => value === watch('password')
+					validate: (value) => value === watch('password'),
 				}) }
 				name='confirmPassword'
 				label='Confirm password'
@@ -63,8 +75,6 @@ let LoginForm = ({ onSubmit }) => {
 	)
 }
 
-LoginForm.propTypes = {
-	onSubmit: PropTypes.func.isRequired
+SignupForm.propTypes = {
+	onSubmit: PropTypes.func.isRequired,
 }
-
-export default LoginForm

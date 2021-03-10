@@ -1,5 +1,10 @@
-import React, { useContext, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { FC, useContext, useEffect } from 'react'
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	RouteComponentProps,
+} from 'react-router-dom'
 
 import { Box, styled } from '@material-ui/core'
 
@@ -15,10 +20,12 @@ let AuthFormContainer = styled(Box)({
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
 	width: '90%',
-	maxWidth: '600px'
+	maxWidth: '600px',
 })
 
-function AuthPage({ history }) {
+type AuthPageProps = RouteComponentProps
+
+const AuthPage: FC<AuthPageProps> = ({ history }) => {
 	let user = useContext(UserContext)
 
 	useEffect(() => {

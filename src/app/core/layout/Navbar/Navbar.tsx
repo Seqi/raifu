@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { Box, styled, Button, IconButton, Badge, Tooltip } from '@material-ui/core'
@@ -8,27 +8,27 @@ import { UserContext } from 'app/core/auth/contexts'
 import UserProfile from './Profile'
 import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
-let NavbarContainer = styled(Box)(({ theme }) => ({
+const NavbarContainer = styled(Box)(({ theme }) => ({
 	padding: theme.spacing(5, 7, 0),
 
 	[theme.breakpoints.down('sm')]: {
-		padding: theme.spacing(3, 4, 0)
+		padding: theme.spacing(3, 4, 0),
 	},
 
 	[theme.breakpoints.down('xs')]: {
-		padding: theme.spacing(2, 1, 0)
-	}
+		padding: theme.spacing(2, 1, 0),
+	},
 }))
 
-let Navbar = () => {
-	let [dialogOpen, setDialogOpen] = useState(false)
-	let [hasUpdates, setHasUpdates] = useState(false)
-	let user = useContext(UserContext)
-	let history = useHistory()
-	let location = useLocation()
+const Navbar: FC = () => {
+	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+	const [hasUpdates, setHasUpdates] = useState<boolean>(false)
+	const user = useContext(UserContext)
+	const history = useHistory()
+	const location = useLocation()
 
-	let isAuthenticated = !!user
-	let isHomePage = location.pathname === '/'
+	const isAuthenticated = user != null
+	const isHomePage = location.pathname === '/'
 
 	return (
 		<NavbarContainer display='flex' alignItems='center'>
@@ -50,10 +50,15 @@ let Navbar = () => {
 				</Tooltip>
 
 				<Box marginLeft={ 1.5 }>
-					{isAuthenticated ? (
+					{user != null ? (
 						<UserProfile user={ user } />
 					) : (
-						<Button variant='outlined' color='primary' size='large' onClick={ (_) => history.push('/login') }>
+						<Button
+							variant='outlined'
+							color='primary'
+							size='large'
+							onClick={ (_) => history.push('/login') }
+						>
 							Log in
 						</Button>
 					)}
@@ -63,7 +68,7 @@ let Navbar = () => {
 			<ViewChangeLogDialog
 				onHasUpdates={ setHasUpdates }
 				isOpen={ dialogOpen }
-				onClose={ (_) => setDialogOpen(false) }
+				onClose={ () => setDialogOpen(false) }
 			/>
 		</NavbarContainer>
 	)

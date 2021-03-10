@@ -1,9 +1,17 @@
-import React from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Icon, IconButton } from '@material-ui/core'
 
-let LoginProviders = ({ loginWithTwitter, loginWithGoogle }) => {
+type LoginProvidersProps = {
+	loginWithTwitter: () => Promise<any>
+	loginWithGoogle: () => Promise<any>
+}
+
+const LoginProviders: FC<LoginProvidersProps> = ({
+	loginWithTwitter,
+	loginWithGoogle,
+}) => {
 	return (
 		<div>
 			<IconButton id='twitter-icon' onClick={ loginWithTwitter }>
@@ -19,7 +27,7 @@ let LoginProviders = ({ loginWithTwitter, loginWithGoogle }) => {
 
 LoginProviders.propTypes = {
 	loginWithTwitter: PropTypes.func.isRequired,
-	loginWithGoogle: PropTypes.func.isRequired
+	loginWithGoogle: PropTypes.func.isRequired,
 }
 
 export default LoginProviders
