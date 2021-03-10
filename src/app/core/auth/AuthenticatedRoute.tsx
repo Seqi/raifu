@@ -1,12 +1,12 @@
 import { useEffect, useContext, useRef, FC } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, RouteProps } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { LoadingOverlay } from 'app/shared/state'
 import { UserContext } from 'app/core/auth/contexts'
 
-type AuthenticatedRouteProps = {
-	onFail: () => void
+type AuthenticatedRouteProps = RouteProps & {
+	onFail: () => any
 	waitFor?: number
 }
 

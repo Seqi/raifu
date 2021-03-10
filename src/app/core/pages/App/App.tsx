@@ -1,6 +1,14 @@
-import React, { lazy, Suspense, useState, useCallback } from 'react'
-import { Link, Switch, Redirect } from 'react-router-dom'
-import { Box, Container, Tabs, Tab, useMediaQuery, styled } from '@material-ui/core'
+import React, { lazy, Suspense, useState, useCallback, FC } from 'react'
+import { Link, Switch, Redirect, RouteChildrenProps } from 'react-router-dom'
+import {
+	Box,
+	Container,
+	Tabs,
+	Tab,
+	useMediaQuery,
+	styled,
+	Theme,
+} from '@material-ui/core'
 
 import useRouteAnalytics from 'app/shared/hooks/useRouteAnalytics'
 import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
@@ -16,11 +24,14 @@ let PaddedContainer = styled(Container)(({ theme }) => ({
 	},
 }))
 
-let App = ({ history, location }) => {
+type AppProps = RouteChildrenProps
+
+const App: FC<AppProps> = ({ history, location }) => {
 	useRouteAnalytics()
 
 	let [tabIndex, setTabIndex] = useState(() => {
 		// Fixes active tab on direct navigations
+		// TODO: Just use a key/val?
 		let idxMap = [
 			{ path: '/armory', idx: 0 },
 			{ path: '/loadouts', idx: 1 },
@@ -40,7 +51,7 @@ let App = ({ history, location }) => {
 
 	let onAuthFailure = useCallback(() => history.push('/login'), [history])
 
-	let isMobile = useMediaQuery((theme) => theme.breakpoints.down('xs'))
+	let isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
 
 	return (
 		<React.Fragment>
