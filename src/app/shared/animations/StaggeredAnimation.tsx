@@ -1,22 +1,33 @@
-import React, { useCallback, useRef, useEffect } from 'react'
+import React, { useCallback, useRef, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 
-const StaggeredAnimation = ({ minInterval, maxDuration, freezeAfterInitial, children }) => {
+type StaggeredAnimationProps = {
+	minInterval?: number
+	maxDuration?: number
+	freezeAfterInitial?: boolean
+}
+
+const StaggeredAnimation: FC<StaggeredAnimationProps> = ({
+	minInterval,
+	maxDuration,
+	freezeAfterInitial,
+	children,
+}) => {
 	let childCount = React.Children.count(children)
 
-	let hasRendered = useRef(false)
+	let hasRendered = useRef<boolean>(false)
 	useEffect(() => {
 		hasRendered.current = true
 	}, [])
 
 	let getAnimationDelay = useCallback(
-		(childIndex) => {
+		(childIndex: number) => {
 			// If requested, once the initial animation has played out, we don't want to stagger anymore
 			if (freezeAfterInitial && hasRendered.current) {
 				return 0
 			}
 
-			let interval = minInterval
+			let interval = minInterval || 0.2
 
 			// If no max duration is specified, we can simply stagger without worrying
 			if (!maxDuration) {
@@ -25,7 +36,7 @@ const StaggeredAnimation = ({ minInterval, maxDuration, freezeAfterInitial, chil
 
 			// If the animation with the min interval will exceed the max duration,
 			// cut the interval length to fit
-			let animationWillExceedMaxDuration = childCount * minInterval > maxDuration
+			let animationWillExceedMaxDuration = childCount * interval > maxDuration
 
 			if (animationWillExceedMaxDuration) {
 				interval = maxDuration / childCount
@@ -36,23 +47,32 @@ const StaggeredAnimation = ({ minInterval, maxDuration, freezeAfterInitial, chil
 		[freezeAfterInitial, minInterval, maxDuration, childCount]
 	)
 
-	return React.Children.map(children, (child, index) =>
-		React.cloneElement(child, {
-			style: { transitionDelay: `${getAnimationDelay(index)}s` }
-		})
+	return (
+		<>
+			{' '}
+			{React.Children.map(children, (child, index) => {
+				if (!React.isValidElement(child)) {
+					return child
+				}
+
+				return React.cloneElement(child, {
+					style: { transitionDelay: `${getAnimationDelay(index)}s` },
+				})
+			})}
+		</>
 	)
 }
 
 StaggeredAnimation.propTypes = {
 	minInterval: PropTypes.number,
 	maxDuration: PropTypes.number,
-	freezeAfterInitial: PropTypes.bool.isRequired
+	freezeAfterInitial: PropTypes.bool,
 }
 
 StaggeredAnimation.defaultProps = {
 	minInterval: 0.2,
 	maxDuration: 0,
-	freezeAfterInitial: true
+	freezeAfterInitial: true,
 }
 
 export default StaggeredAnimation
