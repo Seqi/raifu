@@ -65,7 +65,9 @@ const brands = [
 	'Wei-E Tech',
 	'Well',
 	'Western Arms',
-	'WinGun'
-]
+	'WinGun',
+] as const
+
+export type Brand = typeof brands[number]
 
 export default brands

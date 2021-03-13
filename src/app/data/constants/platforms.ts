@@ -1,51 +1,6 @@
 const platforms = {
 	weapons: {
-		rifles: [
-			'M4',
-			'SCAR',
-			'AK47',
-			'G36',
-			'AR15',
-			'M16',
-			'HK416',
-			'ACR',
-			'AK12',
-			'AK74',
-			'AK74U',
-			'AR 9mm',
-			'AR .556',
-			'AR .308',
-			'AS Val',
-			'AUG',
-			'CZ 805',
-			'FAMAS',
-			'FAL',
-			'FNC',
-			'G3',
-			'Galil',
-			'HK33',
-			'HK417',
-			'L1A1',
-			'L85',
-			'M1 Garand',
-			'M14',
-			'M1918 BAR',
-			'Magpul PDR',
-			'SA80',
-			'SG553',
-			'SL8',
-			'SR-3M',
-			'SR-25',
-			'TAR-21',
-			'TK-45',
-			'Type 56',
-			'Type 64',
-			'Type 89',
-			'Type 95',
-			'Type 97',
-			'UAR',
-			'VZ.58'
-		],
+		rifles: ['M4', 'UAR', 'VZ.58'],
 		smgs: [
 			'MP5',
 			'MP7',
@@ -64,7 +19,7 @@ const platforms = {
 			'Scorpion EVO 3',
 			'Sterling',
 			'Thompson',
-			'Vityaz-SN'
+			'Vityaz-SN',
 		],
 		snipers: [
 			'ASW338LM',
@@ -80,9 +35,18 @@ const platforms = {
 			'STRIKER',
 			'SVD',
 			'VSR',
-			'VSS'
+			'VSS',
 		],
-		shotguns: ['AA-12', 'Benelli M4', 'KSG', 'M1014', 'M870', 'SAS-12', 'SPAS-12', 'STF-12'],
+		shotguns: [
+			'AA-12',
+			'Benelli M4',
+			'KSG',
+			'M1014',
+			'M870',
+			'SAS-12',
+			'SPAS-12',
+			'STF-12',
+		],
 		pistols: [
 			'G17',
 			'G18',
@@ -110,10 +74,10 @@ const platforms = {
 			'TT-33',
 			'USP',
 			'XDM',
-			'XP18'
+			'XP18',
 		],
 		support: ['M249', 'MG42', 'PKP', 'Trident LMG', 'Stoner', 'ZB26'],
-		launchers: ['Bazooka', 'GL06', 'GLM', 'M052', 'M79', 'RPG-7']
+		launchers: ['Bazooka', 'GL06', 'GLM', 'M052', 'M79', 'RPG-7'],
 	},
 	gear: {
 		protection: [
@@ -124,20 +88,27 @@ const platforms = {
 			'Half Face Mask',
 			'Shemagh',
 			'Knee Pads',
-			'Elbow Pads'
+			'Elbow Pads',
 		],
 		carriers: ['Chest Rig', 'Plate Carrier', 'Belt', 'Pouch'],
 		grenades: ['TRMR', 'Storm 360', 'Pyro/Strike', 'Claymore'],
 		holsters: ['Leg Holster', 'Retention Holster', 'Scabbard', 'Sling'],
 		communication: ['Radio', 'Headset'],
-		misc: ['GoPro', 'Knife', 'Battery']
+		misc: ['GoPro', 'Knife', 'Battery'],
 	},
 	attachments: {
 		sights: ['Red Dot', 'Reflex', 'Holographic', 'Telescopic', 'Iron Sights'],
 		barrel: ['Surpressor', 'Flash Hider', 'Tracer Unit'],
 		illumination: ['Pistol Torch', 'Flashlight', 'PEQ Box'],
 		underbarrel: ['Vertical Foregrip', 'Angled Foregrip', 'Bipod', 'Grenade Launcher'],
-		externals: ['Stock', 'Grip', 'Rail Riser', 'Rail System', 'Conversion Kit', 'Handguard Panel']
+		externals: [
+			'Stock',
+			'Grip',
+			'Rail Riser',
+			'Rail System',
+			'Conversion Kit',
+			'Handguard Panel',
+		],
 	},
 	clothing: {
 		footwear: ['Boots', 'Shoes'],
@@ -146,8 +117,20 @@ const platforms = {
 		jackets: ['Hoodie', 'Jacket', 'Smock', 'Sweatshirt'],
 		legs: ['Pants', 'Shorts'],
 		shirts: ['T-Shirt', 'Ubacs'],
-		suits: ['Gorka']
-	}
-}
+		suits: ['Gorka'],
+	},
+} as const
 
-export default platforms
+type _Platform = typeof platforms
+
+export type Category = keyof typeof platforms
+
+export type ArmoryItems<
+	C extends Category,
+	Type extends keyof _Platform[C]
+> = _Platform[C][Type]
+
+export type WeaponPlatform = keyof _Platform['weapons']
+export type AttachmentPlatform = keyof _Platform['attachments']
+export type GearPlatforms = keyof _Platform['gear']
+export type ClothingPlatform = keyof _
