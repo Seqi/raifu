@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 import useAnalytics from './useAnalytics'
 
-export default function useRouteAnalytics() {
+export default function useRouteAnalytics(): void {
 	let location = useLocation()
 	let analytics = useAnalytics()
 

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 
-let isPageAtBottom = () => {
+const isPageAtBottom = (): boolean => {
 	return window.scrollY + window.innerHeight >= document.body.offsetHeight
 }
 
-function useIsPageAtBottom() {
-	let [isAtBottom, setIsAtBottom] = useState(false)
+const useIsPageAtBottom = (): boolean => {
+	const [isAtBottom, setIsAtBottom] = useState<boolean>(false)
 
 	useEffect(() => {
-		let listener = () => {
+		const listener = () => {
 			let currentlyAtBottom = isPageAtBottom()
 
 			if (isAtBottom !== currentlyAtBottom) {
