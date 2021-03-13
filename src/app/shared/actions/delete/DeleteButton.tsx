@@ -1,14 +1,18 @@
-import React from 'react'
+import { FC, MouseEventHandler } from 'react'
 import PropTypes from 'prop-types'
 
 import { IconButton, styled } from '@material-ui/core'
 
 const DeleteButtonContainer = styled(IconButton)(({ theme }) => ({
 	fontSize: '1.1rem',
-	color: theme.palette.text.secondary
+	color: theme.palette.text.secondary,
 }))
 
-const DeleteButton = ({ onClick }) => {
+type DeleteButtonProps = {
+	onClick: MouseEventHandler<HTMLButtonElement>
+}
+
+const DeleteButton: FC<DeleteButtonProps> = ({ onClick }) => {
 	return (
 		<DeleteButtonContainer onClick={ onClick }>
 			<i className='fa fa-times' />
@@ -17,7 +21,7 @@ const DeleteButton = ({ onClick }) => {
 }
 
 DeleteButton.propTypes = {
-	onClick: PropTypes.func.isRequired
+	onClick: PropTypes.func.isRequired,
 }
 
 export default DeleteButton

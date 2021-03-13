@@ -9,8 +9,26 @@ import Button from '@material-ui/core/Button'
 
 import { Error } from 'app/shared/state'
 
-class ConfirmDeleteDialog extends React.PureComponent {
-	constructor(props) {
+type ConfirmDeleteDialogProps = {
+	verb?: string
+	title: string
+	isOpen: boolean
+	onConfirm: () => Promise<any>
+	onClose: () => any
+}
+
+type ConfirmDeleteDialogState = {
+	error: string | null
+	loading: boolean
+}
+
+class ConfirmDeleteDialog extends React.Component<
+	ConfirmDeleteDialogProps,
+	ConfirmDeleteDialogState
+> {
+	private isUnmounted: boolean = false
+
+	constructor(props: ConfirmDeleteDialogProps) {
 		super(props)
 
 		this.state = this.defaultState
@@ -20,7 +38,7 @@ class ConfirmDeleteDialog extends React.PureComponent {
 		this.isUnmounted = true
 	}
 
-	get defaultState() {
+	get defaultState(): ConfirmDeleteDialogState {
 		return { loading: false, error: null }
 	}
 
@@ -79,16 +97,17 @@ class ConfirmDeleteDialog extends React.PureComponent {
 	}
 }
 
-ConfirmDeleteDialog.propTypes = {
-	title: PropTypes.string.isRequired,
-	verb: PropTypes.oneOf(['Delete', 'Remove', PropTypes.string]),
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired,
-	onConfirm: PropTypes.func.isRequired,
-}
+// TODO: Can't get prop types working with ts class
+// ConfirmDeleteDialog.propTypes = {
+// 	title: PropTypes.string.isRequired,
+// 	verb: PropTypes.oneOf(['Delete', 'Remove', PropTypes.string]),
+// 	isOpen: PropTypes.bool.isRequired,
+// 	onClose: PropTypes.func.isRequired,
+// 	onConfirm: PropTypes.func.isRequired,
+// }
 
-ConfirmDeleteDialog.defaultProps = {
-	verb: 'Delete',
-}
+// ConfirmDeleteDialog.defaultProps = {
+// 	verb: 'Delete',
+// }
 
 export default ConfirmDeleteDialog

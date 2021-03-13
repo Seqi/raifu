@@ -1,11 +1,22 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Box } from '@material-ui/core'
 
 import { DeleteButton, ConfirmDeleteDialog } from 'app/shared/actions/delete'
 
-let Deletable = ({ dialogTitle, canDelete, onDelete, children }) => {
+type DeletableOverlayProps = {
+	dialogTitle: string
+	canDelete?: boolean
+	onDelete: () => Promise<any>
+}
+
+const DeletableOverlay: FC<DeletableOverlayProps> = ({
+	dialogTitle,
+	canDelete,
+	onDelete,
+	children,
+}) => {
 	let [isDialogOpen, setIsDialogOpen] = useState(false)
 
 	let onDeleteClicked = useCallback((event) => {
@@ -33,16 +44,14 @@ let Deletable = ({ dialogTitle, canDelete, onDelete, children }) => {
 	)
 }
 
-Deletable.propTypes = {
+DeletableOverlay.propTypes = {
 	dialogTitle: PropTypes.string.isRequired,
 	canDelete: PropTypes.bool,
 	onDelete: PropTypes.func.isRequired,
-	style: PropTypes.object
 }
 
-Deletable.defaultProps = {
+DeletableOverlay.defaultProps = {
 	canDelete: false,
-	style: {}
 }
 
-export default Deletable
+export default DeletableOverlay

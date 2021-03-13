@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC, MouseEventHandler } from 'react'
 import PropTypes from 'prop-types'
 
 import { Box, IconButton, styled } from '@material-ui/core'
@@ -12,15 +12,19 @@ const AddIconButton = styled(IconButton)(({ theme }) => ({
 	fontSize: '4rem',
 
 	'& i': {
-		color: theme.palette.primary.main
+		color: theme.palette.primary.main,
 	},
 	// Disable ripple properly
 	'&:hover': {
-		backgroundColor: 'initial'
-	}
+		backgroundColor: 'initial',
+	},
 }))
 
-function AddButton({ onClick }) {
+type AddButtonProps = {
+	onClick: MouseEventHandler<HTMLButtonElement>
+}
+
+const AddButton: FC<AddButtonProps> = ({ onClick }) => {
 	return (
 		<Box display='flex' flex='1' height='100%' position='relative'>
 			<AddIconButton onClick={ onClick }>
@@ -31,11 +35,7 @@ function AddButton({ onClick }) {
 }
 
 AddButton.propTypes = {
-	onClick: PropTypes.func
-}
-
-AddButton.defaultProps = {
-	onClick: () => {}
+	onClick: PropTypes.func.isRequired,
 }
 
 export default AddButton
