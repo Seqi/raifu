@@ -11,7 +11,8 @@ import {
 	ResourceCardHeader,
 	ResourceCardContent,
 } from './base/ResourceCard'
-import { Category, ArmoryItem } from '../models/armory-item'
+import { ArmoryItem } from '../models/armory-item'
+import { Category } from 'app/data/constants/platforms'
 
 const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	width: '220px',

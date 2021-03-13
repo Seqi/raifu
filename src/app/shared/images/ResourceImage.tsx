@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 
-import RotatedImage from './RotatedImage'
+import { Category, Platform } from 'app/data/constants/platforms'
 
-const defaults = {
+import RotatedImage from './RotatedImage'
+import { ArmoryItem } from '../models/armory-item'
+
+const defaults: {
+	[CKey in Category]: {
+		// TODO: Unsure why this is classed as unused?
+		// eslint-disable-next-line no-unused-vars
+		[PKey in Platform<CKey>]: string // TODO: Doesnt work with number indexer.. ArmoryItems<CKey, PKey>
+	}
+} = {
 	weapons: {
-		rifles: 'm4',
-		smgs: 'mp5',
-		shotguns: 'spas-12',
+		rifles: 'M4',
+		smgs: 'MP5',
+		shotguns: 'SPAS-12',
 		pistols: '1911',
-		launchers: 'gl06',
-		snipers: 'l96',
-		support: 'm249',
+		launchers: 'GL06',
+		snipers: 'L96',
+		support: 'M249',
 	},
 	attachments: {
 		barrel: 'surpressor',
@@ -39,8 +48,14 @@ const defaults = {
 	},
 }
 
-const loadImage = (resourceCategory, resourceType, resourcePlatform) => {
+// TODO: Restrict types maybe?
+const loadImage = (
+	resourceCategory: string,
+	resourceType: string,
+	resourcePlatform: string
+): string | undefined => {
 	try {
+		// TODO: Use esnext modules
 		return require(`assets/outlines/${resourceCategory}/${resourceType}/${resourcePlatform}.svg`)
 			.default
 	} catch {
@@ -48,8 +63,15 @@ const loadImage = (resourceCategory, resourceType, resourcePlatform) => {
 	}
 }
 
-export default function ResourceImage({ resourceType, resource, rotate }) {
-	let [image, setImage] = useState()
+type ResourceImageProps = {
+	resourceType: Category
+	resource: ArmoryItem
+	rotate?: boolean
+}
+
+const ResourceImage: FC<ResourceImageProps> = ({ resourceType, resource, rotate }) => {
+	// TODO: Type
+	let [image, setImage] = useState<any>()
 
 	useEffect(() => {
 		let formattedPlatform = resource.platform
@@ -68,7 +90,9 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 				// eslint-disable-next-line no-console
 				console.warn(`Type ${resourceType} is not a valid resource type.`)
 			} else {
-				const defaultPlatform = resourceTypeDefaults[resource.type]
+				// Hack: Can't get type conversion to work nice
+				const type = resource.type as keyof typeof resourceTypeDefaults
+				const defaultPlatform = resourceTypeDefaults[type]
 				img = loadImage(resourceType, resource.type, defaultPlatform)
 			}
 		}
@@ -90,14 +114,24 @@ export default function ResourceImage({ resourceType, resource, rotate }) {
 
 ResourceImage.propTypes = {
 	rotate: PropTypes.bool,
-	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'])
+	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
 		.isRequired,
 	resource: PropTypes.shape({
+		id: PropTypes.string.isRequired,
+		brand: PropTypes.string,
+		model: PropTypes.string,
+		nickname: PropTypes.string,
 		platform: PropTypes.string.isRequired,
 		type: PropTypes.string.isRequired,
+		createdAt: PropTypes.instanceOf(Date).isRequired,
+		updatedAt: PropTypes.instanceOf(Date).isRequired,
+		getTitle: PropTypes.func.isRequired,
+		getSubtitle: PropTypes.func.isRequired,
 	}).isRequired,
 }
 
 ResourceImage.defaultProps = {
 	rotate: false,
 }
+
+export default ResourceImage
