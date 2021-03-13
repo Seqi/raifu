@@ -1,10 +1,16 @@
-import React from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Button, useTheme } from '@material-ui/core'
 import AppOverlay from '../../utils/AppOverlay'
 
-function ErrorOverlay({ icon, message, onRetry }) {
+type ErrorOverlayProps = {
+	icon?: string
+	message?: string
+	onRetry?: () => any
+}
+
+const ErrorOverlay: FC<ErrorOverlayProps> = ({ icon, message, onRetry }) => {
 	let theme = useTheme()
 
 	return (
@@ -14,13 +20,15 @@ function ErrorOverlay({ icon, message, onRetry }) {
 					<i
 						style={ {
 							fontSize: '10rem',
-							color: theme.palette.background.paper
+							color: theme.palette.background.paper,
 						} }
 						className={ icon }
 					/>
 				</div>
 
-				<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>{message || 'An error occurred.'}</div>
+				<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>
+					{message || 'An error occurred.'}
+				</div>
 
 				{onRetry && (
 					<Button variant='outlined' color='primary' onClick={ onRetry }>
@@ -35,13 +43,13 @@ function ErrorOverlay({ icon, message, onRetry }) {
 ErrorOverlay.propTypes = {
 	icon: PropTypes.string,
 	message: PropTypes.string,
-	onRetry: PropTypes.func
+	onRetry: PropTypes.func,
 }
 
 ErrorOverlay.defaultProps = {
 	icon: 'far fa-dizzy',
 	message: '',
-	onRetry: null
+	onRetry: () => {},
 }
 
 export default ErrorOverlay

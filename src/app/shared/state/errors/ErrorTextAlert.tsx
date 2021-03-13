@@ -1,9 +1,15 @@
-import React from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Button, useTheme } from '@material-ui/core'
 
-function ErrorTextAlert({ error, onRetry, fillBackground }) {
+type ErrorTextAlertProps = {
+	error?: string
+	onRetry?: () => any
+	fillBackground?: boolean
+}
+
+const ErrorTextAlert: FC<ErrorTextAlertProps> = ({ error, onRetry, fillBackground }) => {
 	let theme = useTheme()
 
 	return (
@@ -19,10 +25,12 @@ function ErrorTextAlert({ error, onRetry, fillBackground }) {
 				fontSize: '1.2rem',
 				color: theme.palette.text.primary,
 				padding: '8px 0',
-				marginBottom: '8px'
+				marginBottom: '8px',
 			} }
 		>
-			<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>{error || 'An error occurred.'}</div>
+			<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>
+				{error || 'An error occurred.'}
+			</div>
 
 			{onRetry && (
 				<Button variant='outlined' color='primary' onClick={ onRetry }>
@@ -36,13 +44,13 @@ function ErrorTextAlert({ error, onRetry, fillBackground }) {
 ErrorTextAlert.propTypes = {
 	error: PropTypes.string,
 	onRetry: PropTypes.func,
-	fillBackground: PropTypes.bool
+	fillBackground: PropTypes.bool,
 }
 
 ErrorTextAlert.defaultProps = {
 	error: '',
-	onRetry: null,
-	fillBackground: false
+	onRetry: () => {},
+	fillBackground: false,
 }
 
 export default ErrorTextAlert
