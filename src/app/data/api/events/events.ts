@@ -4,23 +4,23 @@ import CloudFunction from '../cloud-function'
 
 const events = {
 	...base('events', Event),
-	setLoadout: (eventId, loadoutId) =>
+	setLoadout: (eventId: string, loadoutId: string) =>
 		new CloudFunction()
 			.path(`events/${eventId}/loadout/${loadoutId}`)
 			.post()
 			.then((result) => new Event(result)),
 
-	removeLoadout: (eventId) =>
+	removeLoadout: (eventId: string) =>
 		new CloudFunction()
 			.path(`events/${eventId}/loadout/remove`)
 			.post()
 			.then((result) => new Event(result)),
 
-	join: (eventId) => new CloudFunction()
+	join: (eventId: string) => new CloudFunction()
 		.path(`events/${eventId}/join`)
 		.post(),
 
-	leave: (id) => new CloudFunction()
+	leave: (id: string) => new CloudFunction()
 		.path(`events/${id}/leave`)
 		.post(),
 }

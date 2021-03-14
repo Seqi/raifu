@@ -1,12 +1,15 @@
 class Entity {
-	constructor(entity) {
+	// eslint-disable-next-line no-undef
+	[key: string]: any
+
+	constructor(entity: any) {
 		Object.keys(entity)
 			.forEach((key) => (this[key] = entity[key]))
 	}
 
 	getTitle = () => {
-		if (this.name) {
-			return this.name
+		if (this['name']) {
+			return this['name']
 		}
 
 		return this.nickname || `${this.platform} ${this.model}`
@@ -29,7 +32,7 @@ class Entity {
 	}
 }
 
-let toEntity = (entity) => {
+let toEntity = (entity: any) => {
 	// Don't convert any non-objects
 	if (entity === null || typeof entity !== 'object') {
 		return entity

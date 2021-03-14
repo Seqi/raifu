@@ -1,7 +1,10 @@
 import { toEntity } from './entity.model'
 
 class Event {
-	constructor(entity) {
+	// eslint-disable-next-line no-undef
+	[key: string]: any
+
+	constructor(entity: any) {
 		this.id = entity.id
 		this.name = entity.name
 		this.location = entity.location

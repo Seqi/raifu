@@ -7,14 +7,15 @@ import loadoutClothing from './loadout-clothing'
 
 const loadouts = {
 	...base('loadouts'),
-	loadout: (loadoutId) => ({
-		share: (isShared) => new CloudFunction()
-			.path(`/loadouts/${loadoutId}/share`)
-			.post({ shared: isShared }),
+	loadout: (loadoutId: string) => ({
+		share: (isShared: boolean) =>
+			new CloudFunction()
+				.path(`/loadouts/${loadoutId}/share`)
+				.post({ shared: isShared }),
 		weapons: loadoutWeapons(loadoutId),
 		gear: loadoutGear(loadoutId),
-		clothing: loadoutClothing(loadoutId)
-	})
+		clothing: loadoutClothing(loadoutId),
+	}),
 }
 
 export default loadouts
