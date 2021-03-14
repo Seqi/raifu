@@ -10,6 +10,7 @@ import {
 	ResourceCard,
 	ResourceCardHeader,
 	ResourceCardContent,
+	ResourceCardProps,
 } from './base/ResourceCard'
 import { ArmoryItem } from '../models/armory-item'
 import { Category } from 'app/data/constants/platforms'
@@ -27,13 +28,9 @@ const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	},
 }))
 
-export type ArmoryCardProps = {
+export type ArmoryCardProps = ResourceCardProps & {
 	item: ArmoryItem
 	category: Category
-	canDelete?: boolean
-	onClick?: MouseEventHandler<HTMLDivElement>
-	onDelete?: () => Promise<any>
-	className?: string
 }
 
 export type ArmoryCardLike = FC<ArmoryCardProps> & {

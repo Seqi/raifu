@@ -1,13 +1,41 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { Grid, Fade } from '@material-ui/core'
 
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 import AddButton from 'app/shared/actions/add/AddButton'
+import { ResourceCardLike } from '../cards/base/ResourceCard'
+import { Resource } from '../models/resource'
 
-const ResourceList = ({ renderAddDialog, items, card, onResourceClick, addResource, deleteResource, fullWidth }) => {
-	let [dialog, setDialog] = useState(null)
+type AddResourceDialogProps = {
+	isOpen: boolean
+	onClose: () => void
+	onSave: (resource: Resource) => any
+}
+
+export type ResourceListProps<R extends Resource = Resource> = {
+	renderAddDialog: (
+		props: AddResourceDialogProps
+	) => React.ComponentType<AddResourceDialogProps>
+	items: R[]
+	card: ResourceCardLike
+	onResourceClick: (item: R) => any
+	addResource: (resource: R) => any
+	deleteResource: (id: string) => any
+	fullWidth?: boolean
+}
+
+const ResourceList: FC<ResourceListProps> = ({
+	renderAddDialog,
+	items,
+	card,
+	onResourceClick,
+	addResource,
+	deleteResource,
+	fullWidth,
+}) => {
+	let [dialog, setDialog] = useState<'add' | null>(null)
 
 	return (
 		<React.Fragment>
@@ -20,7 +48,7 @@ const ResourceList = ({ renderAddDialog, items, card, onResourceClick, addResour
 									item: item,
 									canDelete: true,
 									onClick: () => onResourceClick(item),
-									onDelete: (e) => deleteResource(item.id)
+									onDelete: () => deleteResource(item.id),
 								})}
 							</Grid>
 						</Fade>
@@ -28,7 +56,11 @@ const ResourceList = ({ renderAddDialog, items, card, onResourceClick, addResour
 
 					<Fade key='add' in={ true } timeout={ 1000 }>
 						<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
-							{React.createElement(card.template, {}, <AddButton onClick={ () => setDialog('add') } />)}
+							{React.createElement(
+								card.template,
+								{},
+								<AddButton onClick={ () => setDialog('add') } />
+							)}
 						</Grid>
 					</Fade>
 				</StaggeredAnimation>
@@ -37,7 +69,7 @@ const ResourceList = ({ renderAddDialog, items, card, onResourceClick, addResour
 			{renderAddDialog({
 				isOpen: dialog === 'add',
 				onClose: () => setDialog(null),
-				onSave: addResource
+				onSave: addResource,
 			})}
 		</React.Fragment>
 	)
@@ -47,16 +79,15 @@ ResourceList.propTypes = {
 	renderAddDialog: PropTypes.func.isRequired,
 
 	items: PropTypes.array.isRequired,
-	card: PropTypes.func.isRequired,
-	onResourceClick: PropTypes.func,
+	card: PropTypes.any.isRequired,
+	onResourceClick: PropTypes.func.isRequired,
 	addResource: PropTypes.func.isRequired,
 	deleteResource: PropTypes.func.isRequired,
-	fullWidth: PropTypes.bool
+	fullWidth: PropTypes.bool,
 }
 
 ResourceList.defaultProps = {
-	onResourceClick: (resource) => {},
-	fullWidth: false
+	fullWidth: false,
 }
 
 export default ResourceList

@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import React, { FC, MouseEventHandler } from 'react'
 import {
 	Card,
 	CardHeader,
@@ -7,7 +8,6 @@ import {
 	withStyles,
 	CardHeaderProps,
 } from '@material-ui/core'
-import { FC } from 'react'
 
 import { Resource } from '../../models/resource'
 
@@ -18,6 +18,18 @@ export const ResourceCard = styled(Card)({
 
 	transition: 'transform ease-in 0.15s',
 })
+
+export type ResourceCardProps = {
+	item: Resource
+	canDelete?: boolean
+	onClick?: MouseEventHandler<HTMLDivElement>
+	onDelete?: () => Promise<any>
+	className?: string
+}
+
+export type ResourceCardLike = FC<ResourceCardProps> & {
+	template: React.ComponentType<any>
+}
 
 export type ResourceCardHeaderProps = Omit<CardHeaderProps, 'resource'> & {
 	resource: Resource
