@@ -13,19 +13,22 @@ import {
 } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
-import { ResourceList } from 'app/shared/resources'
+import {
+	ResourceListContainer as ResourceList,
+	ResourceListContainerProps,
+} from 'app/shared/resources'
 import { WeaponCard, AttachmentCard, GearCard, ClothingCard } from 'app/shared/cards'
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
 
 const defaultState = { armory: null, loading: true, error: false }
 
-const armorySections = [
+const armorySections: Partial<ResourceListContainerProps>[] = [
 	{
 		resource: weapons,
-		resourceKey: 'weapons',
+		resourceName: 'weapons',
 		card: WeaponCard,
-		renderDialog: (props) => (
+		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
 				resourceTitle='weapon'
@@ -36,9 +39,9 @@ const armorySections = [
 	},
 	{
 		resource: attachments,
-		resourceKey: 'attachments',
+		resourceName: 'attachments',
 		card: AttachmentCard,
-		renderDialog: (props) => (
+		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
 				resourceTitle='attachment'
@@ -49,9 +52,9 @@ const armorySections = [
 	},
 	{
 		resource: gear,
-		resourceKey: 'gear',
+		resourceName: 'gear',
 		card: GearCard,
-		renderDialog: (props) => (
+		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
 				resourceTitle='gear'
@@ -62,9 +65,9 @@ const armorySections = [
 	},
 	{
 		resource: clothing,
-		resourceKey: 'clothing',
+		resourceName: 'clothing',
 		card: ClothingCard,
-		renderDialog: (props) => (
+		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
 				resourceTitle='clothing'
@@ -89,19 +92,27 @@ let ResourceTitle = styled(Typography)(({ theme }) => ({
 	},
 }))
 
+type ArmoryState = { armory: any; loading: boolean; error: boolean }
+
 export default function Armory() {
-	let [{ armory, loading, error }, setArmory] = useState(defaultState)
+	let [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
 
 	let mounted = useRef(true)
-	useEffect(() => () => (mounted.current = false), [])
+	useEffect(() => {
+		return () => {
+			mounted.current = false
+		}
+	}, [])
 
 	let loadArmory = useCallback(() => {
 		setArmory(defaultState)
 
 		armoryService
 			.get()
-			.then((result) => mounted && setArmory({ armory: result, loading: false }))
-			.catch((e) => mounted && setArmory({ error: true, loading: false }))
+			.then(
+				(result) => mounted && setArmory({ armory: result, loading: false, error: false })
+			)
+			.catch((e) => mounted && setArmory({ error: true, loading: false, armory: null }))
 	}, [])
 
 	useEffect(() => {
@@ -124,15 +135,16 @@ export default function Armory() {
 	return (
 		<React.Fragment>
 			{armorySections.map((armorySection) => (
-				<ResourceListContainer component='section' key={ armorySection.resourceKey }>
-					<ResourceTitle variant='h3'>{armorySection.resourceKey}</ResourceTitle>
+				<ResourceListContainer component='section' key={ armorySection.resourceName }>
+					<ResourceTitle variant='h3'>{armorySection.resourceName}</ResourceTitle>
 
 					<ResourceList
-						items={ armory[armorySection.resourceKey] }
+						items={ armory[armorySection.resourceName!] }
 						resource={ armorySection.resource }
-						resourceName={ armorySection.resourceKey }
-						card={ armorySection.card }
-						renderAddDialog={ armorySection.renderDialog }
+						resourceName={ armorySection.resourceName! }
+						card={ armorySection.card! }
+						renderAddDialog={ armorySection.renderAddDialog! }
+						onResourceClick={ () => {} } //No-op
 					/>
 				</ResourceListContainer>
 			))}

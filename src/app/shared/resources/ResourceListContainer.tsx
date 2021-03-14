@@ -5,7 +5,7 @@ import ResourceList, { ResourceListProps } from './ResourceList'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { Resource } from '../models/resource'
 
-type ResourceListContainerProps = Omit<
+export type ResourceListContainerProps = Omit<
 	ResourceListProps,
 	'addResource' | 'deleteResource'
 > & {
@@ -13,7 +13,7 @@ type ResourceListContainerProps = Omit<
 	resourceName: string
 }
 
-const ResourceListContainer: FC<ResourceListContainerProps> = ({
+export const ResourceListContainer: FC<ResourceListContainerProps> = ({
 	resource,
 	resourceName,
 	items,

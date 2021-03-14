@@ -1,1 +1,1 @@
-export { default as ResourceList } from './ResourceListContainer'
+export * from './ResourceListContainer'

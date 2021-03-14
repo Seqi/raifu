@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 
@@ -16,8 +16,16 @@ import { Error } from 'app/shared/state'
 import ResourceSelect from 'app/shared/resources/ResourceSelect'
 
 import { brands } from 'app/data/constants'
+import { AddResourceDialogProps } from 'app/shared/resources/ResourceList'
+import { Category } from 'app/data/constants/platforms'
 
-const AddArmoryItemDialog = ({
+type AddArmoryItemProps = AddResourceDialogProps & {
+	resourceTitle: string
+	resourceKey: Category
+	resourceName: string
+}
+
+const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 	resourceTitle,
 	resourceKey,
 	resourceName,
@@ -25,7 +33,7 @@ const AddArmoryItemDialog = ({
 	onSave,
 	onClose,
 }) => {
-	let [error, setError] = useState(null)
+	let [error, setError] = useState<string | null>(null)
 	let { register, unregister, setValue, handleSubmit, formState } = useForm({
 		mode: 'onChange',
 	})
@@ -48,7 +56,7 @@ const AddArmoryItemDialog = ({
 		(resource) => {
 			return onSave(resource)
 				.then(onClose)
-				.catch((err) => setError('An error occurred while adding.'))
+				.catch((err: any) => setError('An error occurred while adding.'))
 		},
 		[onClose, onSave]
 	)
@@ -80,7 +88,7 @@ const AddArmoryItemDialog = ({
 					/>
 
 					<Autocomplete
-						options={ brands }
+						options={ brands.slice() }
 						freeSolo={ true }
 						renderInput={ (params) => (
 							<TextField
@@ -129,7 +137,8 @@ const AddArmoryItemDialog = ({
 
 AddArmoryItemDialog.propTypes = {
 	resourceTitle: PropTypes.string.isRequired,
-	resourceKey: PropTypes.string.isRequired,
+	resourceKey: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
+		.isRequired,
 	resourceName: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
