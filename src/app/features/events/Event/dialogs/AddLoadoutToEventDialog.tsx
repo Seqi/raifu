@@ -1,15 +1,54 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, MenuItem, TextField, Button } from '@material-ui/core'
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	MenuItem,
+	TextField,
+	Button,
+} from '@material-ui/core'
 
 import { loadouts as loadoutService } from 'app/data/api'
 import { Loading, Error } from 'app/shared/state'
+import { Loadout } from 'app/shared/models/loadout'
 
-export default function AddLoadoutToEventDialog({ eventTitle, isOpen, onSave, onClose }) {
-	let [loadouts, setLoadouts] = useState({ data: [], loading: true, error: null })
-	let [loadoutId, setLoadoutId] = useState('')
-	let [submitState, setSubmitState] = useState({ submitting: false, error: false })
+type AddLoadoutToEventDialogProps = {
+	eventTitle: string
+	isOpen: boolean
+	onSave: (loadoutId: string) => Promise<any>
+	onClose: () => any
+}
+
+type LoadoutFetchState = {
+	data: Loadout[]
+	loading: boolean
+	error: string | null
+}
+
+type SubmissionState = {
+	submitting: boolean
+	error: boolean
+}
+
+const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
+	eventTitle,
+	isOpen,
+	onSave,
+	onClose,
+}) => {
+	let [loadouts, setLoadouts] = useState<LoadoutFetchState>({
+		data: [],
+		loading: true,
+		error: null,
+	})
+	let [loadoutId, setLoadoutId] = useState<string>('')
+	let [submitState, setSubmitState] = useState<SubmissionState>({
+		submitting: false,
+		error: false,
+	})
 
 	useEffect(() => {
 		loadLoadouts()
@@ -24,12 +63,16 @@ export default function AddLoadoutToEventDialog({ eventTitle, isOpen, onSave, on
 				setLoadouts({ data: loadouts, loading: false, error: null })
 			})
 			.catch((err) => {
-				setLoadouts({ data: [], loading: false, error: 'An error occurred while loading available loadouts.' })
+				setLoadouts({
+					data: [],
+					loading: false,
+					error: 'An error occurred while loading available loadouts.',
+				})
 			})
 	}
 
 	let save = () => {
-		setSubmitState({ submitting: true, error: null })
+		setSubmitState({ submitting: true, error: false })
 
 		onSave(loadoutId)
 			.catch((err) => setSubmitState({ submitting: false, error: true }))
@@ -39,10 +82,15 @@ export default function AddLoadoutToEventDialog({ eventTitle, isOpen, onSave, on
 		<Dialog fullWidth={ true } open={ isOpen }>
 			<DialogTitle>Set loadout for {eventTitle}</DialogTitle>
 			<DialogContent>
-				{loadouts.error && !loadouts.loading && <Error error={ loadouts.error } onRetry={ loadLoadouts } />}
+				{loadouts.error && !loadouts.loading && (
+					<Error error={ loadouts.error } onRetry={ loadLoadouts } />
+				)}
 				{loadouts.loading && !loadouts.error && <Loading />}
 				{submitState.error && (
-					<Error error={ 'An error occurred while adding loadout to event.' } fillBackground={ true } />
+					<Error
+						error={ 'An error occurred while adding loadout to event.' }
+						fillBackground={ true }
+					/>
 				)}
 
 				{!loadouts.error && !loadouts.loading && (
@@ -82,5 +130,7 @@ AddLoadoutToEventDialog.propTypes = {
 	eventTitle: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired
+	onSave: PropTypes.func.isRequired,
 }
+
+export default AddLoadoutToEventDialog

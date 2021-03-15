@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { FC } from 'react'
 import PropTypes from 'prop-types'
-import * as moment from 'moment'
+import moment from 'moment'
 
 import { Box, Tooltip, Chip } from '@material-ui/core'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
+import Event from 'app/shared/models/event'
 
-function EventHeader({ event }) {
+type EventHeaderProps = {
+	event: Event
+}
+
+const EventHeader: FC<EventHeaderProps> = ({ event }) => {
 	const eventDate = moment(event.date)
 
 	return (
@@ -20,7 +25,10 @@ function EventHeader({ event }) {
 							<Chip label='Public' size='small' color='primary' />
 						</Tooltip>
 					) : (
-						<Tooltip placement='right' title='Only current event attendees can see this event.'>
+						<Tooltip
+							placement='right'
+							title='Only current event attendees can see this event.'
+						>
 							<Chip label='Private' size='small' variant='outlined' color='primary' />
 						</Tooltip>
 					)}
@@ -41,10 +49,20 @@ export default EventHeader
 
 EventHeader.propTypes = {
 	event: PropTypes.shape({
+		id: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
-		public: PropTypes.bool.isRequired,
+		date: PropTypes.instanceOf(Date).isRequired,
 		location: PropTypes.string.isRequired,
-		date: PropTypes.object.isRequired,
-		getTitle: PropTypes.func.isRequired
-	}).isRequired
+		organiser_uid: PropTypes.string.isRequired,
+		public: PropTypes.bool.isRequired,
+		createdAt: PropTypes.instanceOf(Date).isRequired,
+		updatedAt: PropTypes.instanceOf(Date).isRequired,
+		owner: PropTypes.string.isRequired,
+		isGroup: PropTypes.bool.isRequired,
+
+		users: PropTypes.array.isRequired,
+
+		getTitle: PropTypes.func.isRequired,
+		getSubtitle: PropTypes.func.isRequired,
+	}).isRequired,
 }

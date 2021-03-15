@@ -1,12 +1,25 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import EventMyLoadout from './components/EventMyLoadout'
 import EventGuestLoadout from './components/EventGuestLoadout'
 import EventInvite from './components/EventInvite'
 import EventUserSelect from './components/EventUserSelect'
+import Event from 'app/shared/models/event'
 
-const EventContent = ({ event, onEventJoined, onLoadoutRemoved, onLoadoutAdded }) => {
+type EventContentProps = {
+	event: Event
+	onEventJoined: () => any
+	onLoadoutRemoved: () => any
+	onLoadoutAdded: (id: string) => any
+}
+
+const EventContent: FC<EventContentProps> = ({
+	event,
+	onEventJoined,
+	onLoadoutRemoved,
+	onLoadoutAdded,
+}) => {
 	let [selectedUserIndex, setSelectedUserIndex] = useState(0)
 
 	const selectedUser = event.users[selectedUserIndex]
@@ -42,12 +55,26 @@ const EventContent = ({ event, onEventJoined, onLoadoutRemoved, onLoadoutAdded }
 
 EventContent.propTypes = {
 	event: PropTypes.shape({
-		users: PropTypes.array.isRequired
+		id: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired,
+		date: PropTypes.instanceOf(Date).isRequired,
+		location: PropTypes.string.isRequired,
+		organiser_uid: PropTypes.string.isRequired,
+		public: PropTypes.bool.isRequired,
+		createdAt: PropTypes.instanceOf(Date).isRequired,
+		updatedAt: PropTypes.instanceOf(Date).isRequired,
+		owner: PropTypes.string.isRequired,
+		isGroup: PropTypes.bool.isRequired,
+
+		users: PropTypes.array.isRequired,
+
+		getTitle: PropTypes.func.isRequired,
+		getSubtitle: PropTypes.func.isRequired,
 	}).isRequired,
 
 	onEventJoined: PropTypes.func.isRequired,
 	onLoadoutAdded: PropTypes.func.isRequired,
-	onLoadoutRemoved: PropTypes.func.isRequired
+	onLoadoutRemoved: PropTypes.func.isRequired,
 }
 
 export default EventContent

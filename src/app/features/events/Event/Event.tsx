@@ -8,11 +8,24 @@ import EventContent from './EventContent'
 import EventActions from './EventActions'
 
 import { events } from 'app/data/api'
+import { Event as EventModel } from 'app/shared/models/event'
+import { RouteChildrenProps } from 'react-router'
+import { EventUpdate } from '../EditEventDialog'
 
 let analytics = firebase.analytics()
 
-class Event extends React.Component {
-	constructor(props) {
+type EventProps = RouteChildrenProps<{ id: string }>
+
+type EventState = {
+	loading: boolean
+	error: any
+	event: EventModel | null
+}
+
+class Event extends React.Component<EventProps, EventState> {
+	private isUnmounted: boolean = false
+
+	constructor(props: EventProps) {
 		super(props)
 
 		this.state = {
@@ -20,27 +33,6 @@ class Event extends React.Component {
 			error: null,
 			event: null,
 		}
-	}
-
-	get rawEvent() {
-		let event = this.state.event
-
-		// Filter out any functions or joins before passing back up to api
-		return Object.keys(event)
-			.reduce(
-				(p, c) => {
-					if (
-						typeof event[c] !== 'function' &&
-					typeof event[c] !== 'object' &&
-					c !== 'loadout'
-					) {
-						p[c] = event[c]
-					}
-
-					return p
-				},
-				{ loadout_id: event.loadout ? event.loadout.id : null }
-			)
 	}
 
 	componentDidMount() {
@@ -54,9 +46,7 @@ class Event extends React.Component {
 	loadEvent() {
 		this.setState({ event: null, loading: true, error: null }, () => {
 			events
-				.getById(this.props.match.params.id)
-				// Convert from JSON date format
-				.then(this.formatEvent)
+				.getById(this.props.match!.params.id)
 				.then((event) => {
 					if (!this.isUnmounted) {
 						this.setState({ event: event, loading: false })
@@ -70,23 +60,26 @@ class Event extends React.Component {
 		})
 	}
 
-	updateEvent(event) {
-		let updatedEvent = {
-			...event,
-			// Firebase functions don't like date objects...
-			date: event.date && event.date.toISOString(),
+	updateEvent(event: EventUpdate) {
+		const update = {
+			name: event.name,
+			location: event.location,
+			date: event.date?.toISOString(),
+			public: event.public,
+			loadout_id: event.loadout?.id,
 		}
 
 		return events
-			.edit(this.state.event.id, updatedEvent)
+			.edit(this.state.event!.id, update)
 			.then(() =>
-				this.setState((prevState) => {
+				// TODO: Type
+				this.setState((prevState: any) => {
 					return {
 						event: {
 							...prevState.event,
 							...event,
 							date: new Date(event.date),
-							loadout: prevState.event.loadout,
+							loadout: prevState.event?.loadout,
 						},
 					}
 				})
@@ -95,9 +88,9 @@ class Event extends React.Component {
 				let analyticsEvent
 				let prevEvent = this.state.event
 
-				if (!prevEvent.public && updatedEvent.public) {
+				if (!prevEvent!.public && update.public) {
 					analyticsEvent = 'event_public'
-				} else if (prevEvent.public && !updatedEvent.public) {
+				} else if (prevEvent!.public && !update.public) {
 					analyticsEvent = 'event_private'
 				} else {
 					analyticsEvent = 'event_updated'
@@ -109,33 +102,36 @@ class Event extends React.Component {
 
 	deleteEvent() {
 		return events
-			.delete(this.state.event.id)
+			.delete(this.state.event!.id)
 			.then(() => analytics.logEvent('event_deleted'))
 			.then(() => this.props.history.push('/events'))
 	}
 
 	leaveEvent() {
 		return events
-			.leave(this.state.event.id)
+			.leave(this.state.event!.id)
 			.then(() => analytics.logEvent('event_left'))
 			.then(() => this.props.history.push('/events'))
 	}
 
-	setLoadout(loadoutId) {
-		let eventId = this.state.event.id
+	setLoadout(loadoutId: string) {
+		let eventId = this.state.event!.id
 
-		return events
-			.setLoadout(eventId, loadoutId)
-			.then((event) => this.setState({ event }))
-			.then(() => analytics.logEvent('event_loadout_added'))
+		return (
+			events
+				.setLoadout(eventId, loadoutId)
+				// TODO: Fix type
+				.then((event: any) => this.setState({ event }))
+				.then(() => analytics.logEvent('event_loadout_added'))
+		)
 	}
 
 	removeLoadout() {
-		let eventId = this.state.event.id
+		let eventId = this.state.event!.id
 
 		return events
 			.removeLoadout(eventId)
-			.then((event) => this.setState({ event }))
+			.then((event: any) => this.setState({ event }))
 			.then(() => analytics.logEvent('event_loadout_removed'))
 	}
 
@@ -158,17 +154,17 @@ class Event extends React.Component {
 
 		return (
 			<React.Fragment>
-				<EventHeader event={ event } />
+				<EventHeader event={ event! } />
 
 				<EventContent
-					event={ event }
+					event={ event! }
 					onEventJoined={ () => this.loadEvent() }
-					onLoadoutAdded={ (loadoutId) => this.setLoadout(loadoutId) }
+					onLoadoutAdded={ (loadoutId: string) => this.setLoadout(loadoutId) }
 					onLoadoutRemoved={ () => this.removeLoadout() }
 				/>
 
 				<EventActions
-					event={ event }
+					event={ event! }
 					updateEvent={ (evt) => this.updateEvent(evt) }
 					deleteEvent={ () => this.deleteEvent() }
 					leaveEvent={ () => this.leaveEvent() }

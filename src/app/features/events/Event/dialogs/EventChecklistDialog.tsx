@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -8,47 +8,53 @@ import {
 	DialogActions,
 	Button,
 	Checkbox,
-	FormControlLabel
+	FormControlLabel,
 } from '@material-ui/core'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
+import { Loadout, LoadoutWeapon } from 'app/shared/models/loadout'
+import { Attachment, Gear } from 'app/shared/models/armory-item'
+import { Resource } from 'app/shared/models/resource'
 
-let checkboxListStyle = {
+// TODO: Styled components
+const checkboxListStyle: React.CSSProperties = {
 	display: 'flex',
-	flexDirection: 'column'
+	flexDirection: 'column',
 }
 
-const EventChecklistDialog = ({ title, loadout, isOpen, onClose }) => {
+type EventChecklistDialogProps = {
+	title: string
+	loadout: Loadout
+	isOpen: boolean
+	onClose: () => any
+}
+
+const EventChecklistDialog: FC<EventChecklistDialogProps> = ({
+	title,
+	loadout,
+	isOpen,
+	onClose,
+}) => {
 	let analytics = useAnalytics()
 	useEffect(() => {
 		analytics.logEvent('view_event_checklist')
 	}, [analytics])
 
-	function getAllWeapons(loadout) {
+	function getAllWeapons(loadout: Loadout): LoadoutWeapon[] {
 		return loadout.weapons || []
 	}
 
-	function getAllAttachments(loadout) {
-		let attachments = []
-
-		if (loadout.weapons) {
-			loadout.weapons.forEach((weapon) => {
-				if (weapon.attachments) {
-					weapon.attachments.forEach((attachment) => attachments.push(attachment))
-				}
-			})
-		}
-
-		return attachments
+	function getAllAttachments(loadout: Loadout): Attachment[] {
+		return loadout.weapons.flatMap((l) => l.attachments)
 	}
 
-	function getAllGear(loadout) {
+	function getAllGear(loadout: Loadout): Gear[] {
 		return loadout.gear || []
 	}
 
 	// eslint-disable-next-line react/no-multi-comp
-	function toCheckbox(item, index) {
+	function toCheckbox(item: Resource, index: number) {
 		return <FormControlLabel key={ index } label={ item.getTitle() } control={ <Checkbox /> } />
 	}
 
@@ -95,9 +101,9 @@ const EventChecklistDialog = ({ title, loadout, isOpen, onClose }) => {
 
 EventChecklistDialog.propTypes = {
 	title: PropTypes.string.isRequired,
-	loadout: PropTypes.object.isRequired,
+	loadout: PropTypes.any.isRequired,
 	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired
+	onClose: PropTypes.func.isRequired,
 }
 
 export default EventChecklistDialog

@@ -9,6 +9,7 @@
 		"@material-ui/lab": "^4.0.0-alpha.42",
 		"@material-ui/pickers": "^3.2.6",
 		"@types/marked": "^2.0.0",
+		"@types/moment": "^2.13.0",
 		"@types/node": "^14.14.32",
 		"@types/react": "^17.0.1",
 		"@types/react-dom": "^17.0.1",

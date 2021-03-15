@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
@@ -7,14 +7,29 @@ import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
-import EditEventDialog from '../EditEventDialog'
+import EditEventDialog, { EventUpdate } from '../EditEventDialog'
+import Event from 'app/shared/models/event'
 
-let getMyLoadout = (event) => {
+let getMyLoadout = (event: Event) => {
 	return event.users.length > 0 && event.users[0].loadout
 }
 
-function EventActions({ event, updateEvent, deleteEvent, leaveEvent }) {
-	let [dialog, setDialog] = useState()
+type EventActionsProps = {
+	event: Event
+	updateEvent: (event: EventUpdate) => any
+	deleteEvent: () => any
+	leaveEvent: () => any
+}
+
+type EventActionsDialogs = 'edit' | 'delete' | 'leave' | 'checklist' | null
+
+const EventActions: FC<EventActionsProps> = ({
+	event,
+	updateEvent,
+	deleteEvent,
+	leaveEvent,
+}) => {
+	let [dialog, setDialog] = useState<EventActionsDialogs>(null)
 	let [speedDialOpen, setSpeedDialOpen] = useState(false)
 
 	let isAtBottom = useIsPageAtBottom()
@@ -120,7 +135,7 @@ function EventActions({ event, updateEvent, deleteEvent, leaveEvent }) {
 export default EventActions
 
 EventActions.propTypes = {
-	event: PropTypes.object.isRequired,
+	event: PropTypes.any.isRequired,
 	updateEvent: PropTypes.func.isRequired,
 	deleteEvent: PropTypes.func.isRequired,
 	leaveEvent: PropTypes.func.isRequired,
