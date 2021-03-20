@@ -1,25 +1,56 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions, Button } from '@material-ui/core'
+import {
+	Dialog,
+	DialogTitle,
+	DialogContentText,
+	DialogContent,
+	DialogActions,
+	Button,
+} from '@material-ui/core'
 
 import { Loading, Error } from 'app/shared/state'
 import ResourceSelect from './ResourceSelect'
+import { Category } from 'app/data/constants/platforms'
+import { Resource, ResourcePropShape } from 'app/shared/models/resource'
 
-class AddResourceDialog extends Component {
-	constructor(props) {
+type AddResourceDialogProps = {
+	items: Resource[]
+	title: string
+	category: Category
+	isOpen: boolean
+	onSave: (ids: string | string[]) => Promise<any>
+	onClose: () => void
+	allowMultiple?: boolean
+}
+
+type AddResourceDialogState = {
+	selectedIds: string[]
+	loading: boolean
+	error: string | null
+}
+
+class AddResourceDialog extends Component<
+	AddResourceDialogProps,
+	AddResourceDialogState
+> {
+	private isUnmounted: boolean = false
+
+	constructor(props: AddResourceDialogProps) {
 		super(props)
 		this.state = {
 			selectedIds: [],
 			loading: false,
-			error: null
+			error: null,
 		}
 	}
 
 	componentWillUnmount = () => (this.isUnmounted = true)
 
-	onItemSelected(itemId) {
+	onItemSelected(itemId: string): void {
 		this.setState(({ selectedIds }) => {
+			// TODO: Maybe just use sets?
 			let selectedItemIndex = selectedIds.findIndex((id) => id === itemId)
 
 			let newSelectedIds = [...selectedIds]
@@ -41,23 +72,25 @@ class AddResourceDialog extends Component {
 		})
 	}
 
-	formValid() {
+	formValid(): boolean {
 		return this.state.selectedIds.length > 0
 	}
 
-	onSave(itemIds) {
+	onSave(itemIds: string[]) {
 		let data = this.props.allowMultiple ? itemIds : itemIds[0]
 
-		this.setState({ loading: true, error: false }, () => {
+		this.setState({ loading: true, error: null }, () => {
 			this.props
 				.onSave(data)
-				.then(() => !this.isUnmounted && this.setState({ selectedIds: [], loading: false }))
+				.then(
+					() => !this.isUnmounted && this.setState({ selectedIds: [], loading: false })
+				)
 				.catch(
 					(err) =>
 						!this.isUnmounted &&
 						this.setState({
 							loading: false,
-							error: `An error occurred while saving ${this.props.category}.`
+							error: `An error occurred while saving ${this.props.category}.`,
 						})
 				)
 		})
@@ -102,24 +135,21 @@ class AddResourceDialog extends Component {
 			</Dialog>
 		)
 	}
-}
 
-AddResourceDialog.propTypes = {
-	title: PropTypes.string.isRequired,
-	items: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired
-		})
-	).isRequired,
-	category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing']).isRequired,
-	allowMultiple: PropTypes.bool,
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired
-}
+	public static propTypes = {
+		title: PropTypes.string.isRequired,
+		items: PropTypes.arrayOf(PropTypes.shape(ResourcePropShape)).isRequired,
+		category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
+			.isRequired,
+		allowMultiple: PropTypes.bool,
+		isOpen: PropTypes.bool.isRequired,
+		onClose: PropTypes.func.isRequired,
+		onSave: PropTypes.func.isRequired,
+	}
 
-AddResourceDialog.defaultProps = {
-	allowMultiple: false
+	public static defaultProps = {
+		allowMultiple: false,
+	}
 }
 
 export default AddResourceDialog

@@ -1,24 +1,31 @@
-import React, { useContext, useCallback } from 'react'
+import { useContext, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { LoadoutContext } from 'app/features/loadouts'
 import LoadoutResourceList from '../../LoadoutResourceList/LoadoutResourceList'
 import AddResourceDialog from '../../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../../AvailableArmoryContext'
+import { LoadoutWeapon, LoadoutWeaponPropType } from 'app/shared/models/loadout'
 
-let LoadoutWeaponAttachmentList = ({ weapon }) => {
+type LoadoutWeaponAttachmentListProps = {
+	weapon: LoadoutWeapon
+}
+
+const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
+	weapon,
+}) => {
 	let { addWeaponAttachments, deleteWeaponAttachment } = useContext(LoadoutContext)
 	let { attachments: availableAttachments } = useContext(AvailableArmoryContext)
 
 	let addAttachments = useCallback(
-		async (attachmentIds) => {
+		async (attachmentIds: string) => {
 			await addWeaponAttachments(weapon.id, attachmentIds)
 		},
 		[addWeaponAttachments, weapon]
 	)
 
 	let deleteAttachment = useCallback(
-		async (attachmentId) => {
+		async (attachmentId: string) => {
 			await deleteWeaponAttachment(weapon.id, attachmentId)
 		},
 		[deleteWeaponAttachment, weapon]
@@ -47,10 +54,7 @@ let LoadoutWeaponAttachmentList = ({ weapon }) => {
 }
 
 LoadoutWeaponAttachmentList.propTypes = {
-	weapon: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		attachments: PropTypes.array
-	}).isRequired
+	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired,
 }
 
 export default LoadoutWeaponAttachmentList

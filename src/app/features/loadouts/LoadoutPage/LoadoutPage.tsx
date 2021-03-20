@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Chip, Tooltip, Box } from '@material-ui/core'
+import { RouteChildrenProps } from 'react-router-dom'
 
 import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
@@ -9,17 +10,26 @@ import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import LoadoutActions from './LoadoutActions'
 import firebase from '../../../../firebase'
+import { Loadout } from 'app/shared/models/loadout'
 
 let analytics = firebase.analytics()
 
-class LoadoutPage extends React.Component {
-	constructor(props) {
+type LoadoutPageProps = RouteChildrenProps<{ id: string }>
+type LoadoutPageState = {
+	loadout?: Loadout
+	shared: boolean
+	loading: boolean
+	error?: any
+}
+
+class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
+	private isUnmounted: boolean = false
+
+	constructor(props: LoadoutPageProps) {
 		super(props)
 		this.state = {
-			loadout: null,
 			shared: false,
 			loading: true,
-			error: null
 		}
 	}
 
@@ -30,7 +40,7 @@ class LoadoutPage extends React.Component {
 	loadLoadout() {
 		this.setState({ loading: true, error: null }, () => {
 			loadouts
-				.getById(this.props.match.params.id)
+				.getById(this.props.match!.params.id)
 				.then((loadout) => {
 					if (!this.isUnmounted) {
 						this.setState({ loadout, shared: loadout.shared, loading: false })
@@ -44,21 +54,18 @@ class LoadoutPage extends React.Component {
 		})
 	}
 
-	editLoadout(updatedLoadout) {
+	editLoadout(updatedLoadout: Loadout): Promise<void> {
 		let { loadout } = this.state
 
 		return loadouts
-			.edit(loadout.id, { ...updatedLoadout })
+			.edit(loadout!.id, { ...updatedLoadout })
 			.then(() =>
 				this.setState(({ loadout }) => {
-					let newLoadout = Object.keys(updatedLoadout)
-						.reduce(
-							(obj, key) => ({
-								...obj,
-								[key]: updatedLoadout[key]
-							}),
-							loadout
-						)
+					// TODO: Check this is right
+					let newLoadout = {
+						...loadout,
+						...updatedLoadout,
+					}
 
 					return { loadout: newLoadout }
 				})
@@ -66,7 +73,7 @@ class LoadoutPage extends React.Component {
 			.then(() => analytics.logEvent('loadout_updated'))
 	}
 
-	setShared(shared) {
+	setShared(shared: boolean) {
 		shared ? analytics.logEvent('loadout_shared') : analytics.logEvent('loadout_unshared')
 		this.setState({ shared })
 	}
@@ -83,13 +90,18 @@ class LoadoutPage extends React.Component {
 				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
 			}
 
-			return <ErrorOverlay message='Could not load loadout.' onRetry={ () => this.loadLoadout() } />
+			return (
+				<ErrorOverlay
+					message='Could not load loadout.'
+					onRetry={ () => this.loadLoadout() }
+				/>
+			)
 		}
 
 		return (
 			<React.Fragment>
 				<ReactiveTitle>
-					{loadout.name}
+					{loadout!.name}
 					{shared && (
 						<Box component='span' paddingLeft={ 1 }>
 							<Tooltip placement='right' title='Loadout has been shared!'>
@@ -100,11 +112,11 @@ class LoadoutPage extends React.Component {
 				</ReactiveTitle>
 
 				<div>
-					<LoadoutView loadout={ loadout } editable={ true } />
+					<LoadoutView loadout={ loadout! } editable={ true } />
 				</div>
 
 				<LoadoutActions
-					loadout={ loadout }
+					loadout={ loadout! }
 					editLoadout={ (loadout) => this.editLoadout(loadout) }
 					onSharedChanged={ (shared) => this.setShared(shared) }
 				/>

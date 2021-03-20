@@ -1,17 +1,18 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback, FC } from 'react'
 
 import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/loadouts'
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddResourceDialog from '../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
+import { Weapon } from 'app/shared/models/armory-item'
 
-let LoadoutWeaponList = () => {
-	let [dialog, setDialog] = useState(null)
+const LoadoutWeaponList: FC = () => {
+	let [dialog, setDialog] = useState<'add' | null>(null)
 	let { loadout, editable, addWeapon } = useContext(LoadoutContext)
 	let { weapons: availableWeapons } = useContext(AvailableArmoryContext)
 
 	let saveWeapon = useCallback(
-		async (weaponId) => {
+		async (weaponId: string) => {
 			await addWeapon(weaponId)
 			setDialog(null)
 		},
@@ -20,7 +21,7 @@ let LoadoutWeaponList = () => {
 
 	return (
 		<React.Fragment>
-			{(loadout.weapons || []).map((weapon) => (
+			{(loadout.weapons || []).map((weapon: Weapon) => (
 				<LoadoutSeparator key={ weapon.id }>
 					<LoadoutWeapon weapon={ weapon } />
 				</LoadoutSeparator>

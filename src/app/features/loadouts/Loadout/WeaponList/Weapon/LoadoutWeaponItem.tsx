@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Box, Typography, styled } from '@material-ui/core'
@@ -7,14 +7,15 @@ import ResourceImage from 'app/shared/images/ResourceImage'
 import { DeleteButton, ConfirmDeleteDialog } from 'app/shared/actions/delete'
 
 import { LoadoutContext } from 'app/features/loadouts'
+import { LoadoutWeapon, LoadoutWeaponPropType } from 'app/shared/models/loadout'
 
 const LoadoutWeaponItemTitle = styled(Typography)(({ theme }) => ({
 	position: 'absolute',
 	zIndex: 1,
 
 	[theme.breakpoints.down('xs')]: {
-		position: 'initial'
-	}
+		position: 'initial',
+	},
 }))
 
 const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
@@ -23,18 +24,22 @@ const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
 		maxHeight: '700px',
 
 		[theme.breakpoints.down('xs')]: {
-			maxHeight: '300px'
-		}
+			maxHeight: '300px',
+		},
 	},
 
 	[theme.breakpoints.down('xs')]: {
-		position: 'initial'
-	}
+		position: 'initial',
+	},
 }))
 
-let LoadoutWeaponItem = ({ weapon }) => {
+type LoadoutWeaponItemProps = {
+	weapon: LoadoutWeapon
+}
+
+let LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
 	let { editable, deleteWeapon } = useContext(LoadoutContext)
-	let [dialog, setDialog] = useState()
+	let [dialog, setDialog] = useState<'delete' | null>(null)
 
 	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
 
@@ -43,7 +48,7 @@ let LoadoutWeaponItem = ({ weapon }) => {
 			<LoadoutWeaponItemTitle variant='h4'>
 				{weapon.getTitle()}
 
-				{editable && <DeleteButton dialogTitle={ weapon.getTitle() } onClick={ () => setDialog('delete') } />}
+				{editable && <DeleteButton onClick={ () => setDialog('delete') } />}
 			</LoadoutWeaponItemTitle>
 
 			<LoadoutWeaponItemImageContainer>
@@ -61,10 +66,7 @@ let LoadoutWeaponItem = ({ weapon }) => {
 }
 
 LoadoutWeaponItem.propTypes = {
-	weapon: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		getTitle: PropTypes.func.isRequired
-	}).isRequired
+	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired,
 }
 
 export default LoadoutWeaponItem

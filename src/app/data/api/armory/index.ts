@@ -2,7 +2,7 @@ import CloudFunction from '../cloud-function'
 import { toEntity } from 'app/data/models/entity.model'
 
 const armory = {
-	get: () =>
+	get: (): any =>
 		new CloudFunction()
 			.path('armory')
 			.get()
@@ -11,8 +11,8 @@ const armory = {
 					.reduce((current, key) => {
 						current[key] = result[key].map(toEntity)
 						return current
-					}, {})
-			)
+					}, {} as any)
+			),
 }
 
 export default armory

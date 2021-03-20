@@ -1,19 +1,30 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { loadouts } from 'app/data/api'
+import { Loadout, LoadoutPropType } from 'app/shared/models/loadout'
 
-let LoadoutContext = React.createContext()
+// TODO: Type
+let LoadoutContext = React.createContext<any>(null)
 
-const LoadoutContextProvider = ({ loadout, editable, children }) => {
-	let [currentLoadout, setLoadout] = useState(loadout)
+export type LoadoutContextProviderProps = {
+	loadout: Loadout
+	editable?: boolean
+}
+
+const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
+	loadout,
+	editable,
+	children,
+}) => {
+	let [currentLoadout, setLoadout] = useState<Loadout>(loadout)
 	let analytics = useAnalytics()
 
 	useEffect(() => setLoadout(loadout), [loadout])
 
 	let addWeapon = useCallback(
-		async (weaponId) => {
+		async (weaponId: string) => {
 			// Save
 			const weapon = await loadouts.loadout(currentLoadout.id).weapons.add(weaponId)
 
@@ -22,14 +33,14 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				weapons: [...currentLoadout.weapons, weapon]
+				weapons: [...currentLoadout.weapons, weapon],
 			}))
 		},
 		[analytics, currentLoadout.id]
 	)
 
 	let deleteWeapon = useCallback(
-		async (weaponId) => {
+		async (weaponId: string) => {
 			// Save
 			await loadouts.loadout(currentLoadout.id).weapons.delete(weaponId)
 
@@ -38,14 +49,14 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				weapons: currentLoadout.weapons.filter((w) => w.id !== weaponId)
+				weapons: currentLoadout.weapons.filter((w) => w.id !== weaponId),
 			}))
 		},
 		[analytics, currentLoadout.id]
 	)
 
 	let addWeaponAttachments = useCallback(
-		async (weaponId, attachmentIds) => {
+		async (weaponId: string, attachmentIds: string[]) => {
 			// Save
 			let addToDbPromises = attachmentIds.map((attachmentId) => {
 				return loadouts
@@ -66,7 +77,10 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 				let weaponToAddTo = { ...currentLoadout.weapons[weaponIndex] }
 
 				// Add the attachment to the weapon
-				weaponToAddTo.attachments = [...(weaponToAddTo.attachments || []), ...newAttachments]
+				weaponToAddTo.attachments = [
+					...(weaponToAddTo.attachments || []),
+					...newAttachments,
+				]
 
 				// Rebuild up the state object, ensuring we preserve the order of weapons
 				let newWeapons = currentLoadout.weapons.slice()
@@ -96,7 +110,9 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 				let weaponToAddTo = { ...currentLoadout.weapons[weaponIndex] }
 
 				// Remove attachment
-				weaponToAddTo.attachments = weaponToAddTo.attachments.filter((a) => a.id !== attachmentId)
+				weaponToAddTo.attachments = weaponToAddTo.attachments.filter(
+					(a) => a.id !== attachmentId
+				)
 
 				// Rebuild up the state object, ensuring we preserve the order of weapons
 				let newWeapons = currentLoadout.weapons.slice()
@@ -109,7 +125,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 	)
 
 	let addGear = useCallback(
-		async (ids) => {
+		async (ids: string[]) => {
 			// Save
 			let promises = ids.map((gearId) => {
 				return loadouts.loadout(currentLoadout.id).gear.add(gearId)
@@ -122,7 +138,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				gear: [...currentLoadout.gear, ...newGear]
+				gear: [...currentLoadout.gear, ...newGear],
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -138,14 +154,14 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				gear: currentLoadout.gear.filter((g) => g.id !== gearId)
+				gear: currentLoadout.gear.filter((g) => g.id !== gearId),
 			}))
 		},
 		[analytics, currentLoadout.id]
 	)
 
 	let addClothing = useCallback(
-		async (ids) => {
+		async (ids: string[]) => {
 			// Save
 			let promises = ids.map((clothingId) => {
 				return loadouts.loadout(currentLoadout.id).clothing.add(clothingId)
@@ -158,7 +174,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				clothing: [...currentLoadout.clothing, ...newClothing]
+				clothing: [...currentLoadout.clothing, ...newClothing],
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -174,7 +190,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				clothing: currentLoadout.clothing.filter((c) => c.id !== clothingId)
+				clothing: currentLoadout.clothing.filter((c) => c.id !== clothingId),
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -192,7 +208,7 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 				addGear,
 				deleteGear,
 				addClothing,
-				deleteClothing
+				deleteClothing,
 			} }
 		>
 			{children}
@@ -201,12 +217,12 @@ const LoadoutContextProvider = ({ loadout, editable, children }) => {
 }
 
 LoadoutContextProvider.propTypes = {
-	loadout: PropTypes.object.isRequired,
-	editable: PropTypes.bool
+	loadout: PropTypes.shape(LoadoutPropType).isRequired,
+	editable: PropTypes.bool,
 }
 
 LoadoutContextProvider.defaultProps = {
-	editable: false
+	editable: false,
 }
 
 export default LoadoutContext

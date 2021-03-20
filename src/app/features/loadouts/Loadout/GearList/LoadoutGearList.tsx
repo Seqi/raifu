@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { FC, useContext } from 'react'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
@@ -7,7 +7,7 @@ import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
 import AddResourceDialog from '../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 
-let LoadoutGearList = () => {
+const LoadoutGearList: FC = () => {
 	let { loadout, addGear, deleteGear } = useContext(LoadoutContext)
 	let { gear: availableGear } = useContext(AvailableArmoryContext)
 

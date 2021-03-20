@@ -1,5 +1,5 @@
+// TODO: Prop Types
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 import {
 	Dialog,
@@ -10,30 +10,50 @@ import {
 	Checkbox,
 	FormControlLabel,
 	Button,
-	Tooltip
+	Tooltip,
 } from '@material-ui/core'
 
 import { loadouts } from 'app/data/api'
 import { Error } from 'app/shared/state'
+import { Loadout } from 'app/shared/models/loadout'
 
-class SetShareableDialog extends Component {
-	constructor(props) {
+type SetShareableDialogProps = {
+	loadout: Loadout
+	onShare: (shared: boolean) => Promise<any>
+	isOpen: boolean
+	onClose: () => any
+}
+
+type SetShareableDialogState = {
+	loading: boolean
+	error: any
+	shared: boolean
+	copied: boolean
+}
+
+class SetShareableDialog extends Component<
+	SetShareableDialogProps,
+	SetShareableDialogState
+> {
+	private inputRef: React.RefObject<HTMLInputElement>
+
+	constructor(props: SetShareableDialogProps) {
 		super(props)
 		this.state = {
 			shared: this.props.loadout.shared,
 			copied: false,
 			loading: false,
-			error: null
+			error: null,
 		}
 
-		this.inputRef = React.createRef()
+		this.inputRef = React.createRef<HTMLInputElement>()
 	}
 
 	get shareableLink() {
 		return `${window.location.host}/share/loadout/${this.props.loadout.id}`
 	}
 
-	handleShare(isShared) {
+	handleShare(isShared: boolean) {
 		let { loadout } = this.props
 
 		this.setState({ loading: true, error: null }, () => {
@@ -46,7 +66,7 @@ class SetShareableDialog extends Component {
 					this.setState({
 						error: 'An error occurred while making loadout shareable.',
 						loading: false,
-						shared: !isShared
+						shared: !isShared,
 					})
 				)
 		})
@@ -56,6 +76,10 @@ class SetShareableDialog extends Component {
 		// Re-do the animation if necessary
 		this.setState({ copied: false }, () => {
 			let input = this.inputRef.current
+
+			if (!input) {
+				return
+			}
 
 			input.disabled = false
 			input.select()
@@ -87,12 +111,12 @@ class SetShareableDialog extends Component {
 								endAdornment: (
 									<Tooltip title='Copy link'>
 										<i
-											onClick={ (el) => this.copy(el) }
+											onClick={ (_) => this.copy() }
 											style={ { marginLeft: '8px', fontSize: '1rem', cursor: 'pointer' } }
 											className='fa fa-link'
 										/>
 									</Tooltip>
-								)
+								),
 							} }
 						/>
 					) : (
@@ -104,7 +128,7 @@ class SetShareableDialog extends Component {
 						<FormControlLabel
 							style={ { float: 'right' } }
 							label='Share'
-							onChange={ (e) => this.handleShare(e.target.checked) }
+							onChange={ (e) => this.handleShare((e.target as HTMLInputElement).checked) }
 							control={ <Checkbox disabled={ loading } checked={ shared } /> }
 						/>
 					</div>
@@ -118,16 +142,6 @@ class SetShareableDialog extends Component {
 			</Dialog>
 		)
 	}
-}
-
-SetShareableDialog.propTypes = {
-	loadout: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		shared: PropTypes.bool.isRequired
-	}).isRequired,
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired,
-	onShare: PropTypes.func.isRequired
 }
 
 export default SetShareableDialog

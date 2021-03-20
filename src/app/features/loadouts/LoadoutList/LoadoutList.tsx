@@ -1,29 +1,52 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useCallback, FC } from 'react'
 
 import { loadouts as loadoutService } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
-import { ResourceList } from 'app/shared/resources'
+import { ResourceListContainer as ResourceList } from 'app/shared/resources'
 import { LoadoutCard } from 'app/shared/cards'
 
 import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
+import { RouteChildrenProps } from 'react-router'
+import { Loadout } from 'app/shared/models/loadout'
 
-const defaultState = { loadouts: null, loading: true, error: false }
+type LoadoutListProps = RouteChildrenProps
+type LoadoutListState = {
+	loadouts: Loadout[]
+	loading: boolean
+	error: boolean
+}
 
-let LoadoutList = ({ history, location }) => {
-	let [{ loadouts, loading, error }, setLoadout] = useState(defaultState)
+const defaultState: LoadoutListState = { loadouts: [], loading: true, error: false }
 
-	let mounted = useRef(true)
+let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
+	let [{ loadouts, loading, error }, setLoadout] = useState<LoadoutListState>(
+		defaultState
+	)
 
-	useEffect(() => () => (mounted.current = false), [])
+	let mounted = useRef<boolean>(true)
+
+	useEffect(() => {
+		return () => {
+			mounted.current = false
+		}
+	}, [])
 
 	let loadLoadout = useCallback(() => {
 		setLoadout(defaultState)
 
 		loadoutService
 			.get()
-			.then((result) => mounted.current && setLoadout({ loadouts: result, loading: false, error: false }))
-			.catch((e) => mounted.current && setLoadout({ loadouts: null, loading: false, error: true }))
+			.then(
+				(result) =>
+					mounted.current &&
+					setLoadout({ loadouts: result, loading: false, error: false })
+			)
+			.catch(
+				(e) =>
+					mounted.current && setLoadout({ loadouts: [], loading: false, error: true })
+			)
 	}, [])
+
 	useEffect(() => {
 		loadLoadout()
 	}, [loadLoadout])

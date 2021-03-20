@@ -1,14 +1,25 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { EditLoadoutDialog, SetShareableDialog } from '../dialogs'
+import { Loadout, LoadoutPropType } from 'app/shared/models/loadout'
 
-function LoadoutActions({ loadout, editLoadout, onSharedChanged }) {
-	let [dialog, setDialog] = useState()
-	let [speedDialOpen, setSpeedDialOpen] = useState(false)
+type LoadoutActionsProps = {
+	loadout: Loadout
+	editLoadout: (loadout: Loadout) => Promise<any>
+	onSharedChanged: (shared: boolean) => any
+}
+
+const LoadoutActions: FC<LoadoutActionsProps> = ({
+	loadout,
+	editLoadout,
+	onSharedChanged,
+}) => {
+	let [dialog, setDialog] = useState<'edit' | 'share' | null>(null)
+	let [speedDialOpen, setSpeedDialOpen] = useState<boolean>(false)
 
 	let isAtBottom = useIsPageAtBottom()
 
@@ -40,8 +51,8 @@ function LoadoutActions({ loadout, editLoadout, onSharedChanged }) {
 
 			{/* Dialogs */}
 			<EditLoadoutDialog
+				loadout={ loadout }
 				action='Edit'
-				name={ loadout.name }
 				isOpen={ dialog === 'edit' }
 				onSave={ (name) => editLoadout(name)
 					.then(() => setDialog(null)) }
@@ -61,7 +72,7 @@ function LoadoutActions({ loadout, editLoadout, onSharedChanged }) {
 export default LoadoutActions
 
 LoadoutActions.propTypes = {
-	loadout: PropTypes.object.isRequired,
+	loadout: PropTypes.shape(LoadoutPropType).isRequired,
 	editLoadout: PropTypes.func.isRequired,
-	onSharedChanged: PropTypes.func.isRequired
+	onSharedChanged: PropTypes.func.isRequired,
 }

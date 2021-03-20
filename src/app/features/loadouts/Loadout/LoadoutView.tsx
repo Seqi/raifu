@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { LoadoutContextProvider } from './LoadoutContext'
@@ -7,8 +7,14 @@ import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutClothingList from './ClothingList/LoadoutClothingList'
 import LoadoutSeparator from './LoadoutSeparator'
+import { Loadout, LoadoutPropType } from 'app/shared/models/loadout'
 
-let LoadoutView = ({ loadout, editable }) => {
+type LoadoutViewProps = {
+	loadout: Loadout
+	editable?: boolean
+}
+
+const LoadoutView: FC<LoadoutViewProps> = ({ loadout, editable = false }) => {
 	return (
 		<LoadoutContextProvider loadout={ loadout } editable={ editable }>
 			<AvailableArmoryContextProvider>
@@ -31,39 +37,12 @@ let LoadoutView = ({ loadout, editable }) => {
 }
 
 LoadoutView.propTypes = {
-	loadout: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		getTitle: PropTypes.func.isRequired,
-		weapons: PropTypes.arrayOf(
-			PropTypes.shape({
-				id: PropTypes.string.isRequired,
-				getTitle: PropTypes.func.isRequired,
-				attachments: PropTypes.arrayOf(
-					PropTypes.shape({
-						id: PropTypes.string.isRequired,
-						getTitle: PropTypes.func.isRequired
-					})
-				)
-			})
-		),
-		gear: PropTypes.arrayOf(
-			PropTypes.shape({
-				id: PropTypes.string.isRequired,
-				getTitle: PropTypes.func.isRequired
-			})
-		),
-		clothing: PropTypes.arrayOf(
-			PropTypes.shape({
-				id: PropTypes.string.isRequired,
-				getTitle: PropTypes.func.isRequired
-			})
-		)
-	}).isRequired,
-	editable: PropTypes.bool
+	loadout: PropTypes.shape(LoadoutPropType).isRequired,
+	editable: PropTypes.bool,
 }
 
 LoadoutView.defaultProps = {
-	editable: false
+	editable: false,
 }
 
 export default LoadoutView

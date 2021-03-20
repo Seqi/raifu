@@ -1,18 +1,45 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@material-ui/core'
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	TextField,
+	Button,
+} from '@material-ui/core'
 
 import { Error } from 'app/shared/state'
+import { Loadout, LoadoutPropType } from 'app/shared/models/loadout'
 
-let EditLoadoutDialog = ({ loadout, action, isOpen, onSave, onClose }) => {
-	let [error, setError] = useState(null)
-	let { register, handleSubmit, formState, errors } = useForm({
+type EditLoadoutDialogProps = {
+	loadout?: Loadout | null
+	action: 'Add' | 'Edit'
+	isOpen: boolean
+	onSave: (loadout: Loadout) => Promise<any>
+	onClose: () => any
+}
+
+export type LoadoutUpdate = {
+	name: string
+}
+
+export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
+	loadout,
+	action,
+	isOpen,
+	onSave,
+	onClose,
+}) => {
+	let [error, setError] = useState<string | null>(null)
+
+	let { register, handleSubmit, formState, errors } = useForm<LoadoutUpdate>({
 		mode: 'onChange',
 		defaultValues: {
-			name: loadout.name
-		}
+			name: loadout?.name,
+		},
 	})
 
 	let handleSave = useCallback(
@@ -66,17 +93,25 @@ let EditLoadoutDialog = ({ loadout, action, isOpen, onSave, onClose }) => {
 }
 
 EditLoadoutDialog.propTypes = {
-	loadout: PropTypes.shape({
-		name: PropTypes.string.isRequired
-	}),
-	action: PropTypes.string.isRequired,
+	loadout: PropTypes.shape(LoadoutPropType),
+	action: PropTypes.oneOf(['Add', 'Edit'] as const).isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired
+	onSave: PropTypes.func.isRequired,
 }
 
 EditLoadoutDialog.defaultProps = {
-	loadout: { name: '' }
+	loadout: {
+		name: '',
+		id: '',
+		shared: false,
+		getTitle: () => '',
+		getSubtitle: () => '',
+		gear: [],
+		weapons: [],
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
 }
 
 export default EditLoadoutDialog
