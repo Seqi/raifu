@@ -13,7 +13,7 @@ import {
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
-import { Loadout, LoadoutWeapon } from 'app/shared/models/loadout'
+import { Loadout, LoadoutPropType, LoadoutWeapon } from 'app/shared/models/loadout'
 import { Attachment, Gear } from 'app/shared/models/armory-item'
 import { Resource } from 'app/shared/models/resource'
 
@@ -101,7 +101,7 @@ const EventChecklistDialog: FC<EventChecklistDialogProps> = ({
 
 EventChecklistDialog.propTypes = {
 	title: PropTypes.string.isRequired,
-	loadout: PropTypes.any.isRequired,
+	loadout: PropTypes.shape(LoadoutPropType).isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 }

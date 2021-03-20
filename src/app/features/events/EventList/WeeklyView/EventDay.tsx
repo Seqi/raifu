@@ -1,10 +1,11 @@
-import React from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import * as moment from 'moment'
+import moment from 'moment'
 import { Box, styled } from '@material-ui/core'
 
 import EventItem from './EventItem'
+import Event, { EventPropShape } from 'app/shared/models/event'
 
 const EventDayContainer = styled(Box)(({ theme }) => ({
 	flex: 1,
@@ -16,7 +17,20 @@ const EventDayContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const EventDay = ({ events, day, onEventSelected, onSlotSelected }) => {
+type EventDayProps = {
+	events: Event[]
+	day: moment.Moment
+	onEventSelected: (event: Event) => any
+	// TODO: keep as moment?
+	onSlotSelected: (slot: Date) => any
+}
+
+const EventDay: FC<EventDayProps> = ({
+	events,
+	day,
+	onEventSelected,
+	onSlotSelected,
+}) => {
 	return (
 		<EventDayContainer onClick={ (e) => onSlotSelected(day.toDate()) }>
 			<span>{day.format('ddd Do')}</span>
@@ -35,13 +49,8 @@ const EventDay = ({ events, day, onEventSelected, onSlotSelected }) => {
 }
 
 EventDay.propTypes = {
-	events: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			date: PropTypes.instanceOf(Date).isRequired,
-		})
-	).isRequired,
-	day: PropTypes.instanceOf(moment).isRequired,
+	events: PropTypes.arrayOf(PropTypes.shape(EventPropShape).isRequired).isRequired,
+	day: PropTypes.any.isRequired,
 	onEventSelected: PropTypes.func.isRequired,
 	onSlotSelected: PropTypes.func.isRequired,
 }

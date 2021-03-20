@@ -2,6 +2,7 @@ import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Tabs, Tab } from '@material-ui/core'
+import { EventUserPropShape } from 'app/shared/models/event'
 
 type UserSelectProps = {
 	users: any[] // TODO: Type
@@ -24,12 +25,7 @@ const EventUserSelect: FC<UserSelectProps> = ({
 }
 
 EventUserSelect.propTypes = {
-	users: PropTypes.arrayOf(
-		PropTypes.shape({
-			uid: PropTypes.string.isRequired,
-			displayName: PropTypes.string.isRequired,
-		})
-	).isRequired,
+	users: PropTypes.arrayOf(PropTypes.shape(EventUserPropShape)).isRequired,
 	userIndex: PropTypes.number.isRequired,
 	onUserIndexChange: PropTypes.func.isRequired,
 }

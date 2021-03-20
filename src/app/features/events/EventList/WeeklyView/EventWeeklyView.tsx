@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
-import * as moment from 'moment'
+import moment from 'moment'
 
 import { styled, Box, Fade } from '@material-ui/core'
 
@@ -8,14 +8,25 @@ import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 
 import EventWeekSelect from './EventWeekSelect'
 import EventDay from './EventDay'
+import Event, { EventPropShape } from 'app/shared/models/event'
 
 const EventWeeklyViewContainer = styled(Box)({
 	display: 'flex',
 	flexDirection: 'column',
-	height: '100%'
+	height: '100%',
 })
 
-const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
+type EventWeeklyViewProps = {
+	events: Event[]
+	onEventSelected: (event: Event) => any
+	onSlotSelected: (slot: Date) => any
+}
+
+const EventWeeklyView: FC<EventWeeklyViewProps> = ({
+	events,
+	onEventSelected,
+	onSlotSelected,
+}) => {
 	let [week, setWeek] = useState([])
 
 	const getEventsForDay = useCallback(
@@ -52,14 +63,9 @@ const EventWeeklyView = ({ events, onEventSelected, onSlotSelected }) => {
 }
 
 EventWeeklyView.propTypes = {
-	events: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			date: PropTypes.instanceOf(Date)
-		})
-	).isRequired,
+	events: PropTypes.arrayOf(PropTypes.shape(EventPropShape).isRequired).isRequired,
 	onEventSelected: PropTypes.func.isRequired,
-	onSlotSelected: PropTypes.func.isRequired
+	onSlotSelected: PropTypes.func.isRequired,
 }
 
 export default EventWeeklyView

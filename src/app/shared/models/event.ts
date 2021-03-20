@@ -1,4 +1,6 @@
-import { Resource } from './resource'
+import PropTypes from 'prop-types'
+import { Loadout, LoadoutPropType } from './loadout'
+import { Resource, ResourcePropShape } from './resource'
 
 export interface Event extends Resource {
 	name: string
@@ -9,8 +11,37 @@ export interface Event extends Resource {
 	owner: string
 	isGroup: boolean
 
-	loadout?: any
-	users: any[]
+	loadout?: Loadout | null // TODO: ?
+	users: EventUser[]
+}
+
+export interface EventUser {
+	uid: string
+	displayName: string
+	loadout?: Loadout | null
+}
+
+export const EventUserPropShape = {
+	uid: PropTypes.string.isRequired,
+	displayName: PropTypes.string.isRequired,
+	loadout: PropTypes.shape(LoadoutPropType),
+}
+
+export const EventPropShape = {
+	...ResourcePropShape,
+
+	name: PropTypes.string.isRequired,
+	date: PropTypes.instanceOf(Date).isRequired,
+	location: PropTypes.string.isRequired,
+	organiser_uid: PropTypes.string.isRequired,
+	public: PropTypes.bool.isRequired,
+	createdAt: PropTypes.instanceOf(Date).isRequired,
+	updatedAt: PropTypes.instanceOf(Date).isRequired,
+	owner: PropTypes.string.isRequired,
+	isGroup: PropTypes.bool.isRequired,
+
+	loadout: PropTypes.shape(LoadoutPropType),
+	users: PropTypes.arrayOf(PropTypes.shape(EventUserPropShape).isRequired).isRequired,
 }
 
 export default Event

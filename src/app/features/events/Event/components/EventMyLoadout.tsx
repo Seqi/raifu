@@ -6,7 +6,11 @@ import { Button, styled } from '@material-ui/core'
 import { LoadoutView } from 'app/features/loadouts'
 import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import EventLoadoutSelect from './EventLoadoutSelect'
-import Event from 'app/shared/models/event'
+import Event, {
+	EventPropShape,
+	EventUser,
+	EventUserPropShape,
+} from 'app/shared/models/event'
 
 const SpacedButton = styled(Button)(({ theme }) => ({
 	margin: theme.spacing(1, 0),
@@ -14,7 +18,7 @@ const SpacedButton = styled(Button)(({ theme }) => ({
 
 type EventMyLoadoutProps = {
 	event: Event
-	user: any
+	user: EventUser
 	addLoadout: (loadoutId: string) => Promise<any>
 	removeLoadout: () => Promise<any>
 }
@@ -63,26 +67,8 @@ const EventMyLoadout: FC<EventMyLoadoutProps> = ({
 export default EventMyLoadout
 
 EventMyLoadout.propTypes = {
-	event: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		date: PropTypes.instanceOf(Date).isRequired,
-		location: PropTypes.string.isRequired,
-		organiser_uid: PropTypes.string.isRequired,
-		public: PropTypes.bool.isRequired,
-		createdAt: PropTypes.instanceOf(Date).isRequired,
-		updatedAt: PropTypes.instanceOf(Date).isRequired,
-		owner: PropTypes.string.isRequired,
-		isGroup: PropTypes.bool.isRequired,
-
-		users: PropTypes.array.isRequired,
-
-		getTitle: PropTypes.func.isRequired,
-		getSubtitle: PropTypes.func.isRequired,
-	}).isRequired,
-	user: PropTypes.shape({
-		loadout: PropTypes.object,
-	}).isRequired,
+	event: PropTypes.shape(EventPropShape).isRequired,
+	user: PropTypes.shape(EventUserPropShape).isRequired,
 	addLoadout: PropTypes.func.isRequired,
 	removeLoadout: PropTypes.func.isRequired,
 }

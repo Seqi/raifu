@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react'
+import { useState, useEffect, useCallback, useContext, FC } from 'react'
 import PropTypes from 'prop-types'
 
-import * as moment from 'moment'
+import * as Moment from 'moment'
 import { extendMoment } from 'moment-range'
 
 import { Box, IconButton } from '@material-ui/core'
@@ -9,12 +9,10 @@ import CalendarDateContext from '../CalendarDateContext'
 
 // This'll fire every time we mount this component, but I don't
 // really wanna drag moment in until we hit the event stuff
-extendMoment(moment)
+const moment = extendMoment(Moment)
 
-// Fetch the entire week for the offset
-// i.e. for offset of 0, will get monday-sunday of current week as an array
-// of days
-const getWeekDayRange = (date) => {
+// Fetch the entire week for the provided date
+const getWeekDayRange = (date: Moment.Moment): Moment.Moment[] => {
 	let start = moment(date)
 		.startOf('week')
 	let end = moment(date)
@@ -26,12 +24,16 @@ const getWeekDayRange = (date) => {
 	return Array.from(range)
 }
 
-function EventWeekSelect({ onWeekChange }) {
+type EventWeekSelectProps = {
+	onWeekChange?: (newWeeks: Moment.Moment[]) => any
+}
+
+const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {} }) => {
 	let { date, setDate } = useContext(CalendarDateContext)
-	let [weekRange, setWeekRange] = useState([])
+	let [weekRange, setWeekRange] = useState<Moment.Moment[]>([])
 
 	const addWeek = useCallback(
-		(count) => {
+		(count: number) => {
 			const newDate = moment(date)
 				.add(count, 'week')
 

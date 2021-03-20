@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react'
+import { useRef, useContext, FC } from 'react'
 import PropTypes from 'prop-types'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
@@ -9,8 +9,19 @@ import { CalendarToolbar, CalendarEvent } from './CalendarComponents'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendarComponents/Calendar.css'
 import CalendarDateContext from '../CalendarDateContext'
+import Event, { EventPropShape } from 'app/shared/models/event'
 
-const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
+type EventCalendarViewProps = {
+	events: Event[]
+	onEventSelected: (event: Event) => any
+	onSlotSelected: (date: Date) => any
+}
+
+const EventCalendarView: FC<EventCalendarViewProps> = ({
+	events,
+	onEventSelected,
+	onSlotSelected,
+}) => {
 	let theme = useTheme()
 	let { date, setDate } = useContext(CalendarDateContext)
 
@@ -28,13 +39,13 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 			style={ {
 				color: theme.palette.text.primary,
 			} }
-			titleAccessor={ (e) => e.name }
+			titleAccessor={ (e) => e.getTitle() }
 			startAccessor={ (e) => e.date }
 			endAccessor={ (e) => e.date }
 			defaultView={ 'month' }
 			drilldownView='day'
 			onNavigate={ (date) => setDate(moment(date)) }
-			onSelectSlot={ (slot) => onSlotSelected(slot.end) }
+			onSelectSlot={ (slot) => onSlotSelected(slot.end as Date) }
 			onSelectEvent={ onEventSelected }
 			popup={ true }
 			eventPropGetter={ (_) => ({
@@ -47,12 +58,7 @@ const EventCalendarView = ({ events, onEventSelected, onSlotSelected }) => {
 }
 
 EventCalendarView.propTypes = {
-	events: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			date: PropTypes.instanceOf(Date),
-		})
-	).isRequired,
+	events: PropTypes.arrayOf(PropTypes.shape(EventPropShape).isRequired).isRequired,
 	onEventSelected: PropTypes.func.isRequired,
 	onSlotSelected: PropTypes.func.isRequired,
 }

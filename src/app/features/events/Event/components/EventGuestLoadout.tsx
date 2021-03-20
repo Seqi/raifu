@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 
 import { LoadoutView } from 'app/features/loadouts'
 import { ErrorOverlay } from 'app/shared/state'
+import { EventUser, EventUserPropShape } from 'app/shared/models/event'
 
 type EventMyLoadoutProps = {
-	user: any // TODO: Type
+	user: EventUser
 }
 
 const EventMyLoadout: FC<EventMyLoadoutProps> = ({ user }) => {
@@ -24,7 +25,5 @@ const EventMyLoadout: FC<EventMyLoadoutProps> = ({ user }) => {
 export default EventMyLoadout
 
 EventMyLoadout.propTypes = {
-	user: PropTypes.shape({
-		loadout: PropTypes.object,
-	}).isRequired,
+	user: PropTypes.shape(EventUserPropShape).isRequired,
 }

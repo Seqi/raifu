@@ -1,16 +1,25 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import { Fab, Box, styled, withTheme, withWidth, isWidthDown } from '@material-ui/core'
+import {
+	Fab,
+	Box,
+	styled,
+	withTheme,
+	withWidth,
+	isWidthDown,
+	WithWidthProps,
+} from '@material-ui/core'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import EventWeeklyView from './WeeklyView/EventWeeklyView'
 import EventCalendarView from './CalendarView/EventCalendarView'
-import EditEventDialog from '../EditEventDialog'
+import EditEventDialog, { EventUpdate } from '../EditEventDialog'
 import CalendarDateContextProvider from './CalendarDateContextProvider'
 
 import firebase from '../../../../firebase'
+import { RouteChildrenProps } from 'react-router'
+import Event from 'app/shared/models/event'
 
 let analytics = firebase.analytics()
 
@@ -24,9 +33,21 @@ const EventFab = styled(Fab)({
 	right: '3%',
 })
 
-class EventList extends React.Component {
-	constructor() {
-		super()
+type EventListProps = RouteChildrenProps & WithWidthProps
+
+type EventListState = {
+	events: Event[]
+	loading: boolean
+	error: boolean
+	activeTimeslot: Date | null
+	isAddDialogOpen: boolean
+}
+
+class EventList extends React.Component<EventListProps, EventListState> {
+	private unmounted: boolean = false
+
+	constructor(props: EventListProps) {
+		super(props)
 
 		this.state = {
 			events: [],
@@ -77,18 +98,17 @@ class EventList extends React.Component {
 		this.setState({ activeTimeslot: null, isAddDialogOpen: false })
 	}
 
-	view(event) {
+	view(event: Event) {
 		this.props.history.push(`${this.props.location.pathname}/${event.id}`)
 	}
 
-	save(event) {
-		// Firebase functions don't like date objects...
-		if (event.date) {
-			event.date = event.date.toISOString()
-		}
-
+	save(event: EventUpdate) {
 		return events
-			.add(event)
+			.add({
+				...event,
+				// Firebase functions don't like date objects...
+				date: event.date?.toISOString(),
+			})
 			.then((event) =>
 				this.setState((prevState) => ({ events: prevState.events.concat(event) }))
 			)
@@ -113,7 +133,8 @@ class EventList extends React.Component {
 			)
 		}
 
-		const EventListView = isWidthDown('sm', width) ? EventWeeklyView : EventCalendarView
+		const EventListView =
+			width && isWidthDown('sm', width) ? EventWeeklyView : EventCalendarView
 
 		return (
 			<React.Fragment>
@@ -142,10 +163,6 @@ class EventList extends React.Component {
 			</React.Fragment>
 		)
 	}
-}
-
-EventList.propTypes = {
-	width: PropTypes.string.isRequired,
 }
 
 export default withWidth()(withTheme(EventList))

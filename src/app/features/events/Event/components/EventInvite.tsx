@@ -5,7 +5,7 @@ import { Box, Button } from '@material-ui/core'
 import { Error, LoadingOverlay } from 'app/shared/state'
 import { events } from 'app/data/api'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
-import Event from 'app/shared/models/event'
+import Event, { EventPropShape } from 'app/shared/models/event'
 
 type EventInviteProps = {
 	event: Event
@@ -45,22 +45,6 @@ const EventInvite: FC<EventInviteProps> = ({ event, onJoin }) => {
 export default EventInvite
 
 EventInvite.propTypes = {
-	event: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		date: PropTypes.instanceOf(Date).isRequired,
-		location: PropTypes.string.isRequired,
-		organiser_uid: PropTypes.string.isRequired,
-		public: PropTypes.bool.isRequired,
-		createdAt: PropTypes.instanceOf(Date).isRequired,
-		updatedAt: PropTypes.instanceOf(Date).isRequired,
-		owner: PropTypes.string.isRequired,
-		isGroup: PropTypes.bool.isRequired,
-
-		users: PropTypes.array.isRequired,
-
-		getTitle: PropTypes.func.isRequired,
-		getSubtitle: PropTypes.func.isRequired,
-	}).isRequired,
+	event: PropTypes.shape(EventPropShape).isRequired,
 	onJoin: PropTypes.func.isRequired,
 }

@@ -1,19 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router'
-import * as qs from 'qs'
+import qs from 'qs'
 import moment from 'moment'
 
 import CalendarDateContext from './CalendarDateContext'
 
-export default function useEventDate(props) {
+const CalendarDateContextProvider: FC = ({ children }) => {
 	const location = useLocation()
 	const history = useHistory()
 
-	const [date, setDateState] = useState(null)
+	// TODO: Check having default moment here works ok
+	const [date, setDateState] = useState<moment.Moment>(moment())
 
 	// Push new dates to the query string
 	const setDate = useCallback(
-		(newDate) => {
+		(newDate: moment.Moment) => {
 			const newQs = moment(newDate)
 				.format('YYYY-MM-DD')
 
@@ -38,17 +39,19 @@ export default function useEventDate(props) {
 	// Listen out for query string changes
 	useEffect(() => {
 		const query = qs.parse(location.search, { ignoreQueryPrefix: true })
+		const date = query.date?.toString()
 
-		if (query.date) {
-			const queryDate = moment(query.date, 'YYYY-MM-DD')
+		if (date) {
+			const queryDate = moment(date, 'YYYY-MM-DD')
 			setDateState(queryDate)
 		}
-	}, [location.search, setDateState])
+	}, [location.search])
 
-	// Re-call moment to clone so we're not mutating
 	return (
 		<CalendarDateContext.Provider value={ { date, setDate } }>
-			{props.children}
+			{children}
 		</CalendarDateContext.Provider>
 	)
 }
+
+export default CalendarDateContextProvider

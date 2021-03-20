@@ -1,18 +1,24 @@
-import React from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
-import * as moment from 'moment'
+import moment from 'moment'
 
 import { Box, styled } from '@material-ui/core'
+import Event, { EventPropShape } from 'app/shared/models/event'
 
 const EventContainer = styled(Box)(({ theme }) => ({
 	padding: '5px',
 	borderColor: theme.palette.primary.main,
 	borderRadius: '5px',
 	borderStyle: 'solid',
-	borderWidth: '1px'
+	borderWidth: '1px',
 }))
 
-const EventItem = ({ event, onClick }) => {
+type EventItemProps = {
+	event: Event
+	onClick: (event: Event) => any
+}
+
+const EventItem: FC<EventItemProps> = ({ event, onClick }) => {
 	const date = moment(event.date)
 
 	return (
@@ -23,13 +29,8 @@ const EventItem = ({ event, onClick }) => {
 }
 
 EventItem.propTypes = {
-	event: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		location: PropTypes.string.isRequired,
-		date: PropTypes.instanceOf(Date).isRequired,
-		getTitle: PropTypes.func.isRequired
-	}).isRequired,
-	onClick: PropTypes.func.isRequired
+	event: PropTypes.shape(EventPropShape).isRequired,
+	onClick: PropTypes.func.isRequired,
 }
 
 export default EventItem

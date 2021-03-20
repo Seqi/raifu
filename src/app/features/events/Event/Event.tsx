@@ -22,6 +22,7 @@ type EventState = {
 	event: EventModel | null
 }
 
+//TODO: Add Proptypes
 class Event extends React.Component<EventProps, EventState> {
 	private isUnmounted: boolean = false
 

@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { FC } from 'react'
 import PropTypes from 'prop-types'
 import { useTheme } from '@material-ui/core'
+import { ToolbarProps } from 'react-big-calendar'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
+import Event from 'app/data/models/event.model'
 
-function CalendarToolbar({ label, onNavigate }) {
+type CalendarToolbarProps = ToolbarProps<Event>
+
+const CalendarToolbar: FC<CalendarToolbarProps> = ({ label, onNavigate }) => {
 	const theme = useTheme()
 
 	const blankButton = {
@@ -37,8 +41,6 @@ function CalendarToolbar({ label, onNavigate }) {
 }
 
 CalendarToolbar.propTypes = {
-	view: PropTypes.string.isRequired,
-	onView: PropTypes.func.isRequired,
 	label: PropTypes.string.isRequired,
 	onNavigate: PropTypes.func.isRequired,
 }

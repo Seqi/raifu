@@ -8,10 +8,11 @@ import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import EditEventDialog, { EventUpdate } from '../EditEventDialog'
-import Event from 'app/shared/models/event'
+import Event, { EventPropShape } from 'app/shared/models/event'
+import { Loadout } from 'app/shared/models/loadout'
 
-let getMyLoadout = (event: Event) => {
-	return event.users.length > 0 && event.users[0].loadout
+let getMyLoadout = (event: Event): Loadout | null | undefined => {
+	return event.users[0]?.loadout
 }
 
 type EventActionsProps = {
@@ -32,9 +33,11 @@ const EventActions: FC<EventActionsProps> = ({
 	let [dialog, setDialog] = useState<EventActionsDialogs>(null)
 	let [speedDialOpen, setSpeedDialOpen] = useState(false)
 
+	const userLoadout = getMyLoadout(event)
+
 	let isAtBottom = useIsPageAtBottom()
 	let isInvite = event.users.length === 0
-	let canViewChecklist = !!getMyLoadout(event)
+	let canViewChecklist = userLoadout != null
 
 	// Hide the entire speed dial if no actions are available
 	let hasAvailableActions = event.owner || canViewChecklist
@@ -120,10 +123,10 @@ const EventActions: FC<EventActionsProps> = ({
 				/>
 			)}
 
-			{canViewChecklist && (
+			{userLoadout != null && (
 				<EventChecklistDialog
 					title={ event.getTitle() }
-					loadout={ getMyLoadout(event) }
+					loadout={ userLoadout }
 					isOpen={ dialog === 'checklist' }
 					onClose={ () => setDialog(null) }
 				/>
@@ -135,7 +138,7 @@ const EventActions: FC<EventActionsProps> = ({
 export default EventActions
 
 EventActions.propTypes = {
-	event: PropTypes.any.isRequired,
+	event: PropTypes.shape(EventPropShape).isRequired,
 	updateEvent: PropTypes.func.isRequired,
 	deleteEvent: PropTypes.func.isRequired,
 	leaveEvent: PropTypes.func.isRequired,
