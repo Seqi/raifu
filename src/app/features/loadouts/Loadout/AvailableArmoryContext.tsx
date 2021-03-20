@@ -3,21 +3,13 @@ import React, { useEffect, useState, useContext, FC } from 'react'
 import LoadoutContext from './LoadoutContext'
 import { armory as armoryService } from 'app/data/api'
 import { Loadout } from 'app/shared/models/loadout'
-import { Attachment, Clothing, Gear, Weapon } from 'app/shared/models/armory-item'
+import { Armory } from 'app/shared/models/armory-item'
 import { Resource } from 'app/shared/models/resource'
 
 // TODO: Type
 const AvailableArmoryContext = React.createContext<any>(null)
 
-// TODO: Move somewhere appropriate
-type Armory = {
-	weapons: Weapon[]
-	attachments: Attachment[]
-	gear: Gear[]
-	clothing: Clothing[]
-}
-
-const emptyArmory = {
+const emptyArmory: Armory = {
 	weapons: [],
 	attachments: [],
 	gear: [],

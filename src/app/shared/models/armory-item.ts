@@ -2,6 +2,13 @@ import PropTypes from 'prop-types'
 
 import { Resource, ResourcePropShape } from './resource'
 
+export type Armory = {
+	weapons: Weapon[]
+	attachments: Attachment[]
+	gear: Gear[]
+	clothing: Clothing[]
+}
+
 export interface ArmoryItem extends Resource {
 	type: string
 	platform: string

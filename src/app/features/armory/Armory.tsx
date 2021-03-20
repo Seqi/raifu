@@ -20,6 +20,7 @@ import {
 import { WeaponCard, AttachmentCard, GearCard, ClothingCard } from 'app/shared/cards'
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
+import { Armory as ArmoryCollection } from 'app/shared/models/armory-item'
 
 const defaultState = { armory: null, loading: true, error: false }
 
@@ -110,9 +111,12 @@ export default function Armory() {
 		armoryService
 			.get()
 			.then(
-				(result) => mounted && setArmory({ armory: result, loading: false, error: false })
+				(result: ArmoryCollection) =>
+					mounted && setArmory({ armory: result, loading: false, error: false })
 			)
-			.catch((e) => mounted && setArmory({ error: true, loading: false, armory: null }))
+			.catch(
+				(e: any) => mounted && setArmory({ error: true, loading: false, armory: null })
+			)
 	}, [])
 
 	useEffect(() => {
