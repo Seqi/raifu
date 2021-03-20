@@ -1,2 +1,2 @@
-export { default as brands } from './brands'
-export { default as platforms } from './platforms'
+export * from './brands'
+export * from './platforms'

@@ -1,16 +1,14 @@
 import { useState, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Category, Platform } from 'app/data/constants/platforms'
+import { ArmoryItems, Category, PlatformOf } from 'app/data/constants/platforms'
 
 import RotatedImage from './RotatedImage'
 import { ArmoryItem } from '../models/armory-item'
 
 const defaults: {
 	[CKey in Category]: {
-		// TODO: Unsure why this is classed as unused?
-		// eslint-disable-next-line no-unused-vars
-		[PKey in Platform<CKey>]: string // TODO: Doesnt work with number indexer.. ArmoryItems<CKey, PKey>
+		[PKey in PlatformOf<CKey>]: ArmoryItems<CKey, PKey>
 	}
 } = {
 	weapons: {
@@ -23,28 +21,28 @@ const defaults: {
 		support: 'M249',
 	},
 	attachments: {
-		barrel: 'surpressor',
-		externals: 'grip',
-		illumination: 'flashlight',
-		sights: 'red-dot',
-		underbarrel: 'vertical-foregrip',
+		barrel: 'Surpressor',
+		externals: 'Grip',
+		illumination: 'Flashlight',
+		sights: 'Red Dot',
+		underbarrel: 'Vertical Foregrip',
 	},
 	clothing: {
-		footwear: 'boots',
-		hands: 'gloves',
-		hats: 'cap',
-		jackets: 'smock',
-		legs: 'pants',
-		shirts: 'ubacs',
-		suits: 'gorka',
+		footwear: 'Boots',
+		hands: 'Gloves',
+		hats: 'Cap',
+		jackets: 'Smock',
+		legs: 'Pants',
+		shirts: 'Ubacs',
+		suits: 'Gorka',
 	},
 	gear: {
-		carriers: 'plate-carrier',
-		communication: 'radio',
-		grenades: 'storm-360',
-		holsters: 'retention-holster',
-		misc: 'knife',
-		protection: 'fast-helmet',
+		carriers: 'Plate Carrier',
+		communication: 'Radio',
+		grenades: 'Storm 360',
+		holsters: 'Retention Holster',
+		misc: 'Knife',
+		protection: 'Fast Helmet',
 	},
 }
 

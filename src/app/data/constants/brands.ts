@@ -1,4 +1,4 @@
-const brands = [
+export const brands = [
 	'6 mm Proshop',
 	'A&K',
 	'AGM',
@@ -69,5 +69,3 @@ const brands = [
 ] as const
 
 export type Brand = typeof brands[number]
-
-export default brands

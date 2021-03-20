@@ -124,10 +124,15 @@ const platforms = {
 type _Platform = typeof platforms
 
 export type Category = keyof typeof platforms
-export type Platform<C extends Category> = keyof _Platform[C]
-export type ArmoryItems<C extends Category, P extends Platform<C>> = _Platform[C][P]
+export type PlatformOf<C extends Category> = keyof _Platform[C]
+export type ArmoryItems<C extends Category, P extends PlatformOf<C>> = Extract<
+	_Platform[C][P],
+	readonly string[]
+>[number]
 
-export type WeaponPlatform = Platform<'weapons'>
-export type AttachmentPlatform = Platform<'attachments'>
-export type GearPlatform = Platform<'gear'>
-export type ClothingPlatform = Platform<'clothing'>
+export type WeaponPlatform = PlatformOf<'weapons'>
+export type AttachmentPlatform = PlatformOf<'attachments'>
+export type GearPlatform = PlatformOf<'gear'>
+export type ClothingPlatform = PlatformOf<'clothing'>
+
+export type Platform = PlatformOf<'weapons' | 'attachments' | 'gear' | 'clothing'>
