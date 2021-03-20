@@ -11,11 +11,13 @@ function buildUrl(region: string, path: string, useLocal: boolean): string {
 }
 
 function buildCloudUrl(region: string, path: string): string {
-	return `https://${region}-${app.options.projectId}.cloudfunctions.net/api/${path}`
+	return `https://${region}-${
+		(app.options as any).projectId // Necessary for weird typing on firebase
+	}.cloudfunctions.net/api/${path}`
 }
 
 function buildLocalUrl(region: string, path: string) {
-	return `http://localhost:5001/${app.options.projectId}/${region}/api/${path}`
+	return `http://localhost:5001/${(app.options as any).projectId}/${region}/api/${path}`
 }
 
 class CloudFunction {
