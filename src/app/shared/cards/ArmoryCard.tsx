@@ -12,7 +12,7 @@ import {
 	ResourceCardContent,
 	ResourceCardProps,
 } from './base/ResourceCard'
-import { ArmoryItem } from '../models/armory-item'
+import { ArmoryItem, ArmoryItemPropShape } from '../models/armory-item'
 import { Category } from 'app/data/constants/platforms'
 
 const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
@@ -66,18 +66,7 @@ export { ArmoryCardContainer, ArmoryCard }
 export default ArmoryCard
 
 ArmoryCard.propTypes = {
-	item: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		brand: PropTypes.string,
-		model: PropTypes.string,
-		nickname: PropTypes.string,
-		platform: PropTypes.string.isRequired,
-		type: PropTypes.string.isRequired,
-		createdAt: PropTypes.instanceOf(Date).isRequired,
-		updatedAt: PropTypes.instanceOf(Date).isRequired,
-		getTitle: PropTypes.func.isRequired,
-		getSubtitle: PropTypes.func.isRequired,
-	}).isRequired,
+	item: PropTypes.shape(ArmoryItemPropShape).isRequired,
 	category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
 		.isRequired,
 	canDelete: PropTypes.bool,

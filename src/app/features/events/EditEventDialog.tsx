@@ -18,12 +18,12 @@ import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 
 import { Error } from 'app/shared/state'
-import Event from 'app/shared/models/event'
+import Event, { EventPropShape } from 'app/shared/models/event'
 
 const BlankEvent: Event = {
 	id: '',
-	createdAt: new Date(),
-	updatedAt: new Date(),
+	createdAt: '',
+	updatedAt: '',
 	date: new Date(),
 	name: '',
 	organiser_uid: '',
@@ -182,23 +182,7 @@ EditEventDialog.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired,
-	event: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		date: PropTypes.instanceOf(Date).isRequired,
-		location: PropTypes.string.isRequired,
-		organiser_uid: PropTypes.string.isRequired,
-		public: PropTypes.bool.isRequired,
-		createdAt: PropTypes.instanceOf(Date).isRequired,
-		updatedAt: PropTypes.instanceOf(Date).isRequired,
-		owner: PropTypes.string.isRequired,
-		isGroup: PropTypes.bool.isRequired,
-
-		users: PropTypes.array.isRequired,
-
-		getTitle: PropTypes.func.isRequired,
-		getSubtitle: PropTypes.func.isRequired,
-	}),
+	event: PropTypes.shape(EventPropShape),
 }
 
 EditEventDialog.defaultProps = {

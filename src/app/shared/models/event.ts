@@ -35,8 +35,6 @@ export const EventPropShape = {
 	location: PropTypes.string.isRequired,
 	organiser_uid: PropTypes.string.isRequired,
 	public: PropTypes.bool.isRequired,
-	createdAt: PropTypes.instanceOf(Date).isRequired,
-	updatedAt: PropTypes.instanceOf(Date).isRequired,
 	owner: PropTypes.string.isRequired,
 	isGroup: PropTypes.bool.isRequired,
 

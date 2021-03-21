@@ -110,8 +110,8 @@ EditLoadoutDialog.defaultProps = {
 		weapons: [],
 		gear: [],
 		clothing: [],
-		createdAt: new Date(),
-		updatedAt: new Date(),
+		createdAt: '',
+		updatedAt: '',
 	},
 }
 

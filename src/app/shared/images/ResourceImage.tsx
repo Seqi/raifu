@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { ArmoryItems, Category, PlatformOf } from 'app/data/constants/platforms'
 
 import RotatedImage from './RotatedImage'
-import { ArmoryItem } from '../models/armory-item'
+import { ArmoryItem, ArmoryItemPropShape } from '../models/armory-item'
 
 const defaults: {
 	[CKey in Category]: {
@@ -114,18 +114,7 @@ ResourceImage.propTypes = {
 	rotate: PropTypes.bool,
 	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
 		.isRequired,
-	resource: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		brand: PropTypes.string,
-		model: PropTypes.string,
-		nickname: PropTypes.string,
-		platform: PropTypes.string.isRequired,
-		type: PropTypes.string.isRequired,
-		createdAt: PropTypes.instanceOf(Date).isRequired,
-		updatedAt: PropTypes.instanceOf(Date).isRequired,
-		getTitle: PropTypes.func.isRequired,
-		getSubtitle: PropTypes.func.isRequired,
-	}).isRequired,
+	resource: PropTypes.shape(ArmoryItemPropShape).isRequired,
 }
 
 ResourceImage.defaultProps = {
