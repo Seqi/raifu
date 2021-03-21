@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -94,19 +95,18 @@ class ConfirmDeleteDialog extends React.Component<
 			</Dialog>
 		)
 	}
+
+	public static propTypes = {
+		title: PropTypes.string.isRequired,
+		verb: PropTypes.oneOf(['Delete', 'Remove', PropTypes.string]),
+		isOpen: PropTypes.bool.isRequired,
+		onClose: PropTypes.func.isRequired,
+		onConfirm: PropTypes.func.isRequired,
+	}
+
+	public static defaultProps = {
+		verb: 'Delete',
+	}
 }
-
-// TODO: Can't get prop types working with ts class
-// ConfirmDeleteDialog.propTypes = {
-// 	title: PropTypes.string.isRequired,
-// 	verb: PropTypes.oneOf(['Delete', 'Remove', PropTypes.string]),
-// 	isOpen: PropTypes.bool.isRequired,
-// 	onClose: PropTypes.func.isRequired,
-// 	onConfirm: PropTypes.func.isRequired,
-// }
-
-// ConfirmDeleteDialog.defaultProps = {
-// 	verb: 'Delete',
-// }
 
 export default ConfirmDeleteDialog
