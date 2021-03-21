@@ -48,11 +48,11 @@ const AvailableArmoryContextProvider: FC = ({ children }) => {
 	let [armory, setArmory] = useState<Armory>(emptyArmory)
 
 	useEffect(() => {
-		if (editable && !armory) {
+		if (editable) {
 			armoryService.get()
 				.then((userArmory: Armory) => setArmory(userArmory))
 		}
-	}, [armory, editable])
+	}, [editable])
 
 	let unusedArmoryItems = getUnusedArmoryItems(loadout, armory)
 
