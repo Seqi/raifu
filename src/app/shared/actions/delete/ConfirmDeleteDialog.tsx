@@ -98,7 +98,10 @@ class ConfirmDeleteDialog extends React.Component<
 
 	public static propTypes = {
 		title: PropTypes.string.isRequired,
-		verb: PropTypes.oneOf(['Delete', 'Remove', PropTypes.string]),
+		verb: PropTypes.oneOfType([
+			PropTypes.oneOf(['Delete', 'Remove'] as const),
+			PropTypes.string,
+		]),
 		isOpen: PropTypes.bool.isRequired,
 		onClose: PropTypes.func.isRequired,
 		onConfirm: PropTypes.func.isRequired,

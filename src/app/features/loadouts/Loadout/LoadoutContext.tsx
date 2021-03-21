@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { loadouts } from 'app/data/api'
 import { Loadout, LoadoutPropType } from 'app/shared/models/loadout'
+import { Clothing, Gear } from 'app/shared/models/armory-item'
 
 // TODO: Type
 let LoadoutContext = React.createContext<any>(null)
@@ -145,16 +146,16 @@ const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 	)
 
 	let deleteGear = useCallback(
-		async (gearId) => {
+		async (gear: Gear) => {
 			// Save
-			await loadouts.loadout(currentLoadout.id).gear.delete(gearId)
+			await loadouts.loadout(currentLoadout.id).gear.delete(gear.id)
 
 			analytics.logEvent('loadout_gear_deleted')
 
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				gear: currentLoadout.gear.filter((g) => g.id !== gearId),
+				gear: currentLoadout.gear.filter((g) => g.id !== gear.id),
 			}))
 		},
 		[analytics, currentLoadout.id]
@@ -181,16 +182,16 @@ const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 	)
 
 	let deleteClothing = useCallback(
-		async (clothingId) => {
+		async (clothing: Clothing) => {
 			// Save
-			await loadouts.loadout(currentLoadout.id).clothing.delete(clothingId)
+			await loadouts.loadout(currentLoadout.id).clothing.delete(clothing.id)
 
 			analytics.logEvent('loadout_clothing_deleted')
 
 			// Update
 			setLoadout((currentLoadout) => ({
 				...currentLoadout,
-				clothing: currentLoadout.clothing.filter((c) => c.id !== clothingId),
+				clothing: currentLoadout.clothing.filter((c) => c.id !== clothing.id),
 			}))
 		},
 		[analytics, currentLoadout.id]

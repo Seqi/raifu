@@ -7,7 +7,7 @@ import AppOverlay from '../../utils/AppOverlay'
 type ErrorOverlayProps = {
 	icon?: string
 	message?: string
-	onRetry?: () => any
+	onRetry?: (() => any) | null
 }
 
 const ErrorOverlay: FC<ErrorOverlayProps> = ({ icon, message, onRetry }) => {
@@ -49,7 +49,7 @@ ErrorOverlay.propTypes = {
 ErrorOverlay.defaultProps = {
 	icon: 'far fa-dizzy',
 	message: '',
-	onRetry: () => {},
+	onRetry: null,
 }
 
 export default ErrorOverlay

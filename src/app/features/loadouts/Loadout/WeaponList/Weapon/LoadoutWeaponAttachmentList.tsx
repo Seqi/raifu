@@ -26,8 +26,8 @@ const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
 	)
 
 	let deleteAttachment = useCallback(
-		async (attachmentId: Attachment) => {
-			await deleteWeaponAttachment(weapon.id, attachmentId)
+		async (attachment: Attachment) => {
+			await deleteWeaponAttachment(weapon.id, attachment.id)
 		},
 		[deleteWeaponAttachment, weapon]
 	)
