@@ -29,8 +29,8 @@ const authActions: AuthContextValue = {
 	},
 
 	login: {
-		withTwitter: () => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()),
-		withGoogle: () => auth.signInWithPopup(new firebase.auth.TwitterAuthProvider()),
+		withTwitter: () => auth.signInWithPopup(new firebase.auth.TwitterAuthProvider()),
+		withGoogle: () => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()),
 		withEmail: (email: string, pass: string) =>
 			auth.signInWithEmailAndPassword(email, pass),
 	},
