@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 
 export interface Resource {
 	id: string
-	createdAt?: string | null
-	updatedAt?: string | null
+	createdAt: string | Date
+	updatedAt: string | Date
 
 	getTitle: () => string
 	getSubtitle: () => string
@@ -12,8 +12,10 @@ export interface Resource {
 export const ResourcePropShape = {
 	id: PropTypes.string.isRequired,
 
-	createdAt: PropTypes.string,
-	updatedAt: PropTypes.string,
+	createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)])
+		.isRequired,
+	updatedAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)])
+		.isRequired,
 
 	getTitle: PropTypes.func.isRequired,
 	getSubtitle: PropTypes.func.isRequired,

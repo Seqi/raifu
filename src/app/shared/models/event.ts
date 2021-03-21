@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { Loadout, LoadoutPropType } from './loadout'
 import { Resource, ResourcePropShape } from './resource'
 
-export interface Event extends Omit<Resource, 'createdAt' | 'updatedAt'> {
+export interface Event extends Resource {
 	name: string
 	date: Date
 	location: string
@@ -10,9 +10,6 @@ export interface Event extends Omit<Resource, 'createdAt' | 'updatedAt'> {
 	public: boolean
 	owner?: boolean | null
 	isGroup?: boolean | null
-
-	createdAt?: Date | null
-	updatedAt?: Date | null
 
 	loadout?: Loadout | null // TODO: ?
 	users?: EventUser[] | null
@@ -33,8 +30,8 @@ export const EventUserPropShape = {
 export const EventPropShape = {
 	...ResourcePropShape,
 
-	createdAt: PropTypes.instanceOf(Date),
-	updatedAt: PropTypes.instanceOf(Date),
+	createdAt: PropTypes.instanceOf(Date).isRequired,
+	updatedAt: PropTypes.instanceOf(Date).isRequired,
 	name: PropTypes.string.isRequired,
 	date: PropTypes.instanceOf(Date).isRequired,
 	location: PropTypes.string.isRequired,
