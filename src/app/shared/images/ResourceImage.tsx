@@ -53,8 +53,14 @@ const loadImage = (
 	resourcePlatform: string
 ): string | undefined => {
 	try {
+		let formattedPlatform = resourcePlatform
+			.toLowerCase()
+			.replace(/[.]/g, '')
+			.replace(/\s/g, '-')
+			.replace(/\//g, '-')
+
 		// TODO: Use esnext modules
-		return require(`assets/outlines/${resourceCategory}/${resourceType}/${resourcePlatform}.svg`)
+		return require(`assets/outlines/${resourceCategory}/${resourceType}/${formattedPlatform}.svg`)
 			.default
 	} catch {
 		return undefined
@@ -72,13 +78,7 @@ const ResourceImage: FC<ResourceImageProps> = ({ resourceType, resource, rotate 
 	let [image, setImage] = useState<any>()
 
 	useEffect(() => {
-		let formattedPlatform = resource.platform
-			.toLowerCase()
-			.replace(/[.]/g, '')
-			.replace(/\s/g, '-')
-			.replace(/\//g, '-')
-
-		let img = loadImage(resourceType, resource.type, formattedPlatform)
+		let img = loadImage(resourceType, resource.type, resource.platform)
 
 		// Try fetch a default for the provided options
 		if (!img) {
