@@ -8,6 +8,7 @@ import { LoadoutCard } from 'app/shared/cards'
 import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
 import { RouteChildrenProps } from 'react-router'
 import { Loadout } from 'app/shared/models/loadout'
+import { ResourceCardLike } from 'app/shared/cards/base/ResourceCard'
 
 type LoadoutListProps = RouteChildrenProps
 type LoadoutListState = {
@@ -71,7 +72,7 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 			items={ loadouts }
 			resource={ loadoutService }
 			resourceName='loadout'
-			card={ LoadoutCard }
+			card={ LoadoutCard as ResourceCardLike }
 			onResourceClick={ viewLoadout }
 			renderAddDialog={ (props) => <EditLoadoutDialog action='Add' { ...props } /> }
 			fullWidth={ true }

@@ -4,7 +4,7 @@ import { LoadoutContext, LoadoutAdd, LoadoutSeparator } from 'app/features/loado
 import LoadoutWeapon from './Weapon/LoadoutWeapon'
 import AddResourceDialog from '../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
-import { Weapon } from 'app/shared/models/armory-item'
+import { LoadoutWeapon as LoadoutWeaponType } from 'app/shared/models/loadout'
 
 const LoadoutWeaponList: FC = () => {
 	let [dialog, setDialog] = useState<'add' | null>(null)
@@ -12,8 +12,12 @@ const LoadoutWeaponList: FC = () => {
 	let { weapons: availableWeapons } = useContext(AvailableArmoryContext)
 
 	let saveWeapon = useCallback(
-		async (weaponId: string) => {
-			await addWeapon(weaponId)
+		async (weaponIds: string | string[]) => {
+			if (!Array.isArray(weaponIds)) {
+				weaponIds = [weaponIds]
+			}
+
+			await Promise.all(weaponIds.map((weaponId) => addWeapon(weaponId)))
 			setDialog(null)
 		},
 		[addWeapon]
@@ -21,7 +25,7 @@ const LoadoutWeaponList: FC = () => {
 
 	return (
 		<React.Fragment>
-			{(loadout.weapons || []).map((weapon: Weapon) => (
+			{(loadout.weapons || []).map((weapon: LoadoutWeaponType) => (
 				<LoadoutSeparator key={ weapon.id }>
 					<LoadoutWeapon weapon={ weapon } />
 				</LoadoutSeparator>

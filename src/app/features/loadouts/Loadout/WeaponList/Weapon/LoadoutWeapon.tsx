@@ -5,7 +5,10 @@ import { Box, styled } from '@material-ui/core'
 
 import LoadoutWeaponItem from './LoadoutWeaponItem'
 import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
-import { Weapon, ArmoryItemPropShape } from 'app/shared/models/armory-item'
+import {
+	LoadoutWeapon as LoadoutWeaponType,
+	LoadoutWeaponPropType,
+} from 'app/shared/models/loadout'
 
 const LoadoutWeaponContainer = styled(Box)(({ theme }) => ({
 	flexDirection: 'row',
@@ -15,7 +18,7 @@ const LoadoutWeaponContainer = styled(Box)(({ theme }) => ({
 }))
 
 type LoadoutWeaponProps = {
-	weapon: Weapon
+	weapon: LoadoutWeaponType
 }
 
 const LoadoutWeapon: FC<LoadoutWeaponProps> = ({ weapon }) => {
@@ -33,7 +36,7 @@ const LoadoutWeapon: FC<LoadoutWeaponProps> = ({ weapon }) => {
 }
 
 LoadoutWeapon.propTypes = {
-	weapon: PropTypes.shape(ArmoryItemPropShape).isRequired,
+	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired,
 }
 
 export default LoadoutWeapon

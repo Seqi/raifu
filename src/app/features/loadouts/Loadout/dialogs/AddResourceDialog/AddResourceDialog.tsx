@@ -48,20 +48,20 @@ class AddResourceDialog extends Component<
 
 	componentWillUnmount = () => (this.isUnmounted = true)
 
-	onItemSelected(itemId: string): void {
+	onItemSelected(item: Resource): void {
 		this.setState(({ selectedIds }) => {
 			// TODO: Maybe just use sets?
-			let selectedItemIndex = selectedIds.findIndex((id) => id === itemId)
+			let selectedItemIndex = selectedIds.findIndex((id) => id === item.id)
 
 			let newSelectedIds = [...selectedIds]
 
 			if (selectedItemIndex === -1) {
 				if (!this.props.allowMultiple && selectedIds.length > 0) {
 					// If we're not allowing multiple, replace
-					newSelectedIds = [itemId]
+					newSelectedIds = [item.id]
 				} else {
 					// Otherwise add
-					newSelectedIds.push(itemId)
+					newSelectedIds.push(item.id)
 				}
 			} else {
 				// If it existed, remove from the selection

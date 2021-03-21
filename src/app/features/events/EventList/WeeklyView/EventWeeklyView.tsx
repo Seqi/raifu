@@ -27,7 +27,7 @@ const EventWeeklyView: FC<EventWeeklyViewProps> = ({
 	onEventSelected,
 	onSlotSelected,
 }) => {
-	let [week, setWeek] = useState([])
+	let [week, setWeek] = useState<moment.Moment[]>([])
 
 	const getEventsForDay = useCallback(
 		(day) => {

@@ -46,7 +46,7 @@ const ResourceSelect: FC<ResourceSelectProps> = ({
 		// into [ { type: 'rifles', platform: '1'}, { type: 'rifles', platform: '2' } ... ]
 		// for labeling
 		const allOptions = typeKeys.reduce((options, type) => {
-			const allPlatforms = types[type]
+			const allPlatforms = (types as any)[type]
 			const typeOptions = allPlatforms.map((p: any) => ({ platform: p, type: type }))
 
 			return options.concat(...typeOptions)

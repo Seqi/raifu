@@ -6,6 +6,7 @@ import { Grid, Fade } from '@material-ui/core'
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 import AddButton from 'app/shared/actions/add/AddButton'
 import { Resource } from '../models/resource'
+import { ResourceCardLike } from '../cards/base/ResourceCard'
 
 export type AddResourceDialogProps = {
 	isOpen: boolean
@@ -16,7 +17,7 @@ export type AddResourceDialogProps = {
 export type ResourceListProps<R extends Resource = Resource> = {
 	renderAddDialog: (props: AddResourceDialogProps) => React.ReactNode
 	items: R[]
-	card: React.ComponentType<any>
+	card: ResourceCardLike
 	onResourceClick: (item: R) => any
 	addResource: (resource: R) => any
 	deleteResource: (id: string) => any

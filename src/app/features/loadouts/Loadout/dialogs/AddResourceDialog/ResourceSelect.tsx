@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react'
+import { FC } from 'react'
 import PropType from 'prop-types'
 
 import { Grid, styled, Theme } from '@material-ui/core'

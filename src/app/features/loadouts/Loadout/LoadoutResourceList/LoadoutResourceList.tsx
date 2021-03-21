@@ -38,7 +38,7 @@ type LoadoutResourceListProps<T extends ArmoryItem = ArmoryItem> = {
 	renderAddDialog: (
 		isOpen: boolean,
 		onClose: () => any,
-		addItemToLoadout: (itemIds: string[]) => Promise<any>
+		addItemToLoadout: (itemIds: string | string[]) => Promise<any>
 	) => React.ReactNode
 }
 

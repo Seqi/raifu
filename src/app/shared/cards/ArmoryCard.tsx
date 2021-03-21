@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler } from 'react'
+import React, { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { styled } from '@material-ui/core'

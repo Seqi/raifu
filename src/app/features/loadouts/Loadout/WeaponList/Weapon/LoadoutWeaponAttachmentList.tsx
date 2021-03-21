@@ -6,6 +6,7 @@ import LoadoutResourceList from '../../LoadoutResourceList/LoadoutResourceList'
 import AddResourceDialog from '../../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../../AvailableArmoryContext'
 import { LoadoutWeapon, LoadoutWeaponPropType } from 'app/shared/models/loadout'
+import { Attachment } from 'app/shared/models/armory-item'
 
 type LoadoutWeaponAttachmentListProps = {
 	weapon: LoadoutWeapon
@@ -18,14 +19,14 @@ const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
 	let { attachments: availableAttachments } = useContext(AvailableArmoryContext)
 
 	let addAttachments = useCallback(
-		async (attachmentIds: string) => {
+		async (attachmentIds: string | string[]) => {
 			await addWeaponAttachments(weapon.id, attachmentIds)
 		},
 		[addWeaponAttachments, weapon]
 	)
 
 	let deleteAttachment = useCallback(
-		async (attachmentId: string) => {
+		async (attachmentId: Attachment) => {
 			await deleteWeaponAttachment(weapon.id, attachmentId)
 		},
 		[deleteWeaponAttachment, weapon]

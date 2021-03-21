@@ -21,6 +21,7 @@ import { WeaponCard, AttachmentCard, GearCard, ClothingCard } from 'app/shared/c
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
 import { Armory as ArmoryCollection } from 'app/shared/models/armory-item'
+import { ResourceCardLike } from 'app/shared/cards/base/ResourceCard'
 
 const defaultState = { armory: null, loading: true, error: false }
 
@@ -28,7 +29,7 @@ const armorySections: Partial<ResourceListContainerProps>[] = [
 	{
 		resource: weapons,
 		resourceName: 'weapons',
-		card: WeaponCard,
+		card: WeaponCard as ResourceCardLike,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -41,7 +42,7 @@ const armorySections: Partial<ResourceListContainerProps>[] = [
 	{
 		resource: attachments,
 		resourceName: 'attachments',
-		card: AttachmentCard,
+		card: AttachmentCard as ResourceCardLike,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -54,7 +55,7 @@ const armorySections: Partial<ResourceListContainerProps>[] = [
 	{
 		resource: gear,
 		resourceName: 'gear',
-		card: GearCard,
+		card: GearCard as ResourceCardLike,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -67,7 +68,7 @@ const armorySections: Partial<ResourceListContainerProps>[] = [
 	{
 		resource: clothing,
 		resourceName: 'clothing',
-		card: ClothingCard,
+		card: ClothingCard as ResourceCardLike,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }

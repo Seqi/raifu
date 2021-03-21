@@ -1,4 +1,4 @@
-const platforms = {
+export const platforms = {
 	weapons: {
 		rifles: ['M4', 'UAR', 'VZ.58'],
 		smgs: [
@@ -135,4 +135,15 @@ export type AttachmentPlatform = PlatformOf<'attachments'>
 export type GearPlatform = PlatformOf<'gear'>
 export type ClothingPlatform = PlatformOf<'clothing'>
 
-export type Platform = PlatformOf<'weapons' | 'attachments' | 'gear' | 'clothing'>
+export type Platform =
+	| WeaponPlatform
+	| AttachmentPlatform
+	| GearPlatform
+	| ClothingPlatform
+
+export type Weapon = ArmoryItems<'weapons', WeaponPlatform>
+export type Attachment = ArmoryItems<'attachments', AttachmentPlatform>
+export type Gear = ArmoryItems<'gear', GearPlatform>
+export type Clothing = ArmoryItems<'clothing', ClothingPlatform>
+
+export type ArmoryItem = Weapon | Attachment | Gear | Clothing
