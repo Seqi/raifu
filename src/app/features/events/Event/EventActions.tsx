@@ -12,7 +12,7 @@ import Event, { EventPropShape } from 'app/shared/models/event'
 import { Loadout } from 'app/shared/models/loadout'
 
 let getMyLoadout = (event: Event): Loadout | null | undefined => {
-	return event.users[0]?.loadout
+	return event.users![0]?.loadout
 }
 
 type EventActionsProps = {
@@ -36,7 +36,7 @@ const EventActions: FC<EventActionsProps> = ({
 	const userLoadout = getMyLoadout(event)
 
 	let isAtBottom = useIsPageAtBottom()
-	let isInvite = event.users.length === 0
+	let isInvite = event.users!.length === 0
 	let canViewChecklist = userLoadout != null
 
 	// Hide the entire speed dial if no actions are available

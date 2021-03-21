@@ -22,17 +22,13 @@ import Event, { EventPropShape } from 'app/shared/models/event'
 
 const BlankEvent: Event = {
 	id: '',
-	createdAt: '',
-	updatedAt: '',
+	createdAt: new Date(),
+	updatedAt: new Date(),
 	date: new Date(),
 	name: '',
 	organiser_uid: '',
 	location: '',
-	owner: '',
-	isGroup: false,
 	public: false,
-
-	users: [],
 
 	getTitle: () => '',
 	getSubtitle: () => '',

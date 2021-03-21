@@ -49,7 +49,7 @@ module.exports = {
 		}
 
 		// Add attachments array
-		const weapon = await Weapon.findByPk(weaponId)
+		const weapon = (await Weapon.findByPk(weaponId)).toJSON()
 
 		return {
 			...weapon,

@@ -22,18 +22,18 @@ const EventContent: FC<EventContentProps> = ({
 }) => {
 	let [selectedUserIndex, setSelectedUserIndex] = useState(0)
 
-	const selectedUser = event.users[selectedUserIndex]
+	const selectedUser = event.users![selectedUserIndex]
 	const amISelected = selectedUserIndex === 0
 
-	if (event.users.length === 0) {
+	if (event.users!.length === 0) {
 		return <EventInvite event={ event } onJoin={ onEventJoined } />
 	}
 
 	return (
 		<React.Fragment>
-			{event.users.length > 1 && (
+			{event.users!.length > 1 && (
 				<EventUserSelect
-					users={ event.users }
+					users={ event.users! }
 					userIndex={ selectedUserIndex }
 					onUserIndexChange={ setSelectedUserIndex }
 				/>
