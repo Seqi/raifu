@@ -40,8 +40,8 @@ module.exports = function orderLoadoutItems(loadout) {
 
 		if (weapon.attachments) {
 			weapon.attachments.sort(dateSortByKey('loadout_weapon_attachment'))
-			weapon.attachents.forEach((attachment) => {
-				setTimestamps(attachment, 'loadout_weapon_attachments')
+			weapon.attachments.forEach((attachment) => {
+				setTimestamps(attachment, 'loadout_weapon_attachment')
 			})
 
 			weapon.attachments.forEach(
