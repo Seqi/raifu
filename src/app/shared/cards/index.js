@@ -1,6 +1,0 @@
-export { default as ArmoryCard } from './ArmoryCard'
-export { default as WeaponCard } from './WeaponCard'
-export { default as AttachmentCard } from './AttachmentCard'
-export { default as GearCard } from './GearCard'
-export { default as ClothingCard } from './ClothingCard'
-export { default as LoadoutCard } from './LoadoutCard'

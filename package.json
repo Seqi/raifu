@@ -8,6 +8,15 @@
 		"@material-ui/icons": "^4.9.1",
 		"@material-ui/lab": "^4.0.0-alpha.42",
 		"@material-ui/pickers": "^3.2.6",
+		"@types/marked": "^2.0.0",
+		"@types/moment": "^2.13.0",
+		"@types/moment-range": "^4.0.0",
+		"@types/node": "^14.14.32",
+		"@types/qs": "^6.9.6",
+		"@types/react": "^17.0.1",
+		"@types/react-big-calendar": "^0.30.1",
+		"@types/react-dom": "^17.0.1",
+		"@types/react-router-dom": "^5.1.2",
 		"core-js": "^2.6.9",
 		"firebase": "^8.2.2",
 		"marked": "^0.8.2",
@@ -22,6 +31,7 @@
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "^4.0.3",
 		"title-case": "^3.0.3",
+		"typescript": "^4.2.3",
 		"whatwg-fetch": "^3.0.0"
 	},
 	"devDependencies": {

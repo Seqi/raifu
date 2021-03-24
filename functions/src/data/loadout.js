@@ -25,6 +25,13 @@ module.exports = {
 						exclude: ['uid'],
 					},
 				},
+				{
+					model: Clothing,
+					as: 'clothing',
+					attributes: {
+						exclude: ['uid'],
+					},
+				},
 			],
 			attributes: {
 				exclude: ['uid'],
@@ -85,6 +92,40 @@ module.exports = {
 		}
 
 		return loadout.toJSON()
+	},
+
+	add: async (loadout, user) => {
+		try {
+			// Overwrite any attempts to hijack the id or uid
+			const { id, ...loadoutWithoutId } = loadout
+
+			let loadoutCreationProps = {
+				...loadoutWithoutId,
+				uid: user.uid,
+			}
+
+			const result = await Loadout.create(loadoutCreationProps)
+			const createdLoadout = result.toJSON()
+
+			// Apply some empty props
+			// TODO: Should be a hook, but afterCreate doesn't seem to work?
+
+			return {
+				...createdLoadout,
+				weapons: [],
+				gear: [],
+				clothing: [],
+			}
+		} catch (e) {
+			// Validation errors are contained in an array, so pick them out
+			let message = e.errors && e.errors.map((error) => error.message)
+
+			if (message) {
+				throw new errors.BadRequestError(message)
+			} else {
+				throw e
+			}
+		}
 	},
 
 	edit: async (id, data, user) => {

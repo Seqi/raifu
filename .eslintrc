@@ -52,7 +52,7 @@
 		"react/no-unused-state": "error",
 		"react/no-unsafe": "error",
 		"react/no-unknown-property": "error",
-		"react/react-in-jsx-scope": "error",
+		"react/react-in-jsx-scope": "off",
 		"react/prop-types": [
 			"error",
 			{

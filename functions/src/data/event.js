@@ -4,7 +4,14 @@ const Op = require('sequelize').Op
 const errors = require('../utils/errors')
 const database = require('./database/database')
 const loadout = require('./loadout')
-const { Event, EventUser, Loadout, Weapon } = require('./database/entities')
+const {
+	Event,
+	EventUser,
+	Loadout,
+	Weapon,
+	Gear,
+	Clothing,
+} = require('./database/entities')
 
 let getAll = async (user) => {
 	let events = await Event.findAll({
@@ -20,12 +27,28 @@ let getAll = async (user) => {
 				attributes: {
 					exclude: ['uid'],
 				},
-				include: {
-					model: Weapon,
-					attributes: {
-						exclude: ['uid'],
+				include: [
+					{
+						model: Weapon,
+						attributes: {
+							exclude: ['uid'],
+						},
 					},
-				},
+					{
+						model: Gear,
+						as: 'gear',
+						attributes: {
+							exclude: ['uid'],
+						},
+					},
+					{
+						model: Clothing,
+						as: 'clothing',
+						attributes: {
+							exclude: ['uid'],
+						},
+					},
+				],
 			},
 			attributes: {
 				exclude: ['uid', 'loadout_id', 'event_id'],

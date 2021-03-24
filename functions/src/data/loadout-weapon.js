@@ -48,7 +48,13 @@ module.exports = {
 			})
 		}
 
-		return await Weapon.findByPk(weaponId)
+		// Add attachments array
+		const weapon = (await Weapon.findByPk(weaponId)).toJSON()
+
+		return {
+			...weapon,
+			attachments: [],
+		}
 	},
 
 	delete: async (weaponId, loadoutId, user) => {
