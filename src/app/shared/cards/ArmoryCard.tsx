@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { styled } from '@material-ui/core'
@@ -10,12 +10,12 @@ import {
 	ResourceCard,
 	ResourceCardHeader,
 	ResourceCardContent,
-	ResourceCardProps,
 } from './base/ResourceCard'
 import { ArmoryItem, ArmoryItemPropShape } from '../models/armory-item'
 import { Category } from 'app/data/constants/platforms'
+import { ResourceCardProps } from '../resources/ResourceList'
 
-const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
+export const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	width: '220px',
 	height: '300px',
 	'&:hover': {
@@ -28,27 +28,24 @@ const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	},
 }))
 
-export type ArmoryCardProps = ResourceCardProps & {
-	item: ArmoryItem
+export type ArmoryCardProps = ResourceCardProps<ArmoryItem> & {
 	category: Category
+	canDelete?: boolean
+	className?: string
 }
 
-export type ArmoryCardLike = FC<ArmoryCardProps> & {
-	template: React.ComponentType<any>
-}
-
-const ArmoryCard: ArmoryCardLike = ({
+export const ArmoryCard: FC<ArmoryCardProps> = ({
 	item: resource,
 	category,
 	canDelete,
 	onClick,
 	onDelete,
 	className,
-}) => (
+}: ArmoryCardProps) => (
 	<ArmoryCardContainer className={ className } onClick={ onClick }>
 		<DeletableOverlay
 			canDelete={ canDelete }
-			onDelete={ onDelete || Promise.resolve }
+			onDelete={ onDelete }
 			dialogTitle={ resource.getTitle() }
 		>
 			<ResourceCardHeader resource={ resource } />
@@ -60,9 +57,6 @@ const ArmoryCard: ArmoryCardLike = ({
 	</ArmoryCardContainer>
 )
 
-ArmoryCard.template = ArmoryCardContainer
-
-export { ArmoryCardContainer, ArmoryCard }
 export default ArmoryCard
 
 ArmoryCard.propTypes = {
@@ -70,15 +64,13 @@ ArmoryCard.propTypes = {
 	category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
 		.isRequired,
 	canDelete: PropTypes.bool,
-	onClick: PropTypes.func,
-	onDelete: PropTypes.func,
+	onClick: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
 	// Allows us to use styled components to style the ArmoryCard further
 	className: PropTypes.string,
 }
 
 ArmoryCard.defaultProps = {
-	canDelete: false,
-	onClick: () => {},
-	onDelete: () => Promise.resolve(),
+	canDelete: true,
 	className: '',
 }

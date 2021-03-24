@@ -1,25 +1,25 @@
-import { useRef, useState, useEffect, useCallback, FC } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import ResourceList, { ResourceListProps } from './ResourceList'
+import { ResourceList, ResourceListProps } from './ResourceList'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { Resource } from '../models/resource'
 
-export type ResourceListContainerProps = Omit<
-	ResourceListProps,
+export type ResourceListContainerProps<R extends Resource> = Omit<
+	ResourceListProps<R>,
 	'addResource' | 'deleteResource'
 > & {
 	resource: any // TODO: Type
 	resourceName: string
 }
 
-export const ResourceListContainer: FC<ResourceListContainerProps> = ({
+export const ResourceListContainer = <R extends Resource>({
 	resource,
 	resourceName,
 	items,
 	...props
-}) => {
-	let [currentItems, setItems] = useState(items)
+}: ResourceListContainerProps<R>) => {
+	let [currentItems, setItems] = useState<R[]>(items)
 	let analytics = useAnalytics()
 
 	// Listen out for component unmounting so we don't set state on a mounted component
@@ -31,23 +31,22 @@ export const ResourceListContainer: FC<ResourceListContainerProps> = ({
 	}, [])
 
 	let addResource = useCallback(
-		(item: Resource) =>
+		(item: R) =>
 			resource
 				.add(item)
-				.then(
-					(result: Resource) => mounted.current && setItems((items) => [...items, result])
-				)
+				.then((result: R) => mounted.current && setItems((items) => [...items, result]))
 				.then(() => analytics.logEvent(`${resourceName}_added`)),
 		[analytics, resource, resourceName]
 	)
 
 	let deleteResource = useCallback(
-		(id) =>
+		(deletedItem: R) =>
 			resource
-				.delete(id)
+				.delete(deletedItem.id)
 				.then(
 					() =>
-						mounted.current && setItems((items) => items.filter((item) => item.id !== id))
+						mounted.current &&
+						setItems((items) => items.filter((item) => item.id !== deletedItem.id))
 				)
 				.then(() => analytics.logEvent(`${resourceName}_added`)),
 		[analytics, resource, resourceName]
@@ -55,10 +54,10 @@ export const ResourceListContainer: FC<ResourceListContainerProps> = ({
 
 	return (
 		<ResourceList
+			{ ...props }
 			items={ currentItems }
 			addResource={ addResource }
 			deleteResource={ deleteResource }
-			{ ...props }
 		/>
 	)
 }

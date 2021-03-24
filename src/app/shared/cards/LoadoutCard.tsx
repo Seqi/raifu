@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { styled } from '@material-ui/core'
@@ -10,11 +10,11 @@ import {
 	ResourceCard,
 	ResourceCardHeader,
 	ResourceCardContent,
-	ResourceCardProps,
 } from './base/ResourceCard'
 import { Loadout, LoadoutPropType } from '../models/loadout'
+import { ResourceCardProps } from '../resources/ResourceList'
 
-const LoadoutCardContainer = styled(ResourceCard)({
+export const LoadoutCardContainer = styled(ResourceCard)({
 	// For cards with non-height-affecting content (i.e. add card),
 	// give it some height
 	minHeight: '175px',
@@ -27,19 +27,13 @@ const LoadoutCardContent = styled(ResourceCardContent)({
 	overflow: 'unset',
 })
 
-export type LoadoutCardProps = ResourceCardProps & {
-	item: Loadout
-}
+export type LoadoutCardProps = ResourceCardProps<Loadout>
 
-export type LoadoutCardLike = FC<LoadoutCardProps> & {
-	template: React.ComponentType<any>
-}
-
-const LoadoutCard: LoadoutCardLike = ({ item, canDelete, onClick, onDelete }) => {
+export const LoadoutCard: FC<LoadoutCardProps> = ({ item, onClick, onDelete }) => {
 	return (
 		<LoadoutCardContainer onClick={ onClick }>
 			<DeletableOverlay
-				canDelete={ canDelete }
+				canDelete={ true }
 				onDelete={ onDelete || Promise.resolve }
 				dialogTitle={ item.getTitle() }
 			>
@@ -53,20 +47,10 @@ const LoadoutCard: LoadoutCardLike = ({ item, canDelete, onClick, onDelete }) =>
 	)
 }
 
-LoadoutCard.template = LoadoutCardContainer
-
-export { LoadoutCardContainer, LoadoutCardContent, LoadoutCard }
 export default LoadoutCard
 
 LoadoutCard.propTypes = {
 	item: PropTypes.shape(LoadoutPropType).isRequired,
-	canDelete: PropTypes.bool,
-	onClick: PropTypes.func,
-	onDelete: PropTypes.func,
-}
-
-LoadoutCard.defaultProps = {
-	canDelete: false,
-	onClick: () => {},
-	onDelete: Promise.resolve,
+	onClick: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
 }

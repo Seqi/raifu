@@ -43,6 +43,8 @@ const ResourceSelect: FC<ResourceSelectProps<Resource>> = <R extends Resource>({
 					<ResourceSelectCard
 						category={ category }
 						item={ item }
+						canDelete={ false }
+						onDelete={ () => {} } // No op
 						onClick={ () => onItemSelected(item) }
 						active={ !!(selectedItemIds || []).find((id) => id === item.id) }
 					/>

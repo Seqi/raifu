@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { Grid, Fade } from '@material-ui/core'
@@ -6,33 +6,40 @@ import { Grid, Fade } from '@material-ui/core'
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 import AddButton from 'app/shared/actions/add/AddButton'
 import { Resource } from '../models/resource'
-import { ResourceCardLike } from '../cards/base/ResourceCard'
 
-export type AddResourceDialogProps = {
+export type AddResourceDialogProps<R extends Resource = Resource> = {
 	isOpen: boolean
 	onClose: () => void
-	onSave: (resource: Resource) => any
+	onSave: (resource: R) => Promise<any>
+}
+
+export type ResourceCardProps<R extends Resource = Resource> = {
+	item: R
+	onClick: () => void
+	onDelete: () => Promise<void>
 }
 
 export type ResourceListProps<R extends Resource = Resource> = {
-	renderAddDialog: (props: AddResourceDialogProps) => React.ReactNode
 	items: R[]
-	card: ResourceCardLike
+	renderAddDialog: (props: AddResourceDialogProps<R>) => React.ReactNode
+	card: React.ComponentType<ResourceCardProps<R>>
+	cardContainer: React.ComponentType<any>
 	onResourceClick: (item: R) => any
-	addResource: (resource: R) => any
-	deleteResource: (id: string) => any
+	addResource: (resource: R) => Promise<any>
+	deleteResource: (item: R) => Promise<any>
 	fullWidth?: boolean
 }
 
-const ResourceList: FC<ResourceListProps> = ({
+export const ResourceList = <R extends Resource = Resource>({
 	renderAddDialog,
 	items,
 	card,
+	cardContainer,
 	onResourceClick,
 	addResource,
 	deleteResource,
 	fullWidth,
-}) => {
+}: ResourceListProps<R>) => {
 	let [dialog, setDialog] = useState<'add' | null>(null)
 
 	return (
@@ -44,9 +51,8 @@ const ResourceList: FC<ResourceListProps> = ({
 							<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
 								{React.createElement(card, {
 									item: item,
-									canDelete: true,
 									onClick: () => onResourceClick(item),
-									onDelete: () => deleteResource(item.id),
+									onDelete: () => deleteResource(item),
 								})}
 							</Grid>
 						</Fade>
@@ -55,7 +61,7 @@ const ResourceList: FC<ResourceListProps> = ({
 					<Fade key='add' in={ true } timeout={ 1000 }>
 						<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
 							{React.createElement(
-								card.template,
+								cardContainer,
 								{},
 								<AddButton onClick={ () => setDialog('add') } />
 							)}

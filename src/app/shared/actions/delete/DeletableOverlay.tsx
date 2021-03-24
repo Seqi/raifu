@@ -8,7 +8,7 @@ import { DeleteButton, ConfirmDeleteDialog } from 'app/shared/actions/delete'
 type DeletableOverlayProps = {
 	dialogTitle: string
 	canDelete?: boolean
-	onDelete: () => Promise<any>
+	onDelete: () => any
 }
 
 const DeletableOverlay: FC<DeletableOverlayProps> = ({

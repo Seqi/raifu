@@ -1,9 +1,10 @@
-import { ArmoryCard, ArmoryCardLike } from './ArmoryCard'
+import { FC } from 'react'
 
-const ClothingCard: ArmoryCardLike = (props) => (
+import { ArmoryCard, ArmoryCardProps } from './ArmoryCard'
+
+export type ClothingCardProps = Omit<ArmoryCardProps, 'category'>
+export const ClothingCard: FC<ClothingCardProps> = (props: ClothingCardProps) => (
 	<ArmoryCard { ...props } category='clothing' />
 )
-
-ClothingCard.template = ArmoryCard.template
 
 export default ClothingCard

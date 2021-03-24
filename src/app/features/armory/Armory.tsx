@@ -17,19 +17,22 @@ import {
 	ResourceListContainer as ResourceList,
 	ResourceListContainerProps,
 } from 'app/shared/resources'
-import { WeaponCard, AttachmentCard, GearCard, ClothingCard } from 'app/shared/cards'
+import {
+	WeaponCard,
+	AttachmentCard,
+	GearCard,
+	ClothingCard,
+	ArmoryCardContainer,
+} from 'app/shared/cards'
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
-import { Armory as ArmoryCollection } from 'app/shared/models/armory-item'
-import { ResourceCardLike } from 'app/shared/cards/base/ResourceCard'
+import { Armory as ArmoryCollection, ArmoryItem } from 'app/shared/models/armory-item'
 
-const defaultState = { armory: null, loading: true, error: false }
-
-const armorySections: Partial<ResourceListContainerProps>[] = [
+const armorySections: Partial<ResourceListContainerProps<ArmoryItem>>[] = [
 	{
 		resource: weapons,
 		resourceName: 'weapons',
-		card: WeaponCard as ResourceCardLike,
+		card: WeaponCard,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -42,7 +45,7 @@ const armorySections: Partial<ResourceListContainerProps>[] = [
 	{
 		resource: attachments,
 		resourceName: 'attachments',
-		card: AttachmentCard as ResourceCardLike,
+		card: AttachmentCard,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -55,7 +58,7 @@ const armorySections: Partial<ResourceListContainerProps>[] = [
 	{
 		resource: gear,
 		resourceName: 'gear',
-		card: GearCard as ResourceCardLike,
+		card: GearCard,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -68,7 +71,7 @@ const armorySections: Partial<ResourceListContainerProps>[] = [
 	{
 		resource: clothing,
 		resourceName: 'clothing',
-		card: ClothingCard as ResourceCardLike,
+		card: ClothingCard,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -94,7 +97,22 @@ let ResourceTitle = styled(Typography)(({ theme }) => ({
 	},
 }))
 
-type ArmoryState = { armory: any; loading: boolean; error: boolean }
+type ArmoryState = {
+	// eslint-disable-next-line no-unused-vars
+	armory: { [key: string]: ArmoryItem[] }
+	loading: boolean
+	error: boolean
+}
+const defaultState: ArmoryState = {
+	armory: {
+		weapons: [],
+		attachments: [],
+		clothing: [],
+		gear: [],
+	},
+	loading: true,
+	error: false,
+}
 
 export default function Armory() {
 	let [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
@@ -116,7 +134,9 @@ export default function Armory() {
 					mounted && setArmory({ armory: result, loading: false, error: false })
 			)
 			.catch(
-				(e: any) => mounted && setArmory({ error: true, loading: false, armory: null })
+				(e: any) =>
+					mounted &&
+					setArmory({ error: true, loading: false, armory: defaultState.armory })
 			)
 	}, [])
 
@@ -148,6 +168,7 @@ export default function Armory() {
 						resource={ armorySection.resource }
 						resourceName={ armorySection.resourceName! }
 						card={ armorySection.card! }
+						cardContainer={ ArmoryCardContainer }
 						renderAddDialog={ armorySection.renderAddDialog! }
 						onResourceClick={ () => {} } //No-op
 					/>

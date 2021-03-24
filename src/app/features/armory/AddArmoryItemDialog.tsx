@@ -18,8 +18,9 @@ import ResourceSelect from 'app/shared/resources/ResourceSelect'
 import { brands } from 'app/data/constants'
 import { AddResourceDialogProps } from 'app/shared/resources/ResourceList'
 import { Category } from 'app/data/constants/platforms'
+import { ArmoryItem } from 'app/shared/models/armory-item'
 
-type AddArmoryItemProps = AddResourceDialogProps & {
+type AddArmoryItemProps = AddResourceDialogProps<ArmoryItem> & {
 	resourceTitle: string
 	resourceKey: Category
 	resourceName: string

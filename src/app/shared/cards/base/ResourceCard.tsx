@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-import React, { FC, MouseEventHandler } from 'react'
 import {
 	Card,
 	CardHeader,
@@ -11,6 +9,9 @@ import {
 
 import { Resource } from '../../models/resource'
 
+// ##################
+//     Base Card
+// ##################
 export const ResourceCard = styled(Card)({
 	display: 'flex',
 	flexDirection: 'column',
@@ -19,30 +20,27 @@ export const ResourceCard = styled(Card)({
 	transition: 'transform ease-in 0.15s',
 })
 
-export type ResourceCardProps = {
-	item: Resource
-	canDelete?: boolean
-	onClick?: MouseEventHandler<HTMLDivElement>
-	onDelete?: () => Promise<any>
-	className?: string
+// ##################
+//     Card Header
+// ##################
+// Override the default CardHeaderProps to take in a resource
+export type ResourceCardHeaderProps<R extends Resource> = Omit<
+	CardHeaderProps,
+	'resource'
+> & {
+	resource: R
 }
 
-export type ResourceCardLike = FC<ResourceCardProps> & {
-	template: React.ComponentType<any>
-}
-
-export type ResourceCardHeaderProps = Omit<CardHeaderProps, 'resource'> & {
-	resource: Resource
-}
-
-export const ResourceCardHeaderComponent: FC<ResourceCardHeaderProps> = ({
+// Create the component that defaults the title and subtitle to use resource
+export const ResourceCardHeaderBase = <R extends Resource>({
 	resource,
+	title = resource.getTitle(),
+	subheader = resource.getSubtitle(),
 	...props
-}) => (
-	<CardHeader title={ resource.getTitle() } subheader={ resource.getSubtitle() } { ...props } />
-)
+}: ResourceCardHeaderProps<R>) => (
+		<CardHeader title={ resource.getTitle() } subheader={ resource.getSubtitle() } { ...props } />
+	)
 
-// Use withStyles here as its easier to override the style rules for the inner elements
 export const ResourceCardHeader = withStyles((theme) => ({
 	root: {
 		paddingBottom: 0,
@@ -65,8 +63,11 @@ export const ResourceCardHeader = withStyles((theme) => ({
 			fontSize: '0.6rem',
 		},
 	},
-}))(ResourceCardHeaderComponent)
+}))(ResourceCardHeaderBase)
 
+// ##################
+//     Card Content
+// ##################
 export const ResourceCardContent = styled(CardContent)({
 	flex: 1,
 	overflow: 'hidden',
