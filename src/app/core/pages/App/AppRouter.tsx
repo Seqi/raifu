@@ -5,6 +5,7 @@ import App from './App'
 
 const AppRouter: FC = () => {
 	return (
+		// TODO: Basename armory and move app basename?
 		<Router basename='app'>
 			<Route path='/' component={ App } />
 		</Router>

@@ -14,7 +14,7 @@ import useRouteAnalytics from 'app/shared/hooks/useRouteAnalytics'
 import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
 import AuthenticatedRoute from '../../auth/AuthenticatedRoute'
 
-const Armory = lazy(() => import('app/features/armory/Armory'))
+const ArmoryRouter = lazy(() => import('app/features/armory/ArmoryRouter'))
 const LoadoutRouter = lazy(() => import('app/features/loadouts/LoadoutRouter'))
 const EventRouter = lazy(() => import('app/features/events/EventRouter'))
 
@@ -68,13 +68,14 @@ const App: FC<AppProps> = ({ history, location }) => {
 				</Tabs>
 			</PaddedContainer>
 
+			{/* TODO: Basename for router to /app? */}
 			<PaddedContainer maxWidth={ false }>
 				<Box paddingY={ 2 }>
 					<Suspense fallback={ <LoadingOverlay /> }>
 						<Switch>
 							<AuthenticatedRoute
 								path='/armory'
-								component={ Armory }
+								component={ ArmoryRouter }
 								onFail={ onAuthFailure }
 							/>
 							<AuthenticatedRoute
