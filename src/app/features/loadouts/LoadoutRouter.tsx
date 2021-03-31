@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import LoadoutList from './LoadoutList/LoadoutList'
-import LoadoutPage from './LoadoutPage/LoadoutPage'
+import LoadoutList from './components/LoadoutList/LoadoutList'
+import LoadoutPage from './components/LoadoutPage/LoadoutPage'
 
 const LoadoutRouter: FC = () => (
 	<Switch>

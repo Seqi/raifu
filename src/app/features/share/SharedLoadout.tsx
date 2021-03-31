@@ -4,9 +4,10 @@ import { RouteChildrenProps } from 'react-router-dom'
 import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
-import { LoadoutView } from 'app/features/loadouts'
+
+import { Loadout, LoadoutView } from 'app/features/loadouts'
+
 import firebase from '../../../firebase'
-import { Loadout } from 'app/shared/models/loadout'
 
 let analytics = firebase.analytics()
 
@@ -29,7 +30,7 @@ export default class SharedLoadout extends React.Component<
 		this.state = {
 			loadout: null,
 			error: null,
-			loading: true,
+			loading: true
 		}
 	}
 
