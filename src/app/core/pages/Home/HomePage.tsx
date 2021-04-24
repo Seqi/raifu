@@ -2,38 +2,41 @@ import { useEffect } from 'react'
 
 import { Container } from '@material-ui/core'
 
-import HomePageSegment, { HomePageSegmentDetails } from './HomePageSegment'
-import Logo from '../../layout/Logo'
-
-import ArmoryImage from 'assets/home/armory.png'
-import LoadoutImage from 'assets/home/loadout.png'
-import EventsImage from 'assets/home/events.png'
-import EventLoadoutsImage from 'assets/home/eventloadouts.png'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
+import NavBar from '../../layout/Navbar/Navbar'
 
-const segments: HomePageSegmentDetails[] = [
+import { HomePageSegment, HomePageSegmentItem } from './HomePageSegment'
+import ScrollingWeapons from './ScrollingWeapons'
+import CallToAction from './CallToAction'
+
+import LoadoutImage from './images/loadout.png'
+import EventsImage from './images/event.png'
+import SquadImage from './images/squad.png'
+
+const segments: HomePageSegmentItem[] = [
 	{
 		title: 'Inventory Management',
-		image: ArmoryImage,
-		text: 'Keep track and manage all of your airsoft weaponry, attachments, and gear.',
+		ImageComponent: ScrollingWeapons,
+		text:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et arcu dictum dis faucibus tellus sit viverra et. Volutpat lobortis vel amet, id ut diam.',
 	},
 	{
 		title: 'Loadout Creation',
 		image: LoadoutImage,
 		text:
-			'Create your custom loadouts by creating combinations with your airsoft inventory, then share your loadouts online.',
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et arcu dictum dis faucibus tellus sit viverra et. Volutpat lobortis vel amet, id ut diam.',
 	},
 	{
 		title: 'Event Planning',
 		image: EventsImage,
 		text:
-			'Manage upcoming events and assign a loadout to each. View a simple agenda of your upcoming events, and the loadout you plan to take',
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et arcu dictum dis faucibus tellus sit viverra et. Volutpat lobortis vel amet, id ut diam.',
 	},
 	{
 		title: 'Squad Management',
-		image: EventLoadoutsImage,
+		image: SquadImage,
 		text:
-			'Coordinate between you and your friends, keeping up to date with your entire squad\'s gear for the event.',
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et arcu dictum dis faucibus tellus sit viverra et. Volutpat lobortis vel amet, id ut diam.',
 	},
 ]
 
@@ -45,7 +48,9 @@ export default function HomePage() {
 
 	return (
 		<Container maxWidth='xl' fixed={ true }>
-			<Logo />
+			<NavBar />
+
+			<CallToAction paddingY={ 14 } paddingX={ 7 } />
 
 			<div>
 				{segments.map((segment, i) => (

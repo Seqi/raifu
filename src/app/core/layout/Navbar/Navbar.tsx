@@ -1,15 +1,24 @@
 import { FC, useContext, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
-import { Box, styled, Button, IconButton, Badge, Tooltip } from '@material-ui/core'
+import {
+	Box,
+	styled,
+	Button,
+	IconButton,
+	Badge,
+	Tooltip,
+	BoxProps,
+} from '@material-ui/core'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 
 import { UserContext } from 'app/core/auth/contexts'
+import Logo from '../Logo'
 import UserProfile from './Profile'
 import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
 const NavbarContainer = styled(Box)(({ theme }) => ({
-	padding: theme.spacing(5, 7, 0),
+	padding: theme.spacing(5, 7),
 
 	[theme.breakpoints.down('sm')]: {
 		padding: theme.spacing(3, 4, 0),
@@ -20,24 +29,16 @@ const NavbarContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const Navbar: FC = () => {
+const Navbar: FC<BoxProps> = (props) => {
 	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
 	const [hasUpdates, setHasUpdates] = useState<boolean>(false)
 	const user = useContext(UserContext)
 	const history = useHistory()
-	const location = useLocation()
-
-	const isAuthenticated = user != null
-	const isHomePage = location.pathname === '/'
 
 	return (
-		<NavbarContainer display='flex' alignItems='center'>
+		<NavbarContainer display='flex' alignItems='center' { ...props }>
 			{/* Left side */}
-			{isHomePage && isAuthenticated && (
-				<Button onClick={ () => history.push('/app') } variant='outlined' color='primary'>
-					Go to app
-				</Button>
-			)}
+			<Logo width='20%' subtitle={ false } />
 
 			{/* Right Side */}
 			<Box display='flex' marginLeft='auto'>

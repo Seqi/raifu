@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
 import { UserContextProvider, AuthContextProvider } from './auth/contexts'
-import NavBar from './layout/Navbar/Navbar'
 import AuthPage from './auth/components/AuthPage'
 
 import HomePage from './pages/Home'
@@ -22,7 +21,6 @@ let Site: FC = () => {
 								path='/'
 								render={ () => (
 									<React.Fragment>
-										<NavBar />
 										<Suspense fallback={ <LoadingOverlay /> }>
 											<Switch>
 												<Route path='/' component={ HomePage } exact={ true } />

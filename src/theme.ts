@@ -14,11 +14,24 @@ export default createMuiTheme({
 			default: '#282b35',
 			paper: '#3B3E47',
 		},
+		text: {
+			primary: '#eee',
+			secondary: '#ddd',
+		},
 	},
 	typography: {
 		fontFamily: ['Alata', 'sans-serif'].join(','),
+		subtitle1: {
+			fontSize: '20px',
+			lineHeight: '1.55',
+		},
 		h2: {
 			fontSize: '4rem',
+			lineHeight: '1',
+		},
+		h3: {
+			fontSize: '3.25rem',
+			lineHeight: '1.2',
 		},
 		h5: {
 			fontSize: '1.4rem',

@@ -2,15 +2,18 @@ import React, { FC } from 'react'
 import PropTypes from 'prop-types'
 import { Typography, styled, Box } from '@material-ui/core'
 
-const SegmentContainer = styled(Box)(({ theme }) => ({
+const Container = styled(Box)(({ theme }) => ({
 	flexDirection: 'row',
+	position: 'relative',
 	'& *': {
 		flex: 1,
 	},
-	'&:nth-child(even)': {
-		flexDirection: 'row-reverse',
-	},
-	'&:not(:first-child)': {
+	'&::before': {
+		content: '""',
+		width: '40%',
+		position: 'absolute',
+		top: 0,
+		left: '30%',
 		borderTop: `3px solid ${theme.palette.primary.main}`,
 	},
 	// Column takes precedence, if we're in sm mode, we don't
@@ -23,7 +26,7 @@ const SegmentContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const SegmentTextContainer = styled(Box)(({ theme }) => ({
+const TextContanier = styled(Box)(({ theme }) => ({
 	textAlign: 'center',
 	'& *': {
 		margin: 'auto',
@@ -34,7 +37,7 @@ const SegmentTextContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const SegmentTitle = styled(Typography)(({ theme }) => ({
+const Title = styled(Typography)(({ theme }) => ({
 	padding: theme.spacing(3),
 	[theme.breakpoints.down('md')]: {
 		fontSize: '3rem',
@@ -46,48 +49,79 @@ const SegmentTitle = styled(Typography)(({ theme }) => ({
 	},
 }))
 
-const SegmentSubtitle = styled(Typography)(({ theme }) => ({
+const Subtitle = styled(Typography)(({ theme }) => ({
+	color: theme.palette.text.secondary,
+	paddingTop: theme.spacing(4),
+	maxWidth: '40ch',
 	[theme.breakpoints.down('sm')]: {
 		fontSize: '1.05rem',
 	},
 }))
 
-const SegmentImageContainer = styled(Box)(({ theme }) => ({
+const ImageContainer = styled(Box)(({ theme }) => ({
 	[theme.breakpoints.down('xs')]: {
 		paddingTop: theme.spacing(2),
 	},
+	'& .img-wrapper': {
+		height: '100%',
+	},
 	'& img': {
 		display: 'block',
-		margin: '0 auto',
-		maxWidth: '80%',
-		maxHeight: '450px',
+		height: '100%',
+		margin: 'auto',
 	},
 }))
 
-export type HomePageSegmentDetails = {
+export type HomePageSegmentDefaultDetails = {
 	title: string
 	text: string
 	image: string
 }
 
-type HomePageSegmentProps = {
-	segment: HomePageSegmentDetails
+export type HomePageSegmentDetails = {
+	title: string
+	text: string
+	ImageComponent: React.FC
 }
 
-const HomePageSegment: FC<HomePageSegmentProps> = ({ segment }) => {
-	const { title, text, image } = segment
+export type HomePageSegmentItem = HomePageSegmentDefaultDetails | HomePageSegmentDetails
+
+export type HomePageSegmentProps = {
+	segment: HomePageSegmentItem
+}
+
+const isComponentSegment = (
+	segment: HomePageSegmentItem
+): segment is HomePageSegmentDetails => {
+	return 'ImageComponent' in segment && !!segment.ImageComponent
+}
+
+export const HomePageSegment: FC<HomePageSegmentProps> = ({ segment }) => {
+	const { title, text } = segment
 
 	return (
-		<SegmentContainer display='flex' alignItems='center' paddingY={ { xs: 6, sm: 9 } }>
-			<SegmentTextContainer>
-				<SegmentTitle variant='h2'>{title}</SegmentTitle>
-				<SegmentSubtitle variant='h5'>{text}</SegmentSubtitle>
-			</SegmentTextContainer>
+		<React.Fragment>
+			<Container
+				display='flex'
+				alignItems='center'
+				paddingY={ { xs: 6, sm: 8, md: 12, lg: 16 } }
+			>
+				<TextContanier maxWidth='50%'>
+					<Title variant='h3'>{title}</Title>
+					<Subtitle variant='subtitle1'>{text}</Subtitle>
+				</TextContanier>
 
-			<SegmentImageContainer>
-				<img alt={ title } src={ image } />
-			</SegmentImageContainer>
-		</SegmentContainer>
+				<ImageContainer maxWidth='50%' display='flex' alignItems='center' height='500px'>
+					{isComponentSegment(segment) ? (
+						<segment.ImageComponent />
+					) : (
+						<div className='img-wrapper'>
+							<img alt={ title } src={ segment.image } />
+						</div>
+					)}
+				</ImageContainer>
+			</Container>
+		</React.Fragment>
 	)
 }
 
