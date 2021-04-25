@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { Typography, styled, Box } from '@material-ui/core'
 
 const Container = styled(Box)(({ theme }) => ({
-	flexDirection: 'row',
+	display: 'flex',
+	alignItems: 'center',
 	position: 'relative',
-	'& *': {
-		flex: 1,
-	},
+
+	// Create the cute little line separators
 	'&::before': {
 		content: '""',
 		width: '40%',
@@ -16,12 +16,12 @@ const Container = styled(Box)(({ theme }) => ({
 		left: '30%',
 		borderTop: `3px solid ${theme.palette.primary.main}`,
 	},
-	// Column takes precedence, if we're in sm mode, we don't
-	// want it setting the even elements to row-reverse
-	[theme.breakpoints.down('xs')]: {
-		// TODO: Check this works
-		'&&': {
-			flexDirection: 'column',
+
+	'& > *': {
+		flex: 1,
+		maxWidth: '100%',
+		[theme.breakpoints.up('md')]: {
+			maxWidth: '50%',
 		},
 	},
 }))
@@ -38,37 +38,55 @@ const TextContanier = styled(Box)(({ theme }) => ({
 }))
 
 const Title = styled(Typography)(({ theme }) => ({
-	padding: theme.spacing(3),
+	paddingLeft: theme.spacing(3),
+	paddingRight: theme.spacing(3),
+
 	[theme.breakpoints.down('md')]: {
 		fontSize: '3rem',
-		padding: theme.spacing(2),
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2),
 	},
 	[theme.breakpoints.down('sm')]: {
-		paddingTop: 0, // Space evenly between title/top border & image/bottom
-		fontSize: '2.2rem',
+		fontSize: '2.5rem',
 	},
 }))
 
 const Subtitle = styled(Typography)(({ theme }) => ({
 	color: theme.palette.text.secondary,
-	paddingTop: theme.spacing(4),
 	maxWidth: '40ch',
+	paddingTop: theme.spacing(6),
+
+	[theme.breakpoints.down('lg')]: {
+		paddingTop: theme.spacing(5),
+	},
+
+	[theme.breakpoints.down('md')]: {
+		fontSize: '1.1rem',
+		paddingTop: theme.spacing(2),
+	},
+
 	[theme.breakpoints.down('sm')]: {
+		paddingTop: theme.spacing(3),
 		fontSize: '1.05rem',
 	},
 }))
 
-const ImageContainer = styled(Box)(({ theme }) => ({
-	[theme.breakpoints.down('xs')]: {
-		paddingTop: theme.spacing(2),
-	},
-	'& .img-wrapper': {
-		height: '100%',
-	},
+const ImageContainer = styled(Box)({
+	display: 'flex',
+	alignItems: 'center',
+})
+
+const ImageBox = styled(Box)(({ theme }) => ({
+	height: '100%',
+	margin: '0 auto',
 	'& img': {
 		display: 'block',
 		height: '100%',
-		margin: 'auto',
+
+		// Kinda hacky but who cares it works
+		[theme.breakpoints.down('sm')]: {
+			height: '300px',
+		},
 	},
 }))
 
@@ -102,22 +120,21 @@ export const HomePageSegment: FC<HomePageSegmentProps> = ({ segment }) => {
 	return (
 		<React.Fragment>
 			<Container
-				display='flex'
-				alignItems='center'
-				paddingY={ { xs: 6, sm: 8, md: 12, lg: 16 } }
+				flexDirection={ { xs: 'column-reverse', md: 'row' } }
+				paddingY={ { xs: 10, md: 12, xl: 16 } }
 			>
-				<TextContanier maxWidth='50%'>
+				<TextContanier pt={ { xs: 6, sm: 6, md: 0 } }>
 					<Title variant='h3'>{title}</Title>
 					<Subtitle variant='subtitle1'>{text}</Subtitle>
 				</TextContanier>
 
-				<ImageContainer maxWidth='50%' display='flex' alignItems='center' height='500px'>
+				<ImageContainer height={ { sm: '300px', md: '300px', lg: '400px', xl: '500px' } }>
 					{isComponentSegment(segment) ? (
 						<segment.ImageComponent />
 					) : (
-						<div className='img-wrapper'>
+						<ImageBox>
 							<img alt={ title } src={ segment.image } />
-						</div>
+						</ImageBox>
 					)}
 				</ImageContainer>
 			</Container>

@@ -1,10 +1,10 @@
 import { FC } from 'react'
 
-import { makeStyles } from '@material-ui/core'
+import { Box, makeStyles } from '@material-ui/core'
 
 import ScrollingWeaponsImage from './images/scrollingweapons.png'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	'@keyframes slide': {
 		'0%': {
 			transform: 'translate3d(0, 0, 0)',
@@ -22,18 +22,24 @@ const useStyles = makeStyles({
 	},
 	inner: {
 		width: '3600px',
-		height: '260px',
 		background: `url(${ScrollingWeaponsImage}) repeat-x`,
+		backgroundSize: 'contain',
 		animation: '$slide 30s linear infinite',
+
+		height: '260px',
+		[theme.breakpoints.down('lg')]: { height: '220px' },
+		[theme.breakpoints.down('md')]: { height: '180px' },
+		[theme.breakpoints.down('sm')]: { height: '180px' },
+		[theme.breakpoints.down('xs')]: { height: '160px' },
 	},
-})
+}))
 
 const ScrollingWeapons: FC = () => {
 	const classes = useStyles()
 
 	return (
 		<div className={ classes.container }>
-			<div className={ classes.inner } />
+			<Box className={ classes.inner } />
 		</div>
 	)
 }
