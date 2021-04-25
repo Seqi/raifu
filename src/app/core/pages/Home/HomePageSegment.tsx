@@ -47,7 +47,9 @@ const Title = styled(Typography)(({ theme }) => ({
 		paddingRight: theme.spacing(2),
 	},
 	[theme.breakpoints.down('sm')]: {
-		fontSize: '2.5rem',
+		paddingLeft: 0,
+		paddingRight: 0,
+		fontSize: '2.1rem',
 	},
 }))
 
@@ -67,7 +69,9 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 
 	[theme.breakpoints.down('sm')]: {
 		paddingTop: theme.spacing(3),
-		fontSize: '1.05rem',
+		paddingLeft: theme.spacing(1),
+		paddingRight: theme.spacing(1),
+		fontSize: '1rem',
 	},
 }))
 
