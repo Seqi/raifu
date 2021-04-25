@@ -21,6 +21,12 @@ const Title = styled(Typography)(({ theme }) => ({
 		fontSize: '3rem',
 		maxWidth: '8ch',
 	},
+	[theme.breakpoints.down('xs')]: {
+		maxWidth: '12ch',
+	},
+	[theme.breakpoints.down(321)]: {
+		fontSize: '2.5rem',
+	},
 }))
 
 const Subtitle = styled(Typography)(({ theme }) => ({
@@ -53,24 +59,27 @@ const ActionButton = styled(Button)({
 })
 
 const CallToAction: FC<BoxProps> = (props) => {
+	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
 	const largeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
 	return (
 		<Box display='flex' { ...props }>
-			{/* Image */}
-			<Box margin='auto' maxWidth='50%' flex={ 1 }>
-				<Box>
-					<img alt='Call to action' style={ { width: '100%' } } src={ CallToActionImage } />
+			{/* Image, don't show on phones and small screens */}
+			{!xs && (
+				<Box margin='auto' maxWidth='50%' flex={ 1 }>
+					<Box>
+						<img alt='Call to action' style={ { width: '100%' } } src={ CallToActionImage } />
+					</Box>
 				</Box>
-			</Box>
+			)}
 
 			{/* Text */}
-			<Box marginY='auto' maxWidth='50%' flex={ 1 }>
+			<Box marginY='auto' maxWidth={ xs ? 'initial' : '50%' } flex={ 1 }>
 				<InfoContainer textAlign='right' marginX='auto'>
 					<Title variant='h2'>We take toy guns seriously.</Title>
 
 					<Subtitle variant='subtitle1'>
-						Website for weirdos who spend like $1000 on little plastic pellet spitters and
+						Website for weirdos who spend thousands on little plastic pellet spitters and
 						then spend their weekend pretending to be a cool army man secret agent.
 					</Subtitle>
 
