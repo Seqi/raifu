@@ -1,14 +1,39 @@
 import { FC } from 'react'
-import { Box, BoxProps, Button, styled, Typography } from '@material-ui/core'
+import {
+	Box,
+	BoxProps,
+	Button,
+	styled,
+	Theme,
+	Typography,
+	useMediaQuery,
+} from '@material-ui/core'
 
 import CallToActionImage from './images/2guns-accent.png'
 
-const Title = styled(Typography)({})
+const Title = styled(Typography)(({ theme }) => ({
+	marginLeft: 'auto',
+	maxWidth: '12ch',
+	[theme.breakpoints.down('md')]: {
+		fontSize: '3.25rem',
+	},
+	[theme.breakpoints.down('sm')]: {
+		fontSize: '3rem',
+		maxWidth: '8ch',
+	},
+}))
 
 const Subtitle = styled(Typography)(({ theme }) => ({
 	color: theme.palette.text.secondary,
 	maxWidth: '30ch',
 	marginLeft: 'auto',
+
+	[theme.breakpoints.down('md')]: {
+		fontSize: '1.1rem',
+	},
+	[theme.breakpoints.down('sm')]: {
+		fontSize: '1rem',
+	},
 }))
 
 const InfoContainer = styled(Box)({
@@ -28,6 +53,8 @@ const ActionButton = styled(Button)({
 })
 
 const CallToAction: FC<BoxProps> = (props) => {
+	const largeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
+
 	return (
 		<Box display='flex' { ...props }>
 			{/* Image */}
@@ -39,7 +66,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 
 			{/* Text */}
 			<Box marginY='auto' maxWidth='50%' flex={ 1 }>
-				<InfoContainer textAlign='right' marginX='auto' width='65%'>
+				<InfoContainer textAlign='right' marginX='auto'>
 					<Title variant='h2'>We take toy guns seriously.</Title>
 
 					<Subtitle variant='subtitle1'>
@@ -48,11 +75,19 @@ const CallToAction: FC<BoxProps> = (props) => {
 					</Subtitle>
 
 					<ActionButtonRow>
-						<ActionButton color='primary' variant='outlined' size='large'>
+						<ActionButton
+							color='primary'
+							variant='outlined'
+							size={ largeScreen ? 'large' : 'small' }
+						>
 							Sign Up
 						</ActionButton>
 
-						<ActionButton color='primary' variant='outlined' size='large'>
+						<ActionButton
+							color='primary'
+							variant='outlined'
+							size={ largeScreen ? 'large' : 'small' }
+						>
 							Log In
 						</ActionButton>
 					</ActionButtonRow>

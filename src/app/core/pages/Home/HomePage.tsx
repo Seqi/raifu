@@ -50,7 +50,7 @@ export default function HomePage() {
 		<Container maxWidth='xl' fixed={ true }>
 			<NavBar />
 
-			<CallToAction paddingY={ 14 } paddingX={ 7 } />
+			<CallToAction paddingY={ { xs: 8, md: 14 } } paddingX={ { lg: 7 } } />
 
 			<div>
 				{segments.map((segment, i) => (
