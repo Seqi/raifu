@@ -41,7 +41,11 @@ const Navbar: FC<BoxProps> = (props) => {
 					</IconButton>
 				</Tooltip>
 
-				{user && <UserProfile user={ user } />}
+				{user && (
+					<Box marginLeft={ 1.5 }>
+						<UserProfile user={ user } />
+					</Box>
+				)}
 			</Box>
 
 			<ViewChangeLogDialog
