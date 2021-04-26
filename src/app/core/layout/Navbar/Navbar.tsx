@@ -8,7 +8,12 @@ import Logo from '../Logo'
 import UserProfile from './Profile'
 import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
-const NavbarContainer = styled(Box)({})
+const NavbarContainer = styled(Box)(({ theme }) => ({
+	[theme.breakpoints.down(370)]: {
+		paddingLeft: theme.spacing(1),
+		paddingRight: theme.spacing(1),
+	},
+}))
 
 const Navbar: FC<BoxProps> = (props) => {
 	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
@@ -29,18 +34,14 @@ const Navbar: FC<BoxProps> = (props) => {
 			{/* Right Side */}
 			<Box display='flex' marginLeft='auto'>
 				<Tooltip title='View change log'>
-					<IconButton onClick={ (_) => setDialogOpen(true) }>
+					<IconButton onClick={ (_) => setDialogOpen(true) } edge={ user ? false : 'end' }>
 						<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
 							<InfoOutlinedIcon />
 						</Badge>
 					</IconButton>
 				</Tooltip>
 
-				{user && (
-					<Box marginLeft={ 1.5 }>
-						<UserProfile user={ user } />
-					</Box>
-				)}
+				{user && <UserProfile user={ user } />}
 			</Box>
 
 			<ViewChangeLogDialog

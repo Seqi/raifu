@@ -24,7 +24,7 @@ const Title = styled(Typography)(({ theme }) => ({
 	[theme.breakpoints.down('xs')]: {
 		maxWidth: '12ch',
 	},
-	[theme.breakpoints.down(321)]: {
+	[theme.breakpoints.down(370)]: {
 		fontSize: '2.5rem',
 	},
 }))
@@ -40,13 +40,16 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 	[theme.breakpoints.down('sm')]: {
 		fontSize: '1rem',
 	},
+	[theme.breakpoints.down(370)]: {
+		fontSize: '0.9rem',
+	},
 }))
 
-const InfoContainer = styled(Box)({
+const InfoContainer = styled(Box)(({ theme }) => ({
 	'& > *': {
-		padding: '18px 0px',
+		padding: theme.spacing(2, 0),
 	},
-})
+}))
 
 const ActionButtonRow = styled(Box)(({ theme }) => ({
 	'& > :not(:last-child)': {
