@@ -1,15 +1,6 @@
 import { FC, useContext, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 
-import {
-	Box,
-	styled,
-	Button,
-	IconButton,
-	Badge,
-	Tooltip,
-	BoxProps,
-} from '@material-ui/core'
+import { Box, styled, IconButton, Badge, Tooltip, BoxProps } from '@material-ui/core'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 
 import { UserContext } from 'app/core/auth/contexts'
@@ -17,26 +8,17 @@ import Logo from '../Logo'
 import UserProfile from './Profile'
 import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
-const NavbarContainer = styled(Box)(({ theme }) => ({
-	// padding: theme.spacing(5, 7),
-	// [theme.breakpoints.down('sm')]: {
-	// 	padding: theme.spacing(3, 4, 0),
-	// },
-	// [theme.breakpoints.down('xs')]: {
-	// 	padding: theme.spacing(2, 1, 0),
-	// },
-}))
+const NavbarContainer = styled(Box)({})
 
 const Navbar: FC<BoxProps> = (props) => {
 	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
 	const [hasUpdates, setHasUpdates] = useState<boolean>(false)
 	const user = useContext(UserContext)
-	const history = useHistory()
 
 	return (
 		<NavbarContainer
 			paddingX={ { xs: 4, sm: 0, xl: 7 } }
-			paddingY={ { xs: 3, md: 5 } }
+			paddingY={ { xs: 3, md: 4, lg: 5 } }
 			display='flex'
 			alignItems='center'
 			{ ...props }
@@ -54,20 +36,11 @@ const Navbar: FC<BoxProps> = (props) => {
 					</IconButton>
 				</Tooltip>
 
-				<Box marginLeft={ 1.5 }>
-					{user != null ? (
+				{user && (
+					<Box marginLeft={ 1.5 }>
 						<UserProfile user={ user } />
-					) : (
-						<Button
-							variant='outlined'
-							color='primary'
-							size='large'
-							onClick={ (_) => history.push('/login') }
-						>
-							Log in
-						</Button>
-					)}
-				</Box>
+					</Box>
+				)}
 			</Box>
 
 			<ViewChangeLogDialog
