@@ -18,15 +18,13 @@ import UserProfile from './Profile'
 import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
 const NavbarContainer = styled(Box)(({ theme }) => ({
-	padding: theme.spacing(5, 7),
-
-	[theme.breakpoints.down('sm')]: {
-		padding: theme.spacing(3, 4, 0),
-	},
-
-	[theme.breakpoints.down('xs')]: {
-		padding: theme.spacing(2, 1, 0),
-	},
+	// padding: theme.spacing(5, 7),
+	// [theme.breakpoints.down('sm')]: {
+	// 	padding: theme.spacing(3, 4, 0),
+	// },
+	// [theme.breakpoints.down('xs')]: {
+	// 	padding: theme.spacing(2, 1, 0),
+	// },
 }))
 
 const Navbar: FC<BoxProps> = (props) => {
@@ -36,9 +34,15 @@ const Navbar: FC<BoxProps> = (props) => {
 	const history = useHistory()
 
 	return (
-		<NavbarContainer display='flex' alignItems='center' { ...props }>
+		<NavbarContainer
+			paddingX={ { xs: 4, sm: 0, xl: 7 } }
+			paddingY={ { xs: 3, md: 5 } }
+			display='flex'
+			alignItems='center'
+			{ ...props }
+		>
 			{/* Left side */}
-			<Logo width='20%' subtitle={ false } />
+			<Logo width='25%' minWidth='100px' maxWidth='250px' subtitle={ false } />
 
 			{/* Right Side */}
 			<Box display='flex' marginLeft='auto'>
