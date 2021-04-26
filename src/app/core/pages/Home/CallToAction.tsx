@@ -25,7 +25,7 @@ const Title = styled(Typography)(({ theme }) => ({
 	[theme.breakpoints.down('xs')]: {
 		maxWidth: '12ch',
 	},
-	[theme.breakpoints.down(370)]: {
+	[theme.breakpoints.down(376)]: {
 		fontSize: '2.5rem',
 	},
 }))
@@ -41,7 +41,7 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 	[theme.breakpoints.down('sm')]: {
 		fontSize: '1rem',
 	},
-	[theme.breakpoints.down(370)]: {
+	[theme.breakpoints.down(376)]: {
 		fontSize: '0.9rem',
 	},
 }))
@@ -49,6 +49,13 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 const InfoContainer = styled(Box)(({ theme }) => ({
 	'& > *': {
 		padding: theme.spacing(2, 0),
+	},
+
+	[theme.breakpoints.down('xs')]: {
+		paddingRight: theme.spacing(3),
+	},
+	[theme.breakpoints.down(376)]: {
+		paddingRight: theme.spacing(1),
 	},
 }))
 
