@@ -102,7 +102,7 @@ export type HomePageSegmentDefaultDetails = {
 export type HomePageSegmentDetails = {
 	title: string
 	text: string
-	ImageComponent: React.FC
+	ImageComponent: React.ComponentType<any>
 }
 
 export type HomePageSegmentItem = HomePageSegmentDefaultDetails | HomePageSegmentDetails
