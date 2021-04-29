@@ -64,11 +64,10 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 
 	[theme.breakpoints.down('md')]: {
 		fontSize: '1.1rem',
-		paddingTop: theme.spacing(2),
+		paddingTop: theme.spacing(3),
 	},
 
 	[theme.breakpoints.down('sm')]: {
-		paddingTop: theme.spacing(3),
 		paddingLeft: theme.spacing(1),
 		paddingRight: theme.spacing(1),
 		fontSize: '1rem',
