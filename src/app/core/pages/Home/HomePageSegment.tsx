@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
+// Disabled as pain to get working with union tpyes
 import React, { FC } from 'react'
-import PropTypes from 'prop-types'
 import { Typography, styled, Box } from '@material-ui/core'
 
 const Container = styled(Box)(({ theme }) => ({
@@ -143,14 +144,6 @@ export const HomePageSegment: FC<HomePageSegmentProps> = ({ segment }) => {
 			</Container>
 		</React.Fragment>
 	)
-}
-
-HomePageSegment.propTypes = {
-	segment: PropTypes.shape({
-		title: PropTypes.string.isRequired,
-		text: PropTypes.string.isRequired,
-		image: PropTypes.string.isRequired,
-	}).isRequired,
 }
 
 export default HomePageSegment
