@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
 		width: '600px',
 		marginLeft: '75px',
 		marginRight: '75px',
+		[theme.breakpoints.down(376)]: {
+			margin: theme.spacing(0, 3),
+		},
 	},
 	inner: {
 		width: '3600px',
