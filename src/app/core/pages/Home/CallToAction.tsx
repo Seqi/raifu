@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { useHistory } from 'react-router'
 import {
 	Box,
@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core'
 
 import CallToActionImage from './images/2guns-accent.png'
+import { UserContext } from 'app/core/auth/contexts'
 
 const Title = styled(Typography)(({ theme }) => ({
 	marginLeft: 'auto',
@@ -74,6 +75,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 	const largeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
 	const history = useHistory()
+	const user = useContext(UserContext)
 
 	return (
 		<Box display='flex' { ...props }>
@@ -97,23 +99,36 @@ const CallToAction: FC<BoxProps> = (props) => {
 					</Subtitle>
 
 					<ActionButtonRow>
-						<ActionButton
-							color='primary'
-							variant='outlined'
-							size={ largeScreen ? 'large' : 'small' }
-							onClick={ (_) => history.push('/login/signup') }
-						>
-							Sign Up
-						</ActionButton>
+						{user ? (
+							<ActionButton
+								color='primary'
+								variant='outlined'
+								size={ largeScreen ? 'large' : 'small' }
+								onClick={ (_) => history.push('/app') }
+							>
+								Go to app
+							</ActionButton>
+						) : (
+							<React.Fragment>
+								<ActionButton
+									color='primary'
+									variant='outlined'
+									size={ largeScreen ? 'large' : 'small' }
+									onClick={ (_) => history.push('/login/signup') }
+								>
+									Sign Up
+								</ActionButton>
 
-						<ActionButton
-							color='primary'
-							variant='outlined'
-							size={ largeScreen ? 'large' : 'small' }
-							onClick={ (_) => history.push('/login') }
-						>
-							Log In
-						</ActionButton>
+								<ActionButton
+									color='primary'
+									variant='outlined'
+									size={ largeScreen ? 'large' : 'small' }
+									onClick={ (_) => history.push('/login') }
+								>
+									Log In
+								</ActionButton>
+							</React.Fragment>
+						)}
 					</ActionButtonRow>
 				</InfoContainer>
 			</Box>
