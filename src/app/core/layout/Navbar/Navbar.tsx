@@ -18,7 +18,7 @@ import UserProfile from './Profile'
 import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
 const NavbarContainer = styled(Box)(({ theme }) => ({
-	[theme.breakpoints.down(370)]: {
+	[theme.breakpoints.down(376)]: {
 		paddingLeft: theme.spacing(1),
 		paddingRight: theme.spacing(1),
 	},
