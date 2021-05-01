@@ -51,7 +51,7 @@ export default function HomePage() {
 
 	return (
 		<Container maxWidth='xl' fixed={ true }>
-			<NavBar paddingX={ { xs: 4, sm: 0, xl: 7 } } paddingY={ { xs: 3, md: 4, lg: 5 } } />
+			<NavBar paddingX={ { xs: 3, sm: 0, xl: 7 } } paddingY={ { xs: 3, md: 4, lg: 5 } } />
 
 			<CallToAction paddingY={ { xs: 8, md: 14 } } paddingX={ { lg: 7 } } />
 
