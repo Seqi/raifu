@@ -1,5 +1,5 @@
 import { FC, useContext, useState } from 'react'
-
+import PropTypes from 'prop-types'
 import {
 	Box,
 	styled,
@@ -13,7 +13,7 @@ import {
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 
 import { UserContext } from 'app/core/auth/contexts'
-import Logo from '../Logo'
+import { Logo, LogoProps } from '../Logo'
 import UserProfile from './Profile'
 import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
@@ -24,7 +24,12 @@ const NavbarContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const Navbar: FC<BoxProps> = (props) => {
+type NavbarProps = BoxProps & {
+	showLogo?: boolean
+	logoProps?: LogoProps
+}
+
+const Navbar: FC<NavbarProps> = ({ showLogo, logoProps, ...props }) => {
 	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
 	const [hasUpdates, setHasUpdates] = useState<boolean>(false)
 	const user = useContext(UserContext)
@@ -33,21 +38,23 @@ const Navbar: FC<BoxProps> = (props) => {
 
 	return (
 		<NavbarContainer
-			paddingX={ { xs: 4, sm: 0, xl: 7 } }
 			paddingY={ { xs: 3, md: 4, lg: 5 } }
 			display='flex'
 			alignItems='center'
 			{ ...props }
 		>
 			{/* Left side */}
-			<Logo
-				display='flex'
-				alignItems='center'
-				width='25%'
-				minWidth='100px'
-				maxWidth='250px'
-				subtitle={ false }
-			/>
+			{showLogo && (
+				<Logo
+					display='flex'
+					alignItems='center'
+					width='25%'
+					minWidth='100px'
+					maxWidth='250px'
+					subtitle={ false }
+					{ ...logoProps }
+				/>
+			)}
 
 			{/* Right Side */}
 			<Box display='flex' marginLeft='auto' paddingLeft={ 2 }>
@@ -77,6 +84,16 @@ const Navbar: FC<BoxProps> = (props) => {
 			/>
 		</NavbarContainer>
 	)
+}
+
+Navbar.propTypes = {
+	showLogo: PropTypes.bool,
+	logoProps: PropTypes.object,
+}
+
+Navbar.defaultProps = {
+	showLogo: true,
+	logoProps: {},
 }
 
 export default Navbar

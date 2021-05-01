@@ -6,9 +6,9 @@ import { Box, BoxProps } from '@material-ui/core'
 import LogoImage from './logo.png'
 import LogoNoTextImage from './logo-no-text.png'
 
-type LogoProps = BoxProps & { subtitle?: boolean }
+export type LogoProps = BoxProps & { subtitle?: boolean }
 
-const Logo: FC<LogoProps> = ({ subtitle, ...props }) => {
+export const Logo: FC<LogoProps> = ({ subtitle, ...props }) => {
 	return (
 		<Box { ...props }>
 			<img
