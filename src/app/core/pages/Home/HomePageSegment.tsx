@@ -91,6 +91,9 @@ const ImageBox = styled(Box)(({ theme }) => ({
 		[theme.breakpoints.down('sm')]: {
 			height: '300px',
 		},
+		[theme.breakpoints.down('xs')]: {
+			height: '250px',
+		},
 	},
 }))
 
@@ -127,7 +130,7 @@ export const HomePageSegment: FC<HomePageSegmentProps> = ({ segment }) => {
 				flexDirection={ { xs: 'column-reverse', md: 'row' } }
 				paddingY={ { xs: 10, md: 12, xl: 16 } }
 			>
-				<TextContanier pt={ { xs: 6, sm: 6, md: 0 } }>
+				<TextContanier pt={ { xs: 5, sm: 6, md: 0 } }>
 					<Title variant='h3'>{title}</Title>
 					<Subtitle variant='subtitle1'>{text}</Subtitle>
 				</TextContanier>
