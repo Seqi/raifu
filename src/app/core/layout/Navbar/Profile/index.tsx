@@ -7,21 +7,24 @@ import { Box, styled } from '@material-ui/core'
 import ProfileIcon from './Icon'
 import ProfileMenu from './Menu'
 
-const ProfileName = styled(Box)({
-	fontSize: '1.2rem',
-})
+const ProfileName = styled(Box)({})
 
 type AuthenticatedUserProfileProps = {
 	user: firebase.User
+	small?: boolean
 }
 
-const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user }) => {
+const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, small }) => {
 	let [menuAnchor, setMenuAnchor] = useState<Element | null>(null)
 
 	return (
 		<Box display='flex' alignItems='center'>
 			{/* Use half measures because the iconbutton gives us unwanted half-measure padding */}
-			<ProfileName marginRight={ { xs: 0.5, sm: 1.5 } }>
+			<ProfileName
+				fontSize={ small ? '0.8rem' : '1.2rem' }
+				marginRight={ 1 }
+				textAlign='right'
+			>
 				{user.displayName || user.email}
 			</ProfileName>
 
@@ -34,6 +37,11 @@ const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user }) =
 
 AuthenticatedUserProfile.propTypes = {
 	user: PropTypes.any.isRequired,
+	small: PropTypes.bool,
+}
+
+AuthenticatedUserProfile.defaultProps = {
+	small: false,
 }
 
 export default AuthenticatedUserProfile

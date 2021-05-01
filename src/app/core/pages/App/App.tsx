@@ -1,18 +1,11 @@
-import React, { lazy, Suspense, useState, useCallback, FC } from 'react'
+import { lazy, Suspense, useState, useCallback, FC } from 'react'
 import { Link, Switch, Redirect, RouteChildrenProps } from 'react-router-dom'
-import {
-	Box,
-	Container,
-	Tabs,
-	Tab,
-	useMediaQuery,
-	styled,
-	Theme,
-} from '@material-ui/core'
+import { Box, Container, Tabs, Tab, styled } from '@material-ui/core'
 
 import useRouteAnalytics from 'app/shared/hooks/useRouteAnalytics'
 import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
 import AuthenticatedRoute from '../../auth/AuthenticatedRoute'
+import Navbar from 'app/core/layout/Navbar/Navbar'
 
 const ArmoryRouter = lazy(() => import('app/features/armory/ArmoryRouter'))
 const LoadoutRouter = lazy(() => import('app/features/loadouts/LoadoutRouter'))
@@ -51,49 +44,45 @@ const App: FC<AppProps> = ({ history, location }) => {
 
 	let onAuthFailure = useCallback(() => history.push('/login'), [history])
 
-	let isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
-
 	return (
-		<React.Fragment>
-			<PaddedContainer disableGutters={ isMobile } maxWidth={ false }>
-				<Tabs
-					variant='fullWidth'
-					centered={ true }
-					value={ tabIndex }
-					onChange={ (evt, idx) => setTabIndex(idx) }
-				>
-					<Tab label='Armory' component={ Link } to='/armory' />
-					<Tab label='Loadouts' component={ Link } to='/loadouts' />
-					<Tab label='Events' component={ Link } to='/events' />
-				</Tabs>
-			</PaddedContainer>
+		<PaddedContainer maxWidth={ false }>
+			<Navbar logoProps={ { maxWidth: '200px' } } />
+
+			<Tabs
+				variant='fullWidth'
+				centered={ true }
+				value={ tabIndex }
+				onChange={ (evt, idx) => setTabIndex(idx) }
+			>
+				<Tab label='Armory' component={ Link } to='/armory' />
+				<Tab label='Loadouts' component={ Link } to='/loadouts' />
+				<Tab label='Events' component={ Link } to='/events' />
+			</Tabs>
 
 			{/* TODO: Basename for router to /app? */}
-			<PaddedContainer maxWidth={ false }>
-				<Box paddingY={ 2 }>
-					<Suspense fallback={ <LoadingOverlay /> }>
-						<Switch>
-							<AuthenticatedRoute
-								path='/armory'
-								component={ ArmoryRouter }
-								onFail={ onAuthFailure }
-							/>
-							<AuthenticatedRoute
-								path='/loadouts'
-								component={ LoadoutRouter }
-								onFail={ onAuthFailure }
-							/>
-							<AuthenticatedRoute
-								path='/events'
-								component={ EventRouter }
-								onFail={ onAuthFailure }
-							/>
-							<Redirect from='/' to='/armory' />
-						</Switch>
-					</Suspense>
-				</Box>
-			</PaddedContainer>
-		</React.Fragment>
+			<Box paddingY={ 2 }>
+				<Suspense fallback={ <LoadingOverlay /> }>
+					<Switch>
+						<AuthenticatedRoute
+							path='/armory'
+							component={ ArmoryRouter }
+							onFail={ onAuthFailure }
+						/>
+						<AuthenticatedRoute
+							path='/loadouts'
+							component={ LoadoutRouter }
+							onFail={ onAuthFailure }
+						/>
+						<AuthenticatedRoute
+							path='/events'
+							component={ EventRouter }
+							onFail={ onAuthFailure }
+						/>
+						<Redirect from='/' to='/armory' />
+					</Switch>
+				</Suspense>
+			</Box>
+		</PaddedContainer>
 	)
 }
 

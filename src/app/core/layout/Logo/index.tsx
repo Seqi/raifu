@@ -1,20 +1,19 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box } from '@material-ui/core'
+import { Box, BoxProps } from '@material-ui/core'
 
-import LogoImage from 'assets/home/logo.png'
+import LogoImage from './logo.png'
+import LogoNoTextImage from './logo-no-text.png'
 
-type LogoProps = {
-	width?: string
-}
+export type LogoProps = BoxProps & { subtitle?: boolean }
 
-const Logo: FC<LogoProps> = ({ width }) => {
+export const Logo: FC<LogoProps> = ({ subtitle, ...props }) => {
 	return (
-		<Box width={ width } maxWidth='95%' marginX='auto' pt={ 4 }>
+		<Box { ...props }>
 			<img
 				style={ { width: '100%' } }
-				src={ LogoImage }
+				src={ subtitle ? LogoImage : LogoNoTextImage }
 				alt='Raifu Airsoft Loadout Management'
 			/>
 		</Box>
@@ -22,11 +21,11 @@ const Logo: FC<LogoProps> = ({ width }) => {
 }
 
 Logo.propTypes = {
-	width: PropTypes.string,
+	subtitle: PropTypes.bool,
 }
 
 Logo.defaultProps = {
-	width: '750px',
+	subtitle: true,
 }
 
 export default Logo

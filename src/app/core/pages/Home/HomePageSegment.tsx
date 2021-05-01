@@ -1,29 +1,33 @@
+/* eslint-disable react/prop-types */
+// Disabled as pain to get working with union tpyes
 import React, { FC } from 'react'
-import PropTypes from 'prop-types'
 import { Typography, styled, Box } from '@material-ui/core'
 
-const SegmentContainer = styled(Box)(({ theme }) => ({
-	flexDirection: 'row',
-	'& *': {
-		flex: 1,
-	},
-	'&:nth-child(even)': {
-		flexDirection: 'row-reverse',
-	},
-	'&:not(:first-child)': {
+const Container = styled(Box)(({ theme }) => ({
+	display: 'flex',
+	alignItems: 'center',
+	position: 'relative',
+
+	// Create the cute little line separators
+	'&::before': {
+		content: '""',
+		width: '40%',
+		position: 'absolute',
+		top: 0,
+		left: '30%',
 		borderTop: `3px solid ${theme.palette.primary.main}`,
 	},
-	// Column takes precedence, if we're in sm mode, we don't
-	// want it setting the even elements to row-reverse
-	[theme.breakpoints.down('xs')]: {
-		// TODO: Check this works
-		'&&': {
-			flexDirection: 'column',
+
+	'& > *': {
+		flex: 1,
+		maxWidth: '100%',
+		[theme.breakpoints.up('md')]: {
+			maxWidth: '50%',
 		},
 	},
 }))
 
-const SegmentTextContainer = styled(Box)(({ theme }) => ({
+const TextContanier = styled(Box)(({ theme }) => ({
 	textAlign: 'center',
 	'& *': {
 		margin: 'auto',
@@ -34,69 +38,115 @@ const SegmentTextContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const SegmentTitle = styled(Typography)(({ theme }) => ({
-	padding: theme.spacing(3),
+const Title = styled(Typography)(({ theme }) => ({
+	paddingLeft: theme.spacing(3),
+	paddingRight: theme.spacing(3),
+
 	[theme.breakpoints.down('md')]: {
 		fontSize: '3rem',
-		padding: theme.spacing(2),
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2),
 	},
 	[theme.breakpoints.down('sm')]: {
-		paddingTop: 0, // Space evenly between title/top border & image/bottom
-		fontSize: '2.2rem',
+		paddingLeft: 0,
+		paddingRight: 0,
+		fontSize: '2.1rem',
 	},
 }))
 
-const SegmentSubtitle = styled(Typography)(({ theme }) => ({
+const Subtitle = styled(Typography)(({ theme }) => ({
+	color: theme.palette.text.secondary,
+	maxWidth: '40ch',
+	paddingTop: theme.spacing(6),
+
+	[theme.breakpoints.down('lg')]: {
+		paddingTop: theme.spacing(5),
+	},
+
+	[theme.breakpoints.down('md')]: {
+		fontSize: '1.1rem',
+		paddingTop: theme.spacing(3),
+	},
+
 	[theme.breakpoints.down('sm')]: {
-		fontSize: '1.05rem',
+		paddingLeft: theme.spacing(1),
+		paddingRight: theme.spacing(1),
+		fontSize: '1rem',
 	},
 }))
 
-const SegmentImageContainer = styled(Box)(({ theme }) => ({
-	[theme.breakpoints.down('xs')]: {
-		paddingTop: theme.spacing(2),
-	},
+const ImageContainer = styled(Box)({
+	display: 'flex',
+	alignItems: 'center',
+})
+
+const ImageBox = styled(Box)(({ theme }) => ({
+	height: '100%',
+	margin: '0 auto',
 	'& img': {
 		display: 'block',
-		margin: '0 auto',
-		maxWidth: '80%',
-		maxHeight: '450px',
+		height: '100%',
+
+		// Kinda hacky but who cares it works
+		[theme.breakpoints.down('sm')]: {
+			height: '300px',
+		},
+		[theme.breakpoints.down('xs')]: {
+			height: '250px',
+		},
 	},
 }))
 
-export type HomePageSegmentDetails = {
+export type HomePageSegmentDefaultDetails = {
 	title: string
 	text: string
 	image: string
 }
 
-type HomePageSegmentProps = {
-	segment: HomePageSegmentDetails
+export type HomePageSegmentDetails = {
+	title: string
+	text: string
+	ImageComponent: React.ComponentType<any>
 }
 
-const HomePageSegment: FC<HomePageSegmentProps> = ({ segment }) => {
-	const { title, text, image } = segment
+export type HomePageSegmentItem = HomePageSegmentDefaultDetails | HomePageSegmentDetails
+
+export type HomePageSegmentProps = {
+	segment: HomePageSegmentItem
+}
+
+const isComponentSegment = (
+	segment: HomePageSegmentItem
+): segment is HomePageSegmentDetails => {
+	return 'ImageComponent' in segment && !!segment.ImageComponent
+}
+
+export const HomePageSegment: FC<HomePageSegmentProps> = ({ segment }) => {
+	const { title, text } = segment
 
 	return (
-		<SegmentContainer display='flex' alignItems='center' paddingY={ { xs: 6, sm: 9 } }>
-			<SegmentTextContainer>
-				<SegmentTitle variant='h2'>{title}</SegmentTitle>
-				<SegmentSubtitle variant='h5'>{text}</SegmentSubtitle>
-			</SegmentTextContainer>
+		<React.Fragment>
+			<Container
+				flexDirection={ { xs: 'column-reverse', md: 'row' } }
+				paddingY={ { xs: 10, md: 12, xl: 16 } }
+			>
+				<TextContanier pt={ { xs: 5, sm: 6, md: 0 } }>
+					<Title variant='h3'>{title}</Title>
+					<Subtitle variant='subtitle1'>{text}</Subtitle>
+				</TextContanier>
 
-			<SegmentImageContainer>
-				<img alt={ title } src={ image } />
-			</SegmentImageContainer>
-		</SegmentContainer>
+				<ImageContainer height={ { sm: '300px', md: '300px', lg: '400px', xl: '500px' } }>
+					{isComponentSegment(segment) ? (
+						<segment.ImageComponent />
+					) : (
+						<ImageBox>
+							<img alt={ title } src={ segment.image } />
+						</ImageBox>
+					)}
+				</ImageContainer>
+			</Container>
+		</React.Fragment>
 	)
-}
-
-HomePageSegment.propTypes = {
-	segment: PropTypes.shape({
-		title: PropTypes.string.isRequired,
-		text: PropTypes.string.isRequired,
-		image: PropTypes.string.isRequired,
-	}).isRequired,
 }
 
 export default HomePageSegment

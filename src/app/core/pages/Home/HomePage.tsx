@@ -2,38 +2,44 @@ import { useEffect } from 'react'
 
 import { Container } from '@material-ui/core'
 
-import HomePageSegment, { HomePageSegmentDetails } from './HomePageSegment'
-import Logo from '../../layout/Logo'
-
-import ArmoryImage from 'assets/home/armory.png'
-import LoadoutImage from 'assets/home/loadout.png'
-import EventsImage from 'assets/home/events.png'
-import EventLoadoutsImage from 'assets/home/eventloadouts.png'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
+import NavBar from '../../layout/Navbar/Navbar'
 
-const segments: HomePageSegmentDetails[] = [
+import { HomePageSegment, HomePageSegmentItem } from './HomePageSegment'
+import ScrollingWeapons from './ScrollingWeapons'
+import CallToAction from './CallToAction'
+
+import LoadoutImage from './images/loadout.png'
+import EventsImage from './images/event.png'
+import SquadImage from './images/squad.png'
+
+const segments: HomePageSegmentItem[] = [
 	{
 		title: 'Inventory Management',
-		image: ArmoryImage,
-		text: 'Keep track and manage all of your airsoft weaponry, attachments, and gear.',
+		ImageComponent: ScrollingWeapons,
+		text: `Keep track of everything in your own personal armory, from the specced out rifle, 
+		to the old revolver you found in the basement, to the cheap red dot sight; and
+		see where all those paychecks went.`,
 	},
 	{
 		title: 'Loadout Creation',
 		image: LoadoutImage,
-		text:
-			'Create your custom loadouts by creating combinations with your airsoft inventory, then share your loadouts online.',
+		text: `Like to pretend to be SAS with an MP5? Or maybe a juggernaut 
+		with an absurdly expensive shotgun? Group your gear into your preferred
+		loadouts, or play around and find your next favorite.`,
 	},
 	{
 		title: 'Event Planning',
 		image: EventsImage,
-		text:
-			'Manage upcoming events and assign a loadout to each. View a simple agenda of your upcoming events, and the loadout you plan to take',
+		text: `Whether it's milsim Sundays or a weekend long wild west roleplay event,
+		get an overview of all of your upcoming games, and invite your friends along.`,
 	},
 	{
 		title: 'Squad Management',
-		image: EventLoadoutsImage,
-		text:
-			'Coordinate between you and your friends, keeping up to date with your entire squad\'s gear for the event.',
+		image: SquadImage,
+		text: `Get a view of what everyone is bringing to your events. See if your buddy 
+		is bringing their absurd airsoft RPG, or let them know you're taking that expensive 
+		new sniper rifle.`,
 	},
 ]
 
@@ -45,7 +51,9 @@ export default function HomePage() {
 
 	return (
 		<Container maxWidth='xl' fixed={ true }>
-			<Logo />
+			<NavBar paddingX={ { xs: 3, sm: 0, xl: 7 } } paddingY={ { xs: 3, md: 4, lg: 5 } } />
+
+			<CallToAction paddingY={ { xs: 8, md: 14 } } paddingX={ { lg: 7 } } />
 
 			<div>
 				{segments.map((segment, i) => (
