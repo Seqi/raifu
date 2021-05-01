@@ -17,26 +17,29 @@ const segments: HomePageSegmentItem[] = [
 	{
 		title: 'Inventory Management',
 		ImageComponent: ScrollingWeapons,
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et arcu dictum dis faucibus tellus sit viverra et. Volutpat lobortis vel amet, id ut diam.',
+		text: `Keep track of everything in your own personal armory, from your daily driver, 
+		to the old revolver you found in an attic somewhere, to the knockoff red dot sight, and
+		see where all those paychecks went.`,
 	},
 	{
 		title: 'Loadout Creation',
 		image: LoadoutImage,
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et arcu dictum dis faucibus tellus sit viverra et. Volutpat lobortis vel amet, id ut diam.',
+		text: `Like to pretend to be SAS with an MP5? Or maybe a juggernaut 
+		with an absurdly expensive shotgun? Group your gear into your preferred
+		loadouts, or play around and find your next favorite.`,
 	},
 	{
 		title: 'Event Planning',
 		image: EventsImage,
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et arcu dictum dis faucibus tellus sit viverra et. Volutpat lobortis vel amet, id ut diam.',
+		text: `Whether it's milsim Sundays or a weekend long wild west roleplay event,
+		get an overview of all of your upcoming games, and invite your friends along.`,
 	},
 	{
 		title: 'Squad Management',
 		image: SquadImage,
-		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et arcu dictum dis faucibus tellus sit viverra et. Volutpat lobortis vel amet, id ut diam.',
+		text: `Get a view of what everyone is bringing to your events. See if your buddy 
+		is bringing their absurd airsoft RPG, or let them know you're taking that expensive 
+		new sniper rifle.`,
 	},
 ]
 

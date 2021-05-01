@@ -92,7 +92,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 					<Title variant='h2'>We take toy guns seriously.</Title>
 
 					<Subtitle variant='subtitle1'>
-						Website for weirdos who spend thousands on little plastic pellet spitters and
+						Website for people who spend thousands on little plastic pellet spitters and
 						then spend their weekend pretending to be a cool army man secret agent.
 					</Subtitle>
 
