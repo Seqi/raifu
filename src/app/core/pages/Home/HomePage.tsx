@@ -17,8 +17,8 @@ const segments: HomePageSegmentItem[] = [
 	{
 		title: 'Inventory Management',
 		ImageComponent: ScrollingWeapons,
-		text: `Keep track of everything in your own personal armory, from your daily driver, 
-		to the old revolver you found in an attic somewhere, to the knockoff red dot sight, and
+		text: `Keep track of everything in your own personal armory, from the specced out rifle, 
+		to the old revolver you found in the basement, to the cheap red dot sight; and
 		see where all those paychecks went.`,
 	},
 	{
