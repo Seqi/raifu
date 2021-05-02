@@ -45,9 +45,9 @@ export const ResourceList = <R extends Resource = Resource>({
 	return (
 		<React.Fragment>
 			<Grid container={ true } spacing={ 2 }>
-				<StaggeredAnimation maxDuration={ 1000 }>
+				<StaggeredAnimation maxDuration={ 250 }>
 					{items.map((item) => (
-						<Fade key={ item.id } in={ true } timeout={ 1000 }>
+						<Fade key={ item.id } in={ true } timeout={ 750 }>
 							<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
 								{React.createElement(card, {
 									item: item,
