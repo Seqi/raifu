@@ -42,7 +42,7 @@ const EventWeeklyView: FC<EventWeeklyViewProps> = ({
 			<EventWeekSelect onWeekChange={ (newWeek) => setWeek(newWeek) } />
 
 			<Box display='flex' flexDirection='column' flex={ 1 } paddingTop={ 2 }>
-				<StaggeredAnimation minInterval={ 0.025 } freezeAfterInitial={ false }>
+				<StaggeredAnimation interval={ 250 } freezeAfterInitial={ true }>
 					{week.map((day) => (
 						<Fade key={ +day } timeout={ 1000 } in={ true }>
 							{/* Necessary for animation to work */}

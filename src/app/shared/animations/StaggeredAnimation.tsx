@@ -2,13 +2,13 @@ import React, { useCallback, useRef, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 
 type StaggeredAnimationProps = {
-	minInterval?: number
+	interval?: number
 	maxDuration?: number
 	freezeAfterInitial?: boolean
 }
 
 const StaggeredAnimation: FC<StaggeredAnimationProps> = ({
-	minInterval,
+	interval: minInterval,
 	maxDuration,
 	freezeAfterInitial,
 	children,
@@ -27,7 +27,7 @@ const StaggeredAnimation: FC<StaggeredAnimationProps> = ({
 				return 0
 			}
 
-			let interval = minInterval || 0.2
+			let interval = minInterval || 200
 
 			// If no max duration is specified, we can simply stagger without worrying
 			if (!maxDuration) {
@@ -49,14 +49,13 @@ const StaggeredAnimation: FC<StaggeredAnimationProps> = ({
 
 	return (
 		<>
-			{' '}
 			{React.Children.map(children, (child, index) => {
 				if (!React.isValidElement(child)) {
 					return child
 				}
 
 				return React.cloneElement(child, {
-					style: { transitionDelay: `${getAnimationDelay(index)}s` },
+					style: { transitionDelay: `${getAnimationDelay(index)}ms` },
 				})
 			})}
 		</>
@@ -64,13 +63,13 @@ const StaggeredAnimation: FC<StaggeredAnimationProps> = ({
 }
 
 StaggeredAnimation.propTypes = {
-	minInterval: PropTypes.number,
+	interval: PropTypes.number,
 	maxDuration: PropTypes.number,
 	freezeAfterInitial: PropTypes.bool,
 }
 
 StaggeredAnimation.defaultProps = {
-	minInterval: 0.2,
+	interval: 200,
 	maxDuration: 0,
 	freezeAfterInitial: true,
 }
