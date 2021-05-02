@@ -21,7 +21,7 @@ import {
 	AttachmentCard,
 	GearCard,
 	ClothingCard,
-	ArmoryCardContainer,
+	DefaultArmoryCardContainer,
 } from './cards'
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
@@ -82,26 +82,13 @@ const armorySections: Partial<ResourceListProps<ArmoryItem>>[] = [
 	},
 ]
 
-let ResourceListContainer = styled(Box)(({ theme }) => ({
-	display: 'flex',
-	marginTop: theme.spacing(4),
-	'&:not(:first-child)': {
-		marginTop: theme.spacing(12),
-	},
-}))
-
-let ResourceListTitle = styled(Box)(({ theme }) => ({
-	writingMode: 'vertical-rl',
-	borderRight: `3px solid ${theme.palette.primary.main}`,
-	marginRight: theme.spacing(2),
-}))
-
 type ArmoryState = {
 	// eslint-disable-next-line no-unused-vars
 	armory: { [key: string]: ArmoryItem[] }
 	loading: boolean
 	error: boolean
 }
+
 const defaultState: ArmoryState = {
 	armory: {
 		weapons: [],
@@ -112,6 +99,26 @@ const defaultState: ArmoryState = {
 	loading: true,
 	error: false,
 }
+
+const ResourceListContainer = styled(Box)(({ theme }) => ({
+	display: 'flex',
+	marginTop: theme.spacing(4),
+	'&:not(:first-child)': {
+		marginTop: theme.spacing(12),
+	},
+}))
+
+const ResourceListTitle = styled(Box)(({ theme }) => ({
+	writingMode: 'vertical-rl',
+	borderRight: `3px solid ${theme.palette.primary.main}`,
+	marginRight: theme.spacing(2),
+}))
+
+const ResourceListTitleText = styled(Typography)({
+	transform: 'rotate(180deg)',
+	textAlign: 'right',
+	lineHeight: 1.5,
+})
 
 export default function Armory() {
 	let [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
@@ -162,7 +169,11 @@ export default function Armory() {
 				<ResourceListContainer component='section' key={ armorySection.resourceName }>
 					<ResourceListTitle>
 						<Slide in={ true } direction='right'>
-							<Typography variant='h3'>{armorySection.resourceName}</Typography>
+							<Box width='50px'>
+								<ResourceListTitleText variant='h3'>
+									{armorySection.resourceName}
+								</ResourceListTitleText>
+							</Box>
 						</Slide>
 					</ResourceListTitle>
 
@@ -171,7 +182,7 @@ export default function Armory() {
 						resource={ armorySection.resource }
 						resourceName={ armorySection.resourceName! }
 						card={ armorySection.card! }
-						cardContainer={ ArmoryCardContainer }
+						cardContainer={ DefaultArmoryCardContainer }
 						renderAddDialog={ armorySection.renderAddDialog! }
 						onResourceClick={ () => {} } //No-op
 					/>
