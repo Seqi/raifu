@@ -21,17 +21,21 @@ import {
 	AttachmentCard,
 	GearCard,
 	ClothingCard,
-	DefaultArmoryCardContainer,
+	ArmoryCardContainer,
+	ArmoryCardContainerSize,
 } from './cards'
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
 import { ArmoryCollection, ArmoryItem } from '../models/armory-item'
 
-const armorySections: Partial<ResourceListProps<ArmoryItem>>[] = [
+const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
+	size: ArmoryCardContainerSize
+})[] = [
 	{
 		resource: weapons,
 		resourceName: 'weapons',
 		card: WeaponCard,
+		size: 'large',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -45,6 +49,7 @@ const armorySections: Partial<ResourceListProps<ArmoryItem>>[] = [
 		resource: attachments,
 		resourceName: 'attachments',
 		card: AttachmentCard,
+		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -58,6 +63,7 @@ const armorySections: Partial<ResourceListProps<ArmoryItem>>[] = [
 		resource: gear,
 		resourceName: 'gear',
 		card: GearCard,
+		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -71,6 +77,7 @@ const armorySections: Partial<ResourceListProps<ArmoryItem>>[] = [
 		resource: clothing,
 		resourceName: 'clothing',
 		card: ClothingCard,
+		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -182,7 +189,9 @@ export default function Armory() {
 						resource={ armorySection.resource }
 						resourceName={ armorySection.resourceName! }
 						card={ armorySection.card! }
-						cardContainer={ DefaultArmoryCardContainer }
+						cardContainer={ (props) => (
+							<ArmoryCardContainer size={ armorySection.size } { ...props } />
+						) }
 						renderAddDialog={ armorySection.renderAddDialog! }
 						onResourceClick={ () => {} } //No-op
 					/>
