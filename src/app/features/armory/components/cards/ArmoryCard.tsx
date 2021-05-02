@@ -22,8 +22,8 @@ type ArmoryCardContainerProps = CardProps & { size?: ArmoryCardContainerSize }
 export const ArmoryCardContainer: React.ComponentType<ArmoryCardContainerProps> = styled(
 	ResourceCard
 )(({ theme, size }) => ({
-	width: size === 'large' ? '253px' : '220px',
-	height: size === 'large' ? '345px' : '300px',
+	width: size === 'large' ? '253px' : '209px', // Old: 220
+	height: size === 'large' ? '345px' : '285px', // Old: 300
 
 	'&:hover': {
 		transform: 'scale(1.05)',
