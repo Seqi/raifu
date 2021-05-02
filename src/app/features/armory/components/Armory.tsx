@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
-import { Box, Typography, styled } from '@material-ui/core'
+import { Box, Slide, styled, Typography } from '@material-ui/core'
 
 import {
 	armory as armoryService,
@@ -83,17 +83,17 @@ const armorySections: Partial<ResourceListProps<ArmoryItem>>[] = [
 ]
 
 let ResourceListContainer = styled(Box)(({ theme }) => ({
+	display: 'flex',
+	marginTop: theme.spacing(4),
 	'&:not(:first-child)': {
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(12),
 	},
 }))
 
-let ResourceTitle = styled(Typography)(({ theme }) => ({
-	textTransform: 'capitalize',
-
-	[theme.breakpoints.down('sm')]: {
-		fontSize: '2rem',
-	},
+let ResourceListTitle = styled(Box)(({ theme }) => ({
+	writingMode: 'vertical-rl',
+	borderRight: `3px solid ${theme.palette.primary.main}`,
+	marginRight: theme.spacing(2),
 }))
 
 type ArmoryState = {
@@ -160,7 +160,11 @@ export default function Armory() {
 		<React.Fragment>
 			{armorySections.map((armorySection) => (
 				<ResourceListContainer component='section' key={ armorySection.resourceName }>
-					<ResourceTitle variant='h3'>{armorySection.resourceName}</ResourceTitle>
+					<ResourceListTitle>
+						<Slide in={ true } direction='right'>
+							<Typography variant='h3'>{armorySection.resourceName}</Typography>
+						</Slide>
+					</ResourceListTitle>
 
 					<ResourceList
 						items={ armory[armorySection.resourceName!] }
