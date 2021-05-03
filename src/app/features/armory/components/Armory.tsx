@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
-import { Box, Slide, styled, Typography } from '@material-ui/core'
+import { Box, styled } from '@material-ui/core'
 
 import {
 	armory as armoryService,
@@ -14,6 +14,7 @@ import {
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 import { ResourceList, ResourceListProps } from 'app/features/resource'
 
 import {
@@ -115,18 +116,6 @@ const ResourceListContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const ResourceListTitle = styled(Box)(({ theme }) => ({
-	writingMode: 'vertical-rl',
-	borderRight: `3px solid ${theme.palette.primary.main}`,
-	marginRight: theme.spacing(2),
-}))
-
-const ResourceListTitleText = styled(Typography)({
-	transform: 'rotate(180deg)',
-	textAlign: 'right',
-	lineHeight: 1.5,
-})
-
 export default function Armory() {
 	let [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
 
@@ -174,15 +163,7 @@ export default function Armory() {
 		<React.Fragment>
 			{armorySections.map((armorySection) => (
 				<ResourceListContainer component='section' key={ armorySection.resourceName }>
-					<ResourceListTitle>
-						<Slide in={ true } direction='right'>
-							<Box width='50px'>
-								<ResourceListTitleText variant='h3'>
-									{armorySection.resourceName}
-								</ResourceListTitleText>
-							</Box>
-						</Slide>
-					</ResourceListTitle>
+					<SidewaysTitle title={ armorySection.resourceName! } marginRight={ 2 } />
 
 					<ResourceList
 						items={ armory[armorySection.resourceName!] }
