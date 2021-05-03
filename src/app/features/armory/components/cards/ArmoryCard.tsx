@@ -10,7 +10,7 @@ import {
 	ResourceCard,
 	ResourceCardHeader,
 	ResourceCardContent,
-	ResourceCardProps,
+	ResourceItemProps,
 } from 'app/features/resource'
 
 import ArmoryItemImage from '../ArmoryItemImage'
@@ -35,7 +35,7 @@ export const ArmoryCardContainer: React.ComponentType<ArmoryCardContainerProps> 
 	},
 }))
 
-export type ArmoryCardProps = ResourceCardProps<ArmoryItem> &
+export type ArmoryCardProps = ResourceItemProps<ArmoryItem> &
 	CardProps & {
 		category: Category
 		canDelete?: boolean

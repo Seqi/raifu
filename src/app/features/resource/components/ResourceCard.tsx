@@ -24,20 +24,20 @@ export const ResourceCard = styled(Card)({
 //     Card Header
 // ##################
 // Override the default CardHeaderProps to take in a resource
-export type ResourceCardHeaderProps<R extends Resource> = Omit<
+export type ResourceCardHeaderProps<ResourceItem extends Resource> = Omit<
 	CardHeaderProps,
 	'resource'
 > & {
-	resource: R
+	resource: ResourceItem
 }
 
 // Create the component that defaults the title and subtitle to use resource
-export const ResourceCardHeaderBase = <R extends Resource>({
+export const ResourceCardHeaderBase = <ResourceItem extends Resource>({
 	resource,
 	title = resource.getTitle(),
 	subheader = resource.getSubtitle(),
 	...props
-}: ResourceCardHeaderProps<R>) => (
+}: ResourceCardHeaderProps<ResourceItem>) => (
 		<CardHeader title={ resource.getTitle() } subheader={ resource.getSubtitle() } { ...props } />
 	)
 

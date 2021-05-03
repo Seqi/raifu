@@ -9,7 +9,7 @@ import {
 	ResourceCard,
 	ResourceCardHeader,
 	ResourceCardContent,
-	ResourceCardProps,
+	ResourceItemProps,
 } from 'app/features/resource'
 
 import { Loadout, LoadoutPropType } from '../../models'
@@ -28,7 +28,7 @@ const LoadoutCardContent = styled(ResourceCardContent)({
 	overflow: 'unset',
 })
 
-export type LoadoutCardProps = ResourceCardProps<Loadout>
+export type LoadoutCardProps = ResourceItemProps<Loadout>
 
 export const LoadoutCard: FC<LoadoutCardProps> = ({ item, onClick, onDelete }) => (
 	<LoadoutCardContainer onClick={ onClick }>

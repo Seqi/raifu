@@ -35,7 +35,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 	{
 		resource: weapons,
 		resourceName: 'weapons',
-		card: WeaponCard,
+		ItemTemplate: WeaponCard,
 		size: 'large',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
@@ -49,7 +49,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 	{
 		resource: attachments,
 		resourceName: 'attachments',
-		card: AttachmentCard,
+		ItemTemplate: AttachmentCard,
 		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
@@ -63,7 +63,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 	{
 		resource: gear,
 		resourceName: 'gear',
-		card: GearCard,
+		ItemTemplate: GearCard,
 		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
@@ -77,7 +77,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 	{
 		resource: clothing,
 		resourceName: 'clothing',
-		card: ClothingCard,
+		ItemTemplate: ClothingCard,
 		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
@@ -169,8 +169,8 @@ export default function Armory() {
 						items={ armory[armorySection.resourceName!] }
 						resource={ armorySection.resource }
 						resourceName={ armorySection.resourceName! }
-						card={ armorySection.card! }
-						cardContainer={ (props) => (
+						ItemTemplate={ armorySection.ItemTemplate! }
+						AddButtonTemplate={ (props) => (
 							<ArmoryCardContainer size={ armorySection.size } { ...props } />
 						) }
 						renderAddDialog={ armorySection.renderAddDialog! }

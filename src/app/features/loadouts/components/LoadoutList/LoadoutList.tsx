@@ -71,11 +71,11 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 			items={ loadouts }
 			resource={ loadoutService }
 			resourceName='loadout'
-			card={ LoadoutCard }
-			cardContainer={ LoadoutCardContainer }
+			fullWidth={ true }
 			onResourceClick={ viewLoadout }
 			renderAddDialog={ (props) => <EditLoadoutDialog action='Add' { ...props } /> }
-			fullWidth={ true }
+			ItemTemplate={ LoadoutCard }
+			AddButtonTemplate={ LoadoutCardContainer }
 		/>
 	)
 }
