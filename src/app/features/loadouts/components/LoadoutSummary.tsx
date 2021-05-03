@@ -5,13 +5,19 @@ import { Box, styled } from '@material-ui/core'
 import { ArmoryItemImage } from 'app/features/armory'
 import { Loadout, LoadoutPropType } from '../models'
 
-const LoadoutSummaryContainer = styled(Box)({
+const LoadoutSummaryContainer = styled(Box)(({ theme }) => ({
 	display: 'flex',
 	flexWrap: 'wrap',
+	justifyContent: 'space-around',
 	alignItems: 'center',
 
-	marginTop: '-30px',
-	marginBottom: '-30px'
+	padding: theme.spacing(2, 0),
+}))
+
+// This is used to control the height of the images
+// Not too sure why i gotta do this but it is what it is
+const LoadoutSummaryItemContainer = styled(Box)({
+	height: '150px',
 })
 
 type LoadoutSummaryProps = {
@@ -26,16 +32,16 @@ const LoadoutSummary: FC<LoadoutSummaryProps> = ({ loadout }) => {
 	return (
 		<LoadoutSummaryContainer>
 			{loadout.weapons.map((weapon) => (
-				<div key={ weapon.id }>
-					<ArmoryItemImage resourceType='weapons' resource={ weapon } rotate={ true } />
-				</div>
+				<LoadoutSummaryItemContainer key={ weapon.id }>
+					<ArmoryItemImage resourceType='weapons' resource={ weapon } />
+				</LoadoutSummaryItemContainer>
 			))}
 		</LoadoutSummaryContainer>
 	)
 }
 
 LoadoutSummary.propTypes = {
-	loadout: PropTypes.shape(LoadoutPropType).isRequired
+	loadout: PropTypes.shape(LoadoutPropType).isRequired,
 }
 
 export default LoadoutSummary
