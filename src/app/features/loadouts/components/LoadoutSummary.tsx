@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
-import { Badge, Grid, styled, Box } from '@material-ui/core'
+import { Badge, Grid, styled, Box, GridSize } from '@material-ui/core'
 
 import { ArmoryItemImage } from 'app/features/armory'
 import { Loadout, LoadoutPropType } from '../models'
@@ -71,7 +71,12 @@ const LoadoutSummary: FC<LoadoutSummaryProps> = ({ loadout }) => {
 			alignItems='center'
 		>
 			{itemsToDisplay.map((weapon, idx) => (
-				<LoadoutSummaryGridItem item={ true } key={ weapon.id } lg={ 2 }>
+				<LoadoutSummaryGridItem
+					item={ true }
+					key={ weapon.id }
+					// We take off 1 as a cheap way to get some spacing either side
+					lg={ (12 / itemLimit - 1) as GridSize }
+				>
 					<ArmoryItemImage resourceType='weapons' resource={ weapon } />
 
 					{/* Display badge on last item */}
