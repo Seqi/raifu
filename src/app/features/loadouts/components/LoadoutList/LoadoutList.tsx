@@ -19,32 +19,34 @@ type LoadoutListState = {
 const defaultState: LoadoutListState = { loadouts: [], loading: true, error: false }
 
 let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
-	let [{ loadouts, loading, error }, setLoadout] = useState<LoadoutListState>(
-		defaultState
-	)
-
 	let mounted = useRef<boolean>(true)
-
 	useEffect(() => {
+		mounted.current = true
+
 		return () => {
 			mounted.current = false
 		}
 	}, [])
+
+	let [{ loadouts, loading, error }, setLoadout] = useState<LoadoutListState>(
+		defaultState
+	)
 
 	let loadLoadout = useCallback(() => {
 		setLoadout(defaultState)
 
 		loadoutService
 			.get()
-			.then(
-				(result) =>
-					mounted.current &&
+			.then((result) => {
+				if (mounted.current) {
 					setLoadout({ loadouts: result, loading: false, error: false })
-			)
-			.catch(
-				(e) =>
-					mounted.current && setLoadout({ loadouts: [], loading: false, error: true })
-			)
+				}
+			})
+			.catch((e) => {
+				if (mounted.current) {
+					setLoadout({ loadouts: [], loading: false, error: true })
+				}
+			})
 	}, [])
 
 	useEffect(() => {
@@ -71,7 +73,6 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 			items={ loadouts }
 			resource={ loadoutService }
 			resourceName='loadout'
-			fullWidth={ true }
 			onResourceClick={ viewLoadout }
 			renderAddDialog={ (props) => <EditLoadoutDialog action='Add' { ...props } /> }
 			ItemTemplate={ LoadoutCard }

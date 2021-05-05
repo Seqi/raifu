@@ -117,14 +117,16 @@ const ResourceListContainer = styled(Box)(({ theme }) => ({
 }))
 
 export default function Armory() {
-	let [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
-
 	let mounted = useRef(true)
 	useEffect(() => {
+		mounted.current = true
+
 		return () => {
 			mounted.current = false
 		}
 	}, [])
+
+	let [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
 
 	let loadArmory = useCallback(() => {
 		setArmory(defaultState)
@@ -133,11 +135,11 @@ export default function Armory() {
 			.get()
 			.then(
 				(result: ArmoryCollection) =>
-					mounted && setArmory({ armory: result, loading: false, error: false })
+					mounted.current && setArmory({ armory: result, loading: false, error: false })
 			)
 			.catch(
 				(e: any) =>
-					mounted &&
+					mounted.current &&
 					setArmory({ error: true, loading: false, armory: defaultState.armory })
 			)
 	}, [])
