@@ -18,7 +18,7 @@ import LoadoutSummary from '../LoadoutSummary'
 export const LoadoutCardContainer = styled(ResourceCard)({
 	// For cards with non-height-affecting content (i.e. add card),
 	// give it some height
-	height: '250px',
+	height: '300px',
 	width: '100%',
 	'&:hover': {
 		transform: 'scale(1.005)',
