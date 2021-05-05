@@ -24,12 +24,12 @@ const App: FC<AppProps> = ({ history, location }) => {
 
 	let [tabIndex, setTabIndex] = useState<number>(() => {
 		let idxMap: { [key: string]: number } = {
-			'/armory': 0,
-			'/loadouts': 1,
-			'/events': 2,
+			armory: 0,
+			loadouts: 1,
+			events: 2,
 		}
 
-		let currPath = location.pathname
+		let currPath = location.pathname.split('/')[1]
 
 		return idxMap[currPath] || 0
 	})
