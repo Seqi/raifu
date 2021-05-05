@@ -9,6 +9,7 @@ import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
 import { LoadoutCard, LoadoutCardContainer } from '../cards'
 import { Loadout } from '../../models'
 import { Box } from '@material-ui/core'
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 
 type LoadoutListProps = RouteChildrenProps
 type LoadoutListState = {
@@ -70,7 +71,9 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 	}
 
 	return (
-		<Box paddingTop={ 4 }>
+		<Box display='flex' paddingTop={ 4 }>
+			<SidewaysTitle title='loadouts' />
+
 			<ResourceList
 				items={ loadouts }
 				resource={ loadoutService }
