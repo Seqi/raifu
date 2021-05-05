@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { Grid, Fade } from '@material-ui/core'
+import { Grid, Fade, GridProps } from '@material-ui/core'
 
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 import AddButton from 'app/shared/actions/add/AddButton'
@@ -21,7 +21,6 @@ export type ResourceItemProps<ResourceItem extends Resource = Resource> = {
 
 export type ResourceListProps<ResourceItem extends Resource = Resource> = {
 	items: ResourceItem[]
-	fullWidth?: boolean
 	renderAddDialog: (props: AddResourceDialogProps<ResourceItem>) => React.ReactNode
 
 	// Events
@@ -34,6 +33,10 @@ export type ResourceListProps<ResourceItem extends Resource = Resource> = {
 
 	// Define how the add button looks
 	AddButtonTemplate: React.ComponentType<any>
+
+	// Styling
+	gridContainerProps?: GridProps
+	gridItemProps?: GridProps
 }
 
 export const ResourceList = <R extends Resource = Resource>({
@@ -44,17 +47,18 @@ export const ResourceList = <R extends Resource = Resource>({
 	onResourceClick,
 	addResource,
 	deleteResource,
-	fullWidth,
+	gridContainerProps,
+	gridItemProps,
 }: ResourceListProps<R>) => {
 	let [dialog, setDialog] = useState<'add' | null>(null)
 
 	return (
 		<React.Fragment>
-			<Grid container={ true } spacing={ 2 }>
+			<Grid { ...gridContainerProps } container={ true }>
 				<StaggeredAnimation maxDuration={ 250 }>
 					{items.map((item) => (
 						<Fade key={ item.id } in={ true } timeout={ 750 }>
-							<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
+							<Grid { ...gridItemProps } item={ true }>
 								{React.createElement(ItemTemplate, {
 									item: item,
 									onClick: () => onResourceClick(item),
@@ -65,7 +69,7 @@ export const ResourceList = <R extends Resource = Resource>({
 					))}
 
 					<Fade key='add' in={ true } timeout={ 1000 }>
-						<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
+						<Grid { ...gridItemProps } item={ true }>
 							{React.createElement(
 								AddButtonTemplate,
 								{},
@@ -94,11 +98,13 @@ ResourceList.propTypes = {
 	onResourceClick: PropTypes.func.isRequired,
 	addResource: PropTypes.func.isRequired,
 	deleteResource: PropTypes.func.isRequired,
-	fullWidth: PropTypes.bool,
+	gridItemProps: PropTypes.object,
+	gridContainerProps: PropTypes.object,
 }
 
 ResourceList.defaultProps = {
-	fullWidth: false,
+	gridItemProps: {},
+	gridContainerProps: { spacing: 2 },
 }
 
 export default ResourceList

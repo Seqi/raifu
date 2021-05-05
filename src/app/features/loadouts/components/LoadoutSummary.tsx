@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
-import { Badge, Grid, styled, Box, GridSize } from '@material-ui/core'
+import { Grid, styled, Box, GridSize, Typography } from '@material-ui/core'
 
 import { ArmoryItemImage } from 'app/features/armory'
 import { Loadout, LoadoutPropType } from '../models'
@@ -9,27 +9,30 @@ const LoadoutSummaryGrid = styled(Grid)(({ theme }) => ({
 	height: '100%',
 	marginTop: 'auto',
 	marginBottom: 'auto',
+
+	position: 'relative',
 }))
 
 // This is used to control the height of the images
 // Not too sure why i gotta do this but it is what it is
 const LoadoutSummaryGridItem = styled(Grid)({
 	height: '225px',
-	position: 'relative',
 })
 
 // Kinda hijack the mui badge here
-const MoreItemsBadge = styled(Badge)({
+const MoreItemsBadge = styled(Typography)(({ theme }) => ({
 	position: 'absolute',
-	top: '50%',
-	right: 0,
-	transform: 'translate(50%, -50%)',
+	bottom: 0,
+	right: '50%',
+	transform: 'translateX(50%)',
+
+	color: theme.palette.text.secondary,
 
 	'& .MuiBadge-badge': {
 		position: 'initial',
 		transform: 'initial',
 	},
-})
+}))
 
 type LoadoutSummaryProps = {
 	loadout: Loadout
@@ -50,13 +53,14 @@ const LoadoutSummary: FC<LoadoutSummaryProps> = ({ loadout }) => {
 				<Box fontSize='4rem'>
 					<i className='far fa-sad-tear' />
 				</Box>
+
 				<span>There&lsquo;s nothing here!</span>
 			</Box>
 		)
 	}
 
 	const items = loadout.weapons
-	const itemLimit = 4
+	const itemLimit = 2
 	const additionalItems = itemLimit - items.length > 0 ? 0 : items.length
 	const itemNumberExceedsLimit = additionalItems > 0
 
@@ -70,21 +74,19 @@ const LoadoutSummary: FC<LoadoutSummaryProps> = ({ loadout }) => {
 			justify='space-around'
 			alignItems='center'
 		>
-			{itemsToDisplay.map((weapon, idx) => (
+			{itemsToDisplay.map((weapon) => (
 				<LoadoutSummaryGridItem
 					item={ true }
 					key={ weapon.id }
-					// We take off 1 as a cheap way to get some spacing either side
-					lg={ (12 / itemLimit - 1) as GridSize }
+					lg={ (12 / itemLimit) as GridSize }
 				>
 					<ArmoryItemImage resourceType='weapons' resource={ weapon } />
-
-					{/* Display badge on last item */}
-					{itemNumberExceedsLimit && idx === itemLimit - 1 && (
-						<MoreItemsBadge badgeContent={ `+ ${additionalItems} more` } color='default' />
-					)}
 				</LoadoutSummaryGridItem>
 			))}
+
+			{itemNumberExceedsLimit && (
+				<MoreItemsBadge variant='subtitle2'>{`+ ${additionalItems} more`}</MoreItemsBadge>
+			)}
 		</LoadoutSummaryGrid>
 	)
 }

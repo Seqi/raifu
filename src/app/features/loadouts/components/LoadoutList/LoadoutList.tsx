@@ -8,6 +8,7 @@ import { ResourceList } from 'app/features/resource'
 import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
 import { LoadoutCard, LoadoutCardContainer } from '../cards'
 import { Loadout } from '../../models'
+import { Box } from '@material-ui/core'
 
 type LoadoutListProps = RouteChildrenProps
 type LoadoutListState = {
@@ -69,15 +70,23 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 	}
 
 	return (
-		<ResourceList
-			items={ loadouts }
-			resource={ loadoutService }
-			resourceName='loadout'
-			onResourceClick={ viewLoadout }
-			renderAddDialog={ (props) => <EditLoadoutDialog action='Add' { ...props } /> }
-			ItemTemplate={ LoadoutCard }
-			AddButtonTemplate={ LoadoutCardContainer }
-		/>
+		<Box paddingTop={ 4 }>
+			<ResourceList
+				items={ loadouts }
+				resource={ loadoutService }
+				resourceName='loadout'
+				onResourceClick={ viewLoadout }
+				renderAddDialog={ (props) => <EditLoadoutDialog action='Add' { ...props } /> }
+				ItemTemplate={ LoadoutCard }
+				AddButtonTemplate={ LoadoutCardContainer }
+				gridItemProps={ {
+					xs: 4,
+				} }
+				gridContainerProps={ {
+					spacing: 3,
+				} }
+			/>
+		</Box>
 	)
 }
 
