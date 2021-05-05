@@ -1,12 +1,21 @@
 import { Box, styled } from '@material-ui/core'
 
 let LoadoutSeparator = styled(Box)(({ theme }) => ({
-	borderTop: '1px solid',
-	borderColor: theme.palette.primary.main,
-	padding: theme.spacing(3, 0),
+	position: 'relative',
+	padding: theme.spacing(8, 0),
 
 	[theme.breakpoints.down('xs')]: {
 		padding: theme.spacing(2, 0),
+	},
+
+	// Create the cute little line separators
+	'&:not(:first-child)&::before': {
+		content: '""',
+		width: '30%',
+		position: 'absolute',
+		top: 0,
+		left: '35%',
+		borderTop: `2px solid ${theme.palette.primary.main}`,
 	},
 }))
 
