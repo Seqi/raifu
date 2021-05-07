@@ -6,11 +6,11 @@ import { RouteChildrenProps } from 'react-router-dom'
 import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
 import { LoadoutView } from 'app/features/loadouts'
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import LoadoutActions from './LoadoutActions'
 import firebase from '../../../../../firebase'
 import { Loadout } from '../../models'
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 
 let analytics = firebase.analytics()
 
@@ -99,18 +99,15 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 		}
 
 		return (
-			<React.Fragment>
-				<ReactiveTitle>
-					{loadout!.name}
-					{shared && (
-						<Box component='span' paddingLeft={ 1 }>
-							<Tooltip placement='right' title='Loadout has been shared!'>
-								<Chip label='Shared' size='small' color='primary' />
-							</Tooltip>
-						</Box>
-					)}
-				</ReactiveTitle>
-
+			<Box display='flex'>
+				<SidewaysTitle title={ loadout!.name } />
+				{shared && (
+					<Box component='span' paddingLeft={ 1 }>
+						<Tooltip placement='right' title='Loadout has been shared!'>
+							<Chip label='Shared' size='small' color='primary' />
+						</Tooltip>
+					</Box>
+				)}
 				<div>
 					<LoadoutView loadout={ loadout! } editable={ true } />
 				</div>
@@ -120,7 +117,7 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 					editLoadout={ (loadout) => this.editLoadout(loadout) }
 					onSharedChanged={ (shared) => this.setShared(shared) }
 				/>
-			</React.Fragment>
+			</Box>
 		)
 	}
 }
