@@ -10,8 +10,8 @@ import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
 const LoadoutWeaponContainer = styled(Box)(({ theme }) => ({
 	flexDirection: 'row',
 	[theme.breakpoints.down('xs')]: {
-		flexDirection: 'column'
-	}
+		flexDirection: 'column',
+	},
 }))
 
 type LoadoutWeaponProps = {
@@ -21,11 +21,11 @@ type LoadoutWeaponProps = {
 const LoadoutWeaponView: FC<LoadoutWeaponProps> = ({ weapon }) => {
 	return (
 		<LoadoutWeaponContainer display='flex'>
-			<div style={ { flex: '1' } }>
+			<div style={ { flex: '3' } }>
 				<LoadoutWeaponItem weapon={ weapon } />
 			</div>
 
-			<div style={ { flex: 2 } }>
+			<div style={ { flex: 5 } }>
 				<LoadoutWeaponAttachmentList weapon={ weapon } />
 			</div>
 		</LoadoutWeaponContainer>
@@ -33,7 +33,7 @@ const LoadoutWeaponView: FC<LoadoutWeaponProps> = ({ weapon }) => {
 }
 
 LoadoutWeaponView.propTypes = {
-	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired
+	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired,
 }
 
 export default LoadoutWeaponView

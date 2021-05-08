@@ -2,7 +2,6 @@ import React, { useState, useContext, useCallback, FC } from 'react'
 
 import LoadoutContext from '../LoadoutContext'
 import LoadoutAdd from '../LoadoutAdd'
-import LoadoutSeparator from '../LoadoutSeparator'
 import LoadoutWeaponView from './Weapon/LoadoutWeaponView'
 import AddResourceDialog from '../dialogs/AddResourceDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
@@ -26,18 +25,14 @@ const LoadoutWeaponList: FC = () => {
 	)
 
 	return (
-		<React.Fragment>
+		<>
 			{(loadout.weapons || []).map((weapon: LoadoutWeapon) => (
-				<LoadoutSeparator key={ weapon.id }>
-					<LoadoutWeaponView weapon={ weapon } />
-				</LoadoutSeparator>
+				<LoadoutWeaponView key={ weapon.id } weapon={ weapon } />
 			))}
 
 			{editable && (availableWeapons || []).length > 0 && (
 				<React.Fragment>
-					<LoadoutSeparator>
-						<LoadoutAdd onClick={ () => setDialog('add') } />
-					</LoadoutSeparator>
+					<LoadoutAdd onClick={ () => setDialog('add') } />
 
 					<AddResourceDialog
 						title='Add weapon to loadout'
@@ -49,7 +44,7 @@ const LoadoutWeaponList: FC = () => {
 					/>
 				</React.Fragment>
 			)}
-		</React.Fragment>
+		</>
 	)
 }
 

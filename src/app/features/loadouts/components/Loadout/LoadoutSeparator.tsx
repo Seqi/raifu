@@ -7,15 +7,15 @@ let LoadoutSeparator = styled(Box)(({ theme }) => ({
 	[theme.breakpoints.down('xs')]: {
 		padding: theme.spacing(2, 0),
 	},
-
-	// Create the cute little line separators
-	'&:not(:first-child)&::before': {
-		content: '""',
-		width: '30%',
-		position: 'absolute',
-		top: 0,
-		left: '35%',
-		borderTop: `2px solid ${theme.palette.primary.main}`,
+	'&:not(:first-child)': {
+		'&::before': {
+			content: '""',
+			width: '30%',
+			position: 'absolute',
+			top: 0,
+			left: '35%',
+			borderTop: `2px solid ${theme.palette.primary.main}`,
+		},
 	},
 }))
 
