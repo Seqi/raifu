@@ -38,10 +38,13 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 		<Slide in={ true } direction='right'>
 			<Box width='50px'>
 				<ResourceListTitleText
-					// You wouldn't believe the amount of faff saved from doing this the lazy way
-					style={ { textTransform: lowercase ? 'lowercase' : 'initial' } }
 					variant='h3'
 					{ ...textProps }
+					// You wouldn't believe the amount of faff saved from doing this the lazy way
+					style={ {
+						...{ textTransform: lowercase ? 'lowercase' : 'initial' },
+						...textProps?.style,
+					} }
 				>
 					{title}
 				</ResourceListTitleText>
