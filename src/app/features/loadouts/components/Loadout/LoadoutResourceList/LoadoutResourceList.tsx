@@ -29,6 +29,10 @@ const LoadoutResourceItemContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
+const LoadoutResourceListContainer = styled(Grid)({
+	minHeight: '100%',
+})
+
 type LoadoutResourceListProps<T extends ArmoryItem = ArmoryItem> = {
 	resourceType: Category // TODO Remove weapon,
 	items: T[]
@@ -63,7 +67,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 
 	return (
 		<React.Fragment>
-			<Grid container={ true }>
+			<LoadoutResourceListContainer container={ true }>
 				{items.map((item) => (
 					<LoadoutResourceItemContainer key={ item.id }>
 						<LoadoutResourceItem
@@ -80,7 +84,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 						<AddButton onClick={ () => setDialog('add') } />
 					</LoadoutResourceItemContainer>
 				)}
-			</Grid>
+			</LoadoutResourceListContainer>
 
 			{editable &&
 				canAdd &&
