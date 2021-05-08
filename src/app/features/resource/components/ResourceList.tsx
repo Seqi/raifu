@@ -53,7 +53,7 @@ export const ResourceList = <R extends Resource = Resource>({
 	let [dialog, setDialog] = useState<'add' | null>(null)
 
 	return (
-		<React.Fragment>
+		<>
 			<Grid { ...gridContainerProps } container={ true }>
 				<StaggeredAnimation maxDuration={ 250 }>
 					{items.map((item) => (
@@ -85,7 +85,7 @@ export const ResourceList = <R extends Resource = Resource>({
 				onClose: () => setDialog(null),
 				onSave: addResource,
 			})}
-		</React.Fragment>
+		</>
 	)
 }
 

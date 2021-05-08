@@ -110,7 +110,6 @@ const defaultState: ArmoryState = {
 
 const ResourceListContainer = styled(Box)(({ theme }) => ({
 	display: 'flex',
-	marginTop: theme.spacing(4),
 	'&:not(:first-child)': {
 		marginTop: theme.spacing(12),
 	},
@@ -162,7 +161,7 @@ export default function Armory() {
 	}
 
 	return (
-		<React.Fragment>
+		<>
 			{armorySections.map((armorySection) => (
 				<ResourceListContainer component='section' key={ armorySection.resourceName }>
 					<SidewaysTitle
@@ -184,6 +183,6 @@ export default function Armory() {
 					/>
 				</ResourceListContainer>
 			))}
-		</React.Fragment>
+		</>
 	)
 }

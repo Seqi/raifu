@@ -52,7 +52,7 @@ const App: FC<AppProps> = ({ history, location }) => {
 			</Tabs>
 
 			{/* TODO: Basename for router to /app? */}
-			<Box paddingY={ 2 }>
+			<Box paddingY={ 6 }>
 				<Suspense fallback={ <LoadingOverlay /> }>
 					<Switch>
 						<AuthenticatedRoute
