@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, styled } from '@material-ui/core'
+import { Box, Slide, styled } from '@material-ui/core'
 
 import LoadoutWeaponItem from './LoadoutWeaponItem'
 import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
@@ -21,13 +21,17 @@ type LoadoutWeaponProps = {
 const LoadoutWeaponView: FC<LoadoutWeaponProps> = ({ weapon }) => {
 	return (
 		<LoadoutWeaponContainer display='flex'>
-			<div style={ { flex: '3', position: 'relative' } }>
-				<LoadoutWeaponItem weapon={ weapon } />
-			</div>
+			<Slide in={ true } direction='right'>
+				<div style={ { flex: '3', position: 'relative' } }>
+					<LoadoutWeaponItem weapon={ weapon } />
+				</div>
+			</Slide>
 
-			<div style={ { flex: 5 } }>
-				<LoadoutWeaponAttachmentList weapon={ weapon } />
-			</div>
+			<Slide in={ true } timeout={ 400 } direction='right'>
+				<div style={ { flex: 5 } }>
+					<LoadoutWeaponAttachmentList weapon={ weapon } />
+				</div>
+			</Slide>
 		</LoadoutWeaponContainer>
 	)
 }
