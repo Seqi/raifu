@@ -22,7 +22,7 @@ const CalendarEvent: FC<CalendarEventProps> = ({ event, title }) => {
 
 CalendarEvent.propTypes = {
 	event: PropTypes.shape(EventPropShape).isRequired,
-	title: PropTypes.string.isRequired
+	title: PropTypes.string.isRequired,
 }
 
 export default CalendarEvent

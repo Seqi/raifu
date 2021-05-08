@@ -1,48 +1,30 @@
 import React, { FC } from 'react'
 import PropTypes from 'prop-types'
-import { useTheme } from '@material-ui/core'
+import { Box, IconButton } from '@material-ui/core'
+import { NavigateBefore, NavigateNext } from '@material-ui/icons'
 import { ToolbarProps } from 'react-big-calendar'
 
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import { Event } from '../../../../models'
 
 type CalendarToolbarProps = ToolbarProps<Event>
 
-const CalendarToolbar: FC<CalendarToolbarProps> = ({ label, onNavigate }) => {
-	const theme = useTheme()
-
-	const blankButton = {
-		backgroundColor: 'inherit',
-		cursor: 'pointer',
-		border: 0,
-		color: theme.palette.text.primary,
-		fontSize: '1.3rem'
-	}
-
+const CalendarToolbar: FC<CalendarToolbarProps> = ({ onNavigate }) => {
 	return (
-		<div style={ { display: 'flex', marginBottom: '16px' } }>
-			<ReactiveTitle>{label}</ReactiveTitle>
+		<Box display='flex' justifyContent='flex-end'>
+			<IconButton onClick={ (_) => onNavigate('PREV') }>
+				<NavigateBefore />
+			</IconButton>
 
-			<div style={ { display: 'flex', flex: '1', marginLeft: '12px', fontSize: '1.5rem' } }>
-				<button
-					type='button'
-					style={ { ...blankButton, marginRight: '8px' } }
-					onClick={ (_) => onNavigate('PREV') }
-				>
-					<i className='fa fa-chevron-left' />
-				</button>
-
-				<button type='button' style={ blankButton } onClick={ (_) => onNavigate('NEXT') }>
-					<i className='fa fa-chevron-right' />
-				</button>
-			</div>
-		</div>
+			<IconButton onClick={ (_) => onNavigate('NEXT') }>
+				<NavigateNext />
+			</IconButton>
+		</Box>
 	)
 }
 
 CalendarToolbar.propTypes = {
 	label: PropTypes.string.isRequired,
-	onNavigate: PropTypes.func.isRequired
+	onNavigate: PropTypes.func.isRequired,
 }
 
 export default CalendarToolbar
