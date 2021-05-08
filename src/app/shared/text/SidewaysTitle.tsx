@@ -1,36 +1,50 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Variant } from '@material-ui/core/styles/createTypography'
-
-import { Box, BoxProps, styled, Typography, Slide } from '@material-ui/core'
+import {
+	Box,
+	BoxProps,
+	styled,
+	Typography,
+	Slide,
+	TypographyProps,
+} from '@material-ui/core'
 
 type SidewaysTitleProps = BoxProps & {
 	title: string
-	variant?: Variant
+	lowercase?: boolean
+	textProps?: TypographyProps
 }
 
 const ResourceListTitle = styled(Box)(({ theme }) => ({
 	writingMode: 'vertical-rl',
 	borderRight: `3px solid ${theme.palette.primary.main}`,
-	marginRight: theme.spacing(2),
 }))
 
 const ResourceListTitleText = styled(Typography)({
 	transform: 'rotate(180deg)',
 	textAlign: 'right',
 	lineHeight: 1.5,
+	display: 'inline-block',
 })
 
 export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 	title,
-	variant = 'h3',
+	lowercase,
+	textProps,
 	...props
 }) => (
 	<ResourceListTitle { ...props }>
 		<Slide in={ true } direction='right'>
 			<Box width='50px'>
-				<ResourceListTitleText variant={ variant }>{title}</ResourceListTitleText>
+				<ResourceListTitleText
+					// You wouldn't believe the amount of faff saved from doing this the lazy way
+					style={ { textTransform: lowercase ? 'lowercase' : 'initial' } }
+					variant='h3'
+					{ ...textProps }
+				>
+					{title}
+				</ResourceListTitleText>
 			</Box>
 		</Slide>
 	</ResourceListTitle>
@@ -38,9 +52,11 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 
 SidewaysTitle.propTypes = {
 	title: PropTypes.string.isRequired,
-	variant: PropTypes.any,
+	lowercase: PropTypes.bool,
+	textProps: PropTypes.object,
 }
 
 SidewaysTitle.defaultProps = {
-	variant: 'h3',
+	lowercase: false,
+	textProps: {},
 }

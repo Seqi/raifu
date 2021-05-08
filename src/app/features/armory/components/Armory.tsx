@@ -165,7 +165,11 @@ export default function Armory() {
 		<React.Fragment>
 			{armorySections.map((armorySection) => (
 				<ResourceListContainer component='section' key={ armorySection.resourceName }>
-					<SidewaysTitle title={ armorySection.resourceName! } marginRight={ 2 } />
+					<SidewaysTitle
+						title={ armorySection.resourceName! }
+						lowercase={ true }
+						marginRight={ 2 }
+					/>
 
 					<ResourceList
 						items={ armory[armorySection.resourceName!] }
