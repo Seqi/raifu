@@ -11,11 +11,12 @@ import LoadoutContext from '../../LoadoutContext'
 
 const LoadoutWeaponItemTitle = styled(Typography)(({ theme }) => ({
 	position: 'absolute',
+	left: '3%',
 	zIndex: 1,
 
 	[theme.breakpoints.down('xs')]: {
-		position: 'initial'
-	}
+		position: 'initial',
+	},
 }))
 
 const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
@@ -24,13 +25,13 @@ const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
 		maxHeight: '700px',
 
 		[theme.breakpoints.down('xs')]: {
-			maxHeight: '300px'
-		}
+			maxHeight: '300px',
+		},
 	},
 
 	[theme.breakpoints.down('xs')]: {
-		position: 'initial'
-	}
+		position: 'initial',
+	},
 }))
 
 type LoadoutWeaponItemProps = {
@@ -66,7 +67,7 @@ let LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
 }
 
 LoadoutWeaponItem.propTypes = {
-	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired
+	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired,
 }
 
 export default LoadoutWeaponItem

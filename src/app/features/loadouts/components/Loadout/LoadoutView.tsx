@@ -9,6 +9,7 @@ import LoadoutClothingList from './ClothingList/LoadoutClothingList'
 import LoadoutSeparator from './LoadoutSeparator'
 import { Loadout, LoadoutPropType } from '../../models'
 import { Box, styled } from '@material-ui/core'
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 
 type LoadoutViewProps = {
 	loadout: Loadout
@@ -38,21 +39,27 @@ const LoadoutView: FC<LoadoutViewProps> = ({ loadout, editable = false }) => {
 	return (
 		<LoadoutContextProvider loadout={ loadout } editable={ editable }>
 			<AvailableArmoryContextProvider>
-				<LoadoutContainer>
-					<LoadoutWeaponList />
-				</LoadoutContainer>
+				<Box display='flex'>
+					<SidewaysTitle title={ loadout!.getTitle() } marginRight={ 2 } lowercase={ true } />
 
-				{(loadout.gear.length > 0 || editable) && (
-					<LoadoutSeparator>
-						<LoadoutGearList />
-					</LoadoutSeparator>
-				)}
+					<Box flex='1'>
+						<LoadoutContainer>
+							<LoadoutWeaponList />
+						</LoadoutContainer>
 
-				{(loadout.clothing.length > 0 || editable) && (
-					<LoadoutSeparator>
-						<LoadoutClothingList />
-					</LoadoutSeparator>
-				)}
+						{(loadout.gear.length > 0 || editable) && (
+							<LoadoutSeparator>
+								<LoadoutGearList />
+							</LoadoutSeparator>
+						)}
+
+						{(loadout.clothing.length > 0 || editable) && (
+							<LoadoutSeparator>
+								<LoadoutClothingList />
+							</LoadoutSeparator>
+						)}
+					</Box>
+				</Box>
 			</AvailableArmoryContextProvider>
 		</LoadoutContextProvider>
 	)

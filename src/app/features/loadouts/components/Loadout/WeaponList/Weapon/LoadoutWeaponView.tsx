@@ -21,7 +21,7 @@ type LoadoutWeaponProps = {
 const LoadoutWeaponView: FC<LoadoutWeaponProps> = ({ weapon }) => {
 	return (
 		<LoadoutWeaponContainer display='flex'>
-			<div style={ { flex: '3' } }>
+			<div style={ { flex: '3', position: 'relative' } }>
 				<LoadoutWeaponItem weapon={ weapon } />
 			</div>
 
