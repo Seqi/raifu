@@ -11,7 +11,7 @@ type LoadoutAddProps = {
 
 const LoadoutAdd: FC<LoadoutAddProps> = ({ onClick }) => {
 	return (
-		<Box width='100%' paddingY={ { xs: 12, sm: 18 } }>
+		<Box width='100%' height='300px'>
 			<AddButton onClick={ onClick } />
 		</Box>
 	)
