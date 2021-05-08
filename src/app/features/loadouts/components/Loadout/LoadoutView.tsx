@@ -44,7 +44,7 @@ const LoadoutView: FC<LoadoutViewProps> = ({ loadout, editable = false }) => {
 						title={ loadout!.getTitle() }
 						marginRight={ 2 }
 						lowercase={ true }
-						textProps={ { style: { position: 'sticky', top: '10%' } } }
+						textProps={ { style: { position: 'sticky', top: '5%' } } }
 					/>
 
 					<Box flex='1'>
