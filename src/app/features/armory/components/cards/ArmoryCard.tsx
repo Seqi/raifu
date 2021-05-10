@@ -18,27 +18,28 @@ import { ArmoryItem, ArmoryItemPropShape } from '../../models/armory-item'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
 
 // Do some stuff for a reactive, customisable armory card
-
 export type ArmoryCardContainerSize = 'small' | 'large'
 type ArmoryCardContainerProps = { size?: ArmoryCardContainerSize }
 
 // Map the armory card sizes
 const cardSizeMap: {
 	[key in ArmoryCardContainerSize]: {
-		[key in Breakpoint]: [width: number, height: number]
+		[key in Breakpoint | number]: [width: number, height: number]
 	}
 } = {
 	small: {
+		321: [120, 163],
 		xs: [147, 200],
-		sm: [209, 285],
+		sm: [180, 244.8],
 		md: [209, 285],
 		lg: [209, 285],
 		xl: [209, 285],
 	},
 	large: {
-		xs: [147, 200],
+		321: [120, 180],
+		xs: [135, 197],
 		sm: [209, 285],
-		md: [220, 300],
+		md: [240, 326.4],
 		lg: [253, 345],
 		xl: [253, 345],
 	},
