@@ -15,33 +15,76 @@ import {
 
 import ArmoryItemImage from '../ArmoryItemImage'
 import { ArmoryItem, ArmoryItemPropShape } from '../../models/armory-item'
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
+
+// Do some stuff for a reactive, customisable armory card
 
 export type ArmoryCardContainerSize = 'small' | 'large'
-type ArmoryCardContainerProps = CardProps & { size?: ArmoryCardContainerSize }
+type ArmoryCardContainerProps = { size?: ArmoryCardContainerSize }
 
-export const ArmoryCardContainer: React.ComponentType<ArmoryCardContainerProps> = styled(
-	ResourceCard
-)(({ theme, size }) => ({
-	width: size === 'large' ? '253px' : '209px', // Old: 220
-	height: size === 'large' ? '345px' : '285px', // Old: 300
-
-	'&:hover': {
-		transform: 'scale(1.05)',
-	},
-
-	[theme.breakpoints.down('xs')]: {
-		height: '200px',
-		width: '147px',
-	},
-}))
-
-export type ArmoryCardProps = ResourceItemProps<ArmoryItem> &
-	CardProps & {
-		category: Category
-		canDelete?: boolean
-		size?: 'small' | 'large'
-		ArmoryCardContainer?: React.ComponentType<CardProps>
+// Map the armory card sizes
+const cardSizeMap: {
+	[key in ArmoryCardContainerSize]: {
+		[key in Breakpoint]: [width: number, height: number]
 	}
+} = {
+	small: {
+		xs: [147, 200],
+		sm: [209, 285],
+		md: [209, 285],
+		lg: [209, 285],
+		xl: [209, 285],
+	},
+	large: {
+		xs: [147, 200],
+		sm: [209, 285],
+		md: [220, 300],
+		lg: [253, 345],
+		xl: [253, 345],
+	},
+}
+
+export const ArmoryCardContainer: React.ComponentType<
+	CardProps & ArmoryCardContainerProps
+> = styled(ResourceCard)(({ theme, size }) => {
+	const sizes = cardSizeMap[size || 'large']
+
+	const mediaQueries = Object.keys(sizes)
+		.filter((size) => size !== 'xl')
+		.reverse()
+		.reduce((queries: any, size: string) => {
+			const bp = size as Breakpoint
+			const [width, height] = sizes[bp]
+
+			queries[theme.breakpoints.down(bp)] = {
+				width: `${width}px`,
+				height: `${height}px`,
+			}
+
+			return queries
+		}, {})
+
+	const [defaultWidth, defaultHeight] = sizes['xl']
+
+	return {
+		width: `${defaultWidth}px`,
+		height: `${defaultHeight}px`,
+
+		'&:hover': {
+			transform: 'scale(1.05)',
+		},
+
+		...mediaQueries,
+	}
+})
+
+// Actually implement the card
+export type ArmoryCardProps = ResourceItemProps<ArmoryItem> & {
+	category: Category
+	canDelete?: boolean
+	size?: 'small' | 'large'
+	ArmoryCardContainer?: React.ComponentType<CardProps>
+}
 
 export const ArmoryCard: FC<ArmoryCardProps> = ({
 	item: resource,
@@ -77,13 +120,10 @@ ArmoryCard.propTypes = {
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func.isRequired,
 	onDelete: PropTypes.func.isRequired,
-	// Allows us to use styled components to style the ArmoryCard further
-	className: PropTypes.string,
 	size: PropTypes.oneOf(['small', 'large'] as const),
 }
 
 ArmoryCard.defaultProps = {
 	canDelete: true,
-	className: '',
 	size: 'large',
 }
