@@ -45,8 +45,9 @@ export const ResourceCardHeader = withStyles((theme) => ({
 	root: {
 		paddingBottom: 0,
 		[theme.breakpoints.down('xs')]: {
-			paddingLeft: '16px',
-			paddingRight: '16px',
+			paddingLeft: theme.spacing(1),
+			paddingRight: theme.spacing(1),
+			paddingTop: theme.spacing(1),
 		},
 	},
 	content: {
@@ -56,6 +57,10 @@ export const ResourceCardHeader = withStyles((theme) => ({
 	title: {
 		fontSize: '1.1rem',
 		fontWeight: 700,
+
+		[theme.breakpoints.down('xs')]: {
+			fontSize: '0.8rem',
+		},
 	},
 	subheader: {
 		fontSize: '0.8rem',
