@@ -21,12 +21,30 @@ const ResourceListTitle = styled(Box)(({ theme }) => ({
 	borderRight: `3px solid ${theme.palette.primary.main}`,
 }))
 
-const ResourceListTitleText = styled(Typography)({
+const ResourceListTitleTextContainer = styled(Box)(({ theme }) => ({
+	width: '50px',
+
+	[theme.breakpoints.down('xs')]: {
+		width: '30px',
+	},
+	[theme.breakpoints.down(321)]: {
+		width: '20px',
+	},
+}))
+
+const ResourceListTitleText = styled(Typography)(({ theme }) => ({
 	transform: 'rotate(180deg)',
 	textAlign: 'right',
 	lineHeight: 1.5,
 	display: 'inline-block',
-})
+
+	[theme.breakpoints.down('xs')]: {
+		fontSize: '2.6rem',
+	},
+	[theme.breakpoints.down(321)]: {
+		fontSize: '2rem',
+	},
+}))
 
 export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 	title,
@@ -36,7 +54,7 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 }) => (
 	<ResourceListTitle { ...props }>
 		<Slide in={ true } direction='right'>
-			<Box width='50px'>
+			<ResourceListTitleTextContainer>
 				<ResourceListTitleText
 					variant='h3'
 					{ ...textProps }
@@ -48,7 +66,7 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 				>
 					{title}
 				</ResourceListTitleText>
-			</Box>
+			</ResourceListTitleTextContainer>
 		</Slide>
 	</ResourceListTitle>
 )
