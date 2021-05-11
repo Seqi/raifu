@@ -18,6 +18,10 @@ const AddIconButton = styled(IconButton)(({ theme }) => ({
 	'&:hover': {
 		backgroundColor: 'initial',
 	},
+
+	[theme.breakpoints.down('xs')]: {
+		fontSize: '2rem',
+	},
 }))
 
 type AddButtonProps = {
