@@ -60,6 +60,7 @@ export const ResourceCardHeader = withStyles((theme) => ({
 
 		[theme.breakpoints.down('xs')]: {
 			fontSize: '0.8rem',
+			marginRight: '10px',
 		},
 	},
 	subheader: {
