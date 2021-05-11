@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
-import { Box, styled } from '@material-ui/core'
+import { Box, styled, Theme, useMediaQuery } from '@material-ui/core'
 
 import {
 	armory as armoryService,
@@ -114,7 +114,7 @@ const ResourceListContainer = styled(Box)(({ theme }) => ({
 		marginTop: theme.spacing(12),
 
 		[theme.breakpoints.down('xs')]: {
-			marginTop: theme.spacing(8),
+			marginTop: theme.spacing(6),
 		},
 	},
 }))
@@ -156,6 +156,8 @@ export default function Armory() {
 		analytics.logEvent('view_armory_list')
 	}, [analytics])
 
+	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
+
 	if (loading) {
 		return <LoadingOverlay />
 	}
@@ -184,6 +186,9 @@ export default function Armory() {
 						) }
 						renderAddDialog={ armorySection.renderAddDialog! }
 						onResourceClick={ () => {} } //No-op
+						gridContainerProps={ {
+							spacing: xs ? 1 : 2,
+						} }
 					/>
 				</ResourceListContainer>
 			))}
