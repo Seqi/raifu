@@ -42,10 +42,10 @@ const ResourceListTitleText = styled(Typography)(({ theme }) => ({
 	top: '5%',
 
 	[theme.breakpoints.down('xs')]: {
-		fontSize: '2.6rem',
+		fontSize: '2.1rem',
 	},
 	[theme.breakpoints.down(321)]: {
-		fontSize: '2rem',
+		fontSize: '1.6rem',
 	},
 }))
 
