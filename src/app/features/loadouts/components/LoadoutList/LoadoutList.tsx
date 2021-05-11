@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, FC } from 'react'
 import { RouteChildrenProps } from 'react-router'
+import { Box } from '@material-ui/core'
 
 import { loadouts as loadoutService } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
@@ -8,7 +9,6 @@ import { ResourceList } from 'app/features/resource'
 import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
 import { LoadoutCard, LoadoutCardContainer } from '../cards'
 import { Loadout } from '../../models'
-import { Box } from '@material-ui/core'
 import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 
 type LoadoutListProps = RouteChildrenProps
@@ -82,12 +82,8 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 				renderAddDialog={ (props) => <EditLoadoutDialog action='Add' { ...props } /> }
 				ItemTemplate={ LoadoutCard }
 				AddButtonTemplate={ LoadoutCardContainer }
-				gridItemProps={ {
-					xs: 4,
-				} }
-				gridContainerProps={ {
-					spacing: 3,
-				} }
+				gridItemProps={ { xs: 12, md: 6, lg: 4 } }
+				gridContainerProps={ { spacing: 3 } }
 			/>
 		</Box>
 	)

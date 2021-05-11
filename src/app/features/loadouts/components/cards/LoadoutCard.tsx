@@ -15,7 +15,7 @@ import {
 import { Loadout, LoadoutPropType } from '../../models'
 import LoadoutSummary from '../LoadoutSummary'
 
-export const LoadoutCardContainer = styled(ResourceCard)({
+export const LoadoutCardContainer = styled(ResourceCard)(({ theme }) => ({
 	// For cards with non-height-affecting content (i.e. add card),
 	// give it some height
 	height: '300px',
@@ -23,7 +23,11 @@ export const LoadoutCardContainer = styled(ResourceCard)({
 	'&:hover': {
 		transform: 'scale(1.005)',
 	},
-})
+
+	[theme.breakpoints.down('xs')]: {
+		height: '175px',
+	},
+}))
 
 const LoadoutCardContent = styled(ResourceCardContent)({
 	overflow: 'unset',
