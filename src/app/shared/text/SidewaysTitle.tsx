@@ -38,6 +38,9 @@ const ResourceListTitleText = styled(Typography)(({ theme }) => ({
 	lineHeight: 1.5,
 	display: 'inline-block',
 
+	position: 'sticky',
+	top: '5%',
+
 	[theme.breakpoints.down('xs')]: {
 		fontSize: '2.6rem',
 	},

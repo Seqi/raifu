@@ -40,12 +40,7 @@ const LoadoutView: FC<LoadoutViewProps> = ({ loadout, editable = false }) => {
 		<LoadoutContextProvider loadout={ loadout } editable={ editable }>
 			<AvailableArmoryContextProvider>
 				<Box display='flex'>
-					<SidewaysTitle
-						title={ loadout!.getTitle() }
-						marginRight={ 2 }
-						lowercase={ true }
-						textProps={ { style: { position: 'sticky', top: '5%' } } }
-					/>
+					<SidewaysTitle title={ loadout!.getTitle() } marginRight={ 2 } lowercase={ true } />
 
 					<Box flex='1'>
 						<LoadoutContainer>
