@@ -1,7 +1,7 @@
 import React, { useState, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box } from '@material-ui/core'
+import { Box, styled } from '@material-ui/core'
 
 import { DeleteButton, ConfirmDeleteDialog } from 'app/shared/actions/delete'
 
@@ -10,6 +10,18 @@ type DeletableOverlayProps = {
 	canDelete?: boolean
 	onDelete: () => any
 }
+
+const DeletableOverlayContainer = styled(Box)(({ theme }) => ({
+	position: 'absolute',
+
+	top: 0,
+	right: 0,
+
+	[theme.breakpoints.down('xs')]: {
+		top: '-2px',
+		right: '1px',
+	},
+}))
 
 const DeletableOverlay: FC<DeletableOverlayProps> = ({
 	dialogTitle,
@@ -25,11 +37,11 @@ const DeletableOverlay: FC<DeletableOverlayProps> = ({
 	}, [])
 
 	return (
-		<React.Fragment>
+		<>
 			{children}
 
 			{canDelete && (
-				<Box position='absolute' top={ 0 } right={ 0 }>
+				<DeletableOverlayContainer>
 					<DeleteButton onClick={ onDeleteClicked } />
 
 					<ConfirmDeleteDialog
@@ -38,9 +50,9 @@ const DeletableOverlay: FC<DeletableOverlayProps> = ({
 						onConfirm={ onDelete }
 						onClose={ () => setIsDialogOpen(false) }
 					/>
-				</Box>
+				</DeletableOverlayContainer>
 			)}
-		</React.Fragment>
+		</>
 	)
 }
 
