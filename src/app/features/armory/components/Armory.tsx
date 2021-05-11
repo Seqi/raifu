@@ -112,6 +112,10 @@ const ResourceListContainer = styled(Box)(({ theme }) => ({
 	display: 'flex',
 	'&:not(:first-child)': {
 		marginTop: theme.spacing(12),
+
+		[theme.breakpoints.down('xs')]: {
+			marginTop: theme.spacing(8),
+		},
 	},
 }))
 
