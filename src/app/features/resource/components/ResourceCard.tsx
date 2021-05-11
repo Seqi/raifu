@@ -59,14 +59,14 @@ export const ResourceCardHeader = withStyles((theme) => ({
 		fontWeight: 700,
 
 		[theme.breakpoints.down('xs')]: {
-			fontSize: '0.8rem',
+			fontSize: '0.75rem',
 			marginRight: '10px',
 		},
 	},
 	subheader: {
 		fontSize: '0.8rem',
 		[theme.breakpoints.down('xs')]: {
-			fontSize: '0.6rem',
+			fontSize: '0.5rem',
 		},
 	},
 }))(ResourceCardHeaderBase)
