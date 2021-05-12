@@ -2,7 +2,7 @@ import { FC, useState } from 'react'
 import firebase from 'firebase/app'
 import PropTypes from 'prop-types'
 
-import { Box, styled } from '@material-ui/core'
+import { Box, IconButton, styled } from '@material-ui/core'
 
 import ProfileIcon from './Icon'
 import ProfileMenu from './Menu'
@@ -28,9 +28,11 @@ const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, sma
 				{user.displayName || user.email}
 			</ProfileName>
 
-			<ProfileIcon user={ user } onClick={ (tgt) => setMenuAnchor(tgt) } />
+			<IconButton size='small' onClick={ (e) => setMenuAnchor(e.currentTarget) } edge='end'>
+				<ProfileIcon user={ user } />
+			</IconButton>
 
-			<ProfileMenu anchor={ menuAnchor } onClose={ () => setMenuAnchor(null) } />
+			<ProfileMenu user={ user } anchor={ menuAnchor } onClose={ () => setMenuAnchor(null) } />
 		</Box>
 	)
 }
