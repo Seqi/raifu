@@ -18,7 +18,7 @@ type AuthenticatedUserProfileProps = {
 const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, small }) => {
 	let [menuAnchor, setMenuAnchor] = useState<Element | null>(null)
 	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-	const [hasUpdates, setHasUpdates] = useState<boolean>(true)
+	const [hasUpdates, setHasUpdates] = useState<boolean>(false)
 
 	return (
 		<>
