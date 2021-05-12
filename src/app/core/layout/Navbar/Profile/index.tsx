@@ -16,24 +16,33 @@ type AuthenticatedUserProfileProps = {
 
 const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, small }) => {
 	let [menuAnchor, setMenuAnchor] = useState<Element | null>(null)
-
 	return (
-		<Box display='flex' alignItems='center'>
-			{/* Use half measures because the iconbutton gives us unwanted half-measure padding */}
-			<ProfileName
-				fontSize={ small ? '0.8rem' : '1.2rem' }
-				marginRight={ 1 }
-				textAlign='right'
-			>
-				{user.displayName || user.email}
-			</ProfileName>
+		<>
+			<Box display='flex' alignItems='center'>
+				{/* Use half measures because the iconbutton gives us unwanted half-measure padding */}
+				<ProfileName
+					fontSize={ small ? '0.8rem' : '1.2rem' }
+					marginRight={ 1 }
+					textAlign='right'
+				>
+					{user.displayName || user.email}
+				</ProfileName>
 
-			<IconButton size='small' onClick={ (e) => setMenuAnchor(e.currentTarget) } edge='end'>
-				<ProfileIcon user={ user } />
-			</IconButton>
+				<IconButton
+					size='small'
+					onClick={ (e) => setMenuAnchor(e.currentTarget) }
+					edge='end'
+				>
+					<ProfileIcon user={ user } />
+				</IconButton>
 
-			<ProfileMenu user={ user } anchor={ menuAnchor } onClose={ () => setMenuAnchor(null) } />
-		</Box>
+				<ProfileMenu
+					user={ user }
+					anchor={ menuAnchor }
+					onClose={ () => setMenuAnchor(null) }
+				/>
+			</Box>
+		</>
 	)
 }
 
