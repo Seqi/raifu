@@ -93,8 +93,8 @@ const ViewChangeLogDialog: FC<ViewChangeLogDialogProps> = ({
 
 	// Clear updates on open
 	useEffect(() => {
-		isOpen && newChangeLogs.length > 0 && onHasUpdates(false)
-	}, [isOpen, newChangeLogs, onHasUpdates])
+		isOpen && onHasUpdates(false)
+	}, [isOpen, onHasUpdates])
 
 	// Set cookie value to latest update on open
 	useEffect(() => {
