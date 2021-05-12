@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react'
+import { FC, useContext } from 'react'
 import firebase from 'firebase/app'
 import PropTypes from 'prop-types'
 
@@ -8,7 +8,6 @@ import Build from '@material-ui/icons/Build'
 
 import { AuthContext } from 'app/core/auth/contexts'
 import ProfileIcon from './Icon'
-import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
 const MenuContainer = styled(Box)(({ theme }) => ({
 	width: '250px',
@@ -38,14 +37,20 @@ const BigMenuItem = styled(MenuItem)(({ theme }) => ({
 
 type ProfileMenuProps = {
 	user: firebase.User
+	hasUpdates: boolean
 	anchor?: Element | null
+	onViewUpdates: () => any
 	onClose: () => any
 }
 
-const ProfileMenu: FC<ProfileMenuProps> = ({ user, anchor, onClose }) => {
+const ProfileMenu: FC<ProfileMenuProps> = ({
+	user,
+	hasUpdates,
+	anchor,
+	onViewUpdates,
+	onClose,
+}) => {
 	let auth = useContext(AuthContext)
-	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-	const [hasUpdates, setHasUpdates] = useState<boolean>(false)
 
 	return (
 		<>
@@ -68,15 +73,17 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ user, anchor, onClose }) => {
 						<Box display='flex' paddingRight={ 1 }>
 							<ProfileIcon user={ user } />
 						</Box>
+
 						<span>{user.displayName || user.email}</span>
 					</MenuHeader>
 
-					<BigMenuItem>
-						<ListItemIcon onClick={ (_) => setDialogOpen(true) }>
+					<BigMenuItem onClick={ onViewUpdates }>
+						<ListItemIcon>
 							<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
 								<Build />
 							</Badge>
 						</ListItemIcon>
+
 						<span>Change log</span>
 					</BigMenuItem>
 
@@ -84,23 +91,20 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ user, anchor, onClose }) => {
 						<ListItemIcon>
 							<PowerSettingsNew />
 						</ListItemIcon>
+
 						<span>Logout</span>
 					</BigMenuItem>
 				</MenuContainer>
 			</Menu>
-
-			<ViewChangeLogDialog
-				onHasUpdates={ setHasUpdates }
-				isOpen={ dialogOpen }
-				onClose={ () => setDialogOpen(false) }
-			/>
 		</>
 	)
 }
 
 ProfileMenu.propTypes = {
 	user: PropTypes.any.isRequired,
+	hasUpdates: PropTypes.bool.isRequired,
 	anchor: PropTypes.any,
+	onViewUpdates: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
 }
 

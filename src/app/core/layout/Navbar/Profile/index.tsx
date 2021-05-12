@@ -2,10 +2,11 @@ import { FC, useState } from 'react'
 import firebase from 'firebase/app'
 import PropTypes from 'prop-types'
 
-import { Box, IconButton, styled } from '@material-ui/core'
+import { Box, IconButton, Badge, styled } from '@material-ui/core'
 
 import ProfileIcon from './Icon'
 import ProfileMenu from './Menu'
+import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
 const ProfileName = styled(Box)({})
 
@@ -16,6 +17,9 @@ type AuthenticatedUserProfileProps = {
 
 const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, small }) => {
 	let [menuAnchor, setMenuAnchor] = useState<Element | null>(null)
+	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+	const [hasUpdates, setHasUpdates] = useState<boolean>(true)
+
 	return (
 		<>
 			<Box display='flex' alignItems='center'>
@@ -33,15 +37,25 @@ const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, sma
 					onClick={ (e) => setMenuAnchor(e.currentTarget) }
 					edge='end'
 				>
-					<ProfileIcon user={ user } />
+					<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
+						<ProfileIcon user={ user } />
+					</Badge>
 				</IconButton>
 
 				<ProfileMenu
 					user={ user }
 					anchor={ menuAnchor }
+					hasUpdates={ hasUpdates }
+					onViewUpdates={ () => setDialogOpen(true) }
 					onClose={ () => setMenuAnchor(null) }
 				/>
 			</Box>
+
+			<ViewChangeLogDialog
+				onHasUpdates={ setHasUpdates }
+				isOpen={ dialogOpen }
+				onClose={ () => setDialogOpen(false) }
+			/>
 		</>
 	)
 }
