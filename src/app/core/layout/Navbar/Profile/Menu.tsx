@@ -11,6 +11,13 @@ import ProfileIcon from './Icon'
 
 const MenuContainer = styled(Box)(({ theme }) => ({
 	width: '250px',
+
+	[theme.breakpoints.down('xs')]: {
+		width: '200px',
+	},
+	[theme.breakpoints.down(321)]: {
+		width: '175px',
+	},
 }))
 
 const MenuHeader = styled(MenuItem)(({ theme }) => ({
@@ -29,10 +36,30 @@ const MenuHeader = styled(MenuItem)(({ theme }) => ({
 		bottom: 0,
 		left: '25%',
 	},
+
+	[theme.breakpoints.down('xs')]: {
+		fontSize: '0.8rem',
+		paddingLeft: theme.spacing(1),
+		paddingRight: theme.spacing(1),
+	},
 }))
 
 const BigMenuItem = styled(MenuItem)(({ theme }) => ({
 	padding: theme.spacing(1.5, 2.5),
+
+	[theme.breakpoints.down('xs')]: {
+		padding: theme.spacing(1, 2),
+		fontSize: '0.9rem',
+
+		// Lazy
+		'& > .MuiListItemIcon-root': {
+			minWidth: '36px',
+
+			'& .MuiSvgIcon-root': {
+				fontSize: '1.2rem',
+			},
+		},
+	},
 }))
 
 type ProfileMenuProps = {
@@ -53,50 +80,48 @@ const ProfileMenu: FC<ProfileMenuProps> = ({
 	let auth = useContext(AuthContext)
 
 	return (
-		<>
-			<Menu
-				id='auth-menu'
-				anchorEl={ anchor }
-				open={ !!anchor }
-				onClose={ onClose }
-				anchorOrigin={ {
-					vertical: 'top',
-					horizontal: 'left',
-				} }
-				transformOrigin={ {
-					vertical: 'top',
-					horizontal: 'right',
-				} }
-			>
-				<MenuContainer>
-					<MenuHeader>
-						<Box display='flex' paddingRight={ 1 }>
-							<ProfileIcon user={ user } />
-						</Box>
+		<Menu
+			id='auth-menu'
+			anchorEl={ anchor }
+			open={ !!anchor }
+			onClose={ onClose }
+			anchorOrigin={ {
+				vertical: 'top',
+				horizontal: 'left',
+			} }
+			transformOrigin={ {
+				vertical: 'top',
+				horizontal: 'right',
+			} }
+		>
+			<MenuContainer>
+				<MenuHeader>
+					<Box display='flex' paddingRight={ 1 }>
+						<ProfileIcon user={ user } />
+					</Box>
 
-						<span>{user.displayName || user.email}</span>
-					</MenuHeader>
+					<span>{user.displayName || user.email}</span>
+				</MenuHeader>
 
-					<BigMenuItem onClick={ onViewUpdates }>
-						<ListItemIcon>
-							<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
-								<Build />
-							</Badge>
-						</ListItemIcon>
+				<BigMenuItem onClick={ onViewUpdates }>
+					<ListItemIcon>
+						<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
+							<Build />
+						</Badge>
+					</ListItemIcon>
 
-						<span>Change log</span>
-					</BigMenuItem>
+					<span>Change log</span>
+				</BigMenuItem>
 
-					<BigMenuItem onClick={ auth?.logout }>
-						<ListItemIcon>
-							<PowerSettingsNew />
-						</ListItemIcon>
+				<BigMenuItem onClick={ auth?.logout }>
+					<ListItemIcon>
+						<PowerSettingsNew />
+					</ListItemIcon>
 
-						<span>Logout</span>
-					</BigMenuItem>
-				</MenuContainer>
-			</Menu>
-		</>
+					<span>Logout</span>
+				</BigMenuItem>
+			</MenuContainer>
+		</Menu>
 	)
 }
 
