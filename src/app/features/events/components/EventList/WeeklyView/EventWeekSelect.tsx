@@ -5,6 +5,8 @@ import * as Moment from 'moment'
 import { extendMoment } from 'moment-range'
 
 import { Box, IconButton } from '@material-ui/core'
+import { NavigateBefore, NavigateNext } from '@material-ui/icons'
+
 import CalendarDateContext from '../CalendarDateContext'
 
 // This'll fire every time we mount this component, but I don't
@@ -56,7 +58,7 @@ const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {}
 	return (
 		<Box display='flex'>
 			<IconButton size='small' onClick={ (_) => addWeek(-1) }>
-				<i className='fa fa-chevron-left' />
+				<NavigateBefore />
 			</IconButton>
 
 			<Box flex={ 1 } textAlign='center'>
@@ -64,7 +66,7 @@ const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {}
 			</Box>
 
 			<IconButton size='small' onClick={ (_) => addWeek(1) }>
-				<i className='fa fa-chevron-right' />
+				<NavigateNext />
 			</IconButton>
 		</Box>
 	)
