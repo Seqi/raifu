@@ -24,7 +24,7 @@ import { Event } from '../../models'
 let analytics = firebase.analytics()
 
 const EventListContainer = styled(Box)(({ theme }) => ({
-	height: '80vh',
+	height: '75vh',
 }))
 
 const EventFab = styled(Fab)({
