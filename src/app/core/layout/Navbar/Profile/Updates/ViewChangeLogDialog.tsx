@@ -17,6 +17,10 @@ import { ChangeLog, format } from './ChangeLog'
 
 const ChangeLogItemContainer = styled(Box)(({ theme }) => ({
 	lineHeight: 2,
+	marginBottom: theme.spacing(4),
+	'& ul': {
+		listStyle: 'circle',
+	},
 	'& h1': {
 		borderBottom: `1px solid ${theme.palette.primary.main}`,
 	},
@@ -30,6 +34,21 @@ const ChangeLogItemContainer = styled(Box)(({ theme }) => ({
 
 	'& p, li': {
 		fontSize: '1rem',
+	},
+
+	[theme.breakpoints.down('xs')]: {
+		lineHeight: 1.35,
+
+		'& h1': {
+			fontSize: '1.5rem',
+		},
+		'& h2': {
+			fontSize: '1rem',
+		},
+		'& p, li': {
+			fontSize: '0.9rem',
+			padding: theme.spacing(0.5, 0),
+		},
 	},
 }))
 
