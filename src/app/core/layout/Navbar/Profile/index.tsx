@@ -24,13 +24,15 @@ const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, sma
 		<>
 			<Box display='flex' alignItems='center'>
 				{/* Use half measures because the iconbutton gives us unwanted half-measure padding */}
-				<ProfileName
-					fontSize={ small ? '0.8rem' : '1.2rem' }
-					marginRight={ 1 }
-					textAlign='right'
-				>
-					{user.displayName || user.email}
-				</ProfileName>
+				{!small && (
+					<ProfileName
+						fontSize={ small ? '0.8rem' : '1.2rem' }
+						marginRight={ 1 }
+						textAlign='right'
+					>
+						{user.displayName || user.email}
+					</ProfileName>
+				)}
 
 				<IconButton
 					size='small'
