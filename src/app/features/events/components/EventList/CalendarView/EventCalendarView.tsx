@@ -56,6 +56,7 @@ const EventCalendarView: FC<EventCalendarViewProps> = ({
 					defaultView={ 'month' }
 					drilldownView='day'
 					onNavigate={ (date) => setDate(moment(date)) }
+					selectable={ true }
 					onSelectSlot={ (slot) => onSlotSelected(slot.end as Date) }
 					onSelectEvent={ onEventSelected }
 					popup={ true }
