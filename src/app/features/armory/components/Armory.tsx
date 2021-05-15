@@ -22,7 +22,7 @@ import {
 	AttachmentCard,
 	GearCard,
 	ClothingCard,
-	ArmoryCardContainer,
+	RatioedArmoryCardContainer as ArmoryCardContainer,
 	ArmoryCardContainerSize,
 } from './cards'
 
@@ -188,6 +188,11 @@ export default function Armory() {
 						onResourceClick={ () => {} } //No-op
 						gridContainerProps={ {
 							spacing: xs ? 1 : 2,
+						} }
+						gridItemProps={ {
+							xl: 'auto',
+							lg: 2,
+							xs: 3,
 						} }
 					/>
 				</ResourceListContainer>
