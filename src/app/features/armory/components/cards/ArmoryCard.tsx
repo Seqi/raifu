@@ -2,7 +2,7 @@
 import React, { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { styled, Theme, useMediaQuery } from '@material-ui/core'
+import { styled } from '@material-ui/core'
 
 import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'
@@ -33,16 +33,15 @@ export const ArmoryCardContainer = styled(ResourceCard)({
 export const RatioedArmoryCardContainer: FC<
 	Pick<ArmoryCardProps, 'ratio' | 'onClick' | 'size'>
 > = ({ ratio = 1.36, onClick, size, children }) => {
-	const lg = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
-
-	// lg has auto width so we set a static size
-	const style = lg ? {
-		width: `${size === 'large' ? 253 : 209}px`,
-		height: `${size === 'large' ? 345 : 284}px`,
-	} : {}
-
 	return (
-		<RatioedBox ratio={ ratio } style={ style }>
+		// Set some static sizes for larger portions as Grid doesnt accommodate
+		// for what we want
+		<RatioedBox
+			ratio={ ratio }
+			width={ {
+				xl: `${size === 'large' ? 253 : 209}px`,
+			} }
+		>
 			<ArmoryCardContainer onClick={ onClick }>{children}</ArmoryCardContainer>
 		</RatioedBox>
 	)

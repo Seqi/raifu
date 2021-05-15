@@ -156,7 +156,10 @@ export default function Armory() {
 		analytics.logEvent('view_armory_list')
 	}, [analytics])
 
+	const lg = useMediaQuery((theme: Theme) => theme.breakpoints.only('lg'))
 	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
+	// Arbitrary number but it seems to work
+	const xxs = useMediaQuery((theme: Theme) => theme.breakpoints.down(421))
 
 	if (loading) {
 		return <LoadingOverlay />
@@ -191,8 +194,19 @@ export default function Armory() {
 						} }
 						gridItemProps={ {
 							xl: 'auto',
-							lg: 2,
-							xs: 3,
+							lg: 'auto',
+							md: 3,
+							sm: 4,
+							xs: 4,
+							// We want some unconventional sizing that Grid doesnt seem
+							// to support. For lg, we want 5 items per row. Just seems
+							// to work best. We also want to resize for some non-standard
+							// breakpoints.
+							style: lg
+								? { width: '20%' }
+								: xxs
+									? { maxWidth: '50%', flexBasis: '50%' }
+									: undefined,
 						} }
 					/>
 				</ResourceListContainer>
