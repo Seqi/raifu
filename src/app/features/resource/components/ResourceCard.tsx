@@ -60,6 +60,11 @@ export const ResourceCardHeader = withStyles((theme) => ({
 	title: {
 		fontSize: '1.1rem',
 		fontWeight: 700,
+		transition: theme.transitions.create('font-size', {
+			easing: theme.transitions.easing.easeInOut,
+			duration: theme.transitions.duration.shortest,
+		}),
+
 		// Hide around x button
 		maxWidth: 'calc(100% - 8px)',
 
@@ -74,10 +79,15 @@ export const ResourceCardHeader = withStyles((theme) => ({
 	},
 	subheader: {
 		fontSize: '0.8rem',
+		transition: theme.transitions.create('font-size', {
+			easing: theme.transitions.easing.easeInOut,
+			duration: theme.transitions.duration.shortest,
+		}),
+
 		textOverflow: 'ellipsis',
 		overflow: 'hidden',
 		[theme.breakpoints.down('xs')]: {
-			fontSize: '0.5rem',
+			fontSize: '0.6rem',
 		},
 	},
 }))(ResourceCardHeaderBase)

@@ -21,14 +21,25 @@ import { ArmoryItem, ArmoryItemPropShape } from '../../models/armory-item'
 // Do some stuff for a reactive, customisable armory card
 export type ArmoryCardContainerSize = 'small' | 'large'
 
-export const ArmoryCardContainer = styled(ResourceCard)({
+export const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	width: '100%',
 	height: '100%',
 
 	'&:hover': {
 		transform: 'scale(1.05)',
+		zIndex: 11,
+
+		[theme.breakpoints.down('xs')]: {
+			transform: 'scale(1.2)',
+			'& .MuiCardHeader-title': {
+				fontSize: '0.6rem',
+			},
+			'& .MuiCardHeader-subheader': {
+				fontSize: '0.5rem',
+			},
+		},
 	},
-})
+}))
 
 export const RatioedArmoryCardContainer: FC<
 	Pick<ArmoryCardProps, 'ratio' | 'onClick' | 'size'>
