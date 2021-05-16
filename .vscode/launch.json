@@ -5,17 +5,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"type": "pwa-chrome",
+			"request": "attach",
+			"name": "Web",
+			"port": 9222
+		},
+		{
 			"type": "node",
 			"request": "attach",
 			"name": "Functions",
 			"port": 9229,
 			"restart": true
-		},
-		{
-			"type": "pwa-chrome",
-			"request": "attach",
-			"name": "Web",
-			"port": 9222
 		}
 	]
 }
