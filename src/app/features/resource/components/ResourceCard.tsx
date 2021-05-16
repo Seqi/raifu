@@ -53,18 +53,29 @@ export const ResourceCardHeader = withStyles((theme) => ({
 	content: {
 		borderBottom: `2px solid ${theme.palette.primary.main}`,
 		paddingBottom: '5px',
+		width: '100%',
+
+		whiteSpace: 'nowrap',
 	},
 	title: {
 		fontSize: '1.1rem',
 		fontWeight: 700,
+		// Hide around x button
+		maxWidth: 'calc(100% - 8px)',
 
+		textOverflow: 'ellipsis',
+		overflow: 'hidden',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '0.9rem',
+		},
 		[theme.breakpoints.down('xs')]: {
 			fontSize: '0.75rem',
-			marginRight: '10px',
 		},
 	},
 	subheader: {
 		fontSize: '0.8rem',
+		textOverflow: 'ellipsis',
+		overflow: 'hidden',
 		[theme.breakpoints.down('xs')]: {
 			fontSize: '0.5rem',
 		},
