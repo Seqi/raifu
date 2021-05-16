@@ -12,7 +12,7 @@ class Entity {
 			return this['name']
 		}
 
-		return this.nickname || `${this.platform} ${this.model}`
+		return this.nickname || `${this.platform}${this.model ? ' ' + this.model : ''}`
 	}
 
 	getSubtitle = () => {
