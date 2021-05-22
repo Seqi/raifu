@@ -8,6 +8,9 @@ import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'
 
 const RelativeContainer = styled(Box)({
+	display: 'flex',
+	alignItems: 'center',
+
 	position: 'relative',
 	height: '100%',
 })

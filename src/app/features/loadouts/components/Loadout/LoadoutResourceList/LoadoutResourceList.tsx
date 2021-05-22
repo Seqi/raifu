@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext, FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Grid, Box, styled } from '@material-ui/core'
+import { Grid, styled } from '@material-ui/core'
 
 import { Category } from 'app/data/constants/platforms'
 import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
@@ -10,28 +10,22 @@ import AddButton from 'app/shared/actions/add/AddButton'
 import LoadoutResourceItem from './LoadoutResourceItem'
 import LoadoutContext from '../LoadoutContext'
 
-const LoadoutResourceItemContainer = styled(Box)(({ theme }) => ({
-	flex: '1 1 auto',
-	minWidth: '250px',
-	maxWidth: '33%',
+const ResourceGridItem = styled(Grid)(({ theme }) => ({
 	minHeight: '200px',
 	maxHeight: '300px',
-
-	padding: '1rem 1.5rem',
-
 	[theme.breakpoints.down('xs')]: {
-		minWidth: '150px',
-		maxWidth: '50%',
 		minHeight: '100px',
 		maxHeight: '200px',
-
-		padding: '0.4rem 1rem',
 	},
 }))
 
-const LoadoutResourceListContainer = styled(Grid)({
+const ResourceGrid = styled(Grid)(({ theme }) => ({
 	minHeight: '100%',
-})
+
+	[theme.breakpoints.down('xs')]: {
+		padding: theme.spacing(0, 2),
+	},
+}))
 
 type LoadoutResourceListProps<T extends ArmoryItem = ArmoryItem> = {
 	resourceType: Category // TODO Remove weapon,
@@ -67,24 +61,24 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 
 	return (
 		<React.Fragment>
-			<LoadoutResourceListContainer container={ true }>
+			<ResourceGrid container={ true } spacing={ 2 }>
 				{items.map((item) => (
-					<LoadoutResourceItemContainer key={ item.id }>
+					<ResourceGridItem item={ true } key={ item.id } xs={ 4 }>
 						<LoadoutResourceItem
 							resourceType={ resourceType }
 							item={ item }
 							canDelete={ editable }
 							onDelete={ deleteItem }
 						/>
-					</LoadoutResourceItemContainer>
+					</ResourceGridItem>
 				))}
 
 				{editable && canAdd && (
-					<LoadoutResourceItemContainer>
+					<ResourceGridItem item={ true } xs={ 4 }>
 						<AddButton onClick={ () => setDialog('add') } />
-					</LoadoutResourceItemContainer>
+					</ResourceGridItem>
 				)}
-			</LoadoutResourceListContainer>
+			</ResourceGrid>
 
 			{editable &&
 				canAdd &&
