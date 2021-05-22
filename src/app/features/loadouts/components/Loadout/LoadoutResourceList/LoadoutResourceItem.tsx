@@ -8,18 +8,13 @@ import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'
 
 const RelativeContainer = styled(Box)({
-	display: 'flex',
-	alignItems: 'center',
-
-	position: 'relative',
 	height: '100%',
+	position: 'relative',
 })
 
 const ResourceImageTitle = styled(Box)({
-	position: 'absolute',
-	bottom: '10px',
-	right: 0,
-	fontSize: '16px',
+	textAlign: 'right',
+	fontSize: '1rem',
 })
 
 type LoadoutResourceItemProps<R extends ArmoryItem = ArmoryItem> = {
@@ -46,6 +41,7 @@ const LoadoutResourceItem: FC<LoadoutResourceItemProps> = <R extends ArmoryItem>
 					resource={ item }
 					resourceType={ resourceType }
 					rotate={ resourceType === 'attachments' }
+					style={ { height: 'auto', maxHeight: '100%' } }
 				/>
 
 				<ResourceImageTitle>{item.getTitle()}</ResourceImageTitle>

@@ -11,17 +11,13 @@ import LoadoutResourceItem from './LoadoutResourceItem'
 import LoadoutContext from '../LoadoutContext'
 
 const ResourceGridItem = styled(Grid)(({ theme }) => ({
-	minHeight: '200px',
 	maxHeight: '300px',
 	[theme.breakpoints.down('xs')]: {
-		minHeight: '100px',
 		maxHeight: '200px',
 	},
 }))
 
 const ResourceGrid = styled(Grid)(({ theme }) => ({
-	minHeight: '100%',
-
 	[theme.breakpoints.down('xs')]: {
 		padding: theme.spacing(0, 2),
 	},
@@ -61,7 +57,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 
 	return (
 		<React.Fragment>
-			<ResourceGrid container={ true } spacing={ 2 }>
+			<ResourceGrid container={ true } spacing={ 3 }>
 				{items.map((item) => (
 					<ResourceGridItem item={ true } key={ item.id } xs={ 4 }>
 						<LoadoutResourceItem
@@ -74,7 +70,13 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 				))}
 
 				{editable && canAdd && (
-					<ResourceGridItem item={ true } xs={ 4 }>
+					<ResourceGridItem
+						// Usually we can rely on the add button stretching to match
+						// any items. If there are none though, we want to give it a lil height
+						style={ { height: items.length === 0 ? '250px' : 'auto' } }
+						item={ true }
+						xs={ 4 }
+					>
 						<AddButton onClick={ () => setDialog('add') } />
 					</ResourceGridItem>
 				)}
