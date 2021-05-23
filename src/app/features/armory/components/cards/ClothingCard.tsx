@@ -4,7 +4,7 @@ import { ArmoryCard, ArmoryCardProps } from './ArmoryCard'
 
 export type ClothingCardProps = Omit<ArmoryCardProps, 'category'>
 export const ClothingCard: FC<ClothingCardProps> = (props: ClothingCardProps) => (
-	<ArmoryCard { ...props } category='clothing' size='small' />
+	<ArmoryCard { ...props } category='clothing' />
 )
 
 export default ClothingCard

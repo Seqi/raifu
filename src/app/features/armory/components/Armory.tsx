@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Box, GridProps, styled, Theme, useMediaQuery } from '@material-ui/core'
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
 
 import {
 	armory as armoryService,
@@ -23,21 +24,19 @@ import {
 	GearCard,
 	ClothingCard,
 	RatioedArmoryCardContainer as ArmoryCardContainer,
-	ArmoryCardContainerSize,
 } from './cards'
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
 import { ArmoryCollection, ArmoryItem } from '../models/armory-item'
 
 const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
-	size: ArmoryCardContainerSize
-	getItemProps?: (lg: boolean, xxs: boolean) => GridProps
+	size: 'large' | 'small'
+	getItemStyle?: (breakpoint: Breakpoint | 'xxs') => React.CSSProperties
 })[] = [
 	{
 		resource: weapons,
 		resourceName: 'weapons',
 		ItemTemplate: WeaponCard,
-		size: 'large',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
 				{ ...props }
@@ -46,21 +45,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 				resourceName='Weapon'
 			/>
 		),
-		getItemProps: (lg, xxs) =>
-			({
-				lg: 'auto',
-				md: 3,
-				xs: 4,
-				// We want some unconventional sizing that Grid doesnt seem
-				// to support. For lg, we want 5 items per row. Just seems
-				// to work best. We also want to resize for some non-standard
-				// breakpoints.
-				style: lg
-					? { width: '20%' }
-					: xxs
-						? { maxWidth: '50%', flexBasis: '50%' }
-						: undefined,
-			} as GridProps),
+		size: 'large',
 	},
 	{
 		resource: attachments,
@@ -172,9 +157,9 @@ export default function Armory() {
 		analytics.logEvent('view_armory_list')
 	}, [analytics])
 
+	const xl = useMediaQuery((theme: Theme) => theme.breakpoints.up('xl'))
 	const lg = useMediaQuery((theme: Theme) => theme.breakpoints.only('lg'))
 	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
-	// Arbitrary numbers but they seems to work nice
 	const xxs = useMediaQuery((theme: Theme) => theme.breakpoints.down(461))
 	const xxxs = useMediaQuery((theme: Theme) => theme.breakpoints.down(391))
 
@@ -186,6 +171,67 @@ export default function Armory() {
 		return <ErrorOverlay message='Could not load armory.' onRetry={ loadArmory } />
 	}
 
+	const largeGridItemProps = (
+		xl: boolean,
+		lg: boolean,
+		xxs: boolean,
+		xxxs: boolean
+	): GridProps => ({
+		lg: 'auto',
+		md: 3,
+		xs: 4,
+		style: largeGridItemStyle(xl, lg, xxs, xxxs),
+	})
+
+	const largeGridItemStyle = (
+		xl: boolean,
+		lg: boolean,
+		xxs: boolean,
+		xxxs: boolean
+	): React.CSSProperties => {
+		// We want some unconventional sizing that Grid doesnt seem
+		// to support. For lg, we want 5 items per row. Just seems
+		// to work best. We also want to resize for some non-standard
+		// breakpoints.
+		if (xl) {
+			return { width: '253px' }
+		} else if (lg) {
+			return { width: '20%' }
+		} else if (xxxs) {
+			return { maxWidth: '50%', flexBasis: '50%' }
+		} else {
+			return {}
+		}
+	}
+
+	const smallGridItemProps = (
+		xl: boolean,
+		lg: boolean,
+		xxs: boolean,
+		xxxs: boolean
+	): GridProps => ({
+		xl: 'auto',
+		lg: 2,
+		md: 3,
+		xs: 4,
+		style: smallGridItemStyle(xl, lg, xxs, xxxs),
+	})
+
+	const smallGridItemStyle = (
+		xl: boolean,
+		lg: boolean,
+		xxs: boolean,
+		xxxs: boolean
+	): React.CSSProperties => {
+		if (xl) {
+			return { width: '209px' }
+		} else if (xxxs) {
+			return { maxWidth: '50%', flexBasis: '50%' }
+		} else {
+			return {}
+		}
+	}
+
 	return (
 		<>
 			{armorySections.map((armorySection) => (
@@ -193,7 +239,7 @@ export default function Armory() {
 					<SidewaysTitle
 						title={ armorySection.resourceName! }
 						lowercase={ true }
-						marginRight={ { xs: 1, sm: 2 } }
+						marginRight={ { xxxs: 1, sm: 2 } }
 					/>
 
 					<ResourceList
@@ -201,24 +247,20 @@ export default function Armory() {
 						resource={ armorySection.resource }
 						resourceName={ armorySection.resourceName! }
 						ItemTemplate={ armorySection.ItemTemplate! }
-						AddButtonTemplate={ (props) => (
-							<ArmoryCardContainer size={ armorySection.size } { ...props } />
-						) }
+						AddButtonTemplate={ (props) => <ArmoryCardContainer { ...props } /> }
 						renderAddDialog={ armorySection.renderAddDialog! }
 						onResourceClick={ () => {} } //No-op
 						gridContainerProps={ {
 							spacing: xs ? 1 : 2,
 						} }
+						// This whole thing needs some love, its just a lazy approach
+						// to get some fine tuned grid stuff going. Need to look at adding
+						// breakpoints but im already bored of reactive web stuff sorry i'll
+						// get back to this i promise. Maybe.
 						gridItemProps={
-							armorySection.getItemProps
-								? armorySection.getItemProps(lg, xxs)
-								: {
-									xl: 'auto',
-									lg: 2,
-									md: 3,
-									xs: 4,
-									style: xxxs ? { maxWidth: '50%', flexBasis: '50%' } : undefined,
-								}
+							armorySection.size === 'large'
+								? largeGridItemProps(xl, lg, xxs, xxxs)
+								: smallGridItemProps(xl, lg, xxs, xxxs)
 						}
 					/>
 				</ResourceListContainer>

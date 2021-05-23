@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
-import AddResourceDialog from '../dialogs/AddResourceDialog'
+import AddResourceDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 import LoadoutContext from '../LoadoutContext'
 

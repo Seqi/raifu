@@ -3,7 +3,7 @@ import React, { useState, useContext, useCallback, FC } from 'react'
 import LoadoutContext from '../LoadoutContext'
 import LoadoutAdd from '../LoadoutAdd'
 import LoadoutWeaponView from './Weapon/LoadoutWeaponView'
-import AddResourceDialog from '../dialogs/AddResourceDialog'
+import AddResourceDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 import { LoadoutWeapon } from '../../../models'
 

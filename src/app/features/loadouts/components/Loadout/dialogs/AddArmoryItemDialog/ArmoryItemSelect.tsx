@@ -3,43 +3,41 @@ import PropType from 'prop-types'
 
 import { Grid, styled, Theme } from '@material-ui/core'
 
-import { ArmoryCard } from 'app/features/armory'
-import { Resource } from 'app/features/resource'
+import { ArmoryCard, ArmoryItem } from 'app/features/armory'
 import { Category } from 'app/data/constants/platforms'
 
 const ResourceSelectCard = styled(({ active, ...other }) => <ArmoryCard { ...other } />)(
 	// TODO: Hack to get this to work. Not sure how to do it properly
 	({ theme, active }: { theme: Theme; active: boolean }) => ({
-		height: '220px',
-		width: '161px',
-
-		[theme.breakpoints.down('xs')]: {
-			height: '170px',
-			width: '124px',
-		},
-
 		transform: active ? 'scale(1.05)' : 'initial',
 		border: active ? `1px solid ${theme.palette.primary.main}` : 'initial',
 	})
 )
 
-type ResourceSelectProps<R extends Resource> = {
-	items: R[]
+const MobileGrid = styled(Grid)(({ theme }) => ({
+	[theme.breakpoints.down(361)]: {
+		flexBasis: '50%',
+		maxWidth: '50%',
+	},
+}))
+
+type ResourceSelectProps<Item extends ArmoryItem> = {
+	items: Item[]
 	category: Category
 	selectedItemIds?: string[]
-	onItemSelected?: (item: R) => any
+	onItemSelected?: (item: Item) => any
 }
 
-const ResourceSelect: FC<ResourceSelectProps<Resource>> = <R extends Resource>({
+const ArmoryItemSelect: FC<ResourceSelectProps<ArmoryItem>> = <Item extends ArmoryItem>({
 	items,
 	category,
 	selectedItemIds,
-	onItemSelected = (item: R) => {},
-}: ResourceSelectProps<R>) => {
+	onItemSelected = (item: Item) => {},
+}: ResourceSelectProps<Item>) => {
 	return (
-		<Grid container={ true } spacing={ 2 } justify='space-around'>
+		<Grid container={ true } spacing={ 2 }>
 			{items.map((item) => (
-				<Grid key={ item.id } xs={ 6 } sm='auto' item={ true }>
+				<MobileGrid key={ item.id } item={ true } xs={ 4 }>
 					<ResourceSelectCard
 						category={ category }
 						item={ item }
@@ -48,13 +46,13 @@ const ResourceSelect: FC<ResourceSelectProps<Resource>> = <R extends Resource>({
 						onClick={ () => onItemSelected(item) }
 						active={ !!(selectedItemIds || []).find((id) => id === item.id) }
 					/>
-				</Grid>
+				</MobileGrid>
 			))}
 		</Grid>
 	)
 }
 
-ResourceSelect.propTypes = {
+ArmoryItemSelect.propTypes = {
 	items: PropType.array.isRequired,
 	category: PropType.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
 		.isRequired,
@@ -62,9 +60,9 @@ ResourceSelect.propTypes = {
 	onItemSelected: PropType.func,
 }
 
-ResourceSelect.defaultProps = {
+ArmoryItemSelect.defaultProps = {
 	selectedItemIds: [],
-	onItemSelected: (item: Resource) => {},
+	onItemSelected: (item: ArmoryItem) => {},
 }
 
-export default ResourceSelect
+export default ArmoryItemSelect

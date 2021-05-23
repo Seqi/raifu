@@ -33,7 +33,9 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 
 	// For when an option isnt selected and the user is adding a non-listed
 	let [showTypes, setShowTypes] = useState<boolean>(false)
-	let [overrideValue, setOverrideValue] = useState<Partial<SelectedArmoryItem> | null>(null)
+	let [overrideValue, setOverrideValue] = useState<Partial<SelectedArmoryItem> | null>(
+		null
+	)
 
 	// TODO: Type properly, this is lazy
 	useEffect(() => {

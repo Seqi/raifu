@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Attachment } from 'app/features/armory'
 import LoadoutResourceList from '../../LoadoutResourceList/LoadoutResourceList'
-import AddResourceDialog from '../../dialogs/AddResourceDialog'
+import AddResourceDialog from '../../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../../AvailableArmoryContext'
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
 import LoadoutContext from '../../LoadoutContext'
@@ -13,7 +13,7 @@ type LoadoutWeaponAttachmentListProps = {
 }
 
 const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
-	weapon
+	weapon,
 }) => {
 	let { addWeaponAttachments, deleteWeaponAttachment } = useContext(LoadoutContext)
 	let { attachments: availableAttachments } = useContext(AvailableArmoryContext)
@@ -55,7 +55,7 @@ const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
 }
 
 LoadoutWeaponAttachmentList.propTypes = {
-	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired
+	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired,
 }
 
 export default LoadoutWeaponAttachmentList

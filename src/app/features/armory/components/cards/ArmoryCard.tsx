@@ -2,7 +2,7 @@
 import React, { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { styled } from '@material-ui/core'
+import { styled, BoxProps } from '@material-ui/core'
 
 import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'
@@ -18,16 +18,13 @@ import { RatioedBox } from 'app/shared/containers/RatioedBox'
 import ArmoryItemImage from '../ArmoryItemImage'
 import { ArmoryItem, ArmoryItemPropShape } from '../../models/armory-item'
 
-// Do some stuff for a reactive, customisable armory card
-export type ArmoryCardContainerSize = 'small' | 'large'
-
 export const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	width: '100%',
 	height: '100%',
 
 	'&:hover': {
 		transform: 'scale(1.05)',
-		zIndex: 11,
+		zIndex: 1,
 
 		[theme.breakpoints.down('xs')]: {
 			transform: 'scale(1.2)',
@@ -42,42 +39,35 @@ export const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 }))
 
 export const RatioedArmoryCardContainer: FC<
-	Pick<ArmoryCardProps, 'ratio' | 'onClick' | 'size'>
-> = ({ ratio = 1.36, onClick, size, children }) => {
+	BoxProps & Pick<ArmoryCardProps, 'ratio' | 'onClick'>
+> = ({ ratio = 1.36, onClick, children, ...boxProps }) => {
 	return (
-		// Set some static sizes for larger portions as Grid doesnt accommodate
-		// for what we want
-		<RatioedBox
-			ratio={ ratio }
-			width={ {
-				xl: `${size === 'large' ? 253 : 209}px`,
-			} }
-		>
+		<RatioedBox ratio={ ratio } { ...boxProps }>
 			<ArmoryCardContainer onClick={ onClick }>{children}</ArmoryCardContainer>
 		</RatioedBox>
 	)
 }
 
 // Actually implement the card
-export type ArmoryCardProps = ResourceItemProps<ArmoryItem> & {
-	category: Category
-	canDelete?: boolean
-	size?: 'small' | 'large'
-	ratio?: number
-}
+export type ArmoryCardProps = BoxProps &
+	ResourceItemProps<ArmoryItem> & {
+		category: Category
+		canDelete?: boolean
+		ratio?: number
+	}
 
 // eslint-disable-next-line react/no-multi-comp
 export const ArmoryCard: FC<ArmoryCardProps> = ({
 	item: resource,
-	size,
 	ratio = 1.36,
 	category,
 	canDelete,
 	onDelete,
 	onClick,
+	...boxProps
 }: ArmoryCardProps) => {
 	return (
-		<RatioedArmoryCardContainer size={ size } ratio={ ratio } onClick={ onClick }>
+		<RatioedArmoryCardContainer ratio={ ratio } onClick={ onClick } { ...boxProps }>
 			<DeletableOverlay
 				canDelete={ canDelete }
 				onDelete={ onDelete }
@@ -102,10 +92,8 @@ ArmoryCard.propTypes = {
 	canDelete: PropTypes.bool,
 	onClick: PropTypes.func.isRequired,
 	onDelete: PropTypes.func.isRequired,
-	size: PropTypes.oneOf(['small', 'large'] as const),
 }
 
 ArmoryCard.defaultProps = {
 	canDelete: true,
-	size: 'large',
 }

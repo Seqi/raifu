@@ -4,7 +4,7 @@ import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import LoadoutContext from '../LoadoutContext'
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
-import AddResourceDialog from '../dialogs/AddResourceDialog'
+import AddResourceDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 
 const LoadoutGearList: FC = () => {

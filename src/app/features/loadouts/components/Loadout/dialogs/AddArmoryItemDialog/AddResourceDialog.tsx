@@ -10,14 +10,15 @@ import {
 	Button,
 } from '@material-ui/core'
 
-import { Resource, ResourcePropShape } from 'app/features/resource'
+import { ResourcePropShape } from 'app/features/resource'
 import { Loading, Error } from 'app/shared/state'
 import { Category } from 'app/data/constants/platforms'
 
-import ResourceSelect from './ResourceSelect'
+import ArmoryItemSelect from './ArmoryItemSelect'
+import { ArmoryItem } from 'app/features/armory'
 
 type AddResourceDialogProps = {
-	items: Resource[]
+	items: ArmoryItem[]
 	title: string
 	category: Category
 	isOpen: boolean
@@ -49,7 +50,7 @@ class AddResourceDialog extends Component<
 
 	componentWillUnmount = () => (this.isUnmounted = true)
 
-	onItemSelected(item: Resource): void {
+	onItemSelected(item: ArmoryItem): void {
 		this.setState(({ selectedIds }) => {
 			// TODO: Maybe just use sets?
 			let selectedItemIndex = selectedIds.findIndex((id) => id === item.id)
@@ -102,7 +103,7 @@ class AddResourceDialog extends Component<
 		let { items, title, category, isOpen, onClose, allowMultiple } = this.props
 
 		return (
-			<Dialog open={ isOpen } onClose={ onClose }>
+			<Dialog open={ isOpen } onClose={ onClose } fullWidth={ true }>
 				<DialogTitle>{title}</DialogTitle>
 
 				<DialogContent>
@@ -114,7 +115,7 @@ class AddResourceDialog extends Component<
 						<DialogContentText>{selectedIds.length} items selected.</DialogContentText>
 					)}
 
-					<ResourceSelect
+					<ArmoryItemSelect
 						items={ items }
 						category={ category }
 						selectedItemIds={ selectedIds }
