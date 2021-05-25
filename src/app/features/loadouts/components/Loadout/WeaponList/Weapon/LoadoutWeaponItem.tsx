@@ -14,8 +14,11 @@ const LoadoutWeaponItemTitle = styled(Typography)(({ theme }) => ({
 	left: '3%',
 	zIndex: 1,
 
-	[theme.breakpoints.down('xs')]: {
-		position: 'initial',
+	[theme.breakpoints.down('md')]: {
+		fontSize: '1.7rem',
+	},
+	[theme.breakpoints.down('sm')]: {
+		fontSize: '1.5rem',
 	},
 }))
 
