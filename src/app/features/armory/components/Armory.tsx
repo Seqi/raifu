@@ -239,7 +239,7 @@ export default function Armory() {
 					<SidewaysTitle
 						title={ armorySection.resourceName! }
 						lowercase={ true }
-						marginRight={ { xxxs: 1, sm: 2 } }
+						marginRight={ { xs: 1, sm: 2 } }
 					/>
 
 					<ResourceList
