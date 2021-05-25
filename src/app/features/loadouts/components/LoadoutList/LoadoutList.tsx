@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, FC } from 'react'
 import { RouteChildrenProps } from 'react-router'
-import { Box } from '@material-ui/core'
+import { Box, Theme, useMediaQuery } from '@material-ui/core'
 
 import { loadouts as loadoutService } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
@@ -55,6 +55,8 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 		loadLoadout()
 	}, [loadLoadout])
 
+	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
+
 	let viewLoadout = useCallback(
 		(loadout) => {
 			history.push(`${location.pathname}/${loadout.id}`)
@@ -83,7 +85,7 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 				ItemTemplate={ LoadoutCard }
 				AddButtonTemplate={ LoadoutCardContainer }
 				gridItemProps={ { xs: 12, md: 6, lg: 4 } }
-				gridContainerProps={ { spacing: 3 } }
+				gridContainerProps={ { spacing: xs ? 2 : 3 } }
 			/>
 		</Box>
 	)
