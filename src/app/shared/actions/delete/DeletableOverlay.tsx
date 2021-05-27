@@ -9,6 +9,7 @@ type DeletableOverlayProps = {
 	dialogTitle: string
 	canDelete?: boolean
 	onDelete: () => any
+	small?: boolean
 }
 
 const DeletableOverlayContainer = styled(Box)(({ theme }) => ({
@@ -28,6 +29,7 @@ const DeletableOverlay: FC<DeletableOverlayProps> = ({
 	canDelete,
 	onDelete,
 	children,
+	small,
 }) => {
 	let [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -42,7 +44,7 @@ const DeletableOverlay: FC<DeletableOverlayProps> = ({
 
 			{canDelete && (
 				<DeletableOverlayContainer>
-					<DeleteButton onClick={ onDeleteClicked } />
+					<DeleteButton onClick={ onDeleteClicked } small={ small } />
 
 					<ConfirmDeleteDialog
 						isOpen={ isDialogOpen }
@@ -60,10 +62,12 @@ DeletableOverlay.propTypes = {
 	dialogTitle: PropTypes.string.isRequired,
 	canDelete: PropTypes.bool,
 	onDelete: PropTypes.func.isRequired,
+	small: PropTypes.bool,
 }
 
 DeletableOverlay.defaultProps = {
 	canDelete: false,
+	small: false,
 }
 
 export default DeletableOverlay

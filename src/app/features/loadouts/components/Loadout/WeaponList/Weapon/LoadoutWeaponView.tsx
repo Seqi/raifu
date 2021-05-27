@@ -22,7 +22,14 @@ const LoadoutWeaponView: FC<LoadoutWeaponProps> = ({ weapon }) => {
 	return (
 		<LoadoutWeaponContainer display='flex'>
 			<Slide in={ true } direction='right'>
-				<div style={ { flex: '3', position: 'relative' } }>
+				<div
+					style={ {
+						display: 'flex',
+						flexDirection: 'column',
+						flex: '3',
+						position: 'relative',
+					} }
+				>
 					<LoadoutWeaponItem weapon={ weapon } />
 				</div>
 			</Slide>

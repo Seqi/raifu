@@ -15,11 +15,12 @@ const DeleteButtonContainer = styled(IconButton)(({ theme }) => ({
 
 type DeleteButtonProps = {
 	onClick: MouseEventHandler<HTMLButtonElement>
+	small?: boolean
 }
 
-const DeleteButton: FC<DeleteButtonProps> = ({ onClick }) => {
+const DeleteButton: FC<DeleteButtonProps> = ({ onClick, small }) => {
 	return (
-		<DeleteButtonContainer onClick={ onClick }>
+		<DeleteButtonContainer size={ small ? 'small' : 'medium' } onClick={ onClick }>
 			<i className='fa fa-times' />
 		</DeleteButtonContainer>
 	)
@@ -27,6 +28,11 @@ const DeleteButton: FC<DeleteButtonProps> = ({ onClick }) => {
 
 DeleteButton.propTypes = {
 	onClick: PropTypes.func.isRequired,
+	small: PropTypes.bool,
+}
+
+DeleteButton.defaultProps = {
+	small: false,
 }
 
 export default DeleteButton

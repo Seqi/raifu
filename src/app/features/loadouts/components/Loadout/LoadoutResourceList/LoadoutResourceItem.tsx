@@ -1,20 +1,22 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, styled } from '@material-ui/core'
+import { Box, styled, Theme, useMediaQuery } from '@material-ui/core'
 
 import { ArmoryItem, ArmoryItemImage, ArmoryItemPropShape } from 'app/features/armory'
 import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'
 
-const RelativeContainer = styled(Box)({
+const RelativeContainer = styled(Box)(({ theme }) => ({
 	height: '100%',
 	position: 'relative',
-})
+	display: 'flex',
+	flexDirection: 'column',
+}))
 
 const ResourceImageTitle = styled(Box)({
 	textAlign: 'right',
-	fontSize: '1rem',
+	width: '100%',
 })
 
 type LoadoutResourceItemProps<R extends ArmoryItem = ArmoryItem> = {
@@ -30,21 +32,24 @@ const LoadoutResourceItem: FC<LoadoutResourceItemProps> = <R extends ArmoryItem>
 	canDelete = false,
 	onDelete = (item: R) => {},
 }: LoadoutResourceItemProps<R>) => {
+	const sm = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+
 	return (
 		<RelativeContainer>
 			<DeletableOverlay
 				canDelete={ canDelete }
 				onDelete={ () => onDelete(item) }
 				dialogTitle={ item.getTitle() }
+				small={ sm }
 			>
 				<ArmoryItemImage
 					resource={ item }
 					resourceType={ resourceType }
 					rotate={ resourceType === 'attachments' }
-					style={ { height: 'auto', maxHeight: '100%' } }
+					style={ { height: 'auto', flex: 1 } }
 				/>
 
-				<ResourceImageTitle>{item.getTitle()}</ResourceImageTitle>
+				<ResourceImageTitle className='item-text'>{item.getTitle()}</ResourceImageTitle>
 			</DeletableOverlay>
 		</RelativeContainer>
 	)

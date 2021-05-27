@@ -10,10 +10,6 @@ import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
 import LoadoutContext from '../../LoadoutContext'
 
 const LoadoutWeaponItemTitle = styled(Typography)(({ theme }) => ({
-	position: 'absolute',
-	left: '3%',
-	zIndex: 1,
-
 	[theme.breakpoints.down('md')]: {
 		fontSize: '1.7rem',
 	},
@@ -23,7 +19,8 @@ const LoadoutWeaponItemTitle = styled(Typography)(({ theme }) => ({
 }))
 
 const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
-	height: '100%',
+	flex: 1,
+
 	'& img': {
 		maxHeight: '700px',
 
