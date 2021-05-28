@@ -24,6 +24,9 @@ const ResourceListTitle = styled(Box)(({ theme }) => ({
 const ResourceListTitleTextContainer = styled(Box)(({ theme }) => ({
 	width: '50px',
 
+	[theme.breakpoints.down('sm')]: {
+		width: '40px',
+	},
 	[theme.breakpoints.down('xs')]: {
 		width: '30px',
 	},
@@ -41,6 +44,9 @@ const ResourceListTitleText = styled(Typography)(({ theme }) => ({
 	position: 'sticky',
 	top: '5%',
 
+	[theme.breakpoints.down('sm')]: {
+		fontSize: '2.75rem',
+	},
 	[theme.breakpoints.down('xs')]: {
 		fontSize: '2.1rem',
 	},
