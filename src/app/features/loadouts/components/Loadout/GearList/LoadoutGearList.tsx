@@ -34,6 +34,12 @@ const LoadoutGearList: FC = () => {
 						onClose={ onClose }
 					/>
 				) }
+				gridItemProps={ {
+					xs: 4,
+					sm: 3,
+					md: 2,
+					xl: 'auto',
+				} }
 			/>
 		</React.Fragment>
 	)

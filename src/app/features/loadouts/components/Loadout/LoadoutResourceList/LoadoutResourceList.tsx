@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext, FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Grid, styled } from '@material-ui/core'
+import { Grid, GridProps, styled } from '@material-ui/core'
 
 import { Category } from 'app/data/constants/platforms'
 import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
@@ -54,7 +54,6 @@ const ResourceGridItem = styled(Grid)(({ theme }) => ({
 
 	[theme.breakpoints.down('xs')]: {
 		minHeight: '150px',
-		padding: theme.spacing(1.5),
 	},
 }))
 
@@ -75,6 +74,7 @@ type LoadoutResourceListProps<T extends ArmoryItem = ArmoryItem> = {
 		onClose: () => any,
 		addItemToLoadout: (itemIds: string | string[]) => Promise<any>
 	) => React.ReactNode
+	gridItemProps?: GridProps
 }
 
 const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
@@ -84,6 +84,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 	addItem,
 	deleteItem,
 	renderAddDialog,
+	gridItemProps,
 }) => {
 	let [dialog, setDialog] = useState<'add' | null>(null)
 	let { editable } = useContext(LoadoutContext)
@@ -100,7 +101,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 		<React.Fragment>
 			<ResourceGrid container={ true }>
 				{items.map((item) => (
-					<ResourceGridItem item={ true } key={ item.id } xs={ 4 } xl='auto'>
+					<ResourceGridItem item={ true } key={ item.id } xs={ 4 } xl='auto' { ...gridItemProps }>
 						<LoadoutResourceItem
 							resourceType={ resourceType }
 							item={ item }
@@ -111,7 +112,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 				))}
 
 				{editable && canAdd && (
-					<ResourceGridItem item={ true } xs={ 4 } xl='auto'>
+					<ResourceGridItem item={ true } xs={ 4 } xl='auto' { ...gridItemProps }>
 						<AddButton onClick={ () => setDialog('add') } />
 					</ResourceGridItem>
 				)}
@@ -138,6 +139,11 @@ LoadoutResourceList.propTypes = {
 	addItem: PropTypes.func.isRequired,
 	deleteItem: PropTypes.func.isRequired,
 	renderAddDialog: PropTypes.func.isRequired,
+	gridItemProps: PropTypes.object,
+}
+
+LoadoutResourceList.defaultProps = {
+	gridItemProps: {},
 }
 
 export default LoadoutResourceList
