@@ -41,7 +41,7 @@ const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
 			deleteItem={ deleteAttachment }
 			renderAddDialog={ (isOpen, onClose, onSave) => (
 				<AddArmoryItemDialog
-					title='Add attachments to loadout'
+					title={ `Add attachments to ${weapon.getTitle()}` }
 					items={ availableAttachments || [] }
 					category='attachments'
 					allowMultiple={ true }
