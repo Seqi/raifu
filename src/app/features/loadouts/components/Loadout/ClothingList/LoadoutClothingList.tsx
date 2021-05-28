@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
-import AddResourceDialog from '../dialogs/AddArmoryItemDialog'
+import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 import LoadoutContext from '../LoadoutContext'
 
@@ -24,7 +24,7 @@ let LoadoutClothingList = () => {
 				addItem={ addClothing }
 				deleteItem={ deleteClothing }
 				renderAddDialog={ (isOpen, onClose, onSave) => (
-					<AddResourceDialog
+					<AddArmoryItemDialog
 						title='Add clothing to loadout'
 						items={ availableClothing || [] }
 						category='clothing'

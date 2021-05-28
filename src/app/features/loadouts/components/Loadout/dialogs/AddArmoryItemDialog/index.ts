@@ -1,2 +1,2 @@
-import AddResourceDialog from './AddResourceDialog'
-export default AddResourceDialog
+import AddArmoryItemDialog from './AddArmoryItemDialog'
+export default AddArmoryItemDialog

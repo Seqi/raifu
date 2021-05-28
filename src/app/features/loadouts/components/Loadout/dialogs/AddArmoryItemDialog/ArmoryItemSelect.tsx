@@ -1,24 +1,31 @@
 import { FC } from 'react'
 import PropType from 'prop-types'
 
-import { Grid, styled, Theme } from '@material-ui/core'
+import { Grid, styled, makeStyles } from '@material-ui/core'
 
 import { ArmoryCard, ArmoryItem } from 'app/features/armory'
 import { Category } from 'app/data/constants/platforms'
 
-const ResourceSelectCard = styled(({ active, ...other }) => <ArmoryCard { ...other } />)(
-	// TODO: Hack to get this to work. Not sure how to do it properly
-	({ theme, active }: { theme: Theme; active: boolean }) => ({
-		transform: active ? 'scale(1.05)' : 'initial',
-		border: active ? `1px solid ${theme.palette.primary.main}` : 'initial',
-	})
-)
 
 const MobileGrid = styled(Grid)(({ theme }) => ({
-	[theme.breakpoints.down(361)]: {
+	[theme.breakpoints.down(391)]: {
 		flexBasis: '50%',
 		maxWidth: '50%',
 	},
+}))
+
+const useStyles = makeStyles((theme) => ({
+	'select-card': {
+		'&:hover': {
+			transform: 'initial'
+		}
+	},
+	'selected-card': {
+		border: `1px solid ${theme.palette.primary.main}`,
+		'&:hover': {
+			transform: 'initial'
+		}
+	}
 }))
 
 type ResourceSelectProps<Item extends ArmoryItem> = {
@@ -34,17 +41,21 @@ const ArmoryItemSelect: FC<ResourceSelectProps<ArmoryItem>> = <Item extends Armo
 	selectedItemIds,
 	onItemSelected = (item: Item) => {},
 }: ResourceSelectProps<Item>) => {
+	const classes = useStyles()
+
 	return (
 		<Grid container={ true } spacing={ 2 }>
 			{items.map((item) => (
 				<MobileGrid key={ item.id } item={ true } xs={ 4 }>
-					<ResourceSelectCard
+					<ArmoryCard
 						category={ category }
 						item={ item }
 						canDelete={ false }
-						onDelete={ () => {} } // No op
+						onDelete={ () => Promise.resolve() } // No op
 						onClick={ () => onItemSelected(item) }
-						active={ !!(selectedItemIds || []).find((id) => id === item.id) }
+						cardProps={ {
+							className: [classes['select-card'],  (selectedItemIds || []).find((id) => id === item.id) ? classes['selected-card'] : ''].join(' ')
+						} }
 					/>
 				</MobileGrid>
 			))}

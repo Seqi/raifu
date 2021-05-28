@@ -2,7 +2,7 @@
 import React, { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { styled, BoxProps } from '@material-ui/core'
+import { styled, BoxProps, CardProps } from '@material-ui/core'
 
 import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'
@@ -38,12 +38,11 @@ export const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	},
 }))
 
-export const RatioedArmoryCardContainer: FC<
-	BoxProps & Pick<ArmoryCardProps, 'ratio' | 'onClick'>
-> = ({ ratio = 1.36, onClick, children, ...boxProps }) => {
+type RatioedArmoryCardContainerProps = BoxProps & Pick<ArmoryCardProps, 'ratio' | 'onClick' | 'cardProps'> 
+export const RatioedArmoryCardContainer: FC<RatioedArmoryCardContainerProps> = ({ ratio = 1.36, onClick, children, cardProps, ...boxProps }) => {
 	return (
 		<RatioedBox ratio={ ratio } { ...boxProps }>
-			<ArmoryCardContainer onClick={ onClick }>{children}</ArmoryCardContainer>
+			<ArmoryCardContainer onClick={ onClick } { ...cardProps }>{children}</ArmoryCardContainer>
 		</RatioedBox>
 	)
 }
@@ -54,6 +53,7 @@ export type ArmoryCardProps = BoxProps &
 		category: Category
 		canDelete?: boolean
 		ratio?: number
+		cardProps?: CardProps
 	}
 
 // eslint-disable-next-line react/no-multi-comp
@@ -64,10 +64,11 @@ export const ArmoryCard: FC<ArmoryCardProps> = ({
 	canDelete,
 	onDelete,
 	onClick,
+	cardProps,
 	...boxProps
 }: ArmoryCardProps) => {
 	return (
-		<RatioedArmoryCardContainer ratio={ ratio } onClick={ onClick } { ...boxProps }>
+		<RatioedArmoryCardContainer ratio={ ratio } onClick={ onClick } { ...boxProps } cardProps={ cardProps }>
 			<DeletableOverlay
 				canDelete={ canDelete }
 				onDelete={ onDelete }

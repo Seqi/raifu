@@ -3,7 +3,7 @@ import React, { useState, useContext, useCallback, FC } from 'react'
 import LoadoutContext from '../LoadoutContext'
 import LoadoutAdd from '../LoadoutAdd'
 import LoadoutWeaponView from './Weapon/LoadoutWeaponView'
-import AddResourceDialog from '../dialogs/AddArmoryItemDialog'
+import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 import { LoadoutWeapon } from '../../../models'
 
@@ -34,7 +34,7 @@ const LoadoutWeaponList: FC = () => {
 				<React.Fragment>
 					<LoadoutAdd onClick={ () => setDialog('add') } />
 
-					<AddResourceDialog
+					<AddArmoryItemDialog
 						title='Add weapon to loadout'
 						items={ availableWeapons || [] }
 						category='weapons'

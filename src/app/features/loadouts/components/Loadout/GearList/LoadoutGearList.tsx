@@ -4,7 +4,7 @@ import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import LoadoutContext from '../LoadoutContext'
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
-import AddResourceDialog from '../dialogs/AddArmoryItemDialog'
+import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 
 const LoadoutGearList: FC = () => {
@@ -24,7 +24,7 @@ const LoadoutGearList: FC = () => {
 				addItem={ addGear }
 				deleteItem={ deleteGear }
 				renderAddDialog={ (isOpen, onClose, onSave) => (
-					<AddResourceDialog
+					<AddArmoryItemDialog
 						title='Add gear to loadout'
 						items={ availableGear || [] }
 						category='gear'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Attachment } from 'app/features/armory'
 import LoadoutResourceList from '../../LoadoutResourceList/LoadoutResourceList'
-import AddResourceDialog from '../../dialogs/AddArmoryItemDialog'
+import AddArmoryItemDialog from '../../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../../AvailableArmoryContext'
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
 import LoadoutContext from '../../LoadoutContext'
@@ -40,7 +40,7 @@ const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
 			addItem={ addAttachments }
 			deleteItem={ deleteAttachment }
 			renderAddDialog={ (isOpen, onClose, onSave) => (
-				<AddResourceDialog
+				<AddArmoryItemDialog
 					title='Add attachments to loadout'
 					items={ availableAttachments || [] }
 					category='attachments'

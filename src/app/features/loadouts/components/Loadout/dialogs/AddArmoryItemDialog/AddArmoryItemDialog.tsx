@@ -4,20 +4,18 @@ import PropTypes from 'prop-types'
 import {
 	Dialog,
 	DialogTitle,
-	DialogContentText,
 	DialogContent,
 	DialogActions,
 	Button,
 } from '@material-ui/core'
 
-import { ResourcePropShape } from 'app/features/resource'
 import { Loading, Error } from 'app/shared/state'
 import { Category } from 'app/data/constants/platforms'
 
 import ArmoryItemSelect from './ArmoryItemSelect'
-import { ArmoryItem } from 'app/features/armory'
+import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
 
-type AddResourceDialogProps = {
+type AddArmoryItemDialogProps = {
 	items: ArmoryItem[]
 	title: string
 	category: Category
@@ -27,19 +25,19 @@ type AddResourceDialogProps = {
 	allowMultiple?: boolean
 }
 
-type AddResourceDialogState = {
+type AddArmoryItemDialogState = {
 	selectedIds: string[]
 	loading: boolean
 	error: string | null
 }
 
-class AddResourceDialog extends Component<
-	AddResourceDialogProps,
-	AddResourceDialogState
+class AddArmoryItemDialog extends Component<
+	AddArmoryItemDialogProps,
+	AddArmoryItemDialogState
 > {
 	private isUnmounted: boolean = false
 
-	constructor(props: AddResourceDialogProps) {
+	constructor(props: AddArmoryItemDialogProps) {
 		super(props)
 		this.state = {
 			selectedIds: [],
@@ -111,10 +109,6 @@ class AddResourceDialog extends Component<
 
 					{error && <Error error={ error } fillBackground={ true } />}
 
-					{allowMultiple && selectedIds.length > 0 && (
-						<DialogContentText>{selectedIds.length} items selected.</DialogContentText>
-					)}
-
 					<ArmoryItemSelect
 						items={ items }
 						category={ category }
@@ -131,7 +125,7 @@ class AddResourceDialog extends Component<
 						onClick={ () => this.onSave(selectedIds) }
 						color='primary'
 					>
-						Save
+						Save{ allowMultiple && selectedIds.length > 0 ? ` (${selectedIds.length})` : '' }
 					</Button>
 				</DialogActions>
 			</Dialog>
@@ -140,7 +134,7 @@ class AddResourceDialog extends Component<
 
 	public static propTypes = {
 		title: PropTypes.string.isRequired,
-		items: PropTypes.arrayOf(PropTypes.shape(ResourcePropShape)).isRequired,
+		items: PropTypes.arrayOf(PropTypes.shape(ArmoryItemPropShape)).isRequired,
 		category: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
 			.isRequired,
 		allowMultiple: PropTypes.bool,
@@ -154,4 +148,4 @@ class AddResourceDialog extends Component<
 	}
 }
 
-export default AddResourceDialog
+export default AddArmoryItemDialog

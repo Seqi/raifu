@@ -11,7 +11,7 @@ export { default as LoadoutWeaponList } from './Loadout/WeaponList/LoadoutWeapon
 export { default as LoadoutWeaponView } from './Loadout/WeaponList/Weapon/LoadoutWeaponView'
 export { default as LoadoutWeaponAttachmentList } from './Loadout/WeaponList/Weapon/LoadoutWeaponAttachmentList'
 export { default as LoadoutWeaponItem } from './Loadout/WeaponList/Weapon/LoadoutWeaponItem'
-export { default as AddResourceDialog } from './Loadout/dialogs/AddArmoryItemDialog'
+export { default as AddArmoryItemDialog } from './Loadout/dialogs/AddArmoryItemDialog'
 export { default as LoadoutList } from './LoadoutList/LoadoutList'
 export { default as LoadoutActions } from './LoadoutPage/LoadoutActions'
 export { default as LoadoutPage } from './LoadoutPage/LoadoutPage'
