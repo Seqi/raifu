@@ -20,27 +20,42 @@ type SidewaysTitleProps = BoxProps & {
 const ResourceListTitle = styled(Box)(({ theme }) => ({
 	writingMode: 'vertical-rl',
 	borderRight: `3px solid ${theme.palette.primary.main}`,
-}))
 
-const ResourceListTitleTextContainer = styled(Box)(({ theme }) => ({
-	width: '50px',
+	marginLeft: '-16px', // Container padding = 40px
 
-	[theme.breakpoints.down('sm')]: {
-		width: '40px',
+	[theme.breakpoints.down('md')]: {
+		marginLeft: '-20px', // Container padding = 24px
 	},
 	[theme.breakpoints.down('xs')]: {
-		width: '30px',
-	},
-	[theme.breakpoints.down(321)]: {
-		width: '20px',
+		marginLeft: '-14px', // Container padding = 16px
 	},
 }))
 
-const ResourceListTitleText = styled(Typography)(({ theme }) => ({
+const ResourceListTitleText = styled(Typography)(({ theme, hasSubtitle }: any) => ({
 	transform: 'rotate(180deg)',
 	textAlign: 'right',
-	lineHeight: 1.5,
+	lineHeight: 1.2,
 	display: 'inline-block',
+
+	position: 'sticky',
+	top: '5%',
+
+	[theme.breakpoints.down('sm')]: {
+		fontSize: '2.75rem',
+	},
+	[theme.breakpoints.down('xs')]: {
+		fontSize: '2.1rem',
+	},
+	[theme.breakpoints.down(321)]: {
+		fontSize: '1.6rem',
+	},
+}))
+
+const ResourceListSubTitleText = styled(Typography)(({ theme }) => ({
+	transform: 'rotate(180deg)',
+	textAlign: 'right',
+	lineHeight: 1.3,
+	display: 'block',
 
 	position: 'sticky',
 	top: '5%',
@@ -65,11 +80,25 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 }) => (
 	<ResourceListTitle { ...props }>
 		<Slide in={ true } direction='right'>
-			<ResourceListTitleTextContainer>
+			<div>
+				{/* Subtitle goes first cos of the rotational stuff */}
+				{!!subtitle && (
+					<ResourceListSubTitleText
+						variant='h4'
+						{ ...textProps }
+						// You wouldn't believe the amount of faff saved from doing this the lazy way
+						style={ {
+							...{ textTransform: lowercase ? 'lowercase' : 'initial' },
+							...textProps?.style,
+						} }
+					>
+						{subtitle}
+					</ResourceListSubTitleText>
+				)}
+
 				<ResourceListTitleText
 					variant='h3'
 					{ ...textProps }
-					// You wouldn't believe the amount of faff saved from doing this the lazy way
 					style={ {
 						...{ textTransform: lowercase ? 'lowercase' : 'initial' },
 						...textProps?.style,
@@ -77,7 +106,7 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 				>
 					{title}
 				</ResourceListTitleText>
-			</ResourceListTitleTextContainer>
+			</div>
 		</Slide>
 	</ResourceListTitle>
 )
