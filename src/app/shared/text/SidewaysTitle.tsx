@@ -12,6 +12,7 @@ import {
 
 type SidewaysTitleProps = BoxProps & {
 	title: string
+	subtitle?: string
 	lowercase?: boolean
 	textProps?: TypographyProps
 }
@@ -59,6 +60,7 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 	title,
 	lowercase,
 	textProps,
+	subtitle,
 	...props
 }) => (
 	<ResourceListTitle { ...props }>
@@ -82,11 +84,13 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 
 SidewaysTitle.propTypes = {
 	title: PropTypes.string.isRequired,
+	subtitle: PropTypes.string,
 	lowercase: PropTypes.bool,
 	textProps: PropTypes.object,
 }
 
 SidewaysTitle.defaultProps = {
+	subtitle: undefined,
 	lowercase: false,
 	textProps: {},
 }
