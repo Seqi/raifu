@@ -74,7 +74,7 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 
 	return (
 		<Box display='flex'>
-			<SidewaysTitle title='loadouts' lowercase={ true } marginRight={ 2 } />
+			<SidewaysTitle title='loadouts' lowercase={ true } marginRight={ { xs: 1, sm: 2 } } />
 
 			<ResourceList
 				items={ loadouts }
