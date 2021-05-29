@@ -19,7 +19,7 @@ const EventMyLoadout: FC<EventMyLoadoutProps> = ({ user }) => {
 		)
 	}
 
-	return <LoadoutView loadout={ user.loadout } editable={ false } />
+	return <LoadoutView showTitle={ false } loadout={ user.loadout } editable={ false } />
 }
 
 export default EventMyLoadout

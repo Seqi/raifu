@@ -1,11 +1,40 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import EventMyLoadout from './components/EventMyLoadout'
+import {
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
+	makeStyles,
+	Theme,
+	Typography,
+	Box,
+	styled,
+} from '@material-ui/core'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMoreOutlined'
+
 import EventGuestLoadout from './components/EventGuestLoadout'
 import EventInvite from './components/EventInvite'
-import EventUserSelect from './components/EventUserSelect'
 import { Event, EventPropShape } from '../../models'
+
+const EventAccordian = styled(Accordion)(({ theme }) => ({
+	minHeight: theme.spacing(7),
+}))
+
+const useStyles = makeStyles((theme: Theme) => ({
+	root: {
+		width: '100%',
+	},
+	heading: {
+		fontSize: theme.typography.pxToRem(15),
+		flex: 1,
+	},
+	secondaryHeading: {
+		flex: 2,
+		fontSize: theme.typography.pxToRem(15),
+		color: theme.palette.text.secondary,
+	},
+}))
 
 type EventContentProps = {
 	event: Event
@@ -18,20 +47,34 @@ const EventContent: FC<EventContentProps> = ({
 	event,
 	onEventJoined,
 	onLoadoutRemoved,
-	onLoadoutAdded
+	onLoadoutAdded,
 }) => {
-	let [selectedUserIndex, setSelectedUserIndex] = useState(0)
-
-	const selectedUser = event.users![selectedUserIndex]
-	const amISelected = selectedUserIndex === 0
+	const classes = useStyles()
 
 	if (event.users!.length === 0) {
 		return <EventInvite event={ event } onJoin={ onEventJoined } />
 	}
 
 	return (
-		<React.Fragment>
-			{event.users!.length > 1 && (
+		<Box flex={ 1 } pt={ 2 }>
+			{event.users!.map((user) => (
+				<EventAccordian key={ user.uid }>
+					<AccordionSummary expandIcon={ <ExpandMoreIcon /> }>
+						<Typography align='center' className={ classes.heading }>
+							{user.displayName}
+						</Typography>
+						<Typography align='center' className={ classes.secondaryHeading }>
+							{user.loadout?.getTitle() ?? ''}
+						</Typography>
+					</AccordionSummary>
+
+					<AccordionDetails>
+						<EventGuestLoadout user={ user } />
+					</AccordionDetails>
+				</EventAccordian>
+			))}
+
+			{/* {event.users!.length > 1 && (
 				<EventUserSelect
 					users={ event.users! }
 					userIndex={ selectedUserIndex }
@@ -48,8 +91,8 @@ const EventContent: FC<EventContentProps> = ({
 				/>
 			) : (
 				<EventGuestLoadout user={ selectedUser } />
-			)}
-		</React.Fragment>
+			)} */}
+		</Box>
 	)
 }
 
@@ -58,7 +101,7 @@ EventContent.propTypes = {
 
 	onEventJoined: PropTypes.func.isRequired,
 	onLoadoutAdded: PropTypes.func.isRequired,
-	onLoadoutRemoved: PropTypes.func.isRequired
+	onLoadoutRemoved: PropTypes.func.isRequired,
 }
 
 export default EventContent
