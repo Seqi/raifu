@@ -31,14 +31,17 @@ const ResourceListTitle = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const ResourceListTitleText = styled(Typography)(({ theme, hasSubtitle }: any) => ({
-	transform: 'rotate(180deg)',
-	textAlign: 'right',
-	lineHeight: 1.2,
-	display: 'inline-block',
-
+const ResourceListTitleTextContainer = styled(Box)({
 	position: 'sticky',
 	top: '5%',
+	display: 'inline-block',
+})
+
+const ResourceListTitleText = styled(Typography)(({ theme }) => ({
+	transform: 'rotate(180deg)',
+	textAlign: 'right',
+	lineHeight: 1.5,
+	display: 'inline-block',
 
 	[theme.breakpoints.down('sm')]: {
 		fontSize: '2.75rem',
@@ -54,20 +57,22 @@ const ResourceListTitleText = styled(Typography)(({ theme, hasSubtitle }: any) =
 const ResourceListSubTitleText = styled(Typography)(({ theme }) => ({
 	transform: 'rotate(180deg)',
 	textAlign: 'right',
-	lineHeight: 1.3,
-	display: 'block',
+	lineHeight: 1.5,
+	display: 'inline-block',
 
-	position: 'sticky',
-	top: '5%',
+	paddingTop: '8px',
+	paddingRight: '12px',
+
+	fontSize: '1.75rem',
 
 	[theme.breakpoints.down('sm')]: {
-		fontSize: '2.75rem',
+		fontSize: '1.3rem',
 	},
 	[theme.breakpoints.down('xs')]: {
-		fontSize: '2.1rem',
+		fontSize: '1.1em',
 	},
 	[theme.breakpoints.down(321)]: {
-		fontSize: '1.6rem',
+		fontSize: '1rem',
 	},
 }))
 
@@ -80,17 +85,18 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 }) => (
 	<ResourceListTitle { ...props }>
 		<Slide in={ true } direction='right'>
-			<div>
+			<ResourceListTitleTextContainer>
 				{/* Subtitle goes first cos of the rotational stuff */}
 				{!!subtitle && (
 					<ResourceListSubTitleText
-						variant='h4'
+						variant='h5'
 						{ ...textProps }
 						// You wouldn't believe the amount of faff saved from doing this the lazy way
 						style={ {
 							...{ textTransform: lowercase ? 'lowercase' : 'initial' },
 							...textProps?.style,
 						} }
+						color='textSecondary'
 					>
 						{subtitle}
 					</ResourceListSubTitleText>
@@ -106,7 +112,7 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 				>
 					{title}
 				</ResourceListTitleText>
-			</div>
+			</ResourceListTitleTextContainer>
 		</Slide>
 	</ResourceListTitle>
 )
