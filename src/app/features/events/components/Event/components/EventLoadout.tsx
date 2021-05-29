@@ -2,20 +2,31 @@ import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { LoadoutView } from 'app/features/loadouts'
-import { ErrorOverlay } from 'app/shared/state'
 import { EventUser, EventUserPropShape } from '../../../models'
+import { Box, useTheme, Typography } from '@material-ui/core'
 
 type EventMyLoadoutProps = {
 	user: EventUser
 }
 
 const EventMyLoadout: FC<EventMyLoadoutProps> = ({ user }) => {
+	const theme = useTheme()
+
 	if (!user.loadout) {
 		return (
-			<ErrorOverlay
-				icon='fas fa-crosshairs'
-				message='User has not added a loadout to this event.'
-			/>
+			<Box width='100%' style={ { textAlign: 'center' } }>
+				<Box paddingBottom='24px' marginX='auto'>
+					<i
+						style={ {
+							fontSize: '5rem',
+							color: theme.palette.text.hint,
+						} }
+						className='fas fa-crosshairs'
+					/>
+				</Box>
+
+				<Typography color='textSecondary'>No loadout added.</Typography>
+			</Box>
 		)
 	}
 

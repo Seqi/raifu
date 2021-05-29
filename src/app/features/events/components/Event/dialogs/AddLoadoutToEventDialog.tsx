@@ -8,7 +8,7 @@ import {
 	DialogActions,
 	MenuItem,
 	TextField,
-	Button
+	Button,
 } from '@material-ui/core'
 
 import { loadouts as loadoutService } from 'app/data/api'
@@ -37,17 +37,17 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 	eventTitle,
 	isOpen,
 	onSave,
-	onClose
+	onClose,
 }) => {
 	let [loadouts, setLoadouts] = useState<LoadoutFetchState>({
 		data: [],
 		loading: true,
-		error: null
+		error: null,
 	})
 	let [loadoutId, setLoadoutId] = useState<string>('')
 	let [submitState, setSubmitState] = useState<SubmissionState>({
 		submitting: false,
-		error: false
+		error: false,
 	})
 
 	useEffect(() => {
@@ -66,7 +66,7 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 				setLoadouts({
 					data: [],
 					loading: false,
-					error: 'An error occurred while loading available loadouts.'
+					error: 'An error occurred while loading available loadouts.',
 				})
 			})
 	}
@@ -75,6 +75,7 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 		setSubmitState({ submitting: true, error: false })
 
 		onSave(loadoutId)
+			.then(() => onClose())
 			.catch((err) => setSubmitState({ submitting: false, error: true }))
 	}
 
@@ -130,7 +131,7 @@ AddLoadoutToEventDialog.propTypes = {
 	eventTitle: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired
+	onSave: PropTypes.func.isRequired,
 }
 
 export default AddLoadoutToEventDialog

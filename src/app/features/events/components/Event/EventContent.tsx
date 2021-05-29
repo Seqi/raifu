@@ -1,10 +1,12 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import {
 	Accordion,
 	AccordionSummary,
 	AccordionDetails,
+	AccordionActions,
+	Button,
 	makeStyles,
 	Theme,
 	Typography,
@@ -13,8 +15,12 @@ import {
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMoreOutlined'
 
-import EventGuestLoadout from './components/EventGuestLoadout'
+import EventLoadout from './components/EventLoadout'
 import EventInvite from './components/EventInvite'
+
+import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
+import AddLoadoutToEventDialog from './dialogs/AddLoadoutToEventDialog'
+
 import { Event, EventPropShape } from '../../models'
 
 const EventAccordian = styled(Accordion)(({ theme }) => ({
@@ -39,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 type EventContentProps = {
 	event: Event
 	onEventJoined: () => any
-	onLoadoutRemoved: () => any
+	onLoadoutRemoved: () => Promise<any>
 	onLoadoutAdded: (id: string) => any
 }
 
@@ -51,13 +57,20 @@ const EventContent: FC<EventContentProps> = ({
 }) => {
 	const classes = useStyles()
 
+	let [activeDialog, setActiveDialog] = useState<'add' | 'remove' | null>()
+
+	let onDelete = useCallback(() => {
+		return onLoadoutRemoved()
+			.then(() => setActiveDialog(null))
+	}, [onLoadoutRemoved])
+
 	if (event.users!.length === 0) {
 		return <EventInvite event={ event } onJoin={ onEventJoined } />
 	}
 
 	return (
-		<Box flex={ 1 } pt={ 2 }>
-			{event.users!.map((user) => (
+		<Box flex={ 1 }>
+			{event.users!.map((user, index) => (
 				<EventAccordian key={ user.uid }>
 					<AccordionSummary expandIcon={ <ExpandMoreIcon /> }>
 						<Typography align='center' className={ classes.heading }>
@@ -69,29 +82,47 @@ const EventContent: FC<EventContentProps> = ({
 					</AccordionSummary>
 
 					<AccordionDetails>
-						<EventGuestLoadout user={ user } />
+						<EventLoadout user={ user } />
 					</AccordionDetails>
+
+					{index === 0 && (
+						<AccordionActions>
+							{user.loadout ? (
+								<Button
+									variant='text'
+									color='secondary'
+									onClick={ () => setActiveDialog('remove') }
+								>
+									Remove loadout
+								</Button>
+							) : (
+								<Button
+									variant='text'
+									color='secondary'
+									onClick={ () => setActiveDialog('add') }
+								>
+									Add loadout
+								</Button>
+							)}
+						</AccordionActions>
+					)}
 				</EventAccordian>
 			))}
 
-			{/* {event.users!.length > 1 && (
-				<EventUserSelect
-					users={ event.users! }
-					userIndex={ selectedUserIndex }
-					onUserIndexChange={ setSelectedUserIndex }
-				/>
-			)}
+			<ConfirmDeleteDialog
+				verb='Remove'
+				title={ 'loadout' }
+				isOpen={ activeDialog === 'remove' }
+				onClose={ () => setActiveDialog(null) }
+				onConfirm={ onDelete }
+			/>
 
-			{amISelected ? (
-				<EventMyLoadout
-					event={ event }
-					user={ selectedUser }
-					addLoadout={ onLoadoutAdded }
-					removeLoadout={ onLoadoutRemoved }
-				/>
-			) : (
-				<EventGuestLoadout user={ selectedUser } />
-			)} */}
+			<AddLoadoutToEventDialog
+				eventTitle={ event.getTitle() }
+				isOpen={ activeDialog === 'add' }
+				onSave={ onLoadoutAdded }
+				onClose={ () => setActiveDialog(null) }
+			/>
 		</Box>
 	)
 }
