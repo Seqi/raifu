@@ -57,11 +57,7 @@ const ResourceGridItem = styled(Grid)(({ theme }) => ({
 	},
 }))
 
-const ResourceGrid = styled(Grid)(({ theme }) => ({
-	[theme.breakpoints.down('xs')]: {
-		padding: theme.spacing(0, 2),
-	},
-}))
+const ResourceGrid = styled(Grid)(({ theme }) => ({}))
 
 type LoadoutResourceListProps<T extends ArmoryItem = ArmoryItem> = {
 	resourceType: Category // TODO Remove weapon,
