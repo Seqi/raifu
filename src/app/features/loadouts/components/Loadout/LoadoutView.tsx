@@ -13,6 +13,7 @@ import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 
 type LoadoutViewProps = {
 	loadout: Loadout
+	showTitle?: boolean
 	editable?: boolean
 }
 
@@ -35,16 +36,22 @@ const LoadoutContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-const LoadoutView: FC<LoadoutViewProps> = ({ loadout, editable = false }) => {
+const LoadoutView: FC<LoadoutViewProps> = ({
+	loadout,
+	showTitle = true,
+	editable = false,
+}) => {
 	return (
 		<LoadoutContextProvider loadout={ loadout } editable={ editable }>
 			<AvailableArmoryContextProvider>
-				<Box display='flex'>
-					<SidewaysTitle
-						title={ loadout!.getTitle() }
-						lowercase={ true }
-						mr={ { xs: 1, sm: 2 } }
-					/>
+				<Box width='100%' display='flex'>
+					{showTitle && (
+						<SidewaysTitle
+							title={ loadout!.getTitle() }
+							lowercase={ true }
+							mr={ { xs: 1, sm: 2 } }
+						/>
+					)}
 
 					<Box flex='1'>
 						<LoadoutContainer>
@@ -72,10 +79,12 @@ const LoadoutView: FC<LoadoutViewProps> = ({ loadout, editable = false }) => {
 LoadoutView.propTypes = {
 	loadout: PropTypes.shape(LoadoutPropType).isRequired,
 	editable: PropTypes.bool,
+	showTitle: PropTypes.bool,
 }
 
 LoadoutView.defaultProps = {
 	editable: false,
+	showTitle: true,
 }
 
 export default LoadoutView
