@@ -6,6 +6,7 @@ import { Box, Slide, styled } from '@material-ui/core'
 import LoadoutWeaponItem from './LoadoutWeaponItem'
 import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
+import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 const LoadoutWeaponContainer = styled(Box)(({ theme }) => ({
 	flexDirection: 'row',
@@ -20,26 +21,25 @@ type LoadoutWeaponProps = {
 
 const LoadoutWeaponView: FC<LoadoutWeaponProps> = ({ weapon }) => {
 	return (
-		<LoadoutWeaponContainer display='flex'>
-			<Slide in={ true } direction='right'>
-				<div
-					style={ {
-						display: 'flex',
-						flexDirection: 'column',
-						flex: '3',
-						position: 'relative',
-					} }
-				>
-					<LoadoutWeaponItem weapon={ weapon } />
-				</div>
-			</Slide>
+		<Box>
+			<ReactiveTitle variant='h4' mobileVariant='h5' align='center'>
+				{weapon.getTitle()}
+			</ReactiveTitle>
 
-			<Slide in={ true } timeout={ 400 } direction='right'>
-				<div style={ { flex: 5 } }>
-					<LoadoutWeaponAttachmentList weapon={ weapon } />
-				</div>
-			</Slide>
-		</LoadoutWeaponContainer>
+			<LoadoutWeaponContainer display='flex'>
+				<Slide in={ true } direction='right'>
+					<Box display='flex' flexDirection='column' flex={ 3 } position='relative'>
+						<LoadoutWeaponItem weapon={ weapon } />
+					</Box>
+				</Slide>
+
+				<Slide in={ true } timeout={ 400 } direction='right'>
+					<Box flex={ 5 }>
+						<LoadoutWeaponAttachmentList weapon={ weapon } />
+					</Box>
+				</Slide>
+			</LoadoutWeaponContainer>
+		</Box>
 	)
 }
 
