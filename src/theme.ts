@@ -16,7 +16,7 @@ export default createMuiTheme({
 		},
 		text: {
 			primary: '#eee',
-			secondary: '#ddd',
+			secondary: '#bbb',
 		},
 	},
 	typography: {
