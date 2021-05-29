@@ -13,7 +13,7 @@ let LoadoutClothingList = () => {
 
 	return (
 		<React.Fragment>
-			<ReactiveTitle variant='h4' mobileVariant='h5'>
+			<ReactiveTitle variant='h4' mobileVariant='h5' align='center'>
 				Clothing
 			</ReactiveTitle>
 
