@@ -1,7 +1,11 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
+import { Snackbar, styled, Button, IconButton } from '@material-ui/core'
 import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
+import Alert from '@material-ui/lab/Alert'
+import PersonAddOutlined from '@material-ui/icons/PersonAddOutlined'
+import Close from '@material-ui/icons/Close'
 
 import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
@@ -10,7 +14,6 @@ import { Loadout } from 'app/features/loadouts'
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import EditEventDialog, { EventUpdate } from '../EditEventDialog'
 import { Event, EventPropShape } from '../../models'
-
 
 let getMyLoadout = (event: Event): Loadout | null | undefined => {
 	return event.users![0]?.loadout
@@ -25,6 +28,10 @@ type EventActionsProps = {
 
 type EventActionsDialogs = 'edit' | 'delete' | 'leave' | 'checklist' | null
 
+const RaifuAlert = styled(Alert)(({ theme }) => ({
+	backgroundColor: theme.palette.primary.main,
+}))
+
 const EventActions: FC<EventActionsProps> = ({
 	event,
 	updateEvent,
@@ -33,6 +40,7 @@ const EventActions: FC<EventActionsProps> = ({
 }) => {
 	let [dialog, setDialog] = useState<EventActionsDialogs>(null)
 	let [speedDialOpen, setSpeedDialOpen] = useState(false)
+	let [snackbarOpen, setSnackbarOpen] = useState(event.users?.length === 1 || false)
 
 	const userLoadout = getMyLoadout(event)
 
@@ -41,10 +49,26 @@ const EventActions: FC<EventActionsProps> = ({
 	let canViewChecklist = userLoadout != null
 
 	// Hide the entire speed dial if no actions are available
+
 	let hasAvailableActions = event.owner || canViewChecklist
+	const handleSnackbarAction = useCallback(() => {
+		setDialog('edit')
+		setSnackbarOpen(false)
+	}, [])
+
+	const handleSnackbarClose = useCallback(
+		(event?: React.SyntheticEvent, reason?: string) => {
+			if (reason === 'clickaway') {
+				return
+			}
+
+			setSnackbarOpen(false)
+		},
+		[]
+	)
 
 	return (
-		<React.Fragment>
+		<>
 			{/* Actions */}
 			<SpeedDial
 				ariaLabel='Event Actions'
@@ -132,7 +156,28 @@ const EventActions: FC<EventActionsProps> = ({
 					onClose={ () => setDialog(null) }
 				/>
 			)}
-		</React.Fragment>
+
+			<Snackbar open={ snackbarOpen } onClose={ handleSnackbarClose } autoHideDuration={ 6000 }>
+				<RaifuAlert
+					elevation={ 6 }
+					variant='filled'
+					onClose={ handleSnackbarClose }
+					icon={ <PersonAddOutlined /> }
+					action={
+						<>
+							<Button onClick={ handleSnackbarAction } variant='text'>
+								Invite
+							</Button>
+							<IconButton onClick={ handleSnackbarClose } size='small'>
+								<Close />
+							</IconButton>
+						</>
+					}
+				>
+					Get some backup and bring some friends!
+				</RaifuAlert>
+			</Snackbar>
+		</>
 	)
 }
 
