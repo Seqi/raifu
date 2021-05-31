@@ -24,20 +24,20 @@ export const ResourceCard = styled(Card)({
 //     Card Header
 // ##################
 // Override the default CardHeaderProps to take in a resource
-export type ResourceCardHeaderProps<R extends Resource> = Omit<
+export type ResourceCardHeaderProps<ResourceItem extends Resource> = Omit<
 	CardHeaderProps,
 	'resource'
 > & {
-	resource: R
+	resource: ResourceItem
 }
 
 // Create the component that defaults the title and subtitle to use resource
-export const ResourceCardHeaderBase = <R extends Resource>({
+export const ResourceCardHeaderBase = <ResourceItem extends Resource>({
 	resource,
 	title = resource.getTitle(),
 	subheader = resource.getSubtitle(),
 	...props
-}: ResourceCardHeaderProps<R>) => (
+}: ResourceCardHeaderProps<ResourceItem>) => (
 		<CardHeader title={ resource.getTitle() } subheader={ resource.getSubtitle() } { ...props } />
 	)
 
@@ -45,20 +45,47 @@ export const ResourceCardHeader = withStyles((theme) => ({
 	root: {
 		paddingBottom: 0,
 		[theme.breakpoints.down('xs')]: {
-			paddingLeft: '16px',
-			paddingRight: '16px',
+			paddingLeft: theme.spacing(1),
+			paddingRight: theme.spacing(1),
+			paddingTop: theme.spacing(1),
 		},
 	},
 	content: {
 		borderBottom: `2px solid ${theme.palette.primary.main}`,
 		paddingBottom: '5px',
+		width: '100%',
+
+		whiteSpace: 'nowrap',
 	},
 	title: {
 		fontSize: '1.1rem',
 		fontWeight: 700,
+		transition: theme.transitions.create('font-size', {
+			easing: theme.transitions.easing.easeInOut,
+			duration: theme.transitions.duration.shortest,
+		}),
+
+		// Hide around x button
+		maxWidth: 'calc(100% - 8px)',
+
+		textOverflow: 'ellipsis',
+		overflow: 'hidden',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '0.9rem',
+		},
+		[theme.breakpoints.down('xs')]: {
+			fontSize: '0.75rem',
+		},
 	},
 	subheader: {
 		fontSize: '0.8rem',
+		transition: theme.transitions.create('font-size', {
+			easing: theme.transitions.easing.easeInOut,
+			duration: theme.transitions.duration.shortest,
+		}),
+
+		textOverflow: 'ellipsis',
+		overflow: 'hidden',
 		[theme.breakpoints.down('xs')]: {
 			fontSize: '0.6rem',
 		},

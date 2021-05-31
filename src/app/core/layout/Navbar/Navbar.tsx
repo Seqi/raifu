@@ -1,21 +1,10 @@
-import { FC, useContext, useState } from 'react'
+import { FC, useContext } from 'react'
 import PropTypes from 'prop-types'
-import {
-	Box,
-	styled,
-	IconButton,
-	Badge,
-	Tooltip,
-	BoxProps,
-	useMediaQuery,
-	Theme,
-} from '@material-ui/core'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
+import { Box, styled, BoxProps, useMediaQuery, Theme } from '@material-ui/core'
 
 import { UserContext } from 'app/core/auth/contexts'
 import { Logo, LogoProps } from '../Logo'
 import UserProfile from './Profile'
-import ViewChangeLogDialog from './Updates/ViewChangeLogDialog'
 
 const NavbarContainer = styled(Box)(({ theme }) => ({
 	[theme.breakpoints.down(376)]: {
@@ -30,10 +19,7 @@ type NavbarProps = BoxProps & {
 }
 
 const Navbar: FC<NavbarProps> = ({ showLogo, logoProps, ...props }) => {
-	const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-	const [hasUpdates, setHasUpdates] = useState<boolean>(false)
 	const user = useContext(UserContext)
-
 	const small = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
 
 	return (
@@ -58,30 +44,12 @@ const Navbar: FC<NavbarProps> = ({ showLogo, logoProps, ...props }) => {
 
 			{/* Right Side */}
 			<Box display='flex' marginLeft='auto' paddingLeft={ 2 }>
-				<Tooltip title='View change log'>
-					<IconButton
-						onClick={ (_) => setDialogOpen(true) }
-						edge={ user ? false : 'end' }
-						size={ small ? 'small' : 'medium' }
-					>
-						<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
-							<InfoOutlinedIcon />
-						</Badge>
-					</IconButton>
-				</Tooltip>
-
 				{user && (
 					<Box marginLeft={ { xs: 1, sm: 3 } } marginY='auto'>
 						<UserProfile user={ user } small={ small } />
 					</Box>
 				)}
 			</Box>
-
-			<ViewChangeLogDialog
-				onHasUpdates={ setHasUpdates }
-				isOpen={ dialogOpen }
-				onClose={ () => setDialogOpen(false) }
-			/>
 		</NavbarContainer>
 	)
 }

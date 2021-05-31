@@ -1,9 +1,8 @@
-import { useState, useEffect, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { ArmoryItems, Category, PlatformOf } from 'app/data/constants/platforms'
 import { ArmoryItem, ArmoryItemPropShape } from '../models/armory-item'
-import RotatedImage from 'app/shared/images/RotatedImage'
 
 const defaults: {
 	[CKey in Category]: {
@@ -49,7 +48,8 @@ const defaults: {
 const loadImage = (
 	resourceCategory: string,
 	resourceType: string,
-	resourcePlatform: string
+	resourcePlatform: string,
+	rotate?: boolean
 ): string | undefined => {
 	try {
 		let formattedPlatform = resourcePlatform
@@ -57,6 +57,10 @@ const loadImage = (
 			.replace(/[.]/g, '')
 			.replace(/\s/g, '-')
 			.replace(/\//g, '-')
+
+		if (rotate) {
+			formattedPlatform += '-flat'
+		}
 
 		// TODO: Use esnext modules
 		return require(`assets/outlines/${resourceCategory}/${resourceType}/${formattedPlatform}.svg`)
@@ -71,14 +75,20 @@ type ResourceImageProps = {
 	resourceType: Category
 	resource: ArmoryItem
 	rotate?: boolean
+	style?: React.CSSProperties
 }
 
-const ArmoryItemImage: FC<ResourceImageProps> = ({ resourceType, resource, rotate }) => {
+const ArmoryItemImage: FC<ResourceImageProps> = ({
+	resourceType,
+	resource,
+	rotate,
+	style,
+}) => {
 	// TODO: Type
 	let [image, setImage] = useState<any>()
 
 	useEffect(() => {
-		let img = loadImage(resourceType, resource.type, resource.platform)
+		let img = loadImage(resourceType, resource.type, resource.platform, rotate)
 
 		// Try fetch a default for the provided options
 		if (!img) {
@@ -101,10 +111,16 @@ const ArmoryItemImage: FC<ResourceImageProps> = ({ resourceType, resource, rotat
 		}
 
 		setImage(img)
-	}, [resourceType, resource])
+	}, [resourceType, resource, rotate])
 
 	if (image) {
-		return <RotatedImage image={ image } rotateBy={ rotate ? 45 : 0 } />
+		return (
+			<img
+				style={ { ...{ width: '100%', height: '100%' }, ...style } }
+				alt={ resource.platform }
+				src={ image }
+			/>
+		)
 	}
 
 	return <div />
@@ -115,10 +131,12 @@ ArmoryItemImage.propTypes = {
 	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
 		.isRequired,
 	resource: PropTypes.shape(ArmoryItemPropShape).isRequired,
+	style: PropTypes.object,
 }
 
 ArmoryItemImage.defaultProps = {
 	rotate: false,
+	style: {},
 }
 
 export default ArmoryItemImage

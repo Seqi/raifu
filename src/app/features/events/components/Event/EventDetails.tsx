@@ -11,6 +11,7 @@ import EventActions from './EventActions'
 
 import { EventUpdate } from '../EditEventDialog'
 import { Event } from '../../models'
+import { Box } from '@material-ui/core'
 
 let analytics = firebase.analytics()
 
@@ -154,7 +155,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 		}
 
 		return (
-			<React.Fragment>
+			<Box display='flex' flexDirection='row'>
 				<EventHeader event={ event! } />
 
 				<EventContent
@@ -170,7 +171,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 					deleteEvent={ () => this.deleteEvent() }
 					leaveEvent={ () => this.leaveEvent() }
 				/>
-			</React.Fragment>
+			</Box>
 		)
 	}
 }

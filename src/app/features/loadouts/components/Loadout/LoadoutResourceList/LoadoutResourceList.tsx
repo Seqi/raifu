@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext, FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Grid, Box, styled } from '@material-ui/core'
+import { Grid, GridProps, styled } from '@material-ui/core'
 
 import { Category } from 'app/data/constants/platforms'
 import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
@@ -10,24 +10,55 @@ import AddButton from 'app/shared/actions/add/AddButton'
 import LoadoutResourceItem from './LoadoutResourceItem'
 import LoadoutContext from '../LoadoutContext'
 
-const LoadoutResourceItemContainer = styled(Box)(({ theme }) => ({
-	flex: '1 1 auto',
-	minWidth: '250px',
-	maxWidth: '33%',
-	minHeight: '200px',
-	maxHeight: '300px',
+const ResourceGridItem = styled(Grid)(({ theme }) => ({
+	width: '300px',
+	minHeight: '250px',
+	padding: theme.spacing(4),
 
-	padding: '1rem 1.5rem',
+	'& .fa-plus': {
+		fontSize: '3.5rem',
+	},
+
+	[theme.breakpoints.down('lg')]: {
+		'& .item-text, & .fa-times': {
+			fontSize: '0.9rem',
+		},
+
+		'& .fa-plus': {
+			fontSize: '3rem',
+		},
+
+		padding: theme.spacing(3),
+		width: 'initial',
+	},
+
+	[theme.breakpoints.down('md')]: {
+		'& .fa-plus': {
+			fontSize: '2.5rem',
+		},
+
+		minHeight: '200px',
+		padding: theme.spacing(2),
+	},
+
+	[theme.breakpoints.down('sm')]: {
+		'& .item-text, & .fa-times': {
+			fontSize: '0.8rem',
+		},
+		'& .fa-plus': {
+			fontSize: '2rem',
+		},
+
+		minHeight: '175px',
+		padding: theme.spacing(1.5),
+	},
 
 	[theme.breakpoints.down('xs')]: {
-		minWidth: '150px',
-		maxWidth: '50%',
-		minHeight: '100px',
-		maxHeight: '200px',
-
-		padding: '0.4rem 1rem',
+		minHeight: '150px',
 	},
 }))
+
+const ResourceGrid = styled(Grid)(({ theme }) => ({}))
 
 type LoadoutResourceListProps<T extends ArmoryItem = ArmoryItem> = {
 	resourceType: Category // TODO Remove weapon,
@@ -40,6 +71,7 @@ type LoadoutResourceListProps<T extends ArmoryItem = ArmoryItem> = {
 		onClose: () => any,
 		addItemToLoadout: (itemIds: string | string[]) => Promise<any>
 	) => React.ReactNode
+	gridItemProps?: GridProps
 }
 
 const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
@@ -49,6 +81,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 	addItem,
 	deleteItem,
 	renderAddDialog,
+	gridItemProps,
 }) => {
 	let [dialog, setDialog] = useState<'add' | null>(null)
 	let { editable } = useContext(LoadoutContext)
@@ -63,24 +96,24 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 
 	return (
 		<React.Fragment>
-			<Grid container={ true }>
+			<ResourceGrid container={ true }>
 				{items.map((item) => (
-					<LoadoutResourceItemContainer key={ item.id }>
+					<ResourceGridItem item={ true } key={ item.id } xs={ 4 } xl='auto' { ...gridItemProps }>
 						<LoadoutResourceItem
 							resourceType={ resourceType }
 							item={ item }
 							canDelete={ editable }
 							onDelete={ deleteItem }
 						/>
-					</LoadoutResourceItemContainer>
+					</ResourceGridItem>
 				))}
 
 				{editable && canAdd && (
-					<LoadoutResourceItemContainer>
+					<ResourceGridItem item={ true } xs={ 4 } xl='auto' { ...gridItemProps }>
 						<AddButton onClick={ () => setDialog('add') } />
-					</LoadoutResourceItemContainer>
+					</ResourceGridItem>
 				)}
-			</Grid>
+			</ResourceGrid>
 
 			{editable &&
 				canAdd &&
@@ -103,6 +136,11 @@ LoadoutResourceList.propTypes = {
 	addItem: PropTypes.func.isRequired,
 	deleteItem: PropTypes.func.isRequired,
 	renderAddDialog: PropTypes.func.isRequired,
+	gridItemProps: PropTypes.object,
+}
+
+LoadoutResourceList.defaultProps = {
+	gridItemProps: {},
 }
 
 export default LoadoutResourceList

@@ -22,24 +22,16 @@ type AppProps = RouteChildrenProps
 const App: FC<AppProps> = ({ history, location }) => {
 	useRouteAnalytics()
 
-	let [tabIndex, setTabIndex] = useState(() => {
-		// Fixes active tab on direct navigations
-		// TODO: Just use a key/val?
-		let idxMap = [
-			{ path: '/armory', idx: 0 },
-			{ path: '/loadouts', idx: 1 },
-			{ path: '/events', idx: 2 },
-		]
-
-		let currPath = location.pathname
-
-		for (let map of idxMap) {
-			if (currPath.indexOf(map.path) > -1) {
-				return map.idx
-			}
+	let [tabIndex, setTabIndex] = useState<number>(() => {
+		let idxMap: { [key: string]: number } = {
+			armory: 0,
+			loadouts: 1,
+			events: 2,
 		}
 
-		return 0
+		let currPath = location.pathname.split('/')[1]
+
+		return idxMap[currPath] || 0
 	})
 
 	let onAuthFailure = useCallback(() => history.push('/login'), [history])
@@ -60,7 +52,7 @@ const App: FC<AppProps> = ({ history, location }) => {
 			</Tabs>
 
 			{/* TODO: Basename for router to /app? */}
-			<Box paddingY={ 2 }>
+			<Box paddingY={ { xs: 3, sm: 6 } }>
 				<Suspense fallback={ <LoadingOverlay /> }>
 					<Switch>
 						<AuthenticatedRoute

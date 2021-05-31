@@ -9,26 +9,31 @@ import {
 	ResourceCard,
 	ResourceCardHeader,
 	ResourceCardContent,
-	ResourceCardProps,
+	ResourceItemProps,
 } from 'app/features/resource'
 
 import { Loadout, LoadoutPropType } from '../../models'
 import LoadoutSummary from '../LoadoutSummary'
 
-export const LoadoutCardContainer = styled(ResourceCard)({
+export const LoadoutCardContainer = styled(ResourceCard)(({ theme }) => ({
 	// For cards with non-height-affecting content (i.e. add card),
 	// give it some height
-	minHeight: '175px',
+	height: '300px',
+	width: '100%',
 	'&:hover': {
 		transform: 'scale(1.005)',
 	},
-})
+
+	[theme.breakpoints.down('xs')]: {
+		height: '175px',
+	},
+}))
 
 const LoadoutCardContent = styled(ResourceCardContent)({
 	overflow: 'unset',
 })
 
-export type LoadoutCardProps = ResourceCardProps<Loadout>
+export type LoadoutCardProps = ResourceItemProps<Loadout>
 
 export const LoadoutCard: FC<LoadoutCardProps> = ({ item, onClick, onDelete }) => (
 	<LoadoutCardContainer onClick={ onClick }>

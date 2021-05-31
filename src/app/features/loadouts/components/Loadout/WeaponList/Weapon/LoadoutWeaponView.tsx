@@ -1,17 +1,18 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, styled } from '@material-ui/core'
+import { Box, Slide, styled } from '@material-ui/core'
 
 import LoadoutWeaponItem from './LoadoutWeaponItem'
 import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
+import { LoadoutWeaponTitle } from '../../LoadoutItemTitle'
 
 const LoadoutWeaponContainer = styled(Box)(({ theme }) => ({
 	flexDirection: 'row',
 	[theme.breakpoints.down('xs')]: {
-		flexDirection: 'column'
-	}
+		flexDirection: 'column',
+	},
 }))
 
 type LoadoutWeaponProps = {
@@ -21,19 +22,26 @@ type LoadoutWeaponProps = {
 const LoadoutWeaponView: FC<LoadoutWeaponProps> = ({ weapon }) => {
 	return (
 		<LoadoutWeaponContainer display='flex'>
-			<div style={ { flex: '1' } }>
-				<LoadoutWeaponItem weapon={ weapon } />
-			</div>
+			<Slide in={ true } direction='right'>
+				<Box display='flex' flexDirection='column' flex={ 3 } position='relative'>
+					<LoadoutWeaponTitle variant='h4' align='center'>
+						{weapon.getTitle()}
+					</LoadoutWeaponTitle>
+					<LoadoutWeaponItem weapon={ weapon } />
+				</Box>
+			</Slide>
 
-			<div style={ { flex: 2 } }>
-				<LoadoutWeaponAttachmentList weapon={ weapon } />
-			</div>
+			<Slide in={ true } timeout={ 400 } direction='right'>
+				<Box flex={ 5 }>
+					<LoadoutWeaponAttachmentList weapon={ weapon } />
+				</Box>
+			</Slide>
 		</LoadoutWeaponContainer>
 	)
 }
 
 LoadoutWeaponView.propTypes = {
-	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired
+	weapon: PropTypes.shape(LoadoutWeaponPropType).isRequired,
 }
 
 export default LoadoutWeaponView

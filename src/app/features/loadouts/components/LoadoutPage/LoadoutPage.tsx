@@ -1,12 +1,10 @@
 import React from 'react'
 
-import { Chip, Tooltip, Box } from '@material-ui/core'
 import { RouteChildrenProps } from 'react-router-dom'
 
 import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
 import { LoadoutView } from 'app/features/loadouts'
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
 import LoadoutActions from './LoadoutActions'
 import firebase from '../../../../../firebase'
@@ -17,7 +15,6 @@ let analytics = firebase.analytics()
 type LoadoutPageProps = RouteChildrenProps<{ id: string }>
 type LoadoutPageState = {
 	loadout?: Loadout
-	shared: boolean
 	loading: boolean
 	error?: any
 }
@@ -28,7 +25,6 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 	constructor(props: LoadoutPageProps) {
 		super(props)
 		this.state = {
-			shared: false,
 			loading: true,
 		}
 	}
@@ -43,7 +39,7 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 				.getById(this.props.match!.params.id)
 				.then((loadout) => {
 					if (!this.isUnmounted) {
-						this.setState({ loadout, shared: loadout.shared, loading: false })
+						this.setState({ loadout, loading: false })
 					}
 				})
 				.catch((err) => {
@@ -75,11 +71,15 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 
 	setShared(shared: boolean) {
 		shared ? analytics.logEvent('loadout_shared') : analytics.logEvent('loadout_unshared')
-		this.setState({ shared })
+		this.setState(({ loadout }) => {
+			return {
+				loadout: { ...loadout!, shared },
+			}
+		})
 	}
 
 	render() {
-		let { loading, error, loadout, shared } = this.state
+		let { loading, error, loadout } = this.state
 
 		if (loading) {
 			return <LoadingOverlay />
@@ -99,28 +99,15 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 		}
 
 		return (
-			<React.Fragment>
-				<ReactiveTitle>
-					{loadout!.name}
-					{shared && (
-						<Box component='span' paddingLeft={ 1 }>
-							<Tooltip placement='right' title='Loadout has been shared!'>
-								<Chip label='Shared' size='small' color='primary' />
-							</Tooltip>
-						</Box>
-					)}
-				</ReactiveTitle>
-
-				<div>
-					<LoadoutView loadout={ loadout! } editable={ true } />
-				</div>
+			<>
+				<LoadoutView loadout={ loadout! } editable={ true } />
 
 				<LoadoutActions
 					loadout={ loadout! }
 					editLoadout={ (loadout) => this.editLoadout(loadout) }
 					onSharedChanged={ (shared) => this.setShared(shared) }
 				/>
-			</React.Fragment>
+			</>
 		)
 	}
 }

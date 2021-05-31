@@ -1,21 +1,20 @@
 import React, { useContext } from 'react'
 
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
-
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
-import AddResourceDialog from '../dialogs/AddResourceDialog'
+import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 import LoadoutContext from '../LoadoutContext'
+import { LoadoutWeaponTitle } from '../LoadoutItemTitle'
 
 let LoadoutClothingList = () => {
 	let { loadout, addClothing, deleteClothing } = useContext(LoadoutContext)
 	let { clothing: availableClothing } = useContext(AvailableArmoryContext)
 
 	return (
-		<React.Fragment>
-			<ReactiveTitle variant='h4' mobileVariant='h5'>
+		<section>
+			<LoadoutWeaponTitle variant='h4' align='center'>
 				Clothing
-			</ReactiveTitle>
+			</LoadoutWeaponTitle>
 
 			<LoadoutResourceList
 				resourceType='clothing'
@@ -24,7 +23,7 @@ let LoadoutClothingList = () => {
 				addItem={ addClothing }
 				deleteItem={ deleteClothing }
 				renderAddDialog={ (isOpen, onClose, onSave) => (
-					<AddResourceDialog
+					<AddArmoryItemDialog
 						title='Add clothing to loadout'
 						items={ availableClothing || [] }
 						category='clothing'
@@ -34,8 +33,14 @@ let LoadoutClothingList = () => {
 						onClose={ onClose }
 					/>
 				) }
+				gridItemProps={ {
+					xs: 4,
+					sm: 3,
+					md: 2,
+					xl: 'auto',
+				} }
 			/>
-		</React.Fragment>
+		</section>
 	)
 }
 

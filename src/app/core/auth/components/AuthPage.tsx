@@ -34,7 +34,7 @@ const AuthPage: FC<AuthPageProps> = ({ history }) => {
 
 	return (
 		<div>
-			<Logo pt={ 4 } maxWidth='95%' marginX='auto' width='500px' />
+			<Logo pt={ 4 } maxWidth='75%' marginX='auto' width='500px' />
 
 			<AuthFormContainer>
 				<Router basename='/login'>

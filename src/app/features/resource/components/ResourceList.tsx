@@ -1,55 +1,65 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { Grid, Fade } from '@material-ui/core'
+import { Grid, Fade, GridProps } from '@material-ui/core'
 
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 import AddButton from 'app/shared/actions/add/AddButton'
 import { Resource } from '../models/resource'
 
-export type AddResourceDialogProps<R extends Resource = Resource> = {
+export type AddResourceDialogProps<ResourceItem extends Resource = Resource> = {
 	isOpen: boolean
 	onClose: () => void
-	onSave: (resource: R) => Promise<any>
+	onSave: (resource: ResourceItem) => Promise<any>
 }
 
-export type ResourceCardProps<R extends Resource = Resource> = {
-	item: R
+export type ResourceItemProps<ResourceItem extends Resource = Resource> = {
+	item: ResourceItem
 	onClick: () => void
 	onDelete: () => Promise<void>
 }
 
-export type ResourceListProps<R extends Resource = Resource> = {
-	items: R[]
-	renderAddDialog: (props: AddResourceDialogProps<R>) => React.ReactNode
-	card: React.ComponentType<ResourceCardProps<R>>
-	cardContainer: React.ComponentType<any>
-	onResourceClick: (item: R) => any
-	addResource: (resource: R) => Promise<any>
-	deleteResource: (item: R) => Promise<any>
-	fullWidth?: boolean
+export type ResourceListProps<ResourceItem extends Resource = Resource> = {
+	items: ResourceItem[]
+	renderAddDialog: (props: AddResourceDialogProps<ResourceItem>) => React.ReactNode
+
+	// Events
+	onResourceClick: (item: ResourceItem) => any
+	addResource: (resource: ResourceItem) => Promise<any>
+	deleteResource: (item: ResourceItem) => Promise<any>
+
+	// Define how a single resource item looks
+	ItemTemplate: React.ComponentType<ResourceItemProps<ResourceItem>>
+
+	// Define how the add button looks
+	AddButtonTemplate: React.ComponentType<any>
+
+	// Styling
+	gridContainerProps?: GridProps
+	gridItemProps?: GridProps
 }
 
 export const ResourceList = <R extends Resource = Resource>({
 	renderAddDialog,
 	items,
-	card,
-	cardContainer,
+	ItemTemplate,
+	AddButtonTemplate,
 	onResourceClick,
 	addResource,
 	deleteResource,
-	fullWidth,
+	gridContainerProps,
+	gridItemProps,
 }: ResourceListProps<R>) => {
 	let [dialog, setDialog] = useState<'add' | null>(null)
 
 	return (
-		<React.Fragment>
-			<Grid container={ true } spacing={ 2 }>
-				<StaggeredAnimation maxDuration={ 1000 }>
+		<>
+			<Grid { ...gridContainerProps } container={ true }>
+				<StaggeredAnimation maxDuration={ 250 }>
 					{items.map((item) => (
-						<Fade key={ item.id } in={ true } timeout={ 1000 }>
-							<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
-								{React.createElement(card, {
+						<Fade key={ item.id } in={ true } timeout={ 750 }>
+							<Grid { ...gridItemProps } item={ true }>
+								{React.createElement(ItemTemplate, {
 									item: item,
 									onClick: () => onResourceClick(item),
 									onDelete: () => deleteResource(item),
@@ -59,9 +69,9 @@ export const ResourceList = <R extends Resource = Resource>({
 					))}
 
 					<Fade key='add' in={ true } timeout={ 1000 }>
-						<Grid item={ true } xs={ fullWidth ? 12 : 6 } sm={ fullWidth ? 12 : 'auto' }>
+						<Grid { ...gridItemProps } item={ true }>
 							{React.createElement(
-								cardContainer,
+								AddButtonTemplate,
 								{},
 								<AddButton onClick={ () => setDialog('add') } />
 							)}
@@ -75,7 +85,7 @@ export const ResourceList = <R extends Resource = Resource>({
 				onClose: () => setDialog(null),
 				onSave: addResource,
 			})}
-		</React.Fragment>
+		</>
 	)
 }
 
@@ -83,15 +93,18 @@ ResourceList.propTypes = {
 	renderAddDialog: PropTypes.func.isRequired,
 
 	items: PropTypes.array.isRequired,
-	card: PropTypes.any.isRequired,
+	ItemTemplate: PropTypes.any.isRequired,
+	AddButtonTemplate: PropTypes.any.isRequired,
 	onResourceClick: PropTypes.func.isRequired,
 	addResource: PropTypes.func.isRequired,
 	deleteResource: PropTypes.func.isRequired,
-	fullWidth: PropTypes.bool,
+	gridItemProps: PropTypes.object,
+	gridContainerProps: PropTypes.object,
 }
 
 ResourceList.defaultProps = {
-	fullWidth: false,
+	gridItemProps: {},
+	gridContainerProps: { spacing: 2 },
 }
 
 export default ResourceList
