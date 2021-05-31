@@ -13,7 +13,7 @@ const EventHeader: FC<EventHeaderProps> = ({ event }) => {
 
 	return (
 		<SidewaysTitle
-			mr={ 2 }
+			mr={ { xs: 1, sm: 2 } }
 			title={ event.getTitle() }
 			subtitle={ `${event.location} ${eventDate.fromNow()}` }
 			lowercase={ true }
