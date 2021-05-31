@@ -40,7 +40,9 @@ const EventActions: FC<EventActionsProps> = ({
 }) => {
 	let [dialog, setDialog] = useState<EventActionsDialogs>(null)
 	let [speedDialOpen, setSpeedDialOpen] = useState(false)
-	let [snackbarOpen, setSnackbarOpen] = useState(event.users?.length === 1 || false)
+	let [snackbarOpen, setSnackbarOpen] = useState(() => {
+		return event.public && event.users?.length === 1
+	})
 
 	const userLoadout = getMyLoadout(event)
 
