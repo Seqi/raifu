@@ -80,7 +80,7 @@ const EventContent: FC<EventContentProps> = ({
 	return (
 		<Box flex={ 1 }>
 			{event.users!.map((user, index) => (
-				<EventAccordian key={ user.uid } expanded={ soloEvent }>
+				<EventAccordian key={ user.uid } expanded={ soloEvent || undefined }>
 					<AccordionSummary expandIcon={ soloEvent ? undefined : <ExpandMoreIcon /> }>
 						<Typography align='center' className={ classes.heading }>
 							{user.displayName}
