@@ -16,6 +16,7 @@ const LoadoutWeaponContainer = styled(Box)(({ theme }) => ({
 
 const LoadoutWeaponTitle = styled(Typography)(({ theme }) => ({
 	fontSize: '2rem',
+	marginBottom: theme.spacing(2),
 
 	[theme.breakpoints.down('md')]: {
 		fontSize: '1.8rem',
