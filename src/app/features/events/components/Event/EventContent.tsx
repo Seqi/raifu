@@ -75,11 +75,13 @@ const EventContent: FC<EventContentProps> = ({
 		return <EventInvite event={ event } onJoin={ onEventJoined } />
 	}
 
+	const soloEvent = event.users!.length === 1
+
 	return (
 		<Box flex={ 1 }>
 			{event.users!.map((user, index) => (
-				<EventAccordian key={ user.uid }>
-					<AccordionSummary expandIcon={ <ExpandMoreIcon /> }>
+				<EventAccordian key={ user.uid } expanded={ soloEvent }>
+					<AccordionSummary expandIcon={ soloEvent ? undefined : <ExpandMoreIcon /> }>
 						<Typography align='center' className={ classes.heading }>
 							{user.displayName}
 						</Typography>
