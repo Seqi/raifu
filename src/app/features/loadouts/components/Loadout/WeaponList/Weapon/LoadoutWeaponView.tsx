@@ -1,28 +1,17 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, Slide, styled, Typography } from '@material-ui/core'
+import { Box, Slide, styled } from '@material-ui/core'
 
 import LoadoutWeaponItem from './LoadoutWeaponItem'
 import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
+import { LoadoutWeaponTitle } from '../../LoadoutItemTitle'
 
 const LoadoutWeaponContainer = styled(Box)(({ theme }) => ({
 	flexDirection: 'row',
 	[theme.breakpoints.down('xs')]: {
 		flexDirection: 'column',
-	},
-}))
-
-const LoadoutWeaponTitle = styled(Typography)(({ theme }) => ({
-	fontSize: '2rem',
-	marginBottom: theme.spacing(2),
-
-	[theme.breakpoints.down('md')]: {
-		fontSize: '1.8rem',
-	},
-	[theme.breakpoints.down('sm')]: {
-		fontSize: '1.5rem',
 	},
 }))
 

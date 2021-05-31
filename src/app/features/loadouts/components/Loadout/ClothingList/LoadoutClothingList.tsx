@@ -1,11 +1,10 @@
 import React, { useContext } from 'react'
 
-import ReactiveTitle from 'app/shared/text/ReactiveTitle'
-
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
 import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
 import LoadoutContext from '../LoadoutContext'
+import { LoadoutWeaponTitle } from '../LoadoutItemTitle'
 
 let LoadoutClothingList = () => {
 	let { loadout, addClothing, deleteClothing } = useContext(LoadoutContext)
@@ -13,9 +12,9 @@ let LoadoutClothingList = () => {
 
 	return (
 		<section>
-			<ReactiveTitle variant='h4' mobileVariant='h5' align='center'>
+			<LoadoutWeaponTitle variant='h4' align='center'>
 				Clothing
-			</ReactiveTitle>
+			</LoadoutWeaponTitle>
 
 			<LoadoutResourceList
 				resourceType='clothing'
