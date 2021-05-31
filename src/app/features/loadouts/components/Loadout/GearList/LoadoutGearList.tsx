@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react'
+import { FC, useContext } from 'react'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 
@@ -12,7 +12,7 @@ const LoadoutGearList: FC = () => {
 	let { gear: availableGear } = useContext(AvailableArmoryContext)
 
 	return (
-		<React.Fragment>
+		<section>
 			<ReactiveTitle variant='h4' mobileVariant='h5' align='center'>
 				Gear
 			</ReactiveTitle>
@@ -41,7 +41,7 @@ const LoadoutGearList: FC = () => {
 					xl: 'auto',
 				} }
 			/>
-		</React.Fragment>
+		</section>
 	)
 }
 

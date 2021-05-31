@@ -12,7 +12,7 @@ let LoadoutClothingList = () => {
 	let { clothing: availableClothing } = useContext(AvailableArmoryContext)
 
 	return (
-		<React.Fragment>
+		<section>
 			<ReactiveTitle variant='h4' mobileVariant='h5' align='center'>
 				Clothing
 			</ReactiveTitle>
@@ -41,7 +41,7 @@ let LoadoutClothingList = () => {
 					xl: 'auto',
 				} }
 			/>
-		</React.Fragment>
+		</section>
 	)
 }
 
