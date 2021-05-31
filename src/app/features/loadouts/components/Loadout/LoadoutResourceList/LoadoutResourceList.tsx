@@ -29,6 +29,7 @@ const ResourceGridItem = styled(Grid)(({ theme }) => ({
 		},
 
 		padding: theme.spacing(3),
+		width: 'initial',
 	},
 
 	[theme.breakpoints.down('md')]: {
