@@ -25,6 +25,13 @@ import { Event, EventPropShape } from '../../models'
 
 const EventAccordian = styled(Accordion)(({ theme }) => ({
 	minHeight: theme.spacing(7),
+
+	// Override the image size to account for smaller widths
+	'& img': {
+		[theme.breakpoints.down('xs')]: {
+			maxHeight: '200px',
+		},
+	},
 }))
 
 const useStyles = makeStyles((theme: Theme) => ({
