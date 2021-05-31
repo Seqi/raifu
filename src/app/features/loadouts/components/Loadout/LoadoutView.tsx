@@ -17,14 +17,12 @@ type LoadoutViewProps = {
 }
 
 const LoadoutContainer = styled(Box)(({ theme }) => ({
-	'& > :first-child': {
-		paddingBottom: theme.spacing(8),
-
-		[theme.breakpoints.down('xs')]: {
-			paddingBottom: theme.spacing(6),
-		},
+	margin: theme.spacing(-8, 0),
+	[theme.breakpoints.down('xs')]: {
+		margin: theme.spacing(-6, 0),
 	},
-	'& > :not(:first-child)': {
+
+	'& > *': {
 		position: 'relative',
 		padding: theme.spacing(8, 0),
 
@@ -32,7 +30,7 @@ const LoadoutContainer = styled(Box)(({ theme }) => ({
 			padding: theme.spacing(6, 0),
 		},
 
-		'&::before': {
+		'&:not(:first-child)::before': {
 			content: '""',
 			width: '30%',
 			position: 'absolute',
