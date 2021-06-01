@@ -51,11 +51,7 @@ const LoadoutView: FC<LoadoutViewProps> = ({
 			<AvailableArmoryContextProvider>
 				<Box width='100%' display='flex'>
 					{showTitle && (
-						<SidewaysTitle
-							title={ loadout!.getTitle() }
-							lowercase={ true }
-							mr={ { xs: 1, sm: 2 } }
-						/>
+						<SidewaysTitle title={ loadout!.name } lowercase={ true } mr={ { xs: 1, sm: 2 } } />
 					)}
 
 					<Box flex='1'>
