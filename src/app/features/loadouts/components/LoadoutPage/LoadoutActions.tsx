@@ -50,14 +50,16 @@ const LoadoutActions: FC<LoadoutActionsProps> = ({
 			</SpeedDial>
 
 			{/* Dialogs */}
-			<EditLoadoutDialog
-				loadout={ loadout }
-				action='Edit'
-				isOpen={ dialog === 'edit' }
-				onSave={ (name) => editLoadout(name)
-					.then(() => setDialog(null)) }
-				onClose={ () => setDialog(null) }
-			/>
+			{dialog === 'edit' && (
+				<EditLoadoutDialog
+					loadout={ loadout }
+					action='Edit'
+					isOpen={ dialog === 'edit' }
+					onSave={ (name) => editLoadout(name)
+						.then(() => setDialog(null)) }
+					onClose={ () => setDialog(null) }
+				/>
+			)}
 
 			<SetShareableDialog
 				loadout={ loadout }
