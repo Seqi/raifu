@@ -5,7 +5,7 @@ import Armory from './components/Armory'
 
 const LoadoutRouter: FC = () => (
 	<Switch>
-		<Route path='/armory' component={ Armory } />
+		<Route path='/app/armory' component={ Armory } />
 	</Switch>
 )
 

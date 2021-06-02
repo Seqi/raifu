@@ -6,8 +6,8 @@ import LoadoutPage from './components/LoadoutPage/LoadoutPage'
 
 const LoadoutRouter: FC = () => (
 	<Switch>
-		<Route path='/loadouts/:id' component={ LoadoutPage } />
-		<Route path='/loadouts' component={ LoadoutList } />
+		<Route path='/app/loadouts/:id' component={ LoadoutPage } />
+		<Route path='/app/loadouts' component={ LoadoutList } />
 	</Switch>
 )
 

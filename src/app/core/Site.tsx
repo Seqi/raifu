@@ -1,41 +1,27 @@
-import React, { FC, lazy, Suspense } from 'react'
+import React, { FC } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import LoadingOverlay from 'app/shared/state/loading/LoadingOverlay'
 import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 import AuthPage from './auth/components/AuthPage'
 
+import App from './pages/App'
+import Shared from './pages/Shared'
 import HomePage from './pages/Home'
-const App = lazy(() => import('./pages/App'))
-const Shared = lazy(() => import('./pages/Shared'))
 
 let Site: FC = () => {
 	return (
-		<React.Fragment>
-			<Router>
-				<AuthContextProvider>
-					<UserContextProvider>
-						<Switch>
-							<Route path='/login' component={ AuthPage } />
-							<Route
-								path='/'
-								render={ () => (
-									<React.Fragment>
-										<Suspense fallback={ <LoadingOverlay /> }>
-											<Switch>
-												<Route path='/' component={ HomePage } exact={ true } />
-												<Route path='/app' component={ App } />
-												<Route path='/share' component={ Shared } />
-											</Switch>
-										</Suspense>
-									</React.Fragment>
-								) }
-							/>
-						</Switch>
-					</UserContextProvider>
-				</AuthContextProvider>
-			</Router>
-		</React.Fragment>
+		<Router>
+			<AuthContextProvider>
+				<UserContextProvider>
+					<Switch>
+						<Route path='/login' component={ AuthPage } />
+						<Route path='/' component={ HomePage } exact={ true } />
+						<Route path='/app' component={ App } />
+						<Route path='/share' component={ Shared } />
+					</Switch>
+				</UserContextProvider>
+			</AuthContextProvider>
+		</Router>
 	)
 }
 
