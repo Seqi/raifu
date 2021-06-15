@@ -30,12 +30,8 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 	onChange,
 }) => {
 	let [options, setOptions] = useState<SelectedArmoryItem[]>([])
-
-	// For when an option isnt selected and the user is adding a non-listed
+	let [value, setValue] = useState<SelectedArmoryItem>({ platform: '', type: '' })
 	let [showTypes, setShowTypes] = useState<boolean>(false)
-	let [overrideValue, setOverrideValue] = useState<Partial<SelectedArmoryItem> | null>(
-		null
-	)
 
 	// TODO: Type properly, this is lazy
 	useEffect(() => {
@@ -56,69 +52,53 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 		setOptions(allOptions)
 	}, [resourceType])
 
-	// Show override fields if an override value is set
-	useEffect(() => setShowTypes(overrideValue !== null), [overrideValue])
-
 	// Push changes of override back to parent
 	useEffect(() => {
-		if (overrideValue) {
-			onChange(overrideValue as SelectedArmoryItem)
-		}
-	}, [onChange, overrideValue])
-
-	function platformSelected(value: SelectedArmoryItem | string) {
-		if (typeof value === 'string') {
-			throw Error('Unexpected string!')
-		}
-
 		onChange(value)
-		setOverrideValue(null)
-	}
+	}, [onChange, value])
 
-	function inputChanged(evt: any) {
-		const input = evt.target.value
-
+	function inputChanged(input: string) {
 		// First check to see if what they've typed exists
-		const option = options.find((o) => o.platform === input)
+		const option = options.find(
+			(o) => o.platform.toLocaleUpperCase() === input.toLocaleUpperCase()
+		)
 
 		// If it matches a resource, emit that
 		if (option) {
-			return platformSelected(option)
+			setShowTypes(false)
+			setValue({ ...option, platform: input })
 		} else {
-			setOverrideValue({ ...(overrideValue || {}), platform: input })
+			// Don't show types input if empty
+			setShowTypes(input !== '')
+			setValue({ ...value, platform: input })
 		}
 	}
 
 	function typeSelected(evt: any) {
-		setOverrideValue({ ...(overrideValue || {}), type: evt.target.value })
+		setValue({ ...value, type: evt.target.value })
 	}
 
 	return (
 		<React.Fragment>
 			<Autocomplete
 				freeSolo={ true }
-				disableClearable={ true }
 				options={ options }
+				inputValue={ value.platform }
+				onInputChange={ (_, val) => inputChanged(val) }
+				disableClearable={ true }
 				getOptionLabel={ (option) => option.platform }
 				groupBy={ (option) => option.type }
-				onChange={ (_, val) => platformSelected(val) }
 				renderInput={ (params) => (
-					<TextField
-						{ ...params }
-						fullWidth={ true }
-						label={ inputLabel }
-						onChange={ inputChanged }
-					/>
+					<TextField { ...params } fullWidth={ true } label={ inputLabel } />
 				) }
 				autoHighlight={ true }
 				PopperComponent={ AutoCompletePopper }
 			/>
-
 			{showTypes && (
 				<TextField
 					label='Type'
 					fullWidth={ true }
-					defaultValue={ '' }
+					value={ value.type }
 					onChange={ typeSelected }
 					select={ true }
 				>
