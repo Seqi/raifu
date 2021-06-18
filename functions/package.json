@@ -13,12 +13,12 @@
 		"express": "^4.17.1",
 		"firebase-admin": "^9.4.2",
 		"firebase-functions": "^3.11.0",
-		"pg": "^7.9.0",
+		"pg": "^8.6.0",
 		"sequelize": "^6.3.4",
 		"shortid": "^2.2.14"
 	},
 	"private": true,
 	"engines": {
-		"node": "10"
+		"node": "14"
 	}
 }
