@@ -7,12 +7,12 @@ import {
 	DialogTitle,
 	DialogContent,
 	DialogActions,
-	TextField,
-	Button
+	Button,
 } from '@material-ui/core'
 
 import { Error } from 'app/shared/state'
 import { Loadout, LoadoutPropType } from '../../models'
+import { TextFieldError } from 'app/shared/extensions/material/TextFieldError'
 
 type EditLoadoutDialogProps = {
 	loadout?: Loadout | null
@@ -31,15 +31,15 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 	action,
 	isOpen,
 	onSave,
-	onClose
+	onClose,
 }) => {
 	let [error, setError] = useState<string | null>(null)
 
-	let { register, handleSubmit, formState, errors } = useForm<LoadoutUpdate>({
+	let { register, handleSubmit, formState } = useForm<LoadoutUpdate>({
 		mode: 'onChange',
 		defaultValues: {
-			name: loadout?.name
-		}
+			name: loadout?.name,
+		},
 	})
 
 	let handleSave = useCallback(
@@ -65,14 +65,16 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 				<DialogContent>
 					{error && <Error error={ error } fillBackground={ true } />}
 
-					<TextField
-						inputRef={ register({ required: true }) }
+					<TextFieldError
+						inputRef={ register({
+							required: { value: true, message: 'Name is required.' },
+							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+						}) }
 						name='name'
 						label='Name'
 						type='text'
 						fullWidth={ true }
-						error={ !!errors.name }
-						helperText={ errors.name && 'Name is required.' }
+						formState={ formState }
 					/>
 				</DialogContent>
 
@@ -97,7 +99,7 @@ EditLoadoutDialog.propTypes = {
 	action: PropTypes.oneOf(['Add', 'Edit'] as const).isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	onSave: PropTypes.func.isRequired
+	onSave: PropTypes.func.isRequired,
 }
 
 EditLoadoutDialog.defaultProps = {
@@ -111,8 +113,8 @@ EditLoadoutDialog.defaultProps = {
 		gear: [],
 		clothing: [],
 		createdAt: '',
-		updatedAt: ''
-	}
+		updatedAt: '',
+	},
 }
 
 export default EditLoadoutDialog

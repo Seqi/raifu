@@ -10,7 +10,6 @@ import {
 	FormControl,
 	FormControlLabel,
 	FormHelperText,
-	TextField,
 	Button,
 	Checkbox,
 } from '@material-ui/core'
@@ -19,6 +18,7 @@ import MomentUtils from '@date-io/moment'
 
 import { Error } from 'app/shared/state'
 import { Event, EventPropShape } from '../models'
+import { TextFieldError } from 'app/shared/extensions/material/TextFieldError'
 
 const BlankEvent: Event = {
 	id: '',
@@ -98,26 +98,36 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 				<DialogContent>
 					{error && <Error error={ error } fillBackground={ true } />}
 
-					<TextField
-						inputRef={ register({ required: true }) }
+					<TextFieldError
+						inputRef={ register({
+							required: { value: true, message: 'Name is required.' },
+							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+						}) }
 						name='name'
 						label='Name'
 						type='text'
 						fullWidth={ true }
+						formState={ formState }
 					/>
 
-					<TextField
-						inputRef={ register({ required: true }) }
+					<TextFieldError
+						inputRef={ register({
+							required: { value: true, message: 'Location is required.' },
+							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+						}) }
 						name='location'
 						label='Location'
 						type='text'
 						fullWidth={ true }
+						formState={ formState }
 					/>
 
 					<MuiPickersUtilsProvider utils={ MomentUtils }>
 						<Controller
 							name='date'
-							rules={ { required: true } }
+							rules={ {
+								required: { value: true, message: 'Date is required.' },
+							} }
 							control={ control }
 							render={ ({ onChange, onBlur, value, ref }) => (
 								<DateTimePicker
@@ -127,6 +137,10 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 									label='Date'
 									fullWidth={ true }
 									value={ value }
+									inputProps={ {
+										helperText: formState.errors.date?.message,
+										error: !!formState.errors.date,
+									} }
 								/>
 							) }
 						/>
