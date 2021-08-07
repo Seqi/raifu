@@ -7,7 +7,6 @@ import {
 	DialogTitle,
 	DialogContent,
 	DialogActions,
-	TextField,
 	Button,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
@@ -18,6 +17,7 @@ import { AddResourceDialogProps } from 'app/features/resource'
 
 import { ArmoryItem } from '../models/armory-item'
 import ArmoryItemSelect from './ArmoryItemSelect'
+import { TextFieldError } from 'app/shared/extensions/material/TextFieldError'
 
 type AddArmoryItemProps = AddResourceDialogProps<ArmoryItem> & {
 	resourceTitle: string
@@ -122,12 +122,12 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 								onInputChange={ (_, val) => onChange(val) }
 								inputValue={ value }
 								renderInput={ (params) => (
-									<TextField
+									<TextFieldError
 										{ ...params }
+										name={ name }
 										fullWidth={ true }
 										label='Brand'
-										helperText={ formState.errors[name]?.message }
-										error={ !!formState.errors[name] }
+										formState={ formState }
 									/>
 								) }
 								onBlur={ onBlur }
@@ -135,7 +135,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						) }
 					/>
 
-					<TextField
+					<TextFieldError
 						name='model'
 						label='Model'
 						type='text'
@@ -143,14 +143,11 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						inputRef={ register({
 							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 						}) }
-						error={ !!formState.errors.model }
-						helperText={
-							formState.errors.model?.message ??
-							'E.g. Raider 2.0, Trident MK-II, Nighthawk'
-						}
+						helperText={ 'E.g. Raider 2.0, Trident MK-II, Nighthawk' }
+						formState={ formState }
 					/>
 
-					<TextField
+					<TextFieldError
 						name='nickname'
 						label='Nickname'
 						type='text'
@@ -158,6 +155,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						inputRef={ register({
 							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 						}) }
+						formState={ formState }
 					/>
 				</DialogContent>
 
