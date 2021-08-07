@@ -29,7 +29,7 @@ const App: FC<AppProps> = ({ location }) => {
 			events: 2,
 		}
 
-		let currPath = location.pathname.split('/')[1]
+		let currPath = location.pathname.split('/')[2]
 
 		return idxMap[currPath] || 0
 	})
