@@ -1,13 +1,12 @@
-import { useState, useCallback, useEffect, FC } from 'react'
+import { useState, useEffect, FC, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 
 import {
 	Dialog,
 	DialogTitle,
 	DialogContent,
 	DialogActions,
-	TextField,
 	Button,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
@@ -18,6 +17,7 @@ import { AddResourceDialogProps } from 'app/features/resource'
 
 import { ArmoryItem } from '../models/armory-item'
 import ArmoryItemSelect from './ArmoryItemSelect'
+import { TextFieldError } from 'app/shared/extensions/material/TextFieldError'
 
 type AddArmoryItemProps = AddResourceDialogProps<ArmoryItem> & {
 	resourceTitle: string
@@ -34,15 +34,26 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 	onClose,
 }) => {
 	let [error, setError] = useState<string | null>(null)
-	let { register, unregister, setValue, handleSubmit, formState } = useForm({
+	let { register, unregister, setValue, control, formState, handleSubmit } = useForm({
 		mode: 'onChange',
 	})
 
 	// Necessary to register the two form type/platform values
 	useEffect(() => {
-		register({ name: 'type', value: '' }, { required: true })
-		register({ name: 'platform', value: '' }, { required: true })
-
+		register(
+			{ name: 'type', value: '' },
+			{
+				required: { value: true, message: 'Brah' },
+				maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+			}
+		)
+		register(
+			{ name: 'platform', value: '' },
+			{
+				required: { value: true, message: 'Brah' },
+				maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+			}
+		)
 		// Reset the value if the dialog closes
 		return () => unregister(['type', 'platform'])
 	}, [register, unregister, isOpen])
@@ -85,37 +96,66 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						inputLabel={ resourceName }
 						resourceType={ resourceKey }
 						onChange={ setResource }
+						platformTextFieldProps={
+							formState.errors.platform && {
+								error: true,
+								helperText: formState.errors.platform.message,
+							}
+						}
+						typeTextFieldProps={
+							formState.errors.type && {
+								error: true,
+								helperText: formState.errors.type.message,
+							}
+						}
 					/>
 
-					<Autocomplete
-						options={ brands.slice() }
-						freeSolo={ true }
-						renderInput={ (params) => (
-							<TextField
-								name='brand'
-								inputRef={ register }
-								{ ...params }
-								fullWidth={ true }
-								label='Brand'
+					<Controller
+						name='brand'
+						control={ control }
+						rules={ { maxLength: { value: 64, message: 'Cannot exceed 64 characters.' } } }
+						defaultValue={ '' }
+						render={ ({ onChange, onBlur, value, name }) => (
+							<Autocomplete
+								options={ brands.slice() }
+								freeSolo={ true }
+								onInputChange={ (_, val) => onChange(val) }
+								inputValue={ value }
+								renderInput={ (params) => (
+									<TextFieldError
+										{ ...params }
+										name={ name }
+										fullWidth={ true }
+										label='Brand'
+										formState={ formState }
+									/>
+								) }
+								onBlur={ onBlur }
 							/>
 						) }
 					/>
 
-					<TextField
+					<TextFieldError
 						name='model'
 						label='Model'
 						type='text'
 						fullWidth={ true }
-						inputRef={ register }
-						helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
+						inputRef={ register({
+							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+						}) }
+						helperText={ 'E.g. Raider 2.0, Trident MK-II, Nighthawk' }
+						formState={ formState }
 					/>
 
-					<TextField
+					<TextFieldError
 						name='nickname'
 						label='Nickname'
 						type='text'
 						fullWidth={ true }
-						inputRef={ register }
+						inputRef={ register({
+							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+						}) }
+						formState={ formState }
 					/>
 				</DialogContent>
 

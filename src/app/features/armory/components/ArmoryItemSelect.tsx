@@ -2,10 +2,11 @@ import React, { useState, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 import { titleCase } from 'title-case'
 
-import { styled, Popper, TextField, MenuItem } from '@material-ui/core'
+import { styled, Popper, TextField, MenuItem, TextFieldProps } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 
 import { platforms, Category } from 'app/data/constants'
+import { useRef } from 'react'
 
 const AutoCompletePopper = styled(Popper)({
 	'& .MuiAutocomplete-groupLabel': {
@@ -17,6 +18,8 @@ type ArmoryItemSelectProps = {
 	resourceType: Category
 	inputLabel: string
 	onChange: (value: { platform: string; type: string }) => any
+	typeTextFieldProps?: TextFieldProps
+	platformTextFieldProps?: TextFieldProps
 }
 
 export type SelectedArmoryItem = {
@@ -28,7 +31,11 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 	resourceType,
 	inputLabel,
 	onChange,
+	typeTextFieldProps,
+	platformTextFieldProps,
 }) => {
+	// Used to prevent the initial render causing the
+	let hasRendered = useRef<boolean>(false)
 	let [options, setOptions] = useState<SelectedArmoryItem[]>([])
 	let [value, setValue] = useState<SelectedArmoryItem>({ platform: '', type: '' })
 	let [showTypes, setShowTypes] = useState<boolean>(false)
@@ -53,9 +60,16 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 	}, [resourceType])
 
 	// Push changes of override back to parent
+	// Prevent initial render from triggering validations
 	useEffect(() => {
-		onChange(value)
+		if (hasRendered.current) {
+			onChange(value)
+		}
 	}, [onChange, value])
+
+	useEffect(() => {
+		hasRendered.current = true
+	})
 
 	function inputChanged(input: string) {
 		// First check to see if what they've typed exists
@@ -89,7 +103,12 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 				getOptionLabel={ (option) => option.platform }
 				groupBy={ (option) => option.type }
 				renderInput={ (params) => (
-					<TextField { ...params } fullWidth={ true } label={ inputLabel } />
+					<TextField
+						{ ...params }
+						fullWidth={ true }
+						label={ inputLabel }
+						{ ...platformTextFieldProps }
+					/>
 				) }
 				autoHighlight={ true }
 				PopperComponent={ AutoCompletePopper }
@@ -101,6 +120,7 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 					value={ value.type }
 					onChange={ typeSelected }
 					select={ true }
+					{ ...typeTextFieldProps }
 				>
 					{Object.keys(platforms[resourceType])
 						.map((type) => (
@@ -119,6 +139,13 @@ ArmoryItemSelect.propTypes = {
 	resourceType: PropTypes.oneOf(['weapons', 'attachments', 'gear', 'clothing'] as const)
 		.isRequired,
 	onChange: PropTypes.func.isRequired,
+	typeTextFieldProps: PropTypes.object,
+	platformTextFieldProps: PropTypes.object,
+}
+
+ArmoryItemSelect.defaultProps = {
+	typeTextFieldProps: {},
+	platformTextFieldProps: {},
 }
 
 export default ArmoryItemSelect
