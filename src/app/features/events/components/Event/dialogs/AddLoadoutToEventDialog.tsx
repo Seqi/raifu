@@ -76,7 +76,10 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 
 		onSave(loadoutId)
 			.then(() => onClose())
-			.then(() => setLoadoutId(''))
+			.then(() => {
+				setLoadoutId('')
+				setSubmitState({ submitting: false, error: false })
+			})
 			.catch((err) => setSubmitState({ submitting: false, error: true }))
 	}
 
