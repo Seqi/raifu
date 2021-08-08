@@ -28,10 +28,13 @@ export type FormTextField<TName extends string> = Omit<TextFieldProps, 'name'> &
 	formState: FormState<{ [key in TName]: any }>
 }
 
-export const TextFieldError = <TName extends string>(props: FormTextField<TName>) => (
-	<TextField
-		{ ...props }
-		helperText={ getErrorMessage(props.formState.errors[props.name]) ?? props.helperText }
-		error={ Boolean(props.formState.errors[props.name]) }
-	/>
-)
+export const TextFieldError = <TName extends string>({
+	formState,
+	...props
+}: FormTextField<TName>) => (
+		<TextField
+			{ ...props }
+			helperText={ getErrorMessage(formState.errors[props.name]) ?? props.helperText }
+			error={ Boolean(formState.errors[props.name]) }
+		/>
+	)
