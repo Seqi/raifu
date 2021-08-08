@@ -14,6 +14,8 @@ import { Loadout } from 'app/features/loadouts'
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import EditEventDialog, { EventUpdate } from '../EditEventDialog'
 import { Event, EventPropShape } from '../../models'
+import { GroupAdd } from '@material-ui/icons'
+import InviteDialog from './dialogs/InviteDialog'
 
 let getMyLoadout = (event: Event): Loadout | null | undefined => {
 	return event.users![0]?.loadout
@@ -26,7 +28,7 @@ type EventActionsProps = {
 	leaveEvent: () => any
 }
 
-type EventActionsDialogs = 'edit' | 'delete' | 'leave' | 'checklist' | null
+type EventActionsDialogs = 'edit' | 'delete' | 'leave' | 'checklist' | 'invite' | null
 
 const RaifuAlert = styled(Alert)(({ theme }) => ({
 	backgroundColor: theme.palette.primary.main,
@@ -54,7 +56,7 @@ const EventActions: FC<EventActionsProps> = ({
 
 	let hasAvailableActions = event.owner || canViewChecklist
 	const handleSnackbarAction = useCallback(() => {
-		setDialog('edit')
+		setDialog('invite')
 		setSnackbarOpen(false)
 	}, [])
 
@@ -115,6 +117,15 @@ const EventActions: FC<EventActionsProps> = ({
 						tooltipOpen={ true }
 					/>
 				)}
+
+				{event.public && (
+					<SpeedDialAction
+						icon={ <GroupAdd /> }
+						onClick={ () => setDialog('invite') }
+						tooltipTitle='Invite'
+						tooltipOpen={ true }
+					/>
+				)}
 			</SpeedDial>
 
 			{/* Dialogs */}
@@ -157,6 +168,10 @@ const EventActions: FC<EventActionsProps> = ({
 					isOpen={ dialog === 'checklist' }
 					onClose={ () => setDialog(null) }
 				/>
+			)}
+
+			{event.public != null && (
+				<InviteDialog isOpen={ dialog === 'invite' } onClose={ () => setDialog(null) } />
 			)}
 
 			<Snackbar open={ snackbarOpen } onClose={ handleSnackbarClose } autoHideDuration={ 6000 }>

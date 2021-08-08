@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -10,8 +10,8 @@ import {
 	TypographyProps,
 } from '@material-ui/core'
 
-type SidewaysTitleProps = BoxProps & {
-	title: string
+type SidewaysTitleProps = Omit<BoxProps, 'title'> & {
+	title: ReactNode
 	subtitle?: string
 	lowercase?: boolean
 	textProps?: TypographyProps
@@ -118,7 +118,7 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 )
 
 SidewaysTitle.propTypes = {
-	title: PropTypes.string.isRequired,
+	title: PropTypes.node.isRequired,
 	subtitle: PropTypes.string,
 	lowercase: PropTypes.bool,
 	textProps: PropTypes.object,

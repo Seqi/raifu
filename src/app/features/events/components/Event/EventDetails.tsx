@@ -5,13 +5,14 @@ import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import firebase from '../../../../../firebase'
 
-import EventHeader from './EventHeader'
 import EventContent from './EventContent'
 import EventActions from './EventActions'
 
 import { EventUpdate } from '../EditEventDialog'
 import { Event } from '../../models'
 import { Box } from '@material-ui/core'
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
+import moment from 'moment'
 
 let analytics = firebase.analytics()
 
@@ -154,9 +155,22 @@ class EventDetails extends React.Component<EventProps, EventState> {
 			)
 		}
 
+		if (!event) {
+			return (
+				<ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
+			)
+		}
+
+		const eventDate = moment(event.date)
+
 		return (
 			<Box display='flex' flexDirection='row'>
-				<EventHeader event={ event! } />
+				<SidewaysTitle
+					mr={ { xs: 1, sm: 2 } }
+					title={ event!.getTitle() }
+					subtitle={ `${event!.location} ${eventDate.fromNow()}` }
+					lowercase={ true }
+				/>
 
 				<EventContent
 					event={ event! }
