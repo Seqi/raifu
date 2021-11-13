@@ -1,75 +1,112 @@
+const { logger } = require('firebase-functions')
 let express = require('express')
 let router = express.Router()
 
 let event = require('../data/event')
 let errors = require('../utils/errors')
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
 	try {
+		logger.info('Retrieving event list', {
+			userId: req.user.uid,
+		})
+
 		let items = await event.getAll(req.user)
 
-		console.log(`[${req.user.uid}]: Successfuly retrieved ${items.length} events`)
+		logger.info(`Successfuly retrieved ${items.length} events`, {
+			userId: req.user.uid,
+			itemCount: items.length,
+			event: 'EVENT_LIST_VIEWED',
+		})
 
 		return res.json(items)
 	} catch (e) {
-		console.error(`[${req.user.uid}]: Error retrieving events`, e)
-
-		res.status(500)
-			.end()
+		logger.error('Failed to retrieve event list.', { userId: req.user.uid })
+		next(e)
 	}
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
 	let eventId = req.params.id
+	logger.info('Retrieving event.', { userId: req.user.uid, eventId })
 
 	try {
 		if (!req.params.id) {
+			logger.warn('No Id was provided to fetch event.', { userId: req.user.uid, eventId })
+
 			res.status(400)
 				.json({ error: 'Id is required' })
 		}
 
 		let item = await event.getById(eventId, req.user)
 
-		console.log(`[${req.user.uid}]: Successfuly retrieved event ${JSON.stringify(item)}`)
+		logger.info('Successfuly retrieved event', {
+			userId: req.user.uid,
+			eventId,
+			event: 'EVENT_VIEWED',
+		})
 
 		return res.json(item)
 	} catch (e) {
 		if (e instanceof errors.NotFoundError) {
-			console.warn(`[${req.user.uid}]: Could not find event with id (${req.params.id})`)
+			logger.warn('Could not find event.', { userId: req.user.uid, eventId })
 			return res.status(404)
 				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error retrieving event with id ${eventId}`, e)
-		return res.status(500)
-			.end()
+		logger.error('Error retrieving event.', {
+			userId: req.user.uid,
+			eventId,
+		})
+
+		next(e)
 	}
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
 	try {
+		logger.info('Creating event.', { userId: req.user.uid, item: req.body })
+
 		let item = await event.add(req.body, req.user)
 
-		console.log(`[${req.user.uid}]: Created event ${JSON.stringify(item)}`)
+		logger.info('Event created successfully.', {
+			userId: req.user.uid,
+			eventId: item.id,
+			item: item,
+			event: 'EVENT_CREATED',
+		})
 
 		return res.json(item)
 	} catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			console.warn(`[${req.user.uid}]: Bad request when creating event ${e.message}`)
+			logger.warn('Bad request when creating event.', {
+				userId: req.user.uid,
+				failure: e.message,
+				item: req.body,
+			})
+
 			return res.status(400)
 				.json({ errors: e.message.split(',') })
 		}
 
-		console.error(`[${req.user.uid}]: Error creating event`, e)
-		return res.status(500)
-			.end()
+		logger.error('Error creating event', {
+			userId: req.user.uid,
+			failure: e.message,
+			item: req.body,
+		})
+
+		next(e)
 	}
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
 	let eventId = req.params.id
 
+	logger.info('Updating event.', { userId: req.user.uid, eventId, item: req.body })
+
 	if (!eventId) {
+		logger.warn('No Id was provided to update event.', { userId: req.user.uid, eventId })
+
 		return res.status(400)
 			.send('Event id is required')
 	}
@@ -77,172 +114,222 @@ router.put('/:id', async (req, res) => {
 	try {
 		let canEdit = await event.canEdit(eventId, req.user)
 		if (!canEdit) {
+			logger.warn('Do not have permission to edit this event.', {
+				userId: req.user.uid,
+				eventId,
+				item: req.body,
+			})
+
 			return res.status(401)
 				.end()
 		}
 
 		let item = await event.edit(eventId, req.body, req.user)
 
-		console.log(`[${req.user.uid}]: Updated event ${JSON.stringify(item)}`)
+		logger.info('Updated event', {
+			userId: req.user.uid,
+			eventId,
+			item: item,
+			event: 'EVENT_UPDATED',
+		})
 
 		return res.status(204)
 			.end()
 	} catch (e) {
 		if (e instanceof errors.BadRequestError) {
-			console.warn(`[${req.user.uid}]: Bad request when updating event ${e.message}`)
+			logger.warn('Bad request when updating event.', {
+				userId: req.user.uid,
+				failure: e.message,
+				item: req.body,
+			})
+
 			return res.status(400)
-				.json({ errors: e })
+				.json({ errors: e.message.split(',') })
 		}
 
 		if (e instanceof errors.NotFoundError) {
-			console.warn(
-				`[${req.user.uid}]: Could not find event to update with id (${eventId})`
-			)
+			logger.warn('Could not find event.', { userId: req.user.uid, eventId })
 			return res.status(404)
 				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error updating event`, e)
-		return res.status(500)
-			.end()
+		logger.error('Error updating event.', {
+			userId: req.user.uid,
+			eventId,
+			item: req.body,
+		})
+
+		next(e)
 	}
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
 	let eventId = req.params.id
+
+	logger.info('Deleting event', { userId: req.user.uid, eventId })
 
 	try {
 		let canEdit = await event.canEdit(eventId, req.user)
 		if (!canEdit) {
+			logger.warn('Do not have permission to delete this event.', {
+				userId: req.user.uid,
+				eventId,
+			})
+
 			return res.status(401)
 				.end()
 		}
 
 		await event.remove(eventId, req.user)
 
-		console.log(`[${req.user.uid}]: Deleted event`, eventId)
+		logger.info('Successfully deleted event', {
+			userId: req.user.uid,
+			eventId,
+			event: 'EVENT_DELETED',
+		})
 
 		return res.status(204)
 			.end()
 	} catch (e) {
 		if (e instanceof errors.NotFoundError) {
-			console.warn(
-				`[${req.user.uid}]: Attempted to delete event that does not exist (${eventId})`
-			)
+			logger.warn('Could not find event.', { userId: req.user.uid, eventId })
 
 			return res.status(404)
 				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error deleting event`, e)
-		return res.status(500)
-			.end()
+		logger.error('Error deleting event.', { userId: req.user.uid, eventId })
+
+		next(e)
 	}
 })
 
-router.post('/:eventId/loadout/remove', async (req, res) => {
+router.post('/:eventId/loadout/remove', async (req, res, next) => {
 	let eventId = req.params.eventId
+
+	logger.info('Removing loadout from event.', { user: req.user.uid, eventId })
 
 	try {
 		let newEvent = await event.setLoadout(eventId, null, req.user)
-		console.log(`[${req.user.uid}]: Removed loadout from event ${eventId}`)
+
+		logger.info('Successfully removed loadout from event.', {
+			user: req.user.uid,
+			eventId,
+			event: 'EVENT_REMOVED_LOADOUT',
+		})
 
 		return res.json(newEvent)
 	} catch (e) {
 		if (e instanceof errors.NotFoundError) {
-			console.warn(
-				`[${req.user.uid}]: Attempted to remove loadout on event that does not exist (eventId: ${eventId})`
-			)
+			logger.warn('Could not find event.', { userId: req.user.uid, eventId })
 
 			return res.status(404)
 				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error removing loadout from event`, e)
-		return res.status(500)
-			.end()
+		logger.error('Error removing loadout from event.', { userId: req.user.uid, eventId })
+
+		next(e)
 	}
 })
 
-router.post('/:eventId/loadout/:loadoutId', async (req, res) => {
+router.post('/:eventId/loadout/:loadoutId', async (req, res, next) => {
 	let eventId = req.params.eventId
 	let loadoutId = req.params.loadoutId
 
+	logger.info('Setting loadout on event.', { user: req.user.uid, eventId, loadoutId })
+
 	try {
 		let newEvent = await event.setLoadout(eventId, loadoutId, req.user)
-		console.log(`[${req.user.uid}]: Added loadout ${loadoutId} to event ${eventId}`)
+
+		logger.info('Successfully set loadout on event.', {
+			user: req.user.uid,
+			eventId,
+			loadoutId,
+			event: 'EVENT_SET_LOADOUT',
+		})
 
 		return res.json(newEvent)
 	} catch (e) {
 		if (e instanceof errors.NotFoundError) {
-			console.warn(
-				`[${req.user.uid}]: Attempted to add loadout on event that does not exist (eventId: ${eventId} loadoutId: ${loadoutId})`
-			)
+			logger.warn('Could not find event.', { userId: req.user.uid, eventId, loadoutId })
+
 			return res.status(404)
 				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error adding loadout to event`, e)
-		return res.status(500)
-			.end()
+		logger.error('Error setting loadout on event.', {
+			userId: req.user.uid,
+			eventId,
+			loadoutId,
+		})
+
+		next(e)
 	}
 })
 
-router.post('/:eventId/join', async (req, res) => {
+router.post('/:eventId/join', async (req, res, next) => {
 	let eventId = req.params.eventId
+
+	logger.info('Joining event.', { user: req.user.uid, eventId })
 
 	try {
 		await event.join(eventId, req.user)
-		console.log(`[${req.user.uid}]: Joined event ${eventId}`)
+
+		logger.info('Successfully joined event.', {
+			user: req.user.uid,
+			eventId,
+			event: 'EVENT_JOINED',
+		})
 
 		return res.status(204)
 			.end()
 	} catch (e) {
-		console.log('Error joining event', e)
-		if (e instanceof errors.BadRequestError) {
-			console.warn(`[${req.user.uid}]: Tried to join an event they're already in`)
-			return res.status(400)
-				.end(e.message)
-		}
-
 		if (e instanceof errors.NotFoundError) {
-			console.warn(
-				`[${req.user.uid}]: Attempted to join an event that does not exist (${eventId})`
-			)
+			logger.warn('Attempted to join an event that does not exist.', {
+				userId: req.user.uid,
+				eventId,
+			})
+
 			return res.status(404)
-				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error joining event`, e)
-		return res.status(500)
-			.end()
+		logger.error('Error joining event.', { userId: req.user.uid, eventId })
+
+		next(e)
 	}
 })
 
-router.post('/:eventId/leave', async (req, res) => {
+router.post('/:eventId/leave', async (req, res, next) => {
 	let eventId = req.params.eventId
+
+	logger.info('Leaving event.', { user: req.user.uid, eventId })
 
 	try {
 		await event.leave(eventId, req.user)
-		console.log(`[${req.user.uid}]: Left event ${eventId}`)
+
+		logger.info('Successfully left event.', {
+			user: req.user.uid,
+			eventId,
+			event: 'EVENT_LEFT',
+		})
 
 		return res.status(204)
 			.end()
 	} catch (e) {
-		console.log('Error leaving event', e)
-
 		if (e instanceof errors.NotFoundError) {
-			console.warn(
-				`[${req.user.uid}]: Attempted to leave an event that does not exist or user has no access to (${eventId})`
-			)
+			logger.warn('Attempted to leave an event that does not exist.', {
+				userId: req.user.uid,
+				eventId,
+			})
 
 			return res.status(404)
 				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error leaving event`, e)
-		return res.status(500)
-			.end()
+		logger.error('Error leaving event.', { userId: req.user.uid, eventId })
+
+		next(e)
 	}
 })
 

@@ -1,3 +1,4 @@
+const { logger } = require('firebase-functions')
 let express = require('express')
 
 let errors = require('../utils/errors')
@@ -12,58 +13,92 @@ let createArmoryRoute = (entity) => {
 		tableName = tableName.slice(0, tableName.length - 1)
 	}
 
-	router.get('/', async (req, res) => {
+	router.get('/', async (req, res, next) => {
 		try {
-			let items = await baseEntity(entity).getAll(req.user)
+			logger.info(`Retrieving ${tableName}s`, {
+				userId: req.user.uid,
+			})
 
-			console.log(`[${req.user.uid}]: Successfuly retrieved ${items.length} ${tableName}s`)
+			let items = await baseEntity(entity)
+				.getAll(req.user)
+
+			logger.info(`Successfuly retrieved ${items.length} ${tableName}s`, {
+				userId: req.user.uid,
+				event: `${entity.toUpperCase()}_VIEWED`,
+			})
 
 			return res.json(items)
 		} catch (e) {
-			console.error(`[${req.user.uid}]: Error retrieving ${tableName}s`, e)
-			res.status(500).end()
+			logger.error(`Failed to retrieve ${tableName}s.`, { userId: req.user.uid })
+			next(e)
 		}
 	})
 
-	router.post('/', async (req, res) => {
+	router.post('/', async (req, res, next) => {
 		try {
-			let item = await baseEntity(entity).add(req.body, req.user)
+			logger.info(`Creating ${tableName}.`, { userId: req.user.uid, item: req.body })
 
-			console.log(`[${req.user.uid}]: Added ${tableName} ${JSON.stringify(item)}`)
+			let item = await baseEntity(entity)
+				.add(req.body, req.user)
+
+			logger.info(`Successfully created ${tableName}.`, {
+				userId: req.user.uid,
+				itemId: item.id,
+				event: `${entity.toUpperCase()}_CREATED`,
+				item,
+			})
 
 			return res.json(item)
 		} catch (e) {
 			if (e instanceof errors.BadRequestError) {
-				console.warn(`[${req.user.uid}]: Bad request when creating ${tableName} ${e.message}`)
-				return res.status(400).json({ errors: e.message.split(',') })
-			}
+				logger.warn(`Bad request when creating ${tableName} ${e.message}`, {
+					userId: req.user.uid,
+					item: req.body,
+					failure: e.message,
+				})
 
-			console.error(`[${req.user.uid}]: Error adding ${tableName}`, e)
-			return res.status(500).end()
+				return res.status(400)
+					.json({ errors: e.message.split(',') })
+			} else {
+				logger.error(`An error occurred adding ${tableName}`, {
+					userId: req.user.uid,
+					item: req.body,
+				})
+
+				next(e)
+			}
 		}
 	})
 
-	router.delete('/:id', async (req, res) => {
+	router.delete('/:id', async (req, res, next) => {
 		try {
-			let item = await baseEntity(entity).delete(req.params.id, req.user)
+			let item = await baseEntity(entity)
+				.delete(req.params.id, req.user)
 
 			if (item === 0) {
-				return res.status(404).end()
+				logger.warn(`Attempted to delete a ${entity} that did not exist.`, {
+					userId: req.user.uid,
+					itemId: req.params.id,
+					event: `${entity.toUpperCase()}_REMOVED`,
+				})
+
+				return res.status(404)
+					.end()
 			}
 
-			console.log(`[${req.user.uid}]: Deleted ${tableName} ${req.params.id}`)
+			logger.info(`Deleted ${tableName} ${req.params.id}`, {
+				userId: req.user.uid,
+				itemId: req.params.id,
+			})
 
 			return res.json(item)
 		} catch (e) {
-			if (e instanceof errors.NotFoundError) {
-				console.warn(
-					`[${req.user.uid}]: Attempted to delete ${tableName} that does not exist (${req.params.id})`
-				)
-				return res.status(404).end()
-			}
+			logger.error(`Error deleting ${tableName}`, {
+				userId: req.user.uid,
+				itemId: req.params.id,
+			})
 
-			console.error(`[${req.user.uid}]: Error deleting ${tableName}`, e)
-			return res.status(500).end()
+			next(e)
 		}
 	})
 

@@ -48,5 +48,7 @@ module.exports = (entities) => ({
 		if (result === 0) {
 			throw new errors.NotFoundError()
 		}
+
+		return result
 	},
 })

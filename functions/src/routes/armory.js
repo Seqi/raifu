@@ -1,29 +1,32 @@
+let { logger } = require('firebase-functions')
 let express = require('express')
 let router = express.Router()
 
 let baseEntity = require('../data/base-entity')
 let { Weapon, Attachment, Gear, Clothing } = require('../data/database/entities')
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
 	try {
-		let promises = [
-			baseEntity(Weapon).getAll(req.user),
+		logger.info('Retrieving armory.', { userId: req.user.uid })
 
-			baseEntity(Attachment).getAll(req.user),
+		let [weapons, attachments, gear, clothing] = await Promise.all(
+			[Weapon, Attachment, Gear, Clothing].map((entity) =>
+				baseEntity(entity)
+					.getAll(req.user)
+			)
+		)
 
-			baseEntity(Gear).getAll(req.user),
-
-			baseEntity(Clothing).getAll(req.user),
-		]
-
-		let [weapons, attachments, gear, clothing] = await Promise.all(promises)
-
-		console.log(
-			`[${req.user.uid}]: Retrieved ` +
+		logger.info(
+			'Retrieved ' +
 				`${weapons.length} weapons, ` +
 				`${attachments.length} attachments ` +
 				`${gear.length} gear ` +
-				`${clothing.length} clothing`
+				`${clothing.length} clothing`,
+			{
+				userId: req.user.uid,
+				event: 'ARMORY_LOADED',
+				itemCount: weapons.length + attachments.length + gear.length + clothing.length,
+			}
 		)
 
 		return res.json({
@@ -33,8 +36,8 @@ router.get('/', async (req, res) => {
 			clothing,
 		})
 	} catch (e) {
-		console.error(`[${req.user.uid}]: Error retrieving armory`, e)
-		res.status(500).end()
+		logger.error('Error retrieving armory.', { userId: req.user.uid })
+		next(e)
 	}
 })
 

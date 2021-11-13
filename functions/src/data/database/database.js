@@ -1,4 +1,5 @@
-const Sequelize = require('sequelize')
+const { logger } = require('firebase-functions')
+const { Sequelize } = require('sequelize')
 const shortid = require('shortid')
 
 const config = require('./config')
@@ -9,6 +10,7 @@ let database = new Sequelize(config.database, config.user, config.password, {
 	dialectOptions: {
 		useUTC: false,
 	},
+	logging: (msg) => logger.debug(msg),
 })
 
 // Adding hooks with this method adds permanent hooks, ensuring that

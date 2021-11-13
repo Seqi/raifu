@@ -1,92 +1,181 @@
+const { logger } = require('firebase-functions')
 let express = require('express')
 let router = express.Router({ mergeParams: true })
 
 let loadoutWeaponAttachment = require('../data/loadout-weapon-attachment')
 let errors = require('../utils/errors')
 
-router.post('/:attachmentId', async (req, res) => {
+router.post('/:attachmentId', async (req, res, next) => {
 	let weaponId = req.params.weaponId
 	let attachmentId = req.params.attachmentId
 	let loadoutId = req.params.loadoutId
 
+	logger.info('Adding attachment to loadout weapon.', {
+		userId: req.user.uid,
+		weaponId,
+		attachmentId,
+		loadoutId,
+	})
+
 	if (!weaponId) {
-		return res.status(400).send('Weapon id is required')
+		logger.warn('No weapon id was provided.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+		})
+
+		return res.status(400)
+			.send('Weapon id is required')
 	}
 
 	if (!attachmentId) {
-		return res.status(400).send('Attachment id is required')
+		logger.warn('No attachment id was provided.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+		})
+
+		return res.status(400)
+			.send('Attachment id is required')
 	}
 
 	if (!loadoutId) {
-		return res.status(400).send('Loadout id is required')
+		logger.warn('No loadout id was provided.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+		})
+
+		return res.status(400)
+			.send('Loadout id is required')
 	}
 
 	try {
-		let result = await loadoutWeaponAttachment.add(weaponId, attachmentId, loadoutId, req.user)
+		let result = await loadoutWeaponAttachment.add(
+			weaponId,
+			attachmentId,
+			loadoutId,
+			req.user
+		)
 
-		console.log(`Adding loadout weapon attachment. 
-			LoadoutId: ${loadoutId}. 
-			WeaponId: ${weaponId}
-			AttachmentId: ${attachmentId}`)
+		logger.info('Successfully added attachment to loadout weapon.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+			event: 'LOADOUT_ADD_WEAPON_ATTACHMENT',
+		})
 
 		return res.json(result)
 	} catch (e) {
 		if (e instanceof errors.NotFoundError) {
-			console.warn(
-				`[${req.user.uid}]: Could not find resources to add loadout weapon attachment ` +
-					`(loadoutId: ${loadoutId} weaponId: ${weaponId} attachmentId: ${attachmentId})`,
-				e
-			)
+			logger.warn('Loadout, weapon, or attachment does not exist.', {
+				userId: req.user.uid,
+				weaponId,
+				attachmentId,
+				loadoutId,
+			})
 
-			return res.status(404).end()
+			return res.status(404)
+				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error creating loadout weapon attachment`, e)
-		return res.status(500).end()
+		logger.warn('Error adding loadout weapon attachment.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+		})
+
+		next(e)
 	}
 })
 
-router.delete('/:attachmentId', async (req, res) => {
+router.delete('/:attachmentId', async (req, res, next) => {
 	let weaponId = req.params.weaponId
 	let attachmentId = req.params.attachmentId
 	let loadoutId = req.params.loadoutId
 
+	logger.info('Removing attachment from loadout weapon.', {
+		userId: req.user.uid,
+		weaponId,
+		attachmentId,
+		loadoutId,
+	})
+
 	if (!weaponId) {
-		return res.status(400).send('Weapon id is required')
+		logger.warn('No weapon id was provided.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+		})
+
+		return res.status(400)
+			.send('Weapon id is required')
 	}
 
 	if (!attachmentId) {
-		return res.status(400).send('Attachment id is required')
+		logger.warn('No attachment id was provided.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+		})
+
+		return res.status(400)
+			.send('Attachment id is required')
 	}
 
 	if (!loadoutId) {
-		return res.status(400).send('Loadout id is required')
+		logger.warn('No loadout id was provided.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+		})
+
+		return res.status(400)
+			.send('Loadout id is required')
 	}
 
 	try {
 		await loadoutWeaponAttachment.delete(weaponId, attachmentId, loadoutId, req.user)
 
-		console.log(
-			'Removed loadout weapon attachment ' +
-				`LoadoutId: ${loadoutId}. ` +
-				`WeaponId: ${weaponId} ` +
-				`AttachmentId: ${attachmentId}`
-		)
+		logger.info('Successfully removed attachment from loadout weapon.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+			event: 'LOADOUT_REMOVE_WEAPON_ATTACHMENT',
+		})
 
-		return res.status(204).end()
+		return res.status(204)
+			.end()
 	} catch (e) {
 		if (e instanceof errors.NotFoundError) {
-			console.warn(
-				`[${req.user.uid}]: Could not find resources to remove loadout weapon attachment ` +
-					`(loadoutId: ${loadoutId} weaponId: ${weaponId} attachmentId: ${attachmentId})`,
-				e
-			)
+			logger.warn('Loadout or clothing does not exist.', {
+				userId: req.user.uid,
+				weaponId,
+				attachmentId,
+				loadoutId,
+			})
 
-			return res.status(404).end()
+			return res.status(404)
+				.end()
 		}
 
-		console.error(`[${req.user.uid}]: Error removing loadout weapon attachment`, e)
-		return res.status(500).end()
+		logger.error('Error adding loadout weapon attachment.', {
+			userId: req.user.uid,
+			weaponId,
+			attachmentId,
+			loadoutId,
+		})
+
+		next(e)
 	}
 })
 

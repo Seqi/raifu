@@ -339,8 +339,9 @@ let join = async (eventId, user) => {
 		paranoid: false,
 	})
 
+	// Do nothing if they're already in the event.
 	if (eventUser && !eventUser.isSoftDeleted()) {
-		throw new errors.BadRequestError('User already in event')
+		return
 	}
 
 	// Reactivate if it exists, otherwise create

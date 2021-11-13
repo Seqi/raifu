@@ -28,6 +28,11 @@ app.get('/', (req, res) => {
 	res.send('pong')
 })
 
+app.use((err, req, res, next) => {
+	functions.logger.error('An unknown error occurred', err)
+	next(err)
+})
+
 firebase.initializeApp()
 
 module.exports.api = functions.https.onRequest(app)
