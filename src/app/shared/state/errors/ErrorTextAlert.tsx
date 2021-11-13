@@ -49,7 +49,7 @@ ErrorTextAlert.propTypes = {
 
 ErrorTextAlert.defaultProps = {
 	error: '',
-	onRetry: () => {},
+	onRetry: undefined,
 	fillBackground: false,
 }
 
