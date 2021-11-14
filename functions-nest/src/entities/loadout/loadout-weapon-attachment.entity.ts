@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, Property, Unique } from '@mikro-orm/core'
+import { Entity, ManyToOne, PrimaryKeyType, Property, Unique } from '@mikro-orm/core'
 import { Attachment, Weapon } from '../armory'
 import { LoadoutWeapon } from './loadout-weapon.entity'
 import { Loadout } from './loadout.entity'
@@ -9,6 +9,8 @@ import { Loadout } from './loadout.entity'
 	properties: ['loadoutWeapon', 'attachment'],
 })
 export class LoadoutWeaponAttachment {
+	[PrimaryKeyType]: [string, string, string]
+
 	@ManyToOne({
 		entity: () => LoadoutWeapon,
 		onUpdateIntegrity: 'cascade',
@@ -41,9 +43,9 @@ export class LoadoutWeaponAttachment {
 	})
 	attachment!: Attachment
 
-	@Property({ fieldName: 'createdAt', length: 6 })
+	@Property({ fieldName: 'createdAt' })
 	createdAt!: Date
 
-	@Property({ fieldName: 'updatedAt', length: 6 })
+	@Property({ fieldName: 'updatedAt' })
 	updatedAt!: Date
 }

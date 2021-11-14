@@ -1,9 +1,11 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
+import { nanoid } from 'nanoid'
+import { EventUser } from '.'
 
 @Entity({ tableName: 'events' })
 export class Event {
 	@PrimaryKey({ length: 14, default: '' })
-	id!: string
+	id: string = nanoid(14)
 
 	@Property({ length: 256 })
 	name!: string
@@ -17,12 +19,15 @@ export class Event {
 	@Property({ length: 32 })
 	organiserUid!: string
 
-	@Property()
-	public = false
+	@Property({ default: false })
+	public: boolean
 
-	@Property({ fieldName: 'createdAt', length: 6 })
+	@Property({ fieldName: 'createdAt' })
 	createdAt!: Date
 
-	@Property({ fieldName: 'updatedAt', length: 6 })
+	@Property({ fieldName: 'updatedAt' })
 	updatedAt!: Date
+
+	@OneToMany(() => EventUser, (user) => user.event)
+	users: EventUser
 }

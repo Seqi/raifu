@@ -1,10 +1,12 @@
-import { Entity, ManyToMany, PrimaryKey, Property } from '@mikro-orm/core'
-import { Weapon } from '../armory'
+import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
+import { nanoid } from 'nanoid'
+import { LoadoutClothing, LoadoutGear } from '.'
+import { LoadoutWeapon } from './loadout-weapon.entity'
 
 @Entity({ tableName: 'loadouts' })
 export class Loadout {
 	@PrimaryKey({ length: 14 })
-	id!: string
+	id: string = nanoid(14)
 
 	@Property({ length: 64 })
 	name!: string
@@ -21,12 +23,12 @@ export class Loadout {
 	@Property({ fieldName: 'updatedAt', length: 6 })
 	updatedAt!: Date
 
-	@ManyToMany({
-		entity: () => Weapon,
-		pivotTable: 'loadout_weapons',
-		joinColumn: 'loadout_id',
-		inverseJoinColumn: 'weapon_id',
-		owner: true,
-	})
-	weapons: Weapon[]
+	@OneToMany(() => LoadoutWeapon, (weapon) => weapon.loadout)
+	weapons: LoadoutWeapon[]
+
+	@OneToMany(() => LoadoutClothing, (clothing) => clothing.loadout)
+	clothing: LoadoutClothing[]
+
+	@OneToMany(() => LoadoutGear, (gear) => gear.loadout)
+	gear: LoadoutGear[]
 }

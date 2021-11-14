@@ -1,11 +1,5 @@
-import {
-	Entity,
-	ManyToOne,
-	OneToOne,
-	PrimaryKey,
-	Property,
-	Unique,
-} from '@mikro-orm/core'
+import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/core'
+import { nanoid } from 'nanoid'
 import { Loadout } from '../loadout'
 import { Event } from './event.entity'
 
@@ -13,12 +7,12 @@ import { Event } from './event.entity'
 @Unique({ name: 'event_users_uid_event_id_key', properties: ['uid', 'event'] })
 export class EventUser {
 	@PrimaryKey({ length: 14, default: '' })
-	id!: string
+	id: string = nanoid(14)
 
 	@Property({ length: 32 })
 	uid!: string
 
-	@OneToOne({
+	@ManyToOne({
 		entity: () => Event,
 		onUpdateIntegrity: 'cascade',
 		onDelete: 'cascade',

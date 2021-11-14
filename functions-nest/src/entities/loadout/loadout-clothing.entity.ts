@@ -1,4 +1,5 @@
 import { Entity, PrimaryKey, Property, Unique, ManyToOne } from '@mikro-orm/core'
+import { nanoid } from 'nanoid'
 import { Clothing } from '../armory'
 import { Loadout } from './loadout.entity'
 
@@ -9,7 +10,7 @@ import { Loadout } from './loadout.entity'
 })
 export class LoadoutClothing {
 	@PrimaryKey({ length: 14 })
-	id!: string
+	id: string = nanoid(14)
 
 	@ManyToOne({
 		entity: () => Loadout,
@@ -25,9 +26,9 @@ export class LoadoutClothing {
 	})
 	clothing!: Clothing
 
-	@Property({ fieldName: 'createdAt', length: 6 })
+	@Property({ fieldName: 'createdAt' })
 	createdAt!: Date
 
-	@Property({ fieldName: 'updatedAt', length: 6 })
+	@Property({ fieldName: 'updatedAt' })
 	updatedAt!: Date
 }

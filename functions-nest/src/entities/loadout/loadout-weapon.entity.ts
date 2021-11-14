@@ -1,6 +1,16 @@
-import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/core'
+import {
+	Entity,
+	ManyToOne,
+	OneToMany,
+	PrimaryKey,
+	Property,
+	Unique,
+} from '@mikro-orm/core'
+import { nanoid } from 'nanoid'
+
 import { Weapon } from '../armory'
 import { Loadout } from './loadout.entity'
+import { LoadoutWeaponAttachment } from './loadout-weapon-attachment.entity'
 
 @Entity({ tableName: 'loadout_weapons' })
 @Unique({
@@ -9,21 +19,20 @@ import { Loadout } from './loadout.entity'
 })
 export class LoadoutWeapon {
 	@PrimaryKey({ length: 14 })
-	id!: string
+	id: string = nanoid(14)
 
-	@ManyToOne({
-		entity: () => Loadout,
-		onUpdateIntegrity: 'cascade',
-		onDelete: 'cascade',
-	})
+	@ManyToOne({ entity: () => Loadout, onUpdateIntegrity: 'cascade', onDelete: 'cascade' })
 	loadout!: Loadout
 
 	@ManyToOne({ entity: () => Weapon, onUpdateIntegrity: 'cascade', onDelete: 'cascade' })
 	weapon!: Weapon
 
-	@Property({ fieldName: 'createdAt', length: 6 })
+	@Property({ fieldName: 'createdAt' })
 	createdAt!: Date
 
-	@Property({ fieldName: 'updatedAt', length: 6 })
+	@Property({ fieldName: 'updatedAt' })
 	updatedAt!: Date
+
+	@OneToMany(() => LoadoutWeaponAttachment, (attachment) => attachment.loadoutWeapon)
+	attachments: LoadoutWeaponAttachment
 }
