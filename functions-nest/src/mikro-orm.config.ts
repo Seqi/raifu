@@ -7,6 +7,6 @@ export default {
 	entities: ['**/*.entity.js'],
 	entitiesTs: ['**/*.entity.ts'],
 	migrations: {
-		path: './entities/_migrations',
+		path: __dirname + `/entities/_migrations`,
 	},
 }
