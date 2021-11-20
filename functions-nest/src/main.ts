@@ -1,3 +1,4 @@
+import { INestApplication } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { ExpressAdapter } from '@nestjs/platform-express'
 import express, { Express } from 'express'
@@ -6,13 +7,14 @@ import { AppModule } from './app.module'
 
 const expressServer = express()
 
-const createFunction = async (expressInstance: Express): Promise<void> => {
+const createNestServer = async (expressInstance: Express): Promise<INestApplication> => {
 	const app = await NestFactory.create(AppModule, new ExpressAdapter(expressInstance))
 
-	await app.init()
+	return await app.init()
 }
 
-export const api = functions.https.onRequest(async (request, response) => {
-	await createFunction(expressServer)
-	expressServer(request, response)
-})
+createNestServer(expressServer)
+	.then(() => console.log('Nest server started.'))
+	.catch((e) => console.error('Nest server failed to start.', e))
+
+export const api = functions.https.onRequest(expressServer)
