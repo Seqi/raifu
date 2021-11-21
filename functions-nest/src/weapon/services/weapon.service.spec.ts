@@ -1,0 +1,18 @@
+import { Test, TestingModule } from '@nestjs/testing'
+import { WeaponService } from '../services'
+
+describe('WeaponService', () => {
+	let service: WeaponService
+
+	beforeEach(async () => {
+		const module: TestingModule = await Test.createTestingModule({
+			providers: [WeaponService],
+		}).compile()
+
+		service = module.get<WeaponService>(WeaponService)
+	})
+
+	it('should be defined', () => {
+		expect(service).toBeDefined()
+	})
+})
