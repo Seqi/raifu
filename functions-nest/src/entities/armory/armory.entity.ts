@@ -1,9 +1,7 @@
-import { PrimaryKey, Property } from '@mikro-orm/core'
+import { Property } from '@mikro-orm/core'
+import { UserBaseEntity } from '../base.entity'
 
-export abstract class Armory {
-	@PrimaryKey({ length: 14 })
-	id!: string
-
+export abstract class Armory extends UserBaseEntity {
 	@Property({ length: 64 })
 	platform!: string
 
@@ -18,13 +16,4 @@ export abstract class Armory {
 
 	@Property({ length: 16 })
 	type!: string
-
-	@Property({ length: 32 })
-	uid!: string
-
-	@Property({ fieldName: 'createdAt', length: 6 })
-	createdAt!: Date
-
-	@Property({ fieldName: 'updatedAt', length: 6 })
-	updatedAt!: Date
 }

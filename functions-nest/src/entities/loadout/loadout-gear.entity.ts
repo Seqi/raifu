@@ -1,5 +1,6 @@
-import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/core'
-import { nanoid } from 'nanoid'
+import { Entity, ManyToOne, Unique } from '@mikro-orm/core'
+
+import { BaseEntity } from '../base.entity'
 import { Gear } from '../armory'
 import { Loadout } from './loadout.entity'
 
@@ -8,19 +9,10 @@ import { Loadout } from './loadout.entity'
 	name: 'loadout_gear_loadout_id_gear_id_key',
 	properties: ['loadout', 'gear'],
 })
-export class LoadoutGear {
-	@PrimaryKey({ length: 14 })
-	id: string = nanoid(14)
-
+export class LoadoutGear extends BaseEntity {
 	@ManyToOne({ entity: () => Loadout, onUpdateIntegrity: 'cascade', onDelete: 'cascade' })
 	loadout!: Loadout
 
 	@ManyToOne({ entity: () => Gear, onUpdateIntegrity: 'cascade', onDelete: 'cascade' })
 	gear!: Gear
-
-	@Property({ fieldName: 'createdAt' })
-	createdAt!: Date
-
-	@Property({ fieldName: 'updatedAt' })
-	updatedAt!: Date
 }

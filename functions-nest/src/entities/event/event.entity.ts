@@ -1,12 +1,10 @@
-import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
-import { nanoid } from 'nanoid'
-import { EventUser } from '.'
+import { Entity, OneToMany, Property } from '@mikro-orm/core'
+
+import { EventUser } from './event-user.entity'
+import { BaseEntity } from '../base.entity'
 
 @Entity({ tableName: 'events' })
-export class Event {
-	@PrimaryKey({ length: 14, default: '' })
-	id: string = nanoid(14)
-
+export class Event extends BaseEntity {
 	@Property({ length: 256 })
 	name!: string
 
@@ -21,12 +19,6 @@ export class Event {
 
 	@Property({ default: false })
 	public: boolean
-
-	@Property({ fieldName: 'createdAt' })
-	createdAt!: Date
-
-	@Property({ fieldName: 'updatedAt' })
-	updatedAt!: Date
 
 	@OneToMany(() => EventUser, (user) => user.event)
 	users: EventUser
