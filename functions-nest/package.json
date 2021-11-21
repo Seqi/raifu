@@ -39,6 +39,7 @@
 		"firebase-admin": "^10.0.0",
 		"firebase-functions": "^3.16.0",
 		"nanoid": "^3.1.30",
+		"nest-winston": "^1.6.1",
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.2",
 		"rxjs": "^7.2.0"
