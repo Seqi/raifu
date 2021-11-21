@@ -1,16 +1,9 @@
-import { Controller, Get, Inject } from '@nestjs/common'
-import { AppService } from './app.service'
-import { App as FirebaseApp } from 'firebase-admin/app'
+import { Controller, Get } from '@nestjs/common'
 
 @Controller()
 export class AppController {
-	constructor(
-		private readonly appService: AppService,
-		@Inject('fb') private fb: FirebaseApp,
-	) {}
-
 	@Get()
-	async getHello() {
-		return this.appService.getHello()
+	async ping() {
+		return 'pong'
 	}
 }

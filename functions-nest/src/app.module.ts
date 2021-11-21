@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common'
 import { NextFunction } from 'express'
 import { AppController } from './app.controller'
-import { AppService } from './app.service'
 
 import { FirebaseModule } from './firebase'
 import { FirebaseUserService } from './firebase/services/firebase-user.service'
@@ -18,7 +17,7 @@ import { WeaponModule } from './weapon/weapon.module'
 @Module({
 	imports: [FirebaseModule.forRoot(), MikroOrmModule.forRoot(), WeaponModule],
 	controllers: [AppController],
-	providers: [AppService, Logger],
+	providers: [Logger],
 })
 export class AppModule {
 	configure(consumer: MiddlewareConsumer) {
