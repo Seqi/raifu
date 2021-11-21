@@ -8,5 +8,6 @@ export default {
 	entitiesTs: ['**/*.entity.ts'],
 	migrations: {
 		path: __dirname + `/entities/_migrations`,
+		pattern: /^[\w-]+\d+_?\S*\.ts$/,
 	},
 }
