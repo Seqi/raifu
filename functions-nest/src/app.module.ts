@@ -26,8 +26,7 @@ export class AppModule {
 	}
 }
 
-// Not sure how to do this properly, but this will attach the request-scoped object
-// so that a previous filter will never remain attached.
+// Not sure how to do this properly.. Could potentially be a case where a user persists
 // The EM should be scoped to the request, but idk why it isnt? The instance is shared
 // across requests.. This shouldnt happen so idk why it is
 // https://mikro-orm.io/docs/identity-map/#forking-entity-manager
@@ -36,7 +35,7 @@ export class UserFilterMiddleware implements NestMiddleware {
 	constructor(private user: FirebaseUserService, private em: EntityManager) {}
 
 	use(req: Request, res: Response, next: NextFunction) {
-		this.em.setFilterParams('test', { uid: this.user })
+		this.em.setFilterParams('forUser', { uid: this.user.uid })
 		next()
 	}
 }
