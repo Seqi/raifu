@@ -9,10 +9,10 @@ import {
 	Post,
 } from '@nestjs/common'
 import { Weapon } from 'src/entities'
-import { FirebaseUserService } from 'src/firebase/services/firebase-user.service'
-import { WeaponService } from 'src/weapon/services'
+import { FirebaseUserService } from 'src/firebase'
+import { WeaponService } from '../services'
 
-@Controller('weapon')
+@Controller('weapons')
 export class WeaponController {
 	constructor(
 		private service: WeaponService,

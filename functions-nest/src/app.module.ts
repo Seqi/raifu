@@ -8,14 +8,23 @@ import {
 	NestMiddleware,
 } from '@nestjs/common'
 import { NextFunction } from 'express'
-import { AppController } from './app.controller'
 
-import { FirebaseModule } from './firebase'
-import { FirebaseUserService } from './firebase/services/firebase-user.service'
-import { WeaponModule } from './weapon/weapon.module'
+import { FirebaseModule, FirebaseUserService } from './firebase'
+import { AppController } from './app.controller'
+import { AttachmentModule } from './resources/attachment'
+import { WeaponModule } from './resources/weapon'
+import { GearModule } from './resources/gear'
+import { ClothingModule } from './resources/clothing'
 
 @Module({
-	imports: [FirebaseModule.forRoot(), MikroOrmModule.forRoot(), WeaponModule],
+	imports: [
+		FirebaseModule.forRoot(),
+		MikroOrmModule.forRoot(),
+		WeaponModule,
+		AttachmentModule,
+		GearModule,
+		ClothingModule,
+	],
 	controllers: [AppController],
 	providers: [Logger],
 })

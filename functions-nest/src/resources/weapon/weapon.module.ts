@@ -1,9 +1,9 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { Logger, Module } from '@nestjs/common'
-import { WeaponController } from './controllers/weapon/weapon.controller'
 
 import { Weapon } from './models'
 import { WeaponService } from './services'
+import { WeaponController } from './controllers/'
 
 @Module({
 	imports: [MikroOrmModule.forFeature([Weapon])],
