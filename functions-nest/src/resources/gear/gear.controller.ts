@@ -11,7 +11,7 @@ import {
 
 import { Gear } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
-import { GearService } from '../services'
+import { GearService } from './gear.service'
 
 @Controller('gear')
 export class GearController {

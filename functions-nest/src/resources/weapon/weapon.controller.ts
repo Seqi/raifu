@@ -8,9 +8,10 @@ import {
 	Param,
 	Post,
 } from '@nestjs/common'
+
 import { Weapon } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
-import { WeaponService } from '../services'
+import { WeaponService } from './weapon.service'
 
 @Controller('weapons')
 export class WeaponController {

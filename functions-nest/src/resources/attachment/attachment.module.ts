@@ -2,8 +2,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { Logger, Module } from '@nestjs/common'
 
 import { Attachment } from './models'
-import { AttachmentService } from './services'
-import { AttachmentController } from './controllers'
+import { AttachmentService } from './attachment.service'
+import { AttachmentController } from './attachment.controller'
 
 @Module({
 	imports: [MikroOrmModule.forFeature([Attachment])],

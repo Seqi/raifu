@@ -1,4 +1,4 @@
-export * from './controllers'
+export * from './weapon.controller'
 export * from './models'
-export * from './services'
+export * from './weapon.service'
 export * from './weapon.module'

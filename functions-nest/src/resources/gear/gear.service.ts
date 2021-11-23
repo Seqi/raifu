@@ -3,7 +3,7 @@ import { EntityRepository, QueryOrder } from '@mikro-orm/core'
 
 import { FirebaseUserService } from 'src/firebase/services/firebase-user.service'
 import { InjectRepository } from '@mikro-orm/nestjs'
-import { Gear } from '../models'
+import { Gear } from './models'
 
 @Injectable()
 export class GearService {

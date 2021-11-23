@@ -11,7 +11,7 @@ import {
 
 import { Clothing } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
-import { ClothingService } from '../services'
+import { ClothingService } from './clothing.service'
 
 @Controller('clothing')
 export class ClothingController {

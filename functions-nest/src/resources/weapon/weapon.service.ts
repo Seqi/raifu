@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common'
 import { EntityRepository, QueryOrder } from '@mikro-orm/core'
+import { InjectRepository } from '@mikro-orm/nestjs'
 
 import { FirebaseUserService } from 'src/firebase/services/firebase-user.service'
-import { InjectRepository } from '@mikro-orm/nestjs'
-import { Loadout } from '../models'
+import { Weapon } from './models'
 
 @Injectable()
-export class LoadoutService {
+export class WeaponService {
 	constructor(
-		@InjectRepository(Loadout)
-		private repo: EntityRepository<Loadout>,
+		@InjectRepository(Weapon)
+		private repo: EntityRepository<Weapon>,
 		private user: FirebaseUserService,
 	) {}
 
-	async getAll(): Promise<Loadout[]> {
+	async getAll(): Promise<Weapon[]> {
 		// TODO: Remove uid from result
 		const result = await this.repo.find(
 			{
@@ -21,33 +21,13 @@ export class LoadoutService {
 			},
 			{
 				orderBy: { createdAt: QueryOrder.ASC },
-				populate: { weapons: true },
 			},
 		)
 
 		return result
 	}
 
-	async getById(id: string): Promise<Loadout> {
-		// TODO: Remove uid from result
-		const result = await this.repo.findOne(
-			{
-				id,
-				$or: [{ uid: this.user.uid }, { shared: true }],
-			},
-			{
-				weapons: {
-					attachments: true,
-				},
-				clothing: true,
-				gear: true,
-			},
-		)
-
-		return result
-	}
-
-	async add(dto: any): Promise<Loadout> {
+	async add(dto: any): Promise<Weapon> {
 		// TODO: Validate no id being sent in at controller
 		const newEntity = this.repo.create({ uid: this.user.uid, ...dto })
 		this.repo.persistAndFlush(newEntity)

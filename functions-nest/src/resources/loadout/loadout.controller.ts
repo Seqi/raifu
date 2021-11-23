@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { Loadout } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
-import { LoadoutService } from '../services'
+import { LoadoutService } from './loadout.service'
 
 @Controller('loadouts')
 export class LoadoutController {

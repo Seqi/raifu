@@ -1,4 +1,4 @@
 export * from './attachment.module'
-export * from './controllers'
+export * from './attachment.controller'
 export * from './models'
-export * from './services'
+export * from './attachment.service'

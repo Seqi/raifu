@@ -1,4 +1,4 @@
-export * from './controllers'
+export * from './clothing.controller'
 export * from './models'
-export * from './services'
+export * from './clothing.service'
 export * from './clothing.module'

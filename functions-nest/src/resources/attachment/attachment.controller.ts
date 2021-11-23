@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common'
 import { Attachment } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
-import { AttachmentService } from '../services'
+import { AttachmentService } from './attachment.service'
 
 @Controller('attachments')
 export class AttachmentController {
