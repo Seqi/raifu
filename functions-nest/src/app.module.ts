@@ -15,6 +15,7 @@ import { AttachmentModule } from './resources/attachment'
 import { WeaponModule } from './resources/weapon'
 import { GearModule } from './resources/gear'
 import { ClothingModule } from './resources/clothing'
+import { LoadoutModule } from './resources/loadout'
 
 @Module({
 	imports: [
@@ -24,6 +25,7 @@ import { ClothingModule } from './resources/clothing'
 		AttachmentModule,
 		GearModule,
 		ClothingModule,
+		LoadoutModule,
 	],
 	controllers: [AppController],
 	providers: [Logger],
