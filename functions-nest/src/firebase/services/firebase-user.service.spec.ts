@@ -9,7 +9,7 @@ describe('FirebaseUserService', () => {
 			providers: [FirebaseUserService],
 		}).compile()
 
-		service = module.get<FirebaseUserService>(FirebaseUserService)
+		service = await module.resolve<FirebaseUserService>(FirebaseUserService)
 	})
 
 	it('should be defined', () => {

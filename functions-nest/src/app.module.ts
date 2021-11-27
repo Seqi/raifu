@@ -1,30 +1,19 @@
 import { EntityManager } from '@mikro-orm/core'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
-import {
-	Injectable,
-	Logger,
-	MiddlewareConsumer,
-	Module,
-	NestMiddleware,
-} from '@nestjs/common'
+import { Injectable, Logger, MiddlewareConsumer, Module, NestMiddleware } from '@nestjs/common'
 import { NextFunction } from 'express'
 
 import { FirebaseModule, FirebaseUserService } from './firebase'
 import { AppController } from './app.controller'
-import { AttachmentModule } from './resources/attachment'
-import { WeaponModule } from './resources/weapon'
-import { GearModule } from './resources/gear'
-import { ClothingModule } from './resources/clothing'
 import { LoadoutModule } from './resources/loadout'
+import { ResourceModule } from './resources/resource'
+import { Attachment, Clothing, Gear, Weapon } from './entities'
 
 @Module({
 	imports: [
 		FirebaseModule.forRoot(),
 		MikroOrmModule.forRoot(),
-		WeaponModule,
-		AttachmentModule,
-		GearModule,
-		ClothingModule,
+		ResourceModule.forRoot([Weapon, Attachment, Gear, Clothing]),
 		LoadoutModule,
 	],
 	controllers: [AppController],
