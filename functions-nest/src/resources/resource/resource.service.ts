@@ -43,8 +43,10 @@ export function createResourceService<TResource extends Armory>(
 		}
 
 		async delete(id: string): Promise<void> {
-			const ref = this.em.getReference(resource, id)
-			await this.em.removeAndFlush(ref)
+			this.em.nativeDelete<Armory>(resource, {
+				id: id,
+				uid: this.user.uid,
+			})
 		}
 	}
 
