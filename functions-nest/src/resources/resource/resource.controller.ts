@@ -4,6 +4,7 @@ import { Armory } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
 import { InjectResourceService } from './tokens'
 import { ResourceServiceLike } from './resource.service'
+import { CreateResourceDto } from './resource.dto'
 
 export interface ResourceController<TResource extends Armory> {
 	getAll(): Promise<TResource[]>
@@ -44,7 +45,7 @@ export function createResourceController<TResource extends Armory>(
 		}
 
 		@Post()
-		async create(dto: any): Promise<TResource> {
+		async create(dto: CreateResourceDto): Promise<TResource> {
 			try {
 				this.logger.log(`Creating Resource.`, { userId: this.user.uid, item: dto })
 

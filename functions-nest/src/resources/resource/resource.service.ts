@@ -3,6 +3,7 @@ import { EntityManager, QueryOrder } from '@mikro-orm/core'
 
 import { FirebaseUserService } from 'src/firebase/services/firebase-user.service'
 import { Armory } from 'src/entities'
+import { CreateResourceDto } from './resource.dto'
 
 export interface ResourceServiceLike<TResource extends Armory> {
 	getAll(): Promise<TResource[]>
@@ -34,7 +35,7 @@ export function createResourceService<TResource extends Armory>(
 			return result
 		}
 
-		async create(dto: any): Promise<TResource> {
+		async create(dto: CreateResourceDto): Promise<TResource> {
 			// TODO: Validate no id being sent in at controller
 			const newEntity = this.em.create(resource, { uid: this.user.uid, ...dto })
 			this.em.persistAndFlush(newEntity)
