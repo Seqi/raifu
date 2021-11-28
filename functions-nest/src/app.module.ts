@@ -13,7 +13,12 @@ import { Attachment, Clothing, Gear, Weapon } from './entities'
 	imports: [
 		FirebaseModule.forRoot(),
 		MikroOrmModule.forRoot(),
-		ResourceModule.forRoot([Weapon, Attachment, Gear, Clothing]),
+		ResourceModule.forRoot([
+			{ entity: Weapon, route: 'weapons' },
+			{ entity: Attachment, route: 'attachments' },
+			Gear,
+			Clothing,
+		]),
 		LoadoutModule,
 	],
 	controllers: [AppController],
