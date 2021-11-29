@@ -1,4 +1,15 @@
-import { Controller, Delete, Get, Inject, Logger, LoggerService, Param, Post, Type } from '@nestjs/common'
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Inject,
+	Logger,
+	LoggerService,
+	Param,
+	Post,
+	Type,
+} from '@nestjs/common'
 
 import { Armory } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
@@ -18,6 +29,9 @@ export function createResourceController<TResource extends Armory>(
 	resource: Type<TResource>,
 	route = resource.name,
 ): ResourceControllerClass<TResource> {
+	const RESOURCE_NAME = resource.name.toLowerCase()
+	const RESOURCE_NAME_UPPER = RESOURCE_NAME.toUpperCase()
+
 	class _ResourceController implements ResourceController<TResource> {
 		constructor(
 			private user: FirebaseUserService,
@@ -28,38 +42,46 @@ export function createResourceController<TResource extends Armory>(
 		@Get()
 		async getAll(): Promise<TResource[]> {
 			try {
-				this.logger.log(`Retrieving Resources`, { userId: this.user.uid })
+				this.logger.log({ message: `Retrieving ${RESOURCE_NAME}.`, userId: this.user.uid })
 
 				const items = await this.service.getAll()
 
-				this.logger.log(`Successfuly retrieved ${items.length} Resources`, {
+				this.logger.log({
+					message: `Successfuly retrieved ${items.length} ${RESOURCE_NAME}.`,
 					userId: this.user.uid,
-					event: `ResourceS_VIEWED`,
+					event: `${RESOURCE_NAME_UPPER}_VIEWED`,
 				})
 
 				return items
 			} catch (e) {
-				this.logger.error(`Failed to retrieve Resources.`, { userId: this.user.uid })
+				this.logger.error({ message: `Failed to retrieve ${RESOURCE_NAME}.`, userId: this.user.uid })
 				throw e
 			}
 		}
 
 		@Post()
-		async create(dto: CreateResourceDto): Promise<TResource> {
+		async create(@Body() dto: CreateResourceDto): Promise<TResource> {
 			try {
-				this.logger.log(`Creating Resource.`, { userId: this.user.uid, item: dto })
+				this.logger.log({
+					message: `Creating ${RESOURCE_NAME}.`,
+					userId: this.user.uid,
+					item: dto,
+				})
 
 				const result = await this.service.create(dto)
-				this.logger.log(`Successfully created Resource.`, {
+
+				this.logger.log({
+					message: `Successfully created ${RESOURCE_NAME}.`,
 					userId: this.user.uid,
 					itemId: result.id,
-					event: `Resource_CREATED`,
+					event: `${RESOURCE_NAME_UPPER}_CREATED`,
 					result,
 				})
 
 				return result
 			} catch (e) {
-				this.logger.error(`An error occurred adding Resource`, {
+				this.logger.error({
+					message: `An error occurred adding ${RESOURCE_NAME}.`,
 					userId: this.user.uid,
 					item: dto,
 				})
@@ -71,11 +93,12 @@ export function createResourceController<TResource extends Armory>(
 		@Delete(':id')
 		async delete(@Param('id') id: string) {
 			try {
-				this.logger.log(`Deleting Resource.`, { userId: this.user.uid, itemId: id })
+				this.logger.log({ message: `Deleting ${RESOURCE_NAME}.`, userId: this.user.uid, itemId: id })
 
 				await this.service.delete(id)
 			} catch (e) {
-				this.logger.error(`Error deleting Resource.`, {
+				this.logger.error({
+					message: `An error occurred deleting ${RESOURCE_NAME}.`,
 					userId: this.user.uid,
 					itemId: id,
 				})
