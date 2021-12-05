@@ -4,6 +4,7 @@ import { EntityRepository, QueryOrder } from '@mikro-orm/core'
 
 import { FirebaseUserService } from 'src/firebase/services/firebase-user.service'
 import { Loadout } from './models'
+import { CreateLoadoutDto, UpdateLoadoutDto } from './loadout.dto'
 
 @Injectable()
 export class LoadoutService {
@@ -47,12 +48,18 @@ export class LoadoutService {
 		return result
 	}
 
-	async add(dto: any): Promise<Loadout> {
+	async add(dto: CreateLoadoutDto): Promise<Loadout> {
 		// TODO: Validate no id being sent in at controller
-		const newEntity = this.repo.create({ uid: this.user.uid, ...dto })
-		this.repo.persistAndFlush(newEntity)
+		const loadout = this.repo.create({ uid: this.user.uid, ...dto })
+		this.repo.persistAndFlush(loadout)
 
-		return newEntity
+		return loadout
+	}
+
+	async update(id: string, dto: UpdateLoadoutDto): Promise<void> {
+		const loadout = await this.repo.findOne({ id })
+		Object.apply(loadout, dto)
+		this.repo.flush()
 	}
 
 	async remove(id: string): Promise<void> {

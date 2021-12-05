@@ -1,16 +1,21 @@
 import {
+	Body,
 	Controller,
 	Delete,
 	Get,
+	HttpCode,
+	HttpStatus,
 	Inject,
 	Logger,
 	LoggerService,
 	NotFoundException,
 	Param,
 	Post,
+	Put,
 } from '@nestjs/common'
 import { Loadout } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
+import { CreateLoadoutDto, UpdateLoadoutDto } from './loadout.dto'
 import { LoadoutService } from './loadout.service'
 
 @Controller('loadouts')
@@ -76,7 +81,7 @@ export class LoadoutController {
 	}
 
 	@Post()
-	async create(dto: any): Promise<Loadout> {
+	async create(@Body() dto: CreateLoadoutDto): Promise<Loadout> {
 		try {
 			this.logger.log(`Creating loadout.`, { userId: this.user.uid, item: dto })
 
@@ -99,16 +104,45 @@ export class LoadoutController {
 		}
 	}
 
-	@Delete(':id')
-	async delete(@Param('id') id: string) {
+	@Put(':id')
+	@HttpCode(HttpStatus.NO_CONTENT)
+	async update(@Param('id') loadoutId, @Body() dto: UpdateLoadoutDto): Promise<void> {
 		try {
-			this.logger.log(`Deleting loadout.`, { userId: this.user.uid, itemId: id })
+			this.logger.log(`Updating loadout.`, { userId: this.user.uid, itemId: loadoutId, item: dto })
 
-			await this.service.remove(id)
+			await this.service.update(loadoutId, dto)
+			this.logger.log(`Successfully updated loadout.`, {
+				userId: this.user.uid,
+				itemId: loadoutId,
+				item: dto,
+				event: `LOADOUT_UPDATED`,
+			})
+		} catch (e) {
+			this.logger.error(`An error occurred updating loadout`, {
+				userId: this.user.uid,
+				item: dto,
+			})
+
+			throw e
+		}
+	}
+
+	@Delete(':id')
+	async delete(@Param('id') loadoutId: string) {
+		try {
+			this.logger.log(`Deleting loadout.`, { userId: this.user.uid, itemId: loadoutId })
+
+			await this.service.remove(loadoutId)
+
+			this.logger.log(`Successfully deleted loadout.`, {
+				userId: this.user.uid,
+				itemId: loadoutId,
+				event: `LOADOUT_DELETED`,
+			})
 		} catch (e) {
 			this.logger.error(`Error deleting loadout.`, {
 				userId: this.user.uid,
-				itemId: id,
+				itemId: loadoutId,
 			})
 
 			throw e

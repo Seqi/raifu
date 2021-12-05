@@ -96,6 +96,12 @@ export function createResourceController<TResource extends Armory>(
 				this.logger.log({ message: `Deleting ${RESOURCE_NAME}.`, userId: this.user.uid, itemId: id })
 
 				await this.service.delete(id)
+
+				this.logger.log(`Successfully deleted ${RESOURCE_NAME}.`, {
+					userId: this.user.uid,
+					itemId: id,
+					event: `${RESOURCE_NAME_UPPER}_DELETED`,
+				})
 			} catch (e) {
 				this.logger.error({
 					message: `An error occurred deleting ${RESOURCE_NAME}.`,
