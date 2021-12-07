@@ -5,19 +5,17 @@ import { FirebaseUserService } from 'src/firebase/services/firebase-user.service
 import { Armory } from 'src/entities'
 import { CreateResourceDto } from './resource.dto'
 
-export interface ResourceServiceLike<TResource extends Armory> {
+export interface ResourceService<TResource extends Armory> {
 	getAll(): Promise<TResource[]>
 	create(dto: any): Promise<TResource>
 	delete(id: string): Promise<void>
 }
 
-export type ResourceService<TResource extends Armory> = Type<ResourceServiceLike<TResource>>
-
 export function createResourceService<TResource extends Armory>(
 	resource: Type<TResource>,
-): ResourceService<TResource> {
+): Type<ResourceService<TResource>> {
 	@Injectable()
-	class _ResourceService implements ResourceServiceLike<TResource> {
+	class _ResourceService implements ResourceService<TResource> {
 		constructor(private em: EntityManager, private user: FirebaseUserService) {}
 
 		async getAll(): Promise<TResource[]> {

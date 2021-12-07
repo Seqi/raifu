@@ -14,7 +14,7 @@ import {
 import { Armory } from 'src/entities'
 import { FirebaseUserService } from 'src/firebase'
 import { InjectResourceService } from './tokens'
-import { ResourceServiceLike } from './resource.service'
+import { ResourceService } from './resource.service'
 import { CreateResourceDto } from './resource.dto'
 
 export interface ResourceController<TResource extends Armory> {
@@ -35,7 +35,7 @@ export function createResourceController<TResource extends Armory>(
 	class _ResourceController implements ResourceController<TResource> {
 		constructor(
 			private user: FirebaseUserService,
-			@InjectResourceService(resource) private service: ResourceServiceLike<TResource>,
+			@InjectResourceService(resource) private service: ResourceService<TResource>,
 			@Inject(Logger) private logger: LoggerService,
 		) {}
 

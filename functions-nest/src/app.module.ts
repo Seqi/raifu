@@ -6,6 +6,7 @@ import { AppController } from './app.controller'
 import { LoadoutModule } from './resources/loadout'
 import { ResourceModule } from './resources/resource'
 import { Attachment, Clothing, Gear, Weapon } from './entities'
+import { ArmoryModule } from './resources/armory/armory.module'
 
 @Module({
 	imports: [
@@ -17,6 +18,7 @@ import { Attachment, Clothing, Gear, Weapon } from './entities'
 			Gear,
 			Clothing,
 		]),
+		ArmoryModule,
 		LoadoutModule,
 	],
 	controllers: [AppController],

@@ -1,4 +1,4 @@
-import { DynamicModule, Logger, Module, Type, Provider } from '@nestjs/common'
+import { DynamicModule, Logger, Module, Type, Provider, Global } from '@nestjs/common'
 
 import { Armory } from 'src/entities'
 import { createResourceController } from './resource.controller'
@@ -9,6 +9,7 @@ export type ResourceConfig<TResource extends Armory> =
 	| Type<TResource>
 	| { entity: Type<TResource>; route: string }
 
+@Global()
 @Module({})
 export class ResourceModule {
 	static forRoot<TResource extends Armory>(resources: ResourceConfig<TResource>[]): DynamicModule {

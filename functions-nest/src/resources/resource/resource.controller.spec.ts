@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { ResourceServiceLike } from './resource.service'
+import { ResourceService } from './resource.service'
 import { Weapon } from '../../entities'
 import {
 	createResourceController,
@@ -14,7 +14,7 @@ describe('ResourceController', () => {
 
 	beforeEach(async () => {
 		const token = createResourceServiceToken(Weapon)
-		const service: ResourceServiceLike<Weapon> = {
+		const service: ResourceService<Weapon> = {
 			getAll: jest.fn(),
 			create: jest.fn(),
 			delete: jest.fn(),
