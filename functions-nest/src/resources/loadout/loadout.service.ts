@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { EntityRepository, QueryOrder } from '@mikro-orm/core'
 
@@ -58,6 +58,11 @@ export class LoadoutService {
 
 	async update(id: string, dto: UpdateLoadoutDto): Promise<void> {
 		const loadout = await this.repo.findOne({ id })
+
+		if (!loadout) {
+			throw new NotFoundException()
+		}
+
 		Object.apply(loadout, dto)
 		this.repo.flush()
 	}
