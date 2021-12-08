@@ -24,4 +24,10 @@ export class EventUser extends UserBaseEntity {
 
 	@Property({ columnType: 'date', fieldName: 'deletedAt', nullable: true })
 	deletedAt?: Date
+
+	constructor(uid?: string) {
+		super()
+
+		this.uid = uid
+	}
 }

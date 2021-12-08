@@ -1,4 +1,4 @@
-import { Entity, OneToMany, Property } from '@mikro-orm/core'
+import { Collection, Entity, OneToMany, Property } from '@mikro-orm/core'
 
 import { EventUser } from './event-user.entity'
 import { BaseEntity } from '../base.entity'
@@ -21,5 +21,5 @@ export class Event extends BaseEntity {
 	public: boolean
 
 	@OneToMany(() => EventUser, (user) => user.event)
-	users: EventUser
+	users: Collection<EventUser>
 }
