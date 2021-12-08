@@ -1,11 +1,13 @@
 import { INestApplication, Logger, LoggerService } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { ExpressAdapter } from '@nestjs/platform-express'
-import express, { Express } from 'express'
-import * as functions from 'firebase-functions'
-import { AppModule } from './app.module'
 import { WinstonModule, utilities } from 'nest-winston'
 import { transports, format } from 'winston'
+import express, { Express } from 'express'
+import { https } from 'firebase-functions'
+
+import { AppModule } from './app.module'
+
 const expressServer = express()
 
 const createNestServer = async (expressInstance: Express): Promise<INestApplication> => {
@@ -35,4 +37,4 @@ createNestServer(expressServer)
 	})
 	.catch((e) => console.error('Nest server failed to start.', e))
 
-export const api = functions.https.onRequest(expressServer)
+export const api = https.onRequest(expressServer)
