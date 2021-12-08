@@ -21,7 +21,7 @@ import { LoadoutService } from './loadout.service'
 @Controller('loadouts')
 export class LoadoutController {
 	constructor(
-		private service: LoadoutService,
+		private loadouts: LoadoutService,
 		private user: FirebaseUserService,
 		@Inject(Logger) private logger: LoggerService,
 	) {}
@@ -29,16 +29,18 @@ export class LoadoutController {
 	@Get()
 	async getAll(): Promise<Loadout[]> {
 		try {
-			this.logger.log(`Retrieving loadouts`, { userId: this.user.uid })
+			this.logger.log({ message: `Retrieving loadouts.`, userId: this.user.uid })
 
-			const items = await this.service.getAll()
+			const loadouts = await this.loadouts.getAll()
 
-			this.logger.log(`Successfuly retrieved ${items.length} loadouts`, {
+			this.logger.log({
+				message: `Successfuly retrieved ${loadouts.length} loadouts`,
+				itemCount: loadouts.length,
 				userId: this.user.uid,
 				event: `LOADOUTS_VIEWED`,
 			})
 
-			return items
+			return loadouts
 		} catch (e) {
 			this.logger.error(`Failed to retrieve loadouts.`, { userId: this.user.uid })
 			throw e
@@ -48,9 +50,9 @@ export class LoadoutController {
 	@Get(':id')
 	async get(@Param('id') loadoutId: string): Promise<Loadout> {
 		try {
-			this.logger.log(`Retrieving loadouts`, { loadoutId, userId: this.user.uid })
+			this.logger.log({ message: `Retrieving loadout.`, loadoutId, userId: this.user.uid })
 
-			const loadout = await this.service.getById(loadoutId)
+			const loadout = await this.loadouts.getById(loadoutId)
 
 			if (!loadout) {
 				this.logger.warn({
@@ -63,7 +65,8 @@ export class LoadoutController {
 				throw new NotFoundException('Could not find loadout.')
 			}
 
-			this.logger.log(`Successfuly retrieved loadout`, {
+			this.logger.log({
+				message: `Successfuly retrieved loadout`,
 				userId: this.user.uid,
 				loadoutId,
 				event: `LOADOUT_VIEWED`,
@@ -83,10 +86,11 @@ export class LoadoutController {
 	@Post()
 	async create(@Body() dto: CreateLoadoutDto): Promise<Loadout> {
 		try {
-			this.logger.log(`Creating loadout.`, { userId: this.user.uid, item: dto })
+			this.logger.log({ message: 'Creating loadout.', userId: this.user.uid, item: dto })
 
-			const result = await this.service.add(dto)
-			this.logger.log(`Successfully created loadout.`, {
+			const result = await this.loadouts.add(dto)
+			this.logger.log({
+				message: `Successfully created loadout.`,
 				userId: this.user.uid,
 				itemId: result.id,
 				event: `LOADOUT_CREATED`,
@@ -95,10 +99,7 @@ export class LoadoutController {
 
 			return result
 		} catch (e) {
-			this.logger.error(`An error occurred adding loadout`, {
-				userId: this.user.uid,
-				item: dto,
-			})
+			this.logger.error({ message: `An error occurred adding loadout.`, userId: this.user.uid, item: dto })
 
 			throw e
 		}
@@ -108,20 +109,19 @@ export class LoadoutController {
 	@HttpCode(HttpStatus.NO_CONTENT)
 	async update(@Param('id') loadoutId, @Body() dto: UpdateLoadoutDto): Promise<void> {
 		try {
-			this.logger.log(`Updating loadout.`, { userId: this.user.uid, itemId: loadoutId, item: dto })
+			this.logger.log({ message: `Updating loadout.`, userId: this.user.uid, itemId: loadoutId, item: dto })
 
-			await this.service.update(loadoutId, dto)
-			this.logger.log(`Successfully updated loadout.`, {
+			await this.loadouts.update(loadoutId, dto)
+
+			this.logger.log({
+				message: `Successfully updated loadout.`,
 				userId: this.user.uid,
 				itemId: loadoutId,
 				item: dto,
 				event: `LOADOUT_UPDATED`,
 			})
 		} catch (e) {
-			this.logger.error(`An error occurred updating loadout`, {
-				userId: this.user.uid,
-				item: dto,
-			})
+			this.logger.error({ message: `An error occurred updating loadout.`, userId: this.user.uid, item: dto })
 
 			throw e
 		}
@@ -130,20 +130,18 @@ export class LoadoutController {
 	@Delete(':id')
 	async delete(@Param('id') loadoutId: string) {
 		try {
-			this.logger.log(`Deleting loadout.`, { userId: this.user.uid, itemId: loadoutId })
+			this.logger.log({ message: `Deleting loadout.`, userId: this.user.uid, itemId: loadoutId })
 
-			await this.service.remove(loadoutId)
+			await this.loadouts.remove(loadoutId)
 
-			this.logger.log(`Successfully deleted loadout.`, {
+			this.logger.log({
+				message: `Successfully deleted loadout.`,
 				userId: this.user.uid,
 				itemId: loadoutId,
 				event: `LOADOUT_DELETED`,
 			})
 		} catch (e) {
-			this.logger.error(`Error deleting loadout.`, {
-				userId: this.user.uid,
-				itemId: loadoutId,
-			})
+			this.logger.error({ message: `Error deleting loadout.`, userId: this.user.uid, itemId: loadoutId })
 
 			throw e
 		}
