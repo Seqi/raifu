@@ -7,6 +7,7 @@ import { CreateResourceDto } from './resource.dto'
 
 export interface ResourceService<TResource extends Armory> {
 	getAll(): Promise<TResource[]>
+	getById(id: string): Promise<TResource>
 	create(dto: any): Promise<TResource>
 	delete(id: string): Promise<void>
 }
@@ -29,6 +30,15 @@ export function createResourceService<TResource extends Armory>(
 					orderBy: { createdAt: QueryOrder.ASC },
 				},
 			)
+
+			return result
+		}
+
+		async getById(id: string): Promise<TResource> {
+			const result = await this.em.findOne(resource, {
+				id,
+				uid: this.user.uid,
+			})
 
 			return result
 		}

@@ -1,4 +1,4 @@
-import { Entity, OneToMany, Property } from '@mikro-orm/core'
+import { Collection, Entity, OneToMany, Property } from '@mikro-orm/core'
 
 import { UserBaseEntity } from '../base.entity'
 import { LoadoutClothing } from './loadout-clothing.entity'
@@ -14,11 +14,11 @@ export class Loadout extends UserBaseEntity {
 	shared?: boolean
 
 	@OneToMany(() => LoadoutWeapon, (weapon) => weapon.loadout)
-	weapons: LoadoutWeapon[]
+	weapons: Collection<LoadoutWeapon>
 
 	@OneToMany(() => LoadoutClothing, (clothing) => clothing.loadout)
-	clothing: LoadoutClothing[]
+	clothing: Collection<LoadoutClothing>
 
 	@OneToMany(() => LoadoutGear, (gear) => gear.loadout)
-	gear: LoadoutGear[]
+	gear: Collection<LoadoutGear>
 }

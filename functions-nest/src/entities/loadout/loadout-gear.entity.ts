@@ -15,4 +15,10 @@ export class LoadoutGear extends BaseEntity {
 
 	@ManyToOne({ entity: () => Gear, onUpdateIntegrity: 'cascade', onDelete: 'cascade' })
 	gear!: Gear
+
+	constructor(loadout: Loadout, gear: Gear) {
+		super()
+		this.loadout = loadout
+		this.gear = gear
+	}
 }

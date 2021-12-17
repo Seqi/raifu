@@ -23,4 +23,10 @@ export class LoadoutClothing extends BaseEntity {
 		onDelete: 'cascade',
 	})
 	clothing!: Clothing
+
+	constructor(loadout: Loadout, clothing: Clothing) {
+		super()
+		this.loadout = loadout
+		this.clothing = clothing
+	}
 }

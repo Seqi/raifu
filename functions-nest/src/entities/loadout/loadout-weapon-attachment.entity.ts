@@ -48,4 +48,9 @@ export class LoadoutWeaponAttachment {
 
 	@Property({ fieldName: 'updatedAt' })
 	updatedAt!: Date
+
+	constructor(loadoutWeapon: LoadoutWeapon, attachment: Attachment) {
+		this.loadoutWeapon = loadoutWeapon
+		this.attachment = attachment
+	}
 }

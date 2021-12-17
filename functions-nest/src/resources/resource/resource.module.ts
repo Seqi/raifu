@@ -35,4 +35,19 @@ export class ResourceModule {
 			exports: [...services],
 		}
 	}
+
+	static forFeature<TResource extends Armory>(resources: Type<TResource>[]): DynamicModule {
+		const services = resources.map((resource) => {
+			return {
+				provide: createResourceServiceToken(resource),
+				useClass: createResourceService(resource),
+			} as Provider
+		})
+
+		return {
+			module: ResourceModule,
+			providers: [...services],
+			exports: [...services],
+		}
+	}
 }
