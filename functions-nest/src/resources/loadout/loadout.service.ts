@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { EntityRepository, QueryOrder } from '@mikro-orm/core'
 
-import { FirebaseUserService } from 'src/firebase/services/firebase-user.service'
+import { UserService } from 'src/auth'
 import { Loadout } from './models'
 import { CreateLoadoutDto, UpdateLoadoutDto } from './loadout.dto'
 
@@ -11,7 +11,7 @@ export class LoadoutService {
 	constructor(
 		@InjectRepository(Loadout)
 		private repo: EntityRepository<Loadout>,
-		private user: FirebaseUserService,
+		private user: UserService,
 	) {}
 
 	async getAll(): Promise<Loadout[]> {

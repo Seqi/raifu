@@ -7,9 +7,11 @@ import { LoadoutModule } from './resources/loadout'
 import { ResourceModule } from './resources/resource'
 import { Attachment, Clothing, Gear, Weapon } from './entities'
 import { ArmoryModule } from './resources/armory/armory.module'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
 	imports: [
+		AuthModule,
 		FirebaseModule.forRoot(),
 		MikroOrmModule.forRoot(),
 		ResourceModule.forRoot([

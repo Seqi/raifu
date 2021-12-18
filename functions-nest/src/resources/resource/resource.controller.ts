@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common'
 
 import { Armory } from 'src/entities'
-import { FirebaseUserService } from 'src/firebase'
+import { UserService } from 'src/auth'
 import { InjectResourceService } from './tokens'
 import { ResourceService } from './resource.service'
 import { CreateResourceDto } from './resource.dto'
@@ -34,7 +34,7 @@ export function createResourceController<TResource extends Armory>(
 
 	class _ResourceController implements ResourceController<TResource> {
 		constructor(
-			private user: FirebaseUserService,
+			private user: UserService,
 			@InjectResourceService(resource) private service: ResourceService<TResource>,
 			@Inject(Logger) private logger: LoggerService,
 		) {}

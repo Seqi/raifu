@@ -3,7 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 
 import { LoadoutGear, Gear } from 'src/entities'
-import { FirebaseUserService } from 'src/firebase'
+import { UserService } from 'src/auth'
 import { InjectResourceService, ResourceService } from '../resource'
 import { LoadoutService } from './loadout.service'
 
@@ -13,7 +13,7 @@ export class LoadoutGearService {
 		@InjectRepository(LoadoutGear) private em: EntityRepository<LoadoutGear>,
 		@InjectResourceService(Gear) private gears: ResourceService<Gear>,
 		private loadouts: LoadoutService,
-		private user: FirebaseUserService,
+		private user: UserService,
 	) {}
 
 	async add(loadoutId: string, gearId: string) {

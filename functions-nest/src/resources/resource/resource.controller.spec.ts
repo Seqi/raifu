@@ -6,7 +6,7 @@ import {
 	ResourceControllerClass as ResourceController,
 } from './resource.controller'
 import { createResourceServiceToken } from './tokens'
-import { FirebaseUserService } from 'src/firebase'
+import { UserService } from 'src/auth'
 import { Logger } from '@nestjs/common'
 
 describe('ResourceController', () => {
@@ -20,7 +20,7 @@ describe('ResourceController', () => {
 			delete: jest.fn(),
 		}
 
-		const user: FirebaseUserService = {
+		const user: UserService = {
 			uid: '123',
 		}
 
@@ -34,7 +34,7 @@ describe('ResourceController', () => {
 					useValue: service,
 				},
 				{
-					provide: FirebaseUserService,
+					provide: UserService,
 					useValue: user,
 				},
 				Logger,

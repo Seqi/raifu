@@ -1,7 +1,7 @@
 import { Injectable, Type } from '@nestjs/common'
 import { EntityManager, QueryOrder } from '@mikro-orm/core'
 
-import { FirebaseUserService } from 'src/firebase/services/firebase-user.service'
+import { UserService } from 'src/auth'
 import { Armory } from 'src/entities'
 import { CreateResourceDto } from './resource.dto'
 
@@ -17,7 +17,7 @@ export function createResourceService<TResource extends Armory>(
 ): Type<ResourceService<TResource>> {
 	@Injectable()
 	class _ResourceService implements ResourceService<TResource> {
-		constructor(private em: EntityManager, private user: FirebaseUserService) {}
+		constructor(private em: EntityManager, private user: UserService) {}
 
 		async getAll(): Promise<TResource[]> {
 			// TODO: Remove uid from result

@@ -27,6 +27,8 @@ const createNestServer = async (expressInstance: Express): Promise<INestApplicat
 		}),
 	})
 
+	app.enableCors()
+
 	return await app.init()
 }
 

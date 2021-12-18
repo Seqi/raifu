@@ -5,7 +5,8 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { Auth } from 'firebase-admin/auth'
 
 import { Event, EventUser, Loadout } from 'src/entities'
-import { FirebaseAuth, FirebaseUserService } from 'src/firebase'
+import { FirebaseAuth } from 'src/firebase'
+import { UserService } from 'src/auth'
 import { CreateEventDto, UpdateEventDto, ViewEventDto, ViewEventUserDto } from './event.dto'
 
 @Injectable()
@@ -13,7 +14,7 @@ export class EventService {
 	constructor(
 		@InjectRepository(Event) private repo: EntityRepository<Event>,
 		private loadoutRepo: EntityRepository<Loadout>,
-		private user: FirebaseUserService,
+		private user: UserService,
 		@Inject(FirebaseAuth) private auth: Auth,
 	) {}
 

@@ -14,7 +14,7 @@ import {
 	Put,
 } from '@nestjs/common'
 import { Loadout } from 'src/entities'
-import { FirebaseUserService } from 'src/firebase'
+import { UserService } from 'src/auth'
 import { CreateLoadoutDto, UpdateLoadoutDto } from './loadout.dto'
 import { LoadoutService } from './loadout.service'
 
@@ -22,7 +22,7 @@ import { LoadoutService } from './loadout.service'
 export class LoadoutController {
 	constructor(
 		private loadouts: LoadoutService,
-		private user: FirebaseUserService,
+		private user: UserService,
 		@Inject(Logger) private logger: LoggerService,
 	) {}
 

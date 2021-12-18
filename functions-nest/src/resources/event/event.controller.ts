@@ -18,13 +18,13 @@ import {
 import { Event } from 'src/entities'
 import { EventService } from './event.service'
 import { CreateEventDto, UpdateEventDto, ViewEventDto } from './event.dto'
-import { FirebaseUserService } from 'src/firebase'
+import { UserService } from 'src/auth'
 
 @Controller('event')
 export class EventController {
 	constructor(
 		private readonly events: EventService,
-		private user: FirebaseUserService,
+		private user: UserService,
 		@Inject(Logger) private logger: LoggerService,
 	) {}
 

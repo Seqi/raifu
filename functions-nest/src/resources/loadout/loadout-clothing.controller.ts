@@ -1,12 +1,12 @@
 import { Controller, Delete, Inject, Logger, LoggerService, Param, Post } from '@nestjs/common'
-import { FirebaseUserService } from 'src/firebase'
+import { UserService } from 'src/auth'
 import { LoadoutClothingService } from './loadout-clothing.service'
 
 @Controller('loadouts/:loadoutId/clothing')
 export class LoadoutClothingController {
 	constructor(
 		private loadoutClothing: LoadoutClothingService,
-		private user: FirebaseUserService,
+		private user: UserService,
 		@Inject(Logger) private logger: LoggerService,
 	) {}
 
