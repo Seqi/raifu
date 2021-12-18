@@ -37,11 +37,13 @@ export class LoadoutService {
 				$or: [{ uid: this.user.uid }, { shared: true }],
 			},
 			{
-				weapons: {
-					attachments: true,
+				populate: {
+					weapons: {
+						attachments: true,
+					},
+					gear: true,
+					clothing: true,
 				},
-				clothing: true,
-				gear: true,
 			},
 		)
 
