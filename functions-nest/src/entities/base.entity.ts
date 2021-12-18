@@ -7,10 +7,10 @@ export abstract class BaseEntity {
 	id: string = nanoid(14)
 
 	@Property({ fieldName: 'createdAt', length: 6 })
-	createdAt!: Date
+	createdAt: Date = new Date()
 
 	@Property({ fieldName: 'updatedAt', length: 6 })
-	updatedAt!: Date
+	updatedAt: Date = new Date()
 }
 
 export abstract class UserBaseEntity extends BaseEntity {
