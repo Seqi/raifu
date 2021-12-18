@@ -1,13 +1,14 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { Logger, Module } from '@nestjs/common'
+import { APP_GUARD } from '@nestjs/core'
 
 import { FirebaseModule } from './firebase'
-import { AppController } from './app.controller'
+import { AuthModule, FirebaseAuthGuard } from './auth'
 import { LoadoutModule } from './features/loadout'
 import { ResourceModule } from './features/resource'
+import { ArmoryModule } from './features/armory'
 import { Attachment, Clothing, Gear, Weapon } from './entities'
-import { ArmoryModule } from './features/armory/armory.module'
-import { AuthModule } from './auth/auth.module'
+import { AppController } from './app.controller'
 
 @Module({
 	imports: [
@@ -24,6 +25,6 @@ import { AuthModule } from './auth/auth.module'
 		LoadoutModule,
 	],
 	controllers: [AppController],
-	providers: [Logger],
+	providers: [Logger, { provide: APP_GUARD, useClass: FirebaseAuthGuard }],
 })
 export class AppModule {}

@@ -1,10 +1,8 @@
 import { Controller, Get, Inject, Logger, LoggerService } from '@nestjs/common'
-import { FirebaseAuthGuard } from 'src/auth/firebase.guard'
 import { UserService } from 'src/auth'
 import { ArmoryDto } from './armory.dto'
 import { ArmoryService } from './armory.service'
 
-@FirebaseAuthGuard()
 @Controller('armory')
 export class ArmoryController {
 	constructor(
