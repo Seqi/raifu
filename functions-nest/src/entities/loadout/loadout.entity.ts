@@ -11,7 +11,7 @@ export class Loadout extends UserBaseEntity {
 	name!: string
 
 	@Property({ nullable: true })
-	shared?: boolean
+	shared?: boolean = false
 
 	@OneToMany(() => LoadoutWeapon, (weapon) => weapon.loadout)
 	weapons: Collection<LoadoutWeapon>
