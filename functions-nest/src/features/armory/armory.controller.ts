@@ -34,7 +34,10 @@ export class ArmoryController {
 
 			return armory
 		} catch (e) {
-			this.logger.error(e)
+			this.logger.error({
+				message: 'An error occurred retrieving armory.',
+				userId: this.user.uid,
+			})
 			throw e
 		}
 	}
