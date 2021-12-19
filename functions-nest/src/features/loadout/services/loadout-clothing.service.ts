@@ -2,17 +2,16 @@ import { EntityRepository } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 
-import { Clothing, LoadoutClothing } from 'src/entities'
+import { Clothing, Loadout, LoadoutClothing } from 'src/entities'
 import { UserService } from 'src/auth'
-import { InjectResourceService, ResourceService } from '../resource'
-import { LoadoutService } from './loadout.service'
+import { InjectResourceService, ResourceService } from '../../resource'
 
 @Injectable()
 export class LoadoutClothingService {
 	constructor(
 		@InjectRepository(LoadoutClothing) private em: EntityRepository<LoadoutClothing>,
 		@InjectResourceService(Clothing) private clothing: ResourceService<Clothing>,
-		private loadouts: LoadoutService,
+		@InjectRepository(Loadout) private loadoutRepository: EntityRepository<Loadout>,
 		private user: UserService,
 	) {}
 
@@ -22,8 +21,11 @@ export class LoadoutClothingService {
 			throw new NotFoundException('Clothing not found.')
 		}
 
-		// TODO: Move to different query? Full fat fetch atm
-		const loadout = await this.loadouts.getById(loadoutId)
+		const loadout = await this.loadoutRepository.findOne({
+			id: loadoutId,
+			uid: this.user.uid,
+		})
+
 		if (!loadout) {
 			throw new NotFoundException('Loadout not found.')
 		}

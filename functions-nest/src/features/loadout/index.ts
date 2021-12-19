@@ -1,4 +1,4 @@
-export * from './loadout.controller'
+export * from './controllers'
 export * from './models'
-export * from './loadout.service'
+export * from './services'
 export * from './loadout.module'

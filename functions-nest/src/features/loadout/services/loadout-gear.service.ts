@@ -2,28 +2,30 @@ import { EntityRepository } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 
-import { LoadoutGear, Gear } from 'src/entities'
+import { LoadoutGear, Gear, Loadout } from 'src/entities'
 import { UserService } from 'src/auth'
-import { InjectResourceService, ResourceService } from '../resource'
-import { LoadoutService } from './loadout.service'
+import { InjectResourceService, ResourceService } from '../../resource'
 
 @Injectable()
 export class LoadoutGearService {
 	constructor(
 		@InjectRepository(LoadoutGear) private em: EntityRepository<LoadoutGear>,
-		@InjectResourceService(Gear) private gears: ResourceService<Gear>,
-		private loadouts: LoadoutService,
+		@InjectResourceService(Gear) private gear: ResourceService<Gear>,
+		@InjectRepository(Loadout) private loadoutRepository: EntityRepository<Loadout>,
 		private user: UserService,
 	) {}
 
 	async add(loadoutId: string, gearId: string) {
-		const gear = await this.gears.getById(gearId)
+		const gear = await this.gear.getById(gearId)
 		if (!gear) {
 			throw new NotFoundException('Gear not found.')
 		}
 
-		// TODO: Move to different query? Full fat fetch atm
-		const loadout = await this.loadouts.getById(loadoutId)
+		const loadout = await this.loadoutRepository.findOne({
+			id: loadoutId,
+			uid: this.user.uid,
+		})
+
 		if (!loadout) {
 			throw new NotFoundException('Loadout not found.')
 		}

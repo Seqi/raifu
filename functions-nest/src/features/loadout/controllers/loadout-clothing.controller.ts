@@ -1,6 +1,6 @@
 import { Controller, Delete, Inject, Logger, LoggerService, Param, Post } from '@nestjs/common'
 import { UserService } from 'src/auth'
-import { LoadoutClothingService } from './loadout-clothing.service'
+import { LoadoutClothingService } from '../services/loadout-clothing.service'
 
 @Controller('loadouts/:loadoutId/clothing')
 export class LoadoutClothingController {

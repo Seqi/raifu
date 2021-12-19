@@ -1,6 +1,6 @@
 import { Controller, Delete, Inject, Logger, LoggerService, Param, Post } from '@nestjs/common'
 import { UserService } from 'src/auth'
-import { LoadoutWeaponService } from './loadout-weapon.service'
+import { LoadoutWeaponService } from '../services/loadout-weapon.service'
 
 @Controller('loadouts/:loadoutId/weapons')
 export class LoadoutWeaponController {

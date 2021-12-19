@@ -15,8 +15,8 @@ import {
 } from '@nestjs/common'
 import { Loadout } from 'src/entities'
 import { UserService } from 'src/auth'
-import { CreateLoadoutDto, UpdateLoadoutDto } from './loadout.dto'
-import { LoadoutService } from './loadout.service'
+import { CreateLoadoutDto, UpdateLoadoutDto, ViewLoadoutDto } from '../loadout.dto'
+import { LoadoutService } from '../services/loadout.service'
 
 @Controller('loadouts')
 export class LoadoutController {
@@ -48,7 +48,7 @@ export class LoadoutController {
 	}
 
 	@Get(':id')
-	async get(@Param('id') loadoutId: string): Promise<Loadout> {
+	async get(@Param('id') loadoutId: string): Promise<ViewLoadoutDto> {
 		try {
 			this.logger.log({ message: `Retrieving loadout.`, loadoutId, userId: this.user.uid })
 

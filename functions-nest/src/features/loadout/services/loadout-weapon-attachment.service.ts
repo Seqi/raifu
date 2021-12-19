@@ -4,7 +4,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 
 import { Attachment, LoadoutWeapon, LoadoutWeaponAttachment } from 'src/entities'
 import { UserService } from 'src/auth'
-import { InjectResourceService, ResourceService } from '../resource'
+import { InjectResourceService, ResourceService } from '../../resource'
 
 @Injectable()
 export class LoadoutWeaponAttachmentService {
