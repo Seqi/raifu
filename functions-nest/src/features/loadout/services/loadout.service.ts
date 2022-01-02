@@ -15,19 +15,53 @@ export class LoadoutService {
 		private user: UserService,
 	) {}
 
-	async getAll(): Promise<Loadout[]> {
+	private extractLoadoutWeapons(loadout: Loadout): ViewLoadoutWeaponDto[] {
+		return loadout.weapons
+			.getSnapshot()
+			.sort((a, b) => b.createdAt.getDate() - a.createdAt.getDate())
+			.flatMap((loadoutWeapon) => {
+				const attachments = loadoutWeapon.attachments.getSnapshot().map((lwa) => ({
+					...lwa.attachment,
+					createdAt: lwa.createdAt,
+					updatedAt: lwa.updatedAt,
+				}))
+
+				return {
+					...loadoutWeapon.weapon,
+					createdAt: loadoutWeapon.createdAt,
+					updatedAt: loadoutWeapon.updatedAt,
+					attachments,
+				} as ViewLoadoutWeaponDto
+			})
+	}
+
+	async getAll(): Promise<ViewLoadoutDto[]> {
 		// TODO: Remove uid from result
-		const result = await this.repo.find(
+		const loadouts = await this.repo.find(
 			{
 				uid: this.user.uid,
 			},
 			{
 				orderBy: { createdAt: QueryOrder.ASC },
-				populate: { weapons: true },
+				populate: { weapons: { weapon: true } },
 			},
 		)
 
-		return result
+		const loadoutDtos = loadouts.map((loadout) => {
+			const weapons = this.extractLoadoutWeapons(loadout)
+
+			const { uid, ...loadoutDto } = loadout
+			const dto: ViewLoadoutDto = {
+				...loadoutDto,
+				weapons,
+				gear: [],
+				clothing: [],
+			}
+
+			return dto
+		})
+
+		return loadoutDtos
 	}
 
 	async getById(id: string): Promise<ViewLoadoutDto> {
@@ -51,23 +85,7 @@ export class LoadoutService {
 			},
 		)
 
-		const weapons: ViewLoadoutWeaponDto[] = loadout.weapons
-			.getSnapshot()
-			.sort((a, b) => b.createdAt.getDate() - a.createdAt.getDate())
-			.flatMap((loadoutWeapon) => {
-				const attachments = loadoutWeapon.attachments.getSnapshot().map((lwa) => ({
-					...lwa.attachment,
-					createdAt: lwa.createdAt,
-					updatedAt: lwa.updatedAt,
-				}))
-
-				return {
-					...loadoutWeapon.weapon,
-					createdAt: loadoutWeapon.createdAt,
-					updatedAt: loadoutWeapon.updatedAt,
-					attachments,
-				} as ViewLoadoutWeaponDto
-			})
+		const weapons: ViewLoadoutWeaponDto[] = this.extractLoadoutWeapons(loadout)
 
 		const gear: Gear[] = loadout.gear
 			.getSnapshot()

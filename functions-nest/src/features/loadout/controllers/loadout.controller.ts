@@ -27,7 +27,7 @@ export class LoadoutController {
 	) {}
 
 	@Get()
-	async getAll(): Promise<Loadout[]> {
+	async getAll(): Promise<ViewLoadoutDto[]> {
 		try {
 			this.logger.log({ message: `Retrieving loadouts.`, userId: this.user.uid })
 
