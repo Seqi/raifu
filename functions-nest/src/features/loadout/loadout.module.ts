@@ -24,9 +24,9 @@ import {
 		MikroOrmModule.forFeature([
 			Loadout,
 			LoadoutWeapon,
-			LoadoutClothing,
-			LoadoutGear,
 			LoadoutWeaponAttachment,
+			LoadoutGear,
+			LoadoutClothing,
 		]),
 	],
 	controllers: [

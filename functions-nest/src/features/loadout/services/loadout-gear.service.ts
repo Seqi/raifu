@@ -15,7 +15,7 @@ export class LoadoutGearService {
 		private user: UserService,
 	) {}
 
-	async add(loadoutId: string, gearId: string) {
+	async add(loadoutId: string, gearId: string): Promise<Gear> {
 		const gear = await this.gear.getById(gearId)
 		if (!gear) {
 			throw new NotFoundException('Gear not found.')
@@ -32,12 +32,14 @@ export class LoadoutGearService {
 
 		// Ensure the combo doesnt exist yet
 		const exists = (await this.em.count({ loadout: { id: loadoutId }, gear: { id: gearId } })) > 0
-		if (!exists) {
+		if (exists) {
 			throw new ConflictException('Gear already exists on loadout.')
 		}
 
 		loadout.gear.add(new LoadoutGear(loadout, gear))
 		this.em.flush()
+
+		return gear
 	}
 
 	async delete(loadoutId: string, gearId: string): Promise<boolean> {

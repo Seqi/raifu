@@ -15,7 +15,7 @@ export class LoadoutGearController {
 		this.logger.log({ message: 'Adding gear to loadout.', userId: this.user.uid, gearId: gearId, loadoutId })
 
 		try {
-			await this.loadoutGear.add(loadoutId, gearId)
+			const gear = await this.loadoutGear.add(loadoutId, gearId)
 
 			this.logger.log({
 				message: 'Successfully added gear to loadout.',
@@ -24,6 +24,8 @@ export class LoadoutGearController {
 				loadoutId,
 				event: 'LOADOUT_ADD_GEAR',
 			})
+
+			return gear
 		} catch (e) {
 			this.logger.error({
 				message: 'Error adding gear to loadout.',

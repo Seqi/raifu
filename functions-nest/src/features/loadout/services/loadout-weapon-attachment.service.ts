@@ -39,7 +39,7 @@ export class LoadoutWeaponAttachmentService {
 				weapon: { id: weaponId },
 			})) > 0
 
-		if (!exists) {
+		if (exists) {
 			throw new ConflictException('Attachment already exists on loadout.')
 		}
 

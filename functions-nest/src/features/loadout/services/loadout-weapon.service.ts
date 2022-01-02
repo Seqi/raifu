@@ -15,7 +15,7 @@ export class LoadoutWeaponService {
 		private user: UserService,
 	) {}
 
-	async add(loadoutId: string, weaponId: string) {
+	async add(loadoutId: string, weaponId: string): Promise<Weapon> {
 		const weapon = await this.weapons.getById(weaponId)
 		if (!weapon) {
 			throw new NotFoundException('Weapon not found.')
@@ -38,6 +38,8 @@ export class LoadoutWeaponService {
 
 		loadout.weapons.add(new LoadoutWeapon(loadout, weapon))
 		this.em.flush()
+
+		return weapon
 	}
 
 	async delete(loadoutId: string, weaponId: string): Promise<boolean> {

@@ -40,10 +40,13 @@ export class LoadoutService {
 			{
 				populate: {
 					weapons: {
-						attachments: true,
+						weapon: true,
+						attachments: {
+							attachment: true,
+						},
 					},
-					gear: true,
-					clothing: true,
+					gear: { gear: true },
+					clothing: { clothing: true },
 				},
 			},
 		)

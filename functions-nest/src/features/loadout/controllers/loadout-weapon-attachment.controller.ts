@@ -25,7 +25,7 @@ export class LoadoutWeaponAttachmentController {
 		})
 
 		try {
-			await this.loadoutWeaponAttachments.add(loadoutId, weaponId, attachmentId)
+			const attachment = await this.loadoutWeaponAttachments.add(loadoutId, weaponId, attachmentId)
 
 			this.logger.log({
 				message: 'Successfully added attachment to loadout weapon.',
@@ -35,6 +35,8 @@ export class LoadoutWeaponAttachmentController {
 				loadoutId,
 				event: 'LOADOUT_ADD_WEAPON_ATTACHMENT',
 			})
+
+			return attachment
 		} catch (e) {
 			this.logger.error({
 				message: 'Error removing attachment from loadout weapon.',

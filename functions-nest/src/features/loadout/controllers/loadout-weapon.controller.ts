@@ -15,7 +15,7 @@ export class LoadoutWeaponController {
 		this.logger.log({ message: 'Adding weapon to loadout.', userId: this.user.uid, weaponId, loadoutId })
 
 		try {
-			await this.loadoutWeapons.add(loadoutId, weaponId)
+			const weapon = await this.loadoutWeapons.add(loadoutId, weaponId)
 
 			this.logger.log({
 				message: 'Successfully added weapon to loadout.',
@@ -24,6 +24,8 @@ export class LoadoutWeaponController {
 				loadoutId,
 				event: 'LOADOUT_ADD_WEAPON',
 			})
+
+			return weapon
 		} catch (e) {
 			this.logger.error({
 				message: 'Error adding weapon to loadout.',

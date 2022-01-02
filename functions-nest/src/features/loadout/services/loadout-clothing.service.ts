@@ -15,7 +15,7 @@ export class LoadoutClothingService {
 		private user: UserService,
 	) {}
 
-	async add(loadoutId: string, clothingId: string) {
+	async add(loadoutId: string, clothingId: string): Promise<Clothing> {
 		const clothing = await this.clothing.getById(clothingId)
 		if (!clothing) {
 			throw new NotFoundException('Clothing not found.')
@@ -32,12 +32,14 @@ export class LoadoutClothingService {
 
 		// Ensure the combo doesnt exist yet
 		const exists = (await this.em.count({ loadout: { id: loadoutId }, clothing: { id: clothingId } })) > 0
-		if (!exists) {
+		if (exists) {
 			throw new ConflictException('Clothing already exists on loadout.')
 		}
 
 		loadout.clothing.add(new LoadoutClothing(loadout, clothing))
 		this.em.flush()
+
+		return clothing
 	}
 
 	async delete(loadoutId: string, clothingId: string): Promise<boolean> {

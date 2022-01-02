@@ -20,7 +20,7 @@ export class LoadoutClothingController {
 		})
 
 		try {
-			await this.loadoutClothing.add(loadoutId, clothingId)
+			const clothing = await this.loadoutClothing.add(loadoutId, clothingId)
 
 			this.logger.log({
 				message: 'Successfully added clothing to loadout.',
@@ -29,6 +29,8 @@ export class LoadoutClothingController {
 				loadoutId,
 				event: 'LOADOUT_ADD_CLOTHING',
 			})
+
+			return clothing
 		} catch (e) {
 			this.logger.error({
 				message: 'Error adding clothing to loadout.',
