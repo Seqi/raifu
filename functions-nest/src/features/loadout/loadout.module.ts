@@ -1,7 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { Logger, Module } from '@nestjs/common'
 
-import { LoadoutClothing, LoadoutGear, LoadoutWeapon, LoadoutWeaponAttachment } from 'src/entities'
+import { LoadoutClothing, LoadoutGear, LoadoutWeapon, LoadoutWeaponAttachment, Weapon } from 'src/entities'
 import { Loadout } from './models'
 import {
 	LoadoutService,
@@ -27,6 +27,7 @@ import {
 			LoadoutWeaponAttachment,
 			LoadoutGear,
 			LoadoutClothing,
+			Weapon,
 		]),
 	],
 	controllers: [

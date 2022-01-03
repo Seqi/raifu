@@ -1,5 +1,6 @@
-import { Entity, ManyToOne, PrimaryKeyType, Property, Unique } from '@mikro-orm/core'
+import { Entity, ManyToOne, PrimaryKeyType, Unique } from '@mikro-orm/core'
 import { Attachment, Weapon } from '../armory'
+import { AuditedEntity } from '../base.entity'
 import { LoadoutWeapon } from './loadout-weapon.entity'
 import { Loadout } from './loadout.entity'
 
@@ -8,7 +9,7 @@ import { Loadout } from './loadout.entity'
 	name: 'loadout_weapon_attachments_loadout_weapon_id_attachment_id_key',
 	properties: ['loadoutWeapon', 'attachment'],
 })
-export class LoadoutWeaponAttachment {
+export class LoadoutWeaponAttachment extends AuditedEntity {
 	[PrimaryKeyType]: [string, string, string]
 
 	@ManyToOne({
@@ -43,14 +44,12 @@ export class LoadoutWeaponAttachment {
 	})
 	attachment!: Attachment
 
-	@Property({ fieldName: 'createdAt' })
-	createdAt!: Date
+	constructor(loadoutWeapon: LoadoutWeapon, attachment: Attachment, loadout: Loadout, weapon: Weapon) {
+		super()
 
-	@Property({ fieldName: 'updatedAt' })
-	updatedAt!: Date
-
-	constructor(loadoutWeapon: LoadoutWeapon, attachment: Attachment) {
 		this.loadoutWeapon = loadoutWeapon
 		this.attachment = attachment
+		this.loadout = loadout
+		this.weapon = weapon
 	}
 }

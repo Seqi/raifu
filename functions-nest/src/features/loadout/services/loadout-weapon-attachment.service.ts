@@ -2,7 +2,7 @@ import { EntityRepository } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 
-import { Attachment, LoadoutWeapon, LoadoutWeaponAttachment } from 'src/entities'
+import { Attachment, Loadout, LoadoutWeapon, LoadoutWeaponAttachment, Weapon } from 'src/entities'
 import { UserService } from 'src/auth'
 import { InjectResourceService, ResourceService } from '../../resource'
 
@@ -11,6 +11,8 @@ export class LoadoutWeaponAttachmentService {
 	constructor(
 		@InjectRepository(LoadoutWeaponAttachment) private em: EntityRepository<LoadoutWeaponAttachment>,
 		@InjectRepository(LoadoutWeapon) private loadoutWeapon: EntityRepository<LoadoutWeapon>,
+		@InjectRepository(Loadout) private loadout: EntityRepository<Loadout>,
+		@InjectRepository(Weapon) private weapon: EntityRepository<Weapon>,
 		@InjectResourceService(Attachment) private attachments: ResourceService<Attachment>,
 		private user: UserService,
 	) {}
@@ -43,10 +45,18 @@ export class LoadoutWeaponAttachmentService {
 			throw new ConflictException('Attachment already exists on loadout.')
 		}
 
-		const loadoutWeaponAttachment = new LoadoutWeaponAttachment(loadoutWeapon, attachment)
+		const loadoutWeaponAttachment = new LoadoutWeaponAttachment(
+			loadoutWeapon,
+			attachment,
+			this.loadout.getReference(loadoutId),
+			this.weapon.getReference(weaponId),
+		)
+
 		loadoutWeapon.attachments.add(loadoutWeaponAttachment)
 
 		await this.em.flush()
+
+		return attachment
 	}
 
 	async delete(loadoutId: string, weaponId: string, attachmentId: string): Promise<boolean> {
