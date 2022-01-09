@@ -47,20 +47,7 @@ export class LoadoutService {
 			},
 		)
 
-		const loadoutDtos = loadouts.map((loadout) => {
-			const weapons = this.extractLoadoutWeapons(loadout)
-
-			const { uid, ...loadoutDto } = loadout
-			const dto: ViewLoadoutDto = {
-				...loadoutDto,
-				weapons,
-				gear: [],
-				clothing: [],
-			}
-
-			return dto
-		})
-
+		const loadoutDtos = loadouts.map(ViewLoadoutDto.fromLoadout)
 		return loadoutDtos
 	}
 
@@ -85,35 +72,7 @@ export class LoadoutService {
 			},
 		)
 
-		const weapons: ViewLoadoutWeaponDto[] = this.extractLoadoutWeapons(loadout)
-
-		const gear: Gear[] = loadout.gear
-			.getSnapshot()
-			.sort((a, b) => b.createdAt.getDate() - a.createdAt.getDate())
-			.flatMap((loadoutGear) => ({
-				...loadoutGear.gear,
-				createdAt: loadoutGear.createdAt,
-				updatedAt: loadoutGear.updatedAt,
-			}))
-
-		const clothing: Clothing[] = loadout.clothing
-			.getSnapshot()
-			.sort((a, b) => b.createdAt.getDate() - a.createdAt.getDate())
-			.flatMap((loadoutClothing) => ({
-				...loadoutClothing.clothing,
-				createdAt: loadoutClothing.createdAt,
-				updatedAt: loadoutClothing.updatedAt,
-			}))
-
-		const { uid, ...loadoutDto } = loadout
-		const dto: ViewLoadoutDto = {
-			...loadoutDto,
-			weapons,
-			gear,
-			clothing,
-		}
-
-		return { ...dto, weapons, gear, clothing }
+		return ViewLoadoutDto.fromLoadout(loadout)
 	}
 
 	async add(dto: CreateLoadoutDto): Promise<Loadout> {
