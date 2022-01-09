@@ -3,7 +3,6 @@ import {
 	Get,
 	Post,
 	Body,
-	Patch,
 	Param,
 	Delete,
 	Inject,
@@ -20,7 +19,7 @@ import { EventService } from './event.service'
 import { CreateEventDto, UpdateEventDto, ViewEventDto } from './event.dto'
 import { UserService } from 'src/auth'
 
-@Controller('event')
+@Controller('events')
 export class EventController {
 	constructor(
 		private readonly events: EventService,
@@ -156,13 +155,15 @@ export class EventController {
 		try {
 			this.logger.log({ message: 'Removing loadout from event.', userId: this.user.uid, eventId })
 
-			await this.events.setEventLoadout(eventId, null)
+			const loadout = await this.events.setEventLoadout(eventId, null)
 			this.logger.log({
 				message: 'Successfully removed loadout from event.',
 				user: this.user.uid,
 				eventId,
 				event: 'EVENT_REMOVED_LOADOUT',
 			})
+
+			return loadout
 		} catch (e) {
 			this.logger.error({
 				message: 'An error occurred removing loadout from event.',
@@ -180,7 +181,7 @@ export class EventController {
 		try {
 			this.logger.log({ message: 'Setting loadout on event.', userId: this.user.uid, eventId, loadoutId })
 
-			await this.events.setEventLoadout(eventId, loadoutId)
+			const loadout = await this.events.setEventLoadout(eventId, loadoutId)
 
 			this.logger.log({
 				message: 'Successfully set loadout on event.',
@@ -189,6 +190,8 @@ export class EventController {
 				loadoutId,
 				event: 'EVENT_SET_LOADOUT',
 			})
+
+			return loadout
 		} catch (e) {
 			this.logger.error({
 				message: 'An error occurred setting loadout on event.',

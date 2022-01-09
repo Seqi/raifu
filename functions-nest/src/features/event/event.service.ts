@@ -13,7 +13,8 @@ import { CreateEventDto, UpdateEventDto, ViewEventDto, ViewEventUserDto } from '
 export class EventService {
 	constructor(
 		@InjectRepository(Event) private repo: EntityRepository<Event>,
-		private loadoutRepo: EntityRepository<Loadout>,
+		@InjectRepository(EventUser) private eventUsers: EntityRepository<EventUser>,
+		@InjectRepository(Loadout) private loadoutRepo: EntityRepository<Loadout>,
 		private user: UserService,
 		@Inject(FirebaseAuth) private auth: Auth,
 	) {}
@@ -140,24 +141,27 @@ export class EventService {
 		}
 	}
 
-	async setEventLoadout(id: string, loadoutId: string | null): Promise<void> {
-		// Check the user has access to this event
-		const event = await this.repo.findOne({
-			id: id,
-			users: {
+	async setEventLoadout(id: string, loadoutId: string | null): Promise<Loadout | null> {
+		const eventUser = await this.eventUsers.findOne(
+			{
 				uid: this.user.uid,
+				event: {
+					id: id,
+				},
 			},
-		})
+			{ loadout: true },
+		)
 
-		if (!event) {
+		if (!eventUser) {
 			throw new NotFoundException('Event not found.')
 		}
-
-		const eventUser = event.users.getItems().find((user) => user.uid === this.user.uid)
 
 		// Set the loadout
 		if (loadoutId === null) {
 			eventUser.loadout = null
+			this.repo.flush()
+
+			return null
 		} else {
 			const loadout = await this.loadoutRepo.findOne({
 				id: loadoutId,
@@ -169,9 +173,10 @@ export class EventService {
 			}
 
 			eventUser.loadout = loadout
-		}
+			this.repo.flush()
 
-		this.repo.flush()
+			return loadout
+		}
 	}
 
 	async join(id: string): Promise<void> {

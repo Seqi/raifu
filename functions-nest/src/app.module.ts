@@ -9,6 +9,7 @@ import { ResourceModule } from './features/resource'
 import { ArmoryModule } from './features/armory'
 import { Attachment, Clothing, Gear, Weapon } from './entities'
 import { AppController } from './app.controller'
+import { EventModule } from './features/event'
 
 @Module({
 	imports: [
@@ -23,6 +24,7 @@ import { AppController } from './app.controller'
 		]),
 		ArmoryModule,
 		LoadoutModule,
+		EventModule,
 	],
 	controllers: [AppController],
 	providers: [Logger, { provide: APP_GUARD, useClass: FirebaseAuthGuard }],
