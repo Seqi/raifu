@@ -155,7 +155,7 @@ export class EventController {
 		try {
 			this.logger.log({ message: 'Removing loadout from event.', userId: this.user.uid, eventId })
 
-			const loadout = await this.events.setEventLoadout(eventId, null)
+			const loadout = await this.events.setLoadout(eventId, null)
 			this.logger.log({
 				message: 'Successfully removed loadout from event.',
 				user: this.user.uid,
@@ -181,7 +181,7 @@ export class EventController {
 		try {
 			this.logger.log({ message: 'Setting loadout on event.', userId: this.user.uid, eventId, loadoutId })
 
-			const loadout = await this.events.setEventLoadout(eventId, loadoutId)
+			const loadout = await this.events.setLoadout(eventId, loadoutId)
 
 			this.logger.log({
 				message: 'Successfully set loadout on event.',

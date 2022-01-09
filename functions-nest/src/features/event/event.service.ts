@@ -8,6 +8,7 @@ import { Event, EventUser, Loadout } from 'src/entities'
 import { FirebaseAuth } from 'src/firebase'
 import { UserService } from 'src/auth'
 import { CreateEventDto, UpdateEventDto, ViewEventDto, ViewEventUserDto } from './event.dto'
+import { ViewLoadoutDto } from '../loadout'
 
 @Injectable()
 export class EventService {
@@ -61,7 +62,6 @@ export class EventService {
 			},
 			{
 				orderBy: { createdAt: QueryOrder.ASC },
-
 				populate: {
 					users: {
 						loadout: {
@@ -93,6 +93,7 @@ export class EventService {
 				const dtoUser: ViewEventUserDto = {
 					...user,
 					displayName: fbUser.displayName || fbUser.email,
+					loadout: user.loadout && ViewLoadoutDto.fromLoadout(user.loadout),
 				}
 
 				return dtoUser
@@ -141,7 +142,7 @@ export class EventService {
 		}
 	}
 
-	async setEventLoadout(id: string, loadoutId: string | null): Promise<Loadout | null> {
+	async setLoadout(id: string, loadoutId: string | null): Promise<Loadout | null> {
 		const eventUser = await this.eventUsers.findOne(
 			{
 				uid: this.user.uid,

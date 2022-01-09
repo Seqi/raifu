@@ -1,6 +1,7 @@
 import { OmitType, PartialType } from '@nestjs/swagger'
 import { IsNotEmpty, MaxLength, IsBoolean, IsDate } from 'class-validator'
 import { Event, EventUser } from 'src/entities'
+import { ViewLoadoutDto } from '../loadout/loadout.dto'
 
 export class CreateEventDto {
 	@IsNotEmpty()
@@ -26,6 +27,7 @@ export class ViewEventDto extends OmitType(Event, ['users']) {
 	isGroup?: boolean
 }
 
-export class ViewEventUserDto extends EventUser {
+export class ViewEventUserDto extends OmitType(EventUser, ['loadout']) {
 	displayName: string
+	loadout?: ViewLoadoutDto
 }
