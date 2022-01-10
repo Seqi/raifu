@@ -4,7 +4,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 
 import { LoadoutGear, Gear, Loadout } from 'src/entities'
 import { UserService } from 'src/auth'
-import { InjectResourceService, ResourceService } from '../../resource'
+import { InjectResourceService, ResourceService } from 'src/features/resource'
 
 @Injectable()
 export class LoadoutGearService {

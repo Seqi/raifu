@@ -5,7 +5,6 @@ import { EntityRepository, QueryOrder } from '@mikro-orm/core'
 import { UserService } from 'src/auth'
 import { Loadout } from '../models'
 import { CreateLoadoutDto, UpdateLoadoutDto, ViewLoadoutDto, ViewLoadoutWeaponDto } from '../loadout.dto'
-import { Clothing, Gear } from 'src/entities'
 
 @Injectable()
 export class LoadoutService {
