@@ -130,7 +130,7 @@ export class EventService {
 			throw new NotFoundException()
 		}
 
-		Object.apply(event, dto)
+		Object.assign(event, dto)
 		this.repo.flush()
 	}
 
