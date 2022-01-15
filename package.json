@@ -19,7 +19,7 @@
 		"@types/react-router-dom": "^5.1.2",
 		"core-js": "^2.6.9",
 		"firebase": "^8.2.2",
-		"marked": "^0.8.2",
+		"marked": "^4.0.10",
 		"moment": "^2.24.0",
 		"moment-range": "^4.0.2",
 		"qs": "^6.5.2",
