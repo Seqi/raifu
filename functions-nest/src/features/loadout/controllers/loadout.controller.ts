@@ -42,7 +42,7 @@ export class LoadoutController {
 
 			return loadouts
 		} catch (e) {
-			this.logger.error(`Failed to retrieve loadouts.`, { userId: this.user.uid })
+			this.logger.error({ message: `Failed to retrieve loadouts.`, userId: this.user.uid })
 			throw e
 		}
 	}

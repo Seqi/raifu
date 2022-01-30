@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { UserService } from 'src/auth'
-import { LoadoutService } from '.'
+import { LoadoutService } from '../services'
 import { LoadoutController } from './loadout.controller'
 
 describe('LoadoutController', () => {
