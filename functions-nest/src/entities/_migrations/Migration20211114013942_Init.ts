@@ -97,7 +97,6 @@ export class Migration20211114013942_Init extends Migration {
 				'"createdAt" timestamptz(0) not null, ' +
 				'"updatedAt" timestamptz(0) not null,' +
 				'constraint "loadout_weapon_attachments_pkey" primary key ("loadout_weapon_id", "loadout_id", "weapon_id", "attachment_id"),' +
-				'constraint "loadout_weapon_attachments_pkey" primary key ("loadout_weapon_id", "loadout_id", "weapon_id", "attachment_id"),' +
 				'constraint "loadout_weapon_attachments_loadout_weapon_id_fk" foreign key ("loadout_weapon_id") references "loadout_weapons" ("id") on update cascade on delete cascade,' +
 				'constraint "loadout_weapon_attachments_loadout_id_fk" foreign key ("loadout_id") references "loadouts" ("id") on update cascade on delete cascade,' +
 				'constraint "loadout_weapon_attachments_weapon_id_fk" foreign key ("weapon_id") references "weapons" ("id") on update cascade on delete cascade,' +
