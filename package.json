@@ -39,7 +39,7 @@
 		"prettier": "^2.2.1"
 	},
 	"scripts": {
-		"start": "concurrently -n web,firebase,nest -c \"blue.bold,yellow.bold, red.bold\" --kill-others \"npm:web\" \"npm:firebase\" \"npm:functions:build\"",
+		"start": "concurrently -n web,firebase,nest -c \"blue.bold,yellow.bold,red.bold\" --kill-others \"npm:web\" \"npm:firebase\" \"npm:functions:build\"",
 		"web": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
