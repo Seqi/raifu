@@ -37,7 +37,7 @@ export class LoadoutGearService {
 		}
 
 		loadout.gear.add(new LoadoutGear(loadout, gear))
-		this.em.flush()
+		await this.em.flush()
 
 		return gear
 	}

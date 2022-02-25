@@ -11,10 +11,13 @@ export class EventUserService {
 	constructor(@Inject(FirebaseAuth) private auth: Auth) {}
 
 	async getUser(user: EventUser): Promise<ViewEventUserDto> {
+		// Strip the event
+		const { event, ...userProps } = user
+
 		const firebaseUser = await this.auth.getUser(user.uid)
 
 		const dtoUser: ViewEventUserDto = {
-			...user,
+			...userProps,
 			displayName: firebaseUser.displayName || firebaseUser.email,
 			loadout: user.loadout && ViewLoadoutDto.fromLoadout(user.loadout),
 		}

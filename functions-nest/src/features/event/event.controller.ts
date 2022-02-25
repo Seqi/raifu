@@ -150,12 +150,12 @@ export class EventController {
 	}
 
 	@Post(':id/loadout/remove')
-	@HttpCode(HttpStatus.NO_CONTENT)
 	async removeLoadout(@Param('id') eventId: string) {
 		try {
 			this.logger.log({ message: 'Removing loadout from event.', userId: this.user.uid, eventId })
 
-			const loadout = await this.events.setLoadout(eventId, null)
+			await this.events.setLoadout(eventId, null)
+
 			this.logger.log({
 				message: 'Successfully removed loadout from event.',
 				user: this.user.uid,
@@ -163,7 +163,8 @@ export class EventController {
 				event: 'EVENT_REMOVED_LOADOUT',
 			})
 
-			return loadout
+			const event = await this.events.getById(eventId)
+			return event
 		} catch (e) {
 			this.logger.error({
 				message: 'An error occurred removing loadout from event.',
@@ -176,12 +177,11 @@ export class EventController {
 	}
 
 	@Post(':id/loadout/:loadoutId')
-	@HttpCode(HttpStatus.NO_CONTENT)
 	async setLoadout(@Param('id') eventId: string, @Param('loadoutId') loadoutId: string) {
 		try {
 			this.logger.log({ message: 'Setting loadout on event.', userId: this.user.uid, eventId, loadoutId })
 
-			const loadout = await this.events.setLoadout(eventId, loadoutId)
+			await this.events.setLoadout(eventId, loadoutId)
 
 			this.logger.log({
 				message: 'Successfully set loadout on event.',
@@ -191,7 +191,8 @@ export class EventController {
 				event: 'EVENT_SET_LOADOUT',
 			})
 
-			return loadout
+			const event = await this.events.getById(eventId)
+			return event
 		} catch (e) {
 			this.logger.error({
 				message: 'An error occurred setting loadout on event.',

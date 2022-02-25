@@ -14,26 +14,6 @@ export class LoadoutService {
 		private user: UserService,
 	) {}
 
-	private extractLoadoutWeapons(loadout: Loadout): ViewLoadoutWeaponDto[] {
-		return loadout.weapons
-			.getSnapshot()
-			.sort((a, b) => b.createdAt.getDate() - a.createdAt.getDate())
-			.flatMap((loadoutWeapon) => {
-				const attachments = loadoutWeapon.attachments.getSnapshot().map((lwa) => ({
-					...lwa.attachment,
-					createdAt: lwa.createdAt,
-					updatedAt: lwa.updatedAt,
-				}))
-
-				return {
-					...loadoutWeapon.weapon,
-					createdAt: loadoutWeapon.createdAt,
-					updatedAt: loadoutWeapon.updatedAt,
-					attachments,
-				} as ViewLoadoutWeaponDto
-			})
-	}
-
 	async getAll(): Promise<ViewLoadoutDto[]> {
 		// TODO: Remove uid from result
 		const loadouts = await this.repo.find(
@@ -90,7 +70,7 @@ export class LoadoutService {
 		}
 
 		Object.apply(loadout, dto)
-		this.repo.flush()
+		await this.repo.flush()
 	}
 
 	async remove(id: string): Promise<void> {

@@ -37,7 +37,7 @@ export class LoadoutClothingService {
 		}
 
 		loadout.clothing.add(new LoadoutClothing(loadout, clothing))
-		this.em.flush()
+		await this.em.flush()
 
 		return clothing
 	}

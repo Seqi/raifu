@@ -37,7 +37,7 @@ export class LoadoutWeaponService {
 		}
 
 		loadout.weapons.add(new LoadoutWeapon(loadout, weapon))
-		this.em.flush()
+		await this.em.flush()
 
 		return weapon
 	}
