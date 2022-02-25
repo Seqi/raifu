@@ -1,14 +1,11 @@
 import { EntityRepository, QueryOrder } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common'
-
-import { Auth } from 'firebase-admin/auth'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 
 import { Event, EventUser, Loadout } from 'src/entities'
-import { FirebaseAuth } from 'src/firebase'
 import { UserService } from 'src/auth'
 import { CreateEventDto, UpdateEventDto, ViewEventDto, ViewEventUserDto } from './event.dto'
-import { ViewLoadoutDto } from '../loadout'
+import { EventUserService } from './event-user.service'
 
 @Injectable()
 export class EventService {
@@ -16,8 +13,8 @@ export class EventService {
 		@InjectRepository(Event) private repo: EntityRepository<Event>,
 		@InjectRepository(EventUser) private eventUsers: EntityRepository<EventUser>,
 		@InjectRepository(Loadout) private loadoutRepo: EntityRepository<Loadout>,
+		private eventUserService: EventUserService,
 		private user: UserService,
-		@Inject(FirebaseAuth) private auth: Auth,
 	) {}
 
 	async getAll(): Promise<Event[]> {
@@ -30,14 +27,13 @@ export class EventService {
 			},
 			{
 				orderBy: { createdAt: QueryOrder.ASC },
+				// TODO: Probably not needed for list
 				populate: {
 					users: {
 						loadout: {
 							weapons: {
 								attachments: true,
 							},
-							gear: true,
-							clothing: true,
 						},
 					},
 				},
@@ -66,10 +62,13 @@ export class EventService {
 					users: {
 						loadout: {
 							weapons: {
-								attachments: true,
+								weapon: true,
+								attachments: {
+									attachment: true,
+								},
 							},
-							gear: true,
-							clothing: true,
+							gear: { gear: true },
+							clothing: { clothing: true },
 						},
 					},
 				},
@@ -86,20 +85,11 @@ export class EventService {
 			}
 		}
 
-		// Move the current user to the front
 		const users: ViewEventUserDto[] = await Promise.all(
-			event.users.getSnapshot().map(async (user): Promise<ViewEventUserDto> => {
-				const fbUser = await this.auth.getUser(user.uid)
-				const dtoUser: ViewEventUserDto = {
-					...user,
-					displayName: fbUser.displayName || fbUser.email,
-					loadout: user.loadout && ViewLoadoutDto.fromLoadout(user.loadout),
-				}
-
-				return dtoUser
-			}),
+			event.users.getItems().map(async (user) => this.eventUserService.getUser(user)),
 		)
 
+		// Move the current user to the front
 		users.unshift(users.splice(currentUserIndex, 1)[0])
 
 		return {
@@ -131,7 +121,7 @@ export class EventService {
 		}
 
 		Object.assign(event, dto)
-		this.repo.flush()
+		await this.repo.flush()
 	}
 
 	async remove(id: string): Promise<void> {
@@ -160,7 +150,7 @@ export class EventService {
 		// Set the loadout
 		if (loadoutId === null) {
 			eventUser.loadout = null
-			this.repo.flush()
+			await this.repo.flush()
 
 			return null
 		} else {
@@ -174,7 +164,7 @@ export class EventService {
 			}
 
 			eventUser.loadout = loadout
-			this.repo.flush()
+			await this.repo.flush()
 
 			return loadout
 		}
@@ -189,7 +179,7 @@ export class EventService {
 
 		// Try and grab this user in the event to see if they're either
 		// already apart of it - or have been before but left anad are rejoining
-		const eventUser = (await event.users.matching({ having: { uid: this.user.uid } }))[0]
+		const eventUser = (await event.users.matching({ where: { uid: this.user.uid } }))[0]
 
 		// Create the event user if doesn't exist
 		if (!eventUser) {
@@ -207,7 +197,7 @@ export class EventService {
 			eventUser.deletedAt = null
 		}
 
-		this.repo.flush()
+		await this.repo.flush()
 	}
 
 	async leave(id: string): Promise<void> {
@@ -233,6 +223,6 @@ export class EventService {
 			eventUser.deletedAt = new Date()
 		}
 
-		this.repo.flush()
+		await this.repo.flush()
 	}
 }
