@@ -1,0 +1,5 @@
+export * from './loadout-clothing.controller'
+export * from './loadout-gear.controller'
+export * from './loadout-weapon-attachment.controller'
+export * from './loadout-weapon.controller'
+export * from './loadout.controller'

@@ -34,12 +34,7 @@ const RaifuAlert = styled(Alert)(({ theme }) => ({
 	backgroundColor: theme.palette.primary.main,
 }))
 
-const EventActions: FC<EventActionsProps> = ({
-	event,
-	updateEvent,
-	deleteEvent,
-	leaveEvent,
-}) => {
+const EventActions: FC<EventActionsProps> = ({ event, updateEvent, deleteEvent, leaveEvent }) => {
 	let [dialog, setDialog] = useState<EventActionsDialogs>(null)
 	let [speedDialOpen, setSpeedDialOpen] = useState(false)
 	let [snackbarOpen, setSnackbarOpen] = useState(() => {
@@ -52,24 +47,24 @@ const EventActions: FC<EventActionsProps> = ({
 	let isInvite = event.users!.length === 0
 	let canViewChecklist = userLoadout != null
 
-	// Hide the entire speed dial if no actions are available
+	// Not the most reassuring check in the world but itll do
+	let isVisit = event.users?.length === 0
 
-	let hasAvailableActions = event.owner || canViewChecklist
+	// Hide the entire speed dial if no actions are available
+	let hasAvailableActions = !isVisit
+
 	const handleSnackbarAction = useCallback(() => {
 		setDialog('invite')
 		setSnackbarOpen(false)
 	}, [])
 
-	const handleSnackbarClose = useCallback(
-		(event?: React.SyntheticEvent, reason?: string) => {
-			if (reason === 'clickaway') {
-				return
-			}
+	const handleSnackbarClose = useCallback((event?: React.SyntheticEvent, reason?: string) => {
+		if (reason === 'clickaway') {
+			return
+		}
 
-			setSnackbarOpen(false)
-		},
-		[]
-	)
+		setSnackbarOpen(false)
+	}, [])
 
 	return (
 		<>
@@ -170,9 +165,7 @@ const EventActions: FC<EventActionsProps> = ({
 				/>
 			)}
 
-			{event.public != null && (
-				<InviteDialog isOpen={ dialog === 'invite' } onClose={ () => setDialog(null) } />
-			)}
+			{event.public != null && <InviteDialog isOpen={ dialog === 'invite' } onClose={ () => setDialog(null) } />}
 
 			<Snackbar open={ snackbarOpen } onClose={ handleSnackbarClose } autoHideDuration={ 6000 }>
 				<RaifuAlert

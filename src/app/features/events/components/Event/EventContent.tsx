@@ -56,12 +56,7 @@ type EventContentProps = {
 	onLoadoutAdded: (id: string) => any
 }
 
-const EventContent: FC<EventContentProps> = ({
-	event,
-	onEventJoined,
-	onLoadoutRemoved,
-	onLoadoutAdded,
-}) => {
+const EventContent: FC<EventContentProps> = ({ event, onEventJoined, onLoadoutRemoved, onLoadoutAdded }) => {
 	const classes = useStyles()
 
 	let [activeDialog, setActiveDialog] = useState<'add' | 'remove' | null>()
@@ -86,7 +81,7 @@ const EventContent: FC<EventContentProps> = ({
 							{user.displayName}
 						</Typography>
 						<Typography align='center' className={ classes.secondaryHeading }>
-							{user.loadout?.getTitle() ?? ''}
+							{user.loadout?.name ?? ''}
 						</Typography>
 					</AccordionSummary>
 
@@ -97,19 +92,11 @@ const EventContent: FC<EventContentProps> = ({
 					{index === 0 && (
 						<AccordionActions>
 							{user.loadout ? (
-								<Button
-									variant='text'
-									color='secondary'
-									onClick={ () => setActiveDialog('remove') }
-								>
+								<Button variant='text' color='secondary' onClick={ () => setActiveDialog('remove') }>
 									Remove loadout
 								</Button>
 							) : (
-								<Button
-									variant='text'
-									color='secondary'
-									onClick={ () => setActiveDialog('add') }
-								>
+								<Button variant='text' color='secondary' onClick={ () => setActiveDialog('add') }>
 									Add loadout
 								</Button>
 							)}

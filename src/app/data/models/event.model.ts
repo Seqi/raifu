@@ -9,7 +9,7 @@ class Event {
 		this.name = entity.name
 		this.location = entity.location
 		this.date = new Date(entity.date)
-		this.organiser_uid = entity.organiser_uid
+		this.organiserUid = entity.organiserUid
 		this.public = entity.public
 		this.createdAt = new Date(entity.createdAt)
 		this.updatedAt = new Date(entity.updatedAt)

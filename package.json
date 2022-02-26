@@ -39,7 +39,7 @@
 		"prettier": "^2.2.1"
 	},
 	"scripts": {
-		"start": "concurrently -c \"blue.bold,yellow.bold\" --kill-others \"npm:web\" \"npm:firebase\"",
+		"start": "concurrently -n web,firebase,nest -c \"blue.bold,yellow.bold,red.bold\" --kill-others \"npm:web\" \"npm:firebase\" \"npm:functions:build\"",
 		"web": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
@@ -48,7 +48,9 @@
 		"eject": "react-scripts eject",
 		"lint": "eslint src/**/*.js",
 		"lint-fix": "eslint src/**/*.js --fix",
-		"init": "npm i && cd functions && npm i && cd .."
+		"init": "npm i && cd functions && npm i && cd ..",
+		"functions:start": "concurrently -n firebase,nest -c \"yellow.bold,red.bold\" --kill-others \"npm:firebase\" \"npm:functions:build\"",
+		"functions:build": "npm run --prefix functions nest build -w"
 	},
 	"browserslist": {
 		"production": [
