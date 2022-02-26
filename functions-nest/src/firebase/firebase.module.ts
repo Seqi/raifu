@@ -1,6 +1,7 @@
 import { DynamicModule, Global, Module, Provider } from '@nestjs/common'
 
-import { app, initializeApp } from 'firebase-admin'
+import type { app } from 'firebase-admin'
+import { initializeApp } from 'firebase-admin/app'
 
 export const FirebaseAuth = Symbol('FirebaseAuth')
 export const FirebaseApp = Symbol('FirebaseApp')
