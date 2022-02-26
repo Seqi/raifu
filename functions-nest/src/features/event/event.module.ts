@@ -3,7 +3,7 @@ import { EventService } from './event.service'
 import { EventController } from './event.controller'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { Loadout, LoadoutService } from '../loadout'
-import { EventUser } from 'src/entities'
+import { Event, EventUser } from 'src/entities'
 import { EventUserService } from './event-user.service'
 
 @Module({
