@@ -1,4 +1,4 @@
-import { EntityRepository, QueryOrder } from '@mikro-orm/core'
+import { EntityRepository, LoadStrategy, QueryOrder } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 
@@ -23,9 +23,11 @@ export class EventService {
 			{
 				users: {
 					uid: this.user.uid,
+					deletedAt: null,
 				},
 			},
 			{
+				strategy: LoadStrategy.JOINED,
 				orderBy: { createdAt: QueryOrder.ASC },
 				// TODO: Probably not needed for list
 				populate: {
@@ -52,11 +54,13 @@ export class EventService {
 					{
 						users: {
 							uid: this.user.uid,
+							deletedAt: null,
 						},
 					},
 				],
 			},
 			{
+				strategy: LoadStrategy.JOINED,
 				orderBy: { createdAt: QueryOrder.ASC },
 				populate: {
 					users: {
@@ -75,7 +79,8 @@ export class EventService {
 			},
 		)
 
-		const currentUserIndex = event.users.getItems().findIndex((user) => user.uid === this.user.uid)
+		const activeUsers = event.users.getItems().filter((user) => !user.deletedAt)
+		const currentUserIndex = activeUsers.findIndex((user) => user.uid === this.user.uid)
 
 		// If its a public event where the user doesnt exist on it, don't show the users info
 		if (currentUserIndex < 0) {
@@ -86,7 +91,7 @@ export class EventService {
 		}
 
 		const users: ViewEventUserDto[] = await Promise.all(
-			event.users.getItems().map(async (user) => this.eventUserService.getUser(user)),
+			activeUsers.map(async (user) => this.eventUserService.getUser(user)),
 		)
 
 		// Move the current user to the front
@@ -96,7 +101,7 @@ export class EventService {
 			...event,
 			users,
 			owner: event.organiserUid === this.user.uid,
-			isGroup: event.users.length > 1,
+			isGroup: activeUsers.length > 1,
 		}
 	}
 
@@ -211,7 +216,7 @@ export class EventService {
 			throw new BadRequestException('Cannot leave an event you are the organiser of.')
 		}
 
-		const eventUser = (await event.users.matching({ having: { uid: this.user.uid } }))[0]
+		const eventUser = (await event.users.matching({ where: { uid: this.user.uid } }))[0]
 
 		// Do nothing if theyve already left
 		if (eventUser.deletedAt) {
@@ -219,10 +224,8 @@ export class EventService {
 		}
 
 		// Deactivate!!!
-		else if (eventUser?.deletedAt) {
-			eventUser.deletedAt = new Date()
-		}
+		eventUser.deletedAt = new Date()
 
-		await this.repo.flush()
+		await this.repo.persistAndFlush(eventUser)
 	}
 }
