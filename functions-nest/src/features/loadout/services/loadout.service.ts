@@ -51,6 +51,10 @@ export class LoadoutService {
 			},
 		)
 
+		if (!loadout) {
+			return null
+		}
+
 		return ViewLoadoutDto.fromLoadout(loadout)
 	}
 

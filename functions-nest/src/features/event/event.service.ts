@@ -79,6 +79,10 @@ export class EventService {
 			},
 		)
 
+		if (!event) {
+			return null
+		}
+
 		const activeUsers = event.users.getItems().filter((user) => !user.deletedAt)
 		const currentUserIndex = activeUsers.findIndex((user) => user.uid === this.user.uid)
 
