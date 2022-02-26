@@ -5,6 +5,7 @@ import { WinstonModule, utilities } from 'nest-winston'
 import { transports, format } from 'winston'
 import express, { Express } from 'express'
 import { https } from 'firebase-functions'
+import 'source-map-support/register'
 
 import { AppModule } from './app.module'
 
