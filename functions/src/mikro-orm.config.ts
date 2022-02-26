@@ -1,9 +1,9 @@
 export default {
-	dbName: 'raifu',
 	type: 'postgresql',
-	user: 'admin',
-	password: 'secret',
-	host: 'localhost',
+	dbName: process.env.DB_NAME || 'raifu',
+	user: process.env.DB_USER || 'admin',
+	password: process.env.DB_PASSWORD || 'secret',
+	host: process.env.DB_HOST || 'localhost',
 	entities: ['**/*.entity.js'],
 	entitiesTs: ['**/*.entity.ts'],
 	debug: true,
