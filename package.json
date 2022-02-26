@@ -50,7 +50,7 @@
 		"lint-fix": "eslint src/**/*.js --fix",
 		"init": "npm i && cd functions && npm i && cd ..",
 		"functions:start": "concurrently -n firebase,nest -c \"yellow.bold,red.bold\" --kill-others \"npm:firebase\" \"npm:functions:build\"",
-		"functions:build": "cd functions-nest && nest build -w"
+		"functions:build": "npm run --prefix functions nest build -w"
 	},
 	"browserslist": {
 		"production": [

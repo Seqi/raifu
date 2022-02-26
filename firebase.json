@@ -10,8 +10,7 @@
 		]
 	},
 	"functions": {
-		"predeploy": "npm --prefix \"$RESOURCE_DIR\" run build",
-		"source": "./functions-nest"
+		"predeploy": "npm --prefix \"$RESOURCE_DIR\" run build"
 	},
 	"emulators": {
 		"auth": {

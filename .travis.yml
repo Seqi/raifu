@@ -8,7 +8,7 @@ script:
   - npm run build
 before_deploy:
   - npm i -g firebase-tools
-  - npm --prefix functions-nest install
+  - npm --prefix functions install
   - firebase functions:config:set db.user=$DB_USER db.password=$DB_PASSWORD db.name=$DB_NAME db.host=$DB_HOST
     --project raifu-prod
 deploy:
@@ -18,4 +18,4 @@ deploy:
     tags: true
   project: raifu-prod
 after_deploy:
-  - npm --prefix functions-nest migrations:up
+  - npm --prefix functions migrations:up
