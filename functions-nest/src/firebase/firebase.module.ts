@@ -1,7 +1,6 @@
 import { DynamicModule, Global, Module, Provider } from '@nestjs/common'
 
-import type { app } from 'firebase-admin'
-import { initializeApp } from 'firebase-admin/app'
+import firebase from 'firebase-admin'
 
 export const FirebaseAuth = Symbol('FirebaseAuth')
 export const FirebaseApp = Symbol('FirebaseApp')
@@ -10,7 +9,7 @@ export const FirebaseApp = Symbol('FirebaseApp')
 @Module({})
 export class FirebaseModule {
 	static forRoot(): DynamicModule {
-		const app = initializeApp()
+		const app = firebase.initializeApp()
 
 		const providers: Provider[] = [
 			{
@@ -19,7 +18,7 @@ export class FirebaseModule {
 			},
 			{
 				provide: FirebaseAuth,
-				useFactory: (app: app.App) => app.auth(),
+				useFactory: (app: firebase.app.App) => app.auth(),
 				inject: [FirebaseApp],
 			},
 		]
