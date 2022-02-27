@@ -26,7 +26,7 @@ const BlankEvent: Event = {
 	updatedAt: new Date(),
 	date: new Date(),
 	name: '',
-	organiser_uid: '',
+	organiserUid: '',
 	location: '',
 	public: false,
 
@@ -84,7 +84,7 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 					setError('An error occurred while saving event.')
 				})
 		},
-		[onSave]
+		[onSave],
 	)
 
 	// Required to read here due to formState being wrapped with Proxy
@@ -163,8 +163,8 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 									}
 								/>
 								<FormHelperText>
-									If public, users with the event link will be able to add themselves to
-									the event and add their own loadouts.
+									If public, users with the event link will be able to add themselves to the event and add
+									their own loadouts.
 								</FormHelperText>
 							</FormControl>
 						) }

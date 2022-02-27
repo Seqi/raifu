@@ -40,8 +40,8 @@ Finally, replace the existing project id with your Firebase project id in `.fire
 #### Database
 
 Raifu uses PostgreSQL for data storage and requires a connection to run. If you don't have an existing PostgreSQL
-instance, it is recommended to use Docker to spin one up using the docker-compose file in root. Once configured, create a database and run the migration
-script in `sql/create_tables`.
+instance, it is recommended to use Docker to spin one up using the docker-compose file in root. Once configured, you can create the necessary 
+schema by going into the functions folder `cd functions` and executing the migration `npm run migration:up`.
 
 #### Cloud Functions Config
 

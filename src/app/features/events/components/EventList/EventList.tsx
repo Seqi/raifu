@@ -1,15 +1,7 @@
 import React from 'react'
 import { RouteChildrenProps } from 'react-router'
 
-import {
-	Fab,
-	Box,
-	styled,
-	withTheme,
-	withWidth,
-	isWidthDown,
-	WithWidthProps,
-} from '@material-ui/core'
+import { Fab, Box, styled, withTheme, withWidth, isWidthDown, WithWidthProps } from '@material-ui/core'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
@@ -109,9 +101,7 @@ class EventList extends React.Component<EventListProps, EventListState> {
 				// Firebase functions don't like date objects...
 				date: event.date?.toISOString(),
 			})
-			.then((event) =>
-				this.setState((prevState) => ({ events: prevState.events.concat(event) }))
-			)
+			.then((event) => this.setState((prevState) => ({ events: prevState.events.concat(event) })))
 			.then(() => analytics.logEvent('event_added'))
 			.then(() => this.closeDialog())
 	}
@@ -125,16 +115,10 @@ class EventList extends React.Component<EventListProps, EventListState> {
 		}
 
 		if (error) {
-			return (
-				<ErrorOverlay
-					message='Could not load events.'
-					onRetry={ () => this.loadEvents() }
-				/>
-			)
+			return <ErrorOverlay message='Could not load events.' onRetry={ () => this.loadEvents() } />
 		}
 
-		const EventListView =
-			width && isWidthDown('sm', width) ? EventWeeklyView : EventCalendarView
+		const EventListView = width && isWidthDown('sm', width) ? EventWeeklyView : EventCalendarView
 
 		return (
 			<React.Fragment>

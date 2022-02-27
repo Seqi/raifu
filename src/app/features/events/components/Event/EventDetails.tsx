@@ -85,7 +85,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 							loadout: prevState.event?.loadout,
 						},
 					}
-				})
+				}),
 			)
 			.then(() => {
 				let analyticsEvent
@@ -150,15 +150,11 @@ class EventDetails extends React.Component<EventProps, EventState> {
 				return <ErrorOverlay message='Event not found.' icon='fa fa-crosshairs' />
 			}
 
-			return (
-				<ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
-			)
+			return <ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
 		}
 
 		if (!event) {
-			return (
-				<ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
-			)
+			return <ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
 		}
 
 		const eventDate = moment(event.date)
@@ -167,7 +163,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 			<Box display='flex' flexDirection='row'>
 				<SidewaysTitle
 					mr={ { xs: 1, sm: 2 } }
-					title={ event!.getTitle() }
+					title={ event!.name }
 					subtitle={ `${event!.location} ${eventDate.fromNow()}` }
 					lowercase={ true }
 				/>

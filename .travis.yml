@@ -8,12 +8,14 @@ script:
   - npm run build
 before_deploy:
   - npm i -g firebase-tools
-  - cd functions && npm i && cd ..
-  - firebase functions:config:set db.user=$DB_USER db.password=$DB_PASSWORD
-    db.name=$DB_NAME db.host=$DB_HOST --project raifu-prod
+  - npm --prefix functions install
+  - firebase functions:config:set db.user=$DB_USER db.password=$DB_PASSWORD db.name=$DB_NAME
+    db.host=$DB_CONNECTION_NAME --project raifu-prod
 deploy:
   skip_cleanup: true
   provider: firebase
   on:
-    tags: true
+    branch: master
   project: raifu-prod
+after_deploy:
+  - npm --prefix functions run migration:up

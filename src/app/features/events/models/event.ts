@@ -6,7 +6,7 @@ export interface Event extends Resource {
 	name: string
 	date: Date
 	location: string
-	organiser_uid: string
+	organiserUid: string
 	public: boolean
 	owner?: boolean | null
 	isGroup?: boolean | null
@@ -35,7 +35,7 @@ export const EventPropShape = {
 	name: PropTypes.string.isRequired,
 	date: PropTypes.instanceOf(Date).isRequired,
 	location: PropTypes.string.isRequired,
-	organiser_uid: PropTypes.string.isRequired,
+	organiserUid: PropTypes.string.isRequired,
 	public: PropTypes.bool.isRequired,
 	owner: PropTypes.bool,
 	isGroup: PropTypes.bool,
