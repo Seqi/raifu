@@ -97,4 +97,6 @@ ArmoryCard.propTypes = {
 
 ArmoryCard.defaultProps = {
 	canDelete: true,
+	ratio: 1.36,
+	cardProps: {}
 }

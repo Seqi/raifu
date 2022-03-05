@@ -1,0 +1,79 @@
+name: CI/CD
+on:
+  push:
+    branches: [ master ]
+    tags: [ '*' ]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Packages
+        run: npm run init
+
+      - name: Build Web
+        run: npm --prefix web run build
+        
+      - name: (Dev) Set Function Configuration
+        if: ${{ github.ref_type == 'branch' && github.ref == 'refs/heads/master' }}
+        uses: w9jds/firebase-action@master
+        with:
+          args: functions:config:set db.user=$DB_USER db.password=$DB_PASSWORD db.name=$DB_NAME db.host=$DB_HOST
+        env:
+          GCP_SA_KEY : ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAIFU_DEV }}
+          PROJECT_ID: raifu-dev
+
+      - name: (Dev) Deploy Functions
+        if: ${{ github.ref_type == 'branch' && github.ref == 'refs/heads/master' }}
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          GCP_SA_KEY : ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAIFU_DEV }}
+          PROJECT_ID: raifu-dev
+        
+      - name: (Dev) Deploy Web
+        if: ${{ github.ref_type == 'branch' && github.ref == 'refs/heads/master' }}
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAIFU_DEV }}'
+          channelId: live
+          projectId: raifu-dev
+        
+      - name: (Prod) Set Function Configuration
+        if: ${{ github.ref_type == 'tag' && github.ref_name == 'refs/heads/master' }}
+        uses: w9jds/firebase-action@master
+        with:
+          args: functions:config:set db.user=$DB_USER db.password=$DB_PASSWORD db.name=$DB_NAME db.host=$DB_HOST
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAIFU_PROD }}
+          PROJECT_ID: raifu-prod
+
+      - name: (Prod) Deploy Functions
+        if: ${{ github.ref_type == 'tag' && github.ref_name == 'refs/heads/master' }}
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          GCP_SA_KEY : ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAIFU_PROD }}
+          PROJECT_ID: raifu-prod
+
+      - name: (Prod) Deploy
+        if: ${{ github.ref_type == 'tag' && github.ref_name == 'refs/heads/master' }}
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAIFU_PROD }}'
+          channelId: live
+          projectId: raifu-prod
