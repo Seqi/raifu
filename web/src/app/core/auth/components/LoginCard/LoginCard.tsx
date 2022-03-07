@@ -61,7 +61,7 @@ const LoginCard: FC = () => {
 			</AuthCardContent>
 
 			<CardActions>
-				<AuthCardActions to='/signup' text='Don&#39;t have an account? Sign up here' />
+				<AuthCardActions to='signup' text='Don&#39;t have an account? Sign up here' />
 			</CardActions>
 		</Card>
 	)

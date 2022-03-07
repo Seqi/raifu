@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router'
+import { useNavigate, useLocation } from 'react-router-dom'
 import qs from 'qs'
 import moment from 'moment'
 
@@ -7,7 +7,7 @@ import CalendarDateContext from './CalendarDateContext'
 
 const CalendarDateContextProvider: FC = ({ children }) => {
 	const location = useLocation()
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	// TODO: Check having default moment here works ok
 	const [date, setDateState] = useState<moment.Moment>(moment())
@@ -19,12 +19,12 @@ const CalendarDateContextProvider: FC = ({ children }) => {
 				.format('YYYY-MM-DD')
 
 			if (!newDate.isSame(date)) {
-				history.push({
+				navigate({
 					search: qs.stringify({ date: newQs }),
 				})
 			}
 		},
-		[date, history]
+		[date, navigate]
 	)
 
 	// Default to current date

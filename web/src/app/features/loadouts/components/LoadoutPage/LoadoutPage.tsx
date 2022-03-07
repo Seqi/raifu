@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { RouteChildrenProps } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
@@ -12,7 +12,11 @@ import { Loadout } from '../../models'
 
 let analytics = firebase.analytics()
 
-type LoadoutPageProps = RouteChildrenProps<{ id: string }>
+type LoadoutPageProps = {
+	params: {
+		id: string
+	}
+}
 type LoadoutPageState = {
 	loadout?: Loadout
 	loading: boolean
@@ -36,7 +40,7 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 	loadLoadout() {
 		this.setState({ loading: true, error: null }, () => {
 			loadouts
-				.getById(this.props.match!.params.id)
+				.getById(this.props.params.id)
 				.then((loadout) => {
 					if (!this.isUnmounted) {
 						this.setState({ loadout, loading: false })
@@ -112,4 +116,10 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 	}
 }
 
-export default LoadoutPage
+// Before moving to functional compnoents
+function withParams(Component: React.ComponentType<any>) {
+	// eslint-disable-next-line
+	return (props: any) => <Component { ...props } params={ useParams() } />
+}
+
+export default withParams(LoadoutPage)

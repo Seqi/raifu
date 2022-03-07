@@ -1,5 +1,5 @@
 import React from 'react'
-import { RouteChildrenProps } from 'react-router'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
 	Fab,
@@ -23,9 +23,9 @@ import { Event } from '../../models'
 
 let analytics = firebase.analytics()
 
-const EventListContainer = styled(Box)(({ theme }) => ({
+const EventListContainer = styled(Box)({
 	height: '75vh',
-}))
+})
 
 const EventFab = styled(Fab)({
 	position: 'fixed',
@@ -33,7 +33,10 @@ const EventFab = styled(Fab)({
 	right: '3%',
 })
 
-type EventListProps = RouteChildrenProps & WithWidthProps
+type EventListProps = WithWidthProps & {
+	navigate: any
+	location: any
+}
 
 type EventListState = {
 	events: Event[]
@@ -99,7 +102,7 @@ class EventList extends React.Component<EventListProps, EventListState> {
 	}
 
 	view(event: Event) {
-		this.props.history.push(`${this.props.location.pathname}/${event.id}`)
+		this.props.navigate(`${this.props.location.pathname}/${event.id}`)
 	}
 
 	save(event: EventUpdate) {
@@ -165,4 +168,16 @@ class EventList extends React.Component<EventListProps, EventListState> {
 	}
 }
 
-export default withWidth()(withTheme(EventList))
+// Before moving to functional compnoents
+function withLocation(Component: React.ComponentType<any>) {
+	// eslint-disable-next-line
+	return (props: any) => <Component { ...props } location={ useLocation() } />
+}
+
+// Before moving to functional compnoents
+function withNavigate(Component: React.ComponentType<any>) {
+	// eslint-disable-next-line
+	return (props: any) => <Component { ...props } navigate={ useNavigate() } />
+}
+
+export default withWidth()(withTheme(withLocation(withNavigate((EventList)))))

@@ -1,18 +1,10 @@
 import { FC, useContext, useEffect } from 'react'
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	RouteComponentProps,
-} from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 import { Box, styled } from '@material-ui/core'
 
 import UserContext from '../contexts/UserContext'
 import Logo from 'app/core/layout/Logo'
-
-import LoginCard from './LoginCard/LoginCard'
-import SignupCard from './SignupCard/SignupCard'
 
 let AuthFormContainer = styled(Box)({
 	position: 'absolute',
@@ -23,26 +15,20 @@ let AuthFormContainer = styled(Box)({
 	maxWidth: '600px',
 })
 
-type AuthPageProps = RouteComponentProps
-
-const AuthPage: FC<AuthPageProps> = ({ history }) => {
+const AuthPage: FC = () => {
+	const navigate = useNavigate()
 	let user = useContext(UserContext)
 
 	useEffect(() => {
-		user && history.push('/app')
-	}, [user, history])
+		user && navigate('/app', { replace: true })
+	}, [user, navigate])
 
 	return (
 		<div>
 			<Logo pt={ 4 } maxWidth='75%' marginX='auto' width='500px' />
 
 			<AuthFormContainer>
-				<Router basename='/login'>
-					<Switch>
-						<Route path='/signup' component={ SignupCard } />
-						<Route path='/' component={ LoginCard } />
-					</Switch>
-				</Router>
+				<Outlet />
 			</AuthFormContainer>
 		</div>
 	)

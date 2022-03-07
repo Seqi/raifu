@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 import {
 	Box,
 	BoxProps,
@@ -74,7 +74,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
 	const largeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
-	const history = useHistory()
+	const navigate = useNavigate()
 	const user = useContext(UserContext)
 
 	return (
@@ -104,7 +104,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 								color='primary'
 								variant='outlined'
 								size={ largeScreen ? 'large' : 'small' }
-								onClick={ (_) => history.push('/app') }
+								onClick={ (_) => navigate('/app') }
 							>
 								Go to app
 							</ActionButton>
@@ -114,7 +114,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 									color='primary'
 									variant='outlined'
 									size={ largeScreen ? 'large' : 'small' }
-									onClick={ (_) => history.push('/login/signup') }
+									onClick={ (_) => navigate('/login/signup') }
 								>
 									Sign Up
 								</ActionButton>
@@ -123,7 +123,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 									color='primary'
 									variant='outlined'
 									size={ largeScreen ? 'large' : 'small' }
-									onClick={ (_) => history.push('/login') }
+									onClick={ (_) => navigate('/login') }
 								>
 									Log In
 								</ActionButton>

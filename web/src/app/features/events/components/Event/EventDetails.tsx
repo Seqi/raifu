@@ -1,5 +1,4 @@
 import React from 'react'
-import { RouteChildrenProps } from 'react-router'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
@@ -13,10 +12,14 @@ import { Event } from '../../models'
 import { Box } from '@material-ui/core'
 import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 import moment from 'moment'
+import { useNavigate, useParams } from 'react-router-dom'
 
 let analytics = firebase.analytics()
 
-type EventProps = RouteChildrenProps<{ id: string }>
+type EventProps = {
+	params: { id: string }
+	navigate: any
+}
 
 type EventState = {
 	loading: boolean
@@ -49,7 +52,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 	loadEvent() {
 		this.setState({ event: null, loading: true, error: null }, () => {
 			events
-				.getById(this.props.match!.params.id)
+				.getById(this.props.params.id)
 				.then((event) => {
 					if (!this.isUnmounted) {
 						this.setState({ event: event, loading: false })
@@ -107,14 +110,14 @@ class EventDetails extends React.Component<EventProps, EventState> {
 		return events
 			.delete(this.state.event!.id)
 			.then(() => analytics.logEvent('event_deleted'))
-			.then(() => this.props.history.push('/events'))
+			.then(() => this.props.navigate('/events'))
 	}
 
 	leaveEvent() {
 		return events
 			.leave(this.state.event!.id)
 			.then(() => analytics.logEvent('event_left'))
-			.then(() => this.props.history.push('/events'))
+			.then(() => this.props.navigate('/events'))
 	}
 
 	setLoadout(loadoutId: string) {
@@ -190,4 +193,15 @@ class EventDetails extends React.Component<EventProps, EventState> {
 	}
 }
 
-export default EventDetails
+// Before moving to functional compnoents
+function withParams(Component: React.ComponentType<any>) {
+	// eslint-disable-next-line
+	return (props: any) => <Component { ...props } params={ useParams() } />
+}
+// Before moving to functional compnoents
+function withNavigate(Component: React.ComponentType<any>) {
+	// eslint-disable-next-line
+	return (props: any) => <Component { ...props } navigate={ useNavigate() } />
+}
+
+export default withParams(withNavigate(EventDetails))

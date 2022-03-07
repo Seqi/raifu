@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useCallback, FC } from 'react'
-import { RouteChildrenProps } from 'react-router'
 import { Box, Theme, useMediaQuery } from '@material-ui/core'
 
 import { loadouts as loadoutService } from 'app/data/api'
@@ -10,8 +9,8 @@ import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
 import { LoadoutCard, LoadoutCardContainer } from '../cards'
 import { Loadout } from '../../models'
 import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-type LoadoutListProps = RouteChildrenProps
 type LoadoutListState = {
 	loadouts: Loadout[]
 	loading: boolean
@@ -20,7 +19,10 @@ type LoadoutListState = {
 
 const defaultState: LoadoutListState = { loadouts: [], loading: true, error: false }
 
-let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
+let LoadoutList: FC = () => {
+	const navigate = useNavigate()
+	const location = useLocation()
+
 	let mounted = useRef<boolean>(true)
 	useEffect(() => {
 		mounted.current = true
@@ -59,9 +61,9 @@ let LoadoutList: FC<LoadoutListProps> = ({ history, location }) => {
 
 	let viewLoadout = useCallback(
 		(loadout) => {
-			history.push(`${location.pathname}/${loadout.id}`)
+			navigate(`${location.pathname}/${loadout.id}`)
 		},
-		[history, location]
+		[navigate, location]
 	)
 
 	if (loading) {

@@ -1,18 +1,18 @@
 import { useEffect, useContext, useRef, FC, useState } from 'react'
-import { Redirect, Route, RouteProps } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { LoadingOverlay } from 'app/shared/state'
 import { UserContext } from 'app/core/auth/contexts'
+import { Navigate } from 'react-router-dom'
 
-type AuthenticatedRouteProps = RouteProps & {
+type WithAuthenticationOptions = {
 	waitFor?: number
 }
 
-const AuthenticatedRoute: FC<AuthenticatedRouteProps> = ({ waitFor, ...props }) => {
-	let user = useContext(UserContext)
-	let [failed, setFailed] = useState<boolean>(false)
-	let timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+const WithAuthentication: FC<WithAuthenticationOptions> = ({ waitFor, children }) => {
+	const user = useContext(UserContext)
+	const [failed, setFailed] = useState<boolean>(false)
+	const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
 	useEffect(() => {
 		// If we don't have a user, wait to see the specified amount before throwing out
@@ -31,22 +31,22 @@ const AuthenticatedRoute: FC<AuthenticatedRouteProps> = ({ waitFor, ...props }) 
 	}, [user, waitFor])
 
 	if (failed) {
-		return <Redirect to={ { pathname: '/login' } } push={ true } />
+		return <Navigate to={ { pathname: '/login' } } />
 	}
 
 	if (!user) {
 		return <LoadingOverlay />
 	}
 
-	return <Route { ...props } />
+	return <>{ children }</>
 }
 
-AuthenticatedRoute.propTypes = {
+WithAuthentication.propTypes = {
 	waitFor: PropTypes.number,
 }
 
-AuthenticatedRoute.defaultProps = {
+WithAuthentication.defaultProps = {
 	waitFor: 1000,
 }
 
-export default AuthenticatedRoute
+export default WithAuthentication

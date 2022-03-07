@@ -123,7 +123,7 @@ const ViewChangeLogDialog: FC<ViewChangeLogDialogProps> = ({
 	}, [isOpen, newChangeLogs, setCookie])
 
 	return (
-		<Dialog maxWidth='md' open={ isOpen } onBackdropClick={ onClose }>
+		<Dialog maxWidth='md' open={ isOpen } onClose={ onClose }>
 			<DialogContent>
 				{response.error ? (
 					<Error error='Could not load change logs. Please try again later.' />

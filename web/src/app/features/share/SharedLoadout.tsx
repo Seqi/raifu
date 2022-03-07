@@ -1,5 +1,4 @@
 import React from 'react'
-import { RouteChildrenProps } from 'react-router-dom'
 
 import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
@@ -8,17 +7,18 @@ import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import { Loadout, LoadoutView } from 'app/features/loadouts'
 
 import firebase from '../../../firebase'
+import { useParams } from 'react-router-dom'
 
 let analytics = firebase.analytics()
 
-type SharedLoadoutProps = RouteChildrenProps<{ loadoutId: string }>
+type SharedLoadoutProps = { params: { loadoutId: string }}
 type SharedLoadoutState = {
 	loadout: Loadout | null
 	loading: boolean
 	error: any
 }
 
-export default class SharedLoadout extends React.Component<
+class SharedLoadout extends React.Component<
 	SharedLoadoutProps,
 	SharedLoadoutState
 > {
@@ -42,13 +42,9 @@ export default class SharedLoadout extends React.Component<
 	componentWillUnmount = () => (this.unmounted = true)
 
 	loadLoadout = () => {
-		if (!this.props.match) {
-			throw new Error('No props match')
-		}
-
 		this.setState({ loadout: null, error: null, loading: true }, () => {
 			loadouts
-				.getById(this.props.match!.params.loadoutId)
+				.getById(this.props.params.loadoutId)
 				.then((loadout) => {
 					!this.unmounted && this.setState({ loadout: loadout, loading: false })
 				})
@@ -86,3 +82,11 @@ export default class SharedLoadout extends React.Component<
 		)
 	}
 }
+
+// Before moving to functional compnoents
+function withParams(Component: React.ComponentType<any>) {
+	// eslint-disable-next-line
+	return (props: any) => <Component { ...props } params={ useParams() } />
+}
+
+export default withParams(SharedLoadout)

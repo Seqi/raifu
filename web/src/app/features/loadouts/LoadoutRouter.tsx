@@ -1,14 +1,14 @@
 import { FC } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import {  Route, Routes } from 'react-router-dom'
 
 import LoadoutList from './components/LoadoutList/LoadoutList'
 import LoadoutPage from './components/LoadoutPage/LoadoutPage'
 
 const LoadoutRouter: FC = () => (
-	<Switch>
-		<Route path='/app/loadouts/:id' component={ LoadoutPage } />
-		<Route path='/app/loadouts' component={ LoadoutList } />
-	</Switch>
+	<Routes>
+		<Route index={ true } element={ <LoadoutList/> } />
+		<Route path=':id' element={ <LoadoutPage/> } />
+	</Routes>
 )
 
 export default LoadoutRouter
