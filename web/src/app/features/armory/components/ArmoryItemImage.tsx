@@ -45,12 +45,12 @@ const defaults: {
 }
 
 // TODO: Restrict types maybe?
-const loadImage = (
+const loadImage = async (
 	resourceCategory: string,
 	resourceType: string,
 	resourcePlatform: string,
 	rotate?: boolean
-): string | undefined => {
+): Promise<string | undefined> => {
 	try {
 		let formattedPlatform = resourcePlatform
 			.toLowerCase()
@@ -62,12 +62,37 @@ const loadImage = (
 			formattedPlatform += '-flat'
 		}
 
-		// TODO: Use esnext modules
-		return require(`assets/outlines/${resourceCategory}/${resourceType}/${formattedPlatform}.svg`)
-			.default
-	} catch {
+		return import((`assets/outlines/${resourceCategory}/${resourceType}/${formattedPlatform}.svg`)).then(i => i.default)
+	} catch (e){
 		return undefined
 	}
+}
+
+const loadImageOrDefault = async (
+	resourceCategory: Category,
+	resourceType: string,
+	resourcePlatform: string,
+	rotate?: boolean
+): Promise<string | undefined> => {
+
+	let img = await loadImage(resourceCategory, resourceType, resourcePlatform, rotate)
+
+	// Try fetch a default for the provided options
+	if (!img) {
+		const resourceTypeDefaults = defaults[resourceCategory]
+
+		if (!resourceTypeDefaults) {
+			throw new Error(`No default was found for image type ${resourceCategory}`)
+		}  
+
+		// Hack: Can't get type conversion to work nice
+		const type = resourceType as keyof typeof resourceTypeDefaults
+		const defaultPlatform = resourceTypeDefaults[type]
+		img = await loadImage(resourceType, resourceType, defaultPlatform)
+		
+	}
+
+	return img
 }
 
 type ResourceImageProps = {
@@ -84,33 +109,18 @@ const ArmoryItemImage: FC<ResourceImageProps> = ({
 	rotate,
 	style,
 }) => {
-	// TODO: Type
-	let [image, setImage] = useState<any>()
+	let [image, setImage] = useState<string>()
 
 	useEffect(() => {
-		let img = loadImage(resourceType, resource.type, resource.platform, rotate)
-
-		// Try fetch a default for the provided options
-		if (!img) {
-			const resourceTypeDefaults = defaults[resourceType]
-
-			if (!resourceTypeDefaults) {
+		loadImageOrDefault(resourceType, resource.type, resource.platform, rotate)
+			.then(img =>  {
+				if (!img) {
 				// eslint-disable-next-line no-console
-				console.warn(`Type ${resourceType} is not a valid resource type.`)
-			} else {
-				// Hack: Can't get type conversion to work nice
-				const type = resource.type as keyof typeof resourceTypeDefaults
-				const defaultPlatform = resourceTypeDefaults[type]
-				img = loadImage(resourceType, resource.type, defaultPlatform)
-			}
-		}
+					console.warn(`Could not find image for ${resource.type} ${resource.platform}`)
+				}
 
-		if (!img) {
-			// eslint-disable-next-line no-console
-			console.warn(`Could not find image for ${resource.type} ${resource.platform}`)
-		}
-
-		setImage(img)
+				setImage(img)
+			})
 	}, [resourceType, resource, rotate])
 
 	if (image) {
