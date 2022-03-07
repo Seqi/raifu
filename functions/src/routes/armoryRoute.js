@@ -24,7 +24,7 @@ let createArmoryRoute = (entity) => {
 
 			logger.info(`Successfuly retrieved ${items.length} ${tableName}s`, {
 				userId: req.user.uid,
-				event: `${entity.toUpperCase()}_VIEWED`,
+				event: `${entity.name.toUpperCase()}_VIEWED`,
 			})
 
 			return res.json(items)
@@ -44,7 +44,7 @@ let createArmoryRoute = (entity) => {
 			logger.info(`Successfully created ${tableName}.`, {
 				userId: req.user.uid,
 				itemId: item.id,
-				event: `${entity.toUpperCase()}_CREATED`,
+				event: `${entity.name.toUpperCase()}_CREATED`,
 				item,
 			})
 
@@ -79,7 +79,7 @@ let createArmoryRoute = (entity) => {
 				logger.warn(`Attempted to delete a ${entity} that did not exist.`, {
 					userId: req.user.uid,
 					itemId: req.params.id,
-					event: `${entity.toUpperCase()}_REMOVED`,
+					event: `${entity.name.toUpperCase()}_REMOVED`,
 				})
 
 				return res.status(404)
