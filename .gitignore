@@ -33,3 +33,5 @@ firebase-debug.log*
 .firebase/
 ui-debug.log
 .emulator-data
+
+.runtimeconfig.json
