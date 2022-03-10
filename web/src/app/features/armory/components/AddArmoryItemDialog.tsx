@@ -8,6 +8,7 @@ import {
 	DialogContent,
 	DialogActions,
 	Button,
+	TextField,
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 
@@ -17,12 +18,20 @@ import { AddResourceDialogProps } from 'app/features/resource'
 
 import { ArmoryItem } from '../models/armory-item'
 import ArmoryItemSelect from './ArmoryItemSelect'
-import { TextFieldError } from 'app/shared/extensions/material/TextFieldError'
+import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 type AddArmoryItemProps = AddResourceDialogProps<ArmoryItem> & {
 	resourceTitle: string
 	resourceKey: Category
 	resourceName: string
+}
+
+type AddArmoryItemForm = {
+	type: string
+	platform: string
+	brand: string
+	model: string
+	nickname: string
 }
 
 const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
@@ -34,26 +43,23 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 	onClose,
 }) => {
 	let [error, setError] = useState<string | null>(null)
-	let { register, unregister, setValue, control, formState, handleSubmit } = useForm({
-		mode: 'onChange',
-	})
+	let { register, unregister, setValue, control, formState, handleSubmit } =
+		useForm<AddArmoryItemForm>({
+			mode: 'onChange',
+		})
 
 	// Necessary to register the two form type/platform values
 	useEffect(() => {
-		register(
-			{ name: 'type', value: '' },
-			{
-				required: { value: true, message: 'Brah' },
-				maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-			}
-		)
-		register(
-			{ name: 'platform', value: '' },
-			{
-				required: { value: true, message: 'Brah' },
-				maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-			}
-		)
+		register('type', {
+			required: { value: true, message: 'Brah' },
+			maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+		})
+
+		register('platform', {
+			required: { value: true, message: 'Brah' },
+			maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+		})
+
 		// Reset the value if the dialog closes
 		return () => unregister(['type', 'platform'])
 	}, [register, unregister, isOpen])
@@ -74,7 +80,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 
 	let setResource = useCallback(
 		(resource) => {
-			['type', 'platform'].forEach((key) =>
+			(['type', 'platform'] as const).forEach((key) =>
 				setValue(key, resource ? resource[key] : '', {
 					shouldDirty: true,
 					shouldValidate: true,
@@ -115,47 +121,53 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						control={ control }
 						rules={ { maxLength: { value: 64, message: 'Cannot exceed 64 characters.' } } }
 						defaultValue={ '' }
-						render={ ({ onChange, onBlur, value, name }) => (
+						render={ ({ field, fieldState }) => (
 							<Autocomplete
 								options={ brands.slice() }
 								freeSolo={ true }
-								onInputChange={ (_, val) => onChange(val) }
-								inputValue={ value }
+								onInputChange={ (_, val) => field.onChange(val) }
+								onBlur={ field.onBlur }
+								inputValue={ field.value }
 								renderInput={ (params) => (
-									<TextFieldError
+									<TextField
 										{ ...params }
-										name={ name }
+										ref={ field.ref }
+										name={ field.name }
 										fullWidth={ true }
-										label='Brand'
-										formState={ formState }
+										label='Brand'																			
+										error={ !!fieldState.error }
+										helperText={ fieldState.error && fieldState.error.message }
 									/>
 								) }
-								onBlur={ onBlur }
 							/>
 						) }
 					/>
 
-					<TextFieldError
-						name='model'
+					<FormTextField
+						form={ {
+							name: 'model',
+							control,
+							rules: {
+								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+							},
+						} }
 						label='Model'
 						type='text'
 						fullWidth={ true }
-						inputRef={ register({
-							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-						}) }
 						helperText={ 'E.g. Raider 2.0, Trident MK-II, Nighthawk' }
-						formState={ formState }
 					/>
 
-					<TextFieldError
-						name='nickname'
+					<FormTextField
+						form={ {
+							name: 'nickname',
+							control: control,
+							rules: {
+								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+							},
+						} }
 						label='Nickname'
 						type='text'
 						fullWidth={ true }
-						inputRef={ register({
-							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-						}) }
-						formState={ formState }
 					/>
 				</DialogContent>
 

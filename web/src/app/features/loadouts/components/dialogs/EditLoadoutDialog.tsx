@@ -12,7 +12,7 @@ import {
 
 import { Error } from 'app/shared/state'
 import { Loadout, LoadoutPropType } from '../../models'
-import { TextFieldError } from 'app/shared/extensions/material/TextFieldError'
+import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 type EditLoadoutDialogProps = {
 	loadout?: Loadout | null
@@ -35,7 +35,7 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 }) => {
 	let [error, setError] = useState<string | null>(null)
 
-	let { register, handleSubmit, formState } = useForm<LoadoutUpdate>({
+	let { handleSubmit, formState, control } = useForm<LoadoutUpdate>({
 		mode: 'onChange',
 		defaultValues: {
 			name: loadout?.name,
@@ -65,16 +65,18 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 				<DialogContent>
 					{error && <Error error={ error } fillBackground={ true } />}
 
-					<TextFieldError
-						inputRef={ register({
-							required: { value: true, message: 'Name is required.' },
-							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-						}) }
-						name='name'
+					<FormTextField
+						form={ {
+							name: 'name',
+							control,
+							rules: {
+								required: { value: true, message: 'Name is required.' },
+								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+							},
+						} }
 						label='Name'
 						type='text'
 						fullWidth={ true }
-						formState={ formState }
 					/>
 				</DialogContent>
 

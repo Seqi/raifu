@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
+import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 export type LoginFormFields = {
 	email: string
@@ -15,24 +15,22 @@ type LoginFormProps = {
 }
 
 const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
-	let { register, handleSubmit, formState } = useForm<LoginFormFields>({
+	let {  handleSubmit, formState, control } = useForm<LoginFormFields>({
 		mode: 'onChange',
 	})
 
 	return (
 		<form onSubmit={ handleSubmit(onSubmit) }>
-			<TextField
-				inputRef={ register({ required: true }) }
-				name='email'
+			<FormTextField
+				form={ { name: 'email', control, rules: { required: true } } }
 				label='E-mail'
 				autoComplete='email'
 				fullWidth={ true }
 				autoFocus={ true }
 			/>
 
-			<TextField
-				inputRef={ register({ required: true }) }
-				name='password'
+			<FormTextField
+				form={ { name: 'password', control, rules: { required: true } } }
 				label='Password'
 				type='password'
 				margin='normal'

@@ -99,7 +99,7 @@ const LoadoutSummary: FC<LoadoutSummaryProps> = ({ loadout }) => {
 			spacing={ 2 }
 			container={ true }
 			wrap='wrap'
-			justify='space-around'
+			justifyContent='space-around'
 			alignItems='center'
 		>
 			{itemsToDisplay.map((weapon) => (

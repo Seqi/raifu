@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
+import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 export type SignupFormFields = {
 	email: string
@@ -16,50 +16,59 @@ type SignupFormProps = {
 }
 
 export const SignupForm: FC<SignupFormProps> = ({ onSubmit }) => {
-	let { register, watch, handleSubmit, formState, errors } = useForm<SignupFormFields>({
+	let { watch, handleSubmit, formState, control } = useForm<SignupFormFields>({
 		mode: 'onChange',
 	})
 
 	return (
 		<form onSubmit={ handleSubmit(onSubmit) }>
-			<TextField
-				inputRef={ register({ required: true }) }
-				name='email'
+			<FormTextField
+				form={ {
+					name: 'email',
+					control,
+					rules: { required: { value: true, message: 'Email is required.' } },
+				} }
 				label='E-mail'
 				autoFocus={ true }
 				fullWidth={ true }
 				autoComplete='off'
-				error={ !!errors.email }
-				helperText={ errors.email && 'Email is required' }
 			/>
 
-			<TextField
-				inputRef={ register({
-					required: true,
-					minLength: 6,
-				}) }
-				name='password'
+			<FormTextField
+				form={ {
+					name: 'password',
+					control,
+					rules: {
+						required: { value: true, message: 'Password is required.' },
+						minLength: { value: 6, message: 'Password must be at least 6 characters.' },
+					},
+				} }
 				label='Password'
 				type='password'
 				margin='normal'
 				fullWidth={ true }
 				autoComplete='off'
-				error={ !!errors.password }
-				helperText={ errors.password && 'Minimum of six characters' }
 			/>
 
-			<TextField
-				inputRef={ register({
-					validate: (value) => value === watch('password'),
-				}) }
-				name='confirmPassword'
+			<FormTextField
+				form={ {
+					name: 'confirmPassword',
+					control,
+					rules: {
+						validate: (value) => {
+							if (value === watch('password')) {
+								return true
+							} else {
+								return 'Passwords must match'
+							}
+						},
+					},
+				} }
 				label='Confirm password'
 				type='password'
 				margin='dense'
 				fullWidth={ true }
 				autoComplete='off'
-				error={ !!errors.confirmPassword }
-				helperText={ errors.confirmPassword && 'Passwords must match' }
 			/>
 
 			<Button

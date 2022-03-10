@@ -18,7 +18,7 @@ import MomentUtils from '@date-io/moment'
 
 import { Error } from 'app/shared/state'
 import { Event, EventPropShape } from '../models'
-import { TextFieldError } from 'app/shared/extensions/material/TextFieldError'
+import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 const BlankEvent: Event = {
 	id: '',
@@ -59,7 +59,7 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 	onClose,
 }) => {
 	let [error, setError] = useState<string | null>(null)
-	let { register, handleSubmit, formState, control, reset } = useForm<EventUpdate>({
+	let { handleSubmit, formState, control, reset } = useForm<EventUpdate>({
 		mode: 'onChange',
 	})
 
@@ -98,28 +98,32 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 				<DialogContent>
 					{error && <Error error={ error } fillBackground={ true } />}
 
-					<TextFieldError
-						inputRef={ register({
-							required: { value: true, message: 'Name is required.' },
-							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-						}) }
-						name='name'
+					<FormTextField
+						form={ {
+							control: control,
+							name: 'name',
+							rules:  {
+								required: { value: true, message: 'Name is required.' },
+								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+							}
+						} }
 						label='Name'
 						type='text'
 						fullWidth={ true }
-						formState={ formState }
 					/>
 
-					<TextFieldError
-						inputRef={ register({
-							required: { value: true, message: 'Location is required.' },
-							maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-						}) }
-						name='location'
+					<FormTextField
+						form={ {
+							control: control,
+							name: 'location',
+							rules: {
+								required: { value: true, message: 'Location is required.' },
+								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
+							}
+						} }
 						label='Location'
 						type='text'
 						fullWidth={ true }
-						formState={ formState }
 					/>
 
 					<MuiPickersUtilsProvider utils={ MomentUtils }>
@@ -129,14 +133,15 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 								required: { value: true, message: 'Date is required.' },
 							} }
 							control={ control }
-							render={ ({ onChange, onBlur, value, ref }) => (
+							render={ ({ field }) => (
 								<DateTimePicker
-									inputRef={ ref }
-									onBlur={ onBlur }
-									onChange={ (e) => onChange(e?.toDate()) }
+									inputRef={ field.ref }
+									onBlur={ field.onBlur }
+									onChange={ (e) => field.onChange(e?.toDate()) }
 									label='Date'
 									fullWidth={ true }
-									value={ value }
+									value={ field.value }
+									name={ field.name }
 									inputProps={ {
 										helperText: formState.errors.date?.message,
 										error: !!formState.errors.date,
@@ -149,16 +154,15 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 					<Controller
 						name='public'
 						control={ control }
-						render={ ({ ref, onChange, onBlur, value, ...props }) => (
+						render={ ({ field }) => (
 							<FormControl>
 								<FormControlLabel
 									label='Make this event public'
 									control={
 										<Checkbox
-											{ ...props }
-											inputRef={ ref }
-											checked={ value }
-											onChange={ (e) => onChange(e.target.checked) }
+											inputRef={ field.ref }
+											checked={ field.value }
+											onChange={ (e) => field.onChange(e.target.checked) }
 										/>
 									}
 								/>
