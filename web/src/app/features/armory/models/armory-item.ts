@@ -23,7 +23,7 @@ export const ArmoryItemPropShape = {
 	platform: PropTypes.string.isRequired,
 	brand: PropTypes.string,
 	model: PropTypes.string,
-	nickname: PropTypes.string
+	nickname: PropTypes.string,
 }
 
 export interface Weapon extends ArmoryItem {}

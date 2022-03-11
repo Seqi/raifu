@@ -14,7 +14,7 @@ const ErrorTextAlert: FC<ErrorTextAlertProps> = ({ error, onRetry, fillBackgroun
 
 	return (
 		<div
-			style={ {
+			style={{
 				textAlign: 'center',
 				borderRadius: '5px',
 				backgroundColor: fillBackground ? theme.palette.primary.main : 'inherit',
@@ -26,14 +26,14 @@ const ErrorTextAlert: FC<ErrorTextAlertProps> = ({ error, onRetry, fillBackgroun
 				color: theme.palette.text.primary,
 				padding: '8px 0',
 				marginBottom: '8px',
-			} }
+			}}
 		>
-			<div style={ { paddingBottom: onRetry ? '8px' : '0' } }>
+			<div style={{ paddingBottom: onRetry ? '8px' : '0' }}>
 				{error || 'An error occurred.'}
 			</div>
 
 			{onRetry && (
-				<Button variant='outlined' color='primary' onClick={ onRetry }>
+				<Button variant='outlined' color='primary' onClick={onRetry}>
 					Retry
 				</Button>
 			)}

@@ -56,31 +56,28 @@ class CloudFunction {
 			method: method,
 			headers: requestHeaders,
 			body: JSON.stringify(data),
+		}).then((result) => {
+			if (!result.ok) {
+				return Promise.reject({
+					status: result.status,
+					statusText: result.statusText,
+				})
+			} else {
+				return result
+			}
 		})
-			.then((result) => {
-				if (!result.ok) {
-					return Promise.reject({
-						status: result.status,
-						statusText: result.statusText,
-					})
-				} else {
-					return result
-				}
-			})
 	}
 
 	async get(): Promise<any> {
-		return this.call(undefined, 'GET')
-			.then((result) => result.json())
+		return this.call(undefined, 'GET').then((result) => result.json())
 	}
 
 	async post(data?: any): Promise<any> {
-		return this.call(data, 'POST')
-			.then((result) => {
-				if (result.status !== 204) {
-					return result.json()
-				}
-			})
+		return this.call(data, 'POST').then((result) => {
+			if (result.status !== 204) {
+				return result.json()
+			}
+		})
 	}
 
 	async put(data: any): Promise<any> {

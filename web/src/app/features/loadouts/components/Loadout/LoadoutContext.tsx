@@ -199,7 +199,7 @@ const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 
 	return (
 		<LoadoutContext.Provider
-			value={ {
+			value={{
 				loadout: currentLoadout,
 				editable,
 				addWeapon,
@@ -210,7 +210,7 @@ const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 				deleteGear,
 				addClothing,
 				deleteClothing,
-			} }
+			}}
 		>
 			{children}
 		</LoadoutContext.Provider>

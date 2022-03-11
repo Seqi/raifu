@@ -15,32 +15,32 @@ type LoginFormProps = {
 }
 
 const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
-	let {  handleSubmit, formState, control } = useForm<LoginFormFields>({
+	let { handleSubmit, formState, control } = useForm<LoginFormFields>({
 		mode: 'onChange',
 	})
 
 	return (
-		<form onSubmit={ handleSubmit(onSubmit) }>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<FormTextField
-				form={ { name: 'email', control, rules: { required: true } } }
+				form={{ name: 'email', control, rules: { required: true } }}
 				label='E-mail'
 				autoComplete='email'
-				fullWidth={ true }
-				autoFocus={ true }
+				fullWidth={true}
+				autoFocus={true}
 			/>
 
 			<FormTextField
-				form={ { name: 'password', control, rules: { required: true } } }
+				form={{ name: 'password', control, rules: { required: true } }}
 				label='Password'
 				type='password'
 				margin='normal'
-				autoComplete={ 'current-password' }
-				fullWidth={ true }
+				autoComplete={'current-password'}
+				fullWidth={true}
 			/>
 
 			<Button
-				fullWidth={ true }
-				disabled={ !formState.isValid || formState.isSubmitting }
+				fullWidth={true}
+				disabled={!formState.isValid || formState.isSubmitting}
 				variant='contained'
 				color='primary'
 				type='submit'

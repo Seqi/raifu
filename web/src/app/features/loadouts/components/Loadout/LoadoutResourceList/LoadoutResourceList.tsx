@@ -96,21 +96,21 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 
 	return (
 		<React.Fragment>
-			<ResourceGrid container={ true }>
+			<ResourceGrid container={true}>
 				{items.map((item) => (
-					<ResourceGridItem item={ true } key={ item.id } xs={ 4 } xl='auto' { ...gridItemProps }>
+					<ResourceGridItem item={true} key={item.id} xs={4} xl='auto' {...gridItemProps}>
 						<LoadoutResourceItem
-							resourceType={ resourceType }
-							item={ item }
-							canDelete={ editable }
-							onDelete={ deleteItem }
+							resourceType={resourceType}
+							item={item}
+							canDelete={editable}
+							onDelete={deleteItem}
 						/>
 					</ResourceGridItem>
 				))}
 
 				{editable && canAdd && (
-					<ResourceGridItem item={ true } xs={ 4 } xl='auto' { ...gridItemProps }>
-						<AddButton onClick={ () => setDialog('add') } />
+					<ResourceGridItem item={true} xs={4} xl='auto' {...gridItemProps}>
+						<AddButton onClick={() => setDialog('add')} />
 					</ResourceGridItem>
 				)}
 			</ResourceGrid>

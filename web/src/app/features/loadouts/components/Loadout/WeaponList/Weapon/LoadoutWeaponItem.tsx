@@ -38,14 +38,14 @@ let LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
 	return (
 		<React.Fragment>
 			<LoadoutWeaponItemImageContainer>
-				<ArmoryItemImage resource={ weapon } resourceType='weapons' />
+				<ArmoryItemImage resource={weapon} resourceType='weapons' />
 			</LoadoutWeaponItemImageContainer>
 
 			<ConfirmDeleteDialog
-				isOpen={ dialog === 'delete' }
-				title={ weapon.getTitle() }
-				onConfirm={ deleteNewWeapon }
-				onClose={ () => setDialog(null) }
+				isOpen={dialog === 'delete'}
+				title={weapon.getTitle()}
+				onConfirm={deleteNewWeapon}
+				onClose={() => setDialog(null)}
 			/>
 		</React.Fragment>
 	)

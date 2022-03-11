@@ -31,27 +31,26 @@ const EventWeeklyView: FC<EventWeeklyViewProps> = ({
 
 	const getEventsForDay = useCallback(
 		(day) => {
-			return events.filter((event) => moment(event.date)
-				.isSame(day, 'day'))
+			return events.filter((event) => moment(event.date).isSame(day, 'day'))
 		},
 		[events]
 	)
 
 	return (
 		<EventWeeklyViewContainer>
-			<EventWeekSelect onWeekChange={ (newWeek) => setWeek(newWeek) } />
+			<EventWeekSelect onWeekChange={(newWeek) => setWeek(newWeek)} />
 
-			<Box display='flex' flexDirection='column' flex={ 1 } paddingTop={ 2 }>
-				<StaggeredAnimation interval={ 250 } freezeAfterInitial={ true }>
+			<Box display='flex' flexDirection='column' flex={1} paddingTop={2}>
+				<StaggeredAnimation interval={250} freezeAfterInitial={true}>
 					{week.map((day) => (
-						<Fade key={ +day } timeout={ 1000 } in={ true }>
+						<Fade key={+day} timeout={1000} in={true}>
 							{/* Necessary for animation to work */}
-							<Box display='flex' flex={ 1 }>
+							<Box display='flex' flex={1}>
 								<EventDay
-									events={ getEventsForDay(day) }
-									day={ day }
-									onEventSelected={ onEventSelected }
-									onSlotSelected={ onSlotSelected }
+									events={getEventsForDay(day)}
+									day={day}
+									onEventSelected={onEventSelected}
+									onSlotSelected={onSlotSelected}
 								/>
 							</Box>
 						</Fade>

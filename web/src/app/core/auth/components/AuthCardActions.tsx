@@ -13,7 +13,7 @@ const AuthCardActions: FC<AuthCardActionsProps> = ({ to, text }) => {
 	return (
 		<Box marginLeft='auto'>
 			<Button size='small'>
-				<Link to={ to } underline='none' color='textPrimary' component={ RouterLink }>
+				<Link to={to} underline='none' color='textPrimary' component={RouterLink}>
 					{text}
 				</Link>
 			</Button>

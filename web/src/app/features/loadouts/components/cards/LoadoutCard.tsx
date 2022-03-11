@@ -36,16 +36,16 @@ const LoadoutCardContent = styled(ResourceCardContent)({
 export type LoadoutCardProps = ResourceItemProps<Loadout>
 
 export const LoadoutCard: FC<LoadoutCardProps> = ({ item, onClick, onDelete }) => (
-	<LoadoutCardContainer onClick={ onClick }>
+	<LoadoutCardContainer onClick={onClick}>
 		<DeletableOverlay
-			canDelete={ true }
-			onDelete={ onDelete || Promise.resolve }
-			dialogTitle={ item.getTitle() }
+			canDelete={true}
+			onDelete={onDelete || Promise.resolve}
+			dialogTitle={item.getTitle()}
 		>
-			<ResourceCardHeader resource={ item } />
+			<ResourceCardHeader resource={item} />
 
 			<LoadoutCardContent>
-				<LoadoutSummary loadout={ item } />
+				<LoadoutSummary loadout={item} />
 			</LoadoutCardContent>
 		</DeletableOverlay>
 	</LoadoutCardContainer>

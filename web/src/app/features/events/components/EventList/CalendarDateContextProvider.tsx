@@ -15,8 +15,7 @@ const CalendarDateContextProvider: FC = ({ children }) => {
 	// Push new dates to the query string
 	const setDate = useCallback(
 		(newDate: moment.Moment) => {
-			const newQs = moment(newDate)
-				.format('YYYY-MM-DD')
+			const newQs = moment(newDate).format('YYYY-MM-DD')
 
 			if (!newDate.isSame(date)) {
 				navigate({
@@ -48,7 +47,7 @@ const CalendarDateContextProvider: FC = ({ children }) => {
 	}, [location.search])
 
 	return (
-		<CalendarDateContext.Provider value={ { date, setDate } }>
+		<CalendarDateContext.Provider value={{ date, setDate }}>
 			{children}
 		</CalendarDateContext.Provider>
 	)

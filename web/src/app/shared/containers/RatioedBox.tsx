@@ -28,7 +28,7 @@ export type RatioedBoxProps = BoxProps & {
 }
 
 export const RatioedBox: FC<RatioedBoxProps> = ({ ratio, children, ...boxProps }) => (
-	<RatioedContainerOuter ratio={ ratio } { ...boxProps }>
+	<RatioedContainerOuter ratio={ratio} {...boxProps}>
 		<RatioedContainer>{children}</RatioedContainer>
 	</RatioedContainerOuter>
 )

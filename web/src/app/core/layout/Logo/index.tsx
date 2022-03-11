@@ -10,10 +10,10 @@ export type LogoProps = BoxProps & { subtitle?: boolean }
 
 export const Logo: FC<LogoProps> = ({ subtitle, ...props }) => {
 	return (
-		<Box { ...props }>
+		<Box {...props}>
 			<img
-				style={ { width: '100%' } }
-				src={ subtitle ? LogoImage : LogoNoTextImage }
+				style={{ width: '100%' }}
+				src={subtitle ? LogoImage : LogoNoTextImage}
 				alt='Raifu Airsoft Loadout Management'
 			/>
 		</Box>

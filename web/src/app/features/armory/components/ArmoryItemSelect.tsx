@@ -95,39 +95,38 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 	return (
 		<React.Fragment>
 			<Autocomplete
-				freeSolo={ true }
-				options={ options }
-				inputValue={ value.platform }
-				onInputChange={ (_, val) => inputChanged(val) }
-				disableClearable={ true }
-				getOptionLabel={ (option) => option.platform }
-				groupBy={ (option) => option.type }
-				renderInput={ (params) => (
+				freeSolo={true}
+				options={options}
+				inputValue={value.platform}
+				onInputChange={(_, val) => inputChanged(val)}
+				disableClearable={true}
+				getOptionLabel={(option) => option.platform}
+				groupBy={(option) => option.type}
+				renderInput={(params) => (
 					<TextField
-						{ ...params }
-						fullWidth={ true }
-						label={ inputLabel }
-						{ ...platformTextFieldProps }
+						{...params}
+						fullWidth={true}
+						label={inputLabel}
+						{...platformTextFieldProps}
 					/>
-				) }
-				autoHighlight={ true }
-				PopperComponent={ AutoCompletePopper }
+				)}
+				autoHighlight={true}
+				PopperComponent={AutoCompletePopper}
 			/>
 			{showTypes && (
 				<TextField
 					label='Type'
-					fullWidth={ true }
-					value={ value.type }
-					onChange={ typeSelected }
-					select={ true }
-					{ ...typeTextFieldProps }
+					fullWidth={true}
+					value={value.type}
+					onChange={typeSelected}
+					select={true}
+					{...typeTextFieldProps}
 				>
-					{Object.keys(platforms[resourceType])
-						.map((type) => (
-							<MenuItem key={ type } value={ type }>
-								{titleCase(type)}
-							</MenuItem>
-						))}
+					{Object.keys(platforms[resourceType]).map((type) => (
+						<MenuItem key={type} value={type}>
+							{titleCase(type)}
+						</MenuItem>
+					))}
 				</TextField>
 			)}
 		</React.Fragment>

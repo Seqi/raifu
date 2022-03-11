@@ -11,17 +11,14 @@ import { useParams } from 'react-router-dom'
 
 let analytics = firebase.analytics()
 
-type SharedLoadoutProps = { params: { loadoutId: string }}
+type SharedLoadoutProps = { params: { loadoutId: string } }
 type SharedLoadoutState = {
 	loadout: Loadout | null
 	loading: boolean
 	error: any
 }
 
-class SharedLoadout extends React.Component<
-	SharedLoadoutProps,
-	SharedLoadoutState
-> {
+class SharedLoadout extends React.Component<SharedLoadoutProps, SharedLoadoutState> {
 	private unmounted: boolean = false
 
 	constructor(props: SharedLoadoutProps) {
@@ -30,7 +27,7 @@ class SharedLoadout extends React.Component<
 		this.state = {
 			loadout: null,
 			error: null,
-			loading: true
+			loading: true,
 		}
 	}
 
@@ -68,7 +65,7 @@ class SharedLoadout extends React.Component<
 			return (
 				<ErrorOverlay
 					message='Could not load loadout.'
-					onRetry={ () => this.loadLoadout() }
+					onRetry={() => this.loadLoadout()}
 				/>
 			)
 		}
@@ -77,7 +74,7 @@ class SharedLoadout extends React.Component<
 			<React.Fragment>
 				<ReactiveTitle>{loadout!.name}</ReactiveTitle>
 
-				<LoadoutView loadout={ loadout! } editable={ false } />
+				<LoadoutView loadout={loadout!} editable={false} />
 			</React.Fragment>
 		)
 	}

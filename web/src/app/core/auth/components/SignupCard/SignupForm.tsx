@@ -21,37 +21,37 @@ export const SignupForm: FC<SignupFormProps> = ({ onSubmit }) => {
 	})
 
 	return (
-		<form onSubmit={ handleSubmit(onSubmit) }>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<FormTextField
-				form={ {
+				form={{
 					name: 'email',
 					control,
 					rules: { required: { value: true, message: 'Email is required.' } },
-				} }
+				}}
 				label='E-mail'
-				autoFocus={ true }
-				fullWidth={ true }
+				autoFocus={true}
+				fullWidth={true}
 				autoComplete='off'
 			/>
 
 			<FormTextField
-				form={ {
+				form={{
 					name: 'password',
 					control,
 					rules: {
 						required: { value: true, message: 'Password is required.' },
 						minLength: { value: 6, message: 'Password must be at least 6 characters.' },
 					},
-				} }
+				}}
 				label='Password'
 				type='password'
 				margin='normal'
-				fullWidth={ true }
+				fullWidth={true}
 				autoComplete='off'
 			/>
 
 			<FormTextField
-				form={ {
+				form={{
 					name: 'confirmPassword',
 					control,
 					rules: {
@@ -63,17 +63,17 @@ export const SignupForm: FC<SignupFormProps> = ({ onSubmit }) => {
 							}
 						},
 					},
-				} }
+				}}
 				label='Confirm password'
 				type='password'
 				margin='dense'
-				fullWidth={ true }
+				fullWidth={true}
 				autoComplete='off'
 			/>
 
 			<Button
-				disabled={ !formState.isValid || formState.isSubmitting }
-				fullWidth={ true }
+				disabled={!formState.isValid || formState.isSubmitting}
+				fullWidth={true}
 				variant='contained'
 				color='primary'
 				type='submit'

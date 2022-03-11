@@ -18,27 +18,27 @@ const LoadoutGearList: FC = () => {
 
 			<LoadoutResourceList
 				resourceType='gear'
-				items={ loadout.gear || [] }
-				canAdd={ (availableGear || []).length > 0 }
-				addItem={ addGear }
-				deleteItem={ deleteGear }
-				renderAddDialog={ (isOpen, onClose, onSave) => (
+				items={loadout.gear || []}
+				canAdd={(availableGear || []).length > 0}
+				addItem={addGear}
+				deleteItem={deleteGear}
+				renderAddDialog={(isOpen, onClose, onSave) => (
 					<AddArmoryItemDialog
 						title='Add gear to loadout'
-						items={ availableGear || [] }
+						items={availableGear || []}
 						category='gear'
-						allowMultiple={ true }
-						isOpen={ isOpen }
-						onSave={ onSave }
-						onClose={ onClose }
+						allowMultiple={true}
+						isOpen={isOpen}
+						onSave={onSave}
+						onClose={onClose}
 					/>
-				) }
-				gridItemProps={ {
+				)}
+				gridItemProps={{
 					xs: 4,
 					sm: 3,
 					md: 2,
 					xl: 'auto',
-				} }
+				}}
 			/>
 		</section>
 	)

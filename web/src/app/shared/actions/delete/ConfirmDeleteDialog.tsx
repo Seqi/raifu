@@ -66,28 +66,28 @@ class ConfirmDeleteDialog extends React.Component<
 		return (
 			// No idea why we have to stop event propagation here on click? I may have messed something up
 			<Dialog
-				fullWidth={ true }
-				onClick={ (e) => e.stopPropagation() }
-				open={ isOpen }
-				onClose={ onClose }
+				fullWidth={true}
+				onClick={(e) => e.stopPropagation()}
+				open={isOpen}
+				onClose={onClose}
 			>
 				<DialogTitle>
 					{verb} {title}?
 				</DialogTitle>
 
 				{error && (
-					<DialogContent style={ { paddingTop: 0, paddingBottom: 0 } }>
-						<Error error={ error } fillBackground={ true } />
+					<DialogContent style={{ paddingTop: 0, paddingBottom: 0 }}>
+						<Error error={error} fillBackground={true} />
 					</DialogContent>
 				)}
 
 				<DialogActions>
-					<Button onClick={ onClose }>Cancel</Button>
+					<Button onClick={onClose}>Cancel</Button>
 					<Button
 						variant='contained'
-						onClick={ () => this.delete() }
+						onClick={() => this.delete()}
 						color='primary'
-						disabled={ loading }
+						disabled={loading}
 					>
 						{verb}
 					</Button>

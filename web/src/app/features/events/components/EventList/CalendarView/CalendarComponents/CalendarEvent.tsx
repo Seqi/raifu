@@ -13,8 +13,7 @@ const CalendarEvent: FC<CalendarEventProps> = ({ event, title }) => {
 		<React.Fragment>
 			<div>{title}</div>
 			<div>
-				{event.location} @ {moment(event.date)
-					.format('HH:mm')}
+				{event.location} @ {moment(event.date).format('HH:mm')}
 			</div>
 		</React.Fragment>
 	)

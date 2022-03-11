@@ -62,8 +62,10 @@ const loadImage = async (
 			formattedPlatform += '-flat'
 		}
 
-		return import((`assets/outlines/${resourceCategory}/${resourceType}/${formattedPlatform}.svg`)).then(i => i.default)
-	} catch (e){
+		return import(
+			`assets/outlines/${resourceCategory}/${resourceType}/${formattedPlatform}.svg`
+		).then((i) => i.default)
+	} catch (e) {
 		return undefined
 	}
 }
@@ -74,7 +76,6 @@ const loadImageOrDefault = async (
 	resourcePlatform: string,
 	rotate?: boolean
 ): Promise<string | undefined> => {
-
 	let img = await loadImage(resourceCategory, resourceType, resourcePlatform, rotate)
 
 	// Try fetch a default for the provided options
@@ -83,13 +84,12 @@ const loadImageOrDefault = async (
 
 		if (!resourceTypeDefaults) {
 			throw new Error(`No default was found for image type ${resourceCategory}`)
-		}  
+		}
 
 		// Hack: Can't get type conversion to work nice
 		const type = resourceType as keyof typeof resourceTypeDefaults
 		const defaultPlatform = resourceTypeDefaults[type]
 		img = await loadImage(resourceType, resourceType, defaultPlatform)
-		
 	}
 
 	return img
@@ -112,23 +112,24 @@ const ArmoryItemImage: FC<ResourceImageProps> = ({
 	let [image, setImage] = useState<string>()
 
 	useEffect(() => {
-		loadImageOrDefault(resourceType, resource.type, resource.platform, rotate)
-			.then(img =>  {
+		loadImageOrDefault(resourceType, resource.type, resource.platform, rotate).then(
+			(img) => {
 				if (!img) {
-				// eslint-disable-next-line no-console
+					// eslint-disable-next-line no-console
 					console.warn(`Could not find image for ${resource.type} ${resource.platform}`)
 				}
 
 				setImage(img)
-			})
+			}
+		)
 	}, [resourceType, resource, rotate])
 
 	if (image) {
 		return (
 			<img
-				style={ { ...{ width: '100%', height: '100%' }, ...style } }
-				alt={ resource.platform }
-				src={ image }
+				style={{ ...{ width: '100%', height: '100%' }, ...style }}
+				alt={resource.platform}
+				src={image}
 			/>
 		)
 	}

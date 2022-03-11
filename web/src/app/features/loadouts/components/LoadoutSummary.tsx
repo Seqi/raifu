@@ -96,19 +96,19 @@ const LoadoutSummary: FC<LoadoutSummaryProps> = ({ loadout }) => {
 
 	return (
 		<LoadoutSummaryGrid
-			spacing={ 2 }
-			container={ true }
+			spacing={2}
+			container={true}
 			wrap='wrap'
 			justifyContent='space-around'
 			alignItems='center'
 		>
 			{itemsToDisplay.map((weapon) => (
 				<LoadoutSummaryGridItem
-					item={ true }
-					key={ weapon.id }
-					lg={ (12 / itemLimit) as GridSize }
+					item={true}
+					key={weapon.id}
+					lg={(12 / itemLimit) as GridSize}
 				>
-					<ArmoryItemImage resourceType='weapons' resource={ weapon } />
+					<ArmoryItemImage resourceType='weapons' resource={weapon} />
 				</LoadoutSummaryGridItem>
 			))}
 

@@ -82,30 +82,30 @@ const ProfileMenu: FC<ProfileMenuProps> = ({
 	return (
 		<Menu
 			id='auth-menu'
-			anchorEl={ anchor }
-			open={ !!anchor }
-			onClose={ onClose }
-			anchorOrigin={ {
+			anchorEl={anchor}
+			open={!!anchor}
+			onClose={onClose}
+			anchorOrigin={{
 				vertical: 'top',
 				horizontal: 'left',
-			} }
-			transformOrigin={ {
+			}}
+			transformOrigin={{
 				vertical: 'top',
 				horizontal: 'right',
-			} }
+			}}
 		>
 			<MenuContainer>
 				<MenuHeader>
-					<Box display='flex' paddingRight={ 1 }>
-						<ProfileIcon user={ user } />
+					<Box display='flex' paddingRight={1}>
+						<ProfileIcon user={user} />
 					</Box>
 
 					<span>{user.displayName || user.email}</span>
 				</MenuHeader>
 
-				<BigMenuItem onClick={ onViewUpdates }>
+				<BigMenuItem onClick={onViewUpdates}>
 					<ListItemIcon>
-						<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
+						<Badge badgeContent={hasUpdates ? '!' : null} color='primary'>
 							<Build />
 						</Badge>
 					</ListItemIcon>
@@ -113,7 +113,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({
 					<span>Change log</span>
 				</BigMenuItem>
 
-				<BigMenuItem onClick={ auth?.logout }>
+				<BigMenuItem onClick={auth?.logout}>
 					<ListItemIcon>
 						<PowerSettingsNew />
 					</ListItemIcon>

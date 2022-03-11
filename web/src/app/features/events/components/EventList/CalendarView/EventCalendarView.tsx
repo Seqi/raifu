@@ -32,39 +32,39 @@ const EventCalendarView: FC<EventCalendarViewProps> = ({
 	return (
 		<Box height='100%' display='flex'>
 			<SidewaysTitle
-				lowercase={ true }
+				lowercase={true}
 				marginTop='48px'
-				title={ date.format('MMMM YYYY') }
-				mr={ 2 }
+				title={date.format('MMMM YYYY')}
+				mr={2}
 			/>
 
 			<Box flex='1'>
 				<Calendar
-					events={ events }
-					date={ date && date.toDate() }
-					localizer={ localizer.current }
-					components={ {
+					events={events}
+					date={date && date.toDate()}
+					localizer={localizer.current}
+					components={{
 						toolbar: CalendarToolbar,
 						event: CalendarEvent,
-					} }
-					style={ {
+					}}
+					style={{
 						color: theme.palette.text.primary,
-					} }
-					titleAccessor={ (e) => e.getTitle() }
-					startAccessor={ (e) => e.date }
-					endAccessor={ (e) => e.date }
-					defaultView={ 'month' }
+					}}
+					titleAccessor={(e) => e.getTitle()}
+					startAccessor={(e) => e.date}
+					endAccessor={(e) => e.date}
+					defaultView={'month'}
 					drilldownView='day'
-					onNavigate={ (date) => setDate(moment(date)) }
-					selectable={ true }
-					onSelectSlot={ (slot) => onSlotSelected(slot.end as Date) }
-					onSelectEvent={ onEventSelected }
-					popup={ true }
-					eventPropGetter={ (_) => ({
+					onNavigate={(date) => setDate(moment(date))}
+					selectable={true}
+					onSelectSlot={(slot) => onSlotSelected(slot.end as Date)}
+					onSelectEvent={onEventSelected}
+					popup={true}
+					eventPropGetter={(_) => ({
 						style: {
 							border: `1px solid ${theme.palette.primary.main}`,
 						},
-					}) }
+					})}
 				/>
 			</Box>
 		</Box>

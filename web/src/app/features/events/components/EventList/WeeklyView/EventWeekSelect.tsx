@@ -15,13 +15,10 @@ const moment = extendMoment(Moment)
 
 // Fetch the entire week for the provided date
 const getWeekDayRange = (date: Moment.Moment): Moment.Moment[] => {
-	let start = moment(date)
-		.startOf('week')
-	let end = moment(date)
-		.endOf('week')
+	let start = moment(date).startOf('week')
+	let end = moment(date).endOf('week')
 
-	let range = moment.range(start, end)
-		.by('days')
+	let range = moment.range(start, end).by('days')
 
 	return Array.from(range)
 }
@@ -36,8 +33,7 @@ const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {}
 
 	const addWeek = useCallback(
 		(count: number) => {
-			const newDate = moment(date)
-				.add(count, 'week')
+			const newDate = moment(date).add(count, 'week')
 
 			setDate(newDate)
 		},
@@ -57,15 +53,15 @@ const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {}
 
 	return (
 		<Box display='flex'>
-			<IconButton size='small' onClick={ (_) => addWeek(-1) }>
+			<IconButton size='small' onClick={(_) => addWeek(-1)}>
 				<NavigateBefore />
 			</IconButton>
 
-			<Box flex={ 1 } textAlign='center'>
+			<Box flex={1} textAlign='center'>
 				{weekRange[0] && weekRange[0].format('MMM YYYY')}
 			</Box>
 
-			<IconButton size='small' onClick={ (_) => addWeek(1) }>
+			<IconButton size='small' onClick={(_) => addWeek(1)}>
 				<NavigateNext />
 			</IconButton>
 		</Box>

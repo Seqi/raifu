@@ -78,18 +78,18 @@ const CallToAction: FC<BoxProps> = (props) => {
 	const user = useContext(UserContext)
 
 	return (
-		<Box display='flex' { ...props }>
+		<Box display='flex' {...props}>
 			{/* Image, don't show on phones and small screens */}
 			{!xs && (
-				<Box margin='auto' maxWidth='50%' flex={ 1 }>
+				<Box margin='auto' maxWidth='50%' flex={1}>
 					<Box>
-						<img alt='Call to action' style={ { width: '100%' } } src={ CallToActionImage } />
+						<img alt='Call to action' style={{ width: '100%' }} src={CallToActionImage} />
 					</Box>
 				</Box>
 			)}
 
 			{/* Text */}
-			<Box marginY='auto' maxWidth={ xs ? 'initial' : '50%' } flex={ 1 }>
+			<Box marginY='auto' maxWidth={xs ? 'initial' : '50%'} flex={1}>
 				<InfoContainer textAlign='right' marginX='auto'>
 					<Title variant='h2'>We take toy guns seriously.</Title>
 
@@ -103,8 +103,8 @@ const CallToAction: FC<BoxProps> = (props) => {
 							<ActionButton
 								color='primary'
 								variant='outlined'
-								size={ largeScreen ? 'large' : 'small' }
-								onClick={ (_) => navigate('/app') }
+								size={largeScreen ? 'large' : 'small'}
+								onClick={(_) => navigate('/app')}
 							>
 								Go to app
 							</ActionButton>
@@ -113,8 +113,8 @@ const CallToAction: FC<BoxProps> = (props) => {
 								<ActionButton
 									color='primary'
 									variant='outlined'
-									size={ largeScreen ? 'large' : 'small' }
-									onClick={ (_) => navigate('/login/signup') }
+									size={largeScreen ? 'large' : 'small'}
+									onClick={(_) => navigate('/login/signup')}
 								>
 									Sign Up
 								</ActionButton>
@@ -122,8 +122,8 @@ const CallToAction: FC<BoxProps> = (props) => {
 								<ActionButton
 									color='primary'
 									variant='outlined'
-									size={ largeScreen ? 'large' : 'small' }
-									onClick={ (_) => navigate('/login') }
+									size={largeScreen ? 'large' : 'small'}
+									onClick={(_) => navigate('/login')}
 								>
 									Log In
 								</ActionButton>

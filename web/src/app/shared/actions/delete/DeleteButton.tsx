@@ -20,7 +20,7 @@ type DeleteButtonProps = {
 
 const DeleteButton: FC<DeleteButtonProps> = ({ onClick, small }) => {
 	return (
-		<DeleteButtonContainer size={ small ? 'small' : 'medium' } onClick={ onClick }>
+		<DeleteButtonContainer size={small ? 'small' : 'medium'} onClick={onClick}>
 			<i className='fa fa-times' />
 		</DeleteButtonContainer>
 	)

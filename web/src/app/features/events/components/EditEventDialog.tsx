@@ -79,10 +79,9 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 		(updatedEvent: EventUpdate) => {
 			setError(null)
 
-			onSave(updatedEvent)
-				.catch((err: any) => {
-					setError('An error occurred while saving event.')
-				})
+			onSave(updatedEvent).catch((err: any) => {
+				setError('An error occurred while saving event.')
+			})
 		},
 		[onSave]
 	)
@@ -91,78 +90,78 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 	const { isDirty, isValid, isSubmitting } = formState
 
 	return (
-		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
-			<form onSubmit={ handleSubmit(handleSave) }>
+		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
+			<form onSubmit={handleSubmit(handleSave)}>
 				<DialogTitle>{event!.name ? 'Edit' : 'Add'} event</DialogTitle>
 
 				<DialogContent>
-					{error && <Error error={ error } fillBackground={ true } />}
+					{error && <Error error={error} fillBackground={true} />}
 
 					<FormTextField
-						form={ {
+						form={{
 							control: control,
 							name: 'name',
-							rules:  {
+							rules: {
 								required: { value: true, message: 'Name is required.' },
 								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-							}
-						} }
+							},
+						}}
 						label='Name'
 						type='text'
-						fullWidth={ true }
+						fullWidth={true}
 					/>
 
 					<FormTextField
-						form={ {
+						form={{
 							control: control,
 							name: 'location',
 							rules: {
 								required: { value: true, message: 'Location is required.' },
 								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
-							}
-						} }
+							},
+						}}
 						label='Location'
 						type='text'
-						fullWidth={ true }
+						fullWidth={true}
 					/>
 
-					<MuiPickersUtilsProvider utils={ MomentUtils }>
+					<MuiPickersUtilsProvider utils={MomentUtils}>
 						<Controller
 							name='date'
-							rules={ {
+							rules={{
 								required: { value: true, message: 'Date is required.' },
-							} }
-							control={ control }
-							render={ ({ field }) => (
+							}}
+							control={control}
+							render={({ field }) => (
 								<DateTimePicker
-									inputRef={ field.ref }
-									onBlur={ field.onBlur }
-									onChange={ (e) => field.onChange(e?.toDate()) }
+									inputRef={field.ref}
+									onBlur={field.onBlur}
+									onChange={(e) => field.onChange(e?.toDate())}
 									label='Date'
-									fullWidth={ true }
-									value={ field.value }
-									name={ field.name }
-									inputProps={ {
+									fullWidth={true}
+									value={field.value}
+									name={field.name}
+									inputProps={{
 										helperText: formState.errors.date?.message,
 										error: !!formState.errors.date,
-									} }
+									}}
 								/>
-							) }
+							)}
 						/>
 					</MuiPickersUtilsProvider>
 
 					<Controller
 						name='public'
-						control={ control }
-						render={ ({ field }) => (
+						control={control}
+						render={({ field }) => (
 							<FormControl>
 								<FormControlLabel
 									label='Make this event public'
 									control={
 										<Checkbox
-											inputRef={ field.ref }
-											checked={ field.value }
-											onChange={ (e) => field.onChange(e.target.checked) }
+											inputRef={field.ref}
+											checked={field.value}
+											onChange={(e) => field.onChange(e.target.checked)}
 										/>
 									}
 								/>
@@ -171,14 +170,14 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 									the event and add their own loadouts.
 								</FormHelperText>
 							</FormControl>
-						) }
+						)}
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ onClose }>Cancel</Button>
+					<Button onClick={onClose}>Cancel</Button>
 					<Button
-						disabled={ !isDirty || !isValid || isSubmitting }
+						disabled={!isDirty || !isValid || isSubmitting}
 						variant='contained'
 						color='primary'
 						type='submit'

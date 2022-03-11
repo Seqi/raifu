@@ -10,7 +10,7 @@ const EventContainer = styled(Box)(({ theme }) => ({
 	borderColor: theme.palette.primary.main,
 	borderRadius: '5px',
 	borderStyle: 'solid',
-	borderWidth: '1px'
+	borderWidth: '1px',
 }))
 
 type EventItemProps = {
@@ -22,7 +22,7 @@ const EventItem: FC<EventItemProps> = ({ event, onClick }) => {
 	const date = moment(event.date)
 
 	return (
-		<EventContainer key={ event.id } onClick={ (_) => onClick(event) }>
+		<EventContainer key={event.id} onClick={(_) => onClick(event)}>
 			{event.getTitle()} @ {event.location} ({date.format('HH:mm')})
 		</EventContainer>
 	)
@@ -30,7 +30,7 @@ const EventItem: FC<EventItemProps> = ({ event, onClick }) => {
 
 EventItem.propTypes = {
 	event: PropTypes.shape(EventPropShape).isRequired,
-	onClick: PropTypes.func.isRequired
+	onClick: PropTypes.func.isRequired,
 }
 
 export default EventItem

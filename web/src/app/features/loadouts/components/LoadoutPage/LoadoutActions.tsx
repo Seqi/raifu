@@ -28,44 +28,43 @@ const LoadoutActions: FC<LoadoutActionsProps> = ({
 			{/* Actions */}
 			<SpeedDial
 				ariaLabel='Loadout Actions'
-				icon={ <i className='fa fa-pen' /> }
-				onOpen={ () => setSpeedDialOpen(true) }
-				onClose={ () => setSpeedDialOpen(false) }
-				open={ speedDialOpen }
-				hidden={ isAtBottom }
+				icon={<i className='fa fa-pen' />}
+				onOpen={() => setSpeedDialOpen(true)}
+				onClose={() => setSpeedDialOpen(false)}
+				open={speedDialOpen}
+				hidden={isAtBottom}
 			>
 				<SpeedDialAction
-					icon={ <i className='fa fa-pen' /> }
-					onClick={ () => setDialog('edit') }
+					icon={<i className='fa fa-pen' />}
+					onClick={() => setDialog('edit')}
 					tooltipTitle='Edit'
-					tooltipOpen={ true }
+					tooltipOpen={true}
 				/>
 
 				<SpeedDialAction
-					icon={ <i className='fa fa-link' /> }
-					onClick={ () => setDialog('share') }
+					icon={<i className='fa fa-link' />}
+					onClick={() => setDialog('share')}
 					tooltipTitle='Share'
-					tooltipOpen={ true }
+					tooltipOpen={true}
 				/>
 			</SpeedDial>
 
 			{/* Dialogs */}
 			{dialog === 'edit' && (
 				<EditLoadoutDialog
-					loadout={ loadout }
+					loadout={loadout}
 					action='Edit'
-					isOpen={ dialog === 'edit' }
-					onSave={ (name) => editLoadout(name)
-						.then(() => setDialog(null)) }
-					onClose={ () => setDialog(null) }
+					isOpen={dialog === 'edit'}
+					onSave={(name) => editLoadout(name).then(() => setDialog(null))}
+					onClose={() => setDialog(null)}
 				/>
 			)}
 
 			<SetShareableDialog
-				loadout={ loadout }
-				isOpen={ dialog === 'share' }
-				onShare={ onSharedChanged }
-				onClose={ () => setDialog(null) }
+				loadout={loadout}
+				isOpen={dialog === 'share'}
+				onShare={onSharedChanged}
+				onClose={() => setDialog(null)}
 			/>
 		</React.Fragment>
 	)

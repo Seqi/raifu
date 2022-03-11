@@ -84,31 +84,31 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 	}
 
 	return (
-		<Dialog fullWidth={ true } open={ isOpen }>
+		<Dialog fullWidth={true} open={isOpen}>
 			<DialogTitle>Set loadout for {eventTitle}</DialogTitle>
 			<DialogContent>
 				{loadouts.error && !loadouts.loading && (
-					<Error error={ loadouts.error } onRetry={ loadLoadouts } />
+					<Error error={loadouts.error} onRetry={loadLoadouts} />
 				)}
 				{loadouts.loading && !loadouts.error && <Loading />}
 				{submitState.error && (
 					<Error
-						error={ 'An error occurred while adding loadout to event.' }
-						fillBackground={ true }
+						error={'An error occurred while adding loadout to event.'}
+						fillBackground={true}
 					/>
 				)}
 
 				{!loadouts.error && !loadouts.loading && (
 					<TextField
 						label='Loadout'
-						fullWidth={ true }
-						value={ loadoutId }
-						onChange={ (e) => setLoadoutId(e.target.value) }
-						select={ true }
-						SelectProps={ { name: 'loadoutId' } }
+						fullWidth={true}
+						value={loadoutId}
+						onChange={(e) => setLoadoutId(e.target.value)}
+						select={true}
+						SelectProps={{ name: 'loadoutId' }}
 					>
 						{loadouts.data.map((loadout) => (
-							<MenuItem key={ loadout.id } value={ loadout.id }>
+							<MenuItem key={loadout.id} value={loadout.id}>
 								{loadout.getTitle()}
 							</MenuItem>
 						))}
@@ -117,11 +117,11 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 			</DialogContent>
 
 			<DialogActions>
-				<Button onClick={ onClose }>Cancel</Button>
+				<Button onClick={onClose}>Cancel</Button>
 				<Button
-					disabled={ !loadoutId || loadouts.loading || submitState.submitting }
+					disabled={!loadoutId || loadouts.loading || submitState.submitting}
 					variant='contained'
-					onClick={ save }
+					onClick={save}
 					color='primary'
 				>
 					Save

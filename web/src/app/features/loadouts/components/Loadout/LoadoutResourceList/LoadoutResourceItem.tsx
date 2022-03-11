@@ -37,16 +37,16 @@ const LoadoutResourceItem: FC<LoadoutResourceItemProps> = <R extends ArmoryItem>
 	return (
 		<RelativeContainer>
 			<DeletableOverlay
-				canDelete={ canDelete }
-				onDelete={ () => onDelete(item) }
-				dialogTitle={ item.getTitle() }
-				small={ sm }
+				canDelete={canDelete}
+				onDelete={() => onDelete(item)}
+				dialogTitle={item.getTitle()}
+				small={sm}
 			>
 				<ArmoryItemImage
-					resource={ item }
-					resourceType={ resourceType }
-					rotate={ resourceType === 'attachments' }
-					style={ { height: 'auto', flex: 1 } }
+					resource={item}
+					resourceType={resourceType}
+					rotate={resourceType === 'attachments'}
+					style={{ height: 'auto', flex: 1 }}
 				/>
 
 				<ResourceImageTitle className='item-text'>{item.getTitle()}</ResourceImageTitle>

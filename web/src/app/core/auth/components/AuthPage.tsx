@@ -25,7 +25,7 @@ const AuthPage: FC = () => {
 
 	return (
 		<div>
-			<Logo pt={ 4 } maxWidth='75%' marginX='auto' width='500px' />
+			<Logo pt={4} maxWidth='75%' marginX='auto' width='500px' />
 
 			<AuthFormContainer>
 				<Outlet />

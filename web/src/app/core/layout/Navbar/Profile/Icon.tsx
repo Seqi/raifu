@@ -11,7 +11,7 @@ type ProfileIconsProps = {
 
 const ProfileIcon: FC<ProfileIconsProps> = ({ user }) => {
 	return user.photoURL ? (
-		<Avatar alt={ user.displayName || user.email || 'avatar' } src={ user.photoURL } />
+		<Avatar alt={user.displayName || user.email || 'avatar'} src={user.photoURL} />
 	) : (
 		<Person />
 	)

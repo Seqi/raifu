@@ -7,11 +7,10 @@ const armory = {
 			.path('armory')
 			.get()
 			.then((result) =>
-				Object.keys(result)
-					.reduce((current, key) => {
-						current[key] = result[key].map(toEntity)
-						return current
-					}, {} as any)
+				Object.keys(result).reduce((current, key) => {
+					current[key] = result[key].map(toEntity)
+					return current
+				}, {} as any)
 			),
 }
 

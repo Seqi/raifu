@@ -5,7 +5,7 @@ import {
 	Clothing,
 	Gear,
 	Weapon,
-	ArmoryItemPropShape
+	ArmoryItemPropShape,
 } from '../../armory/models/armory-item'
 import { Resource, ResourcePropShape } from '../../resource/models/resource'
 
@@ -28,11 +28,11 @@ export const LoadoutPropType = {
 	shared: PropTypes.bool.isRequired,
 	weapons: PropTypes.array.isRequired,
 	gear: PropTypes.array.isRequired,
-	clothing: PropTypes.array.isRequired
+	clothing: PropTypes.array.isRequired,
 }
 
 export const LoadoutWeaponPropType = {
 	...ArmoryItemPropShape,
 	attachments: PropTypes.arrayOf(PropTypes.shape(ArmoryItemPropShape).isRequired)
-		.isRequired
+		.isRequired,
 }

@@ -24,10 +24,10 @@ const Navbar: FC<NavbarProps> = ({ showLogo, logoProps, ...props }) => {
 
 	return (
 		<NavbarContainer
-			paddingY={ { xs: 3, md: 4, lg: 5 } }
+			paddingY={{ xs: 3, md: 4, lg: 5 }}
 			display='flex'
 			alignItems='center'
-			{ ...props }
+			{...props}
 		>
 			{/* Left side */}
 			{showLogo && (
@@ -37,16 +37,16 @@ const Navbar: FC<NavbarProps> = ({ showLogo, logoProps, ...props }) => {
 					width='25%'
 					minWidth='100px'
 					maxWidth='250px'
-					subtitle={ false }
-					{ ...logoProps }
+					subtitle={false}
+					{...logoProps}
 				/>
 			)}
 
 			{/* Right Side */}
-			<Box display='flex' marginLeft='auto' paddingLeft={ 2 }>
+			<Box display='flex' marginLeft='auto' paddingLeft={2}>
 				{user && (
-					<Box marginLeft={ { xs: 1, sm: 3 } } marginY='auto'>
-						<UserProfile user={ user } small={ small } />
+					<Box marginLeft={{ xs: 1, sm: 3 }} marginY='auto'>
+						<UserProfile user={user} small={small} />
 					</Box>
 				)}
 			</Box>

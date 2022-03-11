@@ -32,12 +32,12 @@ const EventInvite: FC<EventInviteProps> = ({ event, onJoin }) => {
 	}
 
 	return (
-		<Box paddingTop={ 2 }>
-			<Button onClick={ joinEvent } variant='outlined' color='primary' fullWidth={ true }>
+		<Box paddingTop={2}>
+			<Button onClick={joinEvent} variant='outlined' color='primary' fullWidth={true}>
 				Join event!
 			</Button>
 
-			{error && <Error error={ 'An error occurred while trying to join event.' } />}
+			{error && <Error error={'An error occurred while trying to join event.'} />}
 		</Box>
 	)
 }

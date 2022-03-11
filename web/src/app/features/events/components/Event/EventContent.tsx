@@ -67,31 +67,30 @@ const EventContent: FC<EventContentProps> = ({
 	let [activeDialog, setActiveDialog] = useState<'add' | 'remove' | null>()
 
 	let onDelete = useCallback(() => {
-		return onLoadoutRemoved()
-			.then(() => setActiveDialog(null))
+		return onLoadoutRemoved().then(() => setActiveDialog(null))
 	}, [onLoadoutRemoved])
 
 	if (event.users!.length === 0) {
-		return <EventInvite event={ event } onJoin={ onEventJoined } />
+		return <EventInvite event={event} onJoin={onEventJoined} />
 	}
 
 	const soloEvent = event.users!.length === 1
 
 	return (
-		<Box flex={ 1 }>
+		<Box flex={1}>
 			{event.users!.map((user, index) => (
-				<EventAccordian key={ user.uid } expanded={ soloEvent || undefined }>
-					<AccordionSummary expandIcon={ soloEvent ? undefined : <ExpandMoreIcon /> }>
-						<Typography align='center' className={ classes.heading }>
+				<EventAccordian key={user.uid} expanded={soloEvent || undefined}>
+					<AccordionSummary expandIcon={soloEvent ? undefined : <ExpandMoreIcon />}>
+						<Typography align='center' className={classes.heading}>
 							{user.displayName}
 						</Typography>
-						<Typography align='center' className={ classes.secondaryHeading }>
+						<Typography align='center' className={classes.secondaryHeading}>
 							{user.loadout?.getTitle() ?? ''}
 						</Typography>
 					</AccordionSummary>
 
 					<AccordionDetails>
-						<EventLoadout user={ user } />
+						<EventLoadout user={user} />
 					</AccordionDetails>
 
 					{index === 0 && (
@@ -100,7 +99,7 @@ const EventContent: FC<EventContentProps> = ({
 								<Button
 									variant='text'
 									color='secondary'
-									onClick={ () => setActiveDialog('remove') }
+									onClick={() => setActiveDialog('remove')}
 								>
 									Remove loadout
 								</Button>
@@ -108,7 +107,7 @@ const EventContent: FC<EventContentProps> = ({
 								<Button
 									variant='text'
 									color='secondary'
-									onClick={ () => setActiveDialog('add') }
+									onClick={() => setActiveDialog('add')}
 								>
 									Add loadout
 								</Button>
@@ -120,17 +119,17 @@ const EventContent: FC<EventContentProps> = ({
 
 			<ConfirmDeleteDialog
 				verb='Remove'
-				title={ 'loadout' }
-				isOpen={ activeDialog === 'remove' }
-				onClose={ () => setActiveDialog(null) }
-				onConfirm={ onDelete }
+				title={'loadout'}
+				isOpen={activeDialog === 'remove'}
+				onClose={() => setActiveDialog(null)}
+				onConfirm={onDelete}
 			/>
 
 			<AddLoadoutToEventDialog
-				eventTitle={ event.getTitle() }
-				isOpen={ activeDialog === 'add' }
-				onSave={ onLoadoutAdded }
-				onClose={ () => setActiveDialog(null) }
+				eventTitle={event.getTitle()}
+				isOpen={activeDialog === 'add'}
+				onSave={onLoadoutAdded}
+				onClose={() => setActiveDialog(null)}
 			/>
 		</Box>
 	)

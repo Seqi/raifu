@@ -31,14 +31,14 @@ const WithAuthentication: FC<WithAuthenticationOptions> = ({ waitFor, children }
 	}, [user, waitFor])
 
 	if (failed) {
-		return <Navigate to={ { pathname: '/login' } } />
+		return <Navigate to={{ pathname: '/login' }} />
 	}
 
 	if (!user) {
 		return <LoadingOverlay />
 	}
 
-	return <>{ children }</>
+	return <>{children}</>
 }
 
 WithAuthentication.propTypes = {

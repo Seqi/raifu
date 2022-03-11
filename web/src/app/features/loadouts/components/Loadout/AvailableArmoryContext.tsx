@@ -17,7 +17,10 @@ const emptyArmory: ArmoryCollection = {
 	clothing: [],
 }
 
-const getUnusedArmoryItems = (loadout: Loadout, armory: ArmoryCollection): ArmoryCollection => {
+const getUnusedArmoryItems = (
+	loadout: Loadout,
+	armory: ArmoryCollection
+): ArmoryCollection => {
 	if (!armory) {
 		return emptyArmory
 	}
@@ -50,15 +53,14 @@ const AvailableArmoryContextProvider: FC = ({ children }) => {
 
 	useEffect(() => {
 		if (editable) {
-			armoryService.get()
-				.then((userArmory: ArmoryCollection) => setArmory(userArmory))
+			armoryService.get().then((userArmory: ArmoryCollection) => setArmory(userArmory))
 		}
 	}, [editable])
 
 	let unusedArmoryItems = getUnusedArmoryItems(loadout, armory)
 
 	return (
-		<AvailableArmoryContext.Provider value={ unusedArmoryItems }>
+		<AvailableArmoryContext.Provider value={unusedArmoryItems}>
 			{children}
 		</AvailableArmoryContext.Provider>
 	)

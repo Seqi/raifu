@@ -56,29 +56,27 @@ const EventChecklistDialog: FC<EventChecklistDialogProps> = ({
 
 	// eslint-disable-next-line react/no-multi-comp
 	function toCheckbox(item: Resource, index: number) {
-		return <FormControlLabel key={ index } label={ item.getTitle() } control={ <Checkbox /> } />
+		return <FormControlLabel key={index} label={item.getTitle()} control={<Checkbox />} />
 	}
 
 	return (
-		<Dialog open={ isOpen }>
+		<Dialog open={isOpen}>
 			<DialogTitle>Checklist for {title} </DialogTitle>
 
 			<DialogContent>
-				<div style={ { display: 'flex', justifyContent: 'space-between' } }>
-					<div style={ { ...checkboxListStyle, paddingRight: '16px' } }>
+				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+					<div style={{ ...checkboxListStyle, paddingRight: '16px' }}>
 						<ReactiveTitle variant='h5' mobileVariant='h6'>
 							Weapons
 						</ReactiveTitle>
-						{getAllWeapons(loadout)
-							.map(toCheckbox)}
+						{getAllWeapons(loadout).map(toCheckbox)}
 					</div>
 
-					<div style={ { ...checkboxListStyle, paddingLeft: '16px' } }>
+					<div style={{ ...checkboxListStyle, paddingLeft: '16px' }}>
 						<ReactiveTitle variant='h5' mobileVariant='h6'>
 							Attachments
 						</ReactiveTitle>
-						{getAllAttachments(loadout)
-							.map(toCheckbox)}
+						{getAllAttachments(loadout).map(toCheckbox)}
 					</div>
 				</div>
 
@@ -86,13 +84,12 @@ const EventChecklistDialog: FC<EventChecklistDialogProps> = ({
 					<ReactiveTitle variant='h5' mobileVariant='h6'>
 						Gear
 					</ReactiveTitle>
-					{getAllGear(loadout)
-						.map(toCheckbox)}
+					{getAllGear(loadout).map(toCheckbox)}
 				</div>
 			</DialogContent>
 
 			<DialogActions>
-				<Button onClick={ onClose } color='primary' variant='contained'>
+				<Button onClick={onClose} color='primary' variant='contained'>
 					Close
 				</Button>
 			</DialogActions>

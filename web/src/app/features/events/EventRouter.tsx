@@ -7,8 +7,8 @@ import EventDetails from './components/Event/EventDetails'
 const EventRouter: FC = () => {
 	return (
 		<Routes>
-			<Route index={ true } element={ <EventList/> } />
-			<Route path=':id' element={ <EventDetails/> } />
+			<Route index={true} element={<EventList />} />
+			<Route path=':id' element={<EventDetails />} />
 		</Routes>
 	)
 }

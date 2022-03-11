@@ -32,15 +32,15 @@ const EventDay: FC<EventDayProps> = ({
 	onSlotSelected,
 }) => {
 	return (
-		<EventDayContainer onClick={ (e) => onSlotSelected(day.toDate()) }>
+		<EventDayContainer onClick={(e) => onSlotSelected(day.toDate())}>
 			<span>{day.format('ddd Do')}</span>
 
-			<Box marginTop={ 0.5 }>
+			<Box marginTop={0.5}>
 				{events.map((event) => (
 					<EventItem
-						key={ event.id }
-						event={ event }
-						onClick={ (_) => onEventSelected(event) }
+						key={event.id}
+						event={event}
+						onClick={(_) => onEventSelected(event)}
 					/>
 				))}
 			</Box>

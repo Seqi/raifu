@@ -33,9 +33,9 @@ let SignupCard: FC = () => {
 			<AuthCardHeader title='Sign up' />
 
 			<CardContent>
-				{error && <AuthError message={ error } />}
+				{error && <AuthError message={error} />}
 
-				<SignupForm onSubmit={ signupWithEmail } />
+				<SignupForm onSubmit={signupWithEmail} />
 			</CardContent>
 
 			<CardActions>

@@ -17,7 +17,7 @@ const ReactiveTitle: FC<ReactiveTitleProps> = ({
 	let isMobileMode = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
 
 	return (
-		<Typography variant={ isMobileMode ? mobileVariant : variant } { ...props }>
+		<Typography variant={isMobileMode ? mobileVariant : variant} {...props}>
 			{children}
 		</Typography>
 	)

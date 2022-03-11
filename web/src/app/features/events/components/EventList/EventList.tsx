@@ -131,7 +131,7 @@ class EventList extends React.Component<EventListProps, EventListState> {
 			return (
 				<ErrorOverlay
 					message='Could not load events.'
-					onRetry={ () => this.loadEvents() }
+					onRetry={() => this.loadEvents()}
 				/>
 			)
 		}
@@ -144,23 +144,23 @@ class EventList extends React.Component<EventListProps, EventListState> {
 				<EventListContainer>
 					<CalendarDateContextProvider>
 						<EventListView
-							events={ events }
-							onEventSelected={ (event) => this.view(event) }
-							onSlotSelected={ (date) => this.addEvent(date) }
+							events={events}
+							onEventSelected={(event) => this.view(event)}
+							onSlotSelected={(date) => this.addEvent(date)}
 						/>
 					</CalendarDateContextProvider>
 				</EventListContainer>
 
-				<EventFab onClick={ () => this.addEvent() } color='primary' aria-label='Add'>
+				<EventFab onClick={() => this.addEvent()} color='primary' aria-label='Add'>
 					<i className='fa fa-plus' />
 				</EventFab>
 
 				{activeTimeslot && (
 					<EditEventDialog
-						date={ activeTimeslot }
-						onSave={ (value) => this.save(value) }
-						onClose={ () => this.closeDialog() }
-						isOpen={ isAddDialogOpen }
+						date={activeTimeslot}
+						onSave={(value) => this.save(value)}
+						onClose={() => this.closeDialog()}
+						isOpen={isAddDialogOpen}
 					/>
 				)}
 			</React.Fragment>
@@ -180,4 +180,4 @@ function withNavigate(Component: React.ComponentType<any>) {
 	return (props: any) => <Component { ...props } navigate={ useNavigate() } />
 }
 
-export default withWidth()(withTheme(withLocation(withNavigate((EventList)))))
+export default withWidth()(withTheme(withLocation(withNavigate(EventList))))

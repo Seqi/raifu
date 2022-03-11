@@ -39,7 +39,7 @@ export const InviteDialog: FC<InviteDialogProps> = ({ isOpen, onClose }) => {
 	}, [location])
 
 	return (
-		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
+		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
 			<DialogTitle>Invite to event</DialogTitle>
 
 			<DialogContent>
@@ -49,26 +49,26 @@ export const InviteDialog: FC<InviteDialogProps> = ({ isOpen, onClose }) => {
 				</Typography>
 
 				<TextField
-					fullWidth={ true }
-					value={ url }
-					disabled={ true }
-					inputRef={ ref }
-					InputProps={ {
+					fullWidth={true}
+					value={url}
+					disabled={true}
+					inputRef={ref}
+					InputProps={{
 						endAdornment: (
 							<Tooltip title='Copy link'>
 								<i
-									onClick={ (_) => copyInputTextToClipboard(ref.current) }
-									style={ { marginLeft: '8px', fontSize: '1rem', cursor: 'pointer' } }
+									onClick={(_) => copyInputTextToClipboard(ref.current)}
+									style={{ marginLeft: '8px', fontSize: '1rem', cursor: 'pointer' }}
 									className='fa fa-link'
 								/>
 							</Tooltip>
 						),
-					} }
+					}}
 				/>
 			</DialogContent>
 
 			<DialogActions>
-				<Button onClick={ onClose } color='primary'>
+				<Button onClick={onClose} color='primary'>
 					Close
 				</Button>
 			</DialogActions>

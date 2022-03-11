@@ -9,9 +9,7 @@ const loadouts = {
 	...base('loadouts'),
 	loadout: (loadoutId: string) => ({
 		share: (isShared: boolean) =>
-			new CloudFunction()
-				.path(`/loadouts/${loadoutId}/share`)
-				.post({ shared: isShared }),
+			new CloudFunction().path(`/loadouts/${loadoutId}/share`).post({ shared: isShared }),
 		weapons: loadoutWeapons(loadoutId),
 		gear: loadoutGear(loadoutId),
 		clothing: loadoutClothing(loadoutId),

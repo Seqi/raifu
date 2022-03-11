@@ -31,9 +31,9 @@ const EventMyLoadout: FC<EventMyLoadoutProps> = ({ user }) => {
 
 	if (!user.loadout) {
 		return (
-			<Box width='100%' style={ { textAlign: 'center' } }>
-				<Box paddingBottom={ { xs: 2, md: 3 } } marginX='auto'>
-					<i className={ `fas fa-crosshairs ${classes['no-loadout-icon']}` } />
+			<Box width='100%' style={{ textAlign: 'center' }}>
+				<Box paddingBottom={{ xs: 2, md: 3 }} marginX='auto'>
+					<i className={`fas fa-crosshairs ${classes['no-loadout-icon']}`} />
 				</Box>
 
 				<Typography color='textSecondary'>No loadout added.</Typography>
@@ -41,7 +41,7 @@ const EventMyLoadout: FC<EventMyLoadoutProps> = ({ user }) => {
 		)
 	}
 
-	return <LoadoutView showTitle={ false } loadout={ user.loadout } editable={ false } />
+	return <LoadoutView showTitle={false} loadout={user.loadout} editable={false} />
 }
 
 export default EventMyLoadout

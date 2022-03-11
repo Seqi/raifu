@@ -2,43 +2,18 @@
 	"extends": [
 		"react-app",
 		"plugin:react/recommended",
-		"eslint:recommended"
+		"eslint:recommended",
+		"plugin:prettier/recommended"
 		// Uncomment once we add jest testing with testing-library
 		// "react-app/jest"
 	],
 	"rules": {
-		"indent": ["error", "tab"],
-		"quotes": ["error", "single"],
-		"semi": ["error", "never"],
-		"dot-location": ["error", "property"],
 		"no-var": "error",
 		"no-console": "warn",
 		"no-useless-escape": "error",
 		"no-useless-return": "error",
-		"jsx-quotes": ["error", "prefer-single"],
 		"no-unused-vars": "off",
 		"@typescript-eslint/no-unused-vars": "error",
-		"comma-spacing": [
-			"error",
-			{
-				"before": false,
-				"after": true
-			}
-		],
-		"keyword-spacing": [
-			"warn",
-			{
-				"before": true,
-				"after": true
-			}
-		],
-		"newline-per-chained-call": [
-			"error",
-			{
-				"ignoreChainWithDepth": 1
-			}
-		],
-		"space-before-function-paren": ["error", { "named": "never" }],
 		"react/button-has-type": "warn",
 		"react/no-access-state-in-setstate": "error",
 		"react/no-deprecated": "error",
@@ -71,12 +46,7 @@
 		"react/style-prop-object": "error",
 		"react/void-dom-elements-no-children": "error",
 		"react/jsx-boolean-value": ["error", "always"],
-		"react/jsx-closing-tag-location": "error",
-		"react/jsx-curly-spacing": ["error", "always"],
-		"react/jsx-equals-spacing": ["error", "never"],
-		"react/jsx-indent-props": ["warn", "tab"],
 		"react/jsx-no-duplicate-props": "error",
-		"react/jsx-pascal-case": "error",
-		"react/jsx-props-no-multi-spaces": "error"
+		"react/jsx-pascal-case": "error"
 	}
 }

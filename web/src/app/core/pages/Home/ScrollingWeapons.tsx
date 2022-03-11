@@ -41,8 +41,8 @@ const ScrollingWeapons: FC = () => {
 	const classes = useStyles()
 
 	return (
-		<div className={ classes.container }>
-			<Box className={ classes.inner } />
+		<div className={classes.container}>
+			<Box className={classes.inner} />
 		</div>
 	)
 }

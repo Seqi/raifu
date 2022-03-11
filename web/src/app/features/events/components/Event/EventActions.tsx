@@ -76,54 +76,54 @@ const EventActions: FC<EventActionsProps> = ({
 			{/* Actions */}
 			<SpeedDial
 				ariaLabel='Event Actions'
-				icon={ <i className='fa fa-pen' /> }
-				onOpen={ () => setSpeedDialOpen(true) }
-				onClose={ () => setSpeedDialOpen(false) }
-				open={ speedDialOpen }
-				hidden={ isAtBottom || isInvite || !hasAvailableActions }
+				icon={<i className='fa fa-pen' />}
+				onOpen={() => setSpeedDialOpen(true)}
+				onClose={() => setSpeedDialOpen(false)}
+				open={speedDialOpen}
+				hidden={isAtBottom || isInvite || !hasAvailableActions}
 			>
 				{event.owner && (
 					<SpeedDialAction
-						icon={ <i className='fa fa-pen' /> }
-						onClick={ () => setDialog('edit') }
+						icon={<i className='fa fa-pen' />}
+						onClick={() => setDialog('edit')}
 						tooltipTitle='Edit'
-						tooltipOpen={ true }
+						tooltipOpen={true}
 					/>
 				)}
 
 				{event.owner && (
 					<SpeedDialAction
-						icon={ <i className='fa fa-trash' /> }
-						onClick={ () => setDialog('delete') }
+						icon={<i className='fa fa-trash' />}
+						onClick={() => setDialog('delete')}
 						tooltipTitle='Delete'
-						tooltipOpen={ true }
+						tooltipOpen={true}
 					/>
 				)}
 
 				{!event.owner && (
 					<SpeedDialAction
-						icon={ <i className='fa fa-sign-out-alt' /> }
-						onClick={ () => setDialog('leave') }
+						icon={<i className='fa fa-sign-out-alt' />}
+						onClick={() => setDialog('leave')}
 						tooltipTitle='Leave'
-						tooltipOpen={ true }
+						tooltipOpen={true}
 					/>
 				)}
 
 				{canViewChecklist && (
 					<SpeedDialAction
-						icon={ <i className='fa fa-clipboard' /> }
-						onClick={ () => setDialog('checklist') }
+						icon={<i className='fa fa-clipboard' />}
+						onClick={() => setDialog('checklist')}
 						tooltipTitle='Checklist'
-						tooltipOpen={ true }
+						tooltipOpen={true}
 					/>
 				)}
 
 				{event.public && (
 					<SpeedDialAction
-						icon={ <GroupAdd /> }
-						onClick={ () => setDialog('invite') }
+						icon={<GroupAdd />}
+						onClick={() => setDialog('invite')}
 						tooltipTitle='Invite'
-						tooltipOpen={ true }
+						tooltipOpen={true}
 					/>
 				)}
 			</SpeedDial>
@@ -131,61 +131,58 @@ const EventActions: FC<EventActionsProps> = ({
 			{/* Dialogs */}
 			{event.owner && (
 				<EditEventDialog
-					event={ event }
-					isOpen={ dialog === 'edit' }
-					onSave={ (event) => updateEvent(event)
-						.then(() => setDialog(null)) }
-					onClose={ () => setDialog(null) }
+					event={event}
+					isOpen={dialog === 'edit'}
+					onSave={(event) => updateEvent(event).then(() => setDialog(null))}
+					onClose={() => setDialog(null)}
 				/>
 			)}
 
 			{event.owner && (
 				<ConfirmDeleteDialog
 					verb='Delete'
-					title={ event.getTitle() }
-					isOpen={ dialog === 'delete' }
-					onConfirm={ () => deleteEvent()
-						.then(() => setDialog(null)) }
-					onClose={ () => setDialog(null) }
+					title={event.getTitle()}
+					isOpen={dialog === 'delete'}
+					onConfirm={() => deleteEvent().then(() => setDialog(null))}
+					onClose={() => setDialog(null)}
 				/>
 			)}
 
 			{!event.owner && (
 				<ConfirmDeleteDialog
 					verb='Leave'
-					title={ event.getTitle() }
-					isOpen={ dialog === 'leave' }
-					onConfirm={ () => leaveEvent()
-						.then(() => setDialog(null)) }
-					onClose={ () => setDialog(null) }
+					title={event.getTitle()}
+					isOpen={dialog === 'leave'}
+					onConfirm={() => leaveEvent().then(() => setDialog(null))}
+					onClose={() => setDialog(null)}
 				/>
 			)}
 
 			{userLoadout != null && (
 				<EventChecklistDialog
-					title={ event.getTitle() }
-					loadout={ userLoadout }
-					isOpen={ dialog === 'checklist' }
-					onClose={ () => setDialog(null) }
+					title={event.getTitle()}
+					loadout={userLoadout}
+					isOpen={dialog === 'checklist'}
+					onClose={() => setDialog(null)}
 				/>
 			)}
 
 			{event.public != null && (
-				<InviteDialog isOpen={ dialog === 'invite' } onClose={ () => setDialog(null) } />
+				<InviteDialog isOpen={dialog === 'invite'} onClose={() => setDialog(null)} />
 			)}
 
-			<Snackbar open={ snackbarOpen } onClose={ handleSnackbarClose } autoHideDuration={ 6000 }>
+			<Snackbar open={snackbarOpen} onClose={handleSnackbarClose} autoHideDuration={6000}>
 				<RaifuAlert
-					elevation={ 6 }
+					elevation={6}
 					variant='filled'
-					onClose={ handleSnackbarClose }
-					icon={ <PersonAddOutlined /> }
+					onClose={handleSnackbarClose}
+					icon={<PersonAddOutlined />}
 					action={
 						<>
-							<Button onClick={ handleSnackbarAction } variant='text'>
+							<Button onClick={handleSnackbarAction} variant='text'>
 								Invite
 							</Button>
-							<IconButton onClick={ handleSnackbarClose } size='small'>
+							<IconButton onClick={handleSnackbarClose} size='small'>
 								<Close />
 							</IconButton>
 						</>

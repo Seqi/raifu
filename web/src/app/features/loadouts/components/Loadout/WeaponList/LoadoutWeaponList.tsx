@@ -27,20 +27,20 @@ const LoadoutWeaponList: FC = () => {
 	return (
 		<>
 			{(loadout.weapons || []).map((weapon: LoadoutWeapon) => (
-				<LoadoutWeaponView key={ weapon.id } weapon={ weapon } />
+				<LoadoutWeaponView key={weapon.id} weapon={weapon} />
 			))}
 
 			{editable && (availableWeapons || []).length > 0 && (
 				<React.Fragment>
-					<LoadoutAdd onClick={ () => setDialog('add') } />
+					<LoadoutAdd onClick={() => setDialog('add')} />
 
 					<AddArmoryItemDialog
 						title='Add weapon to loadout'
-						items={ availableWeapons || [] }
+						items={availableWeapons || []}
 						category='weapons'
-						isOpen={ dialog === 'add' }
-						onSave={ saveWeapon }
-						onClose={ () => setDialog(null) }
+						isOpen={dialog === 'add'}
+						onSave={saveWeapon}
+						onClose={() => setDialog(null)}
 					/>
 				</React.Fragment>
 			)}

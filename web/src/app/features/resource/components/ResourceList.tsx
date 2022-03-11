@@ -54,11 +54,11 @@ export const ResourceList = <R extends Resource = Resource>({
 
 	return (
 		<>
-			<Grid { ...gridContainerProps } container={ true }>
-				<StaggeredAnimation maxDuration={ 250 }>
+			<Grid {...gridContainerProps} container={true}>
+				<StaggeredAnimation maxDuration={250}>
 					{items.map((item) => (
-						<Fade key={ item.id } in={ true } timeout={ 750 }>
-							<Grid { ...gridItemProps } item={ true }>
+						<Fade key={item.id} in={true} timeout={750}>
+							<Grid {...gridItemProps} item={true}>
 								{React.createElement(ItemTemplate, {
 									item: item,
 									onClick: () => onResourceClick(item),
@@ -68,12 +68,12 @@ export const ResourceList = <R extends Resource = Resource>({
 						</Fade>
 					))}
 
-					<Fade key='add' in={ true } timeout={ 1000 }>
-						<Grid { ...gridItemProps } item={ true }>
+					<Fade key='add' in={true} timeout={1000}>
+						<Grid {...gridItemProps} item={true}>
 							{React.createElement(
 								AddButtonTemplate,
 								{},
-								<AddButton onClick={ () => setDialog('add') } />
+								<AddButton onClick={() => setDialog('add')} />
 							)}
 						</Grid>
 					</Fade>

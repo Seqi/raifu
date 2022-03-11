@@ -44,13 +44,13 @@ const DeletableOverlay: FC<DeletableOverlayProps> = ({
 
 			{canDelete && (
 				<DeletableOverlayContainer>
-					<DeleteButton onClick={ onDeleteClicked } small={ small } />
+					<DeleteButton onClick={onDeleteClicked} small={small} />
 
 					<ConfirmDeleteDialog
-						isOpen={ isDialogOpen }
-						title={ dialogTitle }
-						onConfirm={ onDelete }
-						onClose={ () => setIsDialogOpen(false) }
+						isOpen={isDialogOpen}
+						title={dialogTitle}
+						onConfirm={onDelete}
+						onClose={() => setIsDialogOpen(false)}
 					/>
 				</DeletableOverlayContainer>
 			)}

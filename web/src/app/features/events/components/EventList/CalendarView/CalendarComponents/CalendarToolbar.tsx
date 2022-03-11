@@ -11,11 +11,11 @@ type CalendarToolbarProps = ToolbarProps<Event>
 const CalendarToolbar: FC<CalendarToolbarProps> = ({ onNavigate }) => {
 	return (
 		<Box display='flex' justifyContent='flex-end'>
-			<IconButton onClick={ (_) => onNavigate('PREV') }>
+			<IconButton onClick={(_) => onNavigate('PREV')}>
 				<NavigateBefore />
 			</IconButton>
 
-			<IconButton onClick={ (_) => onNavigate('NEXT') }>
+			<IconButton onClick={(_) => onNavigate('NEXT')}>
 				<NavigateNext />
 			</IconButton>
 		</Box>

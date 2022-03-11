@@ -32,9 +32,8 @@ let LoadoutList: FC = () => {
 		}
 	}, [])
 
-	let [{ loadouts, loading, error }, setLoadout] = useState<LoadoutListState>(
-		defaultState
-	)
+	let [{ loadouts, loading, error }, setLoadout] =
+		useState<LoadoutListState>(defaultState)
 
 	let loadLoadout = useCallback(() => {
 		setLoadout(defaultState)
@@ -71,23 +70,23 @@ let LoadoutList: FC = () => {
 	}
 
 	if (error) {
-		return <ErrorOverlay message='Could not load loadouts.' onRetry={ loadLoadout } />
+		return <ErrorOverlay message='Could not load loadouts.' onRetry={loadLoadout} />
 	}
 
 	return (
 		<Box display='flex'>
-			<SidewaysTitle title='loadouts' lowercase={ true } marginRight={ { xs: 1, sm: 2 } } />
+			<SidewaysTitle title='loadouts' lowercase={true} marginRight={{ xs: 1, sm: 2 }} />
 
 			<ResourceList
-				items={ loadouts }
-				resource={ loadoutService }
+				items={loadouts}
+				resource={loadoutService}
 				resourceName='loadout'
-				onResourceClick={ viewLoadout }
-				renderAddDialog={ (props) => <EditLoadoutDialog action='Add' { ...props } /> }
-				ItemTemplate={ LoadoutCard }
-				AddButtonTemplate={ LoadoutCardContainer }
-				gridItemProps={ { xs: 12, md: 6, lg: 4 } }
-				gridContainerProps={ { spacing: xs ? 2 : 3 } }
+				onResourceClick={viewLoadout}
+				renderAddDialog={(props) => <EditLoadoutDialog action='Add' {...props} />}
+				ItemTemplate={LoadoutCard}
+				AddButtonTemplate={LoadoutCardContainer}
+				gridItemProps={{ xs: 12, md: 6, lg: 4 }}
+				gridContainerProps={{ spacing: xs ? 2 : 3 }}
 			/>
 		</Box>
 	)

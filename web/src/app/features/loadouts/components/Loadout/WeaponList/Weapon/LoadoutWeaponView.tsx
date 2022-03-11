@@ -22,18 +22,18 @@ type LoadoutWeaponProps = {
 const LoadoutWeaponView: FC<LoadoutWeaponProps> = ({ weapon }) => {
 	return (
 		<LoadoutWeaponContainer display='flex'>
-			<Slide in={ true } direction='right'>
-				<Box display='flex' flexDirection='column' flex={ 3 } position='relative'>
+			<Slide in={true} direction='right'>
+				<Box display='flex' flexDirection='column' flex={3} position='relative'>
 					<LoadoutWeaponTitle variant='h4' align='center'>
 						{weapon.getTitle()}
 					</LoadoutWeaponTitle>
-					<LoadoutWeaponItem weapon={ weapon } />
+					<LoadoutWeaponItem weapon={weapon} />
 				</Box>
 			</Slide>
 
-			<Slide in={ true } timeout={ 400 } direction='right'>
-				<Box flex={ 5 }>
-					<LoadoutWeaponAttachmentList weapon={ weapon } />
+			<Slide in={true} timeout={400} direction='right'>
+				<Box flex={5}>
+					<LoadoutWeaponAttachmentList weapon={weapon} />
 				</Box>
 			</Slide>
 		</LoadoutWeaponContainer>

@@ -154,13 +154,13 @@ class EventDetails extends React.Component<EventProps, EventState> {
 			}
 
 			return (
-				<ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
+				<ErrorOverlay message='Could not load event.' onRetry={() => this.loadEvent()} />
 			)
 		}
 
 		if (!event) {
 			return (
-				<ErrorOverlay message='Could not load event.' onRetry={ () => this.loadEvent() } />
+				<ErrorOverlay message='Could not load event.' onRetry={() => this.loadEvent()} />
 			)
 		}
 
@@ -169,24 +169,24 @@ class EventDetails extends React.Component<EventProps, EventState> {
 		return (
 			<Box display='flex' flexDirection='row'>
 				<SidewaysTitle
-					mr={ { xs: 1, sm: 2 } }
-					title={ event!.getTitle() }
-					subtitle={ `${event!.location} ${eventDate.fromNow()}` }
-					lowercase={ true }
+					mr={{ xs: 1, sm: 2 }}
+					title={event!.getTitle()}
+					subtitle={`${event!.location} ${eventDate.fromNow()}`}
+					lowercase={true}
 				/>
 
 				<EventContent
-					event={ event! }
-					onEventJoined={ () => this.loadEvent() }
-					onLoadoutAdded={ (loadoutId: string) => this.setLoadout(loadoutId) }
-					onLoadoutRemoved={ () => this.removeLoadout() }
+					event={event!}
+					onEventJoined={() => this.loadEvent()}
+					onLoadoutAdded={(loadoutId: string) => this.setLoadout(loadoutId)}
+					onLoadoutRemoved={() => this.removeLoadout()}
 				/>
 
 				<EventActions
-					event={ event! }
-					updateEvent={ (evt) => this.updateEvent(evt) }
-					deleteEvent={ () => this.deleteEvent() }
-					leaveEvent={ () => this.leaveEvent() }
+					event={event!}
+					updateEvent={(evt) => this.updateEvent(evt)}
+					deleteEvent={() => this.deleteEvent()}
+					leaveEvent={() => this.leaveEvent()}
 				/>
 			</Box>
 		)

@@ -7,7 +7,7 @@ import { Box, Fade, Typography, styled } from '@material-ui/core'
 import './Loading.css'
 
 const REASSURANCE_TIME: number = 3000
-const REASSURANCE_MESSAGE: string = 'Hold tight! This won\'t take a second.'
+const REASSURANCE_MESSAGE: string = "Hold tight! This won't take a second."
 
 const LoadingContainer = styled(Box)(({ theme }) => ({
 	'& i': {
@@ -32,7 +32,7 @@ const Loading: FC = () => {
 		<LoadingContainer textAlign='center'>
 			<i className='fa fa-crosshairs load-icon' />
 
-			<Fade in={ showReassurance } timeout={ 1500 }>
+			<Fade in={showReassurance} timeout={1500}>
 				<Typography variant='h6'>{REASSURANCE_MESSAGE}</Typography>
 			</Fade>
 		</LoadingContainer>

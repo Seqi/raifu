@@ -80,7 +80,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 
 	let setResource = useCallback(
 		(resource) => {
-			(['type', 'platform'] as const).forEach((key) =>
+			;(['type', 'platform'] as const).forEach((key) =>
 				setValue(key, resource ? resource[key] : '', {
 					shouldDirty: true,
 					shouldValidate: true,
@@ -91,17 +91,17 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 	)
 
 	return (
-		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
-			<form onSubmit={ handleSubmit(handleSave) }>
+		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
+			<form onSubmit={handleSubmit(handleSave)}>
 				<DialogTitle>Add {resourceTitle}</DialogTitle>
 
 				<DialogContent>
-					{error && <Error error={ error } fillBackground={ true } />}
+					{error && <Error error={error} fillBackground={true} />}
 
 					<ArmoryItemSelect
-						inputLabel={ resourceName }
-						resourceType={ resourceKey }
-						onChange={ setResource }
+						inputLabel={resourceName}
+						resourceType={resourceKey}
+						onChange={setResource}
 						platformTextFieldProps={
 							formState.errors.platform && {
 								error: true,
@@ -118,63 +118,63 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 
 					<Controller
 						name='brand'
-						control={ control }
-						rules={ { maxLength: { value: 64, message: 'Cannot exceed 64 characters.' } } }
-						defaultValue={ '' }
-						render={ ({ field, fieldState }) => (
+						control={control}
+						rules={{ maxLength: { value: 64, message: 'Cannot exceed 64 characters.' } }}
+						defaultValue={''}
+						render={({ field, fieldState }) => (
 							<Autocomplete
-								options={ brands.slice() }
-								freeSolo={ true }
-								onInputChange={ (_, val) => field.onChange(val) }
-								onBlur={ field.onBlur }
-								inputValue={ field.value }
-								renderInput={ (params) => (
+								options={brands.slice()}
+								freeSolo={true}
+								onInputChange={(_, val) => field.onChange(val)}
+								onBlur={field.onBlur}
+								inputValue={field.value}
+								renderInput={(params) => (
 									<TextField
-										{ ...params }
-										ref={ field.ref }
-										name={ field.name }
-										fullWidth={ true }
-										label='Brand'																			
-										error={ !!fieldState.error }
-										helperText={ fieldState.error && fieldState.error.message }
+										{...params}
+										ref={field.ref}
+										name={field.name}
+										fullWidth={true}
+										label='Brand'
+										error={!!fieldState.error}
+										helperText={fieldState.error && fieldState.error.message}
 									/>
-								) }
+								)}
 							/>
-						) }
+						)}
 					/>
 
 					<FormTextField
-						form={ {
+						form={{
 							name: 'model',
 							control,
 							rules: {
 								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 							},
-						} }
+						}}
 						label='Model'
 						type='text'
-						fullWidth={ true }
-						helperText={ 'E.g. Raider 2.0, Trident MK-II, Nighthawk' }
+						fullWidth={true}
+						helperText={'E.g. Raider 2.0, Trident MK-II, Nighthawk'}
 					/>
 
 					<FormTextField
-						form={ {
+						form={{
 							name: 'nickname',
 							control: control,
 							rules: {
 								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 							},
-						} }
+						}}
 						label='Nickname'
 						type='text'
-						fullWidth={ true }
+						fullWidth={true}
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ onClose }>Cancel</Button>
+					<Button onClick={onClose}>Cancel</Button>
 					<Button
-						disabled={ formState.isSubmitting || !formState.isValid }
+						disabled={formState.isSubmitting || !formState.isValid}
 						type='submit'
 						variant='contained'
 						color='primary'

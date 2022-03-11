@@ -83,19 +83,19 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 	subtitle,
 	...props
 }) => (
-	<ResourceListTitle { ...props }>
-		<Slide in={ true } direction='right'>
+	<ResourceListTitle {...props}>
+		<Slide in={true} direction='right'>
 			<ResourceListTitleTextContainer>
 				{/* Subtitle goes first cos of the rotational stuff */}
 				{!!subtitle && (
 					<ResourceListSubTitleText
 						variant='h5'
-						{ ...textProps }
+						{...textProps}
 						// You wouldn't believe the amount of faff saved from doing this the lazy way
-						style={ {
+						style={{
 							...{ textTransform: lowercase ? 'lowercase' : 'initial' },
 							...textProps?.style,
-						} }
+						}}
 						color='textSecondary'
 					>
 						{subtitle}
@@ -104,11 +104,11 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 
 				<ResourceListTitleText
 					variant='h3'
-					{ ...textProps }
-					style={ {
+					{...textProps}
+					style={{
 						...{ textTransform: lowercase ? 'lowercase' : 'initial' },
 						...textProps?.style,
-					} }
+					}}
 				>
 					{title}
 				</ResourceListTitleText>

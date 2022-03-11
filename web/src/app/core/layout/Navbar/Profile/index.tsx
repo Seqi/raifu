@@ -26,8 +26,8 @@ const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, sma
 				{/* Use half measures because the iconbutton gives us unwanted half-measure padding */}
 				{!small && (
 					<ProfileName
-						fontSize={ small ? '0.8rem' : '1.2rem' }
-						marginRight={ 1 }
+						fontSize={small ? '0.8rem' : '1.2rem'}
+						marginRight={1}
 						textAlign='right'
 					>
 						{user.displayName || user.email}
@@ -36,27 +36,27 @@ const AuthenticatedUserProfile: FC<AuthenticatedUserProfileProps> = ({ user, sma
 
 				<IconButton
 					size='small'
-					onClick={ (e) => setMenuAnchor(e.currentTarget) }
+					onClick={(e) => setMenuAnchor(e.currentTarget)}
 					edge='end'
 				>
-					<Badge badgeContent={ hasUpdates ? '!' : null } color='primary'>
-						<ProfileIcon user={ user } />
+					<Badge badgeContent={hasUpdates ? '!' : null} color='primary'>
+						<ProfileIcon user={user} />
 					</Badge>
 				</IconButton>
 
 				<ProfileMenu
-					user={ user }
-					anchor={ menuAnchor }
-					hasUpdates={ hasUpdates }
-					onViewUpdates={ () => setDialogOpen(true) }
-					onClose={ () => setMenuAnchor(null) }
+					user={user}
+					anchor={menuAnchor}
+					hasUpdates={hasUpdates}
+					onViewUpdates={() => setDialogOpen(true)}
+					onClose={() => setMenuAnchor(null)}
 				/>
 			</Box>
 
 			<ViewChangeLogDialog
-				onHasUpdates={ setHasUpdates }
-				isOpen={ dialogOpen }
-				onClose={ () => setDialogOpen(false) }
+				onHasUpdates={setHasUpdates}
+				isOpen={dialogOpen}
+				onClose={() => setDialogOpen(false)}
 			/>
 		</>
 	)

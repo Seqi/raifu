@@ -11,7 +11,7 @@ import AppRouter from 'app/core/Router'
 
 ReactDOM.render(
 	<React.StrictMode>
-		<MuiThemeProvider theme={ Theme }>
+		<MuiThemeProvider theme={Theme}>
 			<CssBaseline />
 			<Typography component='div'>
 				<AppRouter />

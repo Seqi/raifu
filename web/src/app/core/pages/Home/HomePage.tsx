@@ -50,14 +50,14 @@ export default function HomePage() {
 	}, [analytics])
 
 	return (
-		<Container maxWidth='xl' fixed={ true }>
-			<NavBar paddingX={ { xs: 3, sm: 0, xl: 7 } } paddingY={ { xs: 3, md: 4, lg: 5 } } />
+		<Container maxWidth='xl' fixed={true}>
+			<NavBar paddingX={{ xs: 3, sm: 0, xl: 7 }} paddingY={{ xs: 3, md: 4, lg: 5 }} />
 
-			<CallToAction paddingY={ { xs: 8, md: 14 } } paddingX={ { lg: 7 } } />
+			<CallToAction paddingY={{ xs: 8, md: 14 }} paddingX={{ lg: 7 }} />
 
 			<div>
 				{segments.map((segment, i) => (
-					<HomePageSegment key={ i } segment={ segment } />
+					<HomePageSegment key={i} segment={segment} />
 				))}
 			</div>
 		</Container>

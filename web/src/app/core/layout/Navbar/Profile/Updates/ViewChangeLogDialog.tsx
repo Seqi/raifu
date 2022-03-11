@@ -123,15 +123,15 @@ const ViewChangeLogDialog: FC<ViewChangeLogDialogProps> = ({
 	}, [isOpen, newChangeLogs, setCookie])
 
 	return (
-		<Dialog maxWidth='md' open={ isOpen } onClose={ onClose }>
+		<Dialog maxWidth='md' open={isOpen} onClose={onClose}>
 			<DialogContent>
 				{response.error ? (
 					<Error error='Could not load change logs. Please try again later.' />
 				) : response.changelogs ? (
 					response.changelogs.map((changelog) => (
 						<ChangeLogItemContainer
-							key={ changelog.id }
-							dangerouslySetInnerHTML={ { __html: format(changelog, newChangeLogs) } }
+							key={changelog.id}
+							dangerouslySetInnerHTML={{ __html: format(changelog, newChangeLogs) }}
 						/>
 					))
 				) : (
@@ -140,7 +140,7 @@ const ViewChangeLogDialog: FC<ViewChangeLogDialogProps> = ({
 			</DialogContent>
 
 			<DialogActions>
-				<Button variant='contained' color='primary' onClick={ onClose }>
+				<Button variant='contained' color='primary' onClick={onClose}>
 					Close
 				</Button>
 			</DialogActions>

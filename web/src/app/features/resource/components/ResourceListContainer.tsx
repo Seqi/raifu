@@ -54,10 +54,10 @@ export const ResourceListContainer = <R extends Resource>({
 
 	return (
 		<ResourceList
-			{ ...props }
-			items={ currentItems }
-			addResource={ addResource }
-			deleteResource={ deleteResource }
+			{...props}
+			items={currentItems}
+			addResource={addResource}
+			deleteResource={deleteResource}
 		/>
 	)
 }

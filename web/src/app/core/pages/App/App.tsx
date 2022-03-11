@@ -1,4 +1,4 @@
-import {  useState, FC } from 'react'
+import { useState, FC } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { Box, Container, Tabs, Tab, styled } from '@material-ui/core'
 
@@ -28,21 +28,21 @@ const App: FC = () => {
 	})
 
 	return (
-		<PaddedContainer maxWidth={ false }>
-			<Navbar logoProps={ { maxWidth: '200px' } } />
+		<PaddedContainer maxWidth={false}>
+			<Navbar logoProps={{ maxWidth: '200px' }} />
 
 			<Tabs
 				variant='fullWidth'
-				centered={ true }
-				value={ tabIndex }
-				onChange={ (evt, idx) => setTabIndex(idx) }
+				centered={true}
+				value={tabIndex}
+				onChange={(evt, idx) => setTabIndex(idx)}
 			>
-				<Tab label='Armory' component={ Link } to='armory' />
-				<Tab label='Loadouts' component={ Link } to='loadouts' />
-				<Tab label='Events' component={ Link } to='events' />
+				<Tab label='Armory' component={Link} to='armory' />
+				<Tab label='Loadouts' component={Link} to='loadouts' />
+				<Tab label='Events' component={Link} to='events' />
 			</Tabs>
 
-			<Box paddingY={ { xs: 3, sm: 6 } }>
+			<Box paddingY={{ xs: 3, sm: 6 }}>
 				<Outlet />
 			</Box>
 		</PaddedContainer>

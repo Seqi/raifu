@@ -101,31 +101,32 @@ class AddArmoryItemDialog extends Component<
 		let { items, title, category, isOpen, onClose, allowMultiple } = this.props
 
 		return (
-			<Dialog open={ isOpen } onClose={ onClose } fullWidth={ true }>
+			<Dialog open={isOpen} onClose={onClose} fullWidth={true}>
 				<DialogTitle>{title}</DialogTitle>
 
 				<DialogContent>
 					{loading && <Loading />}
 
-					{error && <Error error={ error } fillBackground={ true } />}
+					{error && <Error error={error} fillBackground={true} />}
 
 					<ArmoryItemSelect
-						items={ items }
-						category={ category }
-						selectedItemIds={ selectedIds }
-						onItemSelected={ (itemId) => this.onItemSelected(itemId) }
+						items={items}
+						category={category}
+						selectedItemIds={selectedIds}
+						onItemSelected={(itemId) => this.onItemSelected(itemId)}
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ onClose }>Cancel</Button>
+					<Button onClick={onClose}>Cancel</Button>
 					<Button
-						disabled={ !this.formValid() || loading }
+						disabled={!this.formValid() || loading}
 						variant='contained'
-						onClick={ () => this.onSave(selectedIds) }
+						onClick={() => this.onSave(selectedIds)}
 						color='primary'
 					>
-						Save{ allowMultiple && selectedIds.length > 0 ? ` (${selectedIds.length})` : '' }
+						Save
+						{allowMultiple && selectedIds.length > 0 ? ` (${selectedIds.length})` : ''}
 					</Button>
 				</DialogActions>
 			</Dialog>

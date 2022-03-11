@@ -39,7 +39,7 @@ const authActions: AuthContextValue = {
 }
 
 let AuthContextProvider: FC = ({ children }) => {
-	return <AuthContext.Provider value={ authActions }>{children}</AuthContext.Provider>
+	return <AuthContext.Provider value={authActions}>{children}</AuthContext.Provider>
 }
 
 export default AuthContextProvider

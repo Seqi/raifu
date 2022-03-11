@@ -58,32 +58,32 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 	}, [isOpen])
 
 	return (
-		<Dialog fullWidth={ true } open={ isOpen } onClose={ onClose }>
-			<form onSubmit={ handleSubmit(handleSave) }>
+		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
+			<form onSubmit={handleSubmit(handleSave)}>
 				<DialogTitle>{action} loadout</DialogTitle>
 
 				<DialogContent>
-					{error && <Error error={ error } fillBackground={ true } />}
+					{error && <Error error={error} fillBackground={true} />}
 
 					<FormTextField
-						form={ {
+						form={{
 							name: 'name',
 							control,
 							rules: {
 								required: { value: true, message: 'Name is required.' },
 								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 							},
-						} }
+						}}
 						label='Name'
 						type='text'
-						fullWidth={ true }
+						fullWidth={true}
 					/>
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={ onClose }>Cancel</Button>
+					<Button onClick={onClose}>Cancel</Button>
 					<Button
-						disabled={ !formState.isValid || formState.isSubmitting }
+						disabled={!formState.isValid || formState.isSubmitting}
 						variant='contained'
 						color='primary'
 						type='submit'

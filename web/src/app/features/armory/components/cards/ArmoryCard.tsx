@@ -38,11 +38,21 @@ export const ArmoryCardContainer = styled(ResourceCard)(({ theme }) => ({
 	},
 }))
 
-type RatioedArmoryCardContainerProps = BoxProps & Pick<ArmoryCardProps, 'ratio' | 'onClick' | 'cardProps'> 
-export const RatioedArmoryCardContainer: FC<RatioedArmoryCardContainerProps> = ({ ratio = 1.36, onClick, children, cardProps, ...boxProps }) => {
+type RatioedArmoryCardContainerProps = BoxProps &
+	Pick<ArmoryCardProps, 'ratio' | 'onClick' | 'cardProps'>
+
+export const RatioedArmoryCardContainer: FC<RatioedArmoryCardContainerProps> = ({
+	ratio = 1.36,
+	onClick,
+	children,
+	cardProps,
+	...boxProps
+}) => {
 	return (
-		<RatioedBox ratio={ ratio } { ...boxProps }>
-			<ArmoryCardContainer onClick={ onClick } { ...cardProps }>{children}</ArmoryCardContainer>
+		<RatioedBox ratio={ratio} {...boxProps}>
+			<ArmoryCardContainer onClick={onClick} {...cardProps}>
+				{children}
+			</ArmoryCardContainer>
 		</RatioedBox>
 	)
 }
@@ -68,16 +78,21 @@ export const ArmoryCard: FC<ArmoryCardProps> = ({
 	...boxProps
 }: ArmoryCardProps) => {
 	return (
-		<RatioedArmoryCardContainer ratio={ ratio } onClick={ onClick } { ...boxProps } cardProps={ cardProps }>
+		<RatioedArmoryCardContainer
+			ratio={ratio}
+			onClick={onClick}
+			{...boxProps}
+			cardProps={cardProps}
+		>
 			<DeletableOverlay
-				canDelete={ canDelete }
-				onDelete={ onDelete }
-				dialogTitle={ resource.getTitle() }
+				canDelete={canDelete}
+				onDelete={onDelete}
+				dialogTitle={resource.getTitle()}
 			>
-				<ResourceCardHeader resource={ resource } />
+				<ResourceCardHeader resource={resource} />
 
 				<ResourceCardContent>
-					<ArmoryItemImage resource={ resource } resourceType={ category } />
+					<ArmoryItemImage resource={resource} resourceType={category} />
 				</ResourceCardContent>
 			</DeletableOverlay>
 		</RatioedArmoryCardContainer>
@@ -98,5 +113,5 @@ ArmoryCard.propTypes = {
 ArmoryCard.defaultProps = {
 	canDelete: true,
 	ratio: 1.36,
-	cardProps: {}
+	cardProps: {},
 }

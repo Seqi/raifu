@@ -97,19 +97,19 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 			return (
 				<ErrorOverlay
 					message='Could not load loadout.'
-					onRetry={ () => this.loadLoadout() }
+					onRetry={() => this.loadLoadout()}
 				/>
 			)
 		}
 
 		return (
 			<>
-				<LoadoutView loadout={ loadout! } editable={ true } />
+				<LoadoutView loadout={loadout!} editable={true} />
 
 				<LoadoutActions
-					loadout={ loadout! }
-					editLoadout={ (loadout) => this.editLoadout(loadout) }
-					onSharedChanged={ (shared) => this.setShared(shared) }
+					loadout={loadout!}
+					editLoadout={(loadout) => this.editLoadout(loadout)}
+					onSharedChanged={(shared) => this.setShared(shared)}
 				/>
 			</>
 		)

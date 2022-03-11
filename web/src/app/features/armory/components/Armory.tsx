@@ -39,7 +39,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 		ItemTemplate: WeaponCard,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
-				{ ...props }
+				{...props}
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				resourceName='Weapon'
@@ -54,7 +54,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
-				{ ...props }
+				{...props}
 				resourceTitle='attachment'
 				resourceKey='attachments'
 				resourceName='Attachment'
@@ -68,7 +68,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
-				{ ...props }
+				{...props}
 				resourceTitle='gear'
 				resourceKey='gear'
 				resourceName='Gear'
@@ -82,7 +82,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 		size: 'small',
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
-				{ ...props }
+				{...props}
 				resourceTitle='clothing'
 				resourceKey='clothing'
 				resourceName='Clothing'
@@ -168,7 +168,7 @@ export default function Armory() {
 	}
 
 	if (error) {
-		return <ErrorOverlay message='Could not load armory.' onRetry={ loadArmory } />
+		return <ErrorOverlay message='Could not load armory.' onRetry={loadArmory} />
 	}
 
 	const largeGridItemProps = (
@@ -235,24 +235,24 @@ export default function Armory() {
 	return (
 		<>
 			{armorySections.map((armorySection) => (
-				<ResourceListContainer component='section' key={ armorySection.resourceName }>
+				<ResourceListContainer component='section' key={armorySection.resourceName}>
 					<SidewaysTitle
-						title={ armorySection.resourceName! }
-						lowercase={ true }
-						marginRight={ { xs: 1, sm: 2 } }
+						title={armorySection.resourceName!}
+						lowercase={true}
+						marginRight={{ xs: 1, sm: 2 }}
 					/>
 
 					<ResourceList
-						items={ armory[armorySection.resourceName!] }
-						resource={ armorySection.resource }
-						resourceName={ armorySection.resourceName! }
-						ItemTemplate={ armorySection.ItemTemplate! }
-						AddButtonTemplate={ (props) => <ArmoryCardContainer { ...props } /> }
-						renderAddDialog={ armorySection.renderAddDialog! }
-						onResourceClick={ () => {} } //No-op
-						gridContainerProps={ {
+						items={armory[armorySection.resourceName!]}
+						resource={armorySection.resource}
+						resourceName={armorySection.resourceName!}
+						ItemTemplate={armorySection.ItemTemplate!}
+						AddButtonTemplate={(props) => <ArmoryCardContainer {...props} />}
+						renderAddDialog={armorySection.renderAddDialog!}
+						onResourceClick={() => {}} //No-op
+						gridContainerProps={{
 							spacing: xs ? 1 : 2,
-						} }
+						}}
 						// This whole thing needs some love, its just a lazy approach
 						// to get some fine tuned grid stuff going. Need to look at adding
 						// breakpoints but im already bored of reactive web stuff sorry i'll

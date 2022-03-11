@@ -38,8 +38,8 @@ export const ResourceCardHeaderBase = <ResourceItem extends Resource>({
 	subheader = resource.getSubtitle(),
 	...props
 }: ResourceCardHeaderProps<ResourceItem>) => (
-		<CardHeader title={ resource.getTitle() } subheader={ resource.getSubtitle() } { ...props } />
-	)
+	<CardHeader title={resource.getTitle()} subheader={resource.getSubtitle()} {...props} />
+)
 
 export const ResourceCardHeader = withStyles((theme) => ({
 	root: {

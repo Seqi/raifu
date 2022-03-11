@@ -6,7 +6,6 @@ import { Grid, styled, makeStyles } from '@material-ui/core'
 import { ArmoryCard, ArmoryItem } from 'app/features/armory'
 import { Category } from 'app/data/constants/platforms'
 
-
 const MobileGrid = styled(Grid)(({ theme }) => ({
 	[theme.breakpoints.down(391)]: {
 		flexBasis: '50%',
@@ -17,15 +16,15 @@ const MobileGrid = styled(Grid)(({ theme }) => ({
 const useStyles = makeStyles((theme) => ({
 	'select-card': {
 		'&:hover': {
-			transform: 'initial'
-		}
+			transform: 'initial',
+		},
 	},
 	'selected-card': {
 		border: `1px solid ${theme.palette.primary.main}`,
 		'&:hover': {
-			transform: 'initial'
-		}
-	}
+			transform: 'initial',
+		},
+	},
 }))
 
 type ResourceSelectProps<Item extends ArmoryItem> = {
@@ -44,18 +43,23 @@ const ArmoryItemSelect: FC<ResourceSelectProps<ArmoryItem>> = <Item extends Armo
 	const classes = useStyles()
 
 	return (
-		<Grid container={ true } spacing={ 2 }>
+		<Grid container={true} spacing={2}>
 			{items.map((item) => (
-				<MobileGrid key={ item.id } item={ true } xs={ 4 }>
+				<MobileGrid key={item.id} item={true} xs={4}>
 					<ArmoryCard
-						category={ category }
-						item={ item }
-						canDelete={ false }
-						onDelete={ () => Promise.resolve() } // No op
-						onClick={ () => onItemSelected(item) }
-						cardProps={ {
-							className: [classes['select-card'],  (selectedItemIds || []).find((id) => id === item.id) ? classes['selected-card'] : ''].join(' ')
-						} }
+						category={category}
+						item={item}
+						canDelete={false}
+						onDelete={() => Promise.resolve()} // No op
+						onClick={() => onItemSelected(item)}
+						cardProps={{
+							className: [
+								classes['select-card'],
+								(selectedItemIds || []).find((id) => id === item.id)
+									? classes['selected-card']
+									: '',
+							].join(' '),
+						}}
 					/>
 				</MobileGrid>
 			))}
