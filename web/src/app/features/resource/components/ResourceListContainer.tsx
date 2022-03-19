@@ -70,5 +70,3 @@ ResourceListContainer.propTypes = {
 	}).isRequired,
 	resourceName: PropTypes.string.isRequired,
 }
-
-export default ResourceListContainer

@@ -43,7 +43,7 @@ export type EventUpdate = {
 	loadout: any
 }
 
-export type EditEventDialogProps = {
+type EditEventDialogProps = {
 	event?: Event | null
 	date?: Date | null
 	isOpen: boolean
@@ -202,5 +202,3 @@ EditEventDialog.defaultProps = {
 	date: null,
 	event: BlankEvent,
 }
-
-export default EditEventDialog

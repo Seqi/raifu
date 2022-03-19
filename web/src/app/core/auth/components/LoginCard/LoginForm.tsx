@@ -34,7 +34,7 @@ const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
 				label='Password'
 				type='password'
 				margin='normal'
-				autoComplete={'current-password'}
+				autoComplete='current-password'
 				fullWidth={true}
 			/>
 

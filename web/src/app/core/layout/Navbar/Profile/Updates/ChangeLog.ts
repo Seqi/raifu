@@ -21,7 +21,7 @@ export interface ChangeLog {
 	body: string
 }
 
-export interface Author {
+interface Author {
 	login: string
 	id: number
 	node_id: string

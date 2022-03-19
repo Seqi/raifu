@@ -7,7 +7,7 @@ import { ArmoryItemImage } from 'app/features/armory'
 import { ConfirmDeleteDialog } from 'app/shared/actions/delete'
 
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
-import LoadoutContext from '../../LoadoutContext'
+import { LoadoutContext } from '../../LoadoutContext'
 
 const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
 	flex: 1,
@@ -36,7 +36,7 @@ let LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
 	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
 
 	return (
-		<React.Fragment>
+		<>
 			<LoadoutWeaponItemImageContainer>
 				<ArmoryItemImage resource={weapon} resourceType='weapons' />
 			</LoadoutWeaponItemImageContainer>
@@ -47,7 +47,7 @@ let LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
 				onConfirm={deleteNewWeapon}
 				onClose={() => setDialog(null)}
 			/>
-		</React.Fragment>
+		</>
 	)
 }
 

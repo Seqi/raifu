@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import { Box, Container, Tabs, Tab, styled } from '@material-ui/core'
 
 import useRouteAnalytics from 'app/shared/hooks/useRouteAnalytics'
-import Navbar from 'app/core/layout/Navbar/Navbar'
+import { Navbar } from 'app/core/layout'
 
 let PaddedContainer = styled(Container)(({ theme }) => ({
 	[theme.breakpoints.up('lg')]: {

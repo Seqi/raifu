@@ -8,7 +8,7 @@ import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
 import AddButton from 'app/shared/actions/add/AddButton'
 
 import LoadoutResourceItem from './LoadoutResourceItem'
-import LoadoutContext from '../LoadoutContext'
+import { LoadoutContext } from '../LoadoutContext'
 
 const ResourceGridItem = styled(Grid)(({ theme }) => ({
 	width: '300px',
@@ -95,7 +95,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 	)
 
 	return (
-		<React.Fragment>
+		<>
 			<ResourceGrid container={true}>
 				{items.map((item) => (
 					<ResourceGridItem item={true} key={item.id} xs={4} xl='auto' {...gridItemProps}>
@@ -125,7 +125,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 					// OnSave
 					addItemToLoadout
 				)}
-		</React.Fragment>
+		</>
 	)
 }
 

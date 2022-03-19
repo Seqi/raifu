@@ -24,7 +24,7 @@ const copyInputTextToClipboard = (input: HTMLInputElement | undefined) => {
 	input.disabled = true
 }
 
-export type InviteDialogProps = {
+type InviteDialogProps = {
 	isOpen: boolean
 	onClose: () => void
 }
@@ -75,8 +75,6 @@ export const InviteDialog: FC<InviteDialogProps> = ({ isOpen, onClose }) => {
 		</Dialog>
 	)
 }
-
-export default InviteDialog
 
 InviteDialog.propTypes = {
 	isOpen: PropTypes.bool.isRequired,

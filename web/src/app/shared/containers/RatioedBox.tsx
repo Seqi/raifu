@@ -11,8 +11,6 @@ const RatioedContainerOuter = styled(Box)(({ ratio }: any) => ({
 		width: '100%',
 		paddingTop: `calc(${ratio} * 100%)`,
 	},
-
-	// Lazy here, only using it in one place
 }))
 
 const RatioedContainer = styled(Box)({
@@ -23,7 +21,7 @@ const RatioedContainer = styled(Box)({
 	left: 0,
 })
 
-export type RatioedBoxProps = BoxProps & {
+type RatioedBoxProps = BoxProps & {
 	ratio: number
 }
 

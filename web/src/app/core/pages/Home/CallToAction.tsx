@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react'
+import { FC, useContext } from 'react'
 import { useNavigate } from 'react-router'
 import {
 	Box,
@@ -109,7 +109,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 								Go to app
 							</ActionButton>
 						) : (
-							<React.Fragment>
+							<>
 								<ActionButton
 									color='primary'
 									variant='outlined'
@@ -127,7 +127,7 @@ const CallToAction: FC<BoxProps> = (props) => {
 								>
 									Log In
 								</ActionButton>
-							</React.Fragment>
+							</>
 						)}
 					</ActionButtonRow>
 				</InfoContainer>

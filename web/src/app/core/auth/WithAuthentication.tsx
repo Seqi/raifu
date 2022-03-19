@@ -7,6 +7,7 @@ import { Navigate } from 'react-router-dom'
 
 type WithAuthenticationOptions = {
 	waitFor?: number
+	children: React.ReactElement<any, any>
 }
 
 const WithAuthentication: FC<WithAuthenticationOptions> = ({ waitFor, children }) => {
@@ -38,7 +39,7 @@ const WithAuthentication: FC<WithAuthenticationOptions> = ({ waitFor, children }
 		return <LoadingOverlay />
 	}
 
-	return <>{children}</>
+	return children
 }
 
 WithAuthentication.propTypes = {

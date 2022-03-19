@@ -1,7 +1,7 @@
 import { Controller, ControllerProps } from 'react-hook-form'
 import { TextField, TextFieldProps } from '@material-ui/core'
 
-export type FormTextFieldProps<T> = TextFieldProps & {
+type FormTextFieldProps<T> = TextFieldProps & {
 	form: Omit<ControllerProps<T>, 'render'>
 }
 

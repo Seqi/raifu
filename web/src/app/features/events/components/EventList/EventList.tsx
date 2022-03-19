@@ -140,7 +140,7 @@ class EventList extends React.Component<EventListProps, EventListState> {
 			width && isWidthDown('sm', width) ? EventWeeklyView : EventCalendarView
 
 		return (
-			<React.Fragment>
+			<>
 				<EventListContainer>
 					<CalendarDateContextProvider>
 						<EventListView
@@ -163,7 +163,7 @@ class EventList extends React.Component<EventListProps, EventListState> {
 						isOpen={isAddDialogOpen}
 					/>
 				)}
-			</React.Fragment>
+			</>
 		)
 	}
 }

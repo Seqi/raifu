@@ -7,14 +7,14 @@ import { Loadout, LoadoutPropType } from '../../models'
 import { Clothing, Gear } from 'app/features/armory'
 
 // TODO: Type
-let LoadoutContext = React.createContext<any>(null)
+export let LoadoutContext = React.createContext<any>(null)
 
-export type LoadoutContextProviderProps = {
+type LoadoutContextProviderProps = {
 	loadout: Loadout
 	editable?: boolean
 }
 
-const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
+export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 	loadout,
 	editable,
 	children,
@@ -225,6 +225,3 @@ LoadoutContextProvider.propTypes = {
 LoadoutContextProvider.defaultProps = {
 	editable: false,
 }
-
-export default LoadoutContext
-export { LoadoutContextProvider, LoadoutContext }

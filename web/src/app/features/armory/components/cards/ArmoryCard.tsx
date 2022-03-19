@@ -66,7 +66,6 @@ export type ArmoryCardProps = BoxProps &
 		cardProps?: CardProps
 	}
 
-// eslint-disable-next-line react/no-multi-comp
 export const ArmoryCard: FC<ArmoryCardProps> = ({
 	item: resource,
 	ratio = 1.36,
@@ -98,8 +97,6 @@ export const ArmoryCard: FC<ArmoryCardProps> = ({
 		</RatioedArmoryCardContainer>
 	)
 }
-
-export default ArmoryCard
 
 ArmoryCard.propTypes = {
 	item: PropTypes.shape(ArmoryItemPropShape).isRequired,

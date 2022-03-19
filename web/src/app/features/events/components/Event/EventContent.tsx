@@ -119,7 +119,7 @@ const EventContent: FC<EventContentProps> = ({
 
 			<ConfirmDeleteDialog
 				verb='Remove'
-				title={'loadout'}
+				title='loadout'
 				isOpen={activeDialog === 'remove'}
 				onClose={() => setActiveDialog(null)}
 				onConfirm={onDelete}

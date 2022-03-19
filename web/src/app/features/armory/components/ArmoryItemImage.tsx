@@ -62,6 +62,7 @@ const loadImage = async (
 			formattedPlatform += '-flat'
 		}
 
+		// eslint-disable-next-line import/dynamic-import-chunkname
 		return import(
 			`assets/outlines/${resourceCategory}/${resourceType}/${formattedPlatform}.svg`
 		).then((i) => i.default)

@@ -10,12 +10,12 @@ type CalendarEventProps = EventProps<Event>
 
 const CalendarEvent: FC<CalendarEventProps> = ({ event, title }) => {
 	return (
-		<React.Fragment>
+		<>
 			<div>{title}</div>
 			<div>
 				{event.location} @ {moment(event.date).format('HH:mm')}
 			</div>
-		</React.Fragment>
+		</>
 	)
 }
 

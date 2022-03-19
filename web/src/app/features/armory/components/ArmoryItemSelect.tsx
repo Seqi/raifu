@@ -22,7 +22,7 @@ type ArmoryItemSelectProps = {
 	platformTextFieldProps?: TextFieldProps
 }
 
-export type SelectedArmoryItem = {
+type SelectedArmoryItem = {
 	platform: string
 	type: string
 }
@@ -93,7 +93,7 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 	}
 
 	return (
-		<React.Fragment>
+		<>
 			<Autocomplete
 				freeSolo={true}
 				options={options}
@@ -129,7 +129,7 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 					))}
 				</TextField>
 			)}
-		</React.Fragment>
+		</>
 	)
 }
 

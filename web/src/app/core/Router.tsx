@@ -1,20 +1,25 @@
 import { FC, lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
-
+import { LoadingOverlay } from 'app/shared/state'
+import { SharedLoadout } from 'app/features/share'
 import { UserContextProvider, AuthContextProvider } from './auth/contexts'
-import AuthPage from './auth/components/AuthPage'
 
 import App from './pages/App'
 import HomePage from './pages/Home'
-import { LoadingOverlay } from 'app/shared/state'
 import WithAuthentication from './auth/WithAuthentication'
-import SignupCard from './auth/components/SignupCard/SignupCard'
-import LoginCard from './auth/components/LoginCard/LoginCard'
-import { SharedLoadout } from 'app/features/share'
 
-const Armory = lazy(() => import('app/features/armory/components/Armory'))
-const LoadoutRouter = lazy(() => import('app/features/loadouts/LoadoutRouter'))
-const EventRouter = lazy(() => import('app/features/events/EventRouter'))
+const AuthRouter = lazy(
+	() => import(/* webpackChunkName: "auth" */ 'app/core/auth/AuthRouter')
+)
+const Armory = lazy(
+	() => import(/* webpackChunkName: "armory" */ 'app/features/armory/components/Armory')
+)
+const LoadoutRouter = lazy(
+	() => import(/* webpackChunkName: "loadout" */ 'app/features/loadouts/LoadoutRouter')
+)
+const EventRouter = lazy(
+	() => import(/* webpackChunkName: "event" */ 'app/features/events/EventRouter')
+)
 
 let AppRouter: FC = () => {
 	return (
@@ -24,10 +29,14 @@ let AppRouter: FC = () => {
 					<Routes>
 						<Route path='/' element={<HomePage />} />
 
-						<Route path='login' element={<AuthPage />}>
-							<Route index={true} element={<LoginCard />} />
-							<Route path='signup' element={<SignupCard />} />
-						</Route>
+						<Route
+							path='login'
+							element={
+								<Suspense fallback={<LoadingOverlay />}>
+									<AuthRouter />
+								</Suspense>
+							}
+						/>
 
 						<Route
 							path='app'

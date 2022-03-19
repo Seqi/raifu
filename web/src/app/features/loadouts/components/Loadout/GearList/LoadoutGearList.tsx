@@ -1,9 +1,9 @@
 import { FC, useContext } from 'react'
 
-import LoadoutContext from '../LoadoutContext'
+import { LoadoutContext } from '../LoadoutContext'
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
 import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
-import AvailableArmoryContext from '../AvailableArmoryContext'
+import { AvailableArmoryContext } from '../AvailableArmoryContext'
 import { LoadoutWeaponTitle } from '../LoadoutItemTitle'
 
 const LoadoutGearList: FC = () => {

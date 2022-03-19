@@ -1,5 +1,3 @@
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/display-name */
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Box, GridProps, styled, Theme, useMediaQuery } from '@material-ui/core'
@@ -27,7 +25,7 @@ import {
 } from './cards'
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
-import { ArmoryCollection, ArmoryItem } from '../models/armory-item'
+import { ArmoryCollection, ArmoryItem } from '../models'
 
 const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 	size: 'large' | 'small'

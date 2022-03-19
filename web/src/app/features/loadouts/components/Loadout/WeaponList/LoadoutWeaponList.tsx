@@ -1,10 +1,10 @@
 import React, { useState, useContext, useCallback, FC } from 'react'
 
-import LoadoutContext from '../LoadoutContext'
+import { LoadoutContext } from '../LoadoutContext'
 import LoadoutAdd from '../LoadoutAdd'
 import LoadoutWeaponView from './Weapon/LoadoutWeaponView'
 import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
-import AvailableArmoryContext from '../AvailableArmoryContext'
+import { AvailableArmoryContext } from '../AvailableArmoryContext'
 import { LoadoutWeapon } from '../../../models'
 
 const LoadoutWeaponList: FC = () => {
@@ -31,7 +31,7 @@ const LoadoutWeaponList: FC = () => {
 			))}
 
 			{editable && (availableWeapons || []).length > 0 && (
-				<React.Fragment>
+				<>
 					<LoadoutAdd onClick={() => setDialog('add')} />
 
 					<AddArmoryItemDialog
@@ -42,7 +42,7 @@ const LoadoutWeaponList: FC = () => {
 						onSave={saveWeapon}
 						onClose={() => setDialog(null)}
 					/>
-				</React.Fragment>
+				</>
 			)}
 		</>
 	)

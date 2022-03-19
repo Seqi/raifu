@@ -5,10 +5,10 @@ import { Resource } from 'app/features/resource'
 import { ArmoryCollection } from 'app/features/armory'
 
 import { Loadout } from '../../models'
-import LoadoutContext from './LoadoutContext'
+import { LoadoutContext } from './LoadoutContext'
 
 // TODO: Type
-const AvailableArmoryContext = React.createContext<any>(null)
+export const AvailableArmoryContext = React.createContext<any>(null)
 
 const emptyArmory: ArmoryCollection = {
 	weapons: [],
@@ -47,7 +47,7 @@ const getUnusedArmoryItems = (
 	}
 }
 
-const AvailableArmoryContextProvider: FC = ({ children }) => {
+export const AvailableArmoryContextProvider: FC = ({ children }) => {
 	let { loadout, editable } = useContext(LoadoutContext)
 	let [armory, setArmory] = useState<ArmoryCollection>(emptyArmory)
 
@@ -65,6 +65,3 @@ const AvailableArmoryContextProvider: FC = ({ children }) => {
 		</AvailableArmoryContext.Provider>
 	)
 }
-
-export default AvailableArmoryContext
-export { AvailableArmoryContext, AvailableArmoryContextProvider }

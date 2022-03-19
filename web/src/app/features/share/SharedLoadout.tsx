@@ -71,11 +71,11 @@ class SharedLoadout extends React.Component<SharedLoadoutProps, SharedLoadoutSta
 		}
 
 		return (
-			<React.Fragment>
+			<>
 				<ReactiveTitle>{loadout!.name}</ReactiveTitle>
 
 				<LoadoutView loadout={loadout!} editable={false} />
-			</React.Fragment>
+			</>
 		)
 	}
 }

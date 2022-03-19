@@ -93,7 +93,7 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 				{loadouts.loading && !loadouts.error && <Loading />}
 				{submitState.error && (
 					<Error
-						error={'An error occurred while adding loadout to event.'}
+						error='An error occurred while adding loadout to event.'
 						fillBackground={true}
 					/>
 				)}

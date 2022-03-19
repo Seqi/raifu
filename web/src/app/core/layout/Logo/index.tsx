@@ -6,6 +6,7 @@ import { Box, BoxProps } from '@material-ui/core'
 import LogoImage from './logo.png'
 import LogoNoTextImage from './logo-no-text.png'
 
+// TODO: use variant prop. subtitle is stupid
 export type LogoProps = BoxProps & { subtitle?: boolean }
 
 export const Logo: FC<LogoProps> = ({ subtitle, ...props }) => {
@@ -27,5 +28,3 @@ Logo.propTypes = {
 Logo.defaultProps = {
 	subtitle: true,
 }
-
-export default Logo

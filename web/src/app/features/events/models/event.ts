@@ -43,5 +43,3 @@ export const EventPropShape = {
 	loadout: PropTypes.shape(LoadoutPropType),
 	users: PropTypes.arrayOf(PropTypes.shape(EventUserPropShape).isRequired),
 }
-
-export default Event

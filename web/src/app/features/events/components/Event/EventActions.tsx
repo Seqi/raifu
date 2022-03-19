@@ -12,10 +12,10 @@ import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { Loadout } from 'app/features/loadouts'
 
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
-import EditEventDialog, { EventUpdate } from '../EditEventDialog'
+import { EditEventDialog, EventUpdate } from '../EditEventDialog'
 import { Event, EventPropShape } from '../../models'
 import { GroupAdd } from '@material-ui/icons'
-import InviteDialog from './dialogs/InviteDialog'
+import { InviteDialog } from './dialogs/InviteDialog'
 
 let getMyLoadout = (event: Event): Loadout | null | undefined => {
 	return event.users![0]?.loadout

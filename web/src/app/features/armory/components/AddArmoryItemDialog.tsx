@@ -120,7 +120,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						name='brand'
 						control={control}
 						rules={{ maxLength: { value: 64, message: 'Cannot exceed 64 characters.' } }}
-						defaultValue={''}
+						defaultValue=''
 						render={({ field, fieldState }) => (
 							<Autocomplete
 								options={brands.slice()}
@@ -154,7 +154,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						label='Model'
 						type='text'
 						fullWidth={true}
-						helperText={'E.g. Raider 2.0, Trident MK-II, Nighthawk'}
+						helperText='E.g. Raider 2.0, Trident MK-II, Nighthawk'
 					/>
 
 					<FormTextField

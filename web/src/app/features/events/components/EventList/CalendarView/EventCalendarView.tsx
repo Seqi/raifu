@@ -53,7 +53,7 @@ const EventCalendarView: FC<EventCalendarViewProps> = ({
 					titleAccessor={(e) => e.getTitle()}
 					startAccessor={(e) => e.date}
 					endAccessor={(e) => e.date}
-					defaultView={'month'}
+					defaultView='month'
 					drilldownView='day'
 					onNavigate={(date) => setDate(moment(date))}
 					selectable={true}

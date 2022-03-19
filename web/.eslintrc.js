@@ -12,12 +12,7 @@ module.exports = {
 	],
 	settings: {
 		'import/resolver': {
-			node: {
-				paths: ['src'],
-			},
-			typescript: {
-				project: [path.join(__dirname, 'tsconfig.json')],
-			},
+			typescript: {},
 		},
 	},
 	rules: {
@@ -43,8 +38,8 @@ module.exports = {
 			'warn',
 			{
 				unusedExports: true,
-				missingExports: true,
 				src: [path.join(__dirname, 'src')],
+				ignoreExports: [path.join(__dirname, 'src', 'index.tsx')],
 			},
 		],
 		// "import/no-mutable-exports": "warn"

@@ -22,11 +22,11 @@ type EditLoadoutDialogProps = {
 	onClose: () => any
 }
 
-export type LoadoutUpdate = {
+type LoadoutUpdate = {
 	name: string
 }
 
-export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
+const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 	loadout,
 	action,
 	isOpen,

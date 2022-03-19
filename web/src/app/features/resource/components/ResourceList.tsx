@@ -106,5 +106,3 @@ ResourceList.defaultProps = {
 	gridItemProps: {},
 	gridContainerProps: { spacing: 2 },
 }
-
-export default ResourceList

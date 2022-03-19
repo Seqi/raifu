@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 // Disabled as pain to get working with union tpyes
 import React, { FC } from 'react'
 import { Typography, styled, Box } from '@material-ui/core'
@@ -97,13 +96,13 @@ const ImageBox = styled(Box)(({ theme }) => ({
 	},
 }))
 
-export type HomePageSegmentDefaultDetails = {
+type HomePageSegmentDefaultDetails = {
 	title: string
 	text: string
 	image: string
 }
 
-export type HomePageSegmentDetails = {
+type HomePageSegmentDetails = {
 	title: string
 	text: string
 	ImageComponent: React.ComponentType<any>
@@ -111,7 +110,7 @@ export type HomePageSegmentDetails = {
 
 export type HomePageSegmentItem = HomePageSegmentDefaultDetails | HomePageSegmentDetails
 
-export type HomePageSegmentProps = {
+type HomePageSegmentProps = {
 	segment: HomePageSegmentItem
 }
 
@@ -125,28 +124,24 @@ export const HomePageSegment: FC<HomePageSegmentProps> = ({ segment }) => {
 	const { title, text } = segment
 
 	return (
-		<React.Fragment>
-			<Container
-				flexDirection={{ xs: 'column-reverse', md: 'row' }}
-				paddingY={{ xs: 10, md: 12, xl: 16 }}
-			>
-				<TextContanier pt={{ xs: 5, sm: 6, md: 0 }}>
-					<Title variant='h3'>{title}</Title>
-					<Subtitle variant='subtitle1'>{text}</Subtitle>
-				</TextContanier>
+		<Container
+			flexDirection={{ xs: 'column-reverse', md: 'row' }}
+			paddingY={{ xs: 10, md: 12, xl: 16 }}
+		>
+			<TextContanier pt={{ xs: 5, sm: 6, md: 0 }}>
+				<Title variant='h3'>{title}</Title>
+				<Subtitle variant='subtitle1'>{text}</Subtitle>
+			</TextContanier>
 
-				<ImageContainer height={{ sm: '300px', md: '300px', lg: '400px', xl: '500px' }}>
-					{isComponentSegment(segment) ? (
-						<segment.ImageComponent />
-					) : (
-						<ImageBox>
-							<img alt={title} src={segment.image} />
-						</ImageBox>
-					)}
-				</ImageContainer>
-			</Container>
-		</React.Fragment>
+			<ImageContainer height={{ sm: '300px', md: '300px', lg: '400px', xl: '500px' }}>
+				{isComponentSegment(segment) ? (
+					<segment.ImageComponent />
+				) : (
+					<ImageBox>
+						<img alt={title} src={segment.image} />
+					</ImageBox>
+				)}
+			</ImageContainer>
+		</Container>
 	)
 }
-
-export default HomePageSegment

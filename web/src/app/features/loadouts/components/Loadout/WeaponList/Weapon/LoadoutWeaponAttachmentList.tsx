@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { Attachment } from 'app/features/armory'
 import LoadoutResourceList from '../../LoadoutResourceList/LoadoutResourceList'
 import AddArmoryItemDialog from '../../dialogs/AddArmoryItemDialog'
-import AvailableArmoryContext from '../../AvailableArmoryContext'
+import { AvailableArmoryContext } from '../../AvailableArmoryContext'
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
-import LoadoutContext from '../../LoadoutContext'
+import { LoadoutContext } from '../../LoadoutContext'
 
 type LoadoutWeaponAttachmentListProps = {
 	weapon: LoadoutWeapon

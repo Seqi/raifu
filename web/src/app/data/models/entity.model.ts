@@ -31,7 +31,7 @@ class Entity {
 	}
 }
 
-let toEntity = (entity: any) => {
+export const toEntity = (entity: any) => {
 	// Don't convert any non-objects
 	if (entity === null || typeof entity !== 'object') {
 		return entity
@@ -52,6 +52,3 @@ let toEntity = (entity: any) => {
 
 	return e
 }
-
-export default Entity
-export { Entity, toEntity }

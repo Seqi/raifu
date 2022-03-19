@@ -33,7 +33,7 @@ const LoadoutCardContent = styled(ResourceCardContent)({
 	overflow: 'unset',
 })
 
-export type LoadoutCardProps = ResourceItemProps<Loadout>
+type LoadoutCardProps = ResourceItemProps<Loadout>
 
 export const LoadoutCard: FC<LoadoutCardProps> = ({ item, onClick, onDelete }) => (
 	<LoadoutCardContainer onClick={onClick}>
@@ -50,8 +50,6 @@ export const LoadoutCard: FC<LoadoutCardProps> = ({ item, onClick, onDelete }) =
 		</DeletableOverlay>
 	</LoadoutCardContainer>
 )
-
-export default LoadoutCard
 
 LoadoutCard.propTypes = {
 	item: PropTypes.shape(LoadoutPropType).isRequired,

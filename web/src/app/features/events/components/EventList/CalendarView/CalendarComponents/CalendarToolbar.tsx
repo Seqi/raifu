@@ -1,5 +1,4 @@
-import React, { FC } from 'react'
-import PropTypes from 'prop-types'
+import { FC } from 'react'
 import { Box, IconButton } from '@material-ui/core'
 import { NavigateBefore, NavigateNext } from '@material-ui/icons'
 import { ToolbarProps } from 'react-big-calendar'
@@ -20,11 +19,6 @@ const CalendarToolbar: FC<CalendarToolbarProps> = ({ onNavigate }) => {
 			</IconButton>
 		</Box>
 	)
-}
-
-CalendarToolbar.propTypes = {
-	label: PropTypes.string.isRequired,
-	onNavigate: PropTypes.func.isRequired,
 }
 
 export default CalendarToolbar

@@ -37,7 +37,7 @@ const EventInvite: FC<EventInviteProps> = ({ event, onJoin }) => {
 				Join event!
 			</Button>
 
-			{error && <Error error={'An error occurred while trying to join event.'} />}
+			{error && <Error error='An error occurred while trying to join event.' />}
 		</Box>
 	)
 }

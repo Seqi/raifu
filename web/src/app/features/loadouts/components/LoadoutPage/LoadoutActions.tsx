@@ -24,7 +24,7 @@ const LoadoutActions: FC<LoadoutActionsProps> = ({
 	let isAtBottom = useIsPageAtBottom()
 
 	return (
-		<React.Fragment>
+		<>
 			{/* Actions */}
 			<SpeedDial
 				ariaLabel='Loadout Actions'
@@ -66,7 +66,7 @@ const LoadoutActions: FC<LoadoutActionsProps> = ({
 				onShare={onSharedChanged}
 				onClose={() => setDialog(null)}
 			/>
-		</React.Fragment>
+		</>
 	)
 }
 

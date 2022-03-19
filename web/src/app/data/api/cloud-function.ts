@@ -1,4 +1,4 @@
-import app from '../../../firebase/index'
+import app from '../../../firebase'
 
 const DEFAULT_REGION = 'us-central1'
 
@@ -89,5 +89,4 @@ class CloudFunction {
 	}
 }
 
-export { CloudFunction }
 export default CloudFunction
