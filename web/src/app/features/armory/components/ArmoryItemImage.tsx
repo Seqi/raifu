@@ -84,10 +84,6 @@ const loadImageOrDefault = async (
 	if (!img) {
 		const resourceTypeDefaults = defaults[resourceCategory]
 
-		if (!resourceTypeDefaults) {
-			throw new Error(`No default was found for image type ${resourceCategory}`)
-		}
-
 		// Hack: Can't get type conversion to work nice
 		const type = resourceType as keyof typeof resourceTypeDefaults
 		const defaultPlatform = resourceTypeDefaults[type]

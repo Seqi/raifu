@@ -70,7 +70,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 		const update = {
 			name: event.name,
 			location: event.location,
-			date: event.date?.toISOString(),
+			date: event.date.toISOString(),
 			public: event.public,
 			loadout_id: event.loadout?.id,
 		}

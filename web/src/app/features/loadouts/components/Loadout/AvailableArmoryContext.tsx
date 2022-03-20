@@ -21,10 +21,6 @@ const getUnusedArmoryItems = (
 	loadout: Loadout,
 	armory: ArmoryCollection
 ): ArmoryCollection => {
-	if (!armory) {
-		return emptyArmory
-	}
-
 	const usedWeapons = loadout.weapons
 	const usedAttachments = loadout.weapons.flatMap((weapon) => weapon.attachments || [])
 	const usedGear = loadout.gear

@@ -77,6 +77,13 @@ module.exports = {
 	overrides: [
 		{
 			files: ['**/*.ts?(x)'],
+			parserOptions: {
+				project: [path.join(__dirname, 'tsconfig.json')],
+			},
+			rules: {
+				'no-constant-condition': 'off',
+				'@typescript-eslint/no-unnecessary-condition': 'warn',
+			},
 		},
 		{
 			files: ['**/__tests__/**/*', '**/*.{spec,test}.*'],

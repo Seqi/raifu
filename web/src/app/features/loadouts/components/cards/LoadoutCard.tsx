@@ -36,11 +36,7 @@ type LoadoutCardProps = ResourceItemProps<Loadout>
 
 export const LoadoutCard: FC<LoadoutCardProps> = ({ item, onClick, onDelete }) => (
 	<LoadoutCardContainer onClick={onClick}>
-		<DeletableOverlay
-			canDelete={true}
-			onDelete={onDelete || Promise.resolve}
-			dialogTitle={item.getTitle()}
-		>
+		<DeletableOverlay canDelete={true} onDelete={onDelete} dialogTitle={item.getTitle()}>
 			<ResourceCardHeader resource={item} />
 
 			<LoadoutCardContent>

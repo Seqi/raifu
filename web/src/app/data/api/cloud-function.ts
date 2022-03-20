@@ -35,7 +35,7 @@ class CloudFunction {
 		return this
 	}
 
-	async call(data: any, method: 'GET' | 'POST' | 'PUT' | 'DELETE'): Promise<Response> {
+	async call(data: any, method?: 'GET' | 'POST' | 'PUT' | 'DELETE'): Promise<Response> {
 		if (!method) {
 			throw new Error('Method is required')
 		}

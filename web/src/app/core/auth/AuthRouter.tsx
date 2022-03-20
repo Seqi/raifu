@@ -14,4 +14,6 @@ const AuthRouter: FC = () => (
 	</Routes>
 )
 
+export const p = 1
+
 export default AuthRouter
