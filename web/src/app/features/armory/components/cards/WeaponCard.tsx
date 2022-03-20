@@ -1,4 +1,5 @@
 import { FC } from 'react'
+
 import { ArmoryCard, ArmoryCardProps } from './ArmoryCard'
 
 type WeaponCardProps = Omit<ArmoryCardProps, 'category'>

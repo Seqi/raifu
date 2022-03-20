@@ -1,4 +1,5 @@
 import { FC, useRef, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import {
@@ -11,7 +12,6 @@ import {
 	Tooltip,
 	Typography,
 } from '@material-ui/core'
-import { useLocation } from 'react-router-dom'
 
 const copyInputTextToClipboard = (input: HTMLInputElement | undefined) => {
 	if (!input) {

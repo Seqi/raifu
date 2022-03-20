@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, FC } from 'react'
-import PropTypes from 'prop-types'
 import { useForm, Controller } from 'react-hook-form'
+import PropTypes from 'prop-types'
 
 import {
 	Dialog,
@@ -17,8 +17,9 @@ import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 
 import { Error } from 'app/shared/state'
-import { Event, EventPropShape } from '../models'
 import { FormTextField } from 'app/shared/extensions/material/FormTextField'
+
+import { Event, EventPropShape } from '../models'
 
 const BlankEvent: Event = {
 	id: '',

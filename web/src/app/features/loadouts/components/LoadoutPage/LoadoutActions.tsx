@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
+
 import { EditLoadoutDialog, SetShareableDialog } from '../dialogs'
 import { Loadout, LoadoutPropType } from '../../models'
 

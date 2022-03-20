@@ -3,12 +3,11 @@ import { useEffect } from 'react'
 import { Container } from '@material-ui/core'
 
 import useAnalytics from 'app/shared/hooks/useAnalytics'
-import NavBar from '../../layout/Navbar/Navbar'
 
+import NavBar from '../../layout/Navbar/Navbar'
 import { HomePageSegment, HomePageSegmentItem } from './HomePageSegment'
 import ScrollingWeapons from './ScrollingWeapons'
 import CallToAction from './CallToAction'
-
 import LoadoutImage from './images/loadout.png'
 import EventsImage from './images/event.png'
 import SquadImage from './images/squad.png'

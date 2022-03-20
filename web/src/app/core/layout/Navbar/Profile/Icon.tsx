@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import firebase from 'firebase/app'
 import PropTypes from 'prop-types'
 
+import firebase from 'firebase/app'
 import { Avatar } from '@material-ui/core'
 import { Person } from '@material-ui/icons'
 

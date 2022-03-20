@@ -1,6 +1,8 @@
 import React, { useState, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
+
 import { Box, styled } from '@material-ui/core'
+
 import DeleteButton from './DeleteButton'
 import ConfirmDeleteDialog from './ConfirmDeleteDialog'
 

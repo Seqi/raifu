@@ -1,5 +1,6 @@
-import app from '../../../firebase'
 import firebase from 'firebase/app'
+
+import app from '../../../firebase'
 
 const analytics = app.analytics()
 

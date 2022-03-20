@@ -1,8 +1,10 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
+
 import { Grid, styled, Box, GridSize, Typography } from '@material-ui/core'
 
 import { ArmoryItemImage } from 'app/features/armory'
+
 import { Loadout, LoadoutPropType } from '../models'
 
 const NoItemsContainer = styled(Box)(({ theme }) => ({

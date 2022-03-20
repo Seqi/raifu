@@ -12,10 +12,10 @@ import {
 } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
-
 import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 import { ResourceList, ResourceListProps } from 'app/features/resource'
 
+import { ArmoryCollection, ArmoryItem } from '../models'
 import {
 	WeaponCard,
 	AttachmentCard,
@@ -23,9 +23,7 @@ import {
 	ClothingCard,
 	RatioedArmoryCardContainer as ArmoryCardContainer,
 } from './cards'
-
 import AddArmoryItemDialog from './AddArmoryItemDialog'
-import { ArmoryCollection, ArmoryItem } from '../models'
 
 const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 	size: 'large' | 'small'

@@ -1,5 +1,5 @@
-import CloudFunction from './cloud-function'
 import { toEntity } from '../models/entity.model'
+import CloudFunction from './cloud-function'
 
 export default function baseEntity(entityName: string, EntityModel?: any) {
 	return {

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, FC } from 'react'
+import { useState, useContext, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Box, styled } from '@material-ui/core'
@@ -29,7 +29,7 @@ type LoadoutWeaponItemProps = {
 	weapon: LoadoutWeapon
 }
 
-let LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
+const LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
 	let { deleteWeapon } = useContext(LoadoutContext)
 	let [dialog, setDialog] = useState<'delete' | null>(null)
 

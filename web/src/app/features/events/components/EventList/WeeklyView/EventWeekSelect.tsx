@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import * as Moment from 'moment'
 import { extendMoment } from 'moment-range'
-
 import { Box, IconButton } from '@material-ui/core'
 import { NavigateBefore, NavigateNext } from '@material-ui/icons'
 

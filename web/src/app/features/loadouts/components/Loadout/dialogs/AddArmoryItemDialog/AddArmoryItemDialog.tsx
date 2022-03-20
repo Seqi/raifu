@@ -11,9 +11,9 @@ import {
 
 import { Loading, Error } from 'app/shared/state'
 import { Category } from 'app/data/constants/platforms'
+import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
 
 import ArmoryItemSelect from './ArmoryItemSelect'
-import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
 
 type AddArmoryItemDialogProps = {
 	items: ArmoryItem[]

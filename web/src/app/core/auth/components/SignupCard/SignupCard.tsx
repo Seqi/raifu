@@ -6,10 +6,9 @@ import { AuthContext } from '../../contexts/AuthContext'
 import AuthCardHeader from '../AuthCardHeader'
 import AuthCardActions from '../AuthCardActions'
 import AuthError from '../AuthError'
-
 import { SignupForm, SignupFormFields } from './SignupForm'
 
-let SignupCard: FC = () => {
+const SignupCard: FC = () => {
 	let auth = useContext(AuthContext)
 	let [error, setError] = useState<string | null>(null)
 

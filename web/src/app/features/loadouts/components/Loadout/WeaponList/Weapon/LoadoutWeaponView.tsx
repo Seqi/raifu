@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 import { Box, Slide, styled } from '@material-ui/core'
 
-import LoadoutWeaponItem from './LoadoutWeaponItem'
-import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
 import { LoadoutWeaponTitle } from '../../LoadoutItemTitle'
+import LoadoutWeaponItem from './LoadoutWeaponItem'
+import LoadoutWeaponAttachmentList from './LoadoutWeaponAttachmentList'
 
 const LoadoutWeaponContainer = styled(Box)(({ theme }) => ({
 	flexDirection: 'row',

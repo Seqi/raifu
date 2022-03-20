@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
+
 import { Loadout, LoadoutPropType } from 'app/features/loadouts'
+
 import { Resource, ResourcePropShape } from '../../resource/models/resource'
 
 export interface Event extends Resource {

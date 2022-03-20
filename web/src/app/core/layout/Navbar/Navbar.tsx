@@ -1,8 +1,10 @@
 import { FC, useContext } from 'react'
 import PropTypes from 'prop-types'
+
 import { Box, styled, BoxProps, useMediaQuery, Theme } from '@material-ui/core'
 
 import { UserContext } from 'app/core/auth/contexts'
+
 import { Logo, LogoProps } from '../Logo'
 import UserProfile from './Profile'
 

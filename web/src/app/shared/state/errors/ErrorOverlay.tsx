@@ -2,6 +2,7 @@ import { FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Button, useTheme } from '@material-ui/core'
+
 import AppOverlay from '../../utils/AppOverlay'
 
 type ErrorOverlayProps = {

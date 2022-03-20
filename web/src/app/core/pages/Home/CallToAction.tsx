@@ -1,5 +1,6 @@
 import { FC, useContext } from 'react'
 import { useNavigate } from 'react-router'
+
 import {
 	Box,
 	BoxProps,
@@ -10,8 +11,9 @@ import {
 	useMediaQuery,
 } from '@material-ui/core'
 
-import CallToActionImage from './images/2guns-accent.png'
 import { UserContext } from 'app/core/auth/contexts'
+
+import CallToActionImage from './images/2guns-accent.png'
 
 const Title = styled(Typography)(({ theme }) => ({
 	marginLeft: 'auto',

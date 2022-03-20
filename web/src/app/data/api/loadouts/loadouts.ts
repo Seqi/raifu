@@ -1,5 +1,4 @@
 import CloudFunction from '../cloud-function'
-
 import base from '../base-entity'
 import loadoutWeapons from './loadout-weapons'
 import loadoutGear from './loadout-gear'

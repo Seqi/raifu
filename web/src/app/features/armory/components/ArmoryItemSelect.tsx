@@ -1,12 +1,12 @@
 import React, { useState, useEffect, FC } from 'react'
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { titleCase } from 'title-case'
 
+import { titleCase } from 'title-case'
 import { styled, Popper, TextField, MenuItem, TextFieldProps } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 
 import { platforms, Category } from 'app/data/constants'
-import { useRef } from 'react'
 
 const AutoCompletePopper = styled(Popper)({
 	'& .MuiAutocomplete-groupLabel': {

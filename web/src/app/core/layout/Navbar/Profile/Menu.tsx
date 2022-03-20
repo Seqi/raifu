@@ -1,12 +1,13 @@
 import { FC, useContext } from 'react'
-import firebase from 'firebase/app'
 import PropTypes from 'prop-types'
 
+import firebase from 'firebase/app'
 import { Badge, Box, ListItemIcon, Menu, MenuItem, styled } from '@material-ui/core'
 import { PowerSettingsNew } from '@material-ui/icons'
 import Build from '@material-ui/icons/Build'
 
 import { AuthContext } from 'app/core/auth/contexts'
+
 import ProfileIcon from './Icon'
 
 const MenuContainer = styled(Box)(({ theme }) => ({

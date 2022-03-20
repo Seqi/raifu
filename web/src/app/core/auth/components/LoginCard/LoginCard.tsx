@@ -6,7 +6,6 @@ import { AuthContext } from '../../contexts/AuthContext'
 import AuthCardHeader from '../AuthCardHeader'
 import AuthCardActions from '../AuthCardActions'
 import AuthError from '../AuthError'
-
 import LoginForm, { LoginFormFields } from './LoginForm'
 import LoginProviders from './LoginProviders'
 

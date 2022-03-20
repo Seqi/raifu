@@ -13,7 +13,6 @@ import {
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
-
 import { Attachment, Gear } from 'app/features/armory'
 import { Loadout, LoadoutWeapon, LoadoutPropType } from 'app/features/loadouts'
 import { Resource } from 'app/features/resource'

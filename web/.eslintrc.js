@@ -42,26 +42,37 @@ module.exports = {
 				ignoreExports: [path.join(__dirname, 'src', 'index.tsx')],
 			},
 		],
-		// "import/no-mutable-exports": "warn"
-		// "import/order": [
-		// 	"error",
-		// 	{
-		// 		"groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
-		// 		"pathGroups": [
-		// 			{
-		// 				"pattern": "react*",
-		// 				"group": "builtin",
-		// 				"position": "before"
-		// 			},
-		// 			{
-		// 				"pattern": "app/**",
-		// 				"group": "internal"
-		// 			}
-		// 		],
-		// 		"pathGroupsExcludedImportTypes": ["react*"],
-		// 		"newlines-between": "always-and-inside-groups"
-		// 	}
-		// ]
+		'import/no-mutable-exports': 'warn',
+		'import/order': [
+			'warn',
+			{
+				groups: [
+					'builtin',
+					'external',
+					'internal',
+					['parent', 'sibling'],
+					'index',
+					'object',
+					'type',
+				],
+				pathGroups: [
+					{
+						pattern: 'react*',
+						group: 'builtin',
+					},
+					{
+						pattern: 'prop-types',
+						group: 'builtin',
+					},
+					{
+						pattern: 'app/**',
+						group: 'internal',
+					},
+				],
+				pathGroupsExcludedImportTypes: ['react*', 'prop-types'],
+				'newlines-between': 'always',
+			},
+		],
 	},
 	overrides: [
 		{

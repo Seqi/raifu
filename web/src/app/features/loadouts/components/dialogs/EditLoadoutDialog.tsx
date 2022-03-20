@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect, FC } from 'react'
-import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
+import PropTypes from 'prop-types'
 
 import {
 	Dialog,
@@ -11,8 +11,9 @@ import {
 } from '@material-ui/core'
 
 import { Error } from 'app/shared/state'
-import { Loadout, LoadoutPropType } from '../../models'
 import { FormTextField } from 'app/shared/extensions/material/FormTextField'
+
+import { Loadout, LoadoutPropType } from '../../models'
 
 type EditLoadoutDialogProps = {
 	loadout?: Loadout | null

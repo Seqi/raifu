@@ -1,5 +1,6 @@
 // Disabled as pain to get working with union tpyes
 import React, { FC } from 'react'
+
 import { Typography, styled, Box } from '@material-ui/core'
 
 const Container = styled(Box)(({ theme }) => ({

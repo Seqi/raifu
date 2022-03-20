@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { loadouts } from 'app/data/api'
-import { Loadout, LoadoutPropType } from '../../models'
 import { Clothing, Gear } from 'app/features/armory'
 
+import { Loadout, LoadoutPropType } from '../../models'
+
 // TODO: Type
-export let LoadoutContext = React.createContext<any>(null)
+export const LoadoutContext = React.createContext<any>(null)
 
 type LoadoutContextProviderProps = {
 	loadout: Loadout

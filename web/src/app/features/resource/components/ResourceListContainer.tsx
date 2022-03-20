@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import { ResourceList, ResourceListProps } from './ResourceList'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
+
 import { Resource } from '../models/resource'
+import { ResourceList, ResourceListProps } from './ResourceList'
 
 export type ResourceListContainerProps<R extends Resource> = Omit<
 	ResourceListProps<R>,

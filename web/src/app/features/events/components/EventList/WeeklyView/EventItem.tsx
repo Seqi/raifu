@@ -1,8 +1,9 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 
+import moment from 'moment'
 import { Box, styled } from '@material-ui/core'
+
 import { Event, EventPropShape } from '../../../models'
 
 const EventContainer = styled(Box)(({ theme }) => ({

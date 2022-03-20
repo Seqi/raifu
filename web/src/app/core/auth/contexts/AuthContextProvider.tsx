@@ -1,8 +1,9 @@
 import { FC } from 'react'
+
 import firebase from 'firebase/app'
 
-import { AuthContext, AuthContextValue } from './AuthContext'
 import client from '../../../../firebase'
+import { AuthContext, AuthContextValue } from './AuthContext'
 
 const auth = client.auth()
 
@@ -38,7 +39,7 @@ const authActions: AuthContextValue = {
 	logout: () => auth.signOut(),
 }
 
-let AuthContextProvider: FC = ({ children }) => {
+const AuthContextProvider: FC = ({ children }) => {
 	return <AuthContext.Provider value={authActions}>{children}</AuthContext.Provider>
 }
 

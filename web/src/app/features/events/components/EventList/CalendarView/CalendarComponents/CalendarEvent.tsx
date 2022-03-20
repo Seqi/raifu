@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
+import { EventProps } from 'react-big-calendar'
 import PropTypes from 'prop-types'
 
 import moment from 'moment'
-import { EventProps } from 'react-big-calendar'
 
 import { Event, EventPropShape } from '../../../../models'
 

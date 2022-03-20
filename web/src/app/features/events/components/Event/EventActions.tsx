@@ -6,15 +6,15 @@ import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
 import Alert from '@material-ui/lab/Alert'
 import PersonAddOutlined from '@material-ui/icons/PersonAddOutlined'
 import Close from '@material-ui/icons/Close'
+import { GroupAdd } from '@material-ui/icons'
 
 import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
 import { Loadout } from 'app/features/loadouts'
 
-import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import { EditEventDialog, EventUpdate } from '../EditEventDialog'
 import { Event, EventPropShape } from '../../models'
-import { GroupAdd } from '@material-ui/icons'
+import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import { InviteDialog } from './dialogs/InviteDialog'
 
 let getMyLoadout = (event: Event): Loadout | null | undefined => {

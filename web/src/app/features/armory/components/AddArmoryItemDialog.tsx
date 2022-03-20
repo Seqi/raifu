@@ -1,6 +1,6 @@
 import { useState, useEffect, FC, useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { useForm, Controller } from 'react-hook-form'
+import PropTypes from 'prop-types'
 
 import {
 	Dialog,
@@ -15,10 +15,10 @@ import { Autocomplete } from '@material-ui/lab'
 import { Error } from 'app/shared/state'
 import { brands, Category } from 'app/data/constants'
 import { AddResourceDialogProps } from 'app/features/resource'
+import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 import { ArmoryItem } from '../models/armory-item'
 import ArmoryItemSelect from './ArmoryItemSelect'
-import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 type AddArmoryItemProps = AddResourceDialogProps<ArmoryItem> & {
 	resourceTitle: string

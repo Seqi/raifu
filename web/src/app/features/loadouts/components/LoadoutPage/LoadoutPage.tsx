@@ -1,14 +1,13 @@
 import React from 'react'
-
 import { useParams } from 'react-router-dom'
 
 import { loadouts } from 'app/data/api'
 import { LoadingOverlay, ErrorOverlay } from 'app/shared/state'
 import { LoadoutView } from 'app/features/loadouts'
 
-import LoadoutActions from './LoadoutActions'
 import firebase from '../../../../../firebase'
 import { Loadout } from '../../models'
+import LoadoutActions from './LoadoutActions'
 
 let analytics = firebase.analytics()
 

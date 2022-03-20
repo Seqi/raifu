@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import { MuiThemeProvider, CssBaseline, Typography } from '@material-ui/core'
 
 import AppRouter from './app/core/Router'
-
 import Theme from './theme'
 
 import './index.css'

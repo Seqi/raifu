@@ -13,13 +13,13 @@ import {
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
-import EventWeeklyView from './WeeklyView/EventWeeklyView'
-import EventCalendarView from './CalendarView/EventCalendarView'
-import { EditEventDialog, EventUpdate } from '../EditEventDialog'
-import CalendarDateContextProvider from './CalendarDateContextProvider'
 
+import { EditEventDialog, EventUpdate } from '../EditEventDialog'
 import firebase from '../../../../../firebase'
 import { Event } from '../../models'
+import EventWeeklyView from './WeeklyView/EventWeeklyView'
+import EventCalendarView from './CalendarView/EventCalendarView'
+import CalendarDateContextProvider from './CalendarDateContextProvider'
 
 let analytics = firebase.analytics()
 

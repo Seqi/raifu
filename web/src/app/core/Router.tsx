@@ -1,9 +1,10 @@
 import { FC, lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
+
 import { LoadingOverlay } from 'app/shared/state'
 import { SharedLoadout } from 'app/features/share'
-import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 
+import { UserContextProvider, AuthContextProvider } from './auth/contexts'
 import App from './pages/App'
 import HomePage from './pages/Home'
 import WithAuthentication from './auth/WithAuthentication'
@@ -21,7 +22,7 @@ const EventRouter = lazy(
 	() => import(/* webpackChunkName: "event" */ 'app/features/events/EventRouter')
 )
 
-let AppRouter: FC = () => {
+const AppRouter: FC = () => {
 	return (
 		<Router>
 			<AuthContextProvider>

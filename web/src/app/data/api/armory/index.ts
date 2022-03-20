@@ -1,5 +1,6 @@
-import CloudFunction from '../cloud-function'
 import { toEntity } from 'app/data/models/entity.model'
+
+import CloudFunction from '../cloud-function'
 
 const armory = {
 	get: (): any =>

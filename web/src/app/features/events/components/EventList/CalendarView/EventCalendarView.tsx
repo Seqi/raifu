@@ -1,17 +1,18 @@
 import { useRef, useContext, FC } from 'react'
-import PropTypes from 'prop-types'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import PropTypes from 'prop-types'
 
+import moment from 'moment'
 import { Box, useTheme } from '@material-ui/core'
 
-import { CalendarToolbar, CalendarEvent } from './CalendarComponents'
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
+
 import CalendarDateContext from '../CalendarDateContext'
 import { Event, EventPropShape } from '../../../models'
+import { CalendarToolbar, CalendarEvent } from './CalendarComponents'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendarComponents/Calendar.css'
-import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 
 type EventCalendarViewProps = {
 	events: Event[]

@@ -15,13 +15,12 @@ import {
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMoreOutlined'
 
-import EventLoadout from './components/EventLoadout'
-import EventInvite from './components/EventInvite'
-
 import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
-import AddLoadoutToEventDialog from './dialogs/AddLoadoutToEventDialog'
 
 import { Event, EventPropShape } from '../../models'
+import EventLoadout from './components/EventLoadout'
+import EventInvite from './components/EventInvite'
+import AddLoadoutToEventDialog from './dialogs/AddLoadoutToEventDialog'
 
 const EventAccordian = styled(Accordion)(({ theme }) => ({
 	minHeight: theme.spacing(7),

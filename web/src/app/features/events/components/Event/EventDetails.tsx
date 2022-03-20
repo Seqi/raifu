@@ -1,18 +1,18 @@
 import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+
+import { Box } from '@material-ui/core'
+import moment from 'moment'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
+
 import firebase from '../../../../../firebase'
-
-import EventContent from './EventContent'
-import EventActions from './EventActions'
-
 import { EventUpdate } from '../EditEventDialog'
 import { Event } from '../../models'
-import { Box } from '@material-ui/core'
-import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
-import moment from 'moment'
-import { useNavigate, useParams } from 'react-router-dom'
+import EventContent from './EventContent'
+import EventActions from './EventActions'
 
 let analytics = firebase.analytics()
 

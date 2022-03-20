@@ -1,14 +1,16 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
+import { Box, styled } from '@material-ui/core'
+
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
+
+import { Loadout, LoadoutPropType } from '../../models'
 import { LoadoutContextProvider } from './LoadoutContext'
 import { AvailableArmoryContextProvider } from './AvailableArmoryContext'
 import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutGearList from './GearList/LoadoutGearList'
 import LoadoutClothingList from './ClothingList/LoadoutClothingList'
-import { Loadout, LoadoutPropType } from '../../models'
-import { Box, styled } from '@material-ui/core'
-import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 
 type LoadoutViewProps = {
 	loadout: Loadout

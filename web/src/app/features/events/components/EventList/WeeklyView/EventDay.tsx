@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Box, styled } from '@material-ui/core'
 
-import EventItem from './EventItem'
 import { Event, EventPropShape } from '../../../models'
+import EventItem from './EventItem'
 
 const EventDayContainer = styled(Box)(({ theme }) => ({
 	flex: 1,

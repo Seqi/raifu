@@ -1,10 +1,12 @@
 import React, { FC, useState } from 'react'
 import PropTypes from 'prop-types'
+
 import { Box, Button } from '@material-ui/core'
 
 import { Error, LoadingOverlay } from 'app/shared/state'
 import { events } from 'app/data/api'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
+
 import { Event, EventPropShape } from '../../../models'
 
 type EventInviteProps = {

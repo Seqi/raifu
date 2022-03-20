@@ -7,8 +7,8 @@ import { Category } from 'app/data/constants/platforms'
 import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
 import AddButton from 'app/shared/actions/add/AddButton'
 
-import LoadoutResourceItem from './LoadoutResourceItem'
 import { LoadoutContext } from '../LoadoutContext'
+import LoadoutResourceItem from './LoadoutResourceItem'
 
 const ResourceGridItem = styled(Grid)(({ theme }) => ({
 	width: '300px',

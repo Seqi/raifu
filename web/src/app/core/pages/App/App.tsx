@@ -1,5 +1,6 @@
 import { useState, FC } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
+
 import { Box, Container, Tabs, Tab, styled } from '@material-ui/core'
 
 import useRouteAnalytics from 'app/shared/hooks/useRouteAnalytics'

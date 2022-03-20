@@ -1,7 +1,8 @@
 import { FC } from 'react'
+import { ToolbarProps } from 'react-big-calendar'
+
 import { Box, IconButton } from '@material-ui/core'
 import { NavigateBefore, NavigateNext } from '@material-ui/icons'
-import { ToolbarProps } from 'react-big-calendar'
 
 import { Event } from '../../../../models'
 

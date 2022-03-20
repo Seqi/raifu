@@ -6,15 +6,14 @@ import { styled, BoxProps, CardProps } from '@material-ui/core'
 
 import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'
-
 import {
 	ResourceCard,
 	ResourceCardHeader,
 	ResourceCardContent,
 	ResourceItemProps,
 } from 'app/features/resource'
-
 import { RatioedBox } from 'app/shared/containers/RatioedBox'
+
 import ArmoryItemImage from '../ArmoryItemImage'
 import { ArmoryItem, ArmoryItemPropShape } from '../../models/armory-item'
 

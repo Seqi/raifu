@@ -1,15 +1,16 @@
-import React, { useState, useRef, useEffect, useCallback, FC } from 'react'
+import { useState, useRef, useEffect, useCallback, FC } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+
 import { Box, Theme, useMediaQuery } from '@material-ui/core'
 
 import { loadouts as loadoutService } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import { ResourceList } from 'app/features/resource'
+import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 
 import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
 import { LoadoutCard, LoadoutCardContainer } from '../cards'
 import { Loadout } from '../../models'
-import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
-import { useLocation, useNavigate } from 'react-router-dom'
 
 type LoadoutListState = {
 	loadouts: Loadout[]
@@ -19,7 +20,7 @@ type LoadoutListState = {
 
 const defaultState: LoadoutListState = { loadouts: [], loading: true, error: false }
 
-let LoadoutList: FC = () => {
+const LoadoutList: FC = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 

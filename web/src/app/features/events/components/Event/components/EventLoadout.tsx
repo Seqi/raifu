@@ -1,9 +1,11 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { LoadoutView } from 'app/features/loadouts'
-import { EventUser, EventUserPropShape } from '../../../models'
 import { Box, Typography, makeStyles } from '@material-ui/core'
+
+import { LoadoutView } from 'app/features/loadouts'
+
+import { EventUser, EventUserPropShape } from '../../../models'
 
 const useStyles = makeStyles((theme) => ({
 	'no-loadout-icon': {

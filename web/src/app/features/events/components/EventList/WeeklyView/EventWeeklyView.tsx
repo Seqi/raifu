@@ -1,14 +1,14 @@
 import { useState, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 
+import moment from 'moment'
 import { styled, Box, Fade } from '@material-ui/core'
 
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 
+import { Event, EventPropShape } from '../../../models'
 import EventWeekSelect from './EventWeekSelect'
 import EventDay from './EventDay'
-import { Event, EventPropShape } from '../../../models'
 
 const EventWeeklyViewContainer = styled(Box)({
 	display: 'flex',

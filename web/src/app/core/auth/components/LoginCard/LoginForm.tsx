@@ -1,8 +1,9 @@
 import { FC } from 'react'
-import PropTypes from 'prop-types'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import PropTypes from 'prop-types'
 
 import Button from '@material-ui/core/Button'
+
 import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 export type LoginFormFields = {

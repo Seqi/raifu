@@ -5,6 +5,7 @@ import { Grid, Fade, GridProps } from '@material-ui/core'
 
 import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 import AddButton from 'app/shared/actions/add/AddButton'
+
 import { Resource } from '../models/resource'
 
 export type AddResourceDialogProps<ResourceItem extends Resource = Resource> = {

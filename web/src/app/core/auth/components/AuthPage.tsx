@@ -3,8 +3,9 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 import { Box, styled } from '@material-ui/core'
 
-import UserContext from '../contexts/UserContext'
 import { Logo } from 'app/core/layout'
+
+import UserContext from '../contexts/UserContext'
 
 let AuthFormContainer = styled(Box)({
 	position: 'absolute',

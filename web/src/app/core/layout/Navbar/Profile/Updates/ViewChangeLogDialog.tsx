@@ -13,6 +13,7 @@ import {
 
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { Error } from 'app/shared/state'
+
 import { ChangeLog, format } from './ChangeLog'
 
 const ChangeLogItemContainer = styled(Box)(({ theme }) => ({

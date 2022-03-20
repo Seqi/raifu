@@ -2,10 +2,10 @@ import React, { useState, useContext, useCallback, FC } from 'react'
 
 import { LoadoutContext } from '../LoadoutContext'
 import LoadoutAdd from '../LoadoutAdd'
-import LoadoutWeaponView from './Weapon/LoadoutWeaponView'
 import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
 import { AvailableArmoryContext } from '../AvailableArmoryContext'
 import { LoadoutWeapon } from '../../../models'
+import LoadoutWeaponView from './Weapon/LoadoutWeaponView'
 
 const LoadoutWeaponList: FC = () => {
 	let [dialog, setDialog] = useState<'add' | null>(null)

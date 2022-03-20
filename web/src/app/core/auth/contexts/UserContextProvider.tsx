@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext, FC } from 'react'
+
 import firebase from 'firebase/app'
 
 import { AuthContext } from './AuthContext'
 import UserContext from './UserContext'
 
-let UserContextProvider: FC = ({ children }) => {
+const UserContextProvider: FC = ({ children }) => {
 	let auth = useContext(AuthContext)
 
 	let [user, setUser] = useState(auth?.user || null)

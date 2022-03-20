@@ -2,6 +2,7 @@ import { useContext, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Attachment } from 'app/features/armory'
+
 import LoadoutResourceList from '../../LoadoutResourceList/LoadoutResourceList'
 import AddArmoryItemDialog from '../../dialogs/AddArmoryItemDialog'
 import { AvailableArmoryContext } from '../../AvailableArmoryContext'

@@ -1,7 +1,8 @@
 import { FC } from 'react'
 
-import Loading from './Loading'
 import AppOverlay from 'app/shared/utils/AppOverlay'
+
+import Loading from './Loading'
 
 const LoadingOverlay: FC = () => {
 	return (

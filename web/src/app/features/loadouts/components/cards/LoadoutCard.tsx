@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { styled } from '@material-ui/core'
 
 import { DeletableOverlay } from 'app/shared/actions/delete'
-
 import {
 	ResourceCard,
 	ResourceCardHeader,

@@ -2,6 +2,7 @@ import React, { useState, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { ArmoryItems, Category, PlatformOf } from 'app/data/constants/platforms'
+
 import { ArmoryItem, ArmoryItemPropShape } from '../models/armory-item'
 
 const defaults: {

@@ -1,9 +1,9 @@
 import { useEffect, useContext, useRef, FC, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { LoadingOverlay } from 'app/shared/state'
 import { UserContext } from 'app/core/auth/contexts'
-import { Navigate } from 'react-router-dom'
 
 type WithAuthenticationOptions = {
 	waitFor?: number

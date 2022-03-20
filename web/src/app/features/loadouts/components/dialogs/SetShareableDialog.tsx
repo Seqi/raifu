@@ -15,6 +15,7 @@ import {
 
 import { loadouts } from 'app/data/api'
 import { Error } from 'app/shared/state'
+
 import { Loadout } from '../../models'
 
 type SetShareableDialogProps = {
