@@ -14,7 +14,7 @@ import { Event } from '../../models'
 import EventContent from './EventContent'
 import EventActions from './EventActions'
 
-let analytics = firebase.analytics()
+const analytics = firebase.analytics()
 
 type EventProps = {
 	params: { id: string }
@@ -27,9 +27,9 @@ type EventState = {
 	event: Event | null
 }
 
-//TODO: Add Proptypes
+// TODO: Add Proptypes
 class EventDetails extends React.Component<EventProps, EventState> {
-	private isUnmounted: boolean = false
+	private isUnmounted = false
 
 	constructor(props: EventProps) {
 		super(props)
@@ -92,7 +92,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 			)
 			.then(() => {
 				let analyticsEvent
-				let prevEvent = this.state.event
+				const prevEvent = this.state.event
 
 				if (!prevEvent!.public && update.public) {
 					analyticsEvent = 'event_public'
@@ -121,7 +121,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 	}
 
 	setLoadout(loadoutId: string) {
-		let eventId = this.state.event!.id
+		const eventId = this.state.event!.id
 
 		return (
 			events
@@ -133,7 +133,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 	}
 
 	removeLoadout() {
-		let eventId = this.state.event!.id
+		const eventId = this.state.event!.id
 
 		return events
 			.removeLoadout(eventId)
@@ -142,7 +142,7 @@ class EventDetails extends React.Component<EventProps, EventState> {
 	}
 
 	render() {
-		let { loading, error, event } = this.state
+		const { loading, error, event } = this.state
 
 		if (loading) {
 			return <LoadingOverlay />
@@ -170,20 +170,20 @@ class EventDetails extends React.Component<EventProps, EventState> {
 			<Box display='flex' flexDirection='row'>
 				<SidewaysTitle
 					mr={{ xs: 1, sm: 2 }}
-					title={event!.getTitle()}
-					subtitle={`${event!.location} ${eventDate.fromNow()}`}
+					title={event.getTitle()}
+					subtitle={`${event.location} ${eventDate.fromNow()}`}
 					lowercase={true}
 				/>
 
 				<EventContent
-					event={event!}
+					event={event}
 					onEventJoined={() => this.loadEvent()}
 					onLoadoutAdded={(loadoutId: string) => this.setLoadout(loadoutId)}
 					onLoadoutRemoved={() => this.removeLoadout()}
 				/>
 
 				<EventActions
-					event={event!}
+					event={event}
 					updateEvent={(evt) => this.updateEvent(evt)}
 					deleteEvent={() => this.deleteEvent()}
 					leaveEvent={() => this.leaveEvent()}

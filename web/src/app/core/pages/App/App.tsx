@@ -6,7 +6,7 @@ import { Box, Container, Tabs, Tab, styled } from '@material-ui/core'
 import useRouteAnalytics from 'app/shared/hooks/useRouteAnalytics'
 import { Navbar } from 'app/core/layout'
 
-let PaddedContainer = styled(Container)(({ theme }) => ({
+const PaddedContainer = styled(Container)(({ theme }) => ({
 	[theme.breakpoints.up('lg')]: {
 		padding: theme.spacing(0, 5),
 	},
@@ -16,14 +16,14 @@ const App: FC = () => {
 	const location = useLocation()
 	useRouteAnalytics()
 
-	let [tabIndex, setTabIndex] = useState<number>(() => {
-		let idxMap: { [key: string]: number } = {
+	const [tabIndex, setTabIndex] = useState<number>(() => {
+		const idxMap: { [key: string]: number } = {
 			armory: 0,
 			loadouts: 1,
 			events: 2,
 		}
 
-		let currPath = location.pathname.split('/')[2]
+		const currPath = location.pathname.split('/')[2]
 
 		return idxMap[currPath] || 0
 	})

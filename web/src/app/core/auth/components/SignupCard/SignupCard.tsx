@@ -9,8 +9,8 @@ import AuthError from '../AuthError'
 import { SignupForm, SignupFormFields } from './SignupForm'
 
 const SignupCard: FC = () => {
-	let auth = useContext(AuthContext)
-	let [error, setError] = useState<string | null>(null)
+	const auth = useContext(AuthContext)
+	const [error, setError] = useState<string | null>(null)
 
 	const signupWithEmail = useCallback(
 		async ({ email, password }: SignupFormFields) => {

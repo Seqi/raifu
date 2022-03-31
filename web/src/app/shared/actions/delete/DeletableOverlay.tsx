@@ -32,9 +32,9 @@ const DeletableOverlay: FC<DeletableOverlayProps> = ({
 	children,
 	small,
 }) => {
-	let [isDialogOpen, setIsDialogOpen] = useState(false)
+	const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-	let onDeleteClicked = useCallback((event) => {
+	const onDeleteClicked = useCallback((event) => {
 		event.stopPropagation()
 		setIsDialogOpen(true)
 	}, [])

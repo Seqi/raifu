@@ -6,8 +6,8 @@ import { Box, Fade, Typography, styled } from '@material-ui/core'
 // falling back to css file for now...
 import './Loading.css'
 
-const REASSURANCE_TIME: number = 3000
-const REASSURANCE_MESSAGE: string = "Hold tight! This won't take a second."
+const REASSURANCE_TIME = 3000
+const REASSURANCE_MESSAGE = "Hold tight! This won't take a second."
 
 const LoadingContainer = styled(Box)(({ theme }) => ({
 	'& i': {
@@ -21,10 +21,10 @@ const LoadingContainer = styled(Box)(({ theme }) => ({
 }))
 
 const Loading: FC = () => {
-	let [showReassurance, setShowReassurance] = useState<boolean>(false)
+	const [showReassurance, setShowReassurance] = useState<boolean>(false)
 
 	useEffect(() => {
-		let timeout = setTimeout(() => setShowReassurance(true), REASSURANCE_TIME)
+		const timeout = setTimeout(() => setShowReassurance(true), REASSURANCE_TIME)
 		return () => clearTimeout(timeout)
 	}, [])
 

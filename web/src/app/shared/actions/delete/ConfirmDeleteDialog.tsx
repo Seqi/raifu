@@ -26,7 +26,7 @@ class ConfirmDeleteDialog extends React.Component<
 	ConfirmDeleteDialogProps,
 	ConfirmDeleteDialogState
 > {
-	private isUnmounted: boolean = false
+	private isUnmounted = false
 
 	constructor(props: ConfirmDeleteDialogProps) {
 		super(props)
@@ -60,8 +60,8 @@ class ConfirmDeleteDialog extends React.Component<
 	}
 
 	render() {
-		let { verb, onClose, isOpen, title } = this.props
-		let { error, loading } = this.state
+		const { verb, onClose, isOpen, title } = this.props
+		const { error, loading } = this.state
 
 		return (
 			// No idea why we have to stop event propagation here on click? I may have messed something up

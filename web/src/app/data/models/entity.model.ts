@@ -11,7 +11,7 @@ class Entity {
 			return this['name']
 		}
 
-		return this.nickname || `${this.platform}${this.model ? ' ' + this.model : ''}`
+		return this.nickname || `${this.platform}${this.model ? ` ${this.model}` : ''}`
 	}
 
 	getSubtitle = () => {
@@ -22,7 +22,7 @@ class Entity {
 
 		// Event items
 		if (this.date) {
-			let d = new Date(this.date)
+			const d = new Date(this.date)
 			return `${this.location} @ ${d.toLocaleString()}`
 		}
 
@@ -37,11 +37,11 @@ export const toEntity = (entity: any) => {
 		return entity
 	}
 
-	let e = new Entity(entity)
+	const e = new Entity(entity)
 
 	// Convert any children
 	Object.keys(e).forEach((key) => {
-		let prop = e[key]
+		const prop = e[key]
 
 		if (Array.isArray(prop)) {
 			e[key] = prop.map(toEntity)

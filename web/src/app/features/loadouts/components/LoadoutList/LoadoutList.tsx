@@ -24,7 +24,7 @@ const LoadoutList: FC = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
-	let mounted = useRef<boolean>(true)
+	const mounted = useRef<boolean>(true)
 	useEffect(() => {
 		mounted.current = true
 
@@ -33,10 +33,10 @@ const LoadoutList: FC = () => {
 		}
 	}, [])
 
-	let [{ loadouts, loading, error }, setLoadout] =
+	const [{ loadouts, loading, error }, setLoadout] =
 		useState<LoadoutListState>(defaultState)
 
-	let loadLoadout = useCallback(() => {
+	const loadLoadout = useCallback(() => {
 		setLoadout(defaultState)
 
 		loadoutService
@@ -59,7 +59,7 @@ const LoadoutList: FC = () => {
 
 	const xs = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
 
-	let viewLoadout = useCallback(
+	const viewLoadout = useCallback(
 		(loadout) => {
 			navigate(`${location.pathname}/${loadout.id}`)
 		},

@@ -24,7 +24,7 @@ class CloudFunction {
 	static useLocal = process.env.NODE_ENV === 'development'
 
 	private _region: string
-	private _path: string = ''
+	private _path = ''
 
 	constructor(region?: string) {
 		this._region = region || DEFAULT_REGION
@@ -40,15 +40,15 @@ class CloudFunction {
 			throw new Error('Method is required')
 		}
 
-		let url = buildUrl(this._region, this._path, CloudFunction.useLocal)
+		const url = buildUrl(this._region, this._path, CloudFunction.useLocal)
 
-		let requestHeaders: { [key: string]: string } = {
+		const requestHeaders: { [key: string]: string } = {
 			'Content-Type': 'application/json',
 		}
 
 		const currentUser = app.auth().currentUser
 		if (currentUser) {
-			let token = await currentUser.getIdToken()
+			const token = await currentUser.getIdToken()
 			requestHeaders['Authorization'] = `Bearer ${token}`
 		}
 

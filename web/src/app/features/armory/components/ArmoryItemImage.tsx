@@ -107,7 +107,7 @@ const ArmoryItemImage: FC<ResourceImageProps> = ({
 	rotate,
 	style,
 }) => {
-	let [image, setImage] = useState<string>()
+	const [image, setImage] = useState<string>()
 
 	useEffect(() => {
 		loadImageOrDefault(resourceType, resource.type, resource.platform, rotate).then(

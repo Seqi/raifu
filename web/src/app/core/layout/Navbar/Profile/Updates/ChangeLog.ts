@@ -43,9 +43,9 @@ interface Author {
 }
 
 export const format = (changelog: ChangeLog, newChangeLogs: ChangeLog[]): string => {
-	let isNewChangelog = !!newChangeLogs.find((newLog) => newLog.id === changelog.id)
+	const isNewChangelog = !!newChangeLogs.find((newLog) => newLog.id === changelog.id)
 
-	let html = marked(changelog.body)
+	const html = marked(changelog.body)
 
 	if (isNewChangelog) {
 		// Add new-alert class to the first <h1> tag if this change log is new

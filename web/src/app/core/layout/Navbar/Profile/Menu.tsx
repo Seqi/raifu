@@ -78,7 +78,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({
 	onViewUpdates,
 	onClose,
 }) => {
-	let auth = useContext(AuthContext)
+	const auth = useContext(AuthContext)
 
 	return (
 		<Menu

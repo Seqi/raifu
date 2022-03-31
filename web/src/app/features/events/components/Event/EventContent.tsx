@@ -63,9 +63,9 @@ const EventContent: FC<EventContentProps> = ({
 }) => {
 	const classes = useStyles()
 
-	let [activeDialog, setActiveDialog] = useState<'add' | 'remove' | null>()
+	const [activeDialog, setActiveDialog] = useState<'add' | 'remove' | null>()
 
-	let onDelete = useCallback(() => {
+	const onDelete = useCallback(() => {
 		return onLoadoutRemoved().then(() => setActiveDialog(null))
 	}, [onLoadoutRemoved])
 

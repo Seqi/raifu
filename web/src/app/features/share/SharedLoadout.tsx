@@ -8,7 +8,7 @@ import { Loadout, LoadoutView } from 'app/features/loadouts'
 
 import firebase from '../../../firebase'
 
-let analytics = firebase.analytics()
+const analytics = firebase.analytics()
 
 type SharedLoadoutProps = { params: { loadoutId: string } }
 type SharedLoadoutState = {
@@ -18,7 +18,7 @@ type SharedLoadoutState = {
 }
 
 class SharedLoadout extends React.Component<SharedLoadoutProps, SharedLoadoutState> {
-	private unmounted: boolean = false
+	private unmounted = false
 
 	constructor(props: SharedLoadoutProps) {
 		super(props)
@@ -51,7 +51,7 @@ class SharedLoadout extends React.Component<SharedLoadoutProps, SharedLoadoutSta
 	}
 
 	render() {
-		let { loadout, error, loading } = this.state
+		const { loadout, error, loading } = this.state
 		if (loading) {
 			return <LoadingOverlay />
 		}

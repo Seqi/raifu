@@ -34,16 +34,16 @@ const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 	onSave,
 	onClose,
 }) => {
-	let [error, setError] = useState<string | null>(null)
+	const [error, setError] = useState<string | null>(null)
 
-	let { handleSubmit, formState, control } = useForm<LoadoutUpdate>({
+	const { handleSubmit, formState, control } = useForm<LoadoutUpdate>({
 		mode: 'onChange',
 		defaultValues: {
 			name: loadout?.name,
 		},
 	})
 
-	let handleSave = useCallback(
+	const handleSave = useCallback(
 		(loadout) => {
 			setError(null)
 

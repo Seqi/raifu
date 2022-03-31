@@ -43,7 +43,7 @@ const segments: HomePageSegmentItem[] = [
 ]
 
 export default function HomePage() {
-	let analytics = useAnalytics()
+	const analytics = useAnalytics()
 	useEffect(() => {
 		analytics.logEvent('view_homepage')
 	}, [analytics])

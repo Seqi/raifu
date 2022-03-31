@@ -30,10 +30,13 @@ type LoadoutWeaponItemProps = {
 }
 
 const LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
-	let { deleteWeapon } = useContext(LoadoutContext)
-	let [dialog, setDialog] = useState<'delete' | null>(null)
+	const { deleteWeapon } = useContext(LoadoutContext)
+	const [dialog, setDialog] = useState<'delete' | null>(null)
 
-	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
+	const deleteNewWeapon = useCallback(
+		() => deleteWeapon(weapon.id),
+		[deleteWeapon, weapon]
+	)
 
 	return (
 		<>

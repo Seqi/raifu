@@ -20,12 +20,12 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 	editable,
 	children,
 }) => {
-	let [currentLoadout, setLoadout] = useState<Loadout>(loadout)
-	let analytics = useAnalytics()
+	const [currentLoadout, setLoadout] = useState<Loadout>(loadout)
+	const analytics = useAnalytics()
 
 	useEffect(() => setLoadout(loadout), [loadout])
 
-	let addWeapon = useCallback(
+	const addWeapon = useCallback(
 		async (weaponId: string) => {
 			// Save
 			const weapon = await loadouts.loadout(currentLoadout.id).weapons.add(weaponId)
@@ -41,7 +41,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 		[analytics, currentLoadout.id]
 	)
 
-	let deleteWeapon = useCallback(
+	const deleteWeapon = useCallback(
 		async (weaponId: string) => {
 			// Save
 			await loadouts.loadout(currentLoadout.id).weapons.delete(weaponId)
@@ -57,26 +57,26 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 		[analytics, currentLoadout.id]
 	)
 
-	let addWeaponAttachments = useCallback(
+	const addWeaponAttachments = useCallback(
 		async (weaponId: string, attachmentIds: string[]) => {
 			// Save
-			let addToDbPromises = attachmentIds.map((attachmentId) => {
+			const addToDbPromises = attachmentIds.map((attachmentId) => {
 				return loadouts
 					.loadout(currentLoadout.id)
 					.weapons.weapon(weaponId)
 					.attachments.add(attachmentId)
 			})
 
-			let newAttachments = await Promise.all(addToDbPromises)
+			const newAttachments = await Promise.all(addToDbPromises)
 
 			attachmentIds.forEach((_) => analytics.logEvent('loadout_attachment_added'))
 
 			// Update
 			setLoadout((currentLoadout) => {
-				let weaponIndex = currentLoadout.weapons.findIndex((w) => w.id === weaponId)
+				const weaponIndex = currentLoadout.weapons.findIndex((w) => w.id === weaponId)
 
 				// Find the weapon to add the attachment to and create a copy
-				let weaponToAddTo = { ...currentLoadout.weapons[weaponIndex] }
+				const weaponToAddTo = { ...currentLoadout.weapons[weaponIndex] }
 
 				// Add the attachment to the weapon
 				weaponToAddTo.attachments = [
@@ -85,7 +85,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 				]
 
 				// Rebuild up the state object, ensuring we preserve the order of weapons
-				let newWeapons = currentLoadout.weapons.slice()
+				const newWeapons = currentLoadout.weapons.slice()
 				newWeapons[weaponIndex] = weaponToAddTo
 
 				return { ...currentLoadout, weapons: newWeapons }
@@ -94,7 +94,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 		[analytics, currentLoadout.id]
 	)
 
-	let deleteWeaponAttachment = useCallback(
+	const deleteWeaponAttachment = useCallback(
 		async (weaponId, attachmentId) => {
 			// Save
 			await loadouts
@@ -106,10 +106,10 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 
 			// Update
 			setLoadout((currentLoadout) => {
-				let weaponIndex = currentLoadout.weapons.findIndex((w) => w.id === weaponId)
+				const weaponIndex = currentLoadout.weapons.findIndex((w) => w.id === weaponId)
 
 				// Find the weapon to delete the attachment on and create a copy
-				let weaponToAddTo = { ...currentLoadout.weapons[weaponIndex] }
+				const weaponToAddTo = { ...currentLoadout.weapons[weaponIndex] }
 
 				// Remove attachment
 				weaponToAddTo.attachments = weaponToAddTo.attachments.filter(
@@ -117,7 +117,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 				)
 
 				// Rebuild up the state object, ensuring we preserve the order of weapons
-				let newWeapons = currentLoadout.weapons.slice()
+				const newWeapons = currentLoadout.weapons.slice()
 				newWeapons[weaponIndex] = weaponToAddTo
 
 				return { ...currentLoadout, weapons: newWeapons }
@@ -126,14 +126,14 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 		[analytics, currentLoadout.id]
 	)
 
-	let addGear = useCallback(
+	const addGear = useCallback(
 		async (ids: string[]) => {
 			// Save
-			let promises = ids.map((gearId) => {
+			const promises = ids.map((gearId) => {
 				return loadouts.loadout(currentLoadout.id).gear.add(gearId)
 			})
 
-			let newGear = await Promise.all(promises)
+			const newGear = await Promise.all(promises)
 
 			ids.forEach((_) => analytics.logEvent('loadout_gear_added'))
 
@@ -146,7 +146,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 		[analytics, currentLoadout.id]
 	)
 
-	let deleteGear = useCallback(
+	const deleteGear = useCallback(
 		async (gear: Gear) => {
 			// Save
 			await loadouts.loadout(currentLoadout.id).gear.delete(gear.id)
@@ -162,14 +162,14 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 		[analytics, currentLoadout.id]
 	)
 
-	let addClothing = useCallback(
+	const addClothing = useCallback(
 		async (ids: string[]) => {
 			// Save
-			let promises = ids.map((clothingId) => {
+			const promises = ids.map((clothingId) => {
 				return loadouts.loadout(currentLoadout.id).clothing.add(clothingId)
 			})
 
-			let newClothing = await Promise.all(promises)
+			const newClothing = await Promise.all(promises)
 
 			ids.forEach((_) => analytics.logEvent('loadout_clothing_added'))
 
@@ -182,7 +182,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 		[analytics, currentLoadout.id]
 	)
 
-	let deleteClothing = useCallback(
+	const deleteClothing = useCallback(
 		async (clothing: Clothing) => {
 			// Save
 			await loadouts.loadout(currentLoadout.id).clothing.delete(clothing.id)

@@ -42,8 +42,8 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 	onSave,
 	onClose,
 }) => {
-	let [error, setError] = useState<string | null>(null)
-	let { register, unregister, setValue, control, formState, handleSubmit } =
+	const [error, setError] = useState<string | null>(null)
+	const { register, unregister, setValue, control, formState, handleSubmit } =
 		useForm<AddArmoryItemForm>({
 			mode: 'onChange',
 		})
@@ -69,7 +69,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 		!isOpen && setError(null)
 	}, [isOpen])
 
-	let handleSave = useCallback(
+	const handleSave = useCallback(
 		(resource) => {
 			return onSave(resource)
 				.then(onClose)
@@ -78,9 +78,9 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 		[onClose, onSave]
 	)
 
-	let setResource = useCallback(
+	const setResource = useCallback(
 		(resource) => {
-			;(['type', 'platform'] as const).forEach((key) =>
+			(['type', 'platform'] as const).forEach((key) =>
 				setValue(key, resource ? resource[key] : '', {
 					shouldDirty: true,
 					shouldValidate: true,

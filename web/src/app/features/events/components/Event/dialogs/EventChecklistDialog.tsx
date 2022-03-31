@@ -36,7 +36,7 @@ const EventChecklistDialog: FC<EventChecklistDialogProps> = ({
 	isOpen,
 	onClose,
 }) => {
-	let analytics = useAnalytics()
+	const analytics = useAnalytics()
 	useEffect(() => {
 		analytics.logEvent('view_event_checklist')
 	}, [analytics])

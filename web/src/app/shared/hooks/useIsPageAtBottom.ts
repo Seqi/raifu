@@ -9,7 +9,7 @@ const useIsPageAtBottom = (): boolean => {
 
 	useEffect(() => {
 		const listener = () => {
-			let currentlyAtBottom = isPageAtBottom()
+			const currentlyAtBottom = isPageAtBottom()
 
 			if (isAtBottom !== currentlyAtBottom) {
 				setIsAtBottom(currentlyAtBottom)

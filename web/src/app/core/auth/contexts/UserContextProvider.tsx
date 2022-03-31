@@ -6,9 +6,9 @@ import { AuthContext } from './AuthContext'
 import UserContext from './UserContext'
 
 const UserContextProvider: FC = ({ children }) => {
-	let auth = useContext(AuthContext)
+	const auth = useContext(AuthContext)
 
-	let [user, setUser] = useState(auth?.user || null)
+	const [user, setUser] = useState(auth?.user || null)
 
 	useEffect(() => {
 		if (!auth) {
@@ -17,7 +17,7 @@ const UserContextProvider: FC = ({ children }) => {
 			)
 		}
 
-		let authUnsubscribe = auth.onAuthChanged((u: firebase.User | null) => setUser(u))
+		const authUnsubscribe = auth.onAuthChanged((u: firebase.User | null) => setUser(u))
 		return authUnsubscribe
 	}, [auth])
 

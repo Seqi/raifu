@@ -17,7 +17,7 @@ type SignupFormProps = {
 }
 
 export const SignupForm: FC<SignupFormProps> = ({ onSubmit }) => {
-	let { watch, handleSubmit, formState, control } = useForm<SignupFormFields>({
+	const { watch, handleSubmit, formState, control } = useForm<SignupFormFields>({
 		mode: 'onChange',
 	})
 

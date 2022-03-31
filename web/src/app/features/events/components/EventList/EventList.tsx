@@ -21,7 +21,7 @@ import EventWeeklyView from './WeeklyView/EventWeeklyView'
 import EventCalendarView from './CalendarView/EventCalendarView'
 import CalendarDateContextProvider from './CalendarDateContextProvider'
 
-let analytics = firebase.analytics()
+const analytics = firebase.analytics()
 
 const EventListContainer = styled(Box)({
 	height: '75vh',
@@ -47,7 +47,7 @@ type EventListState = {
 }
 
 class EventList extends React.Component<EventListProps, EventListState> {
-	private unmounted: boolean = false
+	private unmounted = false
 
 	constructor(props: EventListProps) {
 		super(props)
@@ -92,7 +92,7 @@ class EventList extends React.Component<EventListProps, EventListState> {
 
 	addEvent(date = new Date()) {
 		// Set the time to 8am for a common start, otherwise we're left at 12am
-		let startTime = date.setHours(8, 0, 0, 0)
+		const startTime = date.setHours(8, 0, 0, 0)
 
 		this.setState({ activeTimeslot: new Date(startTime), isAddDialogOpen: true })
 	}
@@ -120,8 +120,8 @@ class EventList extends React.Component<EventListProps, EventListState> {
 	}
 
 	render() {
-		let { loading, error, events, activeTimeslot, isAddDialogOpen } = this.state
-		let { width } = this.props
+		const { loading, error, events, activeTimeslot, isAddDialogOpen } = this.state
+		const { width } = this.props
 
 		if (loading) {
 			return <LoadingOverlay />

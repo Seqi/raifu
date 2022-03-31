@@ -7,7 +7,7 @@ import { Logo } from 'app/core/layout'
 
 import UserContext from '../contexts/UserContext'
 
-let AuthFormContainer = styled(Box)({
+const AuthFormContainer = styled(Box)({
 	position: 'absolute',
 	top: '50%',
 	left: '50%',
@@ -18,7 +18,7 @@ let AuthFormContainer = styled(Box)({
 
 const AuthPage: FC = () => {
 	const navigate = useNavigate()
-	let user = useContext(UserContext)
+	const user = useContext(UserContext)
 
 	useEffect(() => {
 		user && navigate('/app', { replace: true })

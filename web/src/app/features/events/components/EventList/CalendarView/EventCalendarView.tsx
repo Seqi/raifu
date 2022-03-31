@@ -25,10 +25,10 @@ const EventCalendarView: FC<EventCalendarViewProps> = ({
 	onEventSelected,
 	onSlotSelected,
 }) => {
-	let theme = useTheme()
-	let { date, setDate } = useContext(CalendarDateContext)
+	const theme = useTheme()
+	const { date, setDate } = useContext(CalendarDateContext)
 
-	let localizer = useRef(momentLocalizer(moment))
+	const localizer = useRef(momentLocalizer(moment))
 
 	return (
 		<Box height='100%' display='flex'>

@@ -117,7 +117,7 @@ const ResourceListContainer = styled(Box)(({ theme }) => ({
 }))
 
 export default function Armory() {
-	let mounted = useRef(true)
+	const mounted = useRef(true)
 	useEffect(() => {
 		mounted.current = true
 
@@ -126,9 +126,9 @@ export default function Armory() {
 		}
 	}, [])
 
-	let [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
+	const [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
 
-	let loadArmory = useCallback(() => {
+	const loadArmory = useCallback(() => {
 		setArmory(defaultState)
 
 		armoryService
@@ -148,7 +148,7 @@ export default function Armory() {
 		loadArmory()
 	}, [loadArmory])
 
-	let analytics = useAnalytics()
+	const analytics = useAnalytics()
 	useEffect(() => {
 		analytics.logEvent('view_armory_list')
 	}, [analytics])
@@ -233,7 +233,7 @@ export default function Armory() {
 			{armorySections.map((armorySection) => (
 				<ResourceListContainer component='section' key={armorySection.resourceName}>
 					<SidewaysTitle
-						title={armorySection.resourceName!}
+						title={armorySection.resourceName}
 						lowercase={true}
 						marginRight={{ xs: 1, sm: 2 }}
 					/>
@@ -245,7 +245,7 @@ export default function Armory() {
 						ItemTemplate={armorySection.ItemTemplate!}
 						AddButtonTemplate={(props) => <ArmoryCardContainer {...props} />}
 						renderAddDialog={armorySection.renderAddDialog!}
-						onResourceClick={() => {}} //No-op
+						onResourceClick={() => {}} // No-op
 						gridContainerProps={{
 							spacing: xs ? 1 : 2,
 						}}

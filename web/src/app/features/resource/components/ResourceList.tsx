@@ -51,7 +51,7 @@ export const ResourceList = <R extends Resource = Resource>({
 	gridContainerProps,
 	gridItemProps,
 }: ResourceListProps<R>) => {
-	let [dialog, setDialog] = useState<'add' | null>(null)
+	const [dialog, setDialog] = useState<'add' | null>(null)
 
 	return (
 		<>

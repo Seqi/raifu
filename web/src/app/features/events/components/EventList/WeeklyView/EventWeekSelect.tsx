@@ -14,10 +14,10 @@ const moment = extendMoment(Moment)
 
 // Fetch the entire week for the provided date
 const getWeekDayRange = (date: Moment.Moment): Moment.Moment[] => {
-	let start = moment(date).startOf('week')
-	let end = moment(date).endOf('week')
+	const start = moment(date).startOf('week')
+	const end = moment(date).endOf('week')
 
-	let range = moment.range(start, end).by('days')
+	const range = moment.range(start, end).by('days')
 
 	return Array.from(range)
 }
@@ -27,8 +27,8 @@ type EventWeekSelectProps = {
 }
 
 const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {} }) => {
-	let { date, setDate } = useContext(CalendarDateContext)
-	let [weekRange, setWeekRange] = useState<Moment.Moment[]>([])
+	const { date, setDate } = useContext(CalendarDateContext)
+	const [weekRange, setWeekRange] = useState<Moment.Moment[]>([])
 
 	const addWeek = useCallback(
 		(count: number) => {

@@ -16,7 +16,7 @@ type LoginFormProps = {
 }
 
 const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
-	let { handleSubmit, formState, control } = useForm<LoginFormFields>({
+	const { handleSubmit, formState, control } = useForm<LoginFormFields>({
 		mode: 'onChange',
 	})
 

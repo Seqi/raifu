@@ -19,10 +19,10 @@ const LoadoutActions: FC<LoadoutActionsProps> = ({
 	editLoadout,
 	onSharedChanged,
 }) => {
-	let [dialog, setDialog] = useState<'edit' | 'share' | null>(null)
-	let [speedDialOpen, setSpeedDialOpen] = useState<boolean>(false)
+	const [dialog, setDialog] = useState<'edit' | 'share' | null>(null)
+	const [speedDialOpen, setSpeedDialOpen] = useState<boolean>(false)
 
-	let isAtBottom = useIsPageAtBottom()
+	const isAtBottom = useIsPageAtBottom()
 
 	return (
 		<>

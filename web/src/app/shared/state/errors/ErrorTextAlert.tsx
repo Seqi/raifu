@@ -10,7 +10,7 @@ type ErrorTextAlertProps = {
 }
 
 const ErrorTextAlert: FC<ErrorTextAlertProps> = ({ error, onRetry, fillBackground }) => {
-	let theme = useTheme()
+	const theme = useTheme()
 
 	return (
 		<div

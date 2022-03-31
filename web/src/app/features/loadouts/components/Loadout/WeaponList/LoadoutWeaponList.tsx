@@ -8,11 +8,11 @@ import { LoadoutWeapon } from '../../../models'
 import LoadoutWeaponView from './Weapon/LoadoutWeaponView'
 
 const LoadoutWeaponList: FC = () => {
-	let [dialog, setDialog] = useState<'add' | null>(null)
-	let { loadout, editable, addWeapon } = useContext(LoadoutContext)
-	let { weapons: availableWeapons } = useContext(AvailableArmoryContext)
+	const [dialog, setDialog] = useState<'add' | null>(null)
+	const { loadout, editable, addWeapon } = useContext(LoadoutContext)
+	const { weapons: availableWeapons } = useContext(AvailableArmoryContext)
 
-	let saveWeapon = useCallback(
+	const saveWeapon = useCallback(
 		async (weaponIds: string | string[]) => {
 			if (!Array.isArray(weaponIds)) {
 				weaponIds = [weaponIds]

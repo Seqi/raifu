@@ -44,8 +44,8 @@ const getUnusedArmoryItems = (
 }
 
 export const AvailableArmoryContextProvider: FC = ({ children }) => {
-	let { loadout, editable } = useContext(LoadoutContext)
-	let [armory, setArmory] = useState<ArmoryCollection>(emptyArmory)
+	const { loadout, editable } = useContext(LoadoutContext)
+	const [armory, setArmory] = useState<ArmoryCollection>(emptyArmory)
 
 	useEffect(() => {
 		if (editable) {
@@ -53,7 +53,7 @@ export const AvailableArmoryContextProvider: FC = ({ children }) => {
 		}
 	}, [editable])
 
-	let unusedArmoryItems = getUnusedArmoryItems(loadout, armory)
+	const unusedArmoryItems = getUnusedArmoryItems(loadout, armory)
 
 	return (
 		<AvailableArmoryContext.Provider value={unusedArmoryItems}>

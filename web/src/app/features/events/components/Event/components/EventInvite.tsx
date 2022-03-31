@@ -15,16 +15,16 @@ type EventInviteProps = {
 }
 
 const EventInvite: FC<EventInviteProps> = ({ event, onJoin }) => {
-	let [{ loading, error }, setHttpState] = useState<{
+	const [{ loading, error }, setHttpState] = useState<{
 		loading: boolean
 		error: string | null
 	}>({
 		loading: false,
 		error: null,
 	})
-	let analytics = useAnalytics()
+	const analytics = useAnalytics()
 
-	let joinEvent = () => {
+	const joinEvent = () => {
 		setHttpState({ loading: true, error: null })
 
 		events

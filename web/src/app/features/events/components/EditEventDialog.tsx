@@ -59,8 +59,8 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 	onSave,
 	onClose,
 }) => {
-	let [error, setError] = useState<string | null>(null)
-	let { handleSubmit, formState, control, reset } = useForm<EventUpdate>({
+	const [error, setError] = useState<string | null>(null)
+	const { handleSubmit, formState, control, reset } = useForm<EventUpdate>({
 		mode: 'onChange',
 	})
 
@@ -76,7 +76,7 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 		}
 	}, [event, date, reset])
 
-	let handleSave = useCallback(
+	const handleSave = useCallback(
 		(updatedEvent: EventUpdate) => {
 			setError(null)
 

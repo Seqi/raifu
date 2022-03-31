@@ -16,17 +16,17 @@ type LoadoutWeaponAttachmentListProps = {
 const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
 	weapon,
 }) => {
-	let { addWeaponAttachments, deleteWeaponAttachment } = useContext(LoadoutContext)
-	let { attachments: availableAttachments } = useContext(AvailableArmoryContext)
+	const { addWeaponAttachments, deleteWeaponAttachment } = useContext(LoadoutContext)
+	const { attachments: availableAttachments } = useContext(AvailableArmoryContext)
 
-	let addAttachments = useCallback(
+	const addAttachments = useCallback(
 		async (attachmentIds: string | string[]) => {
 			await addWeaponAttachments(weapon.id, attachmentIds)
 		},
 		[addWeaponAttachments, weapon]
 	)
 
-	let deleteAttachment = useCallback(
+	const deleteAttachment = useCallback(
 		async (attachment: Attachment) => {
 			await deleteWeaponAttachment(weapon.id, attachment.id)
 		},

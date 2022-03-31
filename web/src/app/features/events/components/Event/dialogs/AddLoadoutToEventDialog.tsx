@@ -39,13 +39,13 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 	onSave,
 	onClose,
 }) => {
-	let [loadouts, setLoadouts] = useState<LoadoutFetchState>({
+	const [loadouts, setLoadouts] = useState<LoadoutFetchState>({
 		data: [],
 		loading: true,
 		error: null,
 	})
-	let [loadoutId, setLoadoutId] = useState<string>('')
-	let [submitState, setSubmitState] = useState<SubmissionState>({
+	const [loadoutId, setLoadoutId] = useState<string>('')
+	const [submitState, setSubmitState] = useState<SubmissionState>({
 		submitting: false,
 		error: false,
 	})
@@ -54,7 +54,7 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 		loadLoadouts()
 	}, [])
 
-	let loadLoadouts = () => {
+	const loadLoadouts = () => {
 		setLoadouts((prevLoadout) => ({ ...prevLoadout, error: null, loading: true }))
 
 		loadoutService
@@ -71,7 +71,7 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 			})
 	}
 
-	let save = () => {
+	const save = () => {
 		setSubmitState({ submitting: true, error: false })
 
 		onSave(loadoutId)

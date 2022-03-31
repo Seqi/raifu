@@ -26,7 +26,7 @@ export const ArmoryItemPropShape = {
 	nickname: PropTypes.string,
 }
 
-export interface Weapon extends ArmoryItem {}
-export interface Attachment extends ArmoryItem {}
-export interface Gear extends ArmoryItem {}
-export interface Clothing extends ArmoryItem {}
+export type Weapon = ArmoryItem
+export type Attachment = ArmoryItem
+export type Gear = ArmoryItem
+export type Clothing = ArmoryItem

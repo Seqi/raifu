@@ -17,7 +17,7 @@ import { Event, EventPropShape } from '../../models'
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import { InviteDialog } from './dialogs/InviteDialog'
 
-let getMyLoadout = (event: Event): Loadout | null | undefined => {
+const getMyLoadout = (event: Event): Loadout | null | undefined => {
 	return event.users![0]?.loadout
 }
 
@@ -40,21 +40,20 @@ const EventActions: FC<EventActionsProps> = ({
 	deleteEvent,
 	leaveEvent,
 }) => {
-	let [dialog, setDialog] = useState<EventActionsDialogs>(null)
-	let [speedDialOpen, setSpeedDialOpen] = useState(false)
-	let [snackbarOpen, setSnackbarOpen] = useState(() => {
+	const [dialog, setDialog] = useState<EventActionsDialogs>(null)
+	const [speedDialOpen, setSpeedDialOpen] = useState(false)
+	const [snackbarOpen, setSnackbarOpen] = useState(() => {
 		return event.public && event.users?.length === 1
 	})
 
 	const userLoadout = getMyLoadout(event)
 
-	let isAtBottom = useIsPageAtBottom()
-	let isInvite = event.users!.length === 0
-	let canViewChecklist = userLoadout != null
+	const isAtBottom = useIsPageAtBottom()
+	const isInvite = event.users!.length === 0
+	const canViewChecklist = userLoadout != null
 
 	// Hide the entire speed dial if no actions are available
-
-	let hasAvailableActions = event.owner || canViewChecklist
+	const hasAvailableActions = event.owner || canViewChecklist
 	const handleSnackbarAction = useCallback(() => {
 		setDialog('invite')
 		setSnackbarOpen(false)

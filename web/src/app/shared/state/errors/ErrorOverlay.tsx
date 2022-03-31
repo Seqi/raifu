@@ -12,7 +12,7 @@ type ErrorOverlayProps = {
 }
 
 const ErrorOverlay: FC<ErrorOverlayProps> = ({ icon, message, onRetry }) => {
-	let theme = useTheme()
+	const theme = useTheme()
 
 	return (
 		<AppOverlay>

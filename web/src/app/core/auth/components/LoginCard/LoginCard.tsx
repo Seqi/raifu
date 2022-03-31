@@ -12,10 +12,10 @@ import LoginProviders from './LoginProviders'
 const AuthCardContent = styled(CardContent)({ paddingBottom: 0 })
 
 const LoginCard: FC = () => {
-	let auth = useContext(AuthContext)
-	let [error, setError] = useState<string | undefined>()
+	const auth = useContext(AuthContext)
+	const [error, setError] = useState<string | undefined>()
 
-	let loginWithEmail = useCallback(
+	const loginWithEmail = useCallback(
 		async ({ email, password }: LoginFormFields) => {
 			try {
 				await auth?.login.withEmail(email, password)
@@ -25,7 +25,7 @@ const LoginCard: FC = () => {
 		},
 		[auth]
 	)
-	let loginWithTwitter = useCallback(async () => {
+	const loginWithTwitter = useCallback(async () => {
 		try {
 			await auth?.login.withTwitter()
 		} catch (e) {
@@ -33,7 +33,7 @@ const LoginCard: FC = () => {
 		}
 	}, [auth])
 
-	let loginWithGoogle = useCallback(async () => {
+	const loginWithGoogle = useCallback(async () => {
 		try {
 			await auth?.login.withGoogle()
 		} catch (e) {

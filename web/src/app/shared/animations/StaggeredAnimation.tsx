@@ -13,14 +13,14 @@ const StaggeredAnimation: FC<StaggeredAnimationProps> = ({
 	freezeAfterInitial,
 	children,
 }) => {
-	let childCount = React.Children.count(children)
+	const childCount = React.Children.count(children)
 
-	let hasRendered = useRef<boolean>(false)
+	const hasRendered = useRef<boolean>(false)
 	useEffect(() => {
 		hasRendered.current = true
 	}, [])
 
-	let getAnimationDelay = useCallback(
+	const getAnimationDelay = useCallback(
 		(childIndex: number) => {
 			// If requested, once the initial animation has played out, we don't want to stagger anymore
 			if (freezeAfterInitial && hasRendered.current) {
@@ -36,7 +36,7 @@ const StaggeredAnimation: FC<StaggeredAnimationProps> = ({
 
 			// If the animation with the min interval will exceed the max duration,
 			// cut the interval length to fit
-			let animationWillExceedMaxDuration = childCount * interval > maxDuration
+			const animationWillExceedMaxDuration = childCount * interval > maxDuration
 
 			if (animationWillExceedMaxDuration) {
 				interval = maxDuration / childCount

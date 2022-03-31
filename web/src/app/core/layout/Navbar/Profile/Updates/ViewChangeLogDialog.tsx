@@ -94,9 +94,9 @@ const ViewChangeLogDialog: FC<ViewChangeLogDialogProps> = ({
 	// Calculate which releases are new
 	useEffect(() => {
 		if (response.changelogs) {
-			let lastSeenReleaseId = cookies[releaseCookieName]
+			const lastSeenReleaseId = cookies[releaseCookieName]
 
-			let newChangeLogs = response.changelogs.filter(
+			const newChangeLogs = response.changelogs.filter(
 				(release) => !lastSeenReleaseId || release.id > lastSeenReleaseId
 			)
 

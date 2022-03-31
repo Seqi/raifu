@@ -55,7 +55,7 @@ class SetShareableDialog extends Component<
 	}
 
 	handleShare(isShared: boolean) {
-		let { loadout } = this.props
+		const { loadout } = this.props
 
 		this.setState({ loading: true, error: null }, () => {
 			loadouts
@@ -76,7 +76,7 @@ class SetShareableDialog extends Component<
 	copy() {
 		// Re-do the animation if necessary
 		this.setState({ copied: false }, () => {
-			let input = this.inputRef.current
+			const input = this.inputRef.current
 
 			if (!input) {
 				return
@@ -91,8 +91,8 @@ class SetShareableDialog extends Component<
 	}
 
 	render() {
-		let { isOpen, onClose } = this.props
-		let { loading, error, shared, copied } = this.state
+		const { isOpen, onClose } = this.props
+		const { loading, error, shared, copied } = this.state
 
 		return (
 			<Dialog fullWidth={true} open={isOpen} onClose={onClose}>

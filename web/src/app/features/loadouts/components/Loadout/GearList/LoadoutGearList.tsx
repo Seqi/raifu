@@ -7,8 +7,8 @@ import { AvailableArmoryContext } from '../AvailableArmoryContext'
 import { LoadoutWeaponTitle } from '../LoadoutItemTitle'
 
 const LoadoutGearList: FC = () => {
-	let { loadout, addGear, deleteGear } = useContext(LoadoutContext)
-	let { gear: availableGear } = useContext(AvailableArmoryContext)
+	const { loadout, addGear, deleteGear } = useContext(LoadoutContext)
+	const { gear: availableGear } = useContext(AvailableArmoryContext)
 
 	return (
 		<section>

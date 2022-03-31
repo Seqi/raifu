@@ -35,7 +35,7 @@ class AddArmoryItemDialog extends Component<
 	AddArmoryItemDialogProps,
 	AddArmoryItemDialogState
 > {
-	private isUnmounted: boolean = false
+	private isUnmounted = false
 
 	constructor(props: AddArmoryItemDialogProps) {
 		super(props)
@@ -51,7 +51,7 @@ class AddArmoryItemDialog extends Component<
 	onItemSelected(item: ArmoryItem): void {
 		this.setState(({ selectedIds }) => {
 			// TODO: Maybe just use sets?
-			let selectedItemIndex = selectedIds.findIndex((id) => id === item.id)
+			const selectedItemIndex = selectedIds.findIndex((id) => id === item.id)
 
 			let newSelectedIds = [...selectedIds]
 
@@ -77,7 +77,7 @@ class AddArmoryItemDialog extends Component<
 	}
 
 	onSave(itemIds: string[]) {
-		let data = this.props.allowMultiple ? itemIds : itemIds[0]
+		const data = this.props.allowMultiple ? itemIds : itemIds[0]
 
 		this.setState({ loading: true, error: null }, () => {
 			this.props
@@ -97,8 +97,8 @@ class AddArmoryItemDialog extends Component<
 	}
 
 	render() {
-		let { selectedIds, loading, error } = this.state
-		let { items, title, category, isOpen, onClose, allowMultiple } = this.props
+		const { selectedIds, loading, error } = this.state
+		const { items, title, category, isOpen, onClose, allowMultiple } = this.props
 
 		return (
 			<Dialog open={isOpen} onClose={onClose} fullWidth={true}>

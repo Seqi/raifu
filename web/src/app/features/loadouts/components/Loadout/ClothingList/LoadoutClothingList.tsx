@@ -7,8 +7,8 @@ import { LoadoutContext } from '../LoadoutContext'
 import { LoadoutWeaponTitle } from '../LoadoutItemTitle'
 
 const LoadoutClothingList = () => {
-	let { loadout, addClothing, deleteClothing } = useContext(LoadoutContext)
-	let { clothing: availableClothing } = useContext(AvailableArmoryContext)
+	const { loadout, addClothing, deleteClothing } = useContext(LoadoutContext)
+	const { clothing: availableClothing } = useContext(AvailableArmoryContext)
 
 	return (
 		<section>

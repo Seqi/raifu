@@ -9,7 +9,7 @@ import firebase from '../../../../../firebase'
 import { Loadout } from '../../models'
 import LoadoutActions from './LoadoutActions'
 
-let analytics = firebase.analytics()
+const analytics = firebase.analytics()
 
 type LoadoutPageProps = {
 	params: {
@@ -23,7 +23,7 @@ type LoadoutPageState = {
 }
 
 class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
-	private isUnmounted: boolean = false
+	private isUnmounted = false
 
 	constructor(props: LoadoutPageProps) {
 		super(props)
@@ -54,14 +54,14 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 	}
 
 	editLoadout(updatedLoadout: Loadout): Promise<void> {
-		let { loadout } = this.state
+		const { loadout } = this.state
 
 		return loadouts
 			.edit(loadout!.id, { ...updatedLoadout })
 			.then(() =>
 				this.setState(({ loadout }) => {
 					// TODO: Check this is right
-					let newLoadout = {
+					const newLoadout = {
 						...loadout,
 						...updatedLoadout,
 					}
@@ -82,7 +82,7 @@ class LoadoutPage extends React.Component<LoadoutPageProps, LoadoutPageState> {
 	}
 
 	render() {
-		let { loading, error, loadout } = this.state
+		const { loading, error, loadout } = this.state
 
 		if (loading) {
 			return <LoadingOverlay />

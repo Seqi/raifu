@@ -20,18 +20,18 @@ export const ResourceListContainer = <R extends Resource>({
 	items,
 	...props
 }: ResourceListContainerProps<R>) => {
-	let [currentItems, setItems] = useState<R[]>(items)
-	let analytics = useAnalytics()
+	const [currentItems, setItems] = useState<R[]>(items)
+	const analytics = useAnalytics()
 
 	// Listen out for component unmounting so we don't set state on a mounted component
-	let mounted = useRef<boolean>(true)
+	const mounted = useRef<boolean>(true)
 	useEffect(() => {
 		return () => {
 			mounted.current = false
 		}
 	}, [])
 
-	let addResource = useCallback(
+	const addResource = useCallback(
 		(item: R) =>
 			resource
 				.add(item)
@@ -40,7 +40,7 @@ export const ResourceListContainer = <R extends Resource>({
 		[analytics, resource, resourceName]
 	)
 
-	let deleteResource = useCallback(
+	const deleteResource = useCallback(
 		(deletedItem: R) =>
 			resource
 				.delete(deletedItem.id)

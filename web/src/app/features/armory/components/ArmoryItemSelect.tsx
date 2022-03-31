@@ -1,5 +1,4 @@
-import React, { useState, useEffect, FC } from 'react'
-import { useRef } from 'react'
+import React, { useState, useEffect, FC, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { titleCase } from 'title-case'
@@ -35,10 +34,10 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 	platformTextFieldProps,
 }) => {
 	// Used to prevent the initial render causing the
-	let hasRendered = useRef<boolean>(false)
-	let [options, setOptions] = useState<SelectedArmoryItem[]>([])
-	let [value, setValue] = useState<SelectedArmoryItem>({ platform: '', type: '' })
-	let [showTypes, setShowTypes] = useState<boolean>(false)
+	const hasRendered = useRef<boolean>(false)
+	const [options, setOptions] = useState<SelectedArmoryItem[]>([])
+	const [value, setValue] = useState<SelectedArmoryItem>({ platform: '', type: '' })
+	const [showTypes, setShowTypes] = useState<boolean>(false)
 
 	// TODO: Type properly, this is lazy
 	useEffect(() => {

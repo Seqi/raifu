@@ -83,10 +83,10 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 	renderAddDialog,
 	gridItemProps,
 }) => {
-	let [dialog, setDialog] = useState<'add' | null>(null)
-	let { editable } = useContext(LoadoutContext)
+	const [dialog, setDialog] = useState<'add' | null>(null)
+	const { editable } = useContext(LoadoutContext)
 
-	let addItemToLoadout = useCallback(
+	const addItemToLoadout = useCallback(
 		async (itemIds) => {
 			await addItem(itemIds)
 			setDialog(null)
