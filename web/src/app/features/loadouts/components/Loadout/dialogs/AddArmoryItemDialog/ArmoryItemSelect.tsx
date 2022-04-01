@@ -38,7 +38,9 @@ const ArmoryItemSelect: FC<ResourceSelectProps<ArmoryItem>> = <Item extends Armo
 	items,
 	category,
 	selectedItemIds,
-	onItemSelected = (item: Item) => {},
+	onItemSelected = (item: Item) => {
+		// No op
+	},
 }: ResourceSelectProps<Item>) => {
 	const classes = useStyles()
 
@@ -77,7 +79,9 @@ ArmoryItemSelect.propTypes = {
 
 ArmoryItemSelect.defaultProps = {
 	selectedItemIds: [],
-	onItemSelected: (item: ArmoryItem) => {},
+	onItemSelected: (item: ArmoryItem) => {
+		// No op
+	},
 }
 
 export default ArmoryItemSelect

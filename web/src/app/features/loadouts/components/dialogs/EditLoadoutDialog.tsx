@@ -19,8 +19,8 @@ type EditLoadoutDialogProps = {
 	loadout?: Loadout | null
 	action: 'Add' | 'Edit'
 	isOpen: boolean
-	onSave: (loadout: Loadout) => Promise<any>
-	onClose: () => any
+	onSave: (loadout: LoadoutUpdate) => Promise<any>
+	onClose: () => void
 }
 
 type LoadoutUpdate = {
@@ -44,7 +44,7 @@ const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 	})
 
 	const handleSave = useCallback(
-		(loadout) => {
+		(loadout: LoadoutUpdate) => {
 			setError(null)
 
 			return onSave(loadout)
@@ -60,6 +60,8 @@ const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 
 	return (
 		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
+			{/* Think this may be a bug... Not sure why it isn't working.. */}
+			{/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
 			<form onSubmit={handleSubmit(handleSave)}>
 				<DialogTitle>{action} loadout</DialogTitle>
 

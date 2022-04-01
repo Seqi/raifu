@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { FC, useRef, useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'

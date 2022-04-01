@@ -87,7 +87,7 @@ const ViewChangeLogDialog: FC<ViewChangeLogDialogProps> = ({
 	useEffect(() => {
 		fetch('https://api.github.com/repos/seqi/raifu/releases')
 			.then((res) => res.json())
-			.then((data: ChangeLog[]) => setResponse({ changelogs: data, error: false }))
+			.then((logs: ChangeLog[]) => setResponse({ changelogs: logs, error: false }))
 			.catch((_) => setResponse({ changelogs: null, error: true }))
 	}, [])
 
@@ -126,6 +126,7 @@ const ViewChangeLogDialog: FC<ViewChangeLogDialogProps> = ({
 	return (
 		<Dialog maxWidth='md' open={isOpen} onClose={onClose}>
 			<DialogContent>
+				{/* eslint-disable-next-line no-nested-ternary */}
 				{response.error ? (
 					<Error error='Could not load change logs. Please try again later.' />
 				) : response.changelogs ? (

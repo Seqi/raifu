@@ -22,6 +22,7 @@ export const SignupForm: FC<SignupFormProps> = ({ onSubmit }) => {
 	})
 
 	return (
+		/* eslint-disable-next-line @typescript-eslint/no-misused-promises */
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<FormTextField
 				form={{

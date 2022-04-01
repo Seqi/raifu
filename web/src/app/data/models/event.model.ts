@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { toEntity } from './entity.model'
 
 class Event {

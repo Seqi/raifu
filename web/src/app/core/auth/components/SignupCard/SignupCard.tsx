@@ -21,7 +21,7 @@ const SignupCard: FC = () => {
 			try {
 				await auth.signup.withEmail(email, password)
 			} catch (e) {
-				setError(e.message)
+				setError(e.message as string)
 			}
 		},
 		[auth]

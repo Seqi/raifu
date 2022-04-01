@@ -23,7 +23,7 @@ type AddLoadoutToEventDialogProps = {
 }
 
 type LoadoutFetchState = {
-	data: Loadout[]
+	loadouts: Loadout[]
 	loading: boolean
 	error: string | null
 }
@@ -40,7 +40,7 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 	onClose,
 }) => {
 	const [loadouts, setLoadouts] = useState<LoadoutFetchState>({
-		data: [],
+		loadouts: [],
 		loading: true,
 		error: null,
 	})
@@ -60,11 +60,11 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 		loadoutService
 			.get()
 			.then((loadouts) => {
-				setLoadouts({ data: loadouts, loading: false, error: null })
+				setLoadouts({ loadouts: loadouts, loading: false, error: null })
 			})
 			.catch((err) => {
 				setLoadouts({
-					data: [],
+					loadouts: [],
 					loading: false,
 					error: 'An error occurred while loading available loadouts.',
 				})
@@ -107,7 +107,7 @@ const AddLoadoutToEventDialog: FC<AddLoadoutToEventDialogProps> = ({
 						select={true}
 						SelectProps={{ name: 'loadoutId' }}
 					>
-						{loadouts.data.map((loadout) => (
+						{loadouts.loadouts.map((loadout) => (
 							<MenuItem key={loadout.id} value={loadout.id}>
 								{loadout.getTitle()}
 							</MenuItem>

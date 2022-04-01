@@ -41,7 +41,7 @@ class SharedLoadout extends React.Component<SharedLoadoutProps, SharedLoadoutSta
 		this.setState({ loadout: null, error: null, loading: true }, () => {
 			loadouts
 				.getById(this.props.params.loadoutId)
-				.then((loadout) => {
+				.then((loadout: Loadout) => {
 					!this.unmounted && this.setState({ loadout: loadout, loading: false })
 				})
 				.catch((err) => {
@@ -56,7 +56,7 @@ class SharedLoadout extends React.Component<SharedLoadoutProps, SharedLoadoutSta
 			return <LoadingOverlay />
 		}
 
-		if (error) {
+		if (error || !loadout) {
 			if (error.status === 404) {
 				return <ErrorOverlay message='Loadout not found.' icon='fa fa-crosshairs' />
 			}
@@ -71,9 +71,9 @@ class SharedLoadout extends React.Component<SharedLoadoutProps, SharedLoadoutSta
 
 		return (
 			<>
-				<ReactiveTitle>{loadout!.name}</ReactiveTitle>
+				<ReactiveTitle>{loadout.name}</ReactiveTitle>
 
-				<LoadoutView loadout={loadout!} editable={false} />
+				<LoadoutView loadout={loadout} editable={false} />
 			</>
 		)
 	}

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, FC } from 'react'
+import { useState, useContext, useCallback, FC } from 'react'
 
 import { Box, Card, CardContent, CardActions, styled } from '@material-ui/core'
 
@@ -20,7 +20,7 @@ const LoginCard: FC = () => {
 			try {
 				await auth?.login.withEmail(email, password)
 			} catch (e) {
-				setError(e.message)
+				setError(e.message as string)
 			}
 		},
 		[auth]
@@ -29,7 +29,7 @@ const LoginCard: FC = () => {
 		try {
 			await auth?.login.withTwitter()
 		} catch (e) {
-			setError(e.message)
+			setError(e.message as string)
 		}
 	}, [auth])
 
@@ -37,7 +37,7 @@ const LoginCard: FC = () => {
 		try {
 			await auth?.login.withGoogle()
 		} catch (e) {
-			setError(e.message)
+			setError(e.message as string)
 		}
 	}, [auth])
 

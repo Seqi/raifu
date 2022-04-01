@@ -36,7 +36,7 @@ const App: FC = () => {
 				variant='fullWidth'
 				centered={true}
 				value={tabIndex}
-				onChange={(evt, idx) => setTabIndex(idx)}
+				onChange={(evt, idx: number) => setTabIndex(idx)}
 			>
 				<Tab label='Armory' component={Link} to='armory' />
 				<Tab label='Loadouts' component={Link} to='loadouts' />

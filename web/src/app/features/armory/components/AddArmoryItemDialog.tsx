@@ -71,6 +71,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 
 	const handleSave = useCallback(
 		(resource) => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			return onSave(resource)
 				.then(onClose)
 				.catch((err: any) => setError('An error occurred while adding.'))
@@ -80,7 +81,8 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 
 	const setResource = useCallback(
 		(resource) => {
-			(['type', 'platform'] as const).forEach((key) =>
+			;(['type', 'platform'] as const).forEach((key) =>
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				setValue(key, resource ? resource[key] : '', {
 					shouldDirty: true,
 					shouldValidate: true,
@@ -92,6 +94,8 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 
 	return (
 		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
+			{/* Think this may be a bug... Not sure why it isn't working.. */}
+			{/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
 			<form onSubmit={handleSubmit(handleSave)}>
 				<DialogTitle>Add {resourceTitle}</DialogTitle>
 
@@ -136,7 +140,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 										fullWidth={true}
 										label='Brand'
 										error={!!fieldState.error}
-										helperText={fieldState.error && fieldState.error.message}
+										helperText={fieldState.error?.message}
 									/>
 								)}
 							/>

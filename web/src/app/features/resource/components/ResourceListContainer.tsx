@@ -20,7 +20,7 @@ export const ResourceListContainer = <R extends Resource>({
 	items,
 	...props
 }: ResourceListContainerProps<R>) => {
-	const [currentItems, setItems] = useState<R[]>(items)
+	const [currentItems, setCurrentItems] = useState<R[]>(items)
 	const analytics = useAnalytics()
 
 	// Listen out for component unmounting so we don't set state on a mounted component
@@ -35,7 +35,9 @@ export const ResourceListContainer = <R extends Resource>({
 		(item: R) =>
 			resource
 				.add(item)
-				.then((result: R) => mounted.current && setItems((items) => [...items, result]))
+				.then(
+					(result: R) => mounted.current && setCurrentItems((items) => [...items, result])
+				)
 				.then(() => analytics.logEvent(`${resourceName}_added`)),
 		[analytics, resource, resourceName]
 	)
@@ -47,7 +49,7 @@ export const ResourceListContainer = <R extends Resource>({
 				.then(
 					() =>
 						mounted.current &&
-						setItems((items) => items.filter((item) => item.id !== deletedItem.id))
+						setCurrentItems((items) => items.filter((item) => item.id !== deletedItem.id))
 				)
 				.then(() => analytics.logEvent(`${resourceName}_added`)),
 		[analytics, resource, resourceName]

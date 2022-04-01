@@ -6,7 +6,7 @@ type FormTextFieldProps<T> = TextFieldProps & {
 	form: Omit<ControllerProps<T>, 'render'>
 }
 
-export function FormTextField<T>(props: FormTextFieldProps<T>) {
+export const FormTextField = <T,>(props: FormTextFieldProps<T>) => {
 	const { form, ...textProps } = props
 
 	return (

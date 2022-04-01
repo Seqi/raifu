@@ -92,6 +92,8 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 
 	return (
 		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
+			{/* Think this may be a bug... Not sure why it isn't working.. */}
+			{/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
 			<form onSubmit={handleSubmit(handleSave)}>
 				<DialogTitle>{event!.name ? 'Edit' : 'Add'} event</DialogTitle>
 

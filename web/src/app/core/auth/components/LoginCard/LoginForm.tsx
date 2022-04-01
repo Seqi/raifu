@@ -21,6 +21,7 @@ const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
 	})
 
 	return (
+		/* eslint-disable-next-line @typescript-eslint/no-misused-promises */
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<FormTextField
 				form={{ name: 'email', control, rules: { required: true } }}

@@ -52,6 +52,7 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 			const allPlatforms = (types as any)[type]
 			const typeOptions = allPlatforms.map((p: any) => ({ platform: p, type: type }))
 
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			return options.concat(...typeOptions)
 		}, [])
 

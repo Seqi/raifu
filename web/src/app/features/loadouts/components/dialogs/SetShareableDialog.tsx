@@ -112,6 +112,7 @@ class SetShareableDialog extends Component<
 								endAdornment: (
 									<Tooltip title='Copy link'>
 										<i
+											role='button'
 											onClick={(_) => this.copy()}
 											style={{ marginLeft: '8px', fontSize: '1rem', cursor: 'pointer' }}
 											className='fa fa-link'

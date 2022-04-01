@@ -15,6 +15,7 @@ const LoadoutWeaponList: FC = () => {
 	const saveWeapon = useCallback(
 		async (weaponIds: string | string[]) => {
 			if (!Array.isArray(weaponIds)) {
+				// eslint-disable-next-line no-param-reassign
 				weaponIds = [weaponIds]
 			}
 

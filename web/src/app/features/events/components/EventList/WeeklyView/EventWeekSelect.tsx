@@ -26,7 +26,11 @@ type EventWeekSelectProps = {
 	onWeekChange?: (newWeeks: Moment.Moment[]) => any
 }
 
-const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {} }) => {
+const EventWeekSelect: FC<EventWeekSelectProps> = ({
+	onWeekChange = (week) => {
+		// No op
+	},
+}) => {
 	const { date, setDate } = useContext(CalendarDateContext)
 	const [weekRange, setWeekRange] = useState<Moment.Moment[]>([])
 
@@ -40,10 +44,8 @@ const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {}
 	)
 
 	useEffect(() => {
-		if (date) {
-			const weekRange = getWeekDayRange(date)
-			setWeekRange(weekRange)
-		}
+		const weekRange = getWeekDayRange(date)
+		setWeekRange(weekRange)
 	}, [date])
 
 	useEffect(() => {
@@ -57,7 +59,7 @@ const EventWeekSelect: FC<EventWeekSelectProps> = ({ onWeekChange = (week) => {}
 			</IconButton>
 
 			<Box flex={1} textAlign='center'>
-				{weekRange[0] && weekRange[0].format('MMM YYYY')}
+				{weekRange[0]?.format('MMM YYYY')}
 			</Box>
 
 			<IconButton size='small' onClick={(_) => addWeek(1)}>
@@ -72,7 +74,9 @@ EventWeekSelect.propTypes = {
 }
 
 EventWeekSelect.defaultProps = {
-	onWeekChange: (week) => {},
+	onWeekChange: (week) => {
+		// No op
+	},
 }
 
 export default EventWeekSelect

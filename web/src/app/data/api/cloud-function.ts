@@ -3,11 +3,14 @@ import app from '../../../firebase'
 const DEFAULT_REGION = 'us-central1'
 
 function buildUrl(region: string, path: string, useLocal: boolean): string {
-	if (path.startsWith('/')) {
-		path = path.substring(1)
+	let formatedPath = path
+	if (formatedPath.startsWith('/')) {
+		formatedPath = formatedPath.substring(1)
 	}
 
-	return useLocal ? buildLocalUrl(region, path) : buildCloudUrl(region, path)
+	return useLocal
+		? buildLocalUrl(region, formatedPath)
+		: buildCloudUrl(region, formatedPath)
 }
 
 function buildCloudUrl(region: string, path: string): string {
@@ -35,7 +38,7 @@ class CloudFunction {
 		return this
 	}
 
-	async call(data: any, method?: 'GET' | 'POST' | 'PUT' | 'DELETE'): Promise<Response> {
+	async call(body: any, method?: 'GET' | 'POST' | 'PUT' | 'DELETE'): Promise<Response> {
 		if (!method) {
 			throw new Error('Method is required')
 		}
@@ -55,15 +58,15 @@ class CloudFunction {
 		return await fetch(url, {
 			method: method,
 			headers: requestHeaders,
-			body: JSON.stringify(data),
+			body: JSON.stringify(body),
 		}).then((result) => {
-			if (!result.ok) {
+			if (result.ok) {
+				return result
+			} else {
 				return Promise.reject({
 					status: result.status,
 					statusText: result.statusText,
 				})
-			} else {
-				return result
 			}
 		})
 	}
@@ -72,16 +75,16 @@ class CloudFunction {
 		return this.call(undefined, 'GET').then((result) => result.json())
 	}
 
-	async post(data?: any): Promise<any> {
-		return this.call(data, 'POST').then((result) => {
+	async post(body?: any): Promise<any> {
+		return this.call(body, 'POST').then((result) => {
 			if (result.status !== 204) {
 				return result.json()
 			}
 		})
 	}
 
-	async put(data: any): Promise<any> {
-		return this.call(data, 'PUT')
+	async put(body: any): Promise<any> {
+		return this.call(body, 'PUT')
 	}
 
 	async delete(): Promise<any> {

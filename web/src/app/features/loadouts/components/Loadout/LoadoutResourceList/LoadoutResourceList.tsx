@@ -87,7 +87,11 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 	const { editable } = useContext(LoadoutContext)
 
 	const addItemToLoadout = useCallback(
-		async (itemIds) => {
+		async (itemIds: string | string[]) => {
+			if (!Array.isArray(itemIds)) {
+				return
+			}
+
 			await addItem(itemIds)
 			setDialog(null)
 		},

@@ -110,7 +110,7 @@ const ArmoryItemImage: FC<ResourceImageProps> = ({
 	const [image, setImage] = useState<string>()
 
 	useEffect(() => {
-		loadImageOrDefault(resourceType, resource.type, resource.platform, rotate).then(
+		void loadImageOrDefault(resourceType, resource.type, resource.platform, rotate).then(
 			(img) => {
 				if (!img) {
 					// eslint-disable-next-line no-console

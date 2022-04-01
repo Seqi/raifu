@@ -116,7 +116,7 @@ const ResourceListContainer = styled(Box)(({ theme }) => ({
 	},
 }))
 
-export default function Armory() {
+const Armory = () => {
 	const mounted = useRef(true)
 	useEffect(() => {
 		mounted.current = true
@@ -245,7 +245,9 @@ export default function Armory() {
 						ItemTemplate={armorySection.ItemTemplate!}
 						AddButtonTemplate={(props) => <ArmoryCardContainer {...props} />}
 						renderAddDialog={armorySection.renderAddDialog!}
-						onResourceClick={() => {}} // No-op
+						onResourceClick={() => {
+							// No-op
+						}}
 						gridContainerProps={{
 							spacing: xs ? 1 : 2,
 						}}
@@ -264,3 +266,5 @@ export default function Armory() {
 		</>
 	)
 }
+
+export default Armory

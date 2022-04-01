@@ -112,7 +112,7 @@ class EventList extends React.Component<EventListProps, EventListState> {
 				// Firebase functions don't like date objects...
 				date: event.date.toISOString(),
 			})
-			.then((event) =>
+			.then((event: Event) =>
 				this.setState((prevState) => ({ events: prevState.events.concat(event) }))
 			)
 			.then(() => analytics.logEvent('event_added'))

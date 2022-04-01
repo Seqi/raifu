@@ -9,7 +9,9 @@ type CalendarDateContext = {
 
 const defaultContext = {
 	date: moment(),
-	setDate: (date: moment.Moment) => {},
+	setDate: (date: moment.Moment) => {
+		// No op
+	},
 }
 
 const calendarDateContext = React.createContext<CalendarDateContext>(defaultContext)

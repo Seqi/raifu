@@ -1,8 +1,8 @@
 class Entity {
-	// eslint-disable-next-line no-undef
 	[key: string]: any
 
 	constructor(entity: any) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		Object.keys(entity).forEach((key) => (this[key] = entity[key]))
 	}
 
@@ -22,6 +22,7 @@ class Entity {
 
 		// Event items
 		if (this.date) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			const d = new Date(this.date)
 			return `${this.location} @ ${d.toLocaleString()}`
 		}

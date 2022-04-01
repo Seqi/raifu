@@ -53,6 +53,7 @@ export const AvailableArmoryContextProvider: FC = ({ children }) => {
 		}
 	}, [editable])
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 	const unusedArmoryItems = getUnusedArmoryItems(loadout, armory)
 
 	return (

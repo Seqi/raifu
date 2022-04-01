@@ -30,7 +30,9 @@ const LoadoutResourceItem: FC<LoadoutResourceItemProps> = <R extends ArmoryItem>
 	resourceType,
 	item,
 	canDelete = false,
-	onDelete = (item: R) => {},
+	onDelete = (item: R) => {
+		// No op
+	},
 }: LoadoutResourceItemProps<R>) => {
 	const sm = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
@@ -64,7 +66,9 @@ LoadoutResourceItem.propTypes = {
 
 LoadoutResourceItem.defaultProps = {
 	canDelete: false,
-	onDelete: (itemId) => {},
+	onDelete: (itemId) => {
+		// No op
+	},
 }
 
 export default LoadoutResourceItem

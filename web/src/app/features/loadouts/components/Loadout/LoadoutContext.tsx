@@ -20,10 +20,10 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 	editable,
 	children,
 }) => {
-	const [currentLoadout, setLoadout] = useState<Loadout>(loadout)
+	const [currentLoadout, setCurrentLoadout] = useState<Loadout>(loadout)
 	const analytics = useAnalytics()
 
-	useEffect(() => setLoadout(loadout), [loadout])
+	useEffect(() => setCurrentLoadout(loadout), [loadout])
 
 	const addWeapon = useCallback(
 		async (weaponId: string) => {
@@ -33,7 +33,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 			analytics.logEvent('loadout_weapon_added')
 
 			// Update
-			setLoadout((currentLoadout) => ({
+			setCurrentLoadout((currentLoadout) => ({
 				...currentLoadout,
 				weapons: [...currentLoadout.weapons, weapon],
 			}))
@@ -49,7 +49,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 			analytics.logEvent('loadout_weapon_deleted')
 
 			// Update
-			setLoadout((currentLoadout) => ({
+			setCurrentLoadout((currentLoadout) => ({
 				...currentLoadout,
 				weapons: currentLoadout.weapons.filter((w) => w.id !== weaponId),
 			}))
@@ -72,7 +72,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 			attachmentIds.forEach((_) => analytics.logEvent('loadout_attachment_added'))
 
 			// Update
-			setLoadout((currentLoadout) => {
+			setCurrentLoadout((currentLoadout) => {
 				const weaponIndex = currentLoadout.weapons.findIndex((w) => w.id === weaponId)
 
 				// Find the weapon to add the attachment to and create a copy
@@ -95,7 +95,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 	)
 
 	const deleteWeaponAttachment = useCallback(
-		async (weaponId, attachmentId) => {
+		async (weaponId: string, attachmentId: string) => {
 			// Save
 			await loadouts
 				.loadout(currentLoadout.id)
@@ -105,7 +105,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 			analytics.logEvent('loadout_attachment_deleted')
 
 			// Update
-			setLoadout((currentLoadout) => {
+			setCurrentLoadout((currentLoadout) => {
 				const weaponIndex = currentLoadout.weapons.findIndex((w) => w.id === weaponId)
 
 				// Find the weapon to delete the attachment on and create a copy
@@ -138,7 +138,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 			ids.forEach((_) => analytics.logEvent('loadout_gear_added'))
 
 			// Update
-			setLoadout((currentLoadout) => ({
+			setCurrentLoadout((currentLoadout) => ({
 				...currentLoadout,
 				gear: [...currentLoadout.gear, ...newGear],
 			}))
@@ -154,7 +154,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 			analytics.logEvent('loadout_gear_deleted')
 
 			// Update
-			setLoadout((currentLoadout) => ({
+			setCurrentLoadout((currentLoadout) => ({
 				...currentLoadout,
 				gear: currentLoadout.gear.filter((g) => g.id !== gear.id),
 			}))
@@ -174,7 +174,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 			ids.forEach((_) => analytics.logEvent('loadout_clothing_added'))
 
 			// Update
-			setLoadout((currentLoadout) => ({
+			setCurrentLoadout((currentLoadout) => ({
 				...currentLoadout,
 				clothing: [...currentLoadout.clothing, ...newClothing],
 			}))
@@ -190,7 +190,7 @@ export const LoadoutContextProvider: FC<LoadoutContextProviderProps> = ({
 			analytics.logEvent('loadout_clothing_deleted')
 
 			// Update
-			setLoadout((currentLoadout) => ({
+			setCurrentLoadout((currentLoadout) => ({
 				...currentLoadout,
 				clothing: currentLoadout.clothing.filter((c) => c.id !== clothing.id),
 			}))

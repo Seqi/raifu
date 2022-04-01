@@ -77,11 +77,11 @@ class AddArmoryItemDialog extends Component<
 	}
 
 	onSave(itemIds: string[]) {
-		const data = this.props.allowMultiple ? itemIds : itemIds[0]
+		const itemIdsToSave = this.props.allowMultiple ? itemIds : itemIds[0]
 
 		this.setState({ loading: true, error: null }, () => {
 			this.props
-				.onSave(data)
+				.onSave(itemIdsToSave)
 				.then(
 					() => !this.isUnmounted && this.setState({ selectedIds: [], loading: false })
 				)

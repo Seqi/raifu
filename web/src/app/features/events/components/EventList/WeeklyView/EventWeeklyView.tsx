@@ -30,7 +30,7 @@ const EventWeeklyView: FC<EventWeeklyViewProps> = ({
 	const [week, setWeek] = useState<moment.Moment[]>([])
 
 	const getEventsForDay = useCallback(
-		(day) => {
+		(day: moment.Moment) => {
 			return events.filter((event) => moment(event.date).isSame(day, 'day'))
 		},
 		[events]

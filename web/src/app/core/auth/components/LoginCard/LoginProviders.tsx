@@ -14,10 +14,12 @@ const LoginProviders: FC<LoginProvidersProps> = ({
 }) => {
 	return (
 		<div>
+			{/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
 			<IconButton id='twitter-icon' onClick={loginWithTwitter}>
 				<Icon color='primary' className='fab fa-twitter' />
 			</IconButton>
 
+			{/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
 			<IconButton id='google-icon' onClick={loginWithGoogle}>
 				<Icon color='primary' className='fab fa-google' />
 			</IconButton>
