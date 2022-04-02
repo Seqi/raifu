@@ -14,6 +14,6 @@ export { default as AddArmoryItemDialog } from './Loadout/dialogs/AddArmoryItemD
 export { default as LoadoutList } from './LoadoutList/LoadoutList'
 export { default as LoadoutActions } from './LoadoutPage/LoadoutActions'
 export { default as LoadoutPage } from './LoadoutPage/LoadoutPage'
-export { default as LoadoutSummary } from './LoadoutSummary'
+export { default as LoadoutSummary } from './cards/LoadoutSummary'
 export { default as LoadoutCard } from './cards/LoadoutCard'
 export * from './dialogs'

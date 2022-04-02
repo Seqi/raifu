@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Grid, styled, Box, GridSize, Typography } from '@material-ui/core'
 
 import { ArmoryItemImage } from 'app/features/armory'
-import { Loadout, LoadoutPropType } from '../models'
+import { Loadout, LoadoutPropType } from '../../models'
 
 const NoItemsContainer = styled(Box)(({ theme }) => ({
 	fontSize: '1.6rem',
@@ -89,7 +89,7 @@ const LoadoutSummary: FC<LoadoutSummaryProps> = ({ loadout }) => {
 
 	const items = loadout.weapons
 	const itemLimit = 2
-	const additionalItems = itemLimit - items.length > 0 ? 0 : items.length
+	const additionalItems = itemLimit - items.length > 0 ? 0 : items.length - itemLimit
 	const itemNumberExceedsLimit = additionalItems > 0
 
 	const itemsToDisplay = itemNumberExceedsLimit ? items.slice(0, itemLimit) : items

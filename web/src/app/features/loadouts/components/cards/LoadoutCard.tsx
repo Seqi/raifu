@@ -13,7 +13,7 @@ import {
 } from 'app/features/resource'
 
 import { Loadout, LoadoutPropType } from '../../models'
-import LoadoutSummary from '../LoadoutSummary'
+import LoadoutSummary from './LoadoutSummary'
 
 export const LoadoutCardContainer = styled(ResourceCard)(({ theme }) => ({
 	// For cards with non-height-affecting content (i.e. add card),
@@ -40,7 +40,7 @@ export const LoadoutCard: FC<LoadoutCardProps> = ({ item, onClick, onDelete }) =
 		<DeletableOverlay
 			canDelete={true}
 			onDelete={onDelete || Promise.resolve}
-			dialogTitle={item.getTitle()}
+			dialogTitle={item.name}
 		>
 			<ResourceCardHeader resource={item} />
 
