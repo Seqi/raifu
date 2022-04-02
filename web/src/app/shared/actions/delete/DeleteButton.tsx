@@ -20,7 +20,11 @@ type DeleteButtonProps = {
 
 const DeleteButton: FC<DeleteButtonProps> = ({ onClick, small }) => {
 	return (
-		<DeleteButtonContainer size={small ? 'small' : 'medium'} onClick={onClick}>
+		<DeleteButtonContainer
+			size={small ? 'small' : 'medium'}
+			onClick={onClick}
+			aria-label='delete'
+		>
 			<i className='fa fa-times' />
 		</DeleteButtonContainer>
 	)

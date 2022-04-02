@@ -1,8 +1,8 @@
 import app from '../../../firebase'
 import firebase from 'firebase/app'
-
-const analytics = app.analytics()
+import { useRef } from 'react'
 
 export default function useAnalytics(): firebase.analytics.Analytics {
-	return analytics
+	const analyticsRef = useRef<firebase.analytics.Analytics>(app.analytics())
+	return analyticsRef.current
 }
