@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, FC } from 'react'
+import React, { useState, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Grid, GridProps, styled } from '@material-ui/core'
@@ -8,7 +8,7 @@ import { ArmoryItem, ArmoryItemPropShape } from 'app/features/armory'
 import AddButton from 'app/shared/actions/add/AddButton'
 
 import LoadoutResourceItem from './LoadoutResourceItem'
-import LoadoutContext from '../LoadoutContext'
+import { useLoadout } from '../LoadoutContext'
 
 const ResourceGridItem = styled(Grid)(({ theme }) => ({
 	width: '300px',
@@ -84,7 +84,7 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 	gridItemProps,
 }) => {
 	let [dialog, setDialog] = useState<'add' | null>(null)
-	let { editable } = useContext(LoadoutContext)
+	let { editable } = useLoadout()
 
 	let addItemToLoadout = useCallback(
 		async (itemIds) => {
@@ -96,9 +96,16 @@ const LoadoutResourceList: FC<LoadoutResourceListProps> = ({
 
 	return (
 		<React.Fragment>
-			<ResourceGrid container={true}>
+			<ResourceGrid container={true} role='list'>
 				{items.map((item) => (
-					<ResourceGridItem item={true} key={item.id} xs={4} xl='auto' {...gridItemProps}>
+					<ResourceGridItem
+						item={true}
+						key={item.id}
+						xs={4}
+						xl='auto'
+						role='listitem'
+						{...gridItemProps}
+					>
 						<LoadoutResourceItem
 							resourceType={resourceType}
 							item={item}

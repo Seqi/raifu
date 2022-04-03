@@ -7,12 +7,12 @@ import { ArmoryItem, ArmoryItemImage, ArmoryItemPropShape } from 'app/features/a
 import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'
 
-const RelativeContainer = styled(Box)(({ theme }) => ({
+const RelativeContainer = styled(Box)({
 	height: '100%',
 	position: 'relative',
 	display: 'flex',
 	flexDirection: 'column',
-}))
+})
 
 const ResourceImageTitle = styled(Box)({
 	textAlign: 'right',
