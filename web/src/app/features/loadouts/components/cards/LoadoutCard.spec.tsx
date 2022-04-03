@@ -23,30 +23,36 @@ describe('Loadout card', () => {
 		expect(screen.getByText('There‘s nothing here!')).toBeInTheDocument()
 	})
 
-	it('should show number of additional weapons when too many weapons to display', () => {
+	it('should show number of additional weapons when too many weapons to display', async () => {
 		const loadout = buildLoadout({
 			overrides: {
-				weapons: Array(4).map(() => buildLoadoutWeapon()),
+				weapons: Array.from(Array(4), () => buildLoadoutWeapon()),
 			},
 		})
 		const onClick = jest.fn()
 		const onDelete = jest.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
+
+		// Wait for the image to load
+		await screen.findAllByRole('img')
 
 		expect(screen.getByText('+ 2 more')).toBeInTheDocument()
 	})
 
-	it('should show not number of additional weapons when weapon count fits display', () => {
+	it('should show not number of additional weapons when weapon count fits display', async () => {
 		const loadout = buildLoadout({
 			overrides: {
-				weapons: Array(2).map(() => buildLoadoutWeapon()),
+				weapons: Array.from(Array(2), () => buildLoadoutWeapon()),
 			},
 		})
 		const onClick = jest.fn()
 		const onDelete = jest.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
+
+		// Wait for the image to load
+		await screen.findAllByRole('img')
 
 		expect(screen.queryByText(/\+ \d more/)).not.toBeInTheDocument()
 	})
