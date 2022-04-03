@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { LoadoutContextProvider } from './LoadoutContext'
+import { LoadoutProvider } from './LoadoutContext'
 import { AvailableArmoryContextProvider } from './AvailableArmoryContext'
 import LoadoutWeaponList from './WeaponList/LoadoutWeaponList'
 import LoadoutGearList from './GearList/LoadoutGearList'
@@ -47,7 +47,7 @@ const LoadoutView: FC<LoadoutViewProps> = ({
 	editable = false,
 }) => {
 	return (
-		<LoadoutContextProvider loadout={loadout} editable={editable}>
+		<LoadoutProvider loadout={loadout} editable={editable}>
 			<AvailableArmoryContextProvider>
 				<Box width='100%' display='flex'>
 					{showTitle && (
@@ -65,7 +65,7 @@ const LoadoutView: FC<LoadoutViewProps> = ({
 					</Box>
 				</Box>
 			</AvailableArmoryContextProvider>
-		</LoadoutContextProvider>
+		</LoadoutProvider>
 	)
 }
 

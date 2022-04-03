@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext, FC } from 'react'
+import React, { useEffect, useState, FC } from 'react'
 
 import { armory as armoryService } from 'app/data/api'
 import { Resource } from 'app/features/resource'
 import { ArmoryCollection } from 'app/features/armory'
 
 import { Loadout } from '../../models'
-import LoadoutContext from './LoadoutContext'
+import { useLoadout } from './LoadoutContext'
 
 // TODO: Type
 const AvailableArmoryContext = React.createContext<any>(null)
@@ -48,7 +48,7 @@ const getUnusedArmoryItems = (
 }
 
 const AvailableArmoryContextProvider: FC = ({ children }) => {
-	let { loadout, editable } = useContext(LoadoutContext)
+	let { loadout, editable } = useLoadout()
 	let [armory, setArmory] = useState<ArmoryCollection>(emptyArmory)
 
 	useEffect(() => {

@@ -2,7 +2,7 @@ export { default as AvailableArmoryContext } from './Loadout/AvailableArmoryCont
 export { default as LoadoutClothingList } from './Loadout/ClothingList/LoadoutClothingList'
 export { default as LoadoutGearList } from './Loadout/GearList/LoadoutGearList'
 export { default as LoadoutAdd } from './Loadout/LoadoutAdd'
-export { default as LoadoutContext } from './Loadout/LoadoutContext'
+export * from './Loadout/LoadoutContext'
 export { default as LoadoutResourceItem } from './Loadout/LoadoutResourceList/LoadoutResourceItem'
 export { default as LoadoutResourceList } from './Loadout/LoadoutResourceList/LoadoutResourceList'
 export { default as LoadoutView } from './Loadout/LoadoutView'

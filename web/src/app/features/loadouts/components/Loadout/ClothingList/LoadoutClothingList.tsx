@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
 import LoadoutResourceList from '../LoadoutResourceList/LoadoutResourceList'
 import AddArmoryItemDialog from '../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../AvailableArmoryContext'
-import LoadoutContext from '../LoadoutContext'
+import { useLoadout } from '../LoadoutContext'
 import { LoadoutWeaponTitle } from '../LoadoutItemTitle'
 
 let LoadoutClothingList = () => {
-	let { loadout, addClothing, deleteClothing } = useContext(LoadoutContext)
+	let { loadout, addClothing, deleteClothing } = useLoadout()
 	let { clothing: availableClothing } = useContext(AvailableArmoryContext)
 
 	return (

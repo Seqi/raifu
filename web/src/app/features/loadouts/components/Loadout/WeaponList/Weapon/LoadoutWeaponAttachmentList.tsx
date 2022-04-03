@@ -6,7 +6,7 @@ import LoadoutResourceList from '../../LoadoutResourceList/LoadoutResourceList'
 import AddArmoryItemDialog from '../../dialogs/AddArmoryItemDialog'
 import AvailableArmoryContext from '../../AvailableArmoryContext'
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
-import LoadoutContext from '../../LoadoutContext'
+import { useLoadout } from '../../LoadoutContext'
 
 type LoadoutWeaponAttachmentListProps = {
 	weapon: LoadoutWeapon
@@ -15,12 +15,12 @@ type LoadoutWeaponAttachmentListProps = {
 const LoadoutWeaponAttachmentList: FC<LoadoutWeaponAttachmentListProps> = ({
 	weapon,
 }) => {
-	let { addWeaponAttachments, deleteWeaponAttachment } = useContext(LoadoutContext)
+	let { addWeaponAttachments, deleteWeaponAttachment } = useLoadout()
 	let { attachments: availableAttachments } = useContext(AvailableArmoryContext)
 
 	let addAttachments = useCallback(
 		async (attachmentIds: string | string[]) => {
-			await addWeaponAttachments(weapon.id, attachmentIds)
+			await addWeaponAttachments(weapon.id, attachmentIds as string[])
 		},
 		[addWeaponAttachments, weapon]
 	)

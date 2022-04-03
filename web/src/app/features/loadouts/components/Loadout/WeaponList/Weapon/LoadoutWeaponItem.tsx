@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, FC } from 'react'
+import React, { useState, useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 
 import { Box, styled } from '@material-ui/core'
@@ -7,7 +7,7 @@ import { ArmoryItemImage } from 'app/features/armory'
 import { ConfirmDeleteDialog } from 'app/shared/actions/delete'
 
 import { LoadoutWeapon, LoadoutWeaponPropType } from '../../../../models'
-import LoadoutContext from '../../LoadoutContext'
+import { useLoadout } from '../../LoadoutContext'
 
 const LoadoutWeaponItemImageContainer = styled(Box)(({ theme }) => ({
 	flex: 1,
@@ -30,7 +30,7 @@ type LoadoutWeaponItemProps = {
 }
 
 let LoadoutWeaponItem: FC<LoadoutWeaponItemProps> = ({ weapon }) => {
-	let { deleteWeapon } = useContext(LoadoutContext)
+	let { deleteWeapon } = useLoadout()
 	let [dialog, setDialog] = useState<'delete' | null>(null)
 
 	let deleteNewWeapon = useCallback(() => deleteWeapon(weapon.id), [deleteWeapon, weapon])
