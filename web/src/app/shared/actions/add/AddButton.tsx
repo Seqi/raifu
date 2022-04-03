@@ -31,7 +31,7 @@ type AddButtonProps = {
 const AddButton: FC<AddButtonProps> = ({ onClick }) => {
 	return (
 		<Box display='flex' flex='1' height='100%' position='relative'>
-			<AddIconButton onClick={onClick}>
+			<AddIconButton aria-label='add' onClick={onClick}>
 				<i className='fa fa-plus' />
 			</AddIconButton>
 		</Box>
