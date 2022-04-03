@@ -8,8 +8,8 @@ import { Loadout, LoadoutWeapon } from '../models'
 export const buildLoadout = build<Loadout>({
 	fields: {
 		id: perBuild(() => faker.datatype.string(14)),
-		createdAt: perBuild(() => faker.date.recent()),
-		updatedAt: perBuild(() => faker.date.recent()),
+		createdAt: perBuild(() => faker.date.recent().toISOString()),
+		updatedAt: perBuild(() => faker.date.recent().toISOString()),
 		name: perBuild(() => faker.internet.domainWord()),
 		shared: false,
 		weapons: [],
@@ -27,8 +27,8 @@ export const buildLoadout = build<Loadout>({
 export const buildAttachment = build<Attachment>({
 	fields: {
 		id: perBuild(() => faker.datatype.string(14)),
-		createdAt: perBuild(() => faker.date.recent()),
-		updatedAt: perBuild(() => faker.date.recent()),
+		createdAt: perBuild(() => faker.date.recent().toISOString()),
+		updatedAt: perBuild(() => faker.date.recent().toISOString()),
 		platform: oneOf(...platforms.attachments.sights),
 		type: 'sights',
 		getTitle: perBuild(() => () => ''),
@@ -43,8 +43,8 @@ export const buildAttachment = build<Attachment>({
 export const buildLoadoutWeapon = build<LoadoutWeapon>({
 	fields: {
 		id: perBuild(() => faker.datatype.string(14)),
-		createdAt: perBuild(() => faker.date.recent()),
-		updatedAt: perBuild(() => faker.date.recent()),
+		createdAt: perBuild(() => faker.date.recent().toISOString()),
+		updatedAt: perBuild(() => faker.date.recent().toISOString()),
 		platform: oneOf(...platforms.weapons.rifles),
 		type: 'rifles',
 		getTitle: perBuild(() => () => ''),
