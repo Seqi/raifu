@@ -53,7 +53,6 @@ const LoadoutActions: FC<LoadoutActionsProps> = ({
 			{dialog === 'edit' && (
 				<EditLoadoutDialog
 					loadout={loadout}
-					action='Edit'
 					isOpen={dialog === 'edit'}
 					onSave={(name) => editLoadout(name).then(() => setDialog(null))}
 					onClose={() => setDialog(null)}

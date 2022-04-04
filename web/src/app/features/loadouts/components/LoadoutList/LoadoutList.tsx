@@ -82,7 +82,7 @@ let LoadoutList: FC = () => {
 				resource={loadoutService}
 				resourceName='loadout'
 				onResourceClick={viewLoadout}
-				renderAddDialog={(props) => <EditLoadoutDialog action='Add' {...props} />}
+				renderAddDialog={(props) => <EditLoadoutDialog {...props} />}
 				ItemTemplate={LoadoutCard}
 				AddButtonTemplate={LoadoutCardContainer}
 				gridItemProps={{ xs: 12, md: 6, lg: 4 }}

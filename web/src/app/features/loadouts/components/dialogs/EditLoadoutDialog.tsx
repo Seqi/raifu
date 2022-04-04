@@ -16,7 +16,6 @@ import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 type EditLoadoutDialogProps = {
 	loadout?: Loadout | null
-	action: 'Add' | 'Edit'
 	isOpen: boolean
 	onSave: (loadout: Loadout) => Promise<any>
 	onClose: () => any
@@ -28,7 +27,6 @@ export type LoadoutUpdate = {
 
 export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 	loadout,
-	action,
 	isOpen,
 	onSave,
 	onClose,
@@ -38,9 +36,10 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 	let { handleSubmit, formState, control } = useForm<LoadoutUpdate>({
 		mode: 'onChange',
 		defaultValues: {
-			name: loadout?.name,
+			name: loadout?.name || '',
 		},
 	})
+	const { isValid, isDirty, isSubmitting } = formState
 
 	let handleSave = useCallback(
 		(loadout) => {
@@ -60,7 +59,7 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 	return (
 		<Dialog fullWidth={true} open={isOpen} onClose={onClose}>
 			<form onSubmit={handleSubmit(handleSave)}>
-				<DialogTitle>{action} loadout</DialogTitle>
+				<DialogTitle>{loadout ? 'Edit' : 'Add'} loadout</DialogTitle>
 
 				<DialogContent>
 					{error && <Error error={error} fillBackground={true} />}
@@ -74,6 +73,7 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 							},
 						}}
+						id='loadout-name'
 						label='Name'
 						type='text'
 						fullWidth={true}
@@ -83,7 +83,7 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 				<DialogActions>
 					<Button onClick={onClose}>Cancel</Button>
 					<Button
-						disabled={!formState.isValid || formState.isSubmitting}
+						disabled={!isDirty || !isValid || isSubmitting}
 						variant='contained'
 						color='primary'
 						type='submit'
@@ -98,25 +98,13 @@ export const EditLoadoutDialog: FC<EditLoadoutDialogProps> = ({
 
 EditLoadoutDialog.propTypes = {
 	loadout: PropTypes.shape(LoadoutPropType),
-	action: PropTypes.oneOf(['Add', 'Edit'] as const).isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onSave: PropTypes.func.isRequired,
 }
 
 EditLoadoutDialog.defaultProps = {
-	loadout: {
-		name: '',
-		id: '',
-		shared: false,
-		getTitle: () => '',
-		getSubtitle: () => '',
-		weapons: [],
-		gear: [],
-		clothing: [],
-		createdAt: '',
-		updatedAt: '',
-	},
+	loadout: null,
 }
 
 export default EditLoadoutDialog
