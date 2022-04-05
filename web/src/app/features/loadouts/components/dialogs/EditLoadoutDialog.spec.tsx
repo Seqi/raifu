@@ -75,7 +75,7 @@ describe('Edit loadout dialog', () => {
 		expect(saveButton).toBeDisabled()
 	})
 
-	it('should call save and close callbacks on a successful submit', async () => {
+	it('should call save and close handlers on a successful submit', async () => {
 		// TODO: We can't fake timers here as it seems to just get stuck
 		const onSave = jest
 			.fn()
@@ -127,5 +127,17 @@ describe('Edit loadout dialog', () => {
 
 		expect(onSave).toBeCalledWith(expect.objectContaining({ name: 'Test loadout' }))
 		expect(onClose).not.toBeCalled()
+	})
+
+	it('clicking cancel button should call close handler', async () => {
+		const onSave = jest.fn()
+		const onClose = jest.fn()
+
+		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
+		const saveButton = screen.getByRole('button', { name: 'Cancel' })
+		await userEvent.click(saveButton)
+
+		expect(onClose).toBeCalled()
+		expect(onSave).not.toBeCalled()
 	})
 })
