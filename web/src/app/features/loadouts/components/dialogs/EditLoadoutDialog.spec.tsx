@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { buildLoadout } from '../../test/builders'
 
 import EditLoadoutDialog from './EditLoadoutDialog'
 
@@ -22,8 +23,6 @@ describe('Edit loadout dialog', () => {
 	it('should show an error if no value is input after touched', async () => {
 		render(<EditLoadoutDialog isOpen={true} onClose={jest.fn()} onSave={jest.fn()} />)
 
-		// We async this to get around the fact that isValid swaps from false to true to false again
-		// Something to do with react hook form's proxy and material ui's dialog working poorly together
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
 		await userEvent.type(nameField, 'a')
@@ -38,8 +37,6 @@ describe('Edit loadout dialog', () => {
 	it('should show an error if character limit is exceeded', async () => {
 		render(<EditLoadoutDialog isOpen={true} onClose={jest.fn()} onSave={jest.fn()} />)
 
-		// We async this to get around the fact that isValid swaps from false to true to false again
-		// Something to do with react hook form's proxy and material ui's dialog working poorly together
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
 		await userEvent.type(
@@ -58,8 +55,6 @@ describe('Edit loadout dialog', () => {
 	it('should show an error if character limit is exceeded', async () => {
 		render(<EditLoadoutDialog isOpen={true} onClose={jest.fn()} onSave={jest.fn()} />)
 
-		// We async this to get around the fact that isValid swaps from false to true to false again
-		// Something to do with react hook form's proxy and material ui's dialog working poorly together
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
 		await userEvent.type(
@@ -75,7 +70,7 @@ describe('Edit loadout dialog', () => {
 		expect(saveButton).toBeDisabled()
 	})
 
-	it('should call save and close handlers on a successful submit', async () => {
+	it('should call save and close handlers on a successful create', async () => {
 		// TODO: We can't fake timers here as it seems to just get stuck
 		const onSave = jest
 			.fn()
@@ -84,8 +79,8 @@ describe('Edit loadout dialog', () => {
 
 		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
 
-		// We async this to get around the fact that isValid swaps from false to true to false again
-		// Something to do with react hook form's proxy and material ui's dialog working poorly together
+		expect(screen.getByText('Add loadout')).toBeInTheDocument()
+
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
 		await userEvent.type(nameField, 'Test loadout')
@@ -101,6 +96,42 @@ describe('Edit loadout dialog', () => {
 		expect(onClose).toBeCalled()
 	})
 
+	it('should call save and close handlers on a successful edit', async () => {
+		const loadout = buildLoadout()
+		const onSave = jest
+			.fn()
+			.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
+		const onClose = jest.fn()
+
+		render(
+			<EditLoadoutDialog
+				isOpen={true}
+				onClose={onClose}
+				onSave={onSave}
+				loadout={loadout}
+			/>
+		)
+
+		expect(screen.getByText('Edit loadout')).toBeInTheDocument()
+
+		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
+		expect(nameField).toHaveValue(loadout.name)
+
+		await userEvent.type(nameField, ' UPDATE')
+
+		const saveButton = screen.getByRole('button', { name: 'Save' })
+
+		await userEvent.click(saveButton)
+
+		expect(saveButton).toBeDisabled()
+		await waitFor(() => expect(saveButton).not.toBeDisabled())
+
+		expect(onSave).toBeCalledWith(
+			expect.objectContaining({ name: `${loadout.name} UPDATE` })
+		)
+		expect(onClose).toBeCalled()
+	})
+
 	it('should show error on a submit failure', async () => {
 		const onSave = jest
 			.fn()
@@ -109,8 +140,6 @@ describe('Edit loadout dialog', () => {
 
 		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
 
-		// We async this to get around the fact that isValid swaps from false to true to false again
-		// Something to do with react hook form's proxy and material ui's dialog working poorly together
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
 		await userEvent.type(nameField, 'Test loadout')
