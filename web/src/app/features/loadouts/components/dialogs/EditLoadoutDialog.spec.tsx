@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import EditLoadoutDialog from './EditLoadoutDialog'
@@ -76,7 +76,9 @@ describe('Edit loadout dialog', () => {
 	})
 
 	it('should call onSave and onClose on a successful submit', async () => {
-		const onSave = jest.fn().mockResolvedValue(null)
+		const onSave = jest
+			.fn()
+			.mockImplementation(() => new Promise((r) => setTimeout(r, 100)))
 		const onClose = jest.fn()
 
 		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
@@ -88,7 +90,11 @@ describe('Edit loadout dialog', () => {
 		await userEvent.type(nameField, 'Test loadout')
 
 		const saveButton = screen.getByRole('button', { name: 'Save' })
+
 		await userEvent.click(saveButton)
+
+		expect(saveButton).toBeDisabled()
+		await waitFor(() => expect(saveButton).not.toBeDisabled())
 
 		expect(onSave).toBeCalledWith(expect.objectContaining({ name: 'Test loadout' }))
 		expect(onClose).toBeCalled()
