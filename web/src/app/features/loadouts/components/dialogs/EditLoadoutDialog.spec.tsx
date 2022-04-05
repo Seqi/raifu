@@ -75,10 +75,11 @@ describe('Edit loadout dialog', () => {
 		expect(saveButton).toBeDisabled()
 	})
 
-	it('should call onSave and onClose on a successful submit', async () => {
+	it('should call save and close callbacks on a successful submit', async () => {
+		// TODO: We can't fake timers here as it seems to just get stuck
 		const onSave = jest
 			.fn()
-			.mockImplementation(() => new Promise((r) => setTimeout(r, 100)))
+			.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
 		const onClose = jest.fn()
 
 		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
@@ -100,8 +101,10 @@ describe('Edit loadout dialog', () => {
 		expect(onClose).toBeCalled()
 	})
 
-	it('should call show error on a submit failure', async () => {
-		const onSave = jest.fn().mockRejectedValue(null)
+	it('should show error on a submit failure', async () => {
+		const onSave = jest
+			.fn()
+			.mockImplementation(() => new Promise((resolve, reject) => setTimeout(reject, 100)))
 		const onClose = jest.fn()
 
 		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
@@ -114,6 +117,9 @@ describe('Edit loadout dialog', () => {
 
 		const saveButton = screen.getByRole('button', { name: 'Save' })
 		await userEvent.click(saveButton)
+
+		expect(saveButton).toBeDisabled()
+		await waitFor(() => expect(saveButton).not.toBeDisabled())
 
 		expect(
 			screen.getByText('An error occurred while saving loadout.')
