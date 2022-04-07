@@ -50,10 +50,9 @@ describe('Login card', () => {
 			</MemoryRouter>
 		)
 
-		const signUpButton = screen.getByRole('button', { name: /sign up/i, exact: false })
+		const signUpButton = screen.getByText(/sign up/i, { exact: false })
 		await userEvent.click(signUpButton)
-
-		expect(screen.getByText(/sign up/i)).toBeInTheDocument()
+		expect(signUpButton.getAttribute('href')).toMatchInlineSnapshot(`"/signup"`)
 	})
 
 	describe('login with email', () => {
