@@ -17,13 +17,31 @@ type LoginFormProps = {
 const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
 	let { handleSubmit, formState, control } = useForm<LoginFormFields>({
 		mode: 'onChange',
+		defaultValues: {
+			email: '',
+			password: '',
+		},
 	})
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<FormTextField
-				form={{ name: 'email', control, rules: { required: true } }}
-				label='E-mail'
+				form={{
+					name: 'email',
+					control,
+					rules: {
+						required: {
+							value: true,
+							message: 'Email is required.',
+						},
+						pattern: {
+							value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+							message: 'Must be a valid email address',
+						},
+					},
+				}}
+				id='login-email'
+				label='Email'
 				autoComplete='email'
 				fullWidth={true}
 				autoFocus={true}
@@ -31,6 +49,7 @@ const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
 
 			<FormTextField
 				form={{ name: 'password', control, rules: { required: true } }}
+				id='login-password'
 				label='Password'
 				type='password'
 				margin='normal'

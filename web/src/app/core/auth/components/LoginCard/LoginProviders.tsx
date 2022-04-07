@@ -14,11 +14,19 @@ const LoginProviders: FC<LoginProvidersProps> = ({
 }) => {
 	return (
 		<div>
-			<IconButton id='twitter-icon' onClick={loginWithTwitter}>
+			<IconButton
+				id='twitter-icon'
+				aria-label='Login with twitter'
+				onClick={loginWithTwitter}
+			>
 				<Icon color='primary' className='fab fa-twitter' />
 			</IconButton>
 
-			<IconButton id='google-icon' onClick={loginWithGoogle}>
+			<IconButton
+				id='google-icon'
+				aria-label='Login with google'
+				onClick={loginWithGoogle}
+			>
 				<Icon color='primary' className='fab fa-google' />
 			</IconButton>
 		</div>
