@@ -1,29 +1,10 @@
-import { build, perBuild } from '@jackfranklin/test-data-bot'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { AuthContext, AuthContextValue } from '../../contexts/AuthContext'
+import { buildAuthContext, buildLoginProvider } from 'test/builders'
+import { AuthContext } from '../../contexts/AuthContext'
 
 import LoginCard from './LoginCard'
-
-const buildLoginProvider = build<AuthContextValue['login']>({
-	fields: {
-		withEmail: jest.fn(),
-		withGoogle: jest.fn(),
-		withTwitter: jest.fn(),
-	},
-})
-
-const buildAuthContext = build<AuthContextValue>({
-	fields: {
-		isAuthenticated: false,
-		logout: jest.fn(),
-		onAuthChanged: jest.fn(),
-		signup: { withEmail: jest.fn() },
-		user: null,
-		login: perBuild(() => buildLoginProvider()),
-	},
-})
 
 describe('Login card', () => {
 	it('should display a blank form by default', () => {

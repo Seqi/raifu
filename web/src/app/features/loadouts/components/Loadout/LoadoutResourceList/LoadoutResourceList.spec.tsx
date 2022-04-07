@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 import { render, RenderOptions, screen } from '@testing-library/react'
 import { MuiThemeProvider } from '@material-ui/core'
 
-import { buildAttachment, buildLoadout } from '../../../test/builders'
+import { buildAttachment, buildLoadout } from 'test/builders'
 import { Loadout } from '../../../models'
 import Theme from 'theme'
 import { LoadoutContext, LoadoutContextValue } from '../LoadoutContext'

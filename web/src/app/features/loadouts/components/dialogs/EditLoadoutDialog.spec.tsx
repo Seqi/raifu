@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { buildLoadout } from '../../test/builders'
+import { buildLoadout } from 'test/builders'
 
 import EditLoadoutDialog from './EditLoadoutDialog'
 

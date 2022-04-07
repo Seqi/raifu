@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { LoadoutCard } from './LoadoutCard'
-import { buildLoadout, buildLoadoutWeapon } from '../../test/builders'
+import { buildLoadout, buildLoadoutWeapon } from 'test/builders'
 
 describe('Loadout card', () => {
 	it('should display title of loadout', () => {
