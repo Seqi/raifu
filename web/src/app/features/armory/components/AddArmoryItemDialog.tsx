@@ -56,7 +56,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 		})
 
 		register('platform', {
-			required: { value: true, message: 'Brah' },
+			required: { value: true, message: 'Weapon is required.' },
 			maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 		})
 
@@ -108,22 +108,24 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 								helperText: formState.errors.platform.message,
 							}
 						}
-						typeTextFieldProps={
-							formState.errors.type && {
+						typeTextFieldProps={{
+							id: 'add-item-type-field',
+							...(formState.errors.type && {
 								error: true,
 								helperText: formState.errors.type.message,
-							}
-						}
+							}),
+						}}
 					/>
 
 					<Controller
 						name='brand'
 						control={control}
 						rules={{ maxLength: { value: 64, message: 'Cannot exceed 64 characters.' } }}
-						defaultValue={''}
+						defaultValue=''
 						render={({ field, fieldState }) => (
 							<Autocomplete
 								options={brands.slice()}
+								autoHighlight={true}
 								freeSolo={true}
 								onInputChange={(_, val) => field.onChange(val)}
 								onBlur={field.onBlur}
@@ -147,10 +149,12 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						form={{
 							name: 'model',
 							control,
+							defaultValue: '',
 							rules: {
 								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 							},
 						}}
+						id='add-item-field-model'
 						label='Model'
 						type='text'
 						fullWidth={true}
@@ -161,10 +165,12 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 						form={{
 							name: 'nickname',
 							control: control,
+							defaultValue: '',
 							rules: {
 								maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 							},
 						}}
+						id='add-item-field-nickname'
 						label='Nickname'
 						type='text'
 						fullWidth={true}
