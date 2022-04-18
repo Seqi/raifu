@@ -51,7 +51,7 @@ const AddArmoryItemDialog: FC<AddArmoryItemProps> = ({
 	// Necessary to register the two form type/platform values
 	useEffect(() => {
 		register('type', {
-			required: { value: true, message: 'Brah' },
+			required: { value: true, message: 'Type is required.' },
 			maxLength: { value: 64, message: 'Cannot exceed 64 characters.' },
 		})
 
