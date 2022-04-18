@@ -43,7 +43,7 @@ describe('Edit loadout dialog', () => {
 			nameField,
 			Array.from(Array(65))
 				.map(() => 'a')
-				.join()
+				.join('')
 		)
 
 		expect(screen.getByText('Cannot exceed 64 characters.')).toBeInTheDocument()
@@ -61,7 +61,7 @@ describe('Edit loadout dialog', () => {
 			nameField,
 			Array.from(Array(65))
 				.map(() => 'a')
-				.join()
+				.join('')
 		)
 
 		expect(screen.getByText('Cannot exceed 64 characters.')).toBeInTheDocument()
