@@ -10,9 +10,7 @@ export function FormTextField<T>(props: FormTextFieldProps<T>) {
 
 	return (
 		<Controller
-			control={form.control}
-			name={form.name}
-			rules={form.rules}
+			{...form}
 			render={({ field: { name, onBlur, onChange, value }, fieldState: { error } }) => (
 				<TextField
 					{...textProps}
