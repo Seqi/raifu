@@ -39,12 +39,7 @@ describe('Edit loadout dialog', () => {
 
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
-		await userEvent.type(
-			nameField,
-			Array.from(Array(65))
-				.map(() => 'a')
-				.join('')
-		)
+		await userEvent.type(nameField, '{a>65/}')
 
 		expect(screen.getByText('Cannot exceed 64 characters.')).toBeInTheDocument()
 
@@ -57,12 +52,7 @@ describe('Edit loadout dialog', () => {
 
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
-		await userEvent.type(
-			nameField,
-			Array.from(Array(65))
-				.map(() => 'a')
-				.join('')
-		)
+		await userEvent.type(nameField, '{a>65/}')
 
 		expect(screen.getByText('Cannot exceed 64 characters.')).toBeInTheDocument()
 
