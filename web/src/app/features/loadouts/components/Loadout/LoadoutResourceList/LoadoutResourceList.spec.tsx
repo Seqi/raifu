@@ -27,12 +27,15 @@ describe('Loadout resource list', () => {
 			deleteWeaponAttachment: jest.fn(),
 		}
 
-		render(
-			<MuiThemeProvider theme={Theme}>
-				<LoadoutContext.Provider value={contextVals}>{ui}</LoadoutContext.Provider>
-			</MuiThemeProvider>,
-			options
-		)
+		return {
+			...render(
+				<MuiThemeProvider theme={Theme}>
+					<LoadoutContext.Provider value={contextVals}>{ui}</LoadoutContext.Provider>
+				</MuiThemeProvider>,
+				options
+			),
+			context: contextVals,
+		}
 	}
 
 	it('should display add button if items can be added', async () => {
