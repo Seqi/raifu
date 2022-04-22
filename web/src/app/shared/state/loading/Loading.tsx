@@ -29,7 +29,7 @@ const Loading: FC = () => {
 	}, [])
 
 	return (
-		<LoadingContainer textAlign='center'>
+		<LoadingContainer data-testid='loading-spinner' textAlign='center'>
 			<i className='fa fa-crosshairs load-icon' />
 
 			<Fade in={showReassurance} timeout={1500}>
