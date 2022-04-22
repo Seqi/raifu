@@ -54,11 +54,11 @@ export const ResourceList = <R extends Resource = Resource>({
 
 	return (
 		<>
-			<Grid {...gridContainerProps} container={true}>
+			<Grid {...gridContainerProps} container={true} role='list'>
 				<StaggeredAnimation maxDuration={250}>
 					{items.map((item) => (
 						<Fade key={item.id} in={true} timeout={750}>
-							<Grid {...gridItemProps} item={true}>
+							<Grid {...gridItemProps} item={true} role='listitem'>
 								{React.createElement(ItemTemplate, {
 									item: item,
 									onClick: () => onResourceClick(item),
