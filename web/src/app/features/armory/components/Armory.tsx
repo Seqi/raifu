@@ -235,11 +235,16 @@ export default function Armory() {
 	return (
 		<>
 			{armorySections.map((armorySection) => (
-				<ResourceListContainer component='section' key={armorySection.resourceName}>
+				<ResourceListContainer
+					component='section'
+					key={armorySection.resourceName}
+					aria-labelledby={`${armorySection.resourceName}-list`}
+				>
 					<SidewaysTitle
 						title={armorySection.resourceName!}
 						lowercase={true}
 						marginRight={{ xs: 1, sm: 2 }}
+						textProps={{ id: `${armorySection.resourceName}-list` }}
 					/>
 
 					<ResourceList
