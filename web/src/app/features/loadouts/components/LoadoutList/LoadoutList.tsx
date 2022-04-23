@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback, FC } from 'react'
+import { useState, useRef, useEffect, useCallback, FC } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Box, Theme, useMediaQuery } from '@material-ui/core'
 
 import { loadouts as loadoutService } from 'app/data/api'
@@ -9,7 +10,6 @@ import EditLoadoutDialog from '../dialogs/EditLoadoutDialog'
 import { LoadoutCard, LoadoutCardContainer } from '../cards'
 import { Loadout } from '../../models'
 import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
-import { useLocation, useNavigate } from 'react-router-dom'
 
 type LoadoutListState = {
 	loadouts: Loadout[]
