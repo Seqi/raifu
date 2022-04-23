@@ -3,11 +3,10 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core'
 import { baseUrl, server, rest } from 'test/server'
-import { buildLoadout } from 'test/builders'
+import { db } from 'test/data'
 
 import LoadoutList from './LoadoutList'
 import theme from 'theme'
-import { Loadout } from '../../models'
 
 jest.mock('firebase', () => {
 	return { initializeApp: jest.fn(), analytics: jest.fn() }
@@ -24,17 +23,6 @@ const renderLoadoutList = () => {
 }
 
 describe('Loadout list', () => {
-	let loadouts: Loadout[]
-
-	beforeEach(() => {
-		server.use(
-			rest.get(`${baseUrl}/loadouts`, (_req, res, ctx) => {
-				loadouts = Array.from({ length: 5 }, () => buildLoadout())
-				return res(ctx.json(loadouts))
-			})
-		)
-	})
-
 	it('should render a list with an add card', async () => {
 		renderLoadoutList()
 
@@ -48,6 +36,8 @@ describe('Loadout list', () => {
 
 		const items = screen.getAllByRole('listitem')
 		expect(items).toHaveLength(5)
+
+		const loadouts = db.loadouts.get()
 
 		items.forEach((item, index) => {
 			// We expect the order to match

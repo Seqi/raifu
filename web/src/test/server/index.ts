@@ -1,9 +1,7 @@
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
+import { baseUrl, handlers } from './handlers'
 
-const server = setupServer()
+const server = setupServer(...handlers)
 
-// TODO: Probably make this a bit more flexible to change
-export const baseUrl = 'https://us-central1-raifu-dev.cloudfunctions.net/api'
-
-export { server, rest }
+export { server, rest, baseUrl }
