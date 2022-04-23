@@ -51,6 +51,24 @@ describe('Loadout list', () => {
 		expect(screen.getByRole('button', { name: 'add' })).toBeInTheDocument()
 	})
 
+	it('should show add card even if no items in list', async () => {
+		server.use(
+			rest.get(`${baseUrl}/loadouts`, (_req, res, ctx) => {
+				return res(ctx.json([]))
+			})
+		)
+
+		renderLoadoutList()
+
+		expect(screen.getByTestId('loading-spinner')).toBeInTheDocument()
+
+		await waitFor(() => {
+			expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+		})
+
+		expect(screen.getByRole('button', { name: 'add' })).toBeInTheDocument()
+	})
+
 	it('should allow for reloading if an error occurs', async () => {
 		server.use(
 			rest.get(`${baseUrl}/loadouts`, (_req, res, ctx) => {
