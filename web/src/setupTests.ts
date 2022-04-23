@@ -7,3 +7,6 @@ import { server } from 'test/server'
 beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
+
+// Mock analytics
+jest.mock('app/shared/hooks/useAnalytics', () => () => ({ logEvent: jest.fn() }))
