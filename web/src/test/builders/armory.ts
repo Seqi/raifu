@@ -1,7 +1,23 @@
 import faker from '@faker-js/faker'
 import { perBuild, oneOf, build } from '@jackfranklin/test-data-bot'
 import { platforms } from 'app/data/constants'
-import { Attachment } from 'app/features/armory'
+import { Attachment, Clothing, Gear, Weapon } from 'app/features/armory'
+
+export const buildWeapon = build<Weapon>({
+	fields: {
+		id: perBuild(() => faker.datatype.string(14)),
+		createdAt: perBuild(() => faker.date.recent().toISOString()),
+		updatedAt: perBuild(() => faker.date.recent().toISOString()),
+		platform: oneOf(...platforms.weapons.rifles),
+		type: 'rifles',
+		getTitle: perBuild(() => () => ''),
+		getSubtitle: perBuild(() => () => ''),
+	},
+	postBuild: (weapon) => {
+		weapon.getTitle = () => weapon.platform
+		return weapon
+	},
+})
 
 export const buildAttachment = build<Attachment>({
 	fields: {
@@ -13,8 +29,40 @@ export const buildAttachment = build<Attachment>({
 		getTitle: perBuild(() => () => ''),
 		getSubtitle: perBuild(() => () => ''),
 	},
-	postBuild: (weapon) => {
-		weapon.getTitle = () => weapon.platform
-		return weapon
+	postBuild: (attachment) => {
+		attachment.getTitle = () => attachment.platform
+		return attachment
+	},
+})
+
+export const buildGear = build<Gear>({
+	fields: {
+		id: perBuild(() => faker.datatype.string(14)),
+		createdAt: perBuild(() => faker.date.recent().toISOString()),
+		updatedAt: perBuild(() => faker.date.recent().toISOString()),
+		platform: oneOf(...platforms.gear.protection),
+		type: 'protection',
+		getTitle: perBuild(() => () => ''),
+		getSubtitle: perBuild(() => () => ''),
+	},
+	postBuild: (gear) => {
+		gear.getTitle = () => gear.platform
+		return gear
+	},
+})
+
+export const buildClothing = build<Clothing>({
+	fields: {
+		id: perBuild(() => faker.datatype.string(14)),
+		createdAt: perBuild(() => faker.date.recent().toISOString()),
+		updatedAt: perBuild(() => faker.date.recent().toISOString()),
+		platform: oneOf(...platforms.clothing.jackets),
+		type: 'jackets',
+		getTitle: perBuild(() => () => ''),
+		getSubtitle: perBuild(() => () => ''),
+	},
+	postBuild: (clothing) => {
+		clothing.getTitle = () => clothing.platform
+		return clothing
 	},
 })
