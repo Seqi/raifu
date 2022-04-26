@@ -34,8 +34,8 @@ describe('Loadout card', () => {
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
-		// Wait for the image to load
-		await screen.findAllByRole('img')
+		const images = await screen.findAllByRole('img')
+		expect(images).toHaveLength(2)
 
 		expect(screen.getByText('+ 2 more')).toBeInTheDocument()
 	})
@@ -51,8 +51,8 @@ describe('Loadout card', () => {
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
-		// Wait for the image to load
-		await screen.findAllByRole('img')
+		const images = await screen.findAllByRole('img')
+		expect(images).toHaveLength(2)
 
 		expect(screen.queryByText(/\+ \d more/)).not.toBeInTheDocument()
 	})
