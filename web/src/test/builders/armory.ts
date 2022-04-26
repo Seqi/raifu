@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker'
 import { perBuild, oneOf, build } from '@jackfranklin/test-data-bot'
-import { platforms } from 'app/data/constants'
+import { platforms, brands } from 'app/data/constants'
 import { Attachment, Clothing, Gear, Weapon } from 'app/features/armory'
 
 export const buildWeapon = build<Weapon>({
@@ -9,6 +9,7 @@ export const buildWeapon = build<Weapon>({
 		createdAt: perBuild(() => faker.date.recent().toISOString()),
 		updatedAt: perBuild(() => faker.date.recent().toISOString()),
 		platform: oneOf(...platforms.weapons.rifles),
+		brand: oneOf(...brands),
 		type: 'rifles',
 		getTitle: perBuild(() => () => ''),
 		getSubtitle: perBuild(() => () => ''),
@@ -25,6 +26,7 @@ export const buildAttachment = build<Attachment>({
 		createdAt: perBuild(() => faker.date.recent().toISOString()),
 		updatedAt: perBuild(() => faker.date.recent().toISOString()),
 		platform: oneOf(...platforms.attachments.sights),
+		brand: oneOf(...brands),
 		type: 'sights',
 		getTitle: perBuild(() => () => ''),
 		getSubtitle: perBuild(() => () => ''),
@@ -41,6 +43,7 @@ export const buildGear = build<Gear>({
 		createdAt: perBuild(() => faker.date.recent().toISOString()),
 		updatedAt: perBuild(() => faker.date.recent().toISOString()),
 		platform: oneOf(...platforms.gear.protection),
+		brand: oneOf(...brands),
 		type: 'protection',
 		getTitle: perBuild(() => () => ''),
 		getSubtitle: perBuild(() => () => ''),
@@ -57,6 +60,7 @@ export const buildClothing = build<Clothing>({
 		createdAt: perBuild(() => faker.date.recent().toISOString()),
 		updatedAt: perBuild(() => faker.date.recent().toISOString()),
 		platform: oneOf(...platforms.clothing.jackets),
+		brand: oneOf(...brands),
 		type: 'jackets',
 		getTitle: perBuild(() => () => ''),
 		getSubtitle: perBuild(() => () => ''),
