@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { LoadoutCard } from './LoadoutCard'
 import { buildLoadout, buildLoadoutWeapon } from 'test/builders'
 
@@ -11,6 +12,23 @@ describe('Loadout card', () => {
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
 		expect(screen.getByRole('heading')).toHaveTextContent(loadout.getTitle())
+	})
+
+	it('should be able to be deleted', async () => {
+		const loadout = buildLoadout()
+		const onClick = jest.fn()
+		const onDelete = jest.fn()
+
+		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
+
+		const deleteButton = screen.getByRole('button', { name: 'delete' })
+		expect(deleteButton).toBeInTheDocument()
+
+		screen.debug(deleteButton)
+
+		await userEvent.click(deleteButton)
+
+		expect(onDelete).toHaveBeenCalled()
 	})
 
 	it('should show message if no weapons', () => {
