@@ -14,7 +14,7 @@
 		"firebase-admin": "^9.4.2",
 		"firebase-functions": "^3.11.0",
 		"pg": "^8.6.0",
-		"sequelize": "^6.3.4",
+		"sequelize": "^6.28.2",
 		"shortid": "^2.2.14"
 	},
 	"private": true,
