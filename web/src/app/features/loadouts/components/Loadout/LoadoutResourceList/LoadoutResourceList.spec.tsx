@@ -17,14 +17,14 @@ describe('Loadout resource list', () => {
 		const contextVals: LoadoutContextValue = {
 			loadout: context.loadout,
 			editable: context.editable,
-			addWeapon: jest.fn(),
-			deleteWeapon: jest.fn(),
-			addClothing: jest.fn(),
-			deleteClothing: jest.fn(),
-			addGear: jest.fn(),
-			deleteGear: jest.fn(),
-			addWeaponAttachments: jest.fn(),
-			deleteWeaponAttachment: jest.fn(),
+			addWeapon: vi.fn(),
+			deleteWeapon: vi.fn(),
+			addClothing: vi.fn(),
+			deleteClothing: vi.fn(),
+			addGear: vi.fn(),
+			deleteGear: vi.fn(),
+			addWeaponAttachments: vi.fn(),
+			deleteWeaponAttachment: vi.fn(),
 		}
 
 		return {
@@ -41,9 +41,9 @@ describe('Loadout resource list', () => {
 	it('should display add button if items can be added', async () => {
 		const loadout = buildLoadout()
 		const resources = Array.from(Array(1), () => buildAttachment())
-		const addItem = jest.fn()
-		const deleteItem = jest.fn()
-		const renderAddDialog = jest.fn()
+		const addItem = vi.fn()
+		const deleteItem = vi.fn()
+		const renderAddDialog = vi.fn()
 
 		const firstResource = resources[0]
 

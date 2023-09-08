@@ -6,7 +6,7 @@ import client from '../../../../firebase'
 
 const auth = client.auth()
 
-const useEmulator = process.env.NODE_ENV === 'development'
+const useEmulator = import.meta.env.NODE_ENV === 'development'
 if (useEmulator) {
 	auth.useEmulator('http://localhost:9099')
 }

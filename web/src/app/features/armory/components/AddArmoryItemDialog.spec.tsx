@@ -3,11 +3,6 @@ import userEvent from '@testing-library/user-event'
 
 import AddArmoryItemDialog from './AddArmoryItemDialog'
 
-// The autocomplete handler seems a bit slow. This makes these tests prone to
-// timeouts on slower machines. This gives it some headway until we can speed the tests up.
-// TODO: Really need to fix these timeout issues... Debounce on the change handler maybe?
-jest.setTimeout(20000)
-
 describe('Add armory item dialog', () => {
 	it('should display a blank form', async () => {
 		render(
@@ -16,8 +11,8 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
-				onSave={jest.fn()}
+				onClose={vi.fn()}
+				onSave={vi.fn()}
 			/>
 		)
 
@@ -26,7 +21,7 @@ describe('Add armory item dialog', () => {
 	})
 
 	it('should submit a valid form', async () => {
-		const saveHandler = jest
+		const saveHandler = vi
 			.fn()
 			.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
 
@@ -36,7 +31,7 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
+				onClose={vi.fn()}
 				onSave={saveHandler}
 			/>
 		)
@@ -75,7 +70,7 @@ describe('Add armory item dialog', () => {
 	})
 
 	it('should submit only when selecting an armory item', async () => {
-		const saveHandler = jest
+		const saveHandler = vi
 			.fn()
 			.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
 
@@ -85,7 +80,7 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
+				onClose={vi.fn()}
 				onSave={saveHandler}
 			/>
 		)
@@ -118,8 +113,8 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
-				onSave={jest.fn()}
+				onClose={vi.fn()}
+				onSave={vi.fn()}
 			/>
 		)
 
@@ -133,7 +128,7 @@ describe('Add armory item dialog', () => {
 	})
 
 	it('should allow users to manually type in their armory item', async () => {
-		const saveHandler = jest.fn().mockResolvedValue(null)
+		const saveHandler = vi.fn().mockResolvedValue(null)
 
 		render(
 			<AddArmoryItemDialog
@@ -141,7 +136,7 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
+				onClose={vi.fn()}
 				onSave={saveHandler}
 			/>
 		)
@@ -174,8 +169,8 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
-				onSave={jest.fn()}
+				onClose={vi.fn()}
+				onSave={vi.fn()}
 			/>
 		)
 
@@ -186,7 +181,7 @@ describe('Add armory item dialog', () => {
 	})
 
 	it('should not show type if a known armory item is typed', async () => {
-		const saveHandler = jest.fn().mockResolvedValue(null)
+		const saveHandler = vi.fn().mockResolvedValue(null)
 
 		render(
 			<AddArmoryItemDialog
@@ -194,7 +189,7 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
+				onClose={vi.fn()}
 				onSave={saveHandler}
 			/>
 		)
@@ -217,7 +212,7 @@ describe('Add armory item dialog', () => {
 	})
 
 	it('should not show type if armory item is a known one after deleting some text', async () => {
-		const saveHandler = jest.fn().mockResolvedValue(null)
+		const saveHandler = vi.fn().mockResolvedValue(null)
 
 		render(
 			<AddArmoryItemDialog
@@ -225,7 +220,7 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
+				onClose={vi.fn()}
 				onSave={saveHandler}
 			/>
 		)
@@ -240,7 +235,7 @@ describe('Add armory item dialog', () => {
 	})
 
 	it('should show type if armory item is not a known one after adding some text', async () => {
-		const saveHandler = jest.fn().mockResolvedValue(null)
+		const saveHandler = vi.fn().mockResolvedValue(null)
 
 		render(
 			<AddArmoryItemDialog
@@ -248,7 +243,7 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
+				onClose={vi.fn()}
 				onSave={saveHandler}
 			/>
 		)
@@ -266,7 +261,7 @@ describe('Add armory item dialog', () => {
 	})
 
 	it('should allow users to manually type in their brand', async () => {
-		const saveHandler = jest.fn().mockResolvedValue(null)
+		const saveHandler = vi.fn().mockResolvedValue(null)
 
 		render(
 			<AddArmoryItemDialog
@@ -274,7 +269,7 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
+				onClose={vi.fn()}
 				onSave={saveHandler}
 			/>
 		)
@@ -307,8 +302,8 @@ describe('Add armory item dialog', () => {
 				resourceTitle='weapon'
 				resourceKey='weapons'
 				isOpen={true}
-				onClose={jest.fn()}
-				onSave={jest.fn()}
+				onClose={vi.fn()}
+				onSave={vi.fn()}
 			/>
 		)
 
@@ -320,7 +315,7 @@ describe('Add armory item dialog', () => {
 
 	describe('validation', () => {
 		it('should require an armory item', async () => {
-			const saveHandler = jest.fn().mockResolvedValue(null)
+			const saveHandler = vi.fn().mockResolvedValue(null)
 
 			render(
 				<AddArmoryItemDialog
@@ -328,7 +323,7 @@ describe('Add armory item dialog', () => {
 					resourceTitle='weapon'
 					resourceKey='weapons'
 					isOpen={true}
-					onClose={jest.fn()}
+					onClose={vi.fn()}
 					onSave={saveHandler}
 				/>
 			)
@@ -341,7 +336,7 @@ describe('Add armory item dialog', () => {
 		})
 
 		it('should require an armory item type', async () => {
-			const saveHandler = jest.fn().mockResolvedValue(null)
+			const saveHandler = vi.fn().mockResolvedValue(null)
 
 			render(
 				<AddArmoryItemDialog
@@ -349,7 +344,7 @@ describe('Add armory item dialog', () => {
 					resourceTitle='weapon'
 					resourceKey='weapons'
 					isOpen={true}
-					onClose={jest.fn()}
+					onClose={vi.fn()}
 					onSave={saveHandler}
 				/>
 			)
@@ -361,16 +356,14 @@ describe('Add armory item dialog', () => {
 		})
 
 		it('should show validation error if armory item is too long', async () => {
-			const saveHandler = jest.fn().mockResolvedValue(null)
-
 			render(
 				<AddArmoryItemDialog
 					resourceName='Weapon'
 					resourceTitle='weapon'
 					resourceKey='weapons'
 					isOpen={true}
-					onClose={jest.fn()}
-					onSave={saveHandler}
+					onClose={vi.fn()}
+					onSave={vi.fn()}
 				/>
 			)
 
@@ -387,8 +380,8 @@ describe('Add armory item dialog', () => {
 					resourceTitle='weapon'
 					resourceKey='weapons'
 					isOpen={true}
-					onClose={jest.fn()}
-					onSave={jest.fn()}
+					onClose={vi.fn()}
+					onSave={vi.fn()}
 				/>
 			)
 
@@ -414,8 +407,8 @@ describe('Add armory item dialog', () => {
 					resourceTitle='weapon'
 					resourceKey='weapons'
 					isOpen={true}
-					onClose={jest.fn()}
-					onSave={jest.fn()}
+					onClose={vi.fn()}
+					onSave={vi.fn()}
 				/>
 			)
 
@@ -441,8 +434,8 @@ describe('Add armory item dialog', () => {
 					resourceTitle='weapon'
 					resourceKey='weapons'
 					isOpen={true}
-					onClose={jest.fn()}
-					onSave={jest.fn()}
+					onClose={vi.fn()}
+					onSave={vi.fn()}
 				/>
 			)
 

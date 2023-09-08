@@ -6,7 +6,7 @@ import EditLoadoutDialog from './EditLoadoutDialog'
 
 describe('Edit loadout dialog', () => {
 	it('should show an empty form when opening with no loadout', async () => {
-		render(<EditLoadoutDialog isOpen={true} onClose={jest.fn()} onSave={jest.fn()} />)
+		render(<EditLoadoutDialog isOpen={true} onClose={vi.fn()} onSave={vi.fn()} />)
 
 		// We async this to get around the fact that isValid swaps from false to true to false again
 		// Something to do with react hook form's proxy and material ui's dialog working poorly together
@@ -21,7 +21,7 @@ describe('Edit loadout dialog', () => {
 	})
 
 	it('should show an error if no value is input after touched', async () => {
-		render(<EditLoadoutDialog isOpen={true} onClose={jest.fn()} onSave={jest.fn()} />)
+		render(<EditLoadoutDialog isOpen={true} onClose={vi.fn()} onSave={vi.fn()} />)
 
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
@@ -35,7 +35,7 @@ describe('Edit loadout dialog', () => {
 	})
 
 	it('should show an error if character limit is exceeded', async () => {
-		render(<EditLoadoutDialog isOpen={true} onClose={jest.fn()} onSave={jest.fn()} />)
+		render(<EditLoadoutDialog isOpen={true} onClose={vi.fn()} onSave={vi.fn()} />)
 
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
@@ -48,7 +48,7 @@ describe('Edit loadout dialog', () => {
 	})
 
 	it('should show an error if character limit is exceeded', async () => {
-		render(<EditLoadoutDialog isOpen={true} onClose={jest.fn()} onSave={jest.fn()} />)
+		render(<EditLoadoutDialog isOpen={true} onClose={vi.fn()} onSave={vi.fn()} />)
 
 		const nameField = (await screen.findByLabelText(/name/i)) as HTMLInputElement
 
@@ -65,7 +65,7 @@ describe('Edit loadout dialog', () => {
 		const onSave = jest
 			.fn()
 			.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
-		const onClose = jest.fn()
+		const onClose = vi.fn()
 
 		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
 
@@ -91,7 +91,7 @@ describe('Edit loadout dialog', () => {
 		const onSave = jest
 			.fn()
 			.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
-		const onClose = jest.fn()
+		const onClose = vi.fn()
 
 		render(
 			<EditLoadoutDialog
@@ -126,7 +126,7 @@ describe('Edit loadout dialog', () => {
 		const onSave = jest
 			.fn()
 			.mockImplementation(() => new Promise((resolve, reject) => setTimeout(reject, 100)))
-		const onClose = jest.fn()
+		const onClose = vi.fn()
 
 		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
 
@@ -149,8 +149,8 @@ describe('Edit loadout dialog', () => {
 	})
 
 	it('clicking cancel button should call close handler', async () => {
-		const onSave = jest.fn()
-		const onClose = jest.fn()
+		const onSave = vi.fn()
+		const onClose = vi.fn()
 
 		render(<EditLoadoutDialog isOpen={true} onClose={onClose} onSave={onSave} />)
 		const saveButton = screen.getByRole('button', { name: 'Cancel' })

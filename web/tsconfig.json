@@ -2,8 +2,9 @@
 	"compilerOptions": {
 		"module": "esnext",
 		"moduleResolution": "node",
-		"target": "es5",
-		"lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ESNext",
+    "types": ["vite/client", "vite-plugin-svgr/client","vitest/globals"],
+    "lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"checkJs": true,
 		"removeComments": true,
@@ -19,5 +20,5 @@
 		"jsx": "react-jsx",
 		"baseUrl": "./src",
 	},
-	"include": ["src"]
+	"include": ["**/*"]
 }

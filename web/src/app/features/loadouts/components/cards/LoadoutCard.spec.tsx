@@ -6,8 +6,8 @@ import { buildLoadout, buildLoadoutWeapon } from 'test/builders'
 describe('Loadout card', () => {
 	it('should display title of loadout', () => {
 		const loadout = buildLoadout()
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
@@ -16,8 +16,8 @@ describe('Loadout card', () => {
 
 	it('should be able to be deleted', async () => {
 		const loadout = buildLoadout()
-		const onClick = jest.fn()
-		const onDelete = jest.fn().mockResolvedValue(true)
+		const onClick = vi.fn()
+		const onDelete = vi.fn().mockResolvedValue(true)
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
@@ -36,8 +36,8 @@ describe('Loadout card', () => {
 
 	it('should show message if no weapons', () => {
 		const loadout = buildLoadout()
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
@@ -50,8 +50,8 @@ describe('Loadout card', () => {
 				weapons: Array.from(Array(4), () => buildLoadoutWeapon()),
 			},
 		})
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
@@ -67,8 +67,8 @@ describe('Loadout card', () => {
 				weapons: Array.from(Array(2), () => buildLoadoutWeapon()),
 			},
 		})
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 

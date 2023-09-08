@@ -9,7 +9,7 @@ import LoadoutList from './LoadoutList'
 import theme from 'theme'
 
 jest.mock('firebase', () => {
-	return { initializeApp: jest.fn(), analytics: jest.fn() }
+	return { initializeApp: vi.fn(), analytics: vi.fn() }
 })
 
 const renderLoadoutList = () => {

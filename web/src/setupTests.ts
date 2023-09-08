@@ -9,9 +9,9 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 // Mock analytics
-jest.mock('app/shared/hooks/useAnalytics', () => () => ({ logEvent: jest.fn() }))
+vi.mock('app/shared/hooks/useAnalytics', () => () => ({ logEvent: vi.fn() }))
 
-jest.mock('./firebase', () => {
+vi.mock('./firebase', () => {
 	return {
 		options: {
 			projectId: 'raifu',
