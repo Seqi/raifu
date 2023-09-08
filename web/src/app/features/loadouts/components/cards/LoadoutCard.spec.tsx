@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LoadoutCard } from './LoadoutCard'
 import { buildLoadout, buildLoadoutWeapon } from 'test/builders'
@@ -17,16 +17,19 @@ describe('Loadout card', () => {
 	it('should be able to be deleted', async () => {
 		const loadout = buildLoadout()
 		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onDelete = jest.fn().mockResolvedValue(true)
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
 		const deleteButton = screen.getByRole('button', { name: 'delete' })
 		expect(deleteButton).toBeInTheDocument()
 
-		screen.debug(deleteButton)
-
 		await userEvent.click(deleteButton)
+
+		const confirmDialog = screen.getByRole('dialog')
+		const confirmButton = within(confirmDialog).getByRole('button', { name: /delete/i })
+
+		await userEvent.click(confirmButton)
 
 		expect(onDelete).toHaveBeenCalled()
 	})

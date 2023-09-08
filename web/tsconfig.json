@@ -18,7 +18,6 @@
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"baseUrl": "./src",
-		"useUnknownInCatchVariables": false
 	},
 	"include": ["src"]
 }

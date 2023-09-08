@@ -141,11 +141,10 @@ export default function Armory() {
 				(result: ArmoryCollection) =>
 					mounted.current && setArmory({ armory: result, loading: false, error: false })
 			)
-			.catch(
-				(e: any) =>
-					mounted.current &&
+			.catch((e: any) => {
+				mounted.current &&
 					setArmory({ error: true, loading: false, armory: defaultState.armory })
-			)
+			})
 	}, [])
 
 	useEffect(() => {
