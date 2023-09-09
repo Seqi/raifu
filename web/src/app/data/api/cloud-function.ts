@@ -21,7 +21,7 @@ function buildLocalUrl(region: string, path: string) {
 }
 
 class CloudFunction {
-	static useLocal = import.meta.env.NODE_ENV === 'development'
+	static useLocal = import.meta.env.MODE === 'development'
 
 	private _region: string
 	private _path: string = ''
