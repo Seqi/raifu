@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LoadoutCard } from './LoadoutCard'
 import { buildLoadout, buildLoadoutWeapon } from 'test/builders'
@@ -55,8 +55,10 @@ describe('Loadout card', () => {
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
-		const images = await screen.findAllByRole('img')
-		expect(images).toHaveLength(2)
+		await waitFor(() => {
+			const images = screen.getAllByRole('img')
+			expect(images).toHaveLength(2)
+		})
 
 		expect(screen.getByText('+ 2 more')).toBeInTheDocument()
 	})
@@ -72,8 +74,10 @@ describe('Loadout card', () => {
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
-		const images = await screen.findAllByRole('img')
-		expect(images).toHaveLength(2)
+		await waitFor(() => {
+			const images = screen.getAllByRole('img')
+			expect(images).toHaveLength(2)
+		})
 
 		expect(screen.queryByText(/\+ \d more/)).not.toBeInTheDocument()
 	})

@@ -30,14 +30,17 @@ describe('Armory', () => {
 			const addButton = within(list).getByRole('button', { name: 'add' })
 			expect(addButton).toBeInTheDocument()
 
-			listItems.forEach((listItem, index) => {
-				const item = dbItems[index]
+			for(let i = 0; i < listItems.length; i++) {
+				const listItem = listItems[i]
+				const item = dbItems[i]
 
 				expect(within(listItem).getByText(item.platform)).toBeInTheDocument()
 				expect(within(listItem).getByText(item.brand!)).toBeInTheDocument()
 
-				expect(within(listItem).getByAltText(item.platform)).toBeInTheDocument()
-			})
+				// Await this as the images are loaded via async import
+				const img = await within(listItem).findByAltText(item.platform)
+				expect(await within(listItem).findByAltText(item.platform)).toBeInTheDocument()
+			}
 		})
 	})
 })

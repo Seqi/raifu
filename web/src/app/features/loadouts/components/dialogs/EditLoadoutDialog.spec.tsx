@@ -62,7 +62,7 @@ describe('Edit loadout dialog', () => {
 
 	it('should call save and close handlers on a successful create', async () => {
 		// TODO: We can't fake timers here as it seems to just get stuck
-		const onSave = jest
+		const onSave = vi
 			.fn()
 			.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
 		const onClose = vi.fn()
@@ -88,7 +88,7 @@ describe('Edit loadout dialog', () => {
 
 	it('should call save and close handlers on a successful edit', async () => {
 		const loadout = buildLoadout()
-		const onSave = jest
+		const onSave = vi
 			.fn()
 			.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
 		const onClose = vi.fn()
@@ -123,7 +123,7 @@ describe('Edit loadout dialog', () => {
 	})
 
 	it('should show error on a submit failure', async () => {
-		const onSave = jest
+		const onSave = vi
 			.fn()
 			.mockImplementation(() => new Promise((resolve, reject) => setTimeout(reject, 100)))
 		const onClose = vi.fn()

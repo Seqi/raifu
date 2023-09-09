@@ -8,9 +8,6 @@ import { db } from 'test/data'
 import LoadoutList from './LoadoutList'
 import theme from 'theme'
 
-jest.mock('firebase', () => {
-	return { initializeApp: vi.fn(), analytics: vi.fn() }
-})
 
 const renderLoadoutList = () => {
 	return render(
