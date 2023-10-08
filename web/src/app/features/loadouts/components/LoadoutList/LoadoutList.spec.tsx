@@ -8,7 +8,6 @@ import { db } from 'test/data'
 import LoadoutList from './LoadoutList'
 import theme from 'theme'
 
-
 const renderLoadoutList = () => {
 	return render(
 		<ThemeProvider theme={theme}>
