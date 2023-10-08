@@ -62,7 +62,7 @@ const loadImage = async (
 			formattedPlatform += '-flat'
 		}
 
-		return import(
+		return import( /* @vite-ignore */ 
 			`assets/outlines/${resourceCategory}/${resourceType}/${formattedPlatform}.svg`
 		).then((i) => i.default)
 	} catch (e) {

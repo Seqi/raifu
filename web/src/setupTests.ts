@@ -1,6 +1,7 @@
 // react-testing-library renders your components to document.body,
 // this adds jest-dom's custom assertions
 import '@testing-library/jest-dom'
+import 'whatwg-fetch'
 
 import { server } from 'test/server'
 
@@ -9,21 +10,25 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 // Mock analytics
-jest.mock('app/shared/hooks/useAnalytics', () => () => ({ logEvent: jest.fn() }))
+vi.mock('app/shared/hooks/useAnalytics', () => {
+	return { default: () => ({ logEvent: vi.fn() }) }
+})
 
-jest.mock('./firebase', () => {
+vi.mock('./firebase', () => {
 	return {
-		options: {
-			projectId: 'raifu',
-		},
-		auth() {
-			return {
-				currentUser: {
-					getIdToken() {
-						return 'abc123'
+		default: {
+			options: {
+				projectId: 'raifu',
+			},
+			auth() {
+				return {
+					currentUser: {
+						getIdToken() {
+							return 'abc123'
+						},
 					},
-				},
-			}
+				}
+			},
 		},
 	}
 })

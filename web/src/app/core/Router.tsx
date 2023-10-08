@@ -12,7 +12,9 @@ import SignupCard from './auth/components/SignupCard/SignupCard'
 import LoginCard from './auth/components/LoginCard/LoginCard'
 import { SharedLoadout } from 'app/features/share'
 
-const Armory = lazy(() => import('app/features/armory/components/Armory'))
+const Armory = lazy(() =>
+	import('app/features/armory').then((m) => ({ default: m.Armory }))
+)
 const LoadoutRouter = lazy(() => import('app/features/loadouts/LoadoutRouter'))
 const EventRouter = lazy(() => import('app/features/events/EventRouter'))
 

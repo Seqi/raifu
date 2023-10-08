@@ -1,4 +1,4 @@
-{
+{  
 	"extends": [
 		"react-app",
 		"plugin:react/recommended",
@@ -48,5 +48,13 @@
 		"react/jsx-boolean-value": ["error", "always"],
 		"react/jsx-no-duplicate-props": "error",
 		"react/jsx-pascal-case": "error"
-	}
+	},
+	"overrides": [
+		{
+      "files": ["*.ts", "*.tsx"],
+			"rules": {
+				"no-undef": "off"
+			}
+		}
+	]
 }
