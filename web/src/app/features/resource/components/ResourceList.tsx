@@ -59,22 +59,20 @@ export const ResourceList = <R extends Resource = Resource>({
 					{items.map((item) => (
 						<Fade key={item.id} in={true} timeout={750}>
 							<Grid {...gridItemProps} item={true} role='listitem'>
-								{React.createElement(ItemTemplate, {
-									item: item,
-									onClick: () => onResourceClick(item),
-									onDelete: () => deleteResource(item),
-								})}
+								<ItemTemplate
+									item={item}
+									onClick={() => onResourceClick(item)}
+									onDelete={() => deleteResource(item)}
+								/>
 							</Grid>
 						</Fade>
 					))}
 
 					<Fade key='add' in={true} timeout={1000}>
 						<Grid {...gridItemProps} item={true}>
-							{React.createElement(
-								AddButtonTemplate,
-								{},
+							<AddButtonTemplate>
 								<AddButton onClick={() => setDialog('add')} />
-							)}
+							</AddButtonTemplate>
 						</Grid>
 					</Fade>
 				</StaggeredAnimation>

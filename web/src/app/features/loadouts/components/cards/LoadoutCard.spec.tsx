@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LoadoutCard } from './LoadoutCard'
 import { buildLoadout, buildLoadoutWeapon } from 'test/builders'
@@ -6,8 +6,8 @@ import { buildLoadout, buildLoadoutWeapon } from 'test/builders'
 describe('Loadout card', () => {
 	it('should display title of loadout', () => {
 		const loadout = buildLoadout()
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
@@ -16,25 +16,28 @@ describe('Loadout card', () => {
 
 	it('should be able to be deleted', async () => {
 		const loadout = buildLoadout()
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn().mockResolvedValue(true)
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
 		const deleteButton = screen.getByRole('button', { name: 'delete' })
 		expect(deleteButton).toBeInTheDocument()
 
-		screen.debug(deleteButton)
-
 		await userEvent.click(deleteButton)
+
+		const confirmDialog = screen.getByRole('dialog')
+		const confirmButton = within(confirmDialog).getByRole('button', { name: /delete/i })
+
+		await userEvent.click(confirmButton)
 
 		expect(onDelete).toHaveBeenCalled()
 	})
 
 	it('should show message if no weapons', () => {
 		const loadout = buildLoadout()
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
@@ -47,13 +50,15 @@ describe('Loadout card', () => {
 				weapons: Array.from(Array(4), () => buildLoadoutWeapon()),
 			},
 		})
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
-		const images = await screen.findAllByRole('img')
-		expect(images).toHaveLength(2)
+		await waitFor(() => {
+			const images = screen.getAllByRole('img')
+			expect(images).toHaveLength(2)
+		})
 
 		expect(screen.getByText('+ 2 more')).toBeInTheDocument()
 	})
@@ -64,13 +69,15 @@ describe('Loadout card', () => {
 				weapons: Array.from(Array(2), () => buildLoadoutWeapon()),
 			},
 		})
-		const onClick = jest.fn()
-		const onDelete = jest.fn()
+		const onClick = vi.fn()
+		const onDelete = vi.fn()
 
 		render(<LoadoutCard item={loadout} onClick={onClick} onDelete={onDelete} />)
 
-		const images = await screen.findAllByRole('img')
-		expect(images).toHaveLength(2)
+		await waitFor(() => {
+			const images = screen.getAllByRole('img')
+			expect(images).toHaveLength(2)
+		})
 
 		expect(screen.queryByText(/\+ \d more/)).not.toBeInTheDocument()
 	})

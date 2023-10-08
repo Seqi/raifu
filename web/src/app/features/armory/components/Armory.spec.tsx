@@ -10,7 +10,7 @@ describe('Armory', () => {
 		['attachments', db.armory.get().attachments],
 		['gear', db.armory.get().gear],
 		['clothing', db.armory.get().clothing],
-	])('%s', (resource, dbItems) => {
+	])('%s list', (resource, dbItems) => {
 		it('should render the list with an add button', async () => {
 			render(
 				<ThemeProvider theme={theme}>
@@ -30,14 +30,16 @@ describe('Armory', () => {
 			const addButton = within(list).getByRole('button', { name: 'add' })
 			expect(addButton).toBeInTheDocument()
 
-			listItems.forEach((listItem, index) => {
-				const item = dbItems[index]
+			for (let i = 0; i < listItems.length; i++) {
+				const listItem = listItems[i]
+				const item = dbItems[i]
 
 				expect(within(listItem).getByText(item.platform)).toBeInTheDocument()
 				expect(within(listItem).getByText(item.brand!)).toBeInTheDocument()
 
-				expect(within(listItem).getByAltText(item.platform)).toBeInTheDocument()
-			})
+				// Await this as the images are loaded via async import
+				expect(await within(listItem).findByAltText(item.platform)).toBeInTheDocument()
+			}
 		})
 	})
 })

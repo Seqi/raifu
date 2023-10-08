@@ -38,7 +38,7 @@ describe('Login card', () => {
 
 	describe('login with email', () => {
 		it('should login successfully', async () => {
-			const loginWithEmail = jest.fn()
+			const loginWithEmail = vi.fn()
 			const provider = buildAuthContext({
 				overrides: {
 					login: buildLoginProvider({ overrides: { withEmail: loginWithEmail } }),
@@ -117,7 +117,7 @@ describe('Login card', () => {
 		})
 
 		it('should display an error if login failed', async () => {
-			const loginWithEmail = jest.fn().mockRejectedValue(new Error('Bang!'))
+			const loginWithEmail = vi.fn().mockRejectedValue(new Error('Bang!'))
 			const provider = buildAuthContext({
 				overrides: {
 					login: buildLoginProvider({ overrides: { withEmail: loginWithEmail } }),
@@ -155,7 +155,7 @@ describe('Login card', () => {
 
 	describe('login with twitter', () => {
 		it('should login successfully', async () => {
-			const loginWithTwitter = jest.fn()
+			const loginWithTwitter = vi.fn()
 			const provider = buildAuthContext({
 				overrides: {
 					login: buildLoginProvider({ overrides: { withTwitter: loginWithTwitter } }),
@@ -177,7 +177,7 @@ describe('Login card', () => {
 		})
 
 		it('should display an error if login failed', async () => {
-			const loginWithTwitter = jest.fn().mockRejectedValue(new Error('Bang!'))
+			const loginWithTwitter = vi.fn().mockRejectedValue(new Error('Bang!'))
 			const provider = buildAuthContext({
 				overrides: {
 					login: buildLoginProvider({ overrides: { withTwitter: loginWithTwitter } }),
@@ -207,7 +207,7 @@ describe('Login card', () => {
 
 	describe('login with google', () => {
 		it('should login successfully', async () => {
-			const loginWithGoogle = jest.fn()
+			const loginWithGoogle = vi.fn()
 			const provider = buildAuthContext({
 				overrides: {
 					login: buildLoginProvider({ overrides: { withGoogle: loginWithGoogle } }),
@@ -229,7 +229,7 @@ describe('Login card', () => {
 		})
 
 		it('should display an error if login failed', async () => {
-			const loginWithGoogle = jest.fn().mockRejectedValue(new Error('Bang!'))
+			const loginWithGoogle = vi.fn().mockRejectedValue(new Error('Bang!'))
 			const provider = buildAuthContext({
 				overrides: {
 					login: buildLoginProvider({ overrides: { withGoogle: loginWithGoogle } }),
