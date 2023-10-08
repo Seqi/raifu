@@ -9,6 +9,7 @@
 		"@material-ui/lab": "^4.0.0-alpha.42",
 		"@material-ui/pickers": "^3.2.6",
 		"@tanstack/react-query": "^4.36.1",
+		"@tanstack/react-query-devtools": "^4.36.1",
 		"@types/marked": "^4.0.2",
 		"@types/moment": "^2.13.0",
 		"@types/moment-range": "^4.0.0",

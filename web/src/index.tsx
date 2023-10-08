@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { MuiThemeProvider, CssBaseline, Typography } from '@material-ui/core'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import 'core-js/fn/array/flat-map'
 import 'whatwg-fetch'
@@ -40,6 +41,8 @@ ReactDOM.render(
 				<Typography component='div'>
 					<AppRouter />
 				</Typography>
+
+				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
 		</MuiThemeProvider>
 	</React.StrictMode>,
