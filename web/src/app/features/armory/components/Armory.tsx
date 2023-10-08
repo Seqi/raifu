@@ -1,17 +1,12 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useEffect } from 'react'
 
 import { Box, GridProps, styled, Theme, useMediaQuery } from '@material-ui/core'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
+import { useQuery } from '@tanstack/react-query'
 
-import {
-	armory as armoryService,
-	weapons,
-	attachments,
-	gear,
-	clothing,
-} from 'app/data/api'
+import { weapons, attachments, gear, clothing } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 
@@ -91,24 +86,6 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 	},
 ]
 
-type ArmoryState = {
-	// eslint-disable-next-line no-unused-vars
-	armory: { [key: string]: ArmoryItem[] }
-	loading: boolean
-	error: boolean
-}
-
-const defaultState: ArmoryState = {
-	armory: {
-		weapons: [],
-		attachments: [],
-		clothing: [],
-		gear: [],
-	},
-	loading: true,
-	error: false,
-}
-
 const ResourceListContainer = styled(Box)(({ theme }) => ({
 	display: 'flex',
 	'&:not(:first-child)': {
@@ -121,35 +98,12 @@ const ResourceListContainer = styled(Box)(({ theme }) => ({
 }))
 
 export default function Armory() {
-	let mounted = useRef(true)
-	useEffect(() => {
-		mounted.current = true
-
-		return () => {
-			mounted.current = false
-		}
-	}, [])
-
-	let [{ armory, loading, error }, setArmory] = useState<ArmoryState>(defaultState)
-
-	let loadArmory = useCallback(() => {
-		setArmory(defaultState)
-
-		armoryService
-			.get()
-			.then(
-				(result: ArmoryCollection) =>
-					mounted.current && setArmory({ armory: result, loading: false, error: false })
-			)
-			.catch((e: any) => {
-				mounted.current &&
-					setArmory({ error: true, loading: false, armory: defaultState.armory })
-			})
-	}, [])
-
-	useEffect(() => {
-		loadArmory()
-	}, [loadArmory])
+	const {
+		data: armory,
+		isFetching,
+		error,
+		refetch,
+	} = useQuery<ArmoryCollection>(['armory'])
 
 	let analytics = useAnalytics()
 	useEffect(() => {
@@ -162,12 +116,12 @@ export default function Armory() {
 	const xxs = useMediaQuery((theme: Theme) => theme.breakpoints.down(461))
 	const xxxs = useMediaQuery((theme: Theme) => theme.breakpoints.down(391))
 
-	if (loading) {
-		return <LoadingOverlay />
+	if (error) {
+		return <ErrorOverlay message='Could not load armory.' onRetry={() => refetch()} />
 	}
 
-	if (error) {
-		return <ErrorOverlay message='Could not load armory.' onRetry={loadArmory} />
+	if (isFetching || !armory) {
+		return <LoadingOverlay />
 	}
 
 	const largeGridItemProps = (
@@ -247,7 +201,7 @@ export default function Armory() {
 					/>
 
 					<ResourceList
-						items={armory[armorySection.resourceName!]}
+						items={armory[armorySection.resourceName as keyof ArmoryCollection]}
 						resource={armorySection.resource}
 						resourceName={armorySection.resourceName!}
 						ItemTemplate={armorySection.ItemTemplate!}
