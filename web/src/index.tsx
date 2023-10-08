@@ -16,7 +16,9 @@ import AppRouter from 'app/core/Router'
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			queryFn: ({ queryKey }) => {
+			retry: false,
+			refetchOnWindowFocus: false,
+			queryFn: async ({ queryKey }) => {
 				const region = 'us-central1'
 				const projectId = (app.options as any).projectId
 
@@ -26,8 +28,13 @@ const queryClient = new QueryClient({
 				const baseUrl =
 					import.meta.env.MODE === 'development' ? baseLocalUrl : baseCloudUrl
 
-				console.log('query key', queryKey)
-				return fetch(`${baseUrl}/${queryKey[0]}`)
+				const response = await fetch(`${baseUrl}/${queryKey[0]}`)
+				if (response.ok) {
+					return response.json()
+				}
+
+				const error = await response.text()
+				throw new Error(error || response.statusText)
 			},
 		},
 	},
