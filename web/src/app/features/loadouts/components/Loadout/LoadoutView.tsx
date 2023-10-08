@@ -50,9 +50,7 @@ const LoadoutView: FC<LoadoutViewProps> = ({
 		<LoadoutProvider loadout={loadout} editable={editable}>
 			<AvailableArmoryContextProvider>
 				<Box width='100%' display='flex'>
-					{showTitle && (
-						<SidewaysTitle title={loadout!.name} lowercase={true} mr={{ xs: 1, sm: 2 }} />
-					)}
+					{showTitle && <SidewaysTitle title={loadout!.name} mr={{ xs: 1, sm: 2 }} />}
 
 					<Box flex='1'>
 						<LoadoutContainer>

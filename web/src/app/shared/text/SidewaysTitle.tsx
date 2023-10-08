@@ -42,6 +42,7 @@ const ResourceListTitleText = styled(Typography)(({ theme }) => ({
 	textAlign: 'right',
 	lineHeight: 1.5,
 	display: 'inline-block',
+	textTransform: 'lowercase',
 
 	[theme.breakpoints.down('sm')]: {
 		fontSize: '2.75rem',
@@ -59,6 +60,7 @@ const ResourceListSubTitleText = styled(Typography)(({ theme }) => ({
 	textAlign: 'right',
 	lineHeight: 1.5,
 	display: 'inline-block',
+	textTransform: 'lowercase',
 
 	paddingTop: '8px',
 	paddingRight: '12px',
@@ -78,7 +80,6 @@ const ResourceListSubTitleText = styled(Typography)(({ theme }) => ({
 
 export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 	title,
-	lowercase,
 	textProps,
 	subtitle,
 	...props
@@ -88,28 +89,12 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 			<ResourceListTitleTextContainer>
 				{/* Subtitle goes first cos of the rotational stuff */}
 				{!!subtitle && (
-					<ResourceListSubTitleText
-						variant='h5'
-						{...textProps}
-						// You wouldn't believe the amount of faff saved from doing this the lazy way
-						style={{
-							...{ textTransform: lowercase ? 'lowercase' : 'initial' },
-							...textProps?.style,
-						}}
-						color='textSecondary'
-					>
+					<ResourceListSubTitleText variant='h5' {...textProps} color='textSecondary'>
 						{subtitle}
 					</ResourceListSubTitleText>
 				)}
 
-				<ResourceListTitleText
-					variant='h3'
-					{...textProps}
-					style={{
-						...{ textTransform: lowercase ? 'lowercase' : 'initial' },
-						...textProps?.style,
-					}}
-				>
+				<ResourceListTitleText variant='h3' {...textProps}>
 					{title}
 				</ResourceListTitleText>
 			</ResourceListTitleTextContainer>
@@ -120,12 +105,10 @@ export const SidewaysTitle: FC<SidewaysTitleProps> = ({
 SidewaysTitle.propTypes = {
 	title: PropTypes.node.isRequired,
 	subtitle: PropTypes.string,
-	lowercase: PropTypes.bool,
 	textProps: PropTypes.object,
 }
 
 SidewaysTitle.defaultProps = {
 	subtitle: undefined,
-	lowercase: false,
 	textProps: {},
 }

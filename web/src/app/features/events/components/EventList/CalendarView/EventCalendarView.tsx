@@ -31,12 +31,7 @@ const EventCalendarView: FC<EventCalendarViewProps> = ({
 
 	return (
 		<Box height='100%' display='flex'>
-			<SidewaysTitle
-				lowercase={true}
-				marginTop='48px'
-				title={date.format('MMMM YYYY')}
-				mr={2}
-			/>
+			<SidewaysTitle marginTop='48px' title={date.format('MMMM YYYY')} mr={2} />
 
 			<Box flex='1'>
 				<Calendar

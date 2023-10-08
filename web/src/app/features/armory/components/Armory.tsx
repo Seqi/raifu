@@ -241,7 +241,6 @@ export default function Armory() {
 				>
 					<SidewaysTitle
 						title={armorySection.resourceName!}
-						lowercase={true}
 						marginRight={{ xs: 1, sm: 2 }}
 						textProps={{ id: `${armorySection.resourceName}-list` }}
 					/>

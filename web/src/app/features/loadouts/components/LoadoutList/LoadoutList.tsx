@@ -75,7 +75,7 @@ let LoadoutList: FC = () => {
 
 	return (
 		<Box display='flex'>
-			<SidewaysTitle title='loadouts' lowercase={true} marginRight={{ xs: 1, sm: 2 }} />
+			<SidewaysTitle title='loadouts' marginRight={{ xs: 1, sm: 2 }} />
 
 			<ResourceList
 				items={loadouts}
