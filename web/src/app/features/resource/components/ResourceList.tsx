@@ -7,29 +7,29 @@ import StaggeredAnimation from 'app/shared/animations/StaggeredAnimation'
 import AddButton from 'app/shared/actions/add/AddButton'
 import { Resource } from '../models/resource'
 
-export type AddResourceDialogProps<ResourceItem extends Resource = Resource> = {
+export type AddResourceDialogProps<TResource extends Resource> = {
 	isOpen: boolean
 	onClose: () => void
-	onSave: (resource: ResourceItem) => Promise<any>
+	onSave: (resource: TResource) => Promise<any>
 }
 
-export type ResourceItemProps<ResourceItem extends Resource = Resource> = {
-	item: ResourceItem
+export type ResourceItemProps<TResource extends Resource> = {
+	item: TResource
 	onClick: () => void
 	onDelete: () => Promise<void>
 }
 
-export type ResourceListProps<ResourceItem extends Resource = Resource> = {
-	items: ResourceItem[]
-	renderAddDialog: (props: AddResourceDialogProps<ResourceItem>) => React.ReactNode
+export type ResourceListProps<TResource extends Resource> = {
+	items: TResource[]
+	renderAddDialog: (props: AddResourceDialogProps<TResource>) => React.ReactNode
 
 	// Events
-	onResourceClick: (item: ResourceItem) => any
-	addResource: (resource: ResourceItem) => Promise<any>
-	deleteResource: (item: ResourceItem) => Promise<any>
+	onResourceClick: (item: TResource) => any
+	addResource: (resource: TResource) => Promise<any>
+	deleteResource: (item: TResource) => Promise<any>
 
 	// Define how a single resource item looks
-	ItemTemplate: React.ComponentType<ResourceItemProps<ResourceItem>>
+	ItemTemplate: React.ComponentType<ResourceItemProps<TResource>>
 
 	// Define how the add button looks
 	AddButtonTemplate: React.ComponentType<any>
@@ -39,7 +39,7 @@ export type ResourceListProps<ResourceItem extends Resource = Resource> = {
 	gridItemProps?: GridProps
 }
 
-export const ResourceList = <R extends Resource = Resource>({
+export const ResourceList = <R extends Resource>({
 	renderAddDialog,
 	items,
 	ItemTemplate,

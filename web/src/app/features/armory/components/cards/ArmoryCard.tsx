@@ -87,12 +87,12 @@ export const ArmoryCard: FC<ArmoryCardProps> = ({
 			<DeletableOverlay
 				canDelete={canDelete}
 				onDelete={onDelete}
-				dialogTitle={resource.getTitle()}
+				dialogTitle={resource.type}
 			>
 				<ResourceCardHeader resource={resource} />
 
 				<ResourceCardContent>
-					<ArmoryItemImage resource={resource} resourceType={category} />
+					{/* <ArmoryItemImage resource={resource} resourceType={category} /> */}
 				</ResourceCardContent>
 			</DeletableOverlay>
 		</RatioedArmoryCardContainer>

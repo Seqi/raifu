@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query'
 import { weapons, attachments, gear, clothing } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
 import useAnalytics from 'app/shared/hooks/useAnalytics'
+import { Resource, ResourcePropShape } from 'app/features/resource'
 
 import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
 import { ResourceList, ResourceListProps } from 'app/features/resource'
@@ -25,12 +26,12 @@ import AddArmoryItemDialog from './AddArmoryItemDialog'
 import { ArmoryCollection, ArmoryItem } from '../models/armory-item'
 
 const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
+	key: keyof ArmoryCollection
 	size: 'large' | 'small'
 	getItemStyle?: (breakpoint: Breakpoint | 'xxs') => React.CSSProperties
 })[] = [
 	{
-		resource: weapons,
-		resourceName: 'weapons',
+		key: 'weapons',
 		ItemTemplate: WeaponCard,
 		renderAddDialog: (props) => (
 			<AddArmoryItemDialog
@@ -43,8 +44,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 		size: 'large',
 	},
 	{
-		resource: attachments,
-		resourceName: 'attachments',
+		key: 'attachments',
 		ItemTemplate: AttachmentCard,
 		size: 'small',
 		renderAddDialog: (props) => (
@@ -57,8 +57,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 		),
 	},
 	{
-		resource: gear,
-		resourceName: 'gear',
+		key: 'gear',
 		ItemTemplate: GearCard,
 		size: 'small',
 		renderAddDialog: (props) => (
@@ -71,8 +70,7 @@ const armorySections: (Partial<ResourceListProps<ArmoryItem>> & {
 		),
 	},
 	{
-		resource: clothing,
-		resourceName: 'clothing',
+		key: 'clothing',
 		ItemTemplate: ClothingCard,
 		size: 'small',
 		renderAddDialog: (props) => (
@@ -190,36 +188,27 @@ export default function Armory() {
 			{armorySections.map((armorySection) => (
 				<ResourceListContainer
 					component='section'
-					key={armorySection.resourceName}
-					aria-labelledby={`${armorySection.resourceName}-list`}
+					key={armorySection.key}
+					aria-labelledby={`${armorySection.key}-list`}
 				>
 					<SidewaysTitle
-						title={armorySection.resourceName!}
-						lowercase={true}
+						title={armorySection.key}
+						textProps={{ id: `${armorySection.key}-list` }}
 						marginRight={{ xs: 1, sm: 2 }}
-						textProps={{ id: `${armorySection.resourceName}-list` }}
 					/>
 
 					<ResourceList
-						items={armory[armorySection.resourceName as keyof ArmoryCollection]}
-						resource={armorySection.resource}
-						resourceName={armorySection.resourceName!}
-						ItemTemplate={armorySection.ItemTemplate!}
+						items={armory[armorySection.key]}
 						AddButtonTemplate={(props) => <ArmoryCardContainer {...props} />}
+						ItemTemplate={armorySection.ItemTemplate!}
 						renderAddDialog={armorySection.renderAddDialog!}
-						onResourceClick={() => {}} //No-op
-						gridContainerProps={{
-							spacing: xs ? 1 : 2,
+						onResourceClick={(item) => {}}
+						addResource={() => {
+							return {} as any
 						}}
-						// This whole thing needs some love, its just a lazy approach
-						// to get some fine tuned grid stuff going. Need to look at adding
-						// breakpoints but im already bored of reactive web stuff sorry i'll
-						// get back to this i promise. Maybe.
-						gridItemProps={
-							armorySection.size === 'large'
-								? largeGridItemProps(xl, lg, xxs, xxxs)
-								: smallGridItemProps(xl, lg, xxs, xxxs)
-						}
+						deleteResource={() => {
+							return {} as any
+						}}
 					/>
 				</ResourceListContainer>
 			))}

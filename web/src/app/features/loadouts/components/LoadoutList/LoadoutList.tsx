@@ -79,12 +79,16 @@ let LoadoutList: FC = () => {
 
 			<ResourceList
 				items={loadouts}
-				resource={loadoutService}
-				resourceName='loadout'
-				onResourceClick={viewLoadout}
-				renderAddDialog={(props) => <EditLoadoutDialog {...props} />}
-				ItemTemplate={LoadoutCard}
 				AddButtonTemplate={LoadoutCardContainer}
+				addResource={() => {
+					return {} as any
+				}}
+				deleteResource={() => {
+					return {} as any
+				}}
+				onResourceClick={viewLoadout}
+				ItemTemplate={LoadoutCard}
+				renderAddDialog={(props) => <EditLoadoutDialog {...props} />}
 				gridItemProps={{ xs: 12, md: 6, lg: 4 }}
 				gridContainerProps={{ spacing: xs ? 2 : 3 }}
 			/>

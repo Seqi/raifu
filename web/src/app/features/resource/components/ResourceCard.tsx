@@ -34,16 +34,11 @@ export type ResourceCardHeaderProps<ResourceItem extends Resource> = Omit<
 // Create the component that defaults the title and subtitle to use resource
 export const ResourceCardHeaderBase = <ResourceItem extends Resource>({
 	resource,
-	title = resource.getTitle(),
-	subheader = resource.getSubtitle(),
+	title,
+	subheader,
 	...props
 }: ResourceCardHeaderProps<ResourceItem>) => (
-	<CardHeader
-		title={resource.getTitle()}
-		subheader={resource.getSubtitle()}
-		role='heading'
-		{...props}
-	/>
+	<CardHeader title={resource.id} subheader={resource.id} role='heading' {...props} />
 )
 
 export const ResourceCardHeader = withStyles((theme) => ({

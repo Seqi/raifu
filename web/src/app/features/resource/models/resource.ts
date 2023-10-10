@@ -4,9 +4,6 @@ export interface Resource {
 	id: string
 	createdAt: string | Date
 	updatedAt: string | Date
-
-	getTitle: () => string
-	getSubtitle: () => string
 }
 
 export const ResourcePropShape = {
@@ -16,7 +13,4 @@ export const ResourcePropShape = {
 		.isRequired,
 	updatedAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)])
 		.isRequired,
-
-	getTitle: PropTypes.func.isRequired,
-	getSubtitle: PropTypes.func.isRequired,
 }
