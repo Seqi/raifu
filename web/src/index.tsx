@@ -28,7 +28,20 @@ const queryClient = new QueryClient({
 				const baseUrl =
 					import.meta.env.MODE === 'development' ? baseLocalUrl : baseCloudUrl
 
-				const response = await fetch(`${baseUrl}/${queryKey[0]}`)
+				const headers = new Headers({
+					'Content-Type': 'application/json',
+				})
+
+				const currentUser = app.auth().currentUser
+				if (currentUser) {
+					let token = await currentUser.getIdToken()
+					headers.set('Authorization', `Bearer ${token}`)
+				}
+
+				const response = await fetch(`${baseUrl}/${queryKey[0]}`, {
+					headers,
+				})
+
 				if (response.ok) {
 					return response.json()
 				}
