@@ -9,8 +9,8 @@ import {
 	DialogActions,
 	Button,
 	TextField,
-} from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
+	Autocomplete,
+} from '@mui/material'
 
 import { Error } from 'app/shared/state'
 import { brands, Category } from 'app/data/constants'

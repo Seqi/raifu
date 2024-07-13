@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // Disabled as pain to get working with union tpyes
 import React, { FC } from 'react'
-import { Typography, styled, Box } from '@material-ui/core'
+import { Typography, styled, Box } from '@mui/material'
 
 const Container = styled(Box)(({ theme }) => ({
 	display: 'flex',

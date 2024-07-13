@@ -2,9 +2,8 @@ import { FC, useContext } from 'react'
 import firebase from 'firebase/app'
 import PropTypes from 'prop-types'
 
-import { Badge, Box, ListItemIcon, Menu, MenuItem, styled } from '@material-ui/core'
-import { PowerSettingsNew } from '@material-ui/icons'
-import Build from '@material-ui/icons/Build'
+import { Badge, Box, ListItemIcon, Menu, MenuItem, styled } from '@mui/material'
+import { PowerSettingsNew, Build } from '@mui/icons-material'
 
 import { AuthContext } from 'app/core/auth/contexts'
 import ProfileIcon from './Icon'

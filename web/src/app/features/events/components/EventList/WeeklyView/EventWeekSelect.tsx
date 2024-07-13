@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import * as Moment from 'moment'
 import { extendMoment } from 'moment-range'
 
-import { Box, IconButton } from '@material-ui/core'
-import { NavigateBefore, NavigateNext } from '@material-ui/icons'
+import { Box, IconButton } from '@mui/material'
+import { NavigateBefore, NavigateNext } from '@mui/icons-material'
 
 import CalendarDateContext from '../CalendarDateContext'
 

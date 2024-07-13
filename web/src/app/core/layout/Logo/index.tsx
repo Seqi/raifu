@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, BoxProps } from '@material-ui/core'
+import { Box, BoxProps } from '@mui/material'
 
 import LogoImage from './logo.png'
 import LogoNoTextImage from './logo-no-text.png'

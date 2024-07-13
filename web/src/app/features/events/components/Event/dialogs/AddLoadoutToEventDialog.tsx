@@ -9,7 +9,7 @@ import {
 	MenuItem,
 	TextField,
 	Button,
-} from '@material-ui/core'
+} from '@mui/material'
 
 import { loadouts as loadoutService } from 'app/data/api'
 import { Loading, Error } from 'app/shared/state'

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { Container } from '@material-ui/core'
+import { Container } from '@mui/material'
 
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import NavBar from '../../layout/Navbar/Navbar'

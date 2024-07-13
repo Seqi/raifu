@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import React, { FC } from 'react'
+import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { styled, BoxProps, CardProps } from '@material-ui/core'
+import { styled, BoxProps, CardProps } from '@mui/material'
 
 import { DeletableOverlay } from 'app/shared/actions/delete'
 import { Category } from 'app/data/constants/platforms'

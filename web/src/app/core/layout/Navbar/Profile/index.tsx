@@ -2,7 +2,7 @@ import { FC, useState } from 'react'
 import firebase from 'firebase/app'
 import PropTypes from 'prop-types'
 
-import { Box, IconButton, Badge, styled } from '@material-ui/core'
+import { Box, IconButton, Badge, styled } from '@mui/material'
 
 import ProfileIcon from './Icon'
 import ProfileMenu from './Menu'

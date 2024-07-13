@@ -1,11 +1,17 @@
-import React, { FC, useState, useCallback } from 'react'
+import { FC, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import { Snackbar, styled, Button, IconButton } from '@material-ui/core'
-import { SpeedDial, SpeedDialAction } from '@material-ui/lab'
-import Alert from '@material-ui/lab/Alert'
-import PersonAddOutlined from '@material-ui/icons/PersonAddOutlined'
-import Close from '@material-ui/icons/Close'
+import {
+	Snackbar,
+	styled,
+	Button,
+	IconButton,
+	SpeedDial,
+	SpeedDialAction,
+	Alert,
+	SnackbarCloseReason,
+} from '@mui/material'
+import { PersonAddOutlined, Close, GroupAdd } from '@mui/icons-material'
 
 import ConfirmDeleteDialog from 'app/shared/actions/delete/ConfirmDeleteDialog'
 import useIsPageAtBottom from 'app/shared/hooks/useIsPageAtBottom'
@@ -14,7 +20,6 @@ import { Loadout } from 'app/features/loadouts'
 import EventChecklistDialog from './dialogs/EventChecklistDialog'
 import EditEventDialog, { EventUpdate } from '../EditEventDialog'
 import { Event, EventPropShape } from '../../models'
-import { GroupAdd } from '@material-ui/icons'
 import InviteDialog from './dialogs/InviteDialog'
 
 let getMyLoadout = (event: Event): Loadout | null | undefined => {
@@ -61,7 +66,7 @@ const EventActions: FC<EventActionsProps> = ({
 	}, [])
 
 	const handleSnackbarClose = useCallback(
-		(event?: React.SyntheticEvent, reason?: string) => {
+		(_event?: any, reason?: SnackbarCloseReason) => {
 			if (reason === 'clickaway') {
 				return
 			}

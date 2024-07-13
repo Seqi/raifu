@@ -2,8 +2,8 @@ import { FC } from 'react'
 import firebase from 'firebase/app'
 import PropTypes from 'prop-types'
 
-import { Avatar } from '@material-ui/core'
-import { Person } from '@material-ui/icons'
+import { Avatar } from '@mui/material'
+import { Person } from '@mui/icons-material'
 
 type ProfileIconsProps = {
 	user: firebase.User

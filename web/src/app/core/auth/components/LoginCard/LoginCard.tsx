@@ -1,6 +1,6 @@
 import { useState, useContext, useCallback, FC } from 'react'
 
-import { Box, Card, CardContent, CardActions, styled } from '@material-ui/core'
+import { Box, Card, CardContent, CardActions, styled } from '@mui/material'
 
 import { AuthContext } from '../../contexts/AuthContext'
 import AuthCardHeader from '../AuthCardHeader'

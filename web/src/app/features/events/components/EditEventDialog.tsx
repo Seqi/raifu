@@ -12,9 +12,9 @@ import {
 	FormHelperText,
 	Button,
 	Checkbox,
-} from '@material-ui/core'
-import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
-import MomentUtils from '@date-io/moment'
+} from '@mui/material'
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 import { Error } from 'app/shared/state'
 import { Event, EventPropShape } from '../models'
@@ -125,7 +125,7 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 						fullWidth={true}
 					/>
 
-					<MuiPickersUtilsProvider utils={MomentUtils}>
+					<LocalizationProvider dateAdapter={AdapterMoment}>
 						<Controller
 							name='date'
 							rules={{
@@ -135,20 +135,21 @@ export const EditEventDialog: FC<EditEventDialogProps> = ({
 							render={({ field }) => (
 								<DateTimePicker
 									inputRef={field.ref}
-									onBlur={field.onBlur}
-									onChange={(e) => field.onChange(e?.toDate())}
+									onChange={(e) => field.onChange(e)}
 									label='Date'
-									fullWidth={true}
 									value={field.value}
-									name={field.name}
-									inputProps={{
-										helperText: formState.errors.date?.message,
-										error: !!formState.errors.date,
+									slotProps={{
+										textField: {
+											fullWidth: true,
+											helperText: formState.errors.date?.message,
+											error: !!formState.errors.date,
+											...field,
+										},
 									}}
 								/>
 							)}
 						/>
-					</MuiPickersUtilsProvider>
+					</LocalizationProvider>
 
 					<Controller
 						name='public'

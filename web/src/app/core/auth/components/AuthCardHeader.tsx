@@ -1,4 +1,5 @@
-import { withStyles, CardHeader } from '@material-ui/core'
+import { CardHeader } from '@mui/material'
+import { withStyles } from '@mui/styles'
 
 const AuthCardHeader = withStyles((theme) => ({
 	root: {

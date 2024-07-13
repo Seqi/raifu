@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import PropTypes from 'prop-types'
 
-import { Icon, IconButton } from '@material-ui/core'
+import { Icon, IconButton } from '@mui/material'
 
 type LoginProvidersProps = {
 	loginWithTwitter: () => Promise<any>

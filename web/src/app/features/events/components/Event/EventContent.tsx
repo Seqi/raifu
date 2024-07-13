@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react'
+import { FC, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -12,8 +12,9 @@ import {
 	Typography,
 	Box,
 	styled,
-} from '@material-ui/core'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMoreOutlined'
+	useTheme,
+} from '@mui/material'
+import { ExpandMore } from '@mui/icons-material'
 
 import EventLoadout from './components/EventLoadout'
 import EventInvite from './components/EventInvite'
@@ -62,8 +63,7 @@ const EventContent: FC<EventContentProps> = ({
 	onLoadoutRemoved,
 	onLoadoutAdded,
 }) => {
-	const classes = useStyles()
-
+	const theme = useTheme()
 	let [activeDialog, setActiveDialog] = useState<'add' | 'remove' | null>()
 
 	let onDelete = useCallback(() => {
@@ -80,11 +80,25 @@ const EventContent: FC<EventContentProps> = ({
 		<Box flex={1}>
 			{event.users!.map((user, index) => (
 				<EventAccordian key={user.uid} expanded={soloEvent || undefined}>
-					<AccordionSummary expandIcon={soloEvent ? undefined : <ExpandMoreIcon />}>
-						<Typography align='center' className={classes.heading}>
+					<AccordionSummary expandIcon={soloEvent ? undefined : <ExpandMore />}>
+						<Typography
+							align='center'
+							sx={{
+								fontSize: theme.typography.pxToRem(15),
+								flex: 1,
+							}}
+						>
 							{user.displayName}
 						</Typography>
-						<Typography align='center' className={classes.secondaryHeading}>
+
+						<Typography
+							align='center'
+							sx={{
+								flex: 2,
+								fontSize: theme.typography.pxToRem(15),
+								color: theme.palette.text.secondary,
+							}}
+						>
 							{user.loadout?.getTitle() ?? ''}
 						</Typography>
 					</AccordionSummary>

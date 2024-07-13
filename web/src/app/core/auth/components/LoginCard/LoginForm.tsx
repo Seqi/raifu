@@ -2,7 +2,7 @@ import { FC } from 'react'
 import PropTypes from 'prop-types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 export type LoginFormFields = {

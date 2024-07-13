@@ -2,8 +2,14 @@ import React, { useState, useEffect, FC } from 'react'
 import PropTypes from 'prop-types'
 import { titleCase } from 'title-case'
 
-import { styled, Popper, TextField, MenuItem, TextFieldProps } from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
+import {
+	styled,
+	Popper,
+	TextField,
+	MenuItem,
+	TextFieldProps,
+	Autocomplete,
+} from '@mui/material'
 
 import { platforms, Category } from 'app/data/constants'
 import { useRef } from 'react'
@@ -100,7 +106,9 @@ const ArmoryItemSelect: FC<ArmoryItemSelectProps> = ({
 				inputValue={value.platform}
 				onInputChange={(_, val) => inputChanged(val)}
 				disableClearable={true}
-				getOptionLabel={(option) => option.platform}
+				getOptionLabel={(option) =>
+					typeof option === 'string' ? option : option.platform
+				}
 				groupBy={(option) => option.type}
 				renderInput={(params) => (
 					<TextField

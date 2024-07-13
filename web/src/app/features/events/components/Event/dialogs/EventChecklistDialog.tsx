@@ -9,7 +9,7 @@ import {
 	Button,
 	Checkbox,
 	FormControlLabel,
-} from '@material-ui/core'
+} from '@mui/material'
 
 import ReactiveTitle from 'app/shared/text/ReactiveTitle'
 import useAnalytics from 'app/shared/hooks/useAnalytics'

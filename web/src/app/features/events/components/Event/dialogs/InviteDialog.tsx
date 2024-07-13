@@ -10,7 +10,7 @@ import {
 	TextField,
 	Tooltip,
 	Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import { useLocation } from 'react-router-dom'
 
 const copyInputTextToClipboard = (input: HTMLInputElement | undefined) => {

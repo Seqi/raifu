@@ -2,7 +2,7 @@ import { FC } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import { FormTextField } from 'app/shared/extensions/material/FormTextField'
 
 export type SignupFormFields = {
@@ -55,7 +55,7 @@ export const SignupForm: FC<SignupFormProps> = ({ onSubmit }) => {
 					name: 'confirmPassword',
 					control,
 					rules: {
-						validate: (value) => {
+						validate: (value: string) => {
 							if (value === watch('password')) {
 								return true
 							} else {

@@ -2,14 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import PropTypes from 'prop-types'
 
-import {
-	Dialog,
-	DialogContent,
-	DialogActions,
-	Button,
-	Box,
-	styled,
-} from '@material-ui/core'
+import { Dialog, DialogContent, DialogActions, Button, Box, styled } from '@mui/material'
 
 import useAnalytics from 'app/shared/hooks/useAnalytics'
 import { Error } from 'app/shared/state'

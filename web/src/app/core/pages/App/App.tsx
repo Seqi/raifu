@@ -1,6 +1,6 @@
 import { useState, FC } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import { Box, Container, Tabs, Tab, styled } from '@material-ui/core'
+import { Box, Container, Tabs, Tab, styled } from '@mui/material'
 
 import useRouteAnalytics from 'app/shared/hooks/useRouteAnalytics'
 import Navbar from 'app/core/layout/Navbar/Navbar'

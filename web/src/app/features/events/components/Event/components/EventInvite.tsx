@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button } from '@material-ui/core'
+import { Box, Button } from '@mui/material'
 
 import { Error, LoadingOverlay } from 'app/shared/state'
 import { events } from 'app/data/api'

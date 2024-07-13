@@ -1,7 +1,8 @@
 import { FC, MouseEventHandler } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, IconButton, styled } from '@material-ui/core'
+import { Box, IconButton } from '@mui/material'
+import { styled } from '@mui/material/styles'
 
 const AddIconButton = styled(IconButton)(({ theme }) => ({
 	position: 'absolute',

@@ -1,4 +1,8 @@
 import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import moment from 'moment'
+
+import { Box } from '@mui/material'
 
 import { events } from 'app/data/api'
 import { ErrorOverlay, LoadingOverlay } from 'app/shared/state'
@@ -9,10 +13,7 @@ import EventActions from './EventActions'
 
 import { EventUpdate } from '../EditEventDialog'
 import { Event } from '../../models'
-import { Box } from '@material-ui/core'
 import { SidewaysTitle } from 'app/shared/text/SidewaysTitle'
-import moment from 'moment'
-import { useNavigate, useParams } from 'react-router-dom'
 
 let analytics = firebase.analytics()
 
@@ -196,12 +197,12 @@ class EventDetails extends React.Component<EventProps, EventState> {
 // Before moving to functional compnoents
 function withParams(Component: React.ComponentType<any>) {
 	// eslint-disable-next-line
-	return (props: any) => <Component { ...props } params={ useParams() } />
+	return (props: any) => <Component {...props} params={useParams()} />
 }
 // Before moving to functional compnoents
 function withNavigate(Component: React.ComponentType<any>) {
 	// eslint-disable-next-line
-	return (props: any) => <Component { ...props } navigate={ useNavigate() } />
+	return (props: any) => <Component {...props} navigate={useNavigate()} />
 }
 
 export default withParams(withNavigate(EventDetails))

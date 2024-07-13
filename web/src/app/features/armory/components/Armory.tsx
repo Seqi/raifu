@@ -2,8 +2,7 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
-import { Box, GridProps, styled, Theme, useMediaQuery } from '@material-ui/core'
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
+import { Box, GridProps, styled, Theme, useMediaQuery, Breakpoint } from '@mui/material'
 
 import {
 	armory as armoryService,

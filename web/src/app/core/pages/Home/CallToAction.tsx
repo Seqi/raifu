@@ -8,7 +8,7 @@ import {
 	Theme,
 	Typography,
 	useMediaQuery,
-} from '@material-ui/core'
+} from '@mui/material'
 
 import CallToActionImage from './images/2guns-accent.png'
 import { UserContext } from 'app/core/auth/contexts'

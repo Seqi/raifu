@@ -1,7 +1,7 @@
 import { FC, useContext, useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { Box, styled } from '@material-ui/core'
+import { Box, styled } from '@mui/material'
 
 import UserContext from '../contexts/UserContext'
 import Logo from 'app/core/layout/Logo'
